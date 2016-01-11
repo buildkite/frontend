@@ -12,19 +12,19 @@ class Navigation extends React.Component {
       <div className="Navigation">
         <div className="Navigation__Inner">
           <div className="flex">
-            <img src={require('../../images/logo.svg')} className="Navigation__Logo" />
+            <img src={require('../../images/logo.svg')}  style={{ height: 30, marginTop: 8 }} />
 
             <NavigationDropdown>
               {this._organizationSelectorLabel()}
               {
                 this.props.viewer.organizations.edges.map((org) =>
-                                                          <a key={org.node.slug} href={`/${org.node.slug}`}>{org.node.name}</a>
-                                                          )
+                  <a key={org.node.slug} href={`/${org.node.slug}`}>{org.node.name}</a>
+                )
               }
               <a href="/organizations/new"><i className="fa fa-plus-circle"/> Create New Organization</a>
             </NavigationDropdown>
 
-            <img src={require('../../images/seperator.svg')} className="Navigation__Seperator" />
+            <img src={require('../../images/seperator.svg')} style={{ height: 47}} />
 
             {this._organizationMenu()}
 

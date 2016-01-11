@@ -39,19 +39,6 @@
   }
 }
 
-.Navigation__Logo {
-  float: left;
-  height: 25px;
-  margin: 11px 20px 0 0;
-}
-
-.Navigation__Seperator {
-  display: inline-block;
-  height: var(--navHeight);
-  margin: 0 15px;
-  vertical-align: top;
-}
-
 .Navigation__Badge {
   background: black;
   display: inline-block;
