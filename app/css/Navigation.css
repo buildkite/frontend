@@ -2,6 +2,8 @@
   --navHeight: 47px;
 }
 
+
+/*
 .Navigation {
   background: #f9fafb;
   border-bottom: 1px solid #ddd;
@@ -38,6 +40,7 @@
     width: 1170px;
   }
 }
+*/
 
 .Navigation__Badge {
   background: black;

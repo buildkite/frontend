@@ -1,0 +1,15 @@
+.hover-green:hover {
+  color: var(--green);
+}
+
+.hover-lime:hover {
+  color: var(--lime);
+}
+
+.hover-white:hover {
+  color: var(--white);
+}
+
+.hover-black:hover {
+  color: var(--black);
+}

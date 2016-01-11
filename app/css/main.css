@@ -1,0 +1,19 @@
+@import 'flex-object';
+@import 'basscss-borders';
+@import 'basscss-padding';
+@import 'basscss-margin';
+@import 'basscss-background-colors';
+@import 'basscss-border-colors';
+@import 'basscss-typography';
+@import 'basscss-colors';
+
+@import 'hover-colors';
+@import 'focus-colors';
+@import 'shadows';
+
+:root {
+  --gray: #F9FAFB;
+  --lime: #83AD18;
+  --border-color: #DDDDDD;
+  --bold-font-weight: 600;
+}

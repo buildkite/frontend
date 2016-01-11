@@ -1,0 +1,11 @@
+.focus-green:focus {
+  color: var(--green);
+}
+
+.focus-lime:focus {
+  color: var(--lime);
+}
+
+.focus-white:focus {
+  color: var(--white) !important;
+}

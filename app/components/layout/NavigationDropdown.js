@@ -4,7 +4,7 @@ require("../../css/NavigationDropdown.css")
 
 class NavigationDropdown extends React.Component {
   state = {
-    showing: false
+    showing: true
   };
 
   render() {
@@ -29,13 +29,13 @@ class NavigationDropdown extends React.Component {
     var items = [].concat.apply([], this.props.children.slice(1));
 
     return (
-      <ul className="NavigationDropdown__List" onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)}>
+      <div className="bg-white rounded shadow" onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)} style={{position: "absolute", zIndex: 10}}>
         {
           items.map((child, index) => {
-            return <li key={index} className="NavigationDropdown__Item">{child}</li>
+            return <div key={index}>{child}</div>
           })
         }
-      </ul>
+      </div>
     );
   }
 
