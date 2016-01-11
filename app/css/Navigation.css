@@ -3,8 +3,8 @@
 }
 
 .Navigation {
-  background: #FBFBFB;
-  border-bottom: 1px solid #E1E1E1;
+  background: #f9fafb;
+  border-bottom: 1px solid #ddd;
   height: var(--navHeight);
   margin-bottom: 20px;
   font-size: 13px;
@@ -23,22 +23,16 @@
 .Navigation__Inner {
   margin: 0 auto;
   padding: 0 15px;
-}
 
-@media (min-width: 768px) {
-  .Navigation__Inner {
+  @media (min-width: 768px) {
     width: 750px;
   }
-}
 
-@media (min-width: 992px) {
-  .Navigation__Inner {
+  @media (min-width: 992px) {
     width: 970px;
   }
-}
 
-@media (min-width: 1200px) {
-  .Navigation__Inner {
+  @media (min-width: 1200px) {
     width: 1170px;
   }
 }
@@ -82,8 +76,10 @@
   display: inline-block;
 }
 
-.Navigation__Organization__Selector:hover .Navigation__Organization__Dropdown {
-  display: block;
+.Navigation__Organization__Selector:hover {
+  & .Navigation__Organization__Dropdown {
+    display: block;
+  }
 }
 
 .Navigation__Organization__Dropdown ul {
@@ -112,27 +108,6 @@
   height: var(--navHeight);
   margin: 0 15px;
   vertical-align: top;
-}
-
-.Navigation__Menu {
-  display: inline-block;
-  line-height: var(--navHeight);
-}
-
-.Navigation__Menu ul {
-  margin: 0;
-  padding: 0;
-}
-
-.Navigation__Menu li {
-  margin: 0 0 0 30px;
-  padding: 0;
-  list-style: none;
-  float: left;
-}
-
-.Navigation__Menu li:first-child {
-  margin-left: 0;
 }
 
 .Navigation__Docs {
@@ -166,4 +141,16 @@
 
 .Navigation__User__Dropdown {
   display: none;
+}
+
+.Navigation__Badge {
+  background: black;
+  display: inline-block;
+  border-radius: 6px;
+  padding: 3px 6px 3px 5px;
+  font-size: 11px;
+  margin-left: 5px;
+  color: white;
+  line-height: normal;
+  text-align: center;
 }

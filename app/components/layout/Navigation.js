@@ -1,5 +1,6 @@
 import React from 'react';
 import UserAvatar from './../shared/UserAvatar';
+import NavigationMenu from './NavigationMenu';
 
 require("../../css/Navigation.css")
 
@@ -59,11 +60,10 @@ class Navigation extends React.Component {
           </div>
 
           <div className="Navigation__Docs">
-            <div className="Navigation__Menu">
-              <ul>
-                <li><a href={`/docs`}>Documentation</a></li>
-              </ul>
-            </div>
+            <NavigationMenu>
+              <a href={`/docs`}>Documentation</a>
+              <a href="mailto:support@buildkite.com">Support</a>
+            </NavigationMenu>
           </div>
         </div>
       </div>
@@ -96,13 +96,11 @@ class Navigation extends React.Component {
 
     if(organization) {
       return (
-        <div className="Navigation__Menu">
-          <ul>
-            <li><a href={`/${organization.slug}`}>Projects</a></li>
-            <li><a href={`/organizations/${organization.slug}/agents`}>Agents</a></li>
-            <li><a href={`/organizations/${organization.slug}/settings`}>Settings</a></li>
-          </ul>
-        </div>
+        <NavigationMenu>
+          <a href={`/${organization.slug}`}>Projects</a>
+          <a href={`/organizations/${organization.slug}/agents`}>Agents <span className="Navigation__Badge">12</span></a>
+          <a href={`/organizations/${organization.slug}/settings`}>Settings</a>
+        </NavigationMenu>
       )
     }
   }

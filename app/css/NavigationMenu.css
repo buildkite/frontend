@@ -1,0 +1,35 @@
+.NavigationMenu {
+  display: inline-block;
+  line-height: 47px;
+
+  & ul {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.NavigationMenu__Item {
+  margin: 0 0 0 30px;
+  padding: 0;
+  list-style: none;
+  float: left;
+}
+
+.NavigationMenu__Item:first-child {
+  margin-left: 0;
+}
+
+.NavigationMenu__Item--Active {
+  margin: 0 0 0 30px;
+  padding: 0;
+  list-style: none;
+  float: left;
+
+  & a {
+    color: #86CD2E !important;
+  }
+}
+
+.NavigationMenu__Item--Active:first-child {
+  margin-left: 0;
+}
