@@ -6,6 +6,7 @@
   background: #f9fafb;
   border-bottom: 1px solid #ddd;
   height: var(--navHeight);
+  line-height: var(--navHeight);
   margin-bottom: 20px;
   font-size: 13px;
   font-weight: 600;
@@ -15,14 +16,15 @@
   color: black;
 }
 
-.Navigation a:hover, .Navigation a:active {
-  color: #86CD2E;
+.Navigation a:hover, .Navigation a:active, .Navigation a:focus {
+  color: #83AD18;
   text-decoration: none;
 }
 
 .Navigation__Inner {
   margin: 0 auto;
   padding: 0 15px;
+  overflow: hidden;
 
   @media (min-width: 768px) {
     width: 750px;
@@ -43,104 +45,11 @@
   margin: 11px 20px 0 0;
 }
 
-.Navigation__Organization {
-  float: left;
-}
-
-.Navigation__Organization__Label {
-  float: left;
-  line-height: var(--navHeight);
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.Navigation__Organization__Caret {
-  margin-left: 10px;
-  float: left;
-  line-height: var(--navHeight);
-}
-
-.Navigation__Organization__Dropdown {
-  position: absolute;
-  background: white;
-  border-radius: 3px;
-  margin: 40px 0 0 -12px;
-  z-index: 999;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  display: none;
-}
-
-.Navigation__Organization__Selector {
-  display: inline-block;
-}
-
-.Navigation__Organization__Selector:hover {
-  & .Navigation__Organization__Dropdown {
-    display: block;
-  }
-}
-
-.Navigation__Organization__Dropdown ul {
-  margin: 0;
-  padding: 0;
-}
-
-.Navigation__Organization__Dropdown li {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border-top: 1px solid #DDDDDD;
-}
-
-.Navigation__Organization__Dropdown a {
-  display: block;
-  padding: 10px 12px;
-}
-
-.Navigation__Organization__Dropdown li:first-child {
-  border-top: 0;
-}
-
-.Navigation__Organization__Seperator {
+.Navigation__Seperator {
   display: inline-block;
   height: var(--navHeight);
   margin: 0 15px;
   vertical-align: top;
-}
-
-.Navigation__Docs {
-  float: right;
-  text-align: right;
-  line-height: var(--navHeight);
-  margin-right: 20px;
-}
-
-.Navigation__User {
-  float: right;
-  text-align: right;
-  line-height: var(--navHeight);
-}
-
-.Navigation__User .UserAvatarComponent {
-  display: inline-block;
-  vertical-align: top;
-  margin-top: 8px;
-  margin-right: 10px;
-}
-
-.Navigation__User__Name {
-  display: inline-block;
-}
-
-.Navigation__User__Caret {
-  display: inline-block;
-  margin-left: 10px;
-}
-
-.Navigation__User__Dropdown {
-  display: none;
 }
 
 .Navigation__Badge {

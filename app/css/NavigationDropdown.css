@@ -1,0 +1,33 @@
+.NavigationDropdown {
+  display: inline-block;
+}
+
+.NavigationDropdown__Caret {
+  margin-left: 10px;
+}
+
+.NavigationDropdown__List {
+  position: absolute;
+  background: white;
+  border-radius: 3px;
+  z-index: 999;
+  padding: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.NavigationDropdown__Item {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid #DDDDDD;
+  line-height: normal;
+
+  & a {
+    display: block;
+    padding: 10px 12px;
+  }
+}
+
+.NavigationDropdown__Item:first-child {
+  border-top: 0;
+}

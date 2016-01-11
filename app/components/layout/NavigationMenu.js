@@ -4,7 +4,6 @@ require("../../css/NavigationMenu.css")
 
 class NavigationMenu extends React.Component {
   render() {
-    console.log(this.props.children);
     return (
       <div className="NavigationMenu">
         <ul>
