@@ -3,12 +3,10 @@ import React from 'react';
 import UserAvatar from './../shared/UserAvatar';
 import NavigationDropdown from './NavigationDropdown';
 
-require("../../css/Navigation.css")
-
 class Navigation extends React.Component {
   render() {
     return (
-      <div className="border-bottom bg-gray flex flex-center bold mxn1" style={{fontSize: 13}}>
+      <div className="border-bottom bg-gray flex flex-center mxn1" style={{fontSize: 13}}>
         <img src={require('../../images/logo.svg')}  style={{ height: 30, marginTop: 8 }} />
 
         <NavigationDropdown>
