@@ -2,7 +2,7 @@ import React from 'react';
 
 class NavigationDropdown extends React.Component {
   state = {
-    showing: false
+    showing: true
   };
 
   render() {
@@ -28,7 +28,7 @@ class NavigationDropdown extends React.Component {
     var items = [].concat.apply([], this.props.children.slice(1));
 
     return (
-      <div className="absolute bg-white rounded shadow flex flex-column" onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)} style={{position: "absolute", zIndex: 10}}>
+      <div className="absolute bg-white rounded shadow border" onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)} style={{zIndex: 10}}>
         {items}
       </div>
     );

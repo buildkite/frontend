@@ -21,7 +21,6 @@
 @import 'hover-colors';
 @import 'focus-colors';
 @import 'shadows';
-@import 'badges';
 
 /* Override some of the basscss defaults */
 :root {
@@ -30,11 +29,18 @@
   --border-color: #DDDDDD;
   --bold-font-weight: 600;
   --container-width: 100%;
+  --space-1: 5px;
+  --space-2: 10px;
+  --space-3: 15px;
+  --space-4: 20px;
+  --button-line-height: 1.42857;
+  --button-padding-y: 6px;
+  --button-padding-x: 12px;
 }
 
 /* Remove the default focus styling from buttons */
 .btn:focus {
-  border-color: transparent;
+  border-color: inherit;
   box-shadow: none;
 }
 

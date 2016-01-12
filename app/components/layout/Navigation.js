@@ -24,27 +24,28 @@ class NavigationButton extends React.Component {
 class Navigation extends React.Component {
   render() {
     return (
-      <div className="border-bottom bg-gray mb3" style={{ fontSize: 13 }}>
+      <div className="border-bottom bg-gray mb3" style={{fontSize: 13}}>
         <div className="twbs-container">
           <div className="flex flex-center">
-            <img src={require('../../images/logo.svg')}  style={{ height: 30 }} className="mr3" />
+            <img src={require('../../images/logo.svg')}  style={{height: 30}} className="mr3" />
 
             <NavigationDropdown className="flex flex-center">
               <div className="bold">
-                <div className="truncate sm-show" style={{ maxWidth: 200 }}>
+                <div className="truncate sm-show" style={{maxWidth: 200}}>
                   {this._organizationSelectorLabel()}
                 </div>
-                <div className="truncate sm-hide" style={{ maxWidth: 100 }}>
+                <div className="truncate sm-hide" style={{maxWidth: 100}}>
                   {this._organizationSelectorLabel()}
                 </div>
               </div>
 
               {
                 this.props.viewer.organizations.edges.map((org) =>
-                  <a key={org.node.slug} href={`/${org.node.slug}`} className="btn black hover-lime focus-lime">{org.node.name}</a>
+                  <a key={org.node.slug} href={`/${org.node.slug}`} className="btn black hover-lime focus-lime border-bottom block py2">{org.node.name}</a>
                 )
               }
-              <a href="/organizations/new" className="btn black hover-lime focus-lime"><i className="fa fa-plus-circle"/> Create New Organization</a>
+
+              <a href="/organizations/new" className="btn black hover-lime focus-lime block py2"><i className="fa fa-plus-circle"/> Create New Organization</a>
             </NavigationDropdown>
 
             {this._organizationMenu()}
@@ -60,10 +61,10 @@ class Navigation extends React.Component {
                 <span className="md-show">{this.props.viewer.user.name}</span>
               </div>
 
-              <a href={`/docs`} className="btn black hover-lime focus-lime sm-show">Documentation</a>
-              <a href="mailto:support@buildkite.com" className="btn black hover-lime focus-lime sm-show">Support</a>
-              <a href="/user/settings" className="btn black hover-lime focus-lime">Settings</a>
-              <a href="/logout" className="btn black hover-lime focus-lime">Logout</a>
+              <a href={`/docs`} className="btn black hover-lime focus-lime sm-show block border-bottom py2">Documentation</a>
+              <a href="mailto:support@buildkite.com" className="btn black hover-lime focus-lime sm-show block border-bottom py2">Support</a>
+              <a href="/user/settings" className="btn black hover-lime focus-lime block border-bottom py2">Settings</a>
+              <a href="/logout" className="btn black hover-lime focus-lime block py2">Logout</a>
             </NavigationDropdown>
           </div>
         </div>
