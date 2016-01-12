@@ -1,18 +1,8 @@
-/*
-@import 'basscss-base-reset';
-@import 'basscss-base-forms';
-@import 'basscss-base-tables';
-@import 'basscss-base-typography';
-@import 'basscss-color-base';
-@import 'basscss-color-forms';
-@import 'basscss-color-tables';
-*/
-
+/* Since we're also using bootstrap, we need to only include those basscss
+ * modules that don't mess with the global CSS scope */
 @import 'basscss-btn';
 @import 'basscss-btn-primary';
 @import 'basscss-btn-outline';
-
-/* @import 'basscss-type-scale'; */
 @import 'basscss-typography';
 @import 'basscss-layout';
 @import 'basscss-align';
@@ -23,20 +13,32 @@
 @import 'basscss-grid';
 @import 'flex-object';
 @import 'basscss-border';
-
 @import 'basscss-colors';
 @import 'basscss-background-colors';
-
 @import 'basscss-defaults';
 
+/* Include our custom classes */
 @import 'hover-colors';
 @import 'focus-colors';
 @import 'shadows';
 @import 'badges';
 
+/* Override some of the basscss defaults */
 :root {
   --gray: #F9FAFB;
   --lime: #83AD18;
   --border-color: #DDDDDD;
   --bold-font-weight: 600;
+  --container-width: 100%;
 }
+
+/* Remove the default focus styling from buttons */
+.btn:focus {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* Custom breakpoints that match bootstrap */
+@custom-media --breakpoint-sm (min-width: 768px);
+@custom-media --breakpoint-md (min-width: 992px);
+@custom-media --breakpoint-lg (min-width: 1200px);

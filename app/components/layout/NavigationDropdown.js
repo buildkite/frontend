@@ -2,32 +2,33 @@ import React from 'react';
 
 class NavigationDropdown extends React.Component {
   state = {
-    showing: true
+    showing: false
   };
 
   render() {
     return (
-      <div className="NavigationDropdown">
-        <div className="NavigationDropdown__Label" onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)}>
+      <div className={this.props.className}>
+        <div onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)}>
           {this.props.children[0]}
-          <i className="NavigationDropdown__Caret fa fa-caret-down" />
         </div>
-
+        <div className="ml1">
+          &#9662;
+        </div>
         {this._dropdownListNode()}
       </div>
     )
   }
 
   _dropdownListNode() {
-    // if(!this.state.showing) {
-    //   return null;
-    // }
+    if(!this.state.showing) {
+      return null;
+    }
 
     // Flatten all arrays in arrays
     var items = [].concat.apply([], this.props.children.slice(1));
 
     return (
-      <div className="bg-white rounded shadow flex flex-column" onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)} style={{position: "absolute", zIndex: 10}}>
+      <div className="absolute bg-white rounded shadow flex flex-column" onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)} style={{position: "absolute", zIndex: 10}}>
         {items}
       </div>
     );
