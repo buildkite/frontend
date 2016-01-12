@@ -8,20 +8,20 @@ require("../../css/Navigation.css")
 class Navigation extends React.Component {
   render() {
     return (
-      <div className="mb3 border-bottom bg-gray flex flex-center px2 bold" style={{fontSize: 13}}>
+      <div className="border-bottom bg-gray flex flex-center bold mxn1" style={{fontSize: 13}}>
         <img src={require('../../images/logo.svg')}  style={{ height: 30, marginTop: 8 }} />
 
         <NavigationDropdown>
           <span>{this._organizationSelectorLabel()}</span>
           {
             this.props.viewer.organizations.edges.map((org) =>
-              <a key={org.node.slug} href={`/${org.node.slug}`} className="btn p2 black hover-lime focus-lime">{org.node.name}</a>
+              <a key={org.node.slug} href={`/${org.node.slug}`} className="btn black hover-lime focus-lime">{org.node.name}</a>
             )
           }
           <a href="/organizations/new" className="btn black hover-lime focus-lime"><i className="fa fa-plus-circle"/> Create New Organization</a>
         </NavigationDropdown>
 
-        <img src={require('../../images/seperator.svg')} style={{ height: 47}} />
+        <img src={require('../../images/seperator.svg')} style={{ height: 47 }} />
 
         {this._organizationMenu()}
 

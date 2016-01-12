@@ -1,7 +1,5 @@
 import React from 'react';
 
-require("../../css/NavigationDropdown.css")
-
 class NavigationDropdown extends React.Component {
   state = {
     showing: true
