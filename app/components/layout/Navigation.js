@@ -15,10 +15,10 @@ class Navigation extends React.Component {
           <span>{this._organizationSelectorLabel()}</span>
           {
             this.props.viewer.organizations.edges.map((org) =>
-              <a key={org.node.slug} href={`/${org.node.slug}`} className="black hover-lime focus-lime">{org.node.name}</a>
+              <a key={org.node.slug} href={`/${org.node.slug}`} className="btn p2 black hover-lime focus-lime">{org.node.name}</a>
             )
           }
-          <a href="/organizations/new" className="black hover-lime focus-lime"><i className="fa fa-plus-circle"/> Create New Organization</a>
+          <a href="/organizations/new" className="btn black hover-lime focus-lime"><i className="fa fa-plus-circle"/> Create New Organization</a>
         </NavigationDropdown>
 
         <img src={require('../../images/seperator.svg')} style={{ height: 47}} />
@@ -27,16 +27,16 @@ class Navigation extends React.Component {
 
         <div className="flex-grow" />
 
-	<a href={`/docs`} className="black hover-lime focus-lime">Documentation</a>
-	<a href="mailto:support@buildkite.com" className="black hover-lime focus-lime">Support</a>
+	<a href={`/docs`} className="btn black hover-lime focus-lime">Documentation</a>
+	<a href="mailto:support@buildkite.com" className="btn black hover-lime focus-lime">Support</a>
 
         <NavigationDropdown>
           <span>
             <UserAvatar size={30} user={this.props.viewer.user} />
             {this.props.viewer.user.name}
           </span>
-          <a href="/user/settings" className="black hover-lime focus-lime">Settings</a>
-          <a href="/logout" className="black hover-lime focus-lime">Logout</a>
+          <a href="/user/settings" className="btn black hover-lime focus-lime">Settings</a>
+          <a href="/logout" className="btn black hover-lime focus-lime">Logout</a>
         </NavigationDropdown>
       </div>
     );
@@ -67,11 +67,13 @@ class Navigation extends React.Component {
     var organization = this._currentOrganization();
 
     if(organization) {
-      return [
-	<a href={`/${organization.slug}`} className="btn black hover-lime focus-lime">Projects</a>,
-	<a href={`/organizations/${organization.slug}/agents`} className="btn black hover-lime focus-lime">Agents <span className="Navigation__Badge">12</span></a>,
-	<a href={`/organizations/${organization.slug}/settings`} className="btn black hover-lime focus-lime">Settings</a>
-      ]
+      return (
+        <div>
+          <a href={`/${organization.slug}`} className="btn black hover-lime focus-lime">Projects</a>
+          <a href={`/organizations/${organization.slug}/agents`} className="btn black hover-lime focus-lime">Agents <span className="Navigation__Badge">12</span></a>
+          <a href={`/organizations/${organization.slug}/settings`} className="btn black hover-lime focus-lime">Settings</a>
+        </div>
+      )
     }
   }
 };

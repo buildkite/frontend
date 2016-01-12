@@ -6,6 +6,7 @@
 @import 'basscss-border-colors';
 @import 'basscss-typography';
 @import 'basscss-colors';
+@import 'basscss-btn';
 
 @import 'hover-colors';
 @import 'focus-colors';

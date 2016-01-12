@@ -21,20 +21,16 @@ class NavigationDropdown extends React.Component {
   }
 
   _dropdownListNode() {
-    if(!this.state.showing) {
-      return null;
-    }
+    // if(!this.state.showing) {
+    //   return null;
+    // }
 
     // Flatten all arrays in arrays
     var items = [].concat.apply([], this.props.children.slice(1));
 
     return (
-      <div className="bg-white rounded shadow" onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)} style={{position: "absolute", zIndex: 10}}>
-        {
-          items.map((child, index) => {
-            return <div key={index}>{child}</div>
-          })
-        }
+      <div className="bg-white rounded shadow flex flex-column" onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)} style={{position: "absolute", zIndex: 10}}>
+        {items}
       </div>
     );
   }
