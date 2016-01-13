@@ -26,7 +26,7 @@
 
 /* Override some of the basscss defaults */
 :root {
-  --gray: #F9FAFB;
+  --silver: #F9FAFB;
   --lime: #83AD18;
   --border-color: #DDDDDD;
   --bold-font-weight: 600;

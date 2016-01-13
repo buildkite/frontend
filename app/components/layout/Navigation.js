@@ -25,7 +25,7 @@ class NavigationButton extends React.Component {
 class Navigation extends React.Component {
   render() {
     return (
-      <div className="border-bottom bg-gray mb3" style={{fontSize: 13}}>
+      <div className="border-bottom bg-silver mb3" style={{fontSize: 13}}>
         <div className="twbs-container">
           <div className="flex flex-center">
             <img src={require('../../images/logo.svg')}  style={{height: 30}} className="mr3" />
@@ -40,11 +40,7 @@ class Navigation extends React.Component {
                 </div>
               </div>
 
-              {
-                this.props.viewer.organizations.edges.map((org) =>
-                  <a key={org.node.slug} href={`/${org.node.slug}`} className="btn black hover-lime focus-lime border-bottom block py2">{org.node.name}</a>
-                )
-              }
+              {this._organizationsList()}
 
               <a href="/organizations/new" className="btn black hover-lime focus-lime block py2"><i className="fa fa-plus-circle"/> Create New Organization</a>
             </NavigationDropdown>
@@ -96,6 +92,16 @@ class Navigation extends React.Component {
     }
   }
 
+  _organizationsList() {
+    let organizations = this.props.viewer.organizations.edges;
+
+    if(organizations.length > 0) {
+      return organizations.map((org) => <a key={org.node.slug} href={`/${org.node.slug}`} className="btn black hover-lime focus-lime border-bottom block py2">{org.node.name}</a>);
+    } else {
+      return <span className="block py2 px3 border-bottom gray">You have no other organizations</span>
+    }
+  }
+
   _organizationMenu() {
     var organization = this._currentOrganization();
 
@@ -103,7 +109,7 @@ class Navigation extends React.Component {
       return (
         <div className="flex flex-center">
           <NavigationButton href={`/${organization.slug}`}>Projects</NavigationButton>
-          <NavigationButton href={`/organizations/${organization.slug}/agents`} badge={12} className="sm-show">Agents</NavigationButton>
+          <NavigationButton href={`/organizations/${organization.slug}/agents`} badge="4/12" className="sm-show">Agents</NavigationButton>
           <NavigationButton href={`/organizations/${organization.slug}/agents`} className="sm-hide">Agents</NavigationButton>
           <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
         </div>
