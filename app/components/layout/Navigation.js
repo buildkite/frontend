@@ -8,15 +8,11 @@ import OrganizationAgentsBadge from './../OrganizationAgentsBadge';
 
 class NavigationButton extends React.Component {
   render() {
-    var classes = classNames("btn black hover-lime focus-lime", this.props.className, { "lime": this._isActive() });
+    var classes = classNames("btn black hover-lime focus-lime", this.props.className);
 
     return (
       <a href={this.props.href} className={classes}>{this.props.children}</a>
     );
-  }
-
-  _isActive() {
-    return window.location.pathname.indexOf(this.props.href) == 0;
   }
 }
 
