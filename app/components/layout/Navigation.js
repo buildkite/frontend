@@ -1,6 +1,7 @@
 import React from 'react';
 
 import UserAvatar from './../shared/UserAvatar';
+import Button from './../shared/Button';
 import NavigationDropdown from './NavigationDropdown';
 
 class NavigationButton extends React.Component {
@@ -66,7 +67,7 @@ class Navigation extends React.Component {
               <a href={`/docs`} className="btn black hover-lime focus-lime md-hide block border-bottom py2">Documentation</a>
               <a href="mailto:support@buildkite.com" className="btn black hover-lime focus-lime md-hide block border-bottom py2">Support</a>
               <a href="/user/settings" className="btn black hover-lime focus-lime block border-bottom py2">Personal Settings</a>
-              <a href="/logout" className="btn black hover-lime focus-lime block py2">Logout</a>
+              <Button action="/logout" method="delete" className="black hover-lime focus-lime block py2 left-align" style={{width: "100%"}}>Logout</Button>
             </NavigationDropdown>
           </div>
         </div>
