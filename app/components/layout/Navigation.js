@@ -55,15 +55,15 @@ class Navigation extends React.Component {
             <NavigationButton href={`/docs`} className="md-show">Documentation</NavigationButton>
             <NavigationButton href="mailto:support@buildkite.com" className="md-show">Support</NavigationButton>
 
-            <NavigationDropdown className="ml2 flex flex-center">
+            <NavigationDropdown className="ml2 flex flex-center" align="right">
               <div className="flex flex-center bold">
                 <UserAvatar user={this.props.viewer.user} style={{width: 30, height: 30}} className="mr1" />
                 <span className="md-show">{this.props.viewer.user.name}</span>
               </div>
 
-              <a href={`/docs`} className="btn black hover-lime focus-lime sm-show block border-bottom py2">Documentation</a>
-              <a href="mailto:support@buildkite.com" className="btn black hover-lime focus-lime sm-show block border-bottom py2">Support</a>
-              <a href="/user/settings" className="btn black hover-lime focus-lime block border-bottom py2">Settings</a>
+              <a href={`/docs`} className="btn black hover-lime focus-lime md-hide block border-bottom py2">Documentation</a>
+              <a href="mailto:support@buildkite.com" className="btn black hover-lime focus-lime md-hide block border-bottom py2">Support</a>
+              <a href="/user/settings" className="btn black hover-lime focus-lime block border-bottom py2">Personal Settings</a>
               <a href="/logout" className="btn black hover-lime focus-lime block py2">Logout</a>
             </NavigationDropdown>
           </div>
