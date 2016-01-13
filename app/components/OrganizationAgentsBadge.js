@@ -10,11 +10,7 @@ class OrganizationAgentsBadge extends React.Component {
     className: React.PropTypes.string
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = { count: this.props.organization.agents_connected_count || 0 };
-  }
+  state = { count: this.props.organization.agents_connected_count || 0 };
 
   componentDidMount() {
     PusherStore.on("organization_stats:change", this._onStoreChange.bind(this));
