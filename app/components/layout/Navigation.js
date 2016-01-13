@@ -17,6 +17,15 @@ class NavigationButton extends React.Component {
 }
 
 class Navigation extends React.Component {
+  static propTypes = {
+    organization: React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired,
+      name: React.PropTypes.string.isRequired,
+      slug: React.PropTypes.string.isRequired,
+      agents_connected_count: React.PropTypes.number.isRequired
+    }),
+  };
+
   render() {
     return (
       <div className="border-bottom bg-silver mb3" style={{fontSize: 13}}>
