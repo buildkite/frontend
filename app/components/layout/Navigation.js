@@ -48,6 +48,8 @@ class Navigation extends React.Component {
               <a href="/organizations/new" className="btn black hover-lime focus-lime block py2"><i className="fa fa-plus-circle"/> Create New Organization</a>
             </NavigationDropdown>
 
+            <img src={require('../../images/seperator.svg')} style={{ height: 47 }} className="ml2" />
+
             {this._organizationMenu()}
 
             <div className="flex-grow"></div>
@@ -55,7 +57,7 @@ class Navigation extends React.Component {
             <NavigationButton href={`/docs`} className="md-show">Documentation</NavigationButton>
             <NavigationButton href="mailto:support@buildkite.com" className="md-show">Support</NavigationButton>
 
-            <NavigationDropdown className="ml2 flex flex-center" align="right">
+            <NavigationDropdown className="ml2 flex flex-center" align="right" width={170}>
               <div className="flex flex-center bold">
                 <UserAvatar user={this.props.viewer.user} style={{width: 30, height: 30}} className="mr1" />
                 <span className="md-show">{this.props.viewer.user.name}</span>
@@ -99,8 +101,6 @@ class Navigation extends React.Component {
     if(organization) {
       return (
         <div className="flex flex-center">
-          <img src={require('../../images/seperator.svg')} style={{ height: 47 }} className="ml2" />
-
           <NavigationButton href={`/${organization.slug}`}>Projects</NavigationButton>
           <NavigationButton href={`/organizations/${organization.slug}/agents`} badge={12} className="sm-show">Agents</NavigationButton>
           <NavigationButton href={`/organizations/${organization.slug}/agents`} className="sm-hide">Agents</NavigationButton>

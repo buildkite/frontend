@@ -9,8 +9,8 @@ class NavigationDropdown extends React.Component {
 
   render() {
     return (
-      <div className={this.props.className}>
-        <div onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)}>
+      <div ref="label" className={this.props.className} onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)}>
+        <div>
           {this.props.children[0]}
         </div>
         <div className="ml1">
@@ -30,20 +30,12 @@ class NavigationDropdown extends React.Component {
   }
 
   _dropdownListNode() {
-    // We toggle the display of the dropdown using block/none instead of just
-    // not rendering the DOM because we need it in place so we can align it
-    // correctly to the label element.
-    var style = {
-      display: this.state.showing ? 'block' : 'none',
-      zIndex: 10
-    }
-
     // Flatten all arrays in arrays
     var items = [].concat.apply([], this.props.children.slice(1));
 
     return (
-      <div ref="dropdown" className="absolute" onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)} style={style}>
-        <div className="mt1 bg-white rounded shadow border">
+      <div ref="dropdown" className="absolute" style={{zIndex: 10, width: this.props.width || 'auto'}}>
+        <div className="mt1 bg-white rounded shadow border" style={{display: this.state.showing ? 'block' : 'none'}}  onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)}>
           {items}
         </div>
       </div>
@@ -51,20 +43,45 @@ class NavigationDropdown extends React.Component {
   }
 
   _alignElements() {
-    var points = this.props.align == "right" ? [ "tr", "br" ] : [ "tl", "bl" ];
+    // Don't bother about aligning the elements if we're not showing the
+    // dropdown.
+    if(!this.state.showing) {
+      return;
+    }
 
-    domAlign(this.refs.dropdown, ReactDOM.findDOMNode(this), { points: points });
+    var points = this.props.align == "right" ? [ "tr", "br" ] : [ "tl", "bl" ];
+    domAlign(this.refs.dropdown, this.refs.label, { points: points });
   }
 
   _onMouseOver(e) {
+    // If there's a timeout (meaning the cursor has just moved out of the label
+    // and onto the dropdown) then we'll just clear that timeout, so it won't
+    // try and hide the dropdown.
     if(this._timeout) {
       clearTimeout(this._timeout);
+      delete this._timeout
+    }
+
+    // Small optimization, don't bother re-setting the state if we're already
+    // showing the dropdown.
+    if(this.state.showing) {
+      return;
     }
 
     this.setState({ showing: true });
   }
 
   _onMouseOut(e) {
+    // Remove any existing timeout (so we don't have multiple timeouts running
+    // at once)
+    if(this._timeout) {
+      clearTimeout(this._timeout);
+      delete this._timeout
+    }
+
+    // We set a timeout to give the cursor time to get from the label to the
+    // dropdown. If we did a 'mouseOut' on just the label, the moment the
+    // cursor left it for the dropdown, we'd hide the list.
     this._timeout = setTimeout(() => {
       this.setState({ showing: false });
       delete this._timeout
