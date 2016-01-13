@@ -3,22 +3,15 @@ import React from 'react';
 import UserAvatar from './../shared/UserAvatar';
 import Button from './../shared/Button';
 import NavigationDropdown from './NavigationDropdown';
+import OrganizationAgentsBadge from './../OrganizationAgentsBadge';
 
 class NavigationButton extends React.Component {
   render() {
     var className = `btn black hover-lime focus-lime ${this.props.className}`;
 
     return (
-      <a href={this.props.href} className={className}>{this.props.children}{this._badgeNode()}</a>
+      <a href={this.props.href} className={className}>{this.props.children}</a>
     );
-  }
-
-  _badgeNode() {
-    if(this.props.badge != undefined) {
-      return (
-        <span className="inline-block bg-black white rounded p1 ml1 small">{this.props.badge}</span>
-      );
-    }
   }
 }
 
@@ -102,7 +95,7 @@ class Navigation extends React.Component {
       return (
         <div className="flex flex-center">
           <NavigationButton href={`/${organization.slug}`}>Projects</NavigationButton>
-          <NavigationButton href={`/organizations/${organization.slug}/agents`} badge={this.props.viewer.organization.agents_connected_count} className="sm-show">Agents</NavigationButton>
+          <NavigationButton href={`/organizations/${organization.slug}/agents`} className="sm-show">Agents <OrganizationAgentsBadge organization={organization} className="inline-block bg-black white rounded p1 ml1 small" /></NavigationButton>
           <NavigationButton href={`/organizations/${organization.slug}/agents`} className="sm-hide">Agents</NavigationButton>
           <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
         </div>
