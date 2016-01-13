@@ -14,7 +14,7 @@ class NavigationButton extends React.Component {
   }
 
   _badgeNode() {
-    if(this.props.badge) {
+    if(this.props.badge != undefined) {
       return (
         <span className="inline-block bg-black white rounded p1 ml1 small">{this.props.badge}</span>
       );
@@ -74,7 +74,7 @@ class Navigation extends React.Component {
   _currentOrganization() {
     var organization;
     this.props.viewer.organizations.edges.forEach(org => {
-      if(org.node.slug == this.props.params.organization) {
+      if(org.node.slug == this.props.viewer.organization.slug) {
         organization = org.node;
       }
     });
@@ -109,7 +109,7 @@ class Navigation extends React.Component {
       return (
         <div className="flex flex-center">
           <NavigationButton href={`/${organization.slug}`}>Projects</NavigationButton>
-          <NavigationButton href={`/organizations/${organization.slug}/agents`} badge="4/12" className="sm-show">Agents</NavigationButton>
+          <NavigationButton href={`/organizations/${organization.slug}/agents`} badge={this.props.viewer.organization.agents_connected_count} className="sm-show">Agents</NavigationButton>
           <NavigationButton href={`/organizations/${organization.slug}/agents`} className="sm-hide">Agents</NavigationButton>
           <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
         </div>
