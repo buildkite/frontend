@@ -71,39 +71,32 @@ class Navigation extends React.Component {
     );
   }
 
-  _currentOrganization() {
-    var organization;
-    this.props.viewer.organizations.edges.forEach(org => {
-      if(org.node.slug == this.props.viewer.organization.slug) {
-        organization = org.node;
-      }
-    });
-
-    return organization;
-  }
-
   _organizationSelectorLabel() {
-    var organization = this._currentOrganization();
-
-    if(organization) {
-      return organization.name;
+    if(this.props.viewer.organization) {
+      return this.props.viewer.organization.name;
     } else {
       return "Organizations"
     }
   }
 
   _organizationsList() {
-    let organizations = this.props.viewer.organizations.edges;
+    let nodes = [];
+    this.props.viewer.organizations.edges.forEach((org) => {
+      // Don't show the active organization in the selector
+      if(!this.props.viewer.organization || (org.node.slug != this.props.viewer.organization.slug)) {
+        nodes.push(<a key={org.node.slug} href={`/${org.node.slug}`} className="btn black hover-lime focus-lime border-bottom block py2">{org.node.name}</a>);
+      }
+    });
 
-    if(organizations.length > 0) {
-      return organizations.map((org) => <a key={org.node.slug} href={`/${org.node.slug}`} className="btn black hover-lime focus-lime border-bottom block py2">{org.node.name}</a>);
+    if(nodes.length > 0) {
+      return nodes;
     } else {
       return <span className="block py2 px3 border-bottom gray">You have no other organizations</span>
     }
   }
 
   _organizationMenu() {
-    var organization = this._currentOrganization();
+    var organization = this.props.viewer.organization;
 
     if(organization) {
       return (

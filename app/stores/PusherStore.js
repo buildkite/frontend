@@ -6,11 +6,13 @@ class PusherStore extends EventEmitter {
   configure(key, channel, options) {
     let pusher = new Pusher(key, options);
 
-    pusher.subscribe(channel).bind_all((event, payload) => {
-      Logger.info("[PusherStore]", event, payload);
+    if(channel) {
+      pusher.subscribe(channel).bind_all((event, payload) => {
+        Logger.info("[PusherStore]", event, payload);
 
-      this.emit(event, payload);
-    });
+        this.emit(event, payload);
+      });
+    }
   }
 }
 
