@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import UserAvatar from './../shared/UserAvatar';
 import Button from './../shared/Button';
@@ -7,11 +8,15 @@ import OrganizationAgentsBadge from './../OrganizationAgentsBadge';
 
 class NavigationButton extends React.Component {
   render() {
-    var className = `btn black hover-lime focus-lime ${this.props.className}`;
+    var classes = classNames("btn black hover-lime focus-lime", this.props.className, { "lime": this._isActive() });
 
     return (
-      <a href={this.props.href} className={className}>{this.props.children}</a>
+      <a href={this.props.href} className={classes}>{this.props.children}</a>
     );
+  }
+
+  _isActive() {
+    return window.location.pathname.indexOf(this.props.href) == 0;
   }
 }
 
