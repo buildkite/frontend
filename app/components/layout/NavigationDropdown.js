@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import domAlign from 'dom-align';
 
 class NavigationDropdown extends React.Component {
@@ -9,7 +10,7 @@ class NavigationDropdown extends React.Component {
   render() {
     return (
       <div className={this.props.className}>
-        <div ref="label" onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)}>
+        <div onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)}>
           {this.props.children[0]}
         </div>
         <div className="ml1">
@@ -52,7 +53,7 @@ class NavigationDropdown extends React.Component {
   _alignElements() {
     var points = this.props.align == "right" ? [ "tr", "br" ] : [ "tl", "bl" ];
 
-    domAlign(this.refs.dropdown, this.refs.label, { points: points });
+    domAlign(this.refs.dropdown, ReactDOM.findDOMNode(this), { points: points });
   }
 
   _onMouseOver(e) {
