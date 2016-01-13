@@ -13,7 +13,7 @@ class OrganizationAgentsBadge extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { count: this.props.organization.agents_connected_count };
+    this.state = { count: this.props.organization.agents_connected_count || 0 };
   }
 
   componentDidMount() {
