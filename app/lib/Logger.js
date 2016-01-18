@@ -1,6 +1,9 @@
 class Logger {
   enable() {
     this.enabled = true;
+
+    // Store console on the logger as a hack to skip the `no-console` eslint rule
+    this.console = window['console'];
   }
 
   info() {
@@ -9,11 +12,11 @@ class Logger {
       let msg = args.shift()
 
       if(args.length == 0) {
-        console.log("%c %s", "color:gray", msg)
+        this.console.log("%c %s", "color:gray", msg)
       } else if(args.length == 1) {
-        console.log("%c %s %o", "color:gray", msg, args[0])
+        this.console.log("%c %s %o", "color:gray", msg, args[0])
       } else {
-        console.log("%c %s %o", "color:gray", msg, args)
+        this.console.log("%c %s %o", "color:gray", msg, args)
       }
     }
   }

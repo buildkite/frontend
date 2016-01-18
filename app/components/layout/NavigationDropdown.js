@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from "react-dom";
 import domAlign from 'dom-align';
 
 class NavigationDropdown extends React.Component {
@@ -15,40 +16,40 @@ class NavigationDropdown extends React.Component {
 
   render() {
     return (
-      <div ref="label" className={this.props.className} onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)}>
+      <div ref={c => this.labelNode = c} className={this.props.className} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
         <div>
           {this.props.children[0]}
         </div>
         <div className="ml1">
           &#9662;
         </div>
-        {this._dropdownListNode()}
+        {this.dropdownListNode()}
       </div>
     )
   }
 
   componentDidMount() {
-    this._alignElements()
+    this.alignElements()
   }
 
   componentDidUpdate() {
-    this._alignElements()
+    this.alignElements()
   }
 
-  _dropdownListNode() {
+  dropdownListNode() {
     // Flatten all arrays in arrays
     var items = [].concat.apply([], this.props.children.slice(1));
 
     return (
-      <div ref="dropdown" className="absolute" style={{zIndex: 10, width: this.props.width || 'auto'}}>
-        <div className="mt1 bg-white rounded shadow border" style={{display: this.state.showing ? 'block' : 'none'}}  onMouseOver={this._onMouseOver.bind(this)} onMouseOut={this._onMouseOut.bind(this)}>
+      <div ref={c => this.dropdownNode = c} className="absolute" style={{zIndex: 10, width: this.props.width || 'auto'}}>
+        <div className="mt1 bg-white rounded shadow border" style={{display: this.state.showing ? 'block' : 'none'}}  onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
           {items}
         </div>
       </div>
     );
   }
 
-  _alignElements() {
+  alignElements() {
     // Don't bother about aligning the elements if we're not showing the
     // dropdown.
     if(!this.state.showing) {
@@ -56,10 +57,10 @@ class NavigationDropdown extends React.Component {
     }
 
     var points = this.props.align == "right" ? [ "tr", "br" ] : [ "tl", "bl" ];
-    domAlign(this.refs.dropdown, this.refs.label, { points: points });
+    domAlign(ReactDOM.findDOMNode(this.dropdownNode), ReactDOM.findDOMNode(this.labelNode), { points: points });
   }
 
-  _onMouseOver() {
+  handleMouseOver = () => {
     // If there's a timeout (meaning the cursor has just moved out of the label
     // and onto the dropdown) then we'll just clear that timeout, so it won't
     // try and hide the dropdown.
@@ -75,9 +76,9 @@ class NavigationDropdown extends React.Component {
     }
 
     this.setState({ showing: true });
-  }
+  };
 
-  _onMouseOut() {
+  handleMouseOut = () => {
     // Remove any existing timeout (so we don't have multiple timeouts running
     // at once)
     if(this._timeout) {
@@ -92,7 +93,7 @@ class NavigationDropdown extends React.Component {
       this.setState({ showing: false });
       delete this._timeout
     }, 100);
-  }
+  };
 }
 
 export default NavigationDropdown;

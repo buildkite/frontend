@@ -32,9 +32,9 @@ class Button extends React.Component {
   _formNode() {
     if(this.props.action) {
       return (
-        <form action={this.props.action} method="post" ref="form">
+        <form action={this.props.action} method="post" ref={c => this.formNode = c}>
           <input type="hidden" name="_method" value={this.props.method || "post"} />
-          <input type="hidden" ref="csrf" />
+          <input type="hidden" ref={c => this.csrfNode = c} />
         </form>
       );
     }
@@ -62,11 +62,11 @@ class Button extends React.Component {
 
     if(this.props.action) {
       // Need to set the CSRF token since we're doing a form post
-      let csrfNode = ReactDOM.findDOMNode(this.refs['csrf'])
-      csrfNode.name = window._csrf.param
-      csrfNode.value = window._csrf.token
+      let csrfElement = ReactDOM.findDOMNode(this.csrfNode)
+      csrfElement.name = window._csrf.param
+      csrfElement.value = window._csrf.token
 
-      ReactDOM.findDOMNode(this.refs['form']).submit()
+      ReactDOM.findDOMNode(this.formNode).submit()
     }
   }
 }
