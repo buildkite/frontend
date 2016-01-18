@@ -1,8 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import domAlign from 'dom-align';
 
 class NavigationDropdown extends React.Component {
+  static propTypes = {
+    children: React.PropTypes.node,
+    className: React.PropTypes.string,
+    align: React.PropTypes.string,
+    width: React.PropTypes.any
+  };
+
   state = {
     showing: false
   };
@@ -53,7 +59,7 @@ class NavigationDropdown extends React.Component {
     domAlign(this.refs.dropdown, this.refs.label, { points: points });
   }
 
-  _onMouseOver(e) {
+  _onMouseOver() {
     // If there's a timeout (meaning the cursor has just moved out of the label
     // and onto the dropdown) then we'll just clear that timeout, so it won't
     // try and hide the dropdown.
@@ -71,7 +77,7 @@ class NavigationDropdown extends React.Component {
     this.setState({ showing: true });
   }
 
-  _onMouseOut(e) {
+  _onMouseOut() {
     // Remove any existing timeout (so we don't have multiple timeouts running
     // at once)
     if(this._timeout) {
@@ -87,6 +93,6 @@ class NavigationDropdown extends React.Component {
       delete this._timeout
     }, 100);
   }
-};
+}
 
 export default NavigationDropdown;

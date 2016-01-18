@@ -7,18 +7,25 @@ class Button extends React.Component {
     onClick: React.PropTypes.func,
     action: React.PropTypes.string,
     method: React.PropTypes.string,
+    loading: React.PropTypes.bool,
+    loadingText: React.PropTypes.string,
     className: React.PropTypes.string,
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
+    children: React.PropTypes.node
   };
 
   render() {
     let classes = classNames(this.props.className, "btn");
 
     return (
-      <button className={classes}
-              disabled={this.props.loading}
-              style={this.props.style}
-              onClick={this._handleOnClick.bind(this)}>{this._contentsNode()}{this._formNode()}</button>
+      <button
+        className={classes}
+        disabled={this.props.loading}
+        style={this.props.style}
+        onClick={this._handleOnClick.bind(this)}>
+        {this._contentsNode()}
+        {this._formNode()}
+      </button>
     );
   }
 

@@ -5,12 +5,14 @@ class OrganizationAgentsBadge extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
       id: React.PropTypes.string.isRequired,
-      agents_connected_count: React.PropTypes.number.isRequired
+      agents: React.PropTypes.shape({
+        count: React.PropTypes.number.isRequired
+      })
     }),
     className: React.PropTypes.string
   };
 
-  state = { count: this.props.organization.agents_connected_count };
+  state = { count: this.props.organization.agents.count };
 
   componentDidMount() {
     PusherStore.on("organization_stats:change", this._onStoreChange.bind(this));
@@ -27,7 +29,7 @@ class OrganizationAgentsBadge extends React.Component {
   }
 
   _onStoreChange(payload) {
-    this.setState({ count: payload.agents_connected_count });
+    this.setState({ count: payload.agentsConnectedCount });
   }
 }
 

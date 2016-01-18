@@ -6,24 +6,34 @@ import Button from './../shared/Button';
 import NavigationDropdown from './NavigationDropdown';
 import OrganizationAgentsBadge from './../OrganizationAgentsBadge';
 
-class NavigationButton extends React.Component {
-  render() {
-    var classes = classNames("btn black hover-lime focus-lime", this.props.className);
+const NavigationButton = (props) => {
+  let classes = classNames("btn black hover-lime focus-lime", props.className);
 
-    return (
-      <a href={this.props.href} className={classes}>{this.props.children}</a>
-    );
-  }
+  return (
+    <a href={props.href} className={classes}>{props.children}</a>
+  );
 }
+
+NavigationButton.propTypes = {
+  className: React.PropTypes.string,
+  href: React.PropTypes.string,
+  children: React.PropTypes.node
+};
 
 class Navigation extends React.Component {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired,
-      agents_connected_count: React.PropTypes.number.isRequired
-    }),
+    organization: React.PropTypes.object,
+    viewer: React.PropTypes.shape({
+      user: React.PropTypes.shape({
+        name: React.PropTypes.string.isRequired,
+        avatar: React.PropTypes.shape({
+          url: React.PropTypes.string.isRequired
+        })
+      }),
+      organizations: React.PropTypes.shape({
+        edges: React.PropTypes.array
+      })
+    })
   };
 
   render() {
@@ -75,8 +85,8 @@ class Navigation extends React.Component {
   }
 
   _organizationSelectorLabel() {
-    if(this.props.viewer.organization) {
-      return this.props.viewer.organization.name;
+    if(this.props.organization) {
+      return this.props.organization.name;
     } else {
       return "Organizations"
     }
@@ -86,7 +96,7 @@ class Navigation extends React.Component {
     let nodes = [];
     this.props.viewer.organizations.edges.forEach((org) => {
       // Don't show the active organization in the selector
-      if(!this.props.viewer.organization || (org.node.slug != this.props.viewer.organization.slug)) {
+      if(!this.props.organization || (org.node.slug != this.props.organization.slug)) {
         nodes.push(<a key={org.node.slug} href={`/${org.node.slug}`} className="btn black hover-lime focus-lime border-bottom block py2">{org.node.name}</a>);
       }
     });
@@ -99,7 +109,7 @@ class Navigation extends React.Component {
   }
 
   _organizationMenu() {
-    var organization = this.props.viewer.organization;
+    var organization = this.props.organization;
 
     if(organization) {
       return (
@@ -112,6 +122,6 @@ class Navigation extends React.Component {
       )
     }
   }
-};
+}
 
 export default Navigation;

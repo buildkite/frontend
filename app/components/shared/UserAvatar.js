@@ -7,7 +7,9 @@ class UserAvatar extends React.Component {
       avatar: React.PropTypes.shape({
 	url: React.PropTypes.string.isRequired
       })
-    })
+    }),
+    className: React.PropTypes.string,
+    style: React.PropTypes.object
   };
 
   render() {
