@@ -41,7 +41,9 @@ class Navigation extends React.Component {
       <div className="border-bottom bg-silver mb3" style={{fontSize: 13}}>
         <div className="twbs-container">
           <div className="flex flex-center">
-            <img src={require('../../images/logo.svg')}  style={{height: 30}} className="mr3" />
+            <div className="border-right mr3 flex flex-row flex-center" style={{ height: 47 }}>
+              <img src={require('../../images/logo.svg')} style={{height: 24, width: 36, opacity: 1}} className="mr3" />
+            </div>
 
             <NavigationDropdown className="flex flex-center">
               <div className="bold">
@@ -58,7 +60,7 @@ class Navigation extends React.Component {
               <a href="/organizations/new" className="btn black hover-lime focus-lime block py2"><i className="fa fa-plus-circle"/> Create New Organization</a>
             </NavigationDropdown>
 
-            <img src={require('../../images/seperator.svg')} style={{ height: 47 }} className="ml2" />
+            <img src={require('../../images/seperator.svg')} style={{ width: 12, height: 47 }} className="ml2" />
 
             {this._organizationMenu()}
 
