@@ -3,14 +3,14 @@ import classNames from 'classnames';
 
 import UserAvatar from './../shared/UserAvatar';
 import Button from './../shared/Button';
-import NavigationDropdown from './NavigationDropdown';
-import OrganizationAgentsBadge from './../OrganizationAgentsBadge';
+import Dropdown from './../shared/Dropdown';
+import AgentsCount from './../organization/AgentsCount';
 
 const NavigationButton = (props) => {
   let classes = classNames("btn black hover-lime focus-lime", props.className);
 
   return (
-    <a href={props.href} className={classes}>{props.children}</a>
+    <a href={props.href} style={props.style} className={classes}>{props.children}</a>
   );
 }
 
@@ -40,46 +40,43 @@ class Navigation extends React.Component {
     return (
       <div className="border-bottom bg-silver mb3" style={{fontSize: 13}}>
         <div className="twbs-container">
-          <div className="flex flex-center">
-            <div className="border-right mr3 flex flex-row flex-center" style={{ height: 47 }}>
-              <img src={require('../../images/logo.svg')} style={{height: 24, width: 36, opacity: 1}} className="mr3" />
-            </div>
+          <div className="flex flex-stretch" style={{height: 45}}>
+            <NavigationButton href="/" className="border-right flex flex-center flex-none px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
+              <img src={require('../../images/logo.svg')} style={{width: 27, height: 18}} />
+            </NavigationButton>
 
-            <NavigationDropdown className="flex flex-center">
-              <div className="bold">
-                <div className="truncate sm-show" style={{maxWidth: 200}}>
+            <Dropdown align="left" width={250} className="flex flex-none">
+              <NavigationButton className="flex flex-center flex-none user-select-none" style={{backgroundImage: 'url(' + require('../../images/seperator.svg') + ')', backgroundRepeat: 'no-repeat', backgroundPosition: 'center right', paddingRight: 20}}>
+                <span className="truncate" style={{maxWidth:"10em"}}>
                   {this._organizationSelectorLabel()}
-                </div>
-                <div className="truncate sm-hide" style={{maxWidth: 100}}>
-                  {this._organizationSelectorLabel()}
-                </div>
-              </div>
-
+                </span>
+                <span className="ml1">
+                  &#9662;
+                </span>
+              </NavigationButton>
               {this._organizationsList()}
-
               <a href="/organizations/new" className="btn black hover-lime focus-lime block py2"><i className="fa fa-plus-circle"/> Create New Organization</a>
-            </NavigationDropdown>
-
-            <img src={require('../../images/seperator.svg')} style={{ width: 12, height: 47 }} className="ml2" />
+            </Dropdown>
 
             {this._organizationMenu()}
 
-            <div className="flex-grow"></div>
+            <span className="flex-auto"></span>
 
-            <NavigationButton href={`/docs`} className="md-show">Documentation</NavigationButton>
-            <NavigationButton href="mailto:support@buildkite.com" className="md-show">Support</NavigationButton>
+            <NavigationButton className="flex flex-center flex-none" href={`/docs`}>Documentation</NavigationButton>
+            <NavigationButton className="flex flex-center flex-none" href="mailto:support@buildkite.com">Support</NavigationButton>
 
-            <NavigationDropdown className="ml2 flex flex-center" align="right" width={170}>
-              <div className="flex flex-center bold">
-                <UserAvatar user={this.props.viewer.user} style={{width: 30, height: 30}} className="mr1" />
-                <span className="md-show">{this.props.viewer.user.name}</span>
-              </div>
+            <Dropdown align="right" width={170} className="flex">
+              <NavigationButton className="flex flex-center flex-none user-select-none" style={{paddingRight: 0, paddingLeft: '1rem'}}>
+                <UserAvatar user={this.props.viewer.user} className="flex-none" style={{width: 26, height: 26, marginRight: '.7rem'}} />
+                <span className="truncate" style={{maxWidth:"9em"}}>{this.props.viewer.user.name}</span>
+                <span className="ml1">
+                  &#9662;
+                </span>
+              </NavigationButton>
 
-              <a href={`/docs`} className="btn black hover-lime focus-lime md-hide block border-bottom py2">Documentation</a>
-              <a href="mailto:support@buildkite.com" className="btn black hover-lime focus-lime md-hide block border-bottom py2">Support</a>
               <a href="/user/settings" className="btn black hover-lime focus-lime block border-bottom py2">Personal Settings</a>
               <Button action="/logout" method="delete" className="black hover-lime focus-lime block py2 left-align" style={{width: "100%"}}>Logout</Button>
-            </NavigationDropdown>
+            </Dropdown>
           </div>
         </div>
       </div>
@@ -106,7 +103,7 @@ class Navigation extends React.Component {
     if(nodes.length > 0) {
       return nodes;
     } else {
-      return <span className="block py2 px3 border-bottom gray">You have no other organizations</span>
+      return <span className="block py2 px3 border-bottom gray">You’ve no other organizations</span>
     }
   }
 
@@ -115,12 +112,11 @@ class Navigation extends React.Component {
 
     if(organization) {
       return (
-        <div className="flex flex-center">
-          <NavigationButton href={`/${organization.slug}`}>Projects</NavigationButton>
-          <NavigationButton href={`/organizations/${organization.slug}/agents`} className="sm-show">Agents <OrganizationAgentsBadge organization={organization} className="inline-block bg-black white rounded p1 ml1 small" /></NavigationButton>
-          <NavigationButton href={`/organizations/${organization.slug}/agents`} className="sm-hide">Agents</NavigationButton>
-          <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
-        </div>
+        <span className="flex">
+          <NavigationButton className="flex flex-center flex-none" style={{paddingLeft: 15}} href={`/${organization.slug}`}>Projects</NavigationButton>
+          <NavigationButton className="flex flex-center flex-none" href={`/organizations/${organization.slug}/agents`}>Agents <span className="inline-block bg-black white rounded p1 ml1 small hover-lime-child"><AgentsCount organization={organization} /></span></NavigationButton>
+          <NavigationButton className="flex flex-center flex-none" href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+        </span>
       )
     }
   }

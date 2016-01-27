@@ -1,0 +1,23 @@
+.transition-popup-hidden,
+.transition-popup-shown {
+  transition: opacity 50ms, transform 80ms;
+}
+
+.transition-popup-hidden {
+  opacity: 0;
+  transform: scaleX(.75) scaleY(0);
+  user-select: none;
+}
+
+.transition-popup-shown {
+  opacity: 1;
+  transform: scaleX(1) scaleY(1);
+}
+
+.transition-popup-tl {
+  transform-origin: top left;
+}
+
+.transition-popup-tr {
+  transform-origin: top right;
+}

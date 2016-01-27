@@ -1,11 +1,12 @@
 import React from 'react';
+import classNames from 'classnames';
 
 class UserAvatar extends React.Component {
   static propTypes = {
     user: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       avatar: React.PropTypes.shape({
-	url: React.PropTypes.string.isRequired
+	      url: React.PropTypes.string.isRequired
       })
     }),
     className: React.PropTypes.string,
@@ -13,10 +14,10 @@ class UserAvatar extends React.Component {
   };
 
   render() {
-    var className = `circle ${this.props.className}`
-
     return (
-      <img src={this.props.user.avatar.url} className={className} alt={this.props.user.name} style={this.props.style} />
+      <img src={this.props.user.avatar.url} className={classNames("circle", this.props.className)}
+           alt={this.props.user.name}
+           style={this.props.style} />
     );
   }
 }

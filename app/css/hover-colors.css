@@ -2,14 +2,30 @@
   color: var(--green);
 }
 
+.hover-green:hover .hover-green-child {
+  background-color: var(--green);
+}
+
 .hover-lime:hover {
   color: var(--lime);
+}
+
+.hover-lime:hover .hover-lime-child {
+  background-color: var(--lime);
 }
 
 .hover-white:hover {
   color: var(--white);
 }
 
+.hover-white:hover .hover-white-child {
+  background-color: var(--white);
+}
+
 .hover-black:hover {
   color: var(--black);
+}
+
+.hover-black:hover .hover-black-child {
+  background-color: var(--black);
 }

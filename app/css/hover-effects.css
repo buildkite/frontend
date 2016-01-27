@@ -1,0 +1,7 @@
+.hover-faded-children * {
+  opacity: .75;
+}
+
+.hover-faded-children:hover * {
+  opacity: 1;
+}
