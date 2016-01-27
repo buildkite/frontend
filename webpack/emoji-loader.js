@@ -1,6 +1,22 @@
 // The webpack loader converts the emoji files in
 // http://github.com/buildkite/emojis to an indexed version for use in the
 // browser.
+//
+// The exported hash from this loader looks like this:
+//
+// {
+//   host: "http://assets.buildkite.com/emojis"
+//   emojis: [ { name: "smiley", image: "img-buildkite-64/smiley.png" } ],
+//   indexed: {
+//     "smiley": 0,
+//     "smiling": 0
+//   }
+// }
+//
+// The value of the indexed hash referes to the emojis index in the `emojis`
+// array.
+//
+// Emoji unicode values, names and aliased are all indexed.
 
 function convertToUnicode(code) {
   if(!code || !code.length) {
@@ -58,4 +74,3 @@ module.exports = function(source) {
   // Re-export the emojis as native code
   return "module.exports = " + JSON.stringify(emojis, undefined, "\t") + ";";
 }
-
