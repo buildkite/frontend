@@ -1,6 +1,6 @@
 # Buildkite Frontend
 
-This repository contains the UI components that make up the Buildkite frontend.
+This repository contains the UI components that make up the [Buildkite](https://buildkite.com/) frontend.
 The main technologies used are:
 
 - ES6
