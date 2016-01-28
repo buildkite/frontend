@@ -1,11 +1,16 @@
-.transition-popup-hidden,
 .transition-popup-shown {
-  transition: opacity 50ms, transform 80ms;
+  transition: opacity 80ms 0 ease-out-back,
+              transform 120ms 20ms ease-out-back;
+}
+
+.transition-popup-hidden {
+  transition: opacity 80ms 20ms ease-out-back,
+              transform 120ms 0 ease-out-back;
 }
 
 .transition-popup-hidden {
   opacity: 0;
-  transform: scaleX(.75) scaleY(0);
+  transform: scaleX(.75) scaleY(.5);
   user-select: none;
 }
 
