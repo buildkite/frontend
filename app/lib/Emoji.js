@@ -6,7 +6,7 @@ const COLON_REGEXP = new RegExp('\:[^\\s:]+\:', 'g');
 
 class Emoji {
   parse(string, options = {}) {
-    if(!string || !string.length) {
+    if(!string || string.length == 0) {
       return "";
     }
 
@@ -42,7 +42,9 @@ class Emoji {
         if(modifiedEmojiIndex) {
           replacements.push(this._image(catalogue, modifiedEmojiIndex));
           replacements.push("");
-          i += 1
+          i += 1;
+
+          continue;
         }
       }
 

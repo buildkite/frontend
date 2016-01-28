@@ -55,18 +55,22 @@ module.exports = function(source) {
       emojis.indexed[`:${alias}:`] = index;
     });
 
-    emoji["modifiers"].forEach(function(modifier) {
-      index += 1;
+    var modifiers = emoji["modifiers"];
 
-      emojis.emojis.push({ name: emoji["name"], image: modifier["image"] });
+    if(modifiers && modifiers.length > 0) {
+      modifiers.forEach(function(modifier) {
+        index += 1;
 
-      emojis.indexed[`:${emoji["name"]}::${modifier["name"]}:`] = index;
-      emojis.indexed[convertToUnicode(modifier["unicode"])] = index;
+        emojis.emojis.push({ name: emoji["name"], image: modifier["image"] });
 
-      emoji["aliases"].forEach(function(alias) {
-        emojis.indexed[`:${alias}::${modifier["name"]}:`] = index;
+        emojis.indexed[`:${emoji["name"]}::${modifier["name"]}:`] = index;
+        emojis.indexed[convertToUnicode(modifier["unicode"])] = index;
+
+        emoji["aliases"].forEach(function(alias) {
+          emojis.indexed[`:${alias}::${modifier["name"]}:`] = index;
+        });
       });
-    });
+    }
   });
 
   // Store the newly sorted emojis
