@@ -2,7 +2,9 @@
   color: var(--green);
 }
 
-.hover-green:hover .hover-green-child {
+.hover-green:hover .hover-green-child,
+.hover-green:active .hover-green-child,
+.hover-green:focus .hover-green-child {
   background-color: var(--green);
 }
 
@@ -10,7 +12,9 @@
   color: var(--lime);
 }
 
-.hover-lime:hover .hover-lime-child {
+.hover-lime:hover .hover-lime-child,
+.hover-lime:active .hover-lime-child,
+.hover-lime:focus .hover-lime-child {
   background-color: var(--lime);
 }
 
@@ -18,7 +22,9 @@
   color: var(--white);
 }
 
-.hover-white:hover .hover-white-child {
+.hover-white:hover .hover-white-child,
+.hover-white:active .hover-white-child,
+.hover-white:focus .hover-white-child {
   background-color: var(--white);
 }
 
@@ -26,6 +32,8 @@
   color: var(--black);
 }
 
-.hover-black:hover .hover-black-child {
+.hover-black:hover .hover-black-child,
+.hover-black:active .hover-black-child,
+.hover-black:focus .hover-black-child {
   background-color: var(--black);
 }

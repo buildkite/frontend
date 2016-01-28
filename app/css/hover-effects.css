@@ -2,6 +2,8 @@
   opacity: .75;
 }
 
-.hover-faded-children:hover * {
+.hover-faded-children:hover *,
+.hover-faded-children:active *,
+.hover-faded-children:focus * {
   opacity: 1;
 }

@@ -8,7 +8,8 @@ class Dropdown extends React.Component {
     className: React.PropTypes.string,
     align: React.PropTypes.string,
     topOffset: React.PropTypes.number,
-    width: React.PropTypes.any
+    width: React.PropTypes.any,
+    onToggle: React.PropTypes.any
   };
 
   state = {
@@ -17,10 +18,12 @@ class Dropdown extends React.Component {
 
   componentDidMount() {
     document.documentElement.addEventListener('click', this.handleDocumentClick, false);
+    document.documentElement.addEventListener('keydown', this.handleDocumentKeyDown, false);
   }
 
   componentWillUnmount() {
     document.documentElement.removeEventListener('click', this.handleDocumentClick);
+    document.documentElement.removeEventListener('keydown', this.handleDocumentKeyDown);
   }
 
   render() {
@@ -101,11 +104,26 @@ class Dropdown extends React.Component {
     const buttonWasClicked = clickWasInComponent && (!this.popupNode || !this.popupNode.contains(target));
 
     if (buttonWasClicked) {
-      this.setState({ showing: !this.state.showing });
+      this.setShowing(!this.state.showing);
     } else if (this.state.showing && !clickWasInComponent) {
-      this.setState({ showing: false });
+      this.setShowing(false);
     }
   };
+
+  handleDocumentKeyDown = (event) => {
+    // Handle the escape key
+    if (this.state.showing && event.keyCode == 27) {
+      this.setShowing(false);
+    }
+  };
+
+  setShowing(showing) {
+    this.setState({ showing: showing });
+
+    if (this.props.onToggle) {
+      this.props.onToggle(this.state.showing);
+    }
+  }
 }
 
 export default Dropdown;

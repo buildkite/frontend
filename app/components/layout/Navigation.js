@@ -6,11 +6,23 @@ import Button from './../shared/Button';
 import Dropdown from './../shared/Dropdown';
 import AgentsCount from './../organization/AgentsCount';
 
-const NavigationButton = (props) => {
-  let classes = classNames("btn black hover-lime focus-lime", props.className);
+const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none";
 
+const NavigationButton = (theProps) => {
   return (
-    <a href={props.href} style={props.style} className={classes}>{props.children}</a>
+    <a href={theProps.href} style={theProps.style} className={classNames(buttonClassNames, theProps.className)}>{theProps.children}</a>
+  );
+}
+
+const DropdownButton = (theProps) => {
+  return (
+    <button style={theProps.style} className={classNames(buttonClassNames, theProps.className)}>{theProps.children}</button>
+  );
+}
+
+const Badge = (theProps) => {
+  return (
+    <span className="inline-block bg-black white rounded ml1 small hover-lime-child" style={{ padding: '2px 4px' }}>{theProps.children}</span>
   );
 }
 
@@ -36,45 +48,56 @@ class Navigation extends React.Component {
     })
   };
 
+  state = {
+    showingOrgDropdown: false,
+    showingUserDropdown: false
+  };
+
   render() {
     return (
       <div className="border-bottom bg-silver mb3" style={{fontSize: 13}}>
         <div className="twbs-container">
           <div className="flex flex-stretch" style={{height: 45}}>
-            <NavigationButton href="/" className="border-right flex flex-center flex-none px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
+            <NavigationButton href="/" className="border-right px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
               <img src={require('../../images/logo.svg')} style={{width: 27, height: 18}} />
             </NavigationButton>
 
-            <Dropdown align="left" width={250} className="flex flex-none">
-              <NavigationButton className="flex flex-center flex-none user-select-none" style={{backgroundImage: 'url(' + require('../../images/nav-button-right-arrow.svg') + ')', backgroundRepeat: 'no-repeat', backgroundPosition: 'center right', paddingRight: 20}}>
+            <Dropdown align="left" width={250} className="flex flex-none" onToggle={this.handleOrgDropdownToggle}>
+              <DropdownButton className={classNames({ "lime": this.state.showingOrgDropdown })}
+                              style={{
+                                backgroundImage: 'url(' + require('../../images/nav-button-right-arrow.svg') + ')',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'center right',
+                                paddingRight: 20}}>
                 <span className="truncate" style={{maxWidth:"10em"}}>
                   {this._organizationSelectorLabel()}
                 </span>
                 <span className="ml1">
                   &#9662;
                 </span>
-              </NavigationButton>
+              </DropdownButton>
               {this._organizationsList()}
-              <a href="/organizations/new" className="btn black hover-lime focus-lime block py2"><i className="fa fa-plus-circle"/> Create New Organization</a>
+              <NavigationButton href="/organizations/new" className="block py2"><i className="fa fa-plus-circle" style={{ marginRight: '.7rem' }}/>Create New Organization</NavigationButton>
             </Dropdown>
 
             {this._organizationMenu()}
 
             <span className="flex-auto"></span>
 
-            <NavigationButton className="flex flex-center flex-none" href={`/docs`}>Documentation</NavigationButton>
-            <NavigationButton className="flex flex-center flex-none" href="mailto:support@buildkite.com">Support</NavigationButton>
+            <NavigationButton  href={`/docs`}>Documentation</NavigationButton>
+            <NavigationButton  href="mailto:support@buildkite.com">Support</NavigationButton>
 
-            <Dropdown align="right" width={170} className="flex">
-              <NavigationButton className="flex flex-center flex-none user-select-none" style={{paddingRight: 0, paddingLeft: '1rem'}}>
-                <UserAvatar user={this.props.viewer.user} className="flex-none" style={{width: 26, height: 26, marginRight: '.7rem'}} />
-                <span className="truncate" style={{maxWidth:"9em"}}>{this.props.viewer.user.name}</span>
-                <span className="ml1">
+            <Dropdown align="right" width={170} className="flex" onToggle={this.handleUserDropdownToggle}>
+              <DropdownButton className={classNames({ "lime": this.state.showingUserDropdown })}
+                              style={{paddingRight: 0, paddingLeft: '1rem'}}>
+                <UserAvatar user={this.props.viewer.user} className="flex-none flex flex-center" style={{width: 26, height: 26, marginRight: '.7rem'}} />
+                <span className="truncate flex flex-center" style={{maxWidth:"9em"}}>{this.props.viewer.user.name}</span>
+                <span className="ml1 flex flex-center">
                   &#9662;
                 </span>
-              </NavigationButton>
+              </DropdownButton>
 
-              <a href="/user/settings" className="btn black hover-lime focus-lime block border-bottom py2">Personal Settings</a>
+              <NavigationButton href="/user/settings" className="block border-bottom py2">Personal Settings</NavigationButton>
               <Button action="/logout" method="delete" className="black hover-lime focus-lime block py2 left-align" style={{width: "100%"}}>Logout</Button>
             </Dropdown>
           </div>
@@ -82,6 +105,14 @@ class Navigation extends React.Component {
       </div>
     );
   }
+
+  handleOrgDropdownToggle = (visible) => {
+    this.setState({ showingOrgDropdown: visible });
+  };
+
+  handleUserDropdownToggle = (visible) => {
+    this.setState({ showingUserDropdown: visible });
+  };
 
   _organizationSelectorLabel() {
     if(this.props.organization) {
@@ -96,7 +127,7 @@ class Navigation extends React.Component {
     this.props.viewer.organizations.edges.forEach((org) => {
       // Don't show the active organization in the selector
       if(!this.props.organization || (org.node.slug != this.props.organization.slug)) {
-        nodes.push(<a key={org.node.slug} href={`/${org.node.slug}`} className="btn black hover-lime focus-lime border-bottom block py2">{org.node.name}</a>);
+        nodes.push(<NavigationButton key={org.node.slug} href={`/${org.node.slug}`} className="border-bottom block py2">{org.node.name}</NavigationButton>);
       }
     });
 
@@ -113,9 +144,9 @@ class Navigation extends React.Component {
     if(organization) {
       return (
         <span className="flex">
-          <NavigationButton className="flex flex-center flex-none" style={{paddingLeft: 15}} href={`/${organization.slug}`}>Projects</NavigationButton>
-          <NavigationButton className="flex flex-center flex-none" href={`/organizations/${organization.slug}/agents`}>Agents <span className="inline-block bg-black white rounded p1 ml1 small hover-lime-child"><AgentsCount organization={organization} /></span></NavigationButton>
-          <NavigationButton className="flex flex-center flex-none" href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+          <NavigationButton style={{paddingLeft: 15}} href={`/${organization.slug}`}>Projects</NavigationButton>
+          <NavigationButton href={`/organizations/${organization.slug}/agents`}>Agents <Badge><AgentsCount organization={organization} /></Badge></NavigationButton>
+          <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
         </span>
       )
     }
