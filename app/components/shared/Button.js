@@ -22,7 +22,7 @@ class Button extends React.Component {
         className={classes}
         disabled={this.props.loading}
         style={this.props.style}
-        onClick={this._handleOnClick.bind(this)}>
+        onClick={this._handleOnClick}>
         {this._contentsNode()}
         {this._formNode()}
       </button>
@@ -52,7 +52,7 @@ class Button extends React.Component {
     }
   }
 
-  _handleOnClick(e) {
+  _handleOnClick = (e) => {
     if(this.props.onClick) {
       // If an onClick returns false, cancel out the rest of thie _handleOnClick method.
       if(this.props.onClick(e) === false) {
@@ -68,7 +68,7 @@ class Button extends React.Component {
 
       ReactDOM.findDOMNode(this.formNode).submit()
     }
-  }
+  };
 }
 
 export default Button
