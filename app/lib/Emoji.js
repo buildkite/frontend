@@ -6,6 +6,9 @@ const COLON_REGEXP = new RegExp('\:[^\\s:]+\:', 'g');
 
 class Emoji {
   parse(string, options = {}) {
+
+    // TODO: Sanitize string
+    //
     if(!string || string.length == 0) {
       return "";
     }
