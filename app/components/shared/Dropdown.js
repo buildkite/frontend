@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Dropdown extends React.Component {
   static propTypes = {
@@ -16,22 +17,40 @@ class Dropdown extends React.Component {
   };
 
   componentDidMount() {
-    document.documentElement.addEventListener('click', this.handleDocumentClick, false)
+    document.documentElement.addEventListener('click', this.handleDocumentClick, false);
   }
 
   componentWillUnmount() {
-    document.documentElement.removeEventListener('click', this.handleDocumentClick)
+    document.documentElement.removeEventListener('click', this.handleDocumentClick);
   }
 
   render() {
     return (
       <span ref={c => this.rootNode = c} className={classNames("relative", this.props.className)}>
         {this.props.children[0]}
-        <div ref={c => this.popupNode = c} className={classNames("absolute mt1 bg-white rounded shadow border", this.transitionPopupClassNames())} style={this.popupStyles()}>
-          {this.popupItems()}
-        </div>
+        <ReactCSSTransitionGroup transitionName="transition-popup" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
+          {this.renderPopupNode()}
+        </ReactCSSTransitionGroup>
       </span>
     )
+  }
+
+  renderPopupNode() {
+    if (this.state.showing) {
+      return (
+        <div ref={c => this.popupNode = c} className={this.popupClassName()} style={this.popupStyles()} key="popup">
+          <img src={require('../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" style={this.nibStyles()} />
+          {this.popupItems()}
+        </div>
+      )
+    }
+  }
+
+  popupClassName() {
+    return classNames("absolute mt1 bg-white rounded shadow border block transition-popup", {
+      "transition-popup-tr": this.props.align == "right",
+      "transition-popup-tl": this.props.align != "right"
+    })
   }
 
   popupStyles() {
@@ -42,19 +61,29 @@ class Dropdown extends React.Component {
     };
 
     if (this.props.align == 'right') {
-      styles.right = 0;
+      styles.right = '.25rem';
     } else {
-      styles.left = 0;
+      styles.left = '.25rem';
     }
 
     return styles;
   }
 
-  transitionPopupClassNames() {
-    return classNames(
-      this.state.showing ? 'transition-popup-shown' : 'transition-popup-hidden',
-      this.props.align == 'right' ? 'transition-popup-tr' : 'transition-popup-tl'
-    )
+  nibStyles() {
+    let styles = {
+      position: 'absolute',
+      top: -20,
+      width: 32,
+      zIndex: 3
+    };
+
+    if (this.props.align == 'right') {
+      styles.right = 10;
+    } else {
+      styles.left = 10;
+    }
+
+    return styles;
   }
 
   popupItems() {
@@ -65,11 +94,16 @@ class Dropdown extends React.Component {
   handleDocumentClick = (event) => {
     const target = event.target;
 
-    // Handle clicks on the button
-    if (this.rootNode.contains(target) && target != this.popupNode && !this.popupNode.contains(target)) {
+    const clickWasInComponent = this.rootNode.contains(target)
+
+    // We don't have a ref to the popup button, so to detect a click on the
+    // button we detect that it "wasn't" in the popup node, leaving only the
+    // button that it could have been in
+    const buttonWasClicked = clickWasInComponent && (!this.popupNode || !this.popupNode.contains(target));
+
+    if (buttonWasClicked) {
       this.setState({ showing: !this.state.showing });
-    // Handle clicks outside the popup
-    } else if (!this.popupNode.contains(target) && this.state.showing) {
+    } else if (this.state.showing && !clickWasInComponent) {
       this.setState({ showing: false });
     }
   };
