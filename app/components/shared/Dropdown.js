@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -39,7 +38,7 @@ class Dropdown extends React.Component {
     if (this.state.showing) {
       return (
         <div ref={c => this.popupNode = c} className={this.popupClassName()} style={this.popupStyles()} key="popup">
-          <img src={require('../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" style={this.nibStyles()} />
+          <img src={require('../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" className="pointer-events-none" style={this.nibStyles()} />
           {this.popupItems()}
         </div>
       )
@@ -47,7 +46,7 @@ class Dropdown extends React.Component {
   }
 
   popupClassName() {
-    return classNames("absolute mt1 bg-white rounded shadow border block transition-popup", {
+    return classNames("absolute mt1 bg-white rounded-2 shadow border block transition-popup", {
       "transition-popup-tr": this.props.align == "right",
       "transition-popup-tl": this.props.align != "right"
     })

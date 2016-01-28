@@ -24,8 +24,9 @@
 @import 'hover-effects';
 @import 'focus-colors';
 @import 'shadows';
+@import 'rounded';
 @import 'transitions';
-@import 'user-select';
+@import 'interaction-events';
 
 /* Override some of the basscss defaults */
 :root {
