@@ -8,8 +8,10 @@
 //   host: "http://assets.buildkite.com/emojis"
 //   emojis: [ { name: "smiley", image: "img-buildkite-64/smiley.png" } ],
 //   indexed: {
-//     "smiley": 0,
-//     "smiling": 0
+//     ":smiley:": 0,
+//     ":smiling": 0,
+//     ":smiley::skin-tone-4:": 0,
+//     "\u43f3g: 0
 //   }
 // }
 //
@@ -46,24 +48,23 @@ module.exports = function(source) {
 
     emojis.emojis.push({ name: emoji["name"], image: emoji["image"] });
 
-    emojis.indexed[emoji["name"]] = index;
+    emojis.indexed[`:${emoji["name"]}:`] = index;
     emojis.indexed[convertToUnicode(emoji["unicode"])] = index;
 
     emoji["aliases"].forEach(function(alias) {
-      emojis.indexed[alias] = index;
+      emojis.indexed[`:${alias}:`] = index;
     });
 
     emoji["modifiers"].forEach(function(modifier) {
       index += 1;
 
-      var name = emoji["name"] + "-" + modifier["name"];
-      emojis.emojis.push({ name: name, image: modifier["image"] });
+      emojis.emojis.push({ name: emoji["name"], image: modifier["image"] });
 
-      emojis.indexed[name] = index;
+      emojis.indexed[`:${emoji["name"]}::${modifier["name"]}:`] = index;
       emojis.indexed[convertToUnicode(modifier["unicode"])] = index;
 
       emoji["aliases"].forEach(function(alias) {
-        emojis.indexed[alias + "-" + modifier["name"]] = index;
+        emojis.indexed[`:${alias}::${modifier["name"]}:`] = index;
       });
     });
   });

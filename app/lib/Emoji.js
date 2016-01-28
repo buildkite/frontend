@@ -6,51 +6,56 @@ const COLON_REGEXP = new RegExp('\:[^\\s:]+\:', 'g');
 
 class Emoji {
   parse(string, options = {}) {
-    return this._replaceUnicode(this._replaceColons(string));
+    if(!string || !string.length) {
+      return "";
+    }
+
+    // Start with replacing BK emojis (which are more likely than Apple emojis)
+    string = this._replace(BUILDKITE_EMOJIS, COLON_REGEXP, string);
+
+    // Then do an Apple emoji parse
+    string = this._replace(APPLE_EMOJIS, UNICODE_REGEXP, string);
+    string = this._replace(APPLE_EMOJIS, COLON_REGEXP, string);
+
+    return string;
   }
 
-  _replaceColons(string) {
-    return string.replace(COLON_REGEXP, (match) => {
-      let name = match.substr(1, match.length-2);
-      let index = APPLE_EMOJIS.indexed[name];
-
-      if(index) {
-        return this._image(APPLE_EMOJIS, index);
-      } else {
-        return match;
-      }
-    });
-  }
-
-  _replaceUnicode(string) {
-    let matches = string.match(UNICODE_REGEXP);
+  _replace(catalogue, regexp, string) {
+    let matches = string.match(regexp);
     let replacements = [];
+
+    // Bail if there aren't any emojis to replace
+    if(!matches || !matches.length) {
+      return string;
+    }
 
     for(let i = 0, l = matches.length; i < l; i++) {
       let match = matches[i];
       let nextMatch = matches[i+1];
 
+      // See if this match and the next one, makes a new emoji. For example,
+      // :fist::skin-tone-4:
       if(nextMatch) {
         let matchWithModifier = `${match}${nextMatch}`
-        let modifiedEmojiIndex = APPLE_EMOJIS.indexed[matchWithModifier];
+        let modifiedEmojiIndex = catalogue.indexed[matchWithModifier];
 
         if(modifiedEmojiIndex) {
-          replacements.push(this._image(APPLE_EMOJIS, modifiedEmojiIndex));
+          replacements.push(this._image(catalogue, modifiedEmojiIndex));
           replacements.push("");
           i += 1
         }
       }
 
-      let emojiIndex = APPLE_EMOJIS.indexed[match];
+      let emojiIndex = catalogue.indexed[match];
 
       if(emojiIndex) {
-        replacements.push(this._image(APPLE_EMOJIS, emojiIndex));
+        replacements.push(this._image(catalogue, emojiIndex));
       } else {
         replacements.push(match);
       };
     };
 
-    return string.replace(UNICODE_REGEXP, (match) => {
+    return string.replace(regexp, (match) => {
       return replacements.shift();
     });
   }
