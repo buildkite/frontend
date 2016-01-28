@@ -46,7 +46,7 @@ class Navigation extends React.Component {
             </NavigationButton>
 
             <Dropdown align="left" width={250} className="flex flex-none">
-              <NavigationButton className="flex flex-center flex-none user-select-none" style={{backgroundImage: 'url(' + require('../../images/seperator.svg') + ')', backgroundRepeat: 'no-repeat', backgroundPosition: 'center right', paddingRight: 20}}>
+              <NavigationButton className="flex flex-center flex-none user-select-none" style={{backgroundImage: 'url(' + require('../../images/nav-button-right-arrow.svg') + ')', backgroundRepeat: 'no-repeat', backgroundPosition: 'center right', paddingRight: 20}}>
                 <span className="truncate" style={{maxWidth:"10em"}}>
                   {this._organizationSelectorLabel()}
                 </span>
