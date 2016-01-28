@@ -23,14 +23,35 @@ class Emoji {
   }
 
   _replaceUnicode(string) {
-    return string.replace(UNICODE_REGEXP, (match) => {
-      let index = APPLE_EMOJIS.indexed[match];
+    let matches = string.match(UNICODE_REGEXP);
+    let replacements = [];
 
-      if(index) {
-        return this._image(APPLE_EMOJIS, index);
-      } else {
-        return match;
+    for(let i = 0, l = matches.length; i < l; i++) {
+      let match = matches[i];
+      let nextMatch = matches[i+1];
+
+      if(nextMatch) {
+        let matchWithModifier = `${match}${nextMatch}`
+        let modifiedEmojiIndex = APPLE_EMOJIS.indexed[matchWithModifier];
+
+        if(modifiedEmojiIndex) {
+          replacements.push(this._image(APPLE_EMOJIS, modifiedEmojiIndex));
+          replacements.push("");
+          i += 1
+        }
       }
+
+      let emojiIndex = APPLE_EMOJIS.indexed[match];
+
+      if(emojiIndex) {
+        replacements.push(this._image(APPLE_EMOJIS, emojiIndex));
+      } else {
+        replacements.push(match);
+      };
+    };
+
+    return string.replace(UNICODE_REGEXP, (match) => {
+      return replacements.shift();
     });
   }
 
