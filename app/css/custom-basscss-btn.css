@@ -26,6 +26,7 @@
 
 .btn:focus {
   outline: none;
+  text-decoration: underline;
   /* border-color: var(--darken-2); */
   /* box-shadow: 0 0 0 3px var(--darken-3); */
 }

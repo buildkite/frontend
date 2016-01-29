@@ -21,8 +21,12 @@
 
 /* Include our custom classes */
 @import 'hover-colors';
+@import 'hover-effects';
 @import 'focus-colors';
 @import 'shadows';
+@import 'rounded';
+@import 'transitions';
+@import 'interaction-events';
 
 /* Override some of the basscss defaults */
 :root {
