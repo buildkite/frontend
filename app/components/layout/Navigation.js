@@ -54,13 +54,13 @@ class Navigation extends React.Component {
         <div className="twbs-container">
           <div className="flex flex-stretch" style={{height: 45}}>
             <NavigationButton href="/" className="border-right px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
-              <img src={require('../../images/logo.svg')} style={{width: 27, height: 18}} />
+              <img src={require('./Navigation/logo.svg')} style={{width: 27, height: 18}} />
             </NavigationButton>
 
             <Dropdown align="left" width={250} className="flex flex-none" onToggle={this.handleOrgDropdownToggle}>
               <DropdownButton className={classNames({ "lime": this.state.showingOrgDropdown })}
                               style={{
-                                backgroundImage: 'url(' + require('../../images/nav-button-right-arrow.svg') + ')',
+                                backgroundImage: 'url(' + require('./Navigation/button-right-arrow.svg') + ')',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundPosition: 'center right',
                                 paddingRight: 20}}>
