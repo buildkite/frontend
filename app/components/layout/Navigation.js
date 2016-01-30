@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import UserAvatar from './../shared/UserAvatar';
 import Button from './../shared/Button';
 import Dropdown from './../shared/Dropdown';
+import Badge from './../shared/Badge';
 import AgentsCount from './../organization/AgentsCount';
 
 const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none";
@@ -17,12 +18,6 @@ const NavigationButton = (theProps) => {
 const DropdownButton = (theProps) => {
   return (
     <button style={theProps.style} className={classNames(buttonClassNames, theProps.className)}>{theProps.children}</button>
-  );
-}
-
-const Badge = (theProps) => {
-  return (
-    <span className="inline-block bg-black white rounded ml1 small hover-lime-child" style={{ padding: '2px 4px' }}>{theProps.children}</span>
   );
 }
 
