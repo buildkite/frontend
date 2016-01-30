@@ -1,10 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import UserAvatar from './../shared/UserAvatar';
-import Button from './../shared/Button';
-import Dropdown from './../shared/Dropdown';
-import AgentsCount from './../organization/AgentsCount';
+import UserAvatar from '../../ui/UserAvatar';
+import FormButton from '../../ui/FormButton';
+import Dropdown from '../../ui/Dropdown';
+import Badge from '../../ui/Badge';
+import AgentsCount from './../OrganizationAgentsCount';
 
 const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none";
 
@@ -20,19 +21,13 @@ const DropdownButton = (theProps) => {
   );
 }
 
-const Badge = (theProps) => {
-  return (
-    <span className="inline-block bg-black white rounded ml1 small hover-lime-child" style={{ padding: '2px 4px' }}>{theProps.children}</span>
-  );
-}
-
 NavigationButton.propTypes = {
   className: React.PropTypes.string,
   href: React.PropTypes.string,
   children: React.PropTypes.node
 };
 
-class Navigation extends React.Component {
+class NavigationBar extends React.Component {
   static propTypes = {
     organization: React.PropTypes.object,
     viewer: React.PropTypes.shape({
@@ -59,13 +54,13 @@ class Navigation extends React.Component {
         <div className="twbs-container">
           <div className="flex flex-stretch" style={{height: 45}}>
             <NavigationButton href="/" className="border-right px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
-              <img src={require('../../images/logo.svg')} style={{width: 27, height: 18}} />
+              <img src={require('./logo.svg')} style={{width: 27, height: 18}} />
             </NavigationButton>
 
             <Dropdown align="left" width={250} className="flex flex-none" onToggle={this.handleOrgDropdownToggle}>
               <DropdownButton className={classNames({ "lime": this.state.showingOrgDropdown })}
                               style={{
-                                backgroundImage: 'url(' + require('../../images/nav-button-right-arrow.svg') + ')',
+                                backgroundImage: 'url(' + require('./button-right-arrow.svg') + ')',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundPosition: 'center right',
                                 paddingRight: 20}}>
@@ -98,7 +93,7 @@ class Navigation extends React.Component {
               </DropdownButton>
 
               <NavigationButton href="/user/settings" className="block border-bottom py2">Personal Settings</NavigationButton>
-              <Button action="/logout" method="delete" className="black hover-lime focus-lime block py2 left-align" style={{width: "100%"}}>Logout</Button>
+              <FormButton action="/logout" method="delete" className="black hover-lime focus-lime block py2 left-align" style={{width: "100%"}}>Logout</FormButton>
             </Dropdown>
           </div>
         </div>
@@ -153,4 +148,4 @@ class Navigation extends React.Component {
   }
 }
 
-export default Navigation;
+export default NavigationBar;

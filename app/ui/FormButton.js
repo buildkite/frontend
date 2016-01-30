@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import classNames from 'classnames';
 
-class Button extends React.Component {
+class FormButton extends React.Component {
   static propTypes = {
     onClick: React.PropTypes.func,
     action: React.PropTypes.string,
@@ -71,4 +71,4 @@ class Button extends React.Component {
   };
 }
 
-export default Button
+export default FormButton
