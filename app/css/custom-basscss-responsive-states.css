@@ -1,0 +1,16 @@
+/* The responsive flex classes lack the same !important that the other
+/* responsive classes have, so we have to redefine them here */
+
+.sm-flex, .md-flex, .lg-flex {
+  display: none !important;
+}
+
+@media (--breakpoint-sm) {
+  .sm-flex { display: flex !important; }
+}
+@media (--breakpoint-md) {
+  .md-flex { display: flex !important; }
+}
+@media (--breakpoint-lg) {
+  .lg-flex { display: flex !important; }
+}
