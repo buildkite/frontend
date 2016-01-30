@@ -41,7 +41,7 @@ class Dropdown extends React.Component {
     if (this.state.showing) {
       return (
         <div ref={c => this.popupNode = c} className={this.popupClassName()} style={this.popupStyles()} key="popup">
-          <img src={require('./Dropdown/nib.svg')} width={32} height={20} alt="" className="pointer-events-none" style={this.nibStyles()} />
+          <img src={require('./nib.svg')} width={32} height={20} alt="" className="pointer-events-none" style={this.nibStyles()} />
           {this.popupItems()}
         </div>
       )

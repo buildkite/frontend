@@ -1,5 +1,5 @@
 import React from 'react';
-import PusherStore from '../../stores/PusherStore';
+import PusherStore from '../stores/PusherStore';
 
 class AgentsCount extends React.Component {
   static propTypes = {
