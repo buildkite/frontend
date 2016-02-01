@@ -4,7 +4,9 @@ import classNames from 'classnames';
 import UserAvatar from './../shared/UserAvatar';
 import Button from './../shared/Button';
 import Dropdown from './../shared/Dropdown';
+
 import AgentsCount from './../organization/AgentsCount';
+import BuildsCount from './../user/BuildsCount';
 
 const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none";
 
@@ -84,6 +86,7 @@ class Navigation extends React.Component {
 
             <span className="flex-auto"></span>
 
+            <NavigationButton  href={`/builds`}>My Builds <Badge><BuildsCount viewer={this.props.viewer} /></Badge></NavigationButton>
             <NavigationButton  href={`/docs`}>Documentation</NavigationButton>
             <NavigationButton  href="mailto:support@buildkite.com">Support</NavigationButton>
 
