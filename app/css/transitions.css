@@ -14,8 +14,7 @@
 .transition-popup-enter.transition-popup-enter-active {
   opacity: 1;
   transform: scaleX(1) scaleY(1);
-  transition: opacity 80ms 0 ease-out-back,
-              transform 120ms 20ms ease-out-back;
+  transition: opacity 80ms ease-out-back, transform 120ms ease-out-back 20ms;
 }
 
 .transition-popup-leave {
@@ -26,6 +25,5 @@
 .transition-popup-leave.transition-popup-leave-active {
   opacity: 0;
   transform: scaleX(.75) scaleY(.5);
-  transition: opacity 50ms 0 ease-out,
-              transform 120ms 0 ease-out;
+  transition: opacity 50ms ease-out, transform 120ms ease-out;
 }
