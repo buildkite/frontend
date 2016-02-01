@@ -1,3 +1,4 @@
+import React from "react";
 import classNames from 'classnames';
 
 export default function Badge(props) {
@@ -7,4 +8,9 @@ export default function Badge(props) {
       {props.children}
     </span>
   );
+}
+
+Badge.propTypes = {
+  children: React.PropTypes.node,
+  className: React.PropTypes.string
 }

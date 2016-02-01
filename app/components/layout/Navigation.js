@@ -9,21 +9,28 @@ import AgentsCount from './../organization/AgentsCount';
 
 const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none";
 
-const NavigationButton = (theProps) => {
+const NavigationButton = (props) => {
   return (
-    <a href={theProps.href} style={theProps.style} className={buttonClassNames + " " + theProps.className}>{theProps.children}</a>
-  );
-}
-
-const DropdownButton = (theProps) => {
-  return (
-    <button style={theProps.style} className={buttonClassNames + " " + theProps.className}>{theProps.children}</button>
+    <a href={props.href} style={props.style} className={buttonClassNames + " " + props.className}>{props.children}</a>
   );
 }
 
 NavigationButton.propTypes = {
+  style: React.PropTypes.object,
   className: React.PropTypes.string,
   href: React.PropTypes.string,
+  children: React.PropTypes.node
+};
+
+const DropdownButton = (props) => {
+  return (
+    <button style={props.style} className={buttonClassNames + " " + props.className}>{props.children}</button>
+  );
+}
+
+DropdownButton.propTypes = {
+  style: React.PropTypes.object,
+  className: React.PropTypes.string,
   children: React.PropTypes.node
 };
 
