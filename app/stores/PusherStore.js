@@ -7,6 +7,10 @@ class PusherStore extends EventEmitter {
     this.pusher = new Pusher(key, options);
   }
 
+  isConfigured() {
+    return !!this.pusher;
+  }
+
   listen(channel) {
     Logger.info("[PusherStore] Listening to channel `" + channel + "`");
 
