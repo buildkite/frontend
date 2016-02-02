@@ -3,15 +3,17 @@ import Pusher from 'pusher-js';
 import Logger from './../lib/Logger';
 
 class PusherStore extends EventEmitter {
-  configure(key, channels, options) {
-    let pusher = new Pusher(key, options);
+  configure(key, options) {
+    this.pusher = new Pusher(key, options);
+  }
 
-    channels.forEach((channel) => {
-      pusher.subscribe(channel).bind_all((event, payload) => {
-        Logger.info("[PusherStore]", event, payload);
+  listen(channel) {
+    Logger.info("[PusherStore] Listening to channel `" + channel + "`");
 
-        this.emit(event, payload);
-      });
+    this.pusher.subscribe(channel).bind_all((event, payload) => {
+      Logger.info("[PusherStore]", event, payload);
+
+      this.emit(event, payload);
     });
   }
 }
