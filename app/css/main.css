@@ -17,6 +17,7 @@
 @import 'basscss-border';
 @import 'basscss-colors';
 @import 'basscss-background-colors';
+@import 'basscss-border-colors';
 @import 'basscss-defaults';
 
 @import 'custom-basscss-responsive-states';
