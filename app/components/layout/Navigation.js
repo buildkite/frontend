@@ -87,7 +87,7 @@ class Navigation extends React.Component {
 
             <span className="flex-auto"></span>
 
-            <NavigationButton  href={`/builds`}>My Builds <Badge><BuildsCount viewer={this.props.viewer} /></Badge></NavigationButton>
+            <NavigationButton className="md-flex" href={`/builds`}>My Builds <Badge className="hover-lime-child"><BuildsCount viewer={this.props.viewer} /></Badge></NavigationButton>
             <NavigationButton className="md-flex" href={`/docs`}>Documentation</NavigationButton>
             <NavigationButton className="md-flex" href="mailto:support@buildkite.com">Support</NavigationButton>
 
