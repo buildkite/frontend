@@ -4,13 +4,19 @@ import PusherStore from '../../stores/PusherStore';
 class BuildsCount extends React.Component {
   static propTypes = {
     viewer: React.PropTypes.shape({
-      builds: React.PropTypes.shape({
+      scheduledBuilds: React.PropTypes.shape({
+        count: React.PropTypes.number.isRequired
+      }),
+      runningBuilds: React.PropTypes.shape({
         count: React.PropTypes.number.isRequired
       })
     })
   };
 
-  state = { count: this.props.viewer.builds.count };
+  state = {
+    scheduledBuildsCount: this.props.viewer.scheduledBuilds.count,
+    runningBuildsCount: this.props.viewer.runningBuilds.count
+  };
 
   componentDidMount() {
     PusherStore.on("user_stats:change", this._onStoreChange.bind(this));
@@ -22,12 +28,12 @@ class BuildsCount extends React.Component {
 
   render() {
     return (
-      <span>{this.state.count}</span>
+      <span>{this.state.runningBuildsCount + this.state.scheduledBuildsCount}</span>
     );
   }
 
   _onStoreChange(payload) {
-    this.setState({ count: payload.activeBuildsCount });
+    this.setState({ scheduledBuildsCount: payload.scheduledBuildsCount, runningBuildsCount: payload.runningBuildsCount });
   }
 }
 
