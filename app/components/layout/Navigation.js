@@ -6,7 +6,7 @@ import Button from './../shared/Button';
 import Dropdown from './../shared/Dropdown';
 import Badge from './../shared/Badge';
 import AgentsCount from './../organization/AgentsCount';
-import BuildsCount from './../organization/BuildsCount';
+import BuildsCount from './../user/BuildsCount';
 
 const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none";
 
