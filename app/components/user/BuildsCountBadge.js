@@ -1,6 +1,5 @@
 import React from 'react';
 import PusherStore from '../../stores/PusherStore';
-import classNames from 'classnames';
 import Badge from './../shared/Badge';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -31,8 +30,6 @@ class BuildsCountBadge extends React.Component {
   }
 
   render() {
-    var count = this.state.runningBuildsCount + this.state.scheduledBuildsCount;
-
     return (
       <ReactCSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
         {this._renderBadge()}
