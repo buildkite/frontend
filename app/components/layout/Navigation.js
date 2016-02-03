@@ -104,6 +104,7 @@ class Navigation extends React.Component {
               <NavigationButton href="/user/settings" className="block border-bottom py2">Personal Settings</NavigationButton>
 
               <div className="border-bottom md-hide">
+                <NavigationButton className="md-hide" href={`/builds`}>My Builds <Badge className="hover-lime-child"><BuildsCount viewer={this.props.viewer} /></Badge></NavigationButton>
                 <NavigationButton className="md-hide" href={`/docs`}>Documentation</NavigationButton>
                 <NavigationButton className="md-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
               </div>
