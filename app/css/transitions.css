@@ -38,7 +38,7 @@
 
 .transition-appear-pop-enter.transition-appear-pop-enter-active {
   transform: scale(1);
-  transition: transform 120ms ease-out-back;
+  transition: transform 140ms ease-in-out-back;
 }
 
 .transition-appear-pop-leave {
@@ -47,5 +47,5 @@
 
 .transition-appear-pop-leave.transition-appear-pop-leave-active {
   transform: scale(0);
-  transition: transform 120ms ease-in-back;
+  transition: transform 140ms ease-in-out-back;
 }
