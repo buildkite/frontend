@@ -1,7 +1,10 @@
 import React from 'react';
 import PusherStore from '../../stores/PusherStore';
+import classNames from 'classnames';
+import Badge from './../shared/Badge';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-class BuildsCount extends React.Component {
+class BuildsCountBadge extends React.Component {
   static propTypes = {
     viewer: React.PropTypes.shape({
       scheduledBuilds: React.PropTypes.shape({
@@ -10,7 +13,8 @@ class BuildsCount extends React.Component {
       runningBuilds: React.PropTypes.shape({
         count: React.PropTypes.number.isRequired
       })
-    })
+    }),
+    className: React.PropTypes.string
   };
 
   state = {
@@ -27,9 +31,23 @@ class BuildsCount extends React.Component {
   }
 
   render() {
+    var count = this.state.runningBuildsCount + this.state.scheduledBuildsCount;
+
     return (
-      <span>{this.state.runningBuildsCount + this.state.scheduledBuildsCount}</span>
+      <ReactCSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
+        {this._renderBadge()}
+      </ReactCSSTransitionGroup>
     );
+  }
+
+  _renderBadge() {
+    var count = this.state.runningBuildsCount + this.state.scheduledBuildsCount;
+
+    if (count > 0) {
+      return (
+        <Badge key="badge" className={this.props.className}>{count}</Badge>
+      );
+    }
   }
 
   _onStoreChange(payload) {
@@ -37,4 +55,4 @@ class BuildsCount extends React.Component {
   }
 }
 
-export default BuildsCount;
+export default BuildsCountBadge;
