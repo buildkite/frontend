@@ -6,7 +6,7 @@ import Button from './../shared/Button';
 import Dropdown from './../shared/Dropdown';
 import Badge from './../shared/Badge';
 import AgentsCount from './../organization/AgentsCount';
-import BuildsCount from './../user/BuildsCount';
+import BuildsCountBadge from './../user/BuildsCountBadge';
 
 const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none";
 
@@ -80,14 +80,14 @@ class Navigation extends React.Component {
                 </span>
               </DropdownButton>
               {this._organizationsList()}
-              <NavigationButton href="/organizations/new" className="block py2"><i className="fa fa-plus-circle" style={{ marginRight: '.7rem' }}/>Create New Organization</NavigationButton>
+              <NavigationButton href="/organizations/new" className="block border-top py2"><i className="fa fa-plus-circle" style={{ marginRight: '.7rem' }}/>Create New Organization</NavigationButton>
             </Dropdown>
 
             {this._topOrganizationMenu()}
 
             <span className="flex-auto"></span>
 
-            <NavigationButton className="md-flex" href={`/builds`}>My Builds <Badge className="hover-lime-child"><BuildsCount viewer={this.props.viewer} /></Badge></NavigationButton>
+            <NavigationButton className="md-flex" href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
             <NavigationButton className="md-flex" href={`/docs`}>Documentation</NavigationButton>
             <NavigationButton className="md-flex" href="mailto:support@buildkite.com">Support</NavigationButton>
 
@@ -101,15 +101,15 @@ class Navigation extends React.Component {
                 </span>
               </DropdownButton>
 
-              <NavigationButton href="/user/settings" className="block border-bottom py2">Personal Settings</NavigationButton>
+              <NavigationButton className="md-hide" href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
+              <NavigationButton href="/user/settings">Personal Settings</NavigationButton>
 
-              <div className="border-bottom md-hide">
-                <NavigationButton className="md-hide" href={`/builds`}>My Builds <Badge className="hover-lime-child"><BuildsCount viewer={this.props.viewer} /></Badge></NavigationButton>
+              <div className="md-hide">
                 <NavigationButton className="md-hide" href={`/docs`}>Documentation</NavigationButton>
                 <NavigationButton className="md-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
               </div>
 
-              <Button action="/logout" method="delete" className="black hover-lime focus-lime block py2 left-align" style={{width: "100%"}}>Logout</Button>
+              <Button action="/logout" method="delete" className="black hover-lime focus-lime block left-align" style={{width: "100%"}}>Logout</Button>
             </Dropdown>
           </div>
 
@@ -163,14 +163,14 @@ class Navigation extends React.Component {
     this.props.viewer.organizations.edges.forEach((org) => {
       // Don't show the active organization in the selector
       if(!this.props.organization || (org.node.slug != this.props.organization.slug)) {
-        nodes.push(<NavigationButton key={org.node.slug} href={`/${org.node.slug}`} className="border-bottom block py2">{org.node.name}</NavigationButton>);
+        nodes.push(<NavigationButton key={org.node.slug} href={`/${org.node.slug}`} className="block">{org.node.name}</NavigationButton>);
       }
     });
 
     if(nodes.length > 0) {
       return nodes;
     } else {
-      return <span className="block py2 px3 border-bottom gray">You’ve no other organizations</span>
+      return <span className="block px3 border-bottom gray">You’ve no other organizations</span>
     }
   }
 
