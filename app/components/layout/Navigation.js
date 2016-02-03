@@ -6,6 +6,7 @@ import Button from './../shared/Button';
 import Dropdown from './../shared/Dropdown';
 import Badge from './../shared/Badge';
 import AgentsCount from './../organization/AgentsCount';
+import BuildsCount from './../user/BuildsCount';
 
 const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none";
 
@@ -86,6 +87,7 @@ class Navigation extends React.Component {
 
             <span className="flex-auto"></span>
 
+            <NavigationButton className="md-flex" href={`/builds`}>My Builds <Badge className="hover-lime-child"><BuildsCount viewer={this.props.viewer} /></Badge></NavigationButton>
             <NavigationButton className="md-flex" href={`/docs`}>Documentation</NavigationButton>
             <NavigationButton className="md-flex" href="mailto:support@buildkite.com">Support</NavigationButton>
 
