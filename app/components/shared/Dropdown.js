@@ -49,7 +49,7 @@ class Dropdown extends React.Component {
   }
 
   popupClassName() {
-    return classNames("absolute mt1 bg-white rounded-2 shadow border block transition-popup", {
+    return classNames("absolute mt1 bg-white rounded-2 shadow border block py1 transition-popup", {
       "transition-popup-tr": this.props.align == "right",
       "transition-popup-tl": this.props.align != "right"
     })

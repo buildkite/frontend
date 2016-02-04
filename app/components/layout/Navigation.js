@@ -80,7 +80,7 @@ class Navigation extends React.Component {
                 </span>
               </DropdownButton>
               {this._organizationsList()}
-              <NavigationButton href="/organizations/new" className="block border-top py2"><i className="fa fa-plus-circle" style={{ marginRight: '.7rem' }}/>Create New Organization</NavigationButton>
+              <NavigationButton href="/organizations/new" className="block"><i className="fa fa-plus-circle" style={{ marginRight: '.7rem' }}/>Create New Organization</NavigationButton>
             </Dropdown>
 
             {this._topOrganizationMenu()}
