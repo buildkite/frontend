@@ -49,13 +49,14 @@ class Navigation extends React.Component {
       organizations: React.PropTypes.shape({
         edges: React.PropTypes.array
       })
-    })
+    }),
+    showNewChangelogsBadge: React.PropTypes.bool
   };
 
   state = {
     showingOrgDropdown: false,
     showingUserDropdown: false,
-    showNewChangelogsBadge: false
+    showNewChangelogsBadge: this.props.showNewChangelogsBadge
   };
 
   render() {
