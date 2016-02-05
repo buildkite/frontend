@@ -49,3 +49,15 @@
   transform: scale(0);
   transition: transform 120ms ease-in-back;
 }
+
+/* changelog new button */
+
+.transition-changelog-appear-appear {
+  transform: scale(0);
+  transform-origin: bottom left;
+}
+
+.transition-changelog-appear-appear.transition-changelog-appear-appear-active {
+  transform: scale(1);
+  transition: transform 120ms ease-out-back .5s;
+}

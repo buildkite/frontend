@@ -7,6 +7,7 @@ import Dropdown from './../shared/Dropdown';
 import Badge from './../shared/Badge';
 import AgentsCount from './../organization/AgentsCount';
 import BuildsCountBadge from './../user/BuildsCountBadge';
+import NewChangelogsBadge from './../user/NewChangelogsBadge';
 
 const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none";
 
@@ -48,12 +49,14 @@ class Navigation extends React.Component {
       organizations: React.PropTypes.shape({
         edges: React.PropTypes.array
       })
-    })
+    }),
+    showNewChangelogsBadge: React.PropTypes.bool
   };
 
   state = {
     showingOrgDropdown: false,
-    showingUserDropdown: false
+    showingUserDropdown: false,
+    showNewChangelogsBadge: this.props.showNewChangelogsBadge
   };
 
   render() {
@@ -61,9 +64,12 @@ class Navigation extends React.Component {
       <div className="border-bottom bg-silver mb3" style={{fontSize: 13}}>
         <div className="twbs-container">
           <div className="flex flex-stretch" style={{height: 45}}>
-            <NavigationButton href="/" className="border-right px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
-              <img src={require('../../images/logo.svg')} style={{width: 27, height: 18}} />
-            </NavigationButton>
+            <span className="flex relative border-right flex-center">
+              <NavigationButton href="/" className="px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
+                <img src={require('../../images/logo.svg')} style={{width: 27, height: 18, marginTop: 3}} />
+              </NavigationButton>
+              {this._newChangelogsBadge()}
+            </span>
 
             <Dropdown align="left" width={250} className="flex" style={{ minWidth: "5em"}} onToggle={this.handleOrgDropdownToggle}>
               <DropdownButton className={classNames({ "lime": this.state.showingOrgDropdown })}
@@ -118,6 +124,14 @@ class Navigation extends React.Component {
         {this._bottomOrganizationMenu()}
       </div>
     );
+  }
+
+  _newChangelogsBadge() {
+    if (this.state.showNewChangelogsBadge) {
+      return (
+        <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -8 }} />
+      )
+    }
   }
 
   _topOrganizationMenu() {
