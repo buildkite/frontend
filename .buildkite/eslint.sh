@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "--- Installing :npm: packages"
 rm -rf node_modules
