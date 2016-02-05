@@ -54,7 +54,8 @@ class Navigation extends React.Component {
 
   state = {
     showingOrgDropdown: false,
-    showingUserDropdown: false
+    showingUserDropdown: false,
+    showNewChangelogsBadge: false
   };
 
   render() {
@@ -64,10 +65,9 @@ class Navigation extends React.Component {
           <div className="flex flex-stretch" style={{height: 45}}>
             <span className="flex relative border-right flex-center">
               <NavigationButton href="/" className="px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
-                <img src={require('../../images/logo.svg')} style={{width: 27, height: 18}} />
+                <img src={require('../../images/logo.svg')} style={{width: 27, height: 18, marginTop: 3}} />
               </NavigationButton>
-
-              <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -5 }} />
+              {this._newChangelogsBadge()}
             </span>
 
             <Dropdown align="left" width={250} className="flex" style={{ minWidth: "5em"}} onToggle={this.handleOrgDropdownToggle}>
@@ -123,6 +123,15 @@ class Navigation extends React.Component {
         {this._bottomOrganizationMenu()}
       </div>
     );
+  }
+
+  _newChangelogsBadge() {
+    // TODO: Add some logic
+    if (this.state.showNewChangelogsBadge) {
+      return (
+        <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -8 }} />
+      )
+    }
   }
 
   _topOrganizationMenu() {

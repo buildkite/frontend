@@ -8,3 +8,10 @@
 .hover-faded-children:focus * {
   opacity: 1;
 }
+
+.hover-no-underline:hover {
+  text-decoration: none;
+}
+.hover-no-underline:hover .hover-no-underline-override {
+  text-decoration: underline;
+}
