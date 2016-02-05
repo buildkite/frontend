@@ -126,7 +126,6 @@ class Navigation extends React.Component {
   }
 
   _newChangelogsBadge() {
-    // TODO: Add some logic
     if (this.state.showNewChangelogsBadge) {
       return (
         <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -8 }} />
