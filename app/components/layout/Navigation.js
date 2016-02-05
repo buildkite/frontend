@@ -100,7 +100,7 @@ class Navigation extends React.Component {
             <Dropdown align="right" width={170} className="flex" onToggle={this.handleUserDropdownToggle}>
               <DropdownButton className={classNames({ "lime": this.state.showingUserDropdown })}
                               style={{paddingRight: 0, paddingLeft: '1rem'}}>
-                <UserAvatar user={this.props.viewer.user} className="flex-none flex flex-center" style={{width: 26, height: 26, marginRight: '.4rem'}} />
+                <UserAvatar user={this.props.viewer.user} className="flex-none flex flex-center" style={{width: 26, height: 26, marginRight: '.6rem'}} />
                 <span className="flex flex-center sm-flex"><span className="truncate" style={{maxWidth:"9em"}}>{this.props.viewer.user.name}</span></span>
                 <span className="ml1 flex flex-center">
                   &#9662;
