@@ -37,6 +37,21 @@ DropdownButton.propTypes = {
 };
 
 class Navigation extends React.Component {
+  static propTypes = {
+    organization: React.PropTypes.object,
+    viewer: React.PropTypes.shape({
+      user: React.PropTypes.shape({
+        name: React.PropTypes.string.isRequired,
+        avatar: React.PropTypes.shape({
+          url: React.PropTypes.string.isRequired
+        })
+      }),
+      organizations: React.PropTypes.shape({
+        edges: React.PropTypes.array
+      })
+    }),
+    showNewChangelogsBadge: React.PropTypes.bool
+  };
 
   state = {
     showingOrgDropdown: false,
