@@ -61,7 +61,7 @@ class Navigation extends React.Component {
 
   render() {
     return (
-      <div className="border-bottom bg-silver mb4" style={{fontSize: 13}}>
+      <div className="border-bottom bg-silver" style={{fontSize: 13, marginBottom: '2.5rem'}}>
         <div className="twbs-container">
           <div className="flex flex-stretch" style={{height: 45}}>
             <span className="flex relative border-right flex-center">
