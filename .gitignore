@@ -1,0 +1,9 @@
+# Ingore custom .env file
+.env
+
+# OSX cache files
+.DS_Store
+
+# Node
+node_modules
+npm-debug.log
