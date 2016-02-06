@@ -48,15 +48,16 @@ class Navigation extends React.Component {
       }),
       organizations: React.PropTypes.shape({
         edges: React.PropTypes.array
+      }),
+      unreadChangelogs: React.PropTypes.shape({
+        count: React.PropTypes.integer
       })
     }),
-    showNewChangelogsBadge: React.PropTypes.bool
   };
 
   state = {
     showingOrgDropdown: false,
-    showingUserDropdown: false,
-    showNewChangelogsBadge: this.props.showNewChangelogsBadge
+    showingUserDropdown: false
   };
 
   render() {
@@ -127,11 +128,9 @@ class Navigation extends React.Component {
   }
 
   _newChangelogsBadge() {
-    if (this.state.showNewChangelogsBadge) {
-      return (
-        <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -8 }} />
-      )
-    }
+    return (
+      <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -8 }} viewer={this.props.viewer} />
+    )
   }
 
   _topOrganizationMenu() {
