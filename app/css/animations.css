@@ -1,0 +1,45 @@
+/* Different animations */
+
+@keyframes scale-up {
+  from { transform: scale(0); opacity: .25; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animation-pop-in {
+  opacity: .25;
+  transform: scale(0);
+  animation: scale-up 200ms ease-in-out-back forwards;
+}
+
+@keyframes increase-stroke-dashoffset-300 {
+  from { stroke-dashoffset: 300; }
+  to { stroke-dashoffset: 0; }
+}
+
+.animation-stroke-dashoffset-300 {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: increase-stroke-dashoffset-300 2s forwards;
+}
+
+@keyframes animation-slide-in-from-right {
+  from { transform: translate(25px,0px); }
+  to { transform: translate(0px,0px); }
+}
+
+.animation-slide-in-from-right {
+  transform: translate(25px,0px);
+  animation: animation-slide-in-from-right 1s ease-in-out-back forwards;
+}
+
+/* Animation modification utilities */
+
+.animation-delay-1 { animation-delay: 1s; }
+.animation-delay-2 { animation-delay: 2s; }
+.animation-delay-3 { animation-delay: 3s; }
+.animation-delay-4 { animation-delay: 4s; }
+
+.animation-duration-1 { animation-duration: 1s; }
+.animation-duration-2 { animation-duration: 2s; }
+.animation-duration-3 { animation-duration: 3s; }
+.animation-duration-4 { animation-duration: 4s; }

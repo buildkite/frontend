@@ -52,7 +52,7 @@ class Navigation extends React.Component {
       unreadChangelogs: React.PropTypes.shape({
         count: React.PropTypes.integer
       })
-    }),
+    })
   };
 
   state = {
