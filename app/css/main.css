@@ -29,6 +29,7 @@
 @import 'shadows';
 @import 'rounded';
 @import 'transitions';
+@import 'animations';
 @import 'interaction-events';
 @import 'text';
 
