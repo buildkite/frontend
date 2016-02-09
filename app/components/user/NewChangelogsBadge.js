@@ -1,4 +1,5 @@
 import React from 'react';
+import PusherStore from '../../stores/PusherStore';
 import classNames from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
