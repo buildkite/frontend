@@ -1,6 +1,5 @@
 import React from 'react';
 import PipelineIcon from './icons/Pipeline';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class PipelinesWelcome extends React.Component {
   static propTypes = {
