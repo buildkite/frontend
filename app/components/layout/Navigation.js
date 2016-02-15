@@ -4,31 +4,35 @@ import classNames from 'classnames';
 import UserAvatar from './../shared/UserAvatar';
 import Button from './../shared/Button';
 import Dropdown from './../shared/Dropdown';
+import Badge from './../shared/Badge';
 import AgentsCount from './../organization/AgentsCount';
+import BuildsCountBadge from './../user/BuildsCountBadge';
+import NewChangelogsBadge from './../user/NewChangelogsBadge';
 
 const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none";
 
-const NavigationButton = (theProps) => {
+const NavigationButton = (props) => {
   return (
-    <a href={theProps.href} style={theProps.style} className={classNames(buttonClassNames, theProps.className)}>{theProps.children}</a>
-  );
-}
-
-const DropdownButton = (theProps) => {
-  return (
-    <button style={theProps.style} className={classNames(buttonClassNames, theProps.className)}>{theProps.children}</button>
-  );
-}
-
-const Badge = (theProps) => {
-  return (
-    <span className="inline-block bg-black white rounded ml1 small hover-lime-child" style={{ padding: '2px 4px' }}>{theProps.children}</span>
+    <a href={props.href} style={props.style} className={buttonClassNames + " " + props.className}>{props.children}</a>
   );
 }
 
 NavigationButton.propTypes = {
+  style: React.PropTypes.object,
   className: React.PropTypes.string,
   href: React.PropTypes.string,
+  children: React.PropTypes.node
+};
+
+const DropdownButton = (props) => {
+  return (
+    <button style={props.style} className={buttonClassNames + " " + props.className}>{props.children}</button>
+  );
+}
+
+DropdownButton.propTypes = {
+  style: React.PropTypes.object,
+  className: React.PropTypes.string,
   children: React.PropTypes.node
 };
 
@@ -44,6 +48,9 @@ class Navigation extends React.Component {
       }),
       organizations: React.PropTypes.shape({
         edges: React.PropTypes.array
+      }),
+      unreadChangelogs: React.PropTypes.shape({
+        count: React.PropTypes.integer
       })
     })
   };
@@ -55,14 +62,17 @@ class Navigation extends React.Component {
 
   render() {
     return (
-      <div className="border-bottom bg-silver mb3" style={{fontSize: 13}}>
+      <div className="border-bottom bg-silver" style={{fontSize: 13, marginBottom: '2.5rem'}}>
         <div className="twbs-container">
           <div className="flex flex-stretch" style={{height: 45}}>
-            <NavigationButton href="/" className="border-right px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
-              <img src={require('../../images/logo.svg')} style={{width: 27, height: 18}} />
-            </NavigationButton>
+            <span className="flex relative border-right flex-center">
+              <NavigationButton href="/" className="px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
+                <img src={require('../../images/logo.svg')} style={{width: 27, height: 18, marginTop: 3}} />
+              </NavigationButton>
+              {this._newChangelogsBadge()}
+            </span>
 
-            <Dropdown align="left" width={250} className="flex flex-none" onToggle={this.handleOrgDropdownToggle}>
+            <Dropdown align="left" width={250} className="flex" style={{ minWidth: "5em"}} onToggle={this.handleOrgDropdownToggle}>
               <DropdownButton className={classNames({ "lime": this.state.showingOrgDropdown })}
                               style={{
                                 backgroundImage: 'url(' + require('../../images/nav-button-right-arrow.svg') + ')',
@@ -77,33 +87,72 @@ class Navigation extends React.Component {
                 </span>
               </DropdownButton>
               {this._organizationsList()}
-              <NavigationButton href="/organizations/new" className="block py2"><i className="fa fa-plus-circle" style={{ marginRight: '.7rem' }}/>Create New Organization</NavigationButton>
+              <NavigationButton href="/organizations/new" className="block"><i className="fa fa-plus-circle" style={{ marginRight: '.7rem' }}/>Create New Organization</NavigationButton>
             </Dropdown>
 
-            {this._organizationMenu()}
+            {this._topOrganizationMenu()}
 
             <span className="flex-auto"></span>
 
-            <NavigationButton  href={`/docs`}>Documentation</NavigationButton>
-            <NavigationButton  href="mailto:support@buildkite.com">Support</NavigationButton>
+            <NavigationButton className="md-flex" href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
+            <NavigationButton className="md-flex" href={`/docs`}>Documentation</NavigationButton>
+            <NavigationButton className="md-flex" href="mailto:support@buildkite.com">Support</NavigationButton>
 
             <Dropdown align="right" width={170} className="flex" onToggle={this.handleUserDropdownToggle}>
               <DropdownButton className={classNames({ "lime": this.state.showingUserDropdown })}
                               style={{paddingRight: 0, paddingLeft: '1rem'}}>
-                <UserAvatar user={this.props.viewer.user} className="flex-none flex flex-center" style={{width: 26, height: 26, marginRight: '.7rem'}} />
-                <span className="truncate flex flex-center" style={{maxWidth:"9em"}}>{this.props.viewer.user.name}</span>
+                <UserAvatar user={this.props.viewer.user} className="flex-none flex flex-center" style={{width: 26, height: 26, marginRight: '.6rem'}} />
+                <span className="flex flex-center sm-flex"><span className="truncate" style={{maxWidth:"9em"}}>{this.props.viewer.user.name}</span></span>
                 <span className="ml1 flex flex-center">
                   &#9662;
                 </span>
               </DropdownButton>
 
-              <NavigationButton href="/user/settings" className="block border-bottom py2">Personal Settings</NavigationButton>
-              <Button action="/logout" method="delete" className="black hover-lime focus-lime block py2 left-align" style={{width: "100%"}}>Logout</Button>
+              <NavigationButton className="md-hide" href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
+              <NavigationButton href="/user/settings">Personal Settings</NavigationButton>
+
+              <div className="md-hide">
+                <NavigationButton className="md-hide" href={`/docs`}>Documentation</NavigationButton>
+                <NavigationButton className="md-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
+              </div>
+
+              <Button action="/logout" method="delete" className="black hover-lime focus-lime block left-align" style={{width: "100%"}}>Logout</Button>
             </Dropdown>
           </div>
+
         </div>
+
+        {this._bottomOrganizationMenu()}
       </div>
     );
+  }
+
+  _newChangelogsBadge() {
+    return (
+      <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -8 }} viewer={this.props.viewer} />
+    )
+  }
+
+  _topOrganizationMenu() {
+    if (this.props.organization) {
+      return (
+        <span className="sm-flex">
+          {this._organizationMenu()}
+        </span>
+      )
+    }
+  }
+
+  _bottomOrganizationMenu() {
+    if (this.props.organization) {
+      return (
+        <div className="border-top sm-hide">
+          <div className="twbs-container flex flex-stretch" style={{height: 45}}>
+            {this._organizationMenu({ paddingLeft: 0 })}
+          </div>
+        </div>
+      )
+    }
   }
 
   handleOrgDropdownToggle = (visible) => {
@@ -127,25 +176,29 @@ class Navigation extends React.Component {
     this.props.viewer.organizations.edges.forEach((org) => {
       // Don't show the active organization in the selector
       if(!this.props.organization || (org.node.slug != this.props.organization.slug)) {
-        nodes.push(<NavigationButton key={org.node.slug} href={`/${org.node.slug}`} className="border-bottom block py2">{org.node.name}</NavigationButton>);
+        nodes.push(<NavigationButton key={org.node.slug} href={`/${org.node.slug}`} className="block">{org.node.name}</NavigationButton>);
       }
     });
 
     if(nodes.length > 0) {
       return nodes;
     } else {
-      return <span className="block py2 px3 border-bottom gray">You’ve no other organizations</span>
+      return <span className="block px3 border-bottom gray">You’ve no other organizations</span>
     }
   }
 
-  _organizationMenu() {
+  _organizationMenu(options = {}) {
     var organization = this.props.organization;
+    var paddingLeft = options.paddingLeft != undefined ? options.paddingLeft : 15;
 
     if(organization) {
       return (
-        <span className="flex">
-          <NavigationButton style={{paddingLeft: 15}} href={`/${organization.slug}`}>Projects</NavigationButton>
-          <NavigationButton href={`/organizations/${organization.slug}/agents`}>Agents <Badge><AgentsCount organization={organization} /></Badge></NavigationButton>
+        <span className={classNames("flex", options.className)}>
+          <NavigationButton style={{ paddingLeft: paddingLeft }} href={`/${organization.slug}`}>Pipelines</NavigationButton>
+          <NavigationButton href={`/organizations/${organization.slug}/agents`}>
+            {'Agents'}
+            <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
+          </NavigationButton>
           <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
         </span>
       )

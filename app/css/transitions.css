@@ -1,21 +1,22 @@
+/* popup */
+
 .transition-popup-tl {
-  transform-origin: 5% -15px;
+  transform-origin: 7.5% -15px;
 }
 
 .transition-popup-tr {
-  transform-origin: 95% -15px;
+  transform-origin: 92.5% -15px;
 }
 
 .transition-popup-enter {
   opacity: 0;
-  transform: scaleX(.75) scaleY(.5);
+  transform: scaleX(.8) scaleY(.5);
 }
 
 .transition-popup-enter.transition-popup-enter-active {
   opacity: 1;
   transform: scaleX(1) scaleY(1);
-  transition: opacity 80ms 0 ease-out-back,
-              transform 120ms 20ms ease-out-back;
+  transition: opacity 90ms ease-out-back, transform 100ms ease-out-back;
 }
 
 .transition-popup-leave {
@@ -25,7 +26,38 @@
 
 .transition-popup-leave.transition-popup-leave-active {
   opacity: 0;
-  transform: scaleX(.75) scaleY(.5);
-  transition: opacity 50ms 0 ease-out,
-              transform 120ms 0 ease-out;
+  transform: scaleX(.8) scaleY(.5);
+  transition: opacity 90ms ease-in-back, transform 100ms ease-in-back;
+}
+
+/* transition-appear-pop */
+
+.transition-appear-pop-enter {
+  transform: scale(0);
+}
+
+.transition-appear-pop-enter.transition-appear-pop-enter-active {
+  transform: scale(1);
+  transition: transform 120ms ease-out-back;
+}
+
+.transition-appear-pop-leave {
+  transform: scale(1);
+}
+
+.transition-appear-pop-leave.transition-appear-pop-leave-active {
+  transform: scale(0);
+  transition: transform 120ms ease-in-back;
+}
+
+/* changelog new button */
+
+.transition-changelog-appear-appear {
+  transform: scale(0);
+  transform-origin: bottom left;
+}
+
+.transition-changelog-appear-appear.transition-changelog-appear-appear-active {
+  transform: scale(1);
+  transition: transform 120ms ease-out-back .5s;
 }

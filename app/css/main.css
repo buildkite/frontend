@@ -17,7 +17,10 @@
 @import 'basscss-border';
 @import 'basscss-colors';
 @import 'basscss-background-colors';
+@import 'basscss-border-colors';
 @import 'basscss-defaults';
+
+@import 'custom-basscss-responsive-states';
 
 /* Include our custom classes */
 @import 'hover-colors';
@@ -26,14 +29,16 @@
 @import 'shadows';
 @import 'rounded';
 @import 'transitions';
+@import 'animations';
 @import 'interaction-events';
+@import 'text';
 
 /* Override some of the basscss defaults */
 :root {
   --silver: #F9FAFB;
-  --lime: #83AD18;
+  --lime: #7EAF25;
   --border-color: #DDDDDD;
-  --bold-font-weight: 600;
+  --bold-font-weight: 500;
   --container-width: 100%;
   --space-1: 5px;
   --space-2: 10px;

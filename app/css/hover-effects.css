@@ -1,9 +1,17 @@
-.hover-faded-children * {
+.hover-faded, .hover-faded-children * {
   opacity: .75;
 }
 
+.hover-faded:hover,
 .hover-faded-children:hover *,
 .hover-faded-children:active *,
 .hover-faded-children:focus * {
   opacity: 1;
+}
+
+.hover-no-underline:hover {
+  text-decoration: none;
+}
+.hover-no-underline:hover .hover-no-underline-override {
+  text-decoration: underline;
 }
