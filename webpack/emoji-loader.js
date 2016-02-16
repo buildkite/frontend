@@ -42,32 +42,28 @@ module.exports = function(source) {
 
   // Index the emojis
   var emojis = { emojis: [], indexed: {}, host: process.env.EMOJI_HOST };
-  var index = -1;
   source.forEach(function(emoji) {
-    index += 1;
+    var item = { name: emoji["name"], image: emoji["image"] };
 
-    emojis.emojis.push({ name: emoji["name"], image: emoji["image"] });
+    emojis.emojis.push(item);
 
-    emojis.indexed[`:${emoji["name"]}:`] = index;
-    emojis.indexed[convertToUnicode(emoji["unicode"])] = index;
+    emojis.indexed[`:${emoji["name"]}:`] = item;
+    emojis.indexed[convertToUnicode(emoji["unicode"])] = item;
 
     emoji["aliases"].forEach(function(alias) {
-      emojis.indexed[`:${alias}:`] = index;
+      emojis.indexed[`:${alias}:`] = item;
     });
 
     var modifiers = emoji["modifiers"];
-
     if(modifiers && modifiers.length > 0) {
       modifiers.forEach(function(modifier) {
-        index += 1;
+        var modified = { name: emoji["name"], image: modifier["image"] };
 
-        emojis.emojis.push({ name: emoji["name"], image: modifier["image"] });
-
-        emojis.indexed[`:${emoji["name"]}::${modifier["name"]}:`] = index;
-        emojis.indexed[convertToUnicode(modifier["unicode"])] = index;
+        emojis.indexed[`:${emoji["name"]}::${modifier["name"]}:`] = modified;
+        emojis.indexed[convertToUnicode(modifier["unicode"])] = modified;
 
         emoji["aliases"].forEach(function(alias) {
-          emojis.indexed[`:${alias}::${modifier["name"]}:`] = index;
+          emojis.indexed[`:${alias}::${modifier["name"]}:`] = modified;
         });
       });
     }

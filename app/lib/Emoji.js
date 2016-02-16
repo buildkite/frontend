@@ -1,3 +1,5 @@
+import escape from 'escape-html';
+
 const APPLE_EMOJIS = require("!!./../../webpack/emoji-loader!./../../vendor/emojis/img-apple-64.json");
 const BUILDKITE_EMOJIS = require("!!./../../webpack/emoji-loader!./../../vendor/emojis/img-buildkite-64.json");
 
@@ -6,11 +8,13 @@ const COLON_REGEXP = new RegExp('\:[^\\s:]+\:', 'g');
 
 class Emoji {
   parse(string, options = {}) {
-
-    // TODO: Sanitize string
-    //
     if(!string || string.length == 0) {
       return "";
+    }
+
+    // Turn off escaping if the option is explicitly set
+    if(options.escape != false) {
+      string = escape(string);
     }
 
     // Start with replacing BK emojis (which are more likely than Apple emojis)
@@ -39,11 +43,10 @@ class Emoji {
       // See if this match and the next one, makes a new emoji. For example,
       // :fist::skin-tone-4:
       if(nextMatch) {
-        let matchWithModifier = `${match}${nextMatch}`
-        let modifiedEmojiIndex = catalogue.indexed[matchWithModifier];
+        let modifiedEmoji = catalogue.indexed[`${match}${nextMatch}`];
 
-        if(modifiedEmojiIndex) {
-          replacements.push(this._image(catalogue, modifiedEmojiIndex));
+        if(modifiedEmoji) {
+          replacements.push(this._image(catalogue, modifiedEmoji));
           replacements.push("");
           i += 1;
 
@@ -51,10 +54,9 @@ class Emoji {
         }
       }
 
-      let emojiIndex = catalogue.indexed[match];
-
-      if(emojiIndex) {
-        replacements.push(this._image(catalogue, emojiIndex));
+      let emoji= catalogue.indexed[match];
+      if(emoji) {
+        replacements.push(this._image(catalogue, emoji));
       } else {
         replacements.push(match);
       };
@@ -65,9 +67,7 @@ class Emoji {
     });
   }
 
-  _image(catalogue, index) {
-    let emoji = catalogue.emojis[index];
-
+  _image(catalogue, emoji) {
     return `<img class="emoji" title="${emoji.name}" alt="${emoji.name}" src="${catalogue.host}/${emoji.image}" height="20" width="20" align="absmiddle" />`
   }
 }
