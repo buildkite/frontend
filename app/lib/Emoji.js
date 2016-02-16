@@ -59,10 +59,10 @@ class Emoji {
         replacements.push(this._image(catalogue, emoji));
       } else {
         replacements.push(match);
-      };
-    };
+      }
+    }
 
-    return string.replace(regexp, (match) => {
+    return string.replace(regexp, () => {
       return replacements.shift();
     });
   }
