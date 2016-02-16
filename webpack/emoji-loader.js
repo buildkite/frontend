@@ -41,7 +41,7 @@ module.exports = function(source) {
   source = typeof source === "string" ? JSON.parse(source) : source;
 
   // Index the emojis
-  var emojis = { emojis: [], indexed: {}, host: process.env.EMOJI_HOST };
+  var emojis = { emojis: [], indexed: {}, host: process.env.EMOJI_HOST_2 };
   source.forEach(function(emoji) {
     var item = { name: emoji["name"], image: emoji["image"] };
 
