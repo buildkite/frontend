@@ -31,7 +31,7 @@ if(process.env.NODE_ENV == "production") {
 
 var plugins = [
   new webpack.optimize.CommonsChunkPlugin("vendor", filenameFormat),
-  new AssetsPlugin({ path: path.join(__dirname, 'public', '_webpack'), filename: 'assets.json' })
+  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' })
 ]
 
 // If we're building for production, minify the JS
@@ -51,7 +51,7 @@ module.exports = {
 
   output: {
     filename: filenameFormat,
-    path: path.join(__dirname, 'public', '_webpack'),
+    path: path.join(__dirname, '..', 'dist'),
     publicPath: process.env.WEBPACK_HOST
   },
 
