@@ -49,7 +49,7 @@ module.exports = {
 
   entry: {
     app: path.join(__dirname, './app/frontend/app/app.js'),
-    vendor: ["classnames", "react", "react-dom", "react-relay", "react-router", "react-router-relay", "history", "graphql", "graphql-relay", "moment", "object-assign", "dom-align", "eventemitter3", "pusher-js"],
+    vendor: ["classnames", "react", "react-dom", "react-relay", "react-router", "react-router-relay", "history", "graphql", "graphql-relay", "moment", "object-assign", "dom-align", "eventemitter3", "pusher-js"]
   },
 
   output: {
@@ -96,7 +96,7 @@ module.exports = {
       // and if you want to compress,
       // just use css-loader option that already use cssnano under the hood
       require("postcss-browser-reporter")(),
-      require("postcss-reporter")(),
+      require("postcss-reporter")()
     ]
   }
 }
