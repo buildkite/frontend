@@ -22,7 +22,7 @@ function isThisYear(momentTime) {
 //   "Yesterday at 11:01 AM"
 //   "Wed 13 Nov at 1:00 AM"
 //   "Fri 1 Jan 2012 at 4:02 PM"
-export function friendlyRelativeTime(time, options={}) {
+export default function friendlyRelativeTime(time, options={}) {
   let mTime = moment(time);
   let timeString = mTime.format('h:mm A');
 

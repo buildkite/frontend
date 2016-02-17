@@ -21,7 +21,7 @@ window["Webpack"] = {
     "components/organization/AgentsCount": require("./components/organization/AgentsCount").default,
     "components/PipelinesWelcome": require("./components/PipelinesWelcome").default,
     "stores/PusherStore": require("./stores/PusherStore").default,
-    "lib/friendlyRelativeTime": require("./lib/friendlyRelativeTime"),
+    "lib/friendlyRelativeTime": require("./lib/friendlyRelativeTime").default,
     "lib/Logger": require("./lib/Logger").default,
     "lib/Emoji": require("./lib/Emoji").default
   },
