@@ -40,6 +40,11 @@ module.exports = function(source) {
   // Parse the JSON source
   source = typeof source === "string" ? JSON.parse(source) : source;
 
+  // Throw if not EMOJI_HOST is set (since it's required to generate emoji URLs)
+  if(!process.env.EMOJI_HOST) {
+    throw "No EMOJI_HOST set, can't load emojis"
+  }
+
   // Index the emojis
   var emojis = { emojis: [], indexed: {}, host: process.env.EMOJI_HOST };
   source.forEach(function(emoji) {
