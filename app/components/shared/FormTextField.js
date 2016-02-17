@@ -1,4 +1,5 @@
 import React from 'react';
+import CollapsableFormField from './CollapsableFormField';
 
 var _textFieldCounter = 0;
 
@@ -34,24 +35,28 @@ class FormTextField extends React.Component {
 
   render() {
     if(this.props.help) {
-      var helpNode = <p className="hint-block" dangerouslySetInnerHTML={{__html: this.props.help}} />
+      var helpNode = (
+        <p className="hint-block" dangerouslySetInnerHTML={{__html: this.props.help}} />
+      );
     }
 
-    var inputNode = <input className="form-control"
-                           id={this.state.id}
-                           name={this.props.name}
-                           type="text"
-                           defaultValue={this.props.value}
-                           placeholder={this.props.placeholder}
-                           spellCheck={this.props.spellCheck}
-                           onChange={this.props.onChange} />
+    var inputNode = (
+      <input className="form-control"
+        id={this.state.id}
+        name={this.props.name}
+        type="text"
+        defaultValue={this.props.value}
+        placeholder={this.props.placeholder}
+        spellCheck={this.props.spellCheck}
+        onChange={this.props.onChange} />
+    );
 
     if (this.props.collapsable) {
       return (
-        <Buildbox.CollapsableFormComponent label={this.props.label} collapsed={this.state.collapsed}>
+        <CollapsableFormField label={this.props.label} collapsed={this.state.collapsed}>
           {inputNode}
           {helpNode}
-        </Buildbox.CollapsableFormComponent>
+        </CollapsableFormField>
       )
     } else {
       return (
