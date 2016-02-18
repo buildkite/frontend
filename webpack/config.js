@@ -4,7 +4,12 @@ var AssetsPlugin = require('assets-webpack-plugin');
 
 // Ensure a WEBPACK_HOST is setup since we embed it in the assets.json file
 if(!process.env.WEBPACK_HOST) {
-  throw "No WEBPACK_HOST set"
+  throw "No WEBPACK_HOST set";
+}
+
+// The WEBPACK_HOST must end with a /
+if(process.env.WEBPACK_HOST.slice(-1) != "/") {
+  throw "WEBPACK_HOST must end with a /";
 }
 
 // Include a hash of the bundle in the name when we're building these files for
