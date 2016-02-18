@@ -68,7 +68,8 @@ class Emoji {
   }
 
   _image(catalogue, emoji) {
-    return `<img class="emoji" title="${emoji.name}" alt="${emoji.name}" src="${catalogue.host}/${emoji.image}" height="20" width="20" align="absmiddle" />`
+    // Emoji catalogue hosts have a normalized host that always end with a "/"
+    return `<img class="emoji" title="${emoji.name}" alt="${emoji.name}" src="${catalogue.host}${emoji.image}" height="20" width="20" align="absmiddle" />`
   }
 }
 

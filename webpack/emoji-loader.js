@@ -40,14 +40,20 @@ module.exports = function(source) {
   // Parse the JSON source
   source = typeof source === "string" ? JSON.parse(source) : source;
 
-  // Throw if not EMOJI_HOST is set (since it's required to generate emoji URLs)
-  if(!process.env.EMOJI_HOST) {
+  // Get the emoji host and throw and error if it's missing
+  var host = process.env.EMOJI_HOST
+  if(!host) {
     this.emitError("ERROR: No EMOJI_HOST set, can't load emojis");
     throw new Error("Failed to load emojis");
   }
 
+  // Normalize the host (should always end with a "/")
+  if(host.slice(-1) != "/") {
+    host = host + "/";
+  }
+
   // Index the emojis
-  var emojis = { emojis: [], indexed: {}, host: process.env.EMOJI_HOST };
+  var emojis = { emojis: [], indexed: {}, host: host };
   source.forEach(function(emoji) {
     var item = { name: emoji["name"], image: emoji["image"] };
 
