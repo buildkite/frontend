@@ -7,8 +7,14 @@
   },
   "metadata": {
     "graphql": {
-      "schema": "./app/frontend/app/graph/schema.json"
+      "schema": "./app/graph/schema.json"
     }
+  },
+  "scripts": {
+    "env": "env",
+    "start": "webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --port 4890",
+    "lint": "eslint .",
+    "build": "webpack -p --config webpack/config.js --progress --bail"
   },
   "devDependencies": {
     "assets-webpack-plugin": "^3.2.0",

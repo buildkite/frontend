@@ -1,6 +1,11 @@
 steps:
   - wait
+
   - name: ":eslint:"
     command: ".buildkite/eslint.sh"
+
   - name: ":webpack:"
     command: ".buildkite/webpack.sh"
+    env:
+      WEBPACK_HOST: "example.com/webpack"
+      EMOJI_HOST: "example.com/emoji"

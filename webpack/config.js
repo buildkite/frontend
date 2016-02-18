@@ -2,10 +2,7 @@ var path = require("path");
 var webpack = require("webpack");
 var AssetsPlugin = require('assets-webpack-plugin');
 
-// Check some ENV requirements
-if(!process.env.NODE_ENV) {
-  throw "No NODE_ENV set"
-}
+// Ensure a WEBPACK_HOST is setup since we embed it in the assets.json file
 if(!process.env.WEBPACK_HOST) {
   throw "No WEBPACK_HOST set"
 }
@@ -34,7 +31,7 @@ if(process.env.NODE_ENV == "production") {
 
 var plugins = [
   new webpack.optimize.CommonsChunkPlugin("vendor", filenameFormat),
-  new AssetsPlugin({ path: path.join(__dirname, 'public', '_webpack'), filename: 'assets.json' })
+  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' })
 ]
 
 // If we're building for production, minify the JS
@@ -48,13 +45,13 @@ module.exports = {
   devtool: devTool,
 
   entry: {
-    app: path.join(__dirname, './app/frontend/app/app.js'),
+    app: path.join(__dirname, './../app/app.js'),
     vendor: ["classnames", "react", "react-dom", "react-relay", "react-router", "react-router-relay", "history", "graphql", "graphql-relay", "moment", "object-assign", "dom-align", "eventemitter3", "pusher-js"]
   },
 
   output: {
     filename: filenameFormat,
-    path: path.join(__dirname, 'public', '_webpack'),
+    path: path.join(__dirname, '..', 'dist'),
     publicPath: process.env.WEBPACK_HOST
   },
 

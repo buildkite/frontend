@@ -42,7 +42,8 @@ module.exports = function(source) {
 
   // Throw if not EMOJI_HOST is set (since it's required to generate emoji URLs)
   if(!process.env.EMOJI_HOST) {
-    throw "No EMOJI_HOST set, can't load emojis"
+    this.emitError("ERROR: No EMOJI_HOST set, can't load emojis");
+    throw new Error("Failed to load emojis");
   }
 
   // Index the emojis
