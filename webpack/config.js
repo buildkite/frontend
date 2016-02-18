@@ -10,9 +10,9 @@ if(!process.env.WEBPACK_HOST) {
 // Include a hash of the bundle in the name when we're building these files for
 // production so we can use non-expiring caches for them.
 //
-// Also, if we used hashes in development, we'd be forever filling up our
-// _webpack folder with every hashed version of files we've changed (webpack
-// doesn't clean up after itself)
+// Also, if we used hashes in development, we'd be forever filling up our dist
+// folder with every hashed version of files we've changed (webpack doesn't
+// clean up after itself)
 var filenameFormat
 if(process.env.NODE_ENV == "production") {
   filenameFormat = "[name]-[hash].js"
