@@ -7,5 +7,6 @@ steps:
   - name: ":webpack:"
     command: ".buildkite/webpack.sh"
     env:
-      WEBPACK_HOST: "example.com/webpack"
-      EMOJI_HOST: "example.com/emoji"
+      NODE_ENV: "production"
+      WEBPACK_HOST: "/dist/"
+      EMOJI_HOST: "/emojis/"
