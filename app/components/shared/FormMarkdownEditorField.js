@@ -1,17 +1,19 @@
 import React from 'react';
 import MarkdownEditor from '../../lib/MarkdownEditor';
+import autoresizeTextarea from '../../lib/autoresizeTextarea';
 
-class FormRichTextAreaField extends React.Component {
+class FormMarkdownEdtiorField extends React.Component {
   static propTypes = {
     id: React.PropTypes.string,
     name: React.PropTypes.string,
     value: React.PropTypes.string,
+    placeholder: React.PropTypes.string,
     rows: React.PropTypes.number
   };
 
   componentDidMount() {
-    this._resizeTextArea();
     this.markdownEditor = new MarkdownEditor(this.textarea);
+    autoresizeTextarea(this.textarea);
   }
 
   componentWillUnmount() {
@@ -33,6 +35,7 @@ class FormRichTextAreaField extends React.Component {
         <textarea
           id={this.props.id}
           name={this.props.name}
+          placeholder={this.props.placeholder}
           defaultValue={this.props.value}
           rows={this.props.rows}
           onChange={this._handleOnChange}
@@ -45,43 +48,11 @@ class FormRichTextAreaField extends React.Component {
     );
   }
 
-  // Resizes the text area to be the same height as the text that's within it.
-  // When you dynamically change the height of a text area, the browser scrolls
-  // back to the top of the page, so we need to maintain it's scroll position
-  // after the resize.
-  _resizeTextArea() {
-    let scrollLeft = window.pageXOffset ||
-      (document.documentElement || document.body.parentNode || document.body).scrollLeft;
-
-    let scrollTop  = window.pageYOffset ||
-      (document.documentElement || document.body.parentNode || document.body).scrollTop;
-
-    let offsetHeight = this.textarea.offsetHeight;
-
-    // Reset the style back to 0 so we can correctly calculate it's
-    // scrollHeight (which will be the height of the text inside it)
-    this.textarea.style.height = 0;
-
-    let scrollHeight = this.textarea.scrollHeight;
-
-    // If the new height will be more than it's previous height, expand it,
-    // otherwise, just go back to the original one. There's a case where if the
-    // user has manually adjusted the height of the text area, then it should
-    // stay at the larger height.
-    if(scrollHeight > offsetHeight) {
-      this.textarea.style.height = scrollHeight + 'px';
-    } else {
-      this.textarea.style.height = offsetHeight + 'px';
-    }
-
-    window.scrollTo(scrollLeft, scrollTop);
-  }
-
   _handleBoldButtonClick = (e) => {
     e.preventDefault();
 
     this.markdownEditor.bold();
-    this._resizeTextArea();
+    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -89,7 +60,7 @@ class FormRichTextAreaField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.italic();
-    this._resizeTextArea();
+    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -97,7 +68,7 @@ class FormRichTextAreaField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.quote();
-    this._resizeTextArea();
+    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -105,7 +76,7 @@ class FormRichTextAreaField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.numberedList();
-    this._resizeTextArea();
+    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -113,7 +84,7 @@ class FormRichTextAreaField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.bulletedList();
-    this._resizeTextArea();
+    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -121,7 +92,7 @@ class FormRichTextAreaField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.code();
-    this._resizeTextArea();
+    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -129,7 +100,7 @@ class FormRichTextAreaField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.link();
-    this._resizeTextArea();
+    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -154,8 +125,8 @@ class FormRichTextAreaField extends React.Component {
   };
 
   _handleOnChange = () => {
-    this._resizeTextArea();
+    autoresizeTextarea(this.textarea);
   };
 }
 
-export default FormRichTextAreaField
+export default FormMarkdownEdtiorField

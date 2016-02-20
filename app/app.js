@@ -17,7 +17,7 @@ window["Webpack"] = {
 
     "components/layout/Navigation": require("./components/layout/Navigation").default,
     "components/shared/FormTextField": require("./components/shared/FormTextField").default,
-    "components/shared/FormRichTextAreaField": require("./components/shared/FormRichTextAreaField").default,
+    "components/shared/FormMarkdownEditorField": require("./components/shared/FormMarkdownEditorField").default,
     "components/shared/CollapsableFormField": require("./components/shared/CollapsableFormField").default,
     "components/shared/Emojify": require("./components/shared/Emojify").default,
     "components/organization/AgentsCount": require("./components/organization/AgentsCount").default,
