@@ -76,6 +76,19 @@ class MarkdownEditor {
     });
   }
 
+  insert(text) {
+    // Grab the start/end of the currently selected text
+    let selectionStart = this.textarea.selectionStart;
+    let selectionEnd = this.textarea.selectionEnd;
+
+    // Insert the text in between the selection start & end
+    let value = this.textarea.value;
+    this.textarea.value = value.substring(0, selectionStart) + text + value.substring(selectionEnd, value.length);
+
+    // Now set the selection to the end of what we just inserted
+    this.textarea.selectionStart = this.textarea.selectionEnd = selectionStart + text.length;
+  }
+
   // Modifies the currently highlighted text. This function accepts either a
   // function a string that is a modification instruction, or a function(that
   // is passed the highlighted text, and then returns a modification

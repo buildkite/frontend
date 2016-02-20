@@ -1,5 +1,7 @@
 import React from 'react';
+import classNames from 'classnames';
 import MarkdownEditor from '../../lib/MarkdownEditor';
+import AssetUploader from '../../lib/AssetUploader';
 import autoresizeTextarea from '../../lib/autoresizeTextarea';
 
 class FormMarkdownEdtiorField extends React.Component {
@@ -11,18 +13,27 @@ class FormMarkdownEdtiorField extends React.Component {
     rows: React.PropTypes.number
   };
 
+  state = {
+    draggingFile: false
+  };
+
   componentDidMount() {
     this.markdownEditor = new MarkdownEditor(this.textarea);
+    this.assetUploader = new AssetUploader({ onAssetUploaded: this._handleAssetUploaded });
+
     autoresizeTextarea(this.textarea);
   }
 
   componentWillUnmount() {
     delete this.markdownEditor;
+    delete this.assetUploader;
   }
 
   render() {
+    let containerClasses = classNames({ "has-success": this.state.draggingFile });
+
     return (
-      <div>
+      <div className={containerClasses}>
         <div className="mb2">
           <button className="btn btn-outline border-gray rounded mr1" onClick={this._handleBoldButtonClick}><i className="fa fa-bold"></i></button>
           <button className="btn btn-outline border-gray rounded mr3" onClick={this._handleItalicButtonClick}><i className="fa fa-italic"></i></button>
@@ -40,12 +51,38 @@ class FormMarkdownEdtiorField extends React.Component {
           rows={this.props.rows}
           onChange={this._handleOnChange}
           onPaste={this._handleOnPaste}
+          onDragEnter={this._handleOnDragEnter}
+          onDragOver={this._handleOnDragOver}
+          onDragLeave={this._handleOnDragLeave}
           onDrop={this._handleOnDrop}
           ref={c => this.textarea = c}
           style={{overflowY: "hidden", resize: "vertical"}}
-          className="form-control" />
+          className={"form-control"} />
       </div>
     );
+  }
+
+  _uploadFilesFromEvent(e) {
+    var files = this.assetUploader.uploadFromEvent(e);
+
+    // Were there any files uploaded in this event?
+    if(files.length > 0) {
+      // Since we've caught these files, we don't want the browser redirecting
+      // to the file's location on the filesystem
+      e.preventDefault();
+
+      // Insert each of the files into the textarea
+      files.forEach((f) => { this.markdownEditor.insert("![Uploading " + f.name + "...]()"); });
+
+      // Since we've modified the textarea's value, we need to resize and focus
+      // again.
+      autoresizeTextarea(this.textarea);
+      this.textarea.focus();
+    }
+  }
+
+  _handleAssetUploaded(e) {
+    console.log("uploaded...", e);
   }
 
   _handleBoldButtonClick = (e) => {
@@ -104,24 +141,38 @@ class FormMarkdownEdtiorField extends React.Component {
     this.textarea.focus();
   };
 
-  _handleOnDrop = (e) => {
-    e.preventDefault();
-    for (var i = 0; i < e.dataTransfer.files.length; i++) {
-      var f = e.dataTransfer.files[i];
-      modifyTextArea(this.textarea, "[{s}" + f.name + "{s}]");
+  _handleOnDragEnter = (e) => {
+    if(this.assetUploader.doesEventContainFiles(e)) {
+      this.setState({ draggingFile: true });
     }
   };
 
-  _handleOnPaste = (e) => {
-    for (var i = 0; i < e.clipboardData.items.length; i++) {
-      var item = e.clipboardData.items[i];
-      var file = item.getAsFile && item.getAsFile();
+  _handleOnDragOver = (e) => {
+    // When you drag a file over a text area, the default browser behaviour
+    // will show an insert caret at the cursor postition. Since there's no way
+    // to get that caret, it doesn't make sense to show it, and then have to
+    // insert the image at the end of the text area. So we'll just turn that
+    // behaviour off.
+    e.preventDefault();
+  };
 
-      if(file) {
-	e.preventDefault();
-	modifyTextArea(this.textarea, "[{s}" + file.type + "{s}]");
-      };
-    }
+  _handleOnDragLeave = (e) => {
+    // We don't really need to check if there were files in the drag, we can
+    // just turn off the state.
+    this.setState({ draggingFile: false });
+  };
+
+  _handleOnDrop = (e) => {
+    // Drag leave won't fire on a drop, so we need to switch the state here
+    // manually.
+    this.setState({ draggingFile: false });
+
+    this._uploadFilesFromEvent(e);
+  };
+
+  // Only available in Chrome
+  _handleOnPaste = (e) => {
+    this._uploadFilesFromEvent(e);
   };
 
   _handleOnChange = () => {
