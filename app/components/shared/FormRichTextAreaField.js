@@ -1,5 +1,5 @@
 import React from 'react';
-import modifyTextArea from '../../lib/modifyTextArea';
+import MarkdownEditor from '../../lib/MarkdownEditor';
 
 class FormRichTextAreaField extends React.Component {
   static propTypes = {
@@ -11,6 +11,11 @@ class FormRichTextAreaField extends React.Component {
 
   componentDidMount() {
     this._resizeTextArea();
+    this.markdownEditor = new MarkdownEditor(this.textarea);
+  }
+
+  componentWillUnmount() {
+    delete this.markdownEditor;
   }
 
   render() {
@@ -75,8 +80,7 @@ class FormRichTextAreaField extends React.Component {
   _handleBoldButtonClick = (e) => {
     e.preventDefault();
 
-    modifyTextArea(this.textarea, "*{s}{t}{s}*");
-
+    this.markdownEditor.bold();
     this._resizeTextArea();
     this.textarea.focus();
   };
@@ -84,8 +88,7 @@ class FormRichTextAreaField extends React.Component {
   _handleItalicButtonClick = (e) => {
     e.preventDefault();
 
-    modifyTextArea(this.textarea, "_{s}{t}{s}_");
-
+    this.markdownEditor.italic();
     this._resizeTextArea();
     this.textarea.focus();
   };
@@ -93,17 +96,7 @@ class FormRichTextAreaField extends React.Component {
   _handleQuoteButtonClick = (e) => {
     e.preventDefault();
 
-    modifyTextArea(this.textarea, function(selectedText) {
-      let lines = selectedText.split(/\r\n|\r|\n/);
-      var replacement = [];
-
-      for(var line of lines) {
-        replacement.push("> " + line);
-      }
-
-      return "{s}" + replacement.join("\r\n") + "{s}"
-    });
-
+    this.markdownEditor.quote();
     this._resizeTextArea();
     this.textarea.focus();
   };
@@ -111,17 +104,7 @@ class FormRichTextAreaField extends React.Component {
   _handleNumberedListButtonClick = (e) => {
     e.preventDefault();
 
-    modifyTextArea(this.textarea, function(selectedText) {
-      let lines = selectedText.split(/\r\n|\r|\n/);
-      var replacement = [];
-
-      for (var index = 0; index < lines.length; index++) {
-        replacement.push(`${index + 1}. ${lines[index]}`);
-      }
-
-      return "{s}" + replacement.join("\r\n") + "{s}"
-    });
-
+    this.markdownEditor.numberedList();
     this._resizeTextArea();
     this.textarea.focus();
   };
@@ -129,17 +112,7 @@ class FormRichTextAreaField extends React.Component {
   _handleBulletedListButtonClick = (e) => {
     e.preventDefault();
 
-    modifyTextArea(this.textarea, function(selectedText) {
-      let lines = selectedText.split(/\r\n|\r|\n/);
-      var replacement = [];
-
-      for(var line of lines) {
-        replacement.push(`- ${line}`)
-      }
-
-      return "{s}" + replacement.join("\r\n") + "{s}"
-    });
-
+    this.markdownEditor.bulletedList();
     this._resizeTextArea();
     this.textarea.focus();
   };
@@ -147,16 +120,7 @@ class FormRichTextAreaField extends React.Component {
   _handleCodeButtonClick = (e) => {
     e.preventDefault();
 
-    modifyTextArea(this.textarea, function(selectedText) {
-      // If there's more than 1 line of text, we should use a code fence
-      // instead of just wrapping with a `
-      if(selectedText.split(/\r\n|\r|\n/).length > 1) {
-        return "```\n{s}{t}{s}\n```"
-      } else {
-        return "`{s}{t}{s}`"
-      }
-    });
-
+    this.markdownEditor.code();
     this._resizeTextArea();
     this.textarea.focus();
   };
@@ -164,18 +128,7 @@ class FormRichTextAreaField extends React.Component {
   _handleLinkButtonClick = (e) => {
     e.preventDefault();
 
-    modifyTextArea(this.textarea, function(selectedText) {
-      // If we're making a link out text that starts with HTTP, then this
-      // should become the link portion of the replacement.
-      if(selectedText.indexOf("http:") == 0) {
-        return "[{s}text{s}]({t})";
-      } else if(selectedText.length > 0) {
-        return "[{t}]({s}url{s})";
-      } else {
-        return "[{s}text{s}](url)";
-      }
-    });
-
+    this.markdownEditor.link();
     this._resizeTextArea();
     this.textarea.focus();
   };
