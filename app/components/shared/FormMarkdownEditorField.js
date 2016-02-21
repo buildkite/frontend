@@ -48,13 +48,13 @@ class FormMarkdownEdtiorField extends React.Component {
     return (
       <div className={containerClasses}>
         <div className="mb2">
-          <button className="btn btn-outline border-gray rounded mr1" onClick={this._handleBoldButtonClick}><i className="fa fa-bold"></i></button>
-          <button className="btn btn-outline border-gray rounded mr3" onClick={this._handleItalicButtonClick}><i className="fa fa-italic"></i></button>
-          <button className="btn btn-outline border-gray rounded mr1" onClick={this._handleQuoteButtonClick}><i className="fa fa-quote-right"></i></button>
-          <button className="btn btn-outline border-gray rounded mr1" onClick={this._handleCodeButtonClick}><i className="fa fa-code"></i></button>
-          <button className="btn btn-outline border-gray rounded mr3" onClick={this._handleLinkButtonClick}><i className="fa fa-link"></i></button>
-          <button className="btn btn-outline border-gray rounded mr1" onClick={this._handleBulletedListButtonClick}><i className="fa fa-list"></i></button>
-          <button className="btn btn-outline border-gray rounded mr1" onClick={this._handleNumberedListButtonClick}><i className="fa fa-list-ol"></i></button>
+          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this._handleBoldButtonClick}><i className="fa fa-bold"></i></button>
+          <button className="btn btn-outline border-gray rounded mr3" tabIndex={-1} onClick={this._handleItalicButtonClick}><i className="fa fa-italic"></i></button>
+          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this._handleQuoteButtonClick}><i className="fa fa-quote-right"></i></button>
+          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this._handleCodeButtonClick}><i className="fa fa-code"></i></button>
+          <button className="btn btn-outline border-gray rounded mr3" tabIndex={-1} onClick={this._handleLinkButtonClick}><i className="fa fa-link"></i></button>
+          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this._handleBulletedListButtonClick}><i className="fa fa-list"></i></button>
+          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this._handleNumberedListButtonClick}><i className="fa fa-list-ol"></i></button>
         </div>
         {errorNode}
         <textarea
