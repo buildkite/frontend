@@ -32,6 +32,19 @@ class FormMarkdownEdtiorField extends React.Component {
   render() {
     let containerClasses = classNames({ "has-success": this.state.draggingFile });
 
+    if(this.state.error) {
+      var errorNode = (
+        <div className="mt2 mb2 border border-red p2 red rounded clearfix">
+          <div className="col" style={{position: "relative", top: "1px"}}>
+            <i className="fa fa-warning mr2" />{this.state.error}
+          </div>
+          <div className="col-right">
+            <button className="btn m0 p0" onClick={this._handleErrorDismissClick}><i className="fa fa-close"/></button>
+          </div>
+        </div>
+      );
+    };
+
     return (
       <div className={containerClasses}>
         <div className="mb2">
@@ -43,6 +56,7 @@ class FormMarkdownEdtiorField extends React.Component {
           <button className="btn btn-outline border-gray rounded mr1" onClick={this._handleBulletedListButtonClick}><i className="fa fa-list"></i></button>
           <button className="btn btn-outline border-gray rounded mr1" onClick={this._handleNumberedListButtonClick}><i className="fa fa-list-ol"></i></button>
         </div>
+        {errorNode}
         <textarea
           id={this.props.id}
           name={this.props.name}
@@ -81,9 +95,19 @@ class FormMarkdownEdtiorField extends React.Component {
     }
   }
 
-  _handleAssetUploaded(e) {
+  _handleAssetUploaded = (e) => {
     console.log("uploaded...", e);
-  }
+  };
+
+  _handleAssetUploadError = (exception) => {
+    this.setState({ error: exception.message });
+  };
+
+  _handleErrorDismissClick = (e) => {
+    e.preventDefault();
+
+    this.setState({ error: null });
+  };
 
   _handleBoldButtonClick = (e) => {
     e.preventDefault();
