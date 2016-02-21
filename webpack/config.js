@@ -35,6 +35,7 @@ if(process.env.NODE_ENV == "production") {
 }
 
 var plugins = [
+  new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
   new webpack.optimize.CommonsChunkPlugin("vendor", filenameFormat),
   new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' })
 ]

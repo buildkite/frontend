@@ -1356,6 +1356,11 @@
       "from": "es5-ext@>=0.10.8 <0.11.0",
       "resolved": "https://registry.npmjs.org/es5-ext/-/es5-ext-0.10.11.tgz"
     },
+    "es6-error": {
+      "version": "2.0.2",
+      "from": "es6-error@latest",
+      "resolved": "https://registry.npmjs.org/es6-error/-/es6-error-2.0.2.tgz"
+    },
     "es6-iterator": {
       "version": "2.0.0",
       "from": "es6-iterator@>=2.0.0 <3.0.0",
@@ -1543,7 +1548,14 @@
     "fbjs": {
       "version": "0.6.1",
       "from": "fbjs@>=0.6.1 <0.7.0",
-      "resolved": "https://registry.npmjs.org/fbjs/-/fbjs-0.6.1.tgz"
+      "resolved": "https://registry.npmjs.org/fbjs/-/fbjs-0.6.1.tgz",
+      "dependencies": {
+        "whatwg-fetch": {
+          "version": "0.9.0",
+          "from": "whatwg-fetch@>=0.9.0 <0.10.0",
+          "resolved": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-0.9.0.tgz"
+        }
+      }
     },
     "fd-slicer": {
       "version": "1.0.1",
@@ -4107,7 +4119,14 @@
         "fbjs": {
           "version": "0.5.1",
           "from": "fbjs@>=0.5.1 <0.6.0",
-          "resolved": "https://registry.npmjs.org/fbjs/-/fbjs-0.5.1.tgz"
+          "resolved": "https://registry.npmjs.org/fbjs/-/fbjs-0.5.1.tgz",
+          "dependencies": {
+            "whatwg-fetch": {
+              "version": "0.9.0",
+              "from": "whatwg-fetch@>=0.9.0 <0.10.0",
+              "resolved": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-0.9.0.tgz"
+            }
+          }
         }
       }
     },
@@ -4908,9 +4927,9 @@
       "resolved": "https://registry.npmjs.org/websocket-extensions/-/websocket-extensions-0.1.1.tgz"
     },
     "whatwg-fetch": {
-      "version": "0.9.0",
-      "from": "whatwg-fetch@>=0.9.0 <0.10.0",
-      "resolved": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-0.9.0.tgz"
+      "version": "0.11.0",
+      "from": "whatwg-fetch@>=0.11.0 <0.12.0",
+      "resolved": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-0.11.0.tgz"
     },
     "whet.extend": {
       "version": "0.9.9",

@@ -10,6 +10,7 @@ class FormMarkdownEdtiorField extends React.Component {
     name: React.PropTypes.string,
     value: React.PropTypes.string,
     placeholder: React.PropTypes.string,
+    assetUploaderURL: React.PropTypes.string,
     rows: React.PropTypes.number
   };
 
@@ -19,7 +20,7 @@ class FormMarkdownEdtiorField extends React.Component {
 
   componentDidMount() {
     this.markdownEditor = new MarkdownEditor(this.textarea);
-    this.assetUploader = new AssetUploader({ onAssetUploaded: this._handleAssetUploaded });
+    this.assetUploader = new AssetUploader({ url: this.props.assetUploaderURL, onAssetUploaded: this._handleAssetUploaded, onError: this._handleAssetUploadError });
 
     autoresizeTextarea(this.textarea);
   }
