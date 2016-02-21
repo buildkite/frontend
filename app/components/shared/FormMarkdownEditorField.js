@@ -64,6 +64,8 @@ class FormMarkdownEdtiorField extends React.Component {
           placeholder={this.props.placeholder}
           defaultValue={this.props.value}
           rows={this.props.rows}
+          onFocus={this._handleOnFocus}
+          onBlur={this._handleOnBlur}
           onChange={this._handleOnChange}
           onPaste={this._handleOnPaste}
           onDragEnter={this._handleOnDragEnter}
@@ -87,7 +89,30 @@ class FormMarkdownEdtiorField extends React.Component {
       e.preventDefault();
 
       // Insert each of the files into the textarea
-      files.forEach((file) => { this.markdownEditor.insert("![Uploading " + file.name + "...]()"); });
+      files.forEach((file) => {
+        let text = "![Uploading " + file.name + "...]()";
+
+        // If the input is currently in focus, insert the image where the users
+        // cursor is.
+        if(this.state.focused) {
+          // If we're inserting the image at the end of a line with text, add a
+          // new line before the insertion so it goes onto a new line.
+          if(!this.markdownEditor.isCursorOnNewLine()) {
+            text = "\n" + text;
+          } else {
+            text = text + "\n";
+          }
+
+          this.markdownEditor.insert(text);
+        } else {
+          // If there's something already in the textrea, add a new line and
+          // add it to the bottom of the text.
+          if(this.textarea.value.length > 0) {
+            text = "\n" + text;
+          }
+          this.markdownEditor.append(text);
+        }
+      });
 
       // Since we've modified the textarea's value, we need to resize and focus
       // again.
@@ -203,6 +228,14 @@ class FormMarkdownEdtiorField extends React.Component {
 
   _handleOnChange = () => {
     autoresizeTextarea(this.textarea);
+  };
+
+  _handleOnFocus = () => {
+    this.setState({ focused: true });
+  };
+
+  _handleOnBlur = () => {
+    this.setState({ focused: false });
   };
 }
 

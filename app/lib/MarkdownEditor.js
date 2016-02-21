@@ -76,11 +76,39 @@ class MarkdownEditor {
     });
   }
 
-  // Convenice method to replace text in the textarea
-  replace(before, after) {
-    this.textarea.value = this.textarea.value.replace(before, after);
+  isCursorOnNewLine() {
+    return !!(this.textarea.value.substr(0,this.textarea.selectionStart).match(/(?:^|\r?\n\s*)$/)
+              && this.textarea.value.substr(this.textarea.selectionStart).match(/^(?:\s*\r?\n|$)/));
   }
 
+  // Replaces text in the text area and retains the users cursor
+  replace(before, after) {
+    // Grab the start/end of the currently selected text
+    let selectionStart = this.textarea.selectionStart;
+    let selectionEnd = this.textarea.selectionEnd;
+
+    let indexOfBeforeText = this.textarea.value.indexOf(before);
+
+    if(indexOfBeforeText < selectionStart) {
+      let changeInLength = after.length - before.length;
+
+      selectionStart += changeInLength;
+      selectionEnd += changeInLength;
+    }
+
+    // When we perform the replacement, the cursor jumps to the end of the textarea
+    this.textarea.value = this.textarea.value.replace(before, after);
+
+    // Reset the selection to what it was before
+    this.textarea.setSelectionRange(selectionStart, selectionEnd);
+  }
+
+  // Convenice method to append text to the textarea
+  append(text) {
+    this.textarea.value += text;
+  }
+
+  // Insert text at the current cursor position
   insert(text) {
     // Grab the start/end of the currently selected text
     let selectionStart = this.textarea.selectionStart;
@@ -91,7 +119,7 @@ class MarkdownEditor {
     this.textarea.value = value.substring(0, selectionStart) + text + value.substring(selectionEnd, value.length);
 
     // Now set the selection to the end of what we just inserted
-    this.textarea.selectionStart = this.textarea.selectionEnd = selectionStart + text.length;
+    this.textarea.setSelectionRange(selectionStart + text.length, selectionStart + text.length);
   }
 
   // Modifies the currently highlighted text. This function accepts either a
