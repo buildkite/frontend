@@ -9,6 +9,7 @@ class AssetUploaderError extends ExtendableError {
 class AssetUploader {
   constructor(options) {
     this.options = options;
+    this._pasteCounter = 0;
   }
 
   doesEventContainFiles(event) {
@@ -138,6 +139,11 @@ class AssetUploader {
       var file = item.getAsFile();
 
       if(file) {
+        // Images that get pasted don't have file names, so we'll generate one
+        let extension = file.type.split("/")[1];
+        let name = "image-" + (this._pasteCounter += 1);
+        file.name = name + "." + extension;
+
         files.push(file);
       }
     }
