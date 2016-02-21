@@ -76,6 +76,11 @@ class MarkdownEditor {
     });
   }
 
+  // Convenice method to replace text in the textarea
+  replace(before, after) {
+    this.textarea.value = this.textarea.value.replace(before, after);
+  }
+
   insert(text) {
     // Grab the start/end of the currently selected text
     let selectionStart = this.textarea.selectionStart;

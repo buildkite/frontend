@@ -87,7 +87,7 @@ class FormMarkdownEdtiorField extends React.Component {
       e.preventDefault();
 
       // Insert each of the files into the textarea
-      files.forEach((f) => { this.markdownEditor.insert("![Uploading " + f.name + "...]()"); });
+      files.forEach((file) => { this.markdownEditor.insert("![Uploading " + file.name + "...]()"); });
 
       // Since we've modified the textarea's value, we need to resize and focus
       // again.
@@ -96,8 +96,9 @@ class FormMarkdownEdtiorField extends React.Component {
     }
   }
 
-  _handleAssetUploaded = (e) => {
-    console.log("uploaded...", e);
+  _handleAssetUploaded = (file, url) => {
+    // Replace the "uploading..." version of the file with the correct path
+    this.markdownEditor.replace("![Uploading " + file.name + "...]()", "![" + file.name + "](" + url + ")")
   };
 
   _handleAssetUploadError = (exception) => {
