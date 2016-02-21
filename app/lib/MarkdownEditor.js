@@ -166,11 +166,13 @@ class MarkdownEditor {
     // Split the instruction on the string replacement
     let explodedInstruction = instruction.split("{t}");
 
+    var replacement;
+
     // If there wasn't a $t character, then the length of the explosion will
     // just be 1 (since there was nothing to split on). In that case we'll just
     // insert the instruction as is.
     if(explodedInstruction.length == 1) {
-      var replacement = instruction;
+      replacement = instruction;
     } else {
       // Get the text before and after the $t so we know what to surround the
       // selection with.
@@ -178,7 +180,7 @@ class MarkdownEditor {
       let afterText = explodedInstruction[1];
 
       // Wrap the text in it's new replacement
-      var replacement = beforeText + selectedText + afterText;
+      replacement = beforeText + selectedText + afterText;
     }
 
     // Record the current replacement length because we'll need to know it's

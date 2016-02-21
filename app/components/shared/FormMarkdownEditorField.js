@@ -43,7 +43,7 @@ class FormMarkdownEdtiorField extends React.Component {
           </div>
         </div>
       );
-    };
+    }
 
     return (
       <div className={containerClasses}>
@@ -207,7 +207,7 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
   };
 
-  _handleOnDragLeave = (e) => {
+  _handleOnDragLeave = () => {
     // We don't really need to check if there were files in the drag, we can
     // just turn off the state.
     this.setState({ draggingFile: false });

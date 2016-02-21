@@ -126,7 +126,7 @@ class AssetUploader {
     for (var i = 0; i < event.dataTransfer.files.length; i++) {
       var f = event.dataTransfer.files[i];
       files.push(f);
-    };
+    }
 
     return files;
   }
