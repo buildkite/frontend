@@ -52,7 +52,10 @@ module.exports = {
 
   entry: {
     app: path.join(__dirname, './../app/app.js'),
-    vendor: ["classnames", "react", "react-dom", "react-relay", "react-router", "react-router-relay", "history", "graphql", "graphql-relay", "moment", "object-assign", "dom-align", "eventemitter3", "pusher-js"]
+    vendor: ["classnames", "react", "react-dom", "react-relay", "react-router",
+      "react-router-relay", "history", "graphql", "graphql-relay",
+      "moment", "object-assign", "dom-align", "eventemitter3", "pusher-js",
+      "whatwg-fetch", "es6-error", "escape-html"]
   },
 
   output: {
