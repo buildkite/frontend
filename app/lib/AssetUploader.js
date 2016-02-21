@@ -76,13 +76,14 @@ class AssetUploader {
   _uploadFile(upload, file) {
     var formData = new FormData();
 
-    // Add in the file to the form upload
-    formData.append('file', file);
-
     // Copy the keys from our upload instructions into the form data
     for(let key in upload.fields) {
       formData.append(key, upload.fields[key]);
     }
+
+    // AWS ignores all fields in the request after the file field, so all other
+    // fields must appear before the file.
+    formData.append('file', file);
 
     // Now we can upload the file
     fetch(upload.url, {
