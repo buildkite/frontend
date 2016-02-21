@@ -17,6 +17,7 @@ window["Webpack"] = {
 
     "components/layout/Navigation": require("./components/layout/Navigation").default,
     "components/shared/FormTextField": require("./components/shared/FormTextField").default,
+    "components/shared/FormMarkdownEditorField": require("./components/shared/FormMarkdownEditorField").default,
     "components/shared/CollapsableFormField": require("./components/shared/CollapsableFormField").default,
     "components/shared/Emojify": require("./components/shared/Emojify").default,
     "components/organization/AgentsCount": require("./components/organization/AgentsCount").default,
@@ -38,10 +39,12 @@ window["Webpack"] = {
   }
 }
 
-// Configure relay
-Relay.injectNetworkLayer(
-  new Relay.DefaultNetworkLayer(window._graphql['url'], { headers: { 'Authorization': window._graphql['authorization'] } })
-);
+// Configure relay if we have access to the GraphQL URL
+if(window._graphql) {
+  Relay.injectNetworkLayer(
+    new Relay.DefaultNetworkLayer(window._graphql['url'], { headers: { 'Authorization': window._graphql['authorization'] } })
+  );
+}
 
 // Only do the react-router gear on pages we've designated
 window["initializeReactRouter"] = function() {

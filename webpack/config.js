@@ -35,6 +35,7 @@ if(process.env.NODE_ENV == "production") {
 }
 
 var plugins = [
+  new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
   new webpack.optimize.CommonsChunkPlugin("vendor", filenameFormat),
   new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' })
 ]
@@ -51,7 +52,10 @@ module.exports = {
 
   entry: {
     app: path.join(__dirname, './../app/app.js'),
-    vendor: ["classnames", "react", "react-dom", "react-relay", "react-router", "react-router-relay", "history", "graphql", "graphql-relay", "moment", "object-assign", "dom-align", "eventemitter3", "pusher-js"]
+    vendor: ["classnames", "react", "react-dom", "react-relay", "react-router",
+      "react-router-relay", "history", "graphql", "graphql-relay",
+      "moment", "object-assign", "dom-align", "eventemitter3", "pusher-js",
+      "whatwg-fetch", "es6-error", "escape-html"]
   },
 
   output: {
