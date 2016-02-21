@@ -139,10 +139,9 @@ class AssetUploader {
       var file = item.getAsFile();
 
       if(file) {
-        // Images that get pasted don't have file names, so we'll generate one
-        let extension = file.type.split("/")[1];
-        let name = "image-" + (this._pasteCounter += 1);
-        file.name = name + "." + extension;
+        // Files that get pasted don't have file names, so we'll generate one
+        let parts = file.type.split("/");
+        file.name = parts[0] + "-" + (this._pasteCounter += 1) + "." + parts[1];
 
         files.push(file);
       }
