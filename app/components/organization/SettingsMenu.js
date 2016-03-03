@@ -1,10 +1,7 @@
 import React from 'react';
-import Menu from '../shared/Menu';
 
-import MembersIcon from "../icons/Members";
-import SettingsIcon from "../icons/Settings";
-import ServicesIcon from "../icons/Services";
-import BillingIcon from "../icons/Billing";
+import Menu from '../shared/Menu';
+import Icon from '../shared/Icon';
 
 class SettingsMenu extends React.Component {
   static propTypes = {
@@ -42,7 +39,7 @@ class SettingsMenu extends React.Component {
     if(this.props.organization.permissions.organizationUpdate.allowed) {
       items.push(
         <Menu.Button key="settings" href={`/organizations/${this.props.organization.slug}/settings`}>
-          <SettingsIcon className="icon-mr"/>Settings
+          <Icon icon="settings" className="icon-mr"/>Settings
         </Menu.Button>
       );
     }
@@ -52,15 +49,15 @@ class SettingsMenu extends React.Component {
 
       items.push(
         <Menu.Button key="members" href={`/organizations/${this.props.organization.slug}/members`} badge={membersCount}>
-          <MembersIcon className="icon-mr"/>Users
+          <Icon icon="members"className="icon-mr"/>Users
         </Menu.Button>
       );
     }
 
     if(this.props.organization.permissions.notificationServiceUpdate.allowed) {
       items.push(
-        <Menu.Button key="services" href={`/organizations/${this.props.organization.slug}/services`}>
-          <ServicesIcon className="icon-mr"/>Notification Services
+        <Menu.Button key="notification-services" href={`/organizations/${this.props.organization.slug}/services`}>
+          <Icon icon="notification-services" className="icon-mr"/>Notification Services
         </Menu.Button>
       );
     }
@@ -68,7 +65,7 @@ class SettingsMenu extends React.Component {
     if(this.props.organization.permissions.organizationBillingUpdate.allowed) {
       items.push(
         <Menu.Button key="billing" href={`/organizations/${this.props.organization.slug}/billing`}>
-          <BillingIcon className="icon-mr"/>Billing
+          <Icon icon="billing" className="icon-mr"/>Billing
         </Menu.Button>
       );
     }
