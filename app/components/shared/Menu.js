@@ -2,7 +2,7 @@ import React from "react";
 import classNames from 'classnames';
 import Badge from "../shared/Badge";
 
-class Menu extends React.Component {
+class List extends React.Component {
   static propTypes = {
     children: React.PropTypes.node
   };
@@ -29,7 +29,7 @@ class Menu extends React.Component {
   }
 }
 
-class MenuButton extends React.Component {
+class Button extends React.Component {
   static propTypes = {
     children: React.PropTypes.node
   };
@@ -48,4 +48,4 @@ class MenuButton extends React.Component {
   }
 }
 
-export { Menu, MenuButton }
+export { List, Button }

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Menu, MenuButton } from '../shared/Menu';
+import * as Menu from '../shared/Menu';
 
-import { IndexLink, Link } from 'react-router';
 import MembersIcon from "../icons/Members";
 import SettingsIcon from "../icons/Settings";
 import ServicesIcon from "../icons/Services";
@@ -42,9 +41,9 @@ class SettingsMenu extends React.Component {
 
     if(this.props.organization.permissions.organizationUpdate.allowed) {
       items.push(
-        <MenuButton href={`/organizations/${this.props.organization.slug}/settings`}>
+        <Menu.Button href={`/organizations/${this.props.organization.slug}/settings`}>
           <SettingsIcon className="mr1"/>Settings
-        </MenuButton>
+        </Menu.Button>
       );
     }
 
@@ -52,31 +51,31 @@ class SettingsMenu extends React.Component {
       let membersCount = this.props.organization.members.count + this.props.organization.invitations.count;
 
       items.push(
-        <MenuButton href={`/organizations/${this.props.organization.slug}/members`} badge={membersCount}>
+        <Menu.Button href={`/organizations/${this.props.organization.slug}/members`} badge={membersCount}>
           <MembersIcon className="mr1"/>Members
-        </MenuButton>
+        </Menu.Button>
       );
     }
 
     if(this.props.organization.permissions.notificationServiceUpdate.allowed) {
       items.push(
-        <MenuButton href={`/organizations/${this.props.organization.slug}/services`}>
+        <Menu.Button href={`/organizations/${this.props.organization.slug}/services`}>
           <ServicesIcon className="mr1"/>Services
-        </MenuButton>
+        </Menu.Button>
       );
     }
 
     if(this.props.organization.permissions.organizationBillingUpdate.allowed) {
       items.push(
-        <MenuButton href={`/organizations/${this.props.organization.slug}/billing`}>
+        <Menu.Button href={`/organizations/${this.props.organization.slug}/billing`}>
           <BillingIcon className="mr1"/>Billing
-        </MenuButton>
+        </Menu.Button>
       );
     }
 
     return (
       <div>
-        <Menu children={items} />
+        <Menu.List children={items} />
 
         <a href="/user/settings" className="btn block border rounded py2 hover-lime focus-lime">Personal Settings</a>
       </div>
