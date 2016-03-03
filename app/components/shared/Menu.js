@@ -2,50 +2,48 @@ import React from "react";
 import classNames from 'classnames';
 import Badge from "../shared/Badge";
 
-class List extends React.Component {
-  static propTypes = {
-    children: React.PropTypes.node
-  };
+const List = function(props) {
+  let children = React.Children.toArray(props.children);
+  let header = children[0];
+  let buttons = children.slice(1);
 
-  render() {
-    let children = React.Children.toArray(this.props.children);
-    let header = children[0];
-    let buttons = children.slice(1);
-
-    return (
-      <div>
-        <div className="border bg-silver py2 px3 semi-bold rounded-top">
-          {header}
-        </div>
-        <ul className="list-reset border-left border-bottom border-left border-right rounded-bottom py1">
-          {buttons.map((b, i) => {
-            return (
-              <li key={i}>{b}</li>
-            )
-          })}
-        </ul>
+  return (
+    <div>
+      <div className="border bg-silver py2 px3 semi-bold rounded-top">
+        {header}
       </div>
-    );
-  }
+      <ul className="list-reset border-left border-bottom border-left border-right rounded-bottom py1">
+        {buttons.map((b, i) => {
+          return (
+            <li key={i}>{b}</li>
+          )
+        })}
+      </ul>
+    </div>
+  );
 }
 
-class Button extends React.Component {
-  static propTypes = {
-    children: React.PropTypes.node
-  };
+List.propTypes = {
+  children: React.PropTypes.node.isRequired
+};
 
-  render() {
-    let active = (window.location.pathname.indexOf(this.props.href) == 0)
+const Button = function(props) {
+  let active = (window.location.pathname.indexOf(props.href) == 0)
 
-    let badge;
-    if(this.props.badge) {
-      badge = <Badge className={classNames("right hover-lime-child", { "bg-lime": active })}>{this.props.badge}</Badge>
-    }
-
-    return (
-      <a href={this.props.href} className={classNames("btn block hover-lime focus-lime", { "lime": active })}>{this.props.children}{badge}</a>
-    );
+  let badge;
+  if(props.badge) {
+    badge = <Badge className={classNames("right hover-lime-child", { "bg-lime": active })}>{props.badge}</Badge>
   }
+
+  return (
+    <a href={props.href} className={classNames("btn block hover-lime focus-lime", { "lime": active })}>{props.children}{badge}</a>
+  );
 }
+
+Button.propTypes = {
+  children: React.PropTypes.node.isRequired,
+  badge: React.PropTypes.integer,
+  href: React.PropTypes.string
+};
 
 export { List, Button }
