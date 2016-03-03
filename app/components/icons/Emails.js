@@ -4,7 +4,7 @@ import Icon from './Icon';
 class Emails extends React.Component {
   render() {
     return (
-      <Icon title="Emails" {...this.props}>
+      <Icon {...this.props}>
         <Icon.Placeholder/>
       </Icon>
     );

@@ -4,7 +4,7 @@ import Icon from './Icon';
 class ConnectedAccounts extends React.Component {
   render() {
     return (
-      <Icon title="Connected Accounts" {...this.props}>
+      <Icon {...this.props}>
         <Icon.Placeholder/>
       </Icon>
     );
