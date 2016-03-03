@@ -182,8 +182,6 @@ class Navigation extends React.Component {
 
     if(nodes.length > 0) {
       return nodes;
-    } else {
-      return <span className="block px3 border-bottom gray">You’ve no other organizations</span>
     }
   }
 
