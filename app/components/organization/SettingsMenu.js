@@ -36,12 +36,12 @@ class SettingsMenu extends React.Component {
 
   render() {
     let items = [
-      <Menu.Header>{this.props.organization.name}</Menu.Header>
+      <Menu.Header key="header">{this.props.organization.name}</Menu.Header>
     ];
 
     if(this.props.organization.permissions.organizationUpdate.allowed) {
       items.push(
-        <Menu.Button href={`/organizations/${this.props.organization.slug}/settings`}>
+        <Menu.Button key="settings" href={`/organizations/${this.props.organization.slug}/settings`}>
           <SettingsIcon className="mr1"/>Settings
         </Menu.Button>
       );
@@ -51,7 +51,7 @@ class SettingsMenu extends React.Component {
       let membersCount = this.props.organization.members.count + this.props.organization.invitations.count;
 
       items.push(
-        <Menu.Button href={`/organizations/${this.props.organization.slug}/members`} badge={membersCount}>
+        <Menu.Button key="members" href={`/organizations/${this.props.organization.slug}/members`} badge={membersCount}>
           <MembersIcon className="mr1"/>Members
         </Menu.Button>
       );
@@ -59,7 +59,7 @@ class SettingsMenu extends React.Component {
 
     if(this.props.organization.permissions.notificationServiceUpdate.allowed) {
       items.push(
-        <Menu.Button href={`/organizations/${this.props.organization.slug}/services`}>
+        <Menu.Button key="services" href={`/organizations/${this.props.organization.slug}/services`}>
           <ServicesIcon className="mr1"/>Services
         </Menu.Button>
       );
@@ -67,7 +67,7 @@ class SettingsMenu extends React.Component {
 
     if(this.props.organization.permissions.organizationBillingUpdate.allowed) {
       items.push(
-        <Menu.Button href={`/organizations/${this.props.organization.slug}/billing`}>
+        <Menu.Button key="billing" href={`/organizations/${this.props.organization.slug}/billing`}>
           <BillingIcon className="mr1"/>Billing
         </Menu.Button>
       );
@@ -75,7 +75,9 @@ class SettingsMenu extends React.Component {
 
     return (
       <div>
-        <Menu.List children={items} />
+        <Menu.List>
+          {items}
+        </Menu.List>
 
         <Menu.List>
           <Menu.Button href={`/user/settings`}>Personal Settings</Menu.Button>
