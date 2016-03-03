@@ -16,11 +16,13 @@ body.new-nav input,
 body.new-nav select,
 body.new-nav textarea,
 body.new-nav button {
-	font-family: "SF UI Text", Roboto, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
+  font-family: "SF UI Text", Roboto, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
 }
 
 .compact {
-	font-family: "SF Compact Text", Roboto, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
+  font-family: "SF Compact Text", Roboto, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
 }
 
-.semi-bold { font-weight: 500; }
+.semi-bold {
+  font-weight: 500;
+}

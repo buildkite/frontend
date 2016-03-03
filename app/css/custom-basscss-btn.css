@@ -20,13 +20,13 @@
   background-color: transparent;
 }
 
-.btn:hover {
+.btn:hover, .btn:active, .btn:focus {
   text-decoration: none;
+  outline: none;
 }
 
 .btn:focus {
-  outline: none;
-  text-decoration: underline;
+  /* text-decoration: underline; */
   /* border-color: var(--darken-2); */
   /* box-shadow: 0 0 0 3px var(--darken-3); */
 }
@@ -34,15 +34,4 @@
 ::-moz-focus-inner {
   border: 0;
   padding: 0;
-}
-
-@import 'basscss-defaults';
-
-:root {
-  --button-font-family: inherit;
-  --button-font-size: inherit;
-  --button-font-weight: var(--bold-font-weight, bold);
-  --button-line-height: 1.125rem;
-  --button-padding-y: .5rem;
-  --button-padding-x: 1rem;
 }

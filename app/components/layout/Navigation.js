@@ -9,7 +9,7 @@ import AgentsCount from './../organization/AgentsCount';
 import BuildsCountBadge from './../user/BuildsCountBadge';
 import NewChangelogsBadge from './../user/NewChangelogsBadge';
 
-const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none";
+const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none semi-bold";
 
 const NavigationButton = (props) => {
   return (

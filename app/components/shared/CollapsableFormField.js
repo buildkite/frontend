@@ -31,7 +31,7 @@ class CollapsableFormField extends React.Component {
     return (
       <div className={containerClasses}>
         <button type="button" className={buttonClasses} data-toggle="collapse" data-target={"#" + this.state.id} aria-expanded={!this.state.collapsed} aria-controls={this.state.id} style={{ paddingLeft: 0 }}>
-          <strong className="text-semi-bold">{this.props.label}</strong>
+          <strong className="bold">{this.props.label}</strong>
           <i className="fa fa-angle-down" style={{ marginLeft: 6 }}></i>
         </button>
         <div className={contentClasses} id={this.state.id} aria-expanded={!this.state.collapsed}>
