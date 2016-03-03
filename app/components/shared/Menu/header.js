@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = (props, context) =>
+const Header = (props) =>
   <div className="border bg-silver py2 px3 semi-bold rounded-top">
     {props.children}
   </div>

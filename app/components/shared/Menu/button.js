@@ -5,7 +5,7 @@ import Badge from "../Badge";
 
 const COLOR = (Features.NewNav) ? "lime" : "blue";
 
-const Button = (props, context) => {
+const Button = (props) => {
   let active = (window.location.pathname.indexOf(props.href) == 0)
 
   let badge;
