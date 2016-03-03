@@ -29,4 +29,6 @@ Icon.Placeholder = function() {
   )
 }
 
+Icon.Placeholder.displayName = "Icon.Placeholder"
+
 export default Icon;
