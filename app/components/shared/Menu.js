@@ -42,7 +42,7 @@ const Button = function(props) {
 
 Button.propTypes = {
   children: React.PropTypes.node.isRequired,
-  badge: React.PropTypes.integer,
+  badge: React.PropTypes.number,
   href: React.PropTypes.string
 };
 
