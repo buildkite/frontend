@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Menu from '../shared/Menu';
+import Menu from '../shared/Menu';
 
 import SettingsIcon from "../icons/Settings";
 import EmailsIcon from "../icons/Emails";
@@ -18,7 +18,7 @@ class SettingsMenu extends React.Component {
   render() {
     return (
       <div>
-        <Menu.List>
+        <Menu>
           <Menu.Header>Personal Settings</Menu.Header>
 
           <Menu.Button href={`/user/settings`}>
@@ -36,7 +36,7 @@ class SettingsMenu extends React.Component {
           <Menu.Button href={`/user/api-access-tokens`}>
             <APITokensIcon className="mr1"/>API Access Tokens
           </Menu.Button>
-        </Menu.List>
+        </Menu>
 
         {this._organizationSettingsMenu()}
       </div>
@@ -56,10 +56,10 @@ class SettingsMenu extends React.Component {
 
     if(organizations.length > 0) {
       return (
-        <Menu.List>
+        <Menu>
           <Menu.Header>Organization Settings</Menu.Header>
           {organizations}
-        </Menu.List>
+        </Menu>
       )
     }
   }

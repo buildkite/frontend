@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Menu from '../shared/Menu';
+import Menu from '../shared/Menu';
 
 import MembersIcon from "../icons/Members";
 import SettingsIcon from "../icons/Settings";
@@ -75,13 +75,13 @@ class SettingsMenu extends React.Component {
 
     return (
       <div>
-        <Menu.List>
+        <Menu>
           {items}
-        </Menu.List>
+        </Menu>
 
-        <Menu.List>
+        <Menu>
           <Menu.Button href={`/user/settings`}>Personal Settings</Menu.Button>
-        </Menu.List>
+        </Menu>
       </div>
     );
   }
