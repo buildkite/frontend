@@ -2,6 +2,14 @@ import React from "react";
 import classNames from 'classnames';
 import Badge from "../shared/Badge";
 
+const COLOR = function() {
+  if(Features.NewNav) {
+    return "lime";
+  } else {
+    return "blue";
+  }
+}()
+
 const Header = function(props) {
   return (
     <div className="border bg-silver py2 px3 semi-bold rounded-top">
@@ -56,11 +64,21 @@ const Button = function(props) {
 
   let badge;
   if(props.badge) {
-    badge = <Badge className={classNames("right hover-lime-child", { "bg-lime": active })}>{props.badge}</Badge>
+    let badgeClasses = classNames(`right hover-${COLOR}-child`, {
+      "bg-lime": (active && COLOR == "lime"),
+      "bg-blue": (active && COLOR == "blue")
+    })
+
+    badge = <Badge className={badgeClasses}>{props.badge}</Badge>
   }
 
+  let buttonClasses = classNames(`btn block hover-${COLOR} focus-${COLOR}`, {
+    "lime": (active && COLOR == "lime"),
+    "blue": (active && COLOR == "blue")
+  })
+
   return (
-    <a href={props.href} className={classNames("btn block hover-lime focus-lime", { "lime": active })}>{props.children}{badge}</a>
+    <a href={props.href} className={buttonClasses}>{props.children}{badge}</a>
   );
 }
 
