@@ -57,7 +57,7 @@ class SettingsMenu extends React.Component {
     if(organizations.length > 0) {
       return (
         <Menu.List>
-          <span>Organization Settings</span>
+          <Menu.Header>Organization Settings</Menu.Header>
           {organizations}
         </Menu.List>
       )
