@@ -1,6 +1,7 @@
 import React from 'react';
+import Placeholder from './placeholder';
 
-var Icon = function(props) {
+const Icon = (props) => {
   return (
     <svg viewBox="0 0 20 20" width="20px" height="20px" className={props.className} style={{fill: "currentColor", verticalAlign: "middle"}}>
       {titleNode()}
@@ -23,12 +24,8 @@ Icon.propTypes = {
   children: React.PropTypes.node.isRequired
 };
 
-Icon.Placeholder = function() {
-  return (
-    <rect x={0} y={0} width={20} height={20} />
-  )
-}
+Icon.displayName = "Icon";
 
-Icon.Placeholder.displayName = "Icon.Placeholder"
+Icon.Placeholder = Placeholder;
 
 export default Icon;
