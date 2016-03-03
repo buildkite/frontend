@@ -31,6 +31,7 @@
 @import 'animations';
 @import 'interaction-events';
 @import 'text';
+@import 'icons';
 
 /* Override some of the basscss defaults */
 :root {

@@ -42,7 +42,7 @@ class SettingsMenu extends React.Component {
     if(this.props.organization.permissions.organizationUpdate.allowed) {
       items.push(
         <Menu.Button key="settings" href={`/organizations/${this.props.organization.slug}/settings`}>
-          <SettingsIcon className="mr1"/>Settings
+          <SettingsIcon className="icon-mr"/>Settings
         </Menu.Button>
       );
     }
@@ -52,7 +52,7 @@ class SettingsMenu extends React.Component {
 
       items.push(
         <Menu.Button key="members" href={`/organizations/${this.props.organization.slug}/members`} badge={membersCount}>
-          <MembersIcon className="mr1"/>Members
+          <MembersIcon className="icon-mr"/>Members
         </Menu.Button>
       );
     }
@@ -60,7 +60,7 @@ class SettingsMenu extends React.Component {
     if(this.props.organization.permissions.notificationServiceUpdate.allowed) {
       items.push(
         <Menu.Button key="services" href={`/organizations/${this.props.organization.slug}/services`}>
-          <ServicesIcon className="mr1"/>Services
+          <ServicesIcon className="icon-mr"/>Services
         </Menu.Button>
       );
     }
@@ -68,7 +68,7 @@ class SettingsMenu extends React.Component {
     if(this.props.organization.permissions.organizationBillingUpdate.allowed) {
       items.push(
         <Menu.Button key="billing" href={`/organizations/${this.props.organization.slug}/billing`}>
-          <BillingIcon className="mr1"/>Billing
+          <BillingIcon className="icon-mr"/>Billing
         </Menu.Button>
       );
     }
