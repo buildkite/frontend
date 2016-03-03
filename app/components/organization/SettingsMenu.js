@@ -52,7 +52,7 @@ class SettingsMenu extends React.Component {
 
       items.push(
         <Menu.Button key="members" href={`/organizations/${this.props.organization.slug}/members`} badge={membersCount}>
-          <MembersIcon className="icon-mr"/>Members
+          <MembersIcon className="icon-mr"/>Users
         </Menu.Button>
       );
     }
@@ -60,7 +60,7 @@ class SettingsMenu extends React.Component {
     if(this.props.organization.permissions.notificationServiceUpdate.allowed) {
       items.push(
         <Menu.Button key="services" href={`/organizations/${this.props.organization.slug}/services`}>
-          <ServicesIcon className="icon-mr"/>Services
+          <ServicesIcon className="icon-mr"/>Notification Services
         </Menu.Button>
       );
     }

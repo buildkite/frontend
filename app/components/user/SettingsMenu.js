@@ -22,19 +22,19 @@ class SettingsMenu extends React.Component {
           <Menu.Header>Personal Settings</Menu.Header>
 
           <Menu.Button href={`/user/settings`}>
-            <SettingsIcon className="mr1"/>Settings
+            <SettingsIcon className="icon-mr"/>Profile &amp; Password
           </Menu.Button>
 
           <Menu.Button href={`/user/emails`}>
-            <EmailsIcon className="mr1"/>Emails
+            <EmailsIcon className="icon-mr"/>Email Settings
           </Menu.Button>
 
           <Menu.Button href={`/user/connected-accounts`}>
-            <ConnectedAccountsIcon className="mr1"/>Connected Accounts
+            <ConnectedAccountsIcon className="icon-mr"/>Connected Services
           </Menu.Button>
 
           <Menu.Button href={`/user/api-access-tokens`}>
-            <APITokensIcon className="mr1"/>API Access Tokens
+            <APITokensIcon className="icon-mr"/>API Access Tokens
           </Menu.Button>
         </Menu>
 
