@@ -17,30 +17,66 @@ class SettingsMenu extends React.Component {
       }),
       invitations: React.PropTypes.shape({
         count: React.PropTypes.number.isRequired
+      }),
+      permissions: React.PropTypes.shape({
+        organizationUpdate: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }),
+        organizationMemberCreate: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }),
+        notificationServiceUpdate: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }),
+        organizationBillingUpdate: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        })
       })
     })
   };
 
   render() {
-    let memberCount = this.props.organization.members.count + this.props.organization.invitations.count;
+    let items = [
+      <span>{this.props.organization.name}</span>
+    ];
+
+    if(this.props.organization.permissions.organizationUpdate.allowed) {
+      items.push(
+        <MenuButton href={`/organizations/${this.props.organization.slug}/settings`}>
+          <SettingsIcon className="mr1"/>Settings
+        </MenuButton>
+      );
+    }
+
+    if(this.props.organization.permissions.organizationMemberCreate.allowed) {
+      let membersCount = this.props.organization.members.count + this.props.organization.invitations.count;
+
+      items.push(
+        <MenuButton href={`/organizations/${this.props.organization.slug}/members`} badge={membersCount}>
+          <MembersIcon className="mr1"/>Members
+        </MenuButton>
+      );
+    }
+
+    if(this.props.organization.permissions.notificationServiceUpdate.allowed) {
+      items.push(
+        <MenuButton href={`/organizations/${this.props.organization.slug}/services`}>
+          <ServicesIcon className="mr1"/>Services
+        </MenuButton>
+      );
+    }
+
+    if(this.props.organization.permissions.organizationBillingUpdate.allowed) {
+      items.push(
+        <MenuButton href={`/organizations/${this.props.organization.slug}/billing`}>
+          <BillingIcon className="mr1"/>Billing
+        </MenuButton>
+      );
+    }
 
     return (
       <div>
-        <Menu>
-          <span>{this.props.organization.name}</span>
-          <MenuButton href={`/organizations/${this.props.organization.slug}/settings`}>
-            <SettingsIcon className="mr1"/>Settings
-          </MenuButton>
-          <MenuButton href={`/organizations/${this.props.organization.slug}/members`} badge={memberCount}>
-            <MembersIcon className="mr1"/>Members
-          </MenuButton>
-          <MenuButton href={`/organizations/${this.props.organization.slug}/services`}>
-            <ServicesIcon className="mr1"/>Services
-          </MenuButton>
-          <MenuButton href={`/organizations/${this.props.organization.slug}/billing`}>
-            <BillingIcon className="mr1"/>Billing
-          </MenuButton>
-	</Menu>
+        <Menu children={items} />
 
         <a href="/user/settings" className="btn block border rounded py2 hover-lime focus-lime">Personal Settings</a>
       </div>
