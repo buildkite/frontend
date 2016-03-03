@@ -19,16 +19,20 @@ class SettingsMenu extends React.Component {
     return (
       <div>
         <Menu.List>
-          <span>Personal Settings</span>
+          <Menu.Header>Personal Settings</Menu.Header>
+
           <Menu.Button href={`/user/settings`}>
             <SettingsIcon className="mr1"/>Settings
           </Menu.Button>
+
           <Menu.Button href={`/user/emails`}>
             <EmailsIcon className="mr1"/>Emails
           </Menu.Button>
+
           <Menu.Button href={`/user/connected-accounts`}>
             <ConnectedAccountsIcon className="mr1"/>Connected Accounts
           </Menu.Button>
+
           <Menu.Button href={`/user/api-access-tokens`}>
             <APITokensIcon className="mr1"/>API Access Tokens
           </Menu.Button>

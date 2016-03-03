@@ -2,17 +2,41 @@ import React from "react";
 import classNames from 'classnames';
 import Badge from "../shared/Badge";
 
+const Header = function(props) {
+  return (
+    <div className="border bg-silver py2 px3 semi-bold rounded-top">
+      {props.children}
+    </div>
+  );
+}
+
+Header.propTypes = {
+  children: React.PropTypes.node.isRequired
+};
+
 const List = function(props) {
   let children = React.Children.toArray(props.children);
-  let header = children[0];
-  let buttons = children.slice(1);
+
+  // See if the first child is a header component
+  let header;
+  let buttons;
+  if(children[0].type.name == "Header") {
+    header = children[0];
+    buttons = children.slice(1);
+  } else {
+    buttons = children;
+  }
+
+  // Toggle the presence of the top border in the list if there isn't a header
+  let classes = classNames("list-reset py1", {
+    "border rounded": !header,
+    "border-bottom border-left border-right rounded-bottom": header
+  });
 
   return (
     <div>
-      <div className="border bg-silver py2 px3 semi-bold rounded-top">
-        {header}
-      </div>
-      <ul className="list-reset border-left border-bottom border-left border-right rounded-bottom py1">
+      {header}
+      <ul className={classes}>
         {buttons.map((b, i) => {
           return (
             <li key={i}>{b}</li>
@@ -46,4 +70,4 @@ Button.propTypes = {
   href: React.PropTypes.string
 };
 
-export { List, Button }
+export { List, Header, Button }

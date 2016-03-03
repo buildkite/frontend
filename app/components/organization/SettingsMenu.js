@@ -36,7 +36,7 @@ class SettingsMenu extends React.Component {
 
   render() {
     let items = [
-      <span>{this.props.organization.name}</span>
+      <Menu.Header>{this.props.organization.name}</Menu.Header>
     ];
 
     if(this.props.organization.permissions.organizationUpdate.allowed) {
@@ -77,7 +77,9 @@ class SettingsMenu extends React.Component {
       <div>
         <Menu.List children={items} />
 
-        <a href="/user/settings" className="btn block border rounded py2 hover-lime focus-lime">Personal Settings</a>
+        <Menu.List>
+          <Menu.Button href={`/user/settings`}>Personal Settings</Menu.Button>
+        </Menu.List>
       </div>
     );
   }
