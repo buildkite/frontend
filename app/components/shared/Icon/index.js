@@ -13,8 +13,8 @@ const pathNodes = (props) => {
   switch (props.icon) {
 	  case 'settings':
                   return require("./settings").default;
-	  case 'members':
-                  return require("./members").default;
+	  case 'users':
+                  return require("./users").default;
 	  case 'notification-services':
                   return require("./notification-services").default;
 	  case 'billing':

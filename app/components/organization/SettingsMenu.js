@@ -48,8 +48,8 @@ class SettingsMenu extends React.Component {
       let membersCount = this.props.organization.members.count + this.props.organization.invitations.count;
 
       items.push(
-        <Menu.Button key="members" href={`/organizations/${this.props.organization.slug}/members`} badge={membersCount}>
-          <Icon icon="members"className="icon-mr"/>Users
+        <Menu.Button key="users" href={`/organizations/${this.props.organization.slug}/users`} badge={membersCount}>
+          <Icon icon="users"className="icon-mr"/>Users
         </Menu.Button>
       );
     }
