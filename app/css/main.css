@@ -23,8 +23,10 @@
 
 /* Include our custom classes */
 @import 'hover-colors';
+@import 'bg-hover-colors';
 @import 'hover-effects';
 @import 'focus-colors';
+@import 'active-colors';
 @import 'shadows';
 @import 'rounded';
 @import 'transitions';

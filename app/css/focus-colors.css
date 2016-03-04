@@ -13,3 +13,7 @@
 .focus-white:focus {
   color: var(--white) !important;
 }
+
+.focus-black:focus {
+  color: var(--black);
+}
