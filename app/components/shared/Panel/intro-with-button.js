@@ -1,9 +1,9 @@
 import React from "react";
 
 const IntroWithButton = (props) =>
-  <div className="py2 px3 flex">
+  <div className="py3 px3 flex">
     {props.children[0]}
-    <div className="ml2">
+    <div className="ml3">
       {props.children[1]}
     </div>
   </div>
