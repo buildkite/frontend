@@ -1,41 +1,41 @@
 import React from 'react';
 import Logger from '../../../lib/Logger';
 
-const titleNode = (props) => {
-  if (props.title) {
+const titleNode = (title) => {
+  if (title) {
     return (
-      <title>{props.title}</title>
+      <title>{title}</title>
     );
   }
 }
 
-const pathNodes = (props) => {
-  switch (props.icon) {
-	  case 'settings':
-                  return require("./settings").default;
-	  case 'users':
-                  return require("./users").default;
-	  case 'notification-services':
-                  return require("./notification-services").default;
-	  case 'billing':
-                  return require("./billing").default;
-	  case 'emails':
-                  return require("./emails").default;
-	  case 'connected-apps':
-                  return require("./connected-apps").default;
-	  case 'api-tokens':
-                  return require("./api-tokens").default;
-          default:
-                  Logger.error(`[Icon] No icon defined for "${props.icon}"`);
-                  return require("./placeholder").default;
+const pathNodes = (icon) => {
+  switch (icon) {
+    case 'settings':
+      return require("./settings").default;
+    case 'users':
+      return require("./users").default;
+    case 'notification-services':
+      return require("./notification-services").default;
+    case 'billing':
+      return require("./billing").default;
+    case 'emails':
+      return require("./emails").default;
+    case 'connected-apps':
+      return require("./connected-apps").default;
+    case 'api-tokens':
+      return require("./api-tokens").default;
+    default:
+      Logger.error(`[Icon] No icon defined for "${props.icon}"`);
+      return require("./placeholder").default;
   }
 }
 
 const Icon = (props) => {
   return (
     <svg viewBox="0 0 20 20" width="20px" height="20px" className={props.className} style={{fill: "currentColor", verticalAlign: "middle"}}>
-      {titleNode(props)}
-      {pathNodes(props)}
+      {titleNode(props.title)}
+      {pathNodes(props.icon)}
     </svg>
   );
 }
