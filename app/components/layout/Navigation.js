@@ -5,6 +5,7 @@ import UserAvatar from './../shared/UserAvatar';
 import Button from './../shared/Button';
 import Dropdown from './../shared/Dropdown';
 import Badge from './../shared/Badge';
+import Permissions from './../shared/Permissions';
 import AgentsCount from './../organization/AgentsCount';
 import BuildsCountBadge from './../user/BuildsCountBadge';
 import NewChangelogsBadge from './../user/NewChangelogsBadge';
@@ -189,33 +190,19 @@ class Navigation extends React.Component {
     var organization = this.props.organization;
     var paddingLeft = options.paddingLeft != undefined ? options.paddingLeft : 15;
 
-    // Find the first settings permission that we're allowed to perform
-    let permission;
-    for(let name in organization.permissions) {
-      let allowed = organization.permissions[name].allowed;
-      if(allowed) {
-        permission = name;
-      }
-    }
-
-    // If there was a settings permission, show the button
-    let settingsButton;
-    if(permission) {
-      settingsButton = (
-        <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
-      );
-    }
-
     if(organization) {
       return (
-        <span className={classNames("flex", options.className)}>
+        <Permissions permissions={organization.permissions} className={classNames("flex", options.className)}>
           <NavigationButton style={{ paddingLeft: paddingLeft }} href={`/${organization.slug}`}>Pipelines</NavigationButton>
           <NavigationButton href={`/organizations/${organization.slug}/agents`}>
             {'Agents'}
             <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
           </NavigationButton>
-          {settingsButton}
-        </span>
+
+          <Permissions.Any>
+            <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+          </Permissions.Any>
+        </Permissions>
       )
     }
   }
