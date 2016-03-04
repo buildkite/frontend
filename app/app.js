@@ -52,11 +52,15 @@ if(window._graphql) {
 window["initializeReactRouter"] = function() {
   // Require the packages we need to setup routing
   let Route = require("react-router").Route;
+  let IndexRoute = require("react-router").IndexRoute;
   let browserHistory = require("react-router").browserHistory;
   let RelayRouter = require('react-router-relay').RelayRouter;
 
   // The components used in the router
   let BuildCommentsList = require("./components/build/CommentsList").default;
+  let OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
+  let TeamList = require("./components/team/List").default;
+  let PageLoader = require("./components/PageLoader").default;
 
   // Queries used when you want to show a build
   const Queries = {
@@ -69,7 +73,12 @@ window["initializeReactRouter"] = function() {
       query {
 	build(slug: $slug)
       }
-    `
+    `,
+    organization: () => Relay.QL`
+      query {
+	organization(slug: $slug)
+      }
+    `,
   };
 
   // Since relay doesn't currently support root fields with multiple
@@ -83,10 +92,25 @@ window["initializeReactRouter"] = function() {
     };
   }
 
+  function prepareOrganizationParams(params) {
+    return {
+      ...params,
+      slug: params.organization
+    };
+  }
+
   // Define and render the routes
   ReactDOM.render(
     <RelayRouter history={browserHistory}>
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={Queries} prepareParams={prepareBuildParams} />
+
+      <Route path="/">
+	<Route path="organizations/:organization" component={OrganizationSettingsSection} queries={Queries} prepareParams={prepareOrganizationParams} renderLoading={() => <PageLoader />}>
+	  <Route path="teams">
+	    <IndexRoute component={TeamList} queries={Queries} prepareParams={prepareOrganizationParams} renderLoading={() => <PageLoader />} />
+	  </Route>
+	</Route>
+      </Route>
     </RelayRouter>
   , document.getElementById('root'));
 }
