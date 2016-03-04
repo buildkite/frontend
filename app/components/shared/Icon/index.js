@@ -21,8 +21,8 @@ const pathNodes = (props) => {
                   return require("./billing").default;
 	  case 'emails':
                   return require("./emails").default;
-	  case 'connected-accounts':
-                  return require("./connected-accounts").default;
+	  case 'connected-apps':
+                  return require("./connected-apps").default;
 	  case 'api-tokens':
                   return require("./api-tokens").default;
           default:

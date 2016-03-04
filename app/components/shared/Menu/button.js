@@ -18,7 +18,7 @@ const Button = (props) => {
     badge = <Badge className={badgeClasses}>{props.badge}</Badge>
   }
 
-  let buttonClasses = classNames(`btn block hover-${COLOR} focus-${COLOR}`, {
+  let buttonClasses = classNames(`btn block hover-${COLOR} focus-${COLOR} truncate`, {
     "lime": (active && COLOR == "lime"),
     "blue": (active && COLOR == "blue")
   })

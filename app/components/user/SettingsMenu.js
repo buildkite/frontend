@@ -26,8 +26,8 @@ class SettingsMenu extends React.Component {
             <Icon icon="emails" className="icon-mr"/>Email Settings
           </Menu.Button>
 
-          <Menu.Button href={`/user/connected-accounts`}>
-            <Icon icon="connected-accounts" className="icon-mr"/>Connected Services
+          <Menu.Button href={`/user/connected-apps`}>
+            <Icon icon="connected-apps" className="icon-mr"/>Connected Apps
           </Menu.Button>
 
           <Menu.Button href={`/user/api-access-tokens`}>
