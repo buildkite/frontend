@@ -26,7 +26,7 @@ const pathNodes = (icon) => {
     case 'api-tokens':
       return require("./api-tokens").default;
     default:
-      Logger.error(`[Icon] No icon defined for "${props.icon}"`);
+      Logger.error(`[Icon] No icon defined for "${icon}"`);
       return require("./placeholder").default;
   }
 }
