@@ -9,7 +9,7 @@ import AgentsCount from './../organization/AgentsCount';
 import BuildsCountBadge from './../user/BuildsCountBadge';
 import NewChangelogsBadge from './../user/NewChangelogsBadge';
 
-const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none";
+const buttonClassNames = "btn black hover-lime focus-lime flex flex-center flex-none semi-bold";
 
 const NavigationButton = (props) => {
   return (
@@ -87,7 +87,7 @@ class Navigation extends React.Component {
                 </span>
               </DropdownButton>
               {this._organizationsList()}
-              <NavigationButton href="/organizations/new" className="block"><i className="fa fa-plus-circle" style={{ marginRight: '.7rem' }}/>Create New Organization</NavigationButton>
+              <NavigationButton href="/organizations/new" className="block"><i className="fa fa-plus-circle icon-mr"/>Create New Organization</NavigationButton>
             </Dropdown>
 
             {this._topOrganizationMenu()}
@@ -182,14 +182,29 @@ class Navigation extends React.Component {
 
     if(nodes.length > 0) {
       return nodes;
-    } else {
-      return <span className="block px3 border-bottom gray">You’ve no other organizations</span>
     }
   }
 
   _organizationMenu(options = {}) {
     var organization = this.props.organization;
     var paddingLeft = options.paddingLeft != undefined ? options.paddingLeft : 15;
+
+    // Find the first settings permission that we're allowed to perform
+    let permission;
+    for(let name in organization.permissions) {
+      let allowed = organization.permissions[name].allowed;
+      if(allowed) {
+        permission = name;
+      }
+    }
+
+    // If there was a settings permission, show the button
+    let settingsButton;
+    if(permission) {
+      settingsButton = (
+        <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+      );
+    }
 
     if(organization) {
       return (
@@ -199,7 +214,7 @@ class Navigation extends React.Component {
             {'Agents'}
             <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
           </NavigationButton>
-          <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+          {settingsButton}
         </span>
       )
     }

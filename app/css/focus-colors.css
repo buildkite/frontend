@@ -6,6 +6,10 @@
   color: var(--lime);
 }
 
+.focus-blue:focus {
+  color: var(--blue);
+}
+
 .focus-white:focus {
   color: var(--white) !important;
 }

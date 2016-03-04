@@ -18,7 +18,6 @@
 @import 'basscss-colors';
 @import 'basscss-background-colors';
 @import 'basscss-border-colors';
-@import 'basscss-defaults';
 
 @import 'custom-basscss-responsive-states';
 
@@ -32,21 +31,32 @@
 @import 'animations';
 @import 'interaction-events';
 @import 'text';
+@import 'icons';
 
 /* Override some of the basscss defaults */
 :root {
   --silver: #F9FAFB;
   --lime: #7EAF25;
+  --blue: #337ab7;
+
   --border-color: #DDDDDD;
-  --bold-font-weight: 500;
+
+  --bold-font-weight: 600;
+
   --container-width: 100%;
+
   --space-1: 5px;
   --space-2: 10px;
   --space-3: 15px;
   --space-4: 20px;
+
   --button-line-height: 1.42857;
   --button-padding-y: 6px;
   --button-padding-x: 12px;
+  --button-font-family: inherit;
+  --button-font-size: inherit;
+  --button-font-weight: var(--bold-font-weight, bold);
+  --button-font-weight: 500;
 }
 
 /* Custom breakpoints that match bootstrap */

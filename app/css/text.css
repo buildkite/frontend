@@ -6,6 +6,11 @@
 	Linux - Helvetica, Arial
 **/
 
+/* The old font we use, only has semi-bold at 600 (not 500 like SF UI does) */
+.semi-bold {
+  font-weight: 600;
+}
+
 body.new-nav,
 body.new-nav h1,
 body.new-nav h2,
@@ -16,11 +21,9 @@ body.new-nav input,
 body.new-nav select,
 body.new-nav textarea,
 body.new-nav button {
-	font-family: "SF UI Text", Roboto, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
+  font-family: "SF UI Text", Roboto, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
 }
 
-.compact {
-	font-family: "SF Compact Text", Roboto, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
+body.new-nav .semi-bold {
+  font-weight: 500;
 }
-
-.semi-bold { font-weight: 500; }

@@ -37,3 +37,13 @@
 .hover-black:focus .hover-black-child {
   background-color: var(--black);
 }
+
+.hover-blue:hover {
+  color: var(--blue);
+}
+
+.hover-blue:hover .hover-blue-child,
+.hover-blue:active .hover-blue-child,
+.hover-blue:focus .hover-blue-child {
+  background-color: var(--blue);
+}

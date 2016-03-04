@@ -1,7 +1,7 @@
 {
   "parser": "babel-eslint",
   "extends": "eslint:recommended",
-  "globals": { "require": true },
+  "globals": { "require": true, "Features": true },
   "env": {
     "es6": true,
     "browser": true
