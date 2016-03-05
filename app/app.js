@@ -16,6 +16,7 @@ window["Webpack"] = {
     "eventemitter3": require("eventemitter3"),
 
     "components/layout/Navigation": require("./components/layout/Navigation").default,
+    "components/layout/Footer": require("./components/layout/Footer").default,
     "components/shared/FormTextField": require("./components/shared/FormTextField").default,
     "components/shared/FormMarkdownEditorField": require("./components/shared/FormMarkdownEditorField").default,
     "components/shared/CollapsableFormField": require("./components/shared/CollapsableFormField").default,
