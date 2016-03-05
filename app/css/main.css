@@ -1,4 +1,7 @@
+@import 'colors';
 @import 'btn';
+@import 'btn-primary';
+@import 'bg-hover-colors';
 @import 'hover-colors';
 @import 'hover-fading';
 @import 'hover-underline';
@@ -15,6 +18,8 @@
 @import 'basscss-colors';
 @import 'basscss-background-colors';
 @import 'basscss-border-colors';
+@import 'basscss-darken';
+@import 'basscss-lighten';
 
 /* Override some of the basscss defaults */
 :root {
@@ -22,6 +27,7 @@
   --lime: #7EAF25;
   --blue: #337ab7;
   --gray: #DDDDDD;
+  --dark-gray: #BBBBBB;
 
   --bold-font-weight: 600;
 
