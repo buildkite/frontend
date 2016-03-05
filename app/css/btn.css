@@ -1,0 +1,27 @@
+.btn {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1.42857;
+  padding: 6px 12px;
+  margin: 0;
+  height: auto;
+  border: 1px solid transparent;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  color: inherit;
+  background-color: transparent;
+}
+
+.btn:hover, .btn:active, .btn:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
