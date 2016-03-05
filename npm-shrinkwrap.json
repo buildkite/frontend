@@ -613,6 +613,11 @@
       "from": "basscss-align@>=1.0.2 <2.0.0",
       "resolved": "https://registry.npmjs.org/basscss-align/-/basscss-align-1.0.2.tgz"
     },
+    "basscss-background-colors": {
+      "version": "2.1.0",
+      "from": "basscss-background-colors@*",
+      "resolved": "https://registry.npmjs.org/basscss-background-colors/-/basscss-background-colors-2.1.0.tgz"
+    },
     "basscss-border": {
       "version": "4.0.2",
       "from": "basscss-border@>=4.0.2 <5.0.0",

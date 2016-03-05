@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "basscss": "^8.0.1",
+    "basscss-background-colors": "^2.1.0",
     "basscss-border-colors": "^2.1.0",
     "basscss-colors": "^2.2.0",
     "classnames": "^2.2.3",
