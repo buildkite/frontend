@@ -8,6 +8,11 @@ const Link = (props) => {
   );
 }
 
+Link.propTypes = {
+  href: React.PropTypes.string.isRequired,
+  children: React.PropTypes.node.isRequired
+};
+
 class Footer extends React.Component {
   static propTypes = {
     viewer: React.PropTypes.shape({
