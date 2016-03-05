@@ -26,7 +26,7 @@ class Footer extends React.Component {
     let changelogBadge;
     if(this.props.viewer && this.props.viewer.unreadChangelogs.count > 0) {
       changelogBadge = (
-        <span className="inline-block bg-black hover-lime-child white rounded ml1 small p1 line-height-1">{this.props.viewer.unreadChangelogs.count}</span>
+        <span className={`inline-block bg-black hover-${COLOR}-child white rounded ml1 small p1 line-height-1`}>{this.props.viewer.unreadChangelogs.count}</span>
       );
     }
 
