@@ -1,15 +1,15 @@
 .btn {
-  font-family: var(--button-font-family);
-  font-size: var(--button-font-size);
-  font-weight: var(--button-font-weight);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
   text-decoration: none;
   cursor: pointer;
   display: inline-block;
-  line-height: var(--button-line-height);
-  padding: var(--button-padding-y) var(--button-padding-x);
+  line-height: 1.42857;
+  padding: 6px 12px;
   margin: 0;
   height: auto;
-  border: var(--border-width) solid transparent;
+  border: 1px solid transparent;
   vertical-align: middle;
   -webkit-appearance: none;
   color: inherit;

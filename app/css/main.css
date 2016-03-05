@@ -26,6 +26,7 @@
 
   --container-width: 100%;
 
+  --h1: 25px;
   --h3: 24px;
   --h4: 18px;
   --h5: 14px;
@@ -35,14 +36,6 @@
   --space-2: 10px;
   --space-3: 15px;
   --space-4: 20px;
-
-  --button-line-height: 1.42857;
-  --button-padding-y: 6px;
-  --button-padding-x: 12px;
-  --button-font-family: inherit;
-  --button-font-size: inherit;
-  --button-font-weight: var(--bold-font-weight, bold);
-  --button-font-weight: 500;
 }
 
 /* Custom breakpoints that match bootstrap */
