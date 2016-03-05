@@ -1,6 +1,13 @@
 steps:
   - wait
 
+  - name: ":npm:"
+    command: "rm -r node_modules; npm-cache install npm"
+    concurrency: 1
+    concurrency_group: "npmer"
+
+  - wait
+
   - name: ":eslint:"
     command: ".buildkite/eslint.sh"
 
