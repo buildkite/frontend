@@ -1,13 +1,8 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-class CommentsList extends React.Component {
-  render() {
-    return (
-      <span>Comments</span>
-    );
-  }
-}
+const CommentsList = () =>
+  <span>Comments</span>
 
 export default Relay.createContainer(CommentsList, {
   fragments: {
