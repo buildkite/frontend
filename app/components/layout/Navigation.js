@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 
 import UserAvatar from './../shared/UserAvatar';
-import Button from './../shared/Button';
 import Dropdown from './../shared/Dropdown';
 import Badge from './../shared/Badge';
 import Permissions from './../shared/Permissions';
@@ -14,7 +13,7 @@ const buttonClassNames = "btn black hover-lime focus-lime flex items-center flex
 
 const NavigationButton = (props) => {
   return (
-    <a href={props.href} style={props.style} className={buttonClassNames + " " + props.className}>{props.children}</a>
+    <a href={props.href} style={props.style} className={buttonClassNames + " " + props.className} onClick={props.onClick}>{props.children}</a>
   );
 }
 
@@ -22,7 +21,8 @@ NavigationButton.propTypes = {
   style: React.PropTypes.object,
   className: React.PropTypes.string,
   href: React.PropTypes.string,
-  children: React.PropTypes.node
+  children: React.PropTypes.node,
+  onClick: React.PropTypes.func
 };
 
 const DropdownButton = (props) => {
@@ -117,7 +117,11 @@ class Navigation extends React.Component {
                 <NavigationButton className="md-hide lg-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
               </div>
 
-              <Button action="/logout" method="delete" className="black hover-lime focus-lime block left-align" style={{width: "100%"}}>Logout</Button>
+              <form action="/logout" method="post" ref={c => this.logoutFormNode = c}>
+                <input type="hidden" name="_method" value={"delete"} />
+                <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
+                <NavigationButton onClick={this.handleLogoutClick}>Logout</NavigationButton>
+              </form>
             </Dropdown>
           </div>
 
@@ -162,6 +166,11 @@ class Navigation extends React.Component {
 
   handleUserDropdownToggle = (visible) => {
     this.setState({ showingUserDropdown: visible });
+  };
+
+  handleLogoutClick = (e) => {
+    e.preventDefault();
+    this.logoutFormNode.submit();
   };
 
   _organizationSelectorLabel() {
