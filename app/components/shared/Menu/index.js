@@ -18,7 +18,7 @@ const Menu = function(props) {
   }
 
   // Toggle the presence of the top border in the list if there isn't a header
-  let classes = classNames("list-reset py1", {
+  let classes = classNames("list-reset py1 border-gray", {
     "border rounded": !header,
     "border-bottom border-left border-right rounded-bottom": header
   });

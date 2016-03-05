@@ -1,7 +1,3 @@
-/* This is a copy/paste of the basscss .btn implementation, but we've commented
- * out the border color change on :focus, because there's no way to override it
- * after the fact, and we don't really like it's styling */
-
 .btn {
   font-family: var(--button-font-family);
   font-size: var(--button-font-size);
@@ -23,12 +19,6 @@
 .btn:hover, .btn:active, .btn:focus {
   text-decoration: none;
   outline: none;
-}
-
-.btn:focus {
-  /* text-decoration: underline; */
-  /* border-color: var(--darken-2); */
-  /* box-shadow: 0 0 0 3px var(--darken-3); */
 }
 
 ::-moz-focus-inner {
