@@ -3,6 +3,8 @@ import React from "react";
 import Header from "./header";
 import IntroWithButton from "./intro-with-button";
 import RowLink from "./row-link";
+import Body from "./body";
+import Footer from "./footer";
 
 const Panel = function(props) {
   return (
@@ -21,5 +23,7 @@ Panel.displayName = "Panel";
 Panel.Header = Header;
 Panel.IntroWithButton = IntroWithButton;
 Panel.RowLink = RowLink;
+Panel.Body = Body;
+Panel.Footer = Footer;
 
 export default Panel;

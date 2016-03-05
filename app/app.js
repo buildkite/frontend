@@ -60,7 +60,8 @@ window["initializeReactRouter"] = function() {
   let BuildCommentsList = require("./components/build/CommentsList").default;
   let OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
   let TeamList = require("./components/team/List").default;
-  let PageLoader = require("./components/PageLoader").default;
+  let TeamNew = require("./components/team/New").default;
+  let PageLoader = require("./components/shared/PageLoader").default;
 
   // Queries used when you want to show a build
   const BuildQueries = {
@@ -105,6 +106,7 @@ window["initializeReactRouter"] = function() {
 	<Route path="organizations/:organization" component={OrganizationSettingsSection} queries={OrganizationQueries} renderLoading={() => <PageLoader />}>
 	  <Route path="teams">
 	    <IndexRoute component={TeamList} queries={OrganizationQueries} renderLoading={() => <PageLoader />} />
+            <Route path="new" component={TeamNew} queries={OrganizationQueries} renderLoading={() => <PageLoader />} />
 	  </Route>
 	</Route>
       </Route>
