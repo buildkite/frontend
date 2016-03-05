@@ -1,6 +1,7 @@
 @import 'btn';
 @import 'hover-colors';
-@import 'hover-effects';
+@import 'hover-fading';
+@import 'hover-underline';
 @import 'focus-colors';
 @import 'shadows';
 @import 'rounded';
