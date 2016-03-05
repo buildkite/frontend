@@ -17,7 +17,7 @@
     "strict": 2,
     "no-console": 2,
     "no-new-require": 2,
-    "react/display-name": [2, { "acceptTranspilerName": true }],
+    "react/display-name": [2, { "ignoreTranspilerName": false }],
     "react/forbid-prop-types": 0,
     "react/jsx-boolean-value": 2,
     "react/jsx-closing-bracket-location": 0,
