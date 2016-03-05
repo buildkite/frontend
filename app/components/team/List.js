@@ -18,7 +18,7 @@ class List extends React.Component {
             return (
 	      <Panel.RowLink key={team.node.id} to={`/organizations/${this.props.organization.slug}/teams/${team.node.slug}`}>
 		<strong className="semi-bold">{team.node.name}</strong><br/>
-		<span className="gray">{team.node.members.count} members · {team.node.pipelines.count} projects</span><br/>
+		<span className="regular gray">{team.node.members.count} members · {team.node.pipelines.count} projects</span><br/>
 	      </Panel.RowLink>
             )
           })
