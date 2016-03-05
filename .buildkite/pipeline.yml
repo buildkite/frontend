@@ -2,7 +2,7 @@ steps:
   - wait
 
   - name: ":npm:"
-    command: "rm -r node_modules; npm-cache install npm"
+    command: ".buildkite/npm.sh"
     concurrency: 1
     concurrency_group: "npmer"
 
