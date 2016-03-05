@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import UserAvatar from './../shared/UserAvatar';
 import Button from './../shared/Button';
+import RailsActionButton from './../shared/RailsActionButton';
 import Dropdown from './../shared/Dropdown';
 import Badge from './../shared/Badge';
 import Permissions from './../shared/Permissions';
@@ -117,7 +118,7 @@ class Navigation extends React.Component {
                 <NavigationButton className="md-hide lg-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
               </div>
 
-              <Button action="/logout" method="delete" className="black hover-lime focus-lime block left-align" style={{width: "100%"}}>Logout</Button>
+              <RailsActionButton action="/logout" method="delete" className="black hover-lime focus-lime block left-align" style={{width: "100%"}} theme={false}>Logout</RailsActionButton>
             </Dropdown>
           </div>
 

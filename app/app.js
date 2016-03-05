@@ -53,6 +53,7 @@ if(window._graphql) {
 window["initializeReactRouter"] = function() {
   // Require the packages we need to setup routing
   let Route = require("react-router").Route;
+  let IndexRoute = require("react-router").IndexRoute;
   let browserHistory = require("react-router").browserHistory;
   let RelayRouter = require('react-router-relay').RelayRouter;
 
@@ -60,7 +61,7 @@ window["initializeReactRouter"] = function() {
   let BuildCommentsList = require("./components/build/CommentsList").default;
 
   // Queries used when you want to show a build
-  const Queries = {
+  const BuildQueries = {
     viewer: () => Relay.QL`
       query {
 	viewer
@@ -87,7 +88,7 @@ window["initializeReactRouter"] = function() {
   // Define and render the routes
   ReactDOM.render(
     <RelayRouter history={browserHistory}>
-      <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={Queries} prepareParams={prepareBuildParams} />
+      <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={BuildQueries} prepareParams={prepareBuildParams} />
     </RelayRouter>
   , document.getElementById('root'));
 }
