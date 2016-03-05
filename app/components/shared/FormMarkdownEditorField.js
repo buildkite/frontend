@@ -19,7 +19,7 @@ class FormMarkdownEdtiorField extends React.Component {
 
   componentDidMount() {
     this.markdownEditor = new MarkdownEditor(this.textarea);
-    this.assetUploader = new AssetUploader({ onAssetUploaded: this._handleAssetUploaded, onError: this._handleAssetUploadError });
+    this.assetUploader = new AssetUploader({ onAssetUploaded: this.handleAssetUploaded, onError: this.handleAssetUploadError });
 
     autoresizeTextarea(this.textarea);
   }
@@ -39,7 +39,7 @@ class FormMarkdownEdtiorField extends React.Component {
             <i className="fa fa-warning mr2" />{this.state.error}
           </div>
           <div className="col-right">
-            <button className="btn m0 p0" onClick={this._handleErrorDismissClick}><i className="fa fa-close"/></button>
+            <button className="btn m0 p0" onClick={this.handleErrorDismissClick}><i className="fa fa-close"/></button>
           </div>
         </div>
       );
@@ -48,13 +48,13 @@ class FormMarkdownEdtiorField extends React.Component {
     return (
       <div className={containerClasses}>
         <div className="mb2">
-          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this._handleBoldButtonClick}><i className="fa fa-bold"></i></button>
-          <button className="btn btn-outline border-gray rounded mr3" tabIndex={-1} onClick={this._handleItalicButtonClick}><i className="fa fa-italic"></i></button>
-          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this._handleQuoteButtonClick}><i className="fa fa-quote-right"></i></button>
-          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this._handleCodeButtonClick}><i className="fa fa-code"></i></button>
-          <button className="btn btn-outline border-gray rounded mr3" tabIndex={-1} onClick={this._handleLinkButtonClick}><i className="fa fa-link"></i></button>
-          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this._handleBulletedListButtonClick}><i className="fa fa-list"></i></button>
-          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this._handleNumberedListButtonClick}><i className="fa fa-list-ol"></i></button>
+          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this.handleBoldButtonClick}><i className="fa fa-bold"></i></button>
+          <button className="btn btn-outline border-gray rounded mr3" tabIndex={-1} onClick={this.handleItalicButtonClick}><i className="fa fa-italic"></i></button>
+          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this.handleQuoteButtonClick}><i className="fa fa-quote-right"></i></button>
+          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this.handleCodeButtonClick}><i className="fa fa-code"></i></button>
+          <button className="btn btn-outline border-gray rounded mr3" tabIndex={-1} onClick={this.handleLinkButtonClick}><i className="fa fa-link"></i></button>
+          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this.handleBulletedListButtonClick}><i className="fa fa-list"></i></button>
+          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this.handleNumberedListButtonClick}><i className="fa fa-list-ol"></i></button>
         </div>
         {errorNode}
         <textarea
@@ -63,14 +63,14 @@ class FormMarkdownEdtiorField extends React.Component {
           placeholder={this.props.placeholder}
           defaultValue={this.props.value}
           rows={this.props.rows}
-          onFocus={this._handleOnFocus}
-          onBlur={this._handleOnBlur}
-          onChange={this._handleOnChange}
-          onPaste={this._handleOnPaste}
-          onDragEnter={this._handleOnDragEnter}
-          onDragOver={this._handleOnDragOver}
-          onDragLeave={this._handleOnDragLeave}
-          onDrop={this._handleOnDrop}
+          onFocus={this.handleOnFocus}
+          onBlur={this.handleOnBlur}
+          onChange={this.handleOnChange}
+          onPaste={this.handleOnPaste}
+          onDragEnter={this.handleOnDragEnter}
+          onDragOver={this.handleOnDragOver}
+          onDragLeave={this.handleOnDragLeave}
+          onDrop={this.handleOnDrop}
           ref={c => this.textarea = c}
           style={{overflowY: "hidden", resize: "vertical"}}
           className={"form-control"} />
@@ -121,22 +121,22 @@ class FormMarkdownEdtiorField extends React.Component {
     }
   }
 
-  _handleAssetUploaded = (file, url) => {
+  handleAssetUploaded = (file, url) => {
     // Replace the "uploading..." version of the file with the correct path
     this.markdownEditor.replace("[Uploading " + file.name + "...]()", "[" + file.name + "](" + url + ")")
   };
 
-  _handleAssetUploadError = (exception) => {
+  handleAssetUploadError = (exception) => {
     this.setState({ error: exception.message });
   };
 
-  _handleErrorDismissClick = (e) => {
+  handleErrorDismissClick = (e) => {
     e.preventDefault();
 
     this.setState({ error: null });
   };
 
-  _handleBoldButtonClick = (e) => {
+  handleBoldButtonClick = (e) => {
     e.preventDefault();
 
     this.markdownEditor.bold();
@@ -144,7 +144,7 @@ class FormMarkdownEdtiorField extends React.Component {
     this.textarea.focus();
   };
 
-  _handleItalicButtonClick = (e) => {
+  handleItalicButtonClick = (e) => {
     e.preventDefault();
 
     this.markdownEditor.italic();
@@ -152,7 +152,7 @@ class FormMarkdownEdtiorField extends React.Component {
     this.textarea.focus();
   };
 
-  _handleQuoteButtonClick = (e) => {
+  handleQuoteButtonClick = (e) => {
     e.preventDefault();
 
     this.markdownEditor.quote();
@@ -160,7 +160,7 @@ class FormMarkdownEdtiorField extends React.Component {
     this.textarea.focus();
   };
 
-  _handleNumberedListButtonClick = (e) => {
+  handleNumberedListButtonClick = (e) => {
     e.preventDefault();
 
     this.markdownEditor.numberedList();
@@ -168,7 +168,7 @@ class FormMarkdownEdtiorField extends React.Component {
     this.textarea.focus();
   };
 
-  _handleBulletedListButtonClick = (e) => {
+  handleBulletedListButtonClick = (e) => {
     e.preventDefault();
 
     this.markdownEditor.bulletedList();
@@ -176,7 +176,7 @@ class FormMarkdownEdtiorField extends React.Component {
     this.textarea.focus();
   };
 
-  _handleCodeButtonClick = (e) => {
+  handleCodeButtonClick = (e) => {
     e.preventDefault();
 
     this.markdownEditor.code();
@@ -184,7 +184,7 @@ class FormMarkdownEdtiorField extends React.Component {
     this.textarea.focus();
   };
 
-  _handleLinkButtonClick = (e) => {
+  handleLinkButtonClick = (e) => {
     e.preventDefault();
 
     this.markdownEditor.link();
@@ -192,13 +192,13 @@ class FormMarkdownEdtiorField extends React.Component {
     this.textarea.focus();
   };
 
-  _handleOnDragEnter = (e) => {
+  handleOnDragEnter = (e) => {
     if(this.assetUploader.doesEventContainFiles(e)) {
       this.setState({ draggingFile: true });
     }
   };
 
-  _handleOnDragOver = (e) => {
+  handleOnDragOver = (e) => {
     // When you drag a file over a text area, the default browser behaviour
     // will show an insert caret at the cursor postition. Since there's no way
     // to get that caret, it doesn't make sense to show it, and then have to
@@ -207,13 +207,13 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
   };
 
-  _handleOnDragLeave = () => {
+  handleOnDragLeave = () => {
     // We don't really need to check if there were files in the drag, we can
     // just turn off the state.
     this.setState({ draggingFile: false });
   };
 
-  _handleOnDrop = (e) => {
+  handleOnDrop = (e) => {
     // Drag leave won't fire on a drop, so we need to switch the state here
     // manually.
     this.setState({ draggingFile: false });
@@ -222,19 +222,19 @@ class FormMarkdownEdtiorField extends React.Component {
   };
 
   // Only available in Chrome
-  _handleOnPaste = (e) => {
+  handleOnPaste = (e) => {
     this._uploadFilesFromEvent(e);
   };
 
-  _handleOnChange = () => {
+  handleOnChange = () => {
     autoresizeTextarea(this.textarea);
   };
 
-  _handleOnFocus = () => {
+  handleOnFocus = () => {
     this.setState({ focused: true });
   };
 
-  _handleOnBlur = () => {
+  handleOnBlur = () => {
     this.setState({ focused: false });
   };
 }
