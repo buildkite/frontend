@@ -640,6 +640,11 @@
       "from": "basscss-colors@*",
       "resolved": "https://registry.npmjs.org/basscss-colors/-/basscss-colors-2.2.0.tgz"
     },
+    "basscss-darken": {
+      "version": "1.1.0",
+      "from": "basscss-darken@latest",
+      "resolved": "https://registry.npmjs.org/basscss-darken/-/basscss-darken-1.1.0.tgz"
+    },
     "basscss-flexbox": {
       "version": "1.0.1",
       "from": "basscss-flexbox@>=1.0.1 <2.0.0",
@@ -659,6 +664,11 @@
       "version": "3.1.0",
       "from": "basscss-layout@>=3.1.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/basscss-layout/-/basscss-layout-3.1.0.tgz"
+    },
+    "basscss-lighten": {
+      "version": "1.1.0",
+      "from": "basscss-lighten@latest",
+      "resolved": "https://registry.npmjs.org/basscss-lighten/-/basscss-lighten-1.1.0.tgz"
     },
     "basscss-margin": {
       "version": "1.0.7",
@@ -4191,6 +4201,11 @@
       "from": "react-addons-css-transition-group@>=0.14.6 <0.15.0",
       "resolved": "https://registry.npmjs.org/react-addons-css-transition-group/-/react-addons-css-transition-group-0.14.7.tgz"
     },
+    "react-addons-update": {
+      "version": "0.14.7",
+      "from": "react-addons-update@>=0.14.7 <0.15.0",
+      "resolved": "https://registry.npmjs.org/react-addons-update/-/react-addons-update-0.14.7.tgz"
+    },
     "react-deep-force-update": {
       "version": "1.0.1",
       "from": "react-deep-force-update@>=1.0.0 <2.0.0",
@@ -5014,8 +5029,7 @@
         },
         "supports-color": {
           "version": "3.1.2",
-          "from": "supports-color@3.1.2",
-          "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-3.1.2.tgz"
+          "from": "supports-color@>=3.1.0 <4.0.0"
         }
       }
     },

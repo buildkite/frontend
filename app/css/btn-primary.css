@@ -1,16 +1,10 @@
-.btn-primary {
-  color: var(--button-color);
-  background-color: var(--button-background-color);
-  border-radius: var(--border-radius);
-}
-
 /* Since we've got bootstrap.css on the page, we need to re-define this class
 with more specificity to target a tags. Bootstrap overrides the base colors for
 all a-tags, and .btn-primary can't get it's own styles on there. */
-a.btn-primary {
-  color: var(--button-color);
-  background-color: var(--button-background-color);
-  border-radius: var(--border-radius);
+.btn-primary, a.btn-primary {
+  color: var(--white);
+  background-color: var(--blue);
+  border-radius: 3px;
 }
 
 .btn-primary:hover {
@@ -34,9 +28,4 @@ class (because it's kinda ugly on all buttons), so we've forced it onto
 .btn-primary:disabled,
 .btn-primary.is-disabled {
   opacity: .5;
-}
-
-:root {
-  --button-color: var(--white);
-  --button-background-color: var(--blue)
 }
