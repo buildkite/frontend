@@ -21,12 +21,6 @@ const SettingsMenu = (props) =>
         </Menu.Button>
       </Permissions.Only>
 
-      <Permissions.Only allowed="teamAdmin">
-        <Menu.Button link={`/organizations/${props.organization.slug}/teams`}>
-          <Icon icon="teams" className="icon-mr"/>Teams
-        </Menu.Button>
-      </Permissions.Only>
-
       <Permissions.Only allowed="notificationServiceUpdate">
         <Menu.Button href={`/organizations/${props.organization.slug}/services`}>
           <Icon icon="notification-services" className="icon-mr"/>Notification Services
@@ -53,9 +47,6 @@ SettingsMenu.propTypes = {
       count: PropTypes.number.isRequired
     }).isRequired,
     invitations: PropTypes.shape({
-      count: PropTypes.number.isRequired
-    }).isRequired,
-    teams: PropTypes.shape({
       count: PropTypes.number.isRequired
     }).isRequired,
     permissions: PropTypes.shape({
