@@ -1,0 +1,3 @@
+.hover-underline-parent:hover .hover-underline-child {
+  text-decoration: underline;
+}
