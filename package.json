@@ -29,7 +29,7 @@
     "babel-relay-plugin": "^0.7.3",
     "babel-relay-plugin-loader": "^0.7.1",
     "css-loader": "^0.23.1",
-    "eslint": "^2.3.0",
+    "eslint": "~2.2.0",
     "eslint-plugin-babel": "^3.0.0",
     "eslint-plugin-react": "^4.2.0",
     "exports-loader": "^0.6.3",

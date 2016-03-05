@@ -1281,7 +1281,7 @@
     },
     "doctrine": {
       "version": "1.2.0",
-      "from": "doctrine@>=1.2.0 <2.0.0",
+      "from": "doctrine@>=1.1.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/doctrine/-/doctrine-1.2.0.tgz",
       "dependencies": {
         "esutils": {
@@ -1427,13 +1427,13 @@
     },
     "escope": {
       "version": "3.5.0",
-      "from": "escope@>=3.5.0 <4.0.0",
+      "from": "escope@>=3.4.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/escope/-/escope-3.5.0.tgz"
     },
     "eslint": {
-      "version": "2.3.0",
-      "from": "eslint@>=2.3.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/eslint/-/eslint-2.3.0.tgz",
+      "version": "2.2.0",
+      "from": "eslint@>=2.2.0 <2.3.0",
+      "resolved": "https://registry.npmjs.org/eslint/-/eslint-2.2.0.tgz",
       "dependencies": {
         "esprima": {
           "version": "2.7.2",
@@ -1468,7 +1468,7 @@
     },
     "espree": {
       "version": "3.1.1",
-      "from": "espree@>=3.1.1 <4.0.0",
+      "from": "espree@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/espree/-/espree-3.1.1.tgz"
     },
     "esprima-fb": {
@@ -1485,6 +1485,11 @@
       "version": "4.1.1",
       "from": "estraverse@>=4.1.1 <5.0.0",
       "resolved": "https://registry.npmjs.org/estraverse/-/estraverse-4.1.1.tgz"
+    },
+    "estraverse-fb": {
+      "version": "1.3.1",
+      "from": "estraverse-fb@>=1.3.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/estraverse-fb/-/estraverse-fb-1.3.1.tgz"
     },
     "esutils": {
       "version": "2.0.2",
