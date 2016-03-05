@@ -1,0 +1,3 @@
+.active-black:focus {
+  color: var(--black);
+}

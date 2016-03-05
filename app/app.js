@@ -53,14 +53,19 @@ if(window._graphql) {
 window["initializeReactRouter"] = function() {
   // Require the packages we need to setup routing
   let Route = require("react-router").Route;
+  let IndexRoute = require("react-router").IndexRoute;
   let browserHistory = require("react-router").browserHistory;
   let RelayRouter = require('react-router-relay').RelayRouter;
 
   // The components used in the router
   let BuildCommentsList = require("./components/build/CommentsList").default;
+  let OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
+  let TeamList = require("./components/team/List").default;
+  let TeamNew = require("./components/team/New").default;
+  let PageLoader = require("./components/shared/PageLoader").default;
 
   // Queries used when you want to show a build
-  const Queries = {
+  const BuildQueries = {
     viewer: () => Relay.QL`
       query {
 	viewer
@@ -72,6 +77,15 @@ window["initializeReactRouter"] = function() {
       }
     `
   };
+
+  // When you want to show something related to an organization
+  const OrganizationQueries = {
+    organization: () => Relay.QL`
+      query {
+	organization(slug: $organization)
+      }
+    `
+  }
 
   // Since relay doesn't currently support root fields with multiple
   // parameters, it means we can't have queries like: build(org: "...",
@@ -87,7 +101,16 @@ window["initializeReactRouter"] = function() {
   // Define and render the routes
   ReactDOM.render(
     <RelayRouter history={browserHistory}>
-      <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={Queries} prepareParams={prepareBuildParams} />
+      <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={BuildQueries} prepareParams={prepareBuildParams} />
+
+      <Route path="/">
+	<Route path="organizations/:organization" component={OrganizationSettingsSection} queries={OrganizationQueries} renderLoading={() => <PageLoader />}>
+	  <Route path="teams">
+	    <IndexRoute component={TeamList} queries={OrganizationQueries} renderLoading={() => <PageLoader />} />
+            <Route path="new" component={TeamNew} queries={OrganizationQueries} renderLoading={() => <PageLoader />} />
+	  </Route>
+	</Route>
+      </Route>
     </RelayRouter>
   , document.getElementById('root'));
 }
