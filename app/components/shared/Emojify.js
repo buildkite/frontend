@@ -1,16 +1,11 @@
 import React from 'react';
 import Emoji from '../../lib/Emoji';
 
-class Emojify extends React.Component {
-  static propTypes = {
-    text: React.PropTypes.string
-  };
+const Emojify = (props) =>
+  <span dangerouslySetInnerHTML={{__html: Emoji.parse(props.text)}} />
 
-  render() {
-    return (
-      <span dangerouslySetInnerHTML={{__html: Emoji.parse(this.props.text)}} />
-    );
-  }
-}
+Emojify.propTypes = {
+  text: React.PropTypes.string
+};
 
 export default Emojify;
