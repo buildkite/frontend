@@ -1,8 +1,8 @@
 import React from 'react';
 import Relay from 'react-relay';
-import { Link } from 'react-router';
 
 import Panel from '../shared/Panel'
+import Button from '../shared/Button'
 
 class List extends React.Component {
   render() {
@@ -11,7 +11,7 @@ class List extends React.Component {
         <Panel.Header>Teams</Panel.Header>
         <Panel.IntroWithButton>
           <span>Manage your teams and make some awesome ones so you can do super awesome stuff like organzing users and projects into teams so you can do permissions and stuff.</span>
-          <Link className="btn bg-blue white rounded hover-white block nowrap" to={`/organizations/${this.props.organization.slug}/teams/new`}>New Team</Link>
+          <Button link={`/organizations/${this.props.organization.slug}/teams/new`}>New Team</Button>
         </Panel.IntroWithButton>
         {
           this.props.organization.teams.edges.map((team) => {

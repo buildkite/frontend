@@ -1,42 +1,61 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import classNames from 'classnames';
+import update from "react-addons-update";
+import classNames from "classnames";
+import { Link } from 'react-router';
+
+const THEMES = {
+  outline: "btn-outline",
+  primary: "btn-primary nowrap",
+  success: "btn-primar bg-green nowrap",
+  warning: "btn-primary bg-orange nowrap",
+  error: "btn-primary bg-red nowrap"
+};
 
 class Button extends React.Component {
   static propTypes = {
-    onClick: React.PropTypes.func,
-    action: React.PropTypes.string,
-    method: React.PropTypes.string,
-    loading: React.PropTypes.bool,
-    loadingText: React.PropTypes.string,
-    className: React.PropTypes.string,
-    style: React.PropTypes.object,
-    children: React.PropTypes.node
+    loading: React.PropTypes.string,
+    theme: React.PropTypes.oneOf([
+      'primary',
+      'success',
+      'warning',
+      'error',
+      false
+    ])
+  };
+
+  static defaultProps = {
+    theme: 'primary'
+  };
+
+  static contextTypes = {
+    router: React.PropTypes.object
   };
 
   render() {
-    let classes = classNames(this.props.className, "btn");
+    // Merge the "btn" class onto the props, and toggle the disabled state
+    // depending on whether or not this button is in it's "loading" state.
+    let props = update(this.props, {
+      className: {
+        $set: classNames(this.props.className, "btn", THEMES[this.props.theme], { "is-disabled": !!this.props.loading })
+      },
+      disabled: {
+        $set: !!this.props.loading
+      }
+    });
 
-    return (
-      <button
-        className={classes}
-        disabled={this.props.loading}
-        style={this.props.style}
-        onClick={this._handleOnClick}>
-        {this._contentsNode()}
-        {this._formNode()}
-      </button>
-    );
-  }
-
-  _formNode() {
-    if(this.props.action) {
+    // If we've defined a link instead of a href (a link is used to navigate
+    // through react-router, instead of a regular href) and context.router is
+    // present (which means the routing gear has been activated) then create a
+    // react-router link - otherwise, just fallback to a regular href.
+    if(props.link && this.context.router) {
       return (
-        <form action={this.props.action} method="post" ref={c => this.formNode = c}>
-          <input type="hidden" name="_method" value={this.props.method || "post"} />
-          <input type="hidden" ref={c => this.csrfNode = c} />
-        </form>
+	<Link to={props.link} {...props}>{this._contentsNode()}</Link>
       );
+    } else {
+      let tag = props.href ? 'a' : 'button';
+
+      return React.DOM[tag](props, this._contentsNode())
     }
   }
 
@@ -44,31 +63,13 @@ class Button extends React.Component {
     if(this.props.loading) {
       return (
         <span>
-          <i className="fa fa-spinner fa-spin"></i> {this.props.loadingText}
+          <i className="fa fa-spinner fa-spin"></i> {this.props.loading}
         </span>
       )
     } else {
       return this.props.children;
     }
   }
-
-  _handleOnClick = (e) => {
-    if(this.props.onClick) {
-      // If an onClick returns false, cancel out the rest of thie _handleOnClick method.
-      if(this.props.onClick(e) === false) {
-        return null;
-      }
-    }
-
-    if(this.props.action) {
-      // Need to set the CSRF token since we're doing a form post
-      let csrfElement = ReactDOM.findDOMNode(this.csrfNode)
-      csrfElement.name = window._csrf.param
-      csrfElement.value = window._csrf.token
-
-      ReactDOM.findDOMNode(this.formNode).submit()
-    }
-  };
 }
 
 export default Button
