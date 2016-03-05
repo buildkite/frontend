@@ -1,7 +1,7 @@
 import React from "react";
 
 const Footer = (props) =>
-  <div className="border-top py2 px3">
+  <div className="border-top border-gray py2 px3">
     {props.children}
   </div>
 

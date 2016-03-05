@@ -8,7 +8,7 @@ import Footer from "./footer";
 
 const Panel = function(props) {
   return (
-    <section className="border rounded">
+    <section className="border border-gray rounded">
       {props.children}
     </section>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from 'react-router';
 
 const RowLink = (props) =>
-  <Link to={props.to} className="btn border-top py2 px3 flex flex-center hover-bg-silver hover-black focus-black">
+  <Link to={props.to} className="btn border-top border-gray py2 px3 flex flex-center hover-bg-silver hover-black focus-black">
     <div className="flex-auto">
       {props.children}
     </div>

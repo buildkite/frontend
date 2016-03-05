@@ -1,7 +1,7 @@
 import React from "react";
 
 const Header = (props) =>
-  <div className="border-bottom bg-silver py2 px3 semi-bold">
+  <div className="border-bottom border-gray bg-silver py2 px3 semi-bold">
     {props.children}
   </div>
 
