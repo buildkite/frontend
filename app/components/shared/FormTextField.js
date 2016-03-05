@@ -6,7 +6,7 @@ var _textFieldCounter = 0;
 class FormTextField extends React.Component {
   static propTypes = {
     label: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
+    name: React.PropTypes.string,
     value: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     help: React.PropTypes.string,
@@ -20,14 +20,10 @@ class FormTextField extends React.Component {
     collapsable: false
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      id: "text-field-" + (_textFieldCounter += 1),
-      collapsed: this.props.collapsable && this.hasEmptyValue()
-    };
-  }
+  state = {
+    id: "text-field-" + (_textFieldCounter += 1),
+    collapsed: this.props.collapsable && this.hasEmptyValue()
+  };
 
   hasEmptyValue() {
     return !this.props.value || this.props.value.length === 0;
