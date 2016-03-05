@@ -1,7 +1,7 @@
 import React from "react";
 
 const Body = (props) =>
-  <div className="py2 px3">
+  <div className="py3 px3">
     {props.children}
   </div>
 
