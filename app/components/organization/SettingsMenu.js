@@ -21,6 +21,12 @@ const SettingsMenu = (props) =>
         </Menu.Button>
       </Permissions.Only>
 
+      <Permissions.Only allowed="teamAdmin">
+        <Menu.Button link={`/organizations/${props.organization.slug}/teams`}>
+          <Icon icon="teams" className="icon-mr"/>Teams
+        </Menu.Button>
+      </Permissions.Only>
+
       <Permissions.Only allowed="notificationServiceUpdate">
         <Menu.Button href={`/organizations/${props.organization.slug}/services`}>
           <Icon icon="notification-services" className="icon-mr"/>Notification Services
@@ -49,6 +55,9 @@ SettingsMenu.propTypes = {
     invitations: React.PropTypes.shape({
       count: React.PropTypes.number.isRequired
     }).isRequired,
+    teams: React.PropTypes.shape({
+      count: React.PropTypes.number.isRequired
+    }).isRequired,
     permissions: React.PropTypes.shape({
       organizationUpdate: React.PropTypes.shape({
         allowed: React.PropTypes.bool.isRequired
@@ -60,6 +69,9 @@ SettingsMenu.propTypes = {
         allowed: React.PropTypes.bool.isRequired
       }).isRequired,
       organizationBillingUpdate: React.PropTypes.shape({
+        allowed: React.PropTypes.bool.isRequired
+      }).isRequired,
+      teamAdmin: React.PropTypes.shape({
         allowed: React.PropTypes.bool.isRequired
       }).isRequired
     })
