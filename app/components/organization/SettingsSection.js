@@ -1,19 +1,13 @@
 import React from 'react';
 import Relay from 'react-relay';
 
+import PageWithMenu from '../shared/PageWithMenu';
 import SettingsMenu from './SettingsMenu';
 
-const SettingsSection = (props) =>
-  <div className="twbs-container">
-    <div className="clearfix mxn2">
-      <div className="md-col md-col-3 px2">
-        <SettingsMenu organization={props.organization} />
-      </div>
-      <div className="md-col md-col-9 px2">
-        {props.children}
-      </div>
-    </div>
-  </div>
+const SettingsSection = (props) => <PageWithMenu>
+  <SettingsMenu organization={props.organization} />
+  {props.children}
+</PageWithMenu>
 
 SettingsSection.propTypes = {
   organization: React.PropTypes.object.isRequired,
