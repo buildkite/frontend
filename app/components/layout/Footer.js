@@ -4,7 +4,7 @@ let COLOR = (Features.NewNav == undefined || Features.NewNav == true) ? "lime" :
 
 const Link = (props) => {
   return (
-    <a href={props.href} className={`btn bold hover-${COLOR} hover-faded`}>{props.children}</a>
+    <a href={props.href} className={`btn semi-bold hover-${COLOR}`}>{props.children}</a>
   );
 }
 
@@ -22,7 +22,7 @@ const Footer = (props) => {
   }
 
   return (
-    <footer className="center border-top border-gray" style={{marginTop: 40, paddingTop: 30}}>
+    <footer className="center border-top border-gray dark-gray" style={{marginTop: 40, paddingTop: 30}}>
       <div className="mt4 mb4 small">
         <Link href="/home">Home</Link>
         <Link href="/changelog">
@@ -36,8 +36,8 @@ const Footer = (props) => {
         <Link href="mailto:support@buildkite.com">Support</Link>
       </div>
       <div className="mt4 mb4 h3">
-        <a href="http://twitter.com/buildkite" className={`btn hover-${COLOR} px1 hover-faded`}><i className="fa fa-twitter fa-text-color"></i></a>
-        <a href="https://github.com/buildkite" className={`btn hover-${COLOR} px1 hover-faded`}><i className="fa fa-github fa-text-color"></i></a>
+        <a href="http://twitter.com/buildkite" className={`btn hover-${COLOR} px1`}><i className="fa fa-twitter fa-text-color"></i></a>
+        <a href="https://github.com/buildkite" className={`btn hover-${COLOR} px1`}><i className="fa fa-github fa-text-color"></i></a>
       </div>
     </footer>
   )

@@ -57,6 +57,7 @@
     "basscss-colors": "^2.2.0",
     "basscss-darken": "^1.1.0",
     "basscss-lighten": "^1.1.0",
+    "bugsnag-js": "^2.5.0",
     "classnames": "^2.2.3",
     "es6-error": "^2.0.2",
     "escape-html": "^1.0.3",
