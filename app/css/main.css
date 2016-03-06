@@ -21,6 +21,8 @@
 @import 'basscss-darken';
 @import 'basscss-lighten';
 
+@import 'container';
+
 /* Override some of the basscss defaults */
 :root {
   --silver: #F9FAFB;
@@ -44,9 +46,3 @@
   --space-3: 15px;
   --space-4: 20px;
 }
-
-/* Custom breakpoints that match bootstrap */
-@custom-media --breakpoint-xs (max-width: 768px);
-@custom-media --breakpoint-sm-md (min-width: 768px) and (max-width: 992px);
-@custom-media --breakpoint-md-lg (min-width: 992px) and (max-width: 1200px);
-@custom-media --breakpoint-lg (min-width: 1200px);

@@ -1,0 +1,23 @@
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @media (min-width: 768px) {
+    width: 750px;
+  }
+  @media (min-width: 992px) {
+    width: 970px;
+  }
+  @media (min-width: 1200px) {
+    width: 1170px;
+  }
+}
+
+/* Override the breakpoints set in basscss-hide so they match up with the container
+ * widths above */
+@custom-media --breakpoint-xs (max-width: 768px);
+@custom-media --breakpoint-sm-md (min-width: 768px) and (max-width: 992px);
+@custom-media --breakpoint-md-lg (min-width: 992px) and (max-width: 1200px);
+@custom-media --breakpoint-lg (min-width: 1200px);
