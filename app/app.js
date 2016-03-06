@@ -1,8 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
+import Bugsnag from 'bugsnag-js';
 
 require("./css/main.css");
+
+// Setup Bugsnag for JS error tracking
+if(window._bugsnag) {
+  Bugsnag.apiKey = window._bugsnag.apiKey;
+  Bugsnag.appVersion = window._bugsnag.appVersion;
+  Bugsnag.user = window._bugsnag.user;
+  Bugsnag.releaseStage = window._bugsnag.releaseStage;
+  Bugsnag.notifyReleaseStages = window._bugsnag.notifyReleaseStages;
+}
 
 // Allows old sprockets and inline-javascript to access webpack modules
 window["Webpack"] = {
