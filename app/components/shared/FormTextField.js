@@ -1,4 +1,6 @@
 import React from 'react';
+import classNames from 'classnames';
+
 import CollapsableFormField from './CollapsableFormField';
 
 class FormTextField extends React.Component {
@@ -10,7 +12,8 @@ class FormTextField extends React.Component {
     help: React.PropTypes.string,
     spellCheck: React.PropTypes.bool,
     onChange: React.PropTypes.func,
-    collapsable: React.PropTypes.bool
+    collapsable: React.PropTypes.bool,
+    errors: React.PropTypes.array
   };
 
   static defaultProps = {
@@ -19,22 +22,26 @@ class FormTextField extends React.Component {
   };
 
   state = {
-    collapsed: this.props.collapsable && this.hasEmptyValue()
+    collapsed: this.props.collapsable && this.hasEmptyValue() && !this.hasErrors() && this.hasEmptyValue()
   };
 
-  hasEmptyValue() {
-    return !this.props.value || this.props.value.length === 0;
-  }
-
   render() {
+    let hasErrors = this.hasErrors();
+
+    let helpNode;
     if(this.props.help) {
-      var helpNode = (
+      helpNode = (
         <p className="mt1 mb0 p0 dark-gray" dangerouslySetInnerHTML={{__html: this.props.help}} />
       );
     }
 
-    var inputNode = (
-      <input className="input"
+    let errorNode;
+    if(hasErrors) {
+      errorNode = <p className="mt1 mb2 p0 red">{this.props.errors.join(", ")}</p>
+    }
+
+    let inputNode = (
+      <input className={classNames("input", { "is-error": hasErrors })}
         id={this.state.id}
         name={this.props.name}
         type="text"
@@ -48,6 +55,7 @@ class FormTextField extends React.Component {
       return (
         <CollapsableFormField label={this.props.label} collapsed={this.state.collapsed}>
           {inputNode}
+          {errorNode}
           {helpNode}
         </CollapsableFormField>
       )
@@ -55,13 +63,22 @@ class FormTextField extends React.Component {
       return (
         <div className="mb2">
           <label>
-            <div className="bold mb1">{this.props.label}</div>
+            <div className={classNames("bold mb1", { "red": hasErrors })}>{this.props.label}</div>
             {inputNode}
-            {helpNode}
           </label>
+          {errorNode}
+          {helpNode}
         </div>
       );
     }
+  }
+
+  hasErrors() {
+    return this.props.errors && this.props.errors.length > 0;
+  }
+
+  hasEmptyValue() {
+    return !this.props.value || this.props.value.length === 0;
   }
 }
 
