@@ -5,8 +5,9 @@ import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
 import TeamForm from './Form';
-//
-// import CreateTeamMutation from '../mutations/CreateTeamMutation';
+
+import TeamCreateMutation from '../../mutations/TeamCreate';
+import GraphQLErrors from '../../constants/GraphQLErrors';
 
 class New extends React.Component {
   state = {
@@ -50,22 +51,22 @@ class New extends React.Component {
 
     this.setState({ saving: true });
 
-    // var mutation = new CreateTeamMutation({
-    //   organization: this.props.organization,
-    //   name: this.state.name,
-    //   description: this.state.description
-    // });
+    var mutation = new TeamCreateMutation({
+      organization: this.props.organization,
+      name: this.state.name,
+      description: this.state.description
+    });
 
-    // Relay.Store.update(mutation, {
-    //   onSuccess: this.handleMutationSuccess.bind(this),
-    //   onFailure: this.handleMutationError.bind(this)
-    // });
+    Relay.Store.commitUpdate(mutation, {
+      onSuccess: this.handleMutationSuccess,
+      onFailure: this.handleMutationError,
+    });
   };
 
   handleMutationError = (transaction) => {
     var error = transaction.getError();
     if(error) {
-      if(error.source && error.source.type == "RECORD_INVALID") {
+      if(error.source && error.source.type == GraphQLErrors.RECORD_VALIDATION_ERROR) {
         this.setState({ errors: transaction.getError().source.errors });
       } else {
         alert(error);
@@ -87,12 +88,11 @@ New.propTypes = {
   history: React.PropTypes.object.isRequired
 };
 
-// ${CreateTeamMutation.getFragment('organization')}
-
 export default Relay.createContainer(New, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+        ${TeamCreateMutation.getFragment('organization')}
         slug
       }
     `
