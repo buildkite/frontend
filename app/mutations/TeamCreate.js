@@ -12,7 +12,7 @@ class TeamCreate extends Relay.Mutation {
   getMutation() {
     return Relay.QL`
       mutation {
-	createTeam
+	teamCreate
       }
     `;
   }

@@ -79,9 +79,13 @@ window["initializeReactRouter"] = function() {
   let Main = require("./components/Main").default;
   let BuildCommentsList = require("./components/build/CommentsList").default;
   let OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
-  let TeamList = require("./components/team/List").default;
+  let TeamIndex = require("./components/team/Index").default;
+  let TeamShow = require("./components/team/Show").default;
   let TeamNew = require("./components/team/New").default;
+
+  // Loading components
   let PageLoader = require("./components/shared/PageLoader").default;
+  let SectionLoader = require("./components/shared/SectionLoader").default;
 
   const BuildQuery = () => Relay.QL`
     query {
@@ -101,9 +105,21 @@ window["initializeReactRouter"] = function() {
     }
   `
 
-  const handleRenderLoading = () => {
+  const TeamQuery = () => Relay.QL`
+    query {
+      team(slug: $slug)
+    }
+  `
+
+  const handlePageLoading = () => {
     return (
       <PageLoader />
+    )
+  }
+
+  const handleSectionLoading = () => {
+    return (
+      <SectionLoader />
     )
   }
 
@@ -118,16 +134,24 @@ window["initializeReactRouter"] = function() {
     };
   }
 
+  const prepareTeamParams = (params) => {
+    return {
+      ...params,
+      slug: [ params.organization, params.team ].join("/")
+    };
+  }
+
   // Define and render the routes
   ReactDOM.render(
     <RelayRouter history={browserHistory}>
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
 
-      <Route path="/" component={Main} queries={{viewer: ViewerQuery, organization: OrganizationQuery}} renderLoading={handleRenderLoading}>
-        <Route path="organizations/:organization" component={OrganizationSettingsSection} queries={{organization: OrganizationQuery}} renderLoading={handleRenderLoading}>
+      <Route path="/" component={Main} queries={{viewer: ViewerQuery, organization: OrganizationQuery}} renderLoading={handlePageLoading}>
+        <Route path="organizations/:organization" component={OrganizationSettingsSection} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading}>
           <Route path="teams">
-            <IndexRoute component={TeamList} queries={{organization: OrganizationQuery}} renderLoading={handleRenderLoading} />
-            <Route path="new" component={TeamNew} queries={{organization: OrganizationQuery}} renderLoading={handleRenderLoading} />
+            <IndexRoute component={TeamIndex} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
+            <Route path="new" component={TeamNew} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
+            <Route path=":team" component={TeamShow} queries={{organization: OrganizationQuery, team: TeamQuery}} prepareParams={prepareTeamParams} renderLoading={handleSectionLoading} />
           </Route>
         </Route>
       </Route>

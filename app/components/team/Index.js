@@ -4,7 +4,7 @@ import Relay from 'react-relay';
 import Panel from '../shared/Panel'
 import Button from '../shared/Button'
 
-class List extends React.Component {
+class Index extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
       slug: React.PropTypes.string.isRequired,
@@ -50,7 +50,7 @@ class List extends React.Component {
   }
 }
 
-export default Relay.createContainer(List, {
+export default Relay.createContainer(Index, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {

@@ -10,6 +10,16 @@ import TeamCreateMutation from '../../mutations/TeamCreate';
 import GraphQLErrors from '../../constants/GraphQLErrors';
 
 class New extends React.Component {
+  static propTypes = {
+    organization: React.PropTypes.shape({
+      slug: React.PropTypes.string.isRequired
+    }).isRequired
+  };
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   state = {
     name: '',
     description: '',
@@ -20,7 +30,9 @@ class New extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleFormSubmit}>
-        <PageHeader>Create New Team</PageHeader>
+        <PageHeader>
+          <PageHeader.Title>Create New Team</PageHeader.Title>
+        </PageHeader>
 
         <Panel>
           <Panel.Body>
@@ -77,16 +89,9 @@ class New extends React.Component {
   };
 
   handleMutationSuccess = (response) => {
-    this.props.history.pushState(null, `/organizations/${this.props.organization.slug}/teams/${response.createTeam.teamEdge.node.slug}`);
+    this.context.router.push(`/organizations/${this.props.organization.slug}/teams/${response.teamCreate.teamEdge.node.slug}`);
   };
 }
-
-New.propTypes = {
-  organization: React.PropTypes.shape({
-    slug: React.PropTypes.string.isRequired
-  }).isRequired,
-  history: React.PropTypes.object.isRequired
-};
 
 export default Relay.createContainer(New, {
   fragments: {
