@@ -25,6 +25,10 @@ const pathNodes = (icon) => {
       return require("./connected-apps").default;
     case 'api-tokens':
       return require("./api-tokens").default;
+    case 'github':
+      return require("./github").default;
+    case 'twitter':
+      return require("./twitter").default;
     default:
       Logger.error(`[Icon] No icon defined for "${icon}"`);
       return require("./placeholder").default;

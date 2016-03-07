@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Link from './link';
+import Icon from '../../shared/Icon';
 
 let COLOR = (Features.NewNav == undefined || Features.NewNav == true) ? "lime" : "blue";
 
@@ -35,9 +36,9 @@ class Footer extends React.Component {
           <Link href="/terms-of-service">Terms</Link>
           <Link href="mailto:support@buildkite.com">Support</Link>
         </div>
-        <div className="mt4 mb4 h3">
-          <a href="http://twitter.com/buildkite" className={`btn hover-${COLOR} px1`}><i className="fa fa-twitter fa-text-color"></i></a>
-          <a href="https://github.com/buildkite" className={`btn hover-${COLOR} px1`}><i className="fa fa-github fa-text-color"></i></a>
+        <div className="mt4 mb4">
+          <a href="http://twitter.com/buildkite" className={`btn hover-${COLOR} px1`}><Icon icon="twitter" /></a>
+          <a href="https://github.com/buildkite" className={`btn hover-${COLOR} px1`}><Icon icon="github" /></a>
         </div>
       </footer>
     )
