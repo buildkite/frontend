@@ -2,6 +2,7 @@
   color: var(--white);
   background-color: var(--blue);
   border-radius: 3px;
+  font-weight: inherit;
 }
 
 /* Since we've got bootstrap.css on the page, we need to re-define this class
