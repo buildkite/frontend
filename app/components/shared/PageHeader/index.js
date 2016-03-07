@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames";
 
 import Title from "./title";
 import Description from "./description";
