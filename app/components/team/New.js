@@ -59,7 +59,7 @@ class New extends React.Component {
 
     Relay.Store.commitUpdate(mutation, {
       onSuccess: this.handleMutationSuccess,
-      onFailure: this.handleMutationError,
+      onFailure: this.handleMutationError
     });
   };
 

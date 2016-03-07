@@ -44,7 +44,7 @@ class TeamCreate extends Relay.Mutation {
 	  }
 	}
 	`
-      ],
+      ]
     }, {
       type: 'RANGE_ADD',
       parentName: 'organization',
