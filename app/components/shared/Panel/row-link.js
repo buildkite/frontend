@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from 'react-router';
 
+import Icon from '../../shared/Icon';
+
 class RowLink extends React.Component {
   static displayName = "Panel.RowLink";
 
@@ -17,7 +19,7 @@ class RowLink extends React.Component {
             {this.props.children}
           </div>
           <div>
-            <i className="fa fa-chevron-right gray"></i>
+            <Icon icon="chevron-right" className="dark-gray" style={{height: 12, width: 12}} />
           </div>
         </Link>
       </div>
