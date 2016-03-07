@@ -35,6 +35,10 @@ const pathNodes = (icon) => {
       return require("./chevron-right").default;
     case 'teams':
       return require("./teams").default;
+    case 'circle':
+      return require("./circle").default;
+    case 'plus-circle':
+      return require("./plus-circle").default;
     default:
       Logger.error(`[Icon] No icon defined for "${icon}"`);
       return require("./placeholder").default;
