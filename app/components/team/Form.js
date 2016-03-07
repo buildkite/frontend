@@ -22,7 +22,7 @@ class Form extends React.Component {
     return (
       <div>
         <FormTextField
-          label="Team name"
+          label="Team Name"
           help={this.generateTeamNameHelpText()}
           errors={errors.findForField("name")}
           value={this.props.name}
