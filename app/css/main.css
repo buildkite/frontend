@@ -14,6 +14,7 @@
 @import 'interaction-events';
 @import 'text';
 @import 'icons';
+@import 'forms';
 
 @import 'basscss';
 @import 'basscss-colors';
@@ -30,7 +31,7 @@
   --lime: #7EAF25;
   --blue: #337ab7;
   --gray: #DDDDDD;
-  --dark-gray: #A9A9A9;
+  --dark-gray: #8E8E8E;
 
   --bold-font-weight: 600;
 

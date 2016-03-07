@@ -1,8 +1,6 @@
 import React from 'react';
 import CollapsableFormField from './CollapsableFormField';
 
-var _textFieldCounter = 0;
-
 class FormTextField extends React.Component {
   static propTypes = {
     label: React.PropTypes.string.isRequired,
@@ -21,7 +19,6 @@ class FormTextField extends React.Component {
   };
 
   state = {
-    id: "text-field-" + (_textFieldCounter += 1),
     collapsed: this.props.collapsable && this.hasEmptyValue()
   };
 
@@ -32,12 +29,12 @@ class FormTextField extends React.Component {
   render() {
     if(this.props.help) {
       var helpNode = (
-        <p className="hint-block" dangerouslySetInnerHTML={{__html: this.props.help}} />
+        <p className="mt1 mb0 p0 dark-gray" dangerouslySetInnerHTML={{__html: this.props.help}} />
       );
     }
 
     var inputNode = (
-      <input className="form-control"
+      <input className="input"
         id={this.state.id}
         name={this.props.name}
         type="text"
@@ -56,13 +53,13 @@ class FormTextField extends React.Component {
       )
     } else {
       return (
-        <div className="form-group">
-          <label className="control-label" htmlFor={this.state.id}>{this.props.label}</label>
-          <div>
-            {inputNode}
-            {helpNode}
-          </div>
-        </div>
+        <div className="mb2">
+	  <label>
+	    <div className="bold mb1">{this.props.label}</div>
+	    {inputNode}
+	    {helpNode}
+	  </label>
+	</div>
       );
     }
   }
