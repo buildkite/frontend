@@ -56,11 +56,11 @@ class SettingsMenu extends React.Component {
             </Menu.Button>
           </Permissions.Only>
 
-	  <Permissions.Only allowed="teamAdmin">
-	    <Menu.Button link={`/organizations/${this.props.organization.slug}/teams`} badge={this.props.organization.teams.count}>
-	      <Icon icon="teams" className="icon-mr"/>Teams
-	    </Menu.Button>
-	  </Permissions.Only>
+          <Permissions.Only allowed="teamAdmin">
+            <Menu.Button link={`/organizations/${this.props.organization.slug}/teams`} badge={this.props.organization.teams.count}>
+              <Icon icon="teams" className="icon-mr"/>Teams
+            </Menu.Button>
+          </Permissions.Only>
 
           <Permissions.Only allowed="notificationServiceUpdate">
             <Menu.Button href={`/organizations/${this.props.organization.slug}/services`}>

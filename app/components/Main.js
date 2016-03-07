@@ -6,7 +6,9 @@ import Footer from './layout/Footer';
 
 class Main extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node.isRequired
+    children: React.PropTypes.node.isRequired,
+    viewer: React.PropTypes.object.isRequired,
+    organization: React.PropTypes.object
   };
 
   render() {
