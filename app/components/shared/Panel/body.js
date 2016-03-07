@@ -9,7 +9,7 @@ class Body extends React.Component {
 
   render() {
     return (
-      <div className="py3 px3">
+      <div className="m3">
         {this.props.children}
       </div>
     );
