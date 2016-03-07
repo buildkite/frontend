@@ -40,13 +40,13 @@ export default Relay.createContainer(Main, {
             }
           }
         }
-        runningBuilds: builds(state: "running") {
+        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
           count
         }
-        scheduledBuilds: builds(state: "scheduled") {
+        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
           count
         }
-        unreadChangelogs: builds(read: false) {
+        unreadChangelogs: changelogs(read: false) {
           count
         }
       }
