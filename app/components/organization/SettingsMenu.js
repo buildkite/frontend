@@ -46,7 +46,7 @@ class SettingsMenu extends React.Component {
 
           <Permissions.Only allowed="organizationMemberCreate">
             <Menu.Button href={`/organizations/${this.props.organization.slug}/users`} badge={this.props.organization.members.count + this.props.organization.invitations.count}>
-              <Icon icon="users"className="icon-mr"/>Users
+              <Icon icon="users" className="icon-mr"/>Users
             </Menu.Button>
           </Permissions.Only>
 
