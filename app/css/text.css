@@ -1,14 +1,10 @@
-/**
-	Prefer system fonts (ala -apple-system-body)
-	Mac/iOS - SF
-	Chromebook/Android - Roboto
-	Windows - Helvetica
-	Linux - Helvetica, Arial
-**/
-
 /* The old font we use, only has semi-bold at 600 (not 500 like SF UI does) */
 .semi-bold {
   font-weight: 600;
+}
+
+.small {
+  font-size: 85%;
 }
 
 body.new-nav,
