@@ -68,6 +68,7 @@ window["initializeReactRouter"] = function() {
   let RelayRouter = require('react-router-relay').RelayRouter;
 
   // The components used in the router
+  let Main = require("./components/Main").default;
   let BuildCommentsList = require("./components/build/CommentsList").default;
   let OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
   let TeamList = require("./components/team/List").default;
@@ -119,7 +120,7 @@ window["initializeReactRouter"] = function() {
     <RelayRouter history={browserHistory}>
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={BuildQueries} prepareParams={prepareBuildParams} />
 
-      <Route path="/">
+      <Route path="/" component={Main}>
         <Route path="organizations/:organization" component={OrganizationSettingsSection} queries={OrganizationQueries} renderLoading={handleRenderLoading}>
           <Route path="teams">
             <IndexRoute component={TeamList} queries={OrganizationQueries} renderLoading={handleRenderLoading} />
