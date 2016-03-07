@@ -4,6 +4,12 @@
   "env": {
     "development": {
       "presets": ["react-hmre"]
+    },
+    "test": {
+      "plugins": ["react-pure-components"]
+    },
+    "production": {
+      "plugins": ["react-pure-components"]
     }
   }
 }

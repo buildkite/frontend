@@ -6,19 +6,19 @@ import RowLink from "./row-link";
 import Body from "./body";
 import Footer from "./footer";
 
-const Panel = function(props) {
-  return (
-    <section className="border border-gray rounded">
-      {props.children}
-    </section>
-  );
+class Panel extends React.Component {
+  static propTypes = {
+    children: React.PropTypes.node.isRequired
+  };
+
+  render() {
+    return (
+      <section className="border border-gray rounded">
+        {this.props.children}
+      </section>
+    );
+  }
 }
-
-Panel.propTypes = {
-  children: React.PropTypes.node.isRequired
-};
-
-Panel.displayName = "Panel";
 
 Panel.Header = Header;
 Panel.IntroWithButton = IntroWithButton;

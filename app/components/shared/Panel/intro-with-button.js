@@ -1,17 +1,22 @@
 import React from "react";
 
-const IntroWithButton = (props) =>
-  <div className="py3 px3 flex">
-    {props.children[0]}
-    <div className="ml3">
-      {props.children[1]}
-    </div>
-  </div>
+class IntroWithButton extends React.Component {
+  static displayName = "Panel.IntroWithButton";
 
-IntroWithButton.propTypes = {
-  children: React.PropTypes.node.isRequired
-};
+  static propTypes = {
+    children: React.PropTypes.node.isRequired
+  };
 
-IntroWithButton.displayName = "Panel.IntroWithButton";
+  render() {
+    return (
+      <div className="py3 px3 flex">
+        {this.props.children[0]}
+        <div className="ml3">
+          {this.props.children[1]}
+        </div>
+      </div>
+    );
+  }
+}
 
 export default IntroWithButton;

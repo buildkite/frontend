@@ -14,18 +14,13 @@ class Permissions extends React.Component {
     permissions: React.PropTypes.object
   };
 
-  componentDidUpdate() {
-    // This doesn't need to be here, but otherwise eslint thinks this should be
-    // a pure stateless function (but we use getChildContext, so it can't be).
-  }
-
   getChildContext() {
     return { permissions: this.props.permissions };
   }
 
   render() {
-    // Ideally we wouldn't need to return a div here, but we can't return an
-    // array from a React component, so this will have to do.
+    // Ideally we wouldn't need to return a DOM element here, but we can't
+    // return an array from a React component, so this will have to do.
     return (
       <section className={this.props.className}>
         {this.props.children}

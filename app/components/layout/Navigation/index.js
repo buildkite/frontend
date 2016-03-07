@@ -1,41 +1,16 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import UserAvatar from './../shared/UserAvatar';
-import Dropdown from './../shared/Dropdown';
-import Badge from './../shared/Badge';
-import Permissions from './../shared/Permissions';
-import AgentsCount from './../organization/AgentsCount';
-import BuildsCountBadge from './../user/BuildsCountBadge';
-import NewChangelogsBadge from './../user/NewChangelogsBadge';
+import UserAvatar from './../../shared/UserAvatar';
+import Dropdown from './../../shared/Dropdown';
+import Badge from './../../shared/Badge';
+import Permissions from './../../shared/Permissions';
+import AgentsCount from './../../organization/AgentsCount';
+import BuildsCountBadge from './../../user/BuildsCountBadge';
+import NewChangelogsBadge from './../../user/NewChangelogsBadge';
 
-const buttonClassNames = "btn black hover-lime focus-lime flex items-center flex-none semi-bold";
-
-const NavigationButton = (props) => {
-  return (
-    <a href={props.href} style={props.style} className={buttonClassNames + " " + props.className} onClick={props.onClick}>{props.children}</a>
-  );
-}
-
-NavigationButton.propTypes = {
-  style: React.PropTypes.object,
-  className: React.PropTypes.string,
-  href: React.PropTypes.string,
-  children: React.PropTypes.node,
-  onClick: React.PropTypes.func
-};
-
-const DropdownButton = (props) => {
-  return (
-    <button style={props.style} className={buttonClassNames + " " + props.className}>{props.children}</button>
-  );
-}
-
-DropdownButton.propTypes = {
-  style: React.PropTypes.object,
-  className: React.PropTypes.string,
-  children: React.PropTypes.node
-};
+import NavigationButton from './navigation-button';
+import DropdownButton from './dropdown-button';
 
 class Navigation extends React.Component {
   static propTypes = {
@@ -68,7 +43,7 @@ class Navigation extends React.Component {
           <div className="flex flex-stretch" style={{height: 45}}>
             <span className="flex relative border-right border-gray items-center">
               <NavigationButton href="/" className="px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
-                <img src={require('../../images/logo.svg')} style={{width: 27, height: 18, marginTop: 3}} />
+                <img src={require('./logo.svg')} style={{width: 27, height: 18, marginTop: 3}} />
               </NavigationButton>
               {this._newChangelogsBadge()}
             </span>
@@ -76,7 +51,7 @@ class Navigation extends React.Component {
             <Dropdown align="left" width={250} className="flex" style={{ minWidth: "5em"}} onToggle={this.handleOrgDropdownToggle}>
               <DropdownButton className={classNames({ "lime": this.state.showingOrgDropdown })}
                               style={{
-                                backgroundImage: 'url(' + require('../../images/nav-button-right-arrow.svg') + ')',
+                                backgroundImage: 'url(' + require('./nav-button-right-arrow.svg') + ')',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundPosition: 'center right',
                                 paddingRight: 20}}>

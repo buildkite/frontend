@@ -11,14 +11,16 @@ class AgentsCount extends React.Component {
     })
   };
 
-  state = { count: this.props.organization.agents.count };
+  state = {
+    count: this.props.organization.agents.count
+  };
 
   componentDidMount() {
-    PusherStore.on("organization_stats:change", this._onStoreChange.bind(this));
+    PusherStore.on("organization_stats:change", this.handleStoreChange);
   }
 
   componentWillUnmount() {
-    PusherStore.off("organization_stats:change", this._onStoreChange.bind(this));
+    PusherStore.off("organization_stats:change", this.handleStoreChange);
   }
 
   render() {
@@ -27,9 +29,9 @@ class AgentsCount extends React.Component {
     );
   }
 
-  _onStoreChange(payload) {
+  handleStoreChange = (payload) => {
     this.setState({ count: payload.agentsConnectedCount });
-  }
+  };
 }
 
 export default AgentsCount;

@@ -1,14 +1,19 @@
 import React from "react";
 
-const Footer = (props) =>
-  <div className="border-top border-gray py2 px3">
-    {props.children}
-  </div>
+class Footer extends React.Component {
+  static displayName = "Panel.Footer";
 
-Footer.propTypes = {
-  children: React.PropTypes.node.isRequired
-};
+  static propTypes = {
+    children: React.PropTypes.node.isRequired
+  };
 
-Footer.displayName = "Panel.Footer";
+  render() {
+    return (
+      <div className="border-top border-gray py2 px3">
+        {this.props.children}
+      </div>
+    );
+  }
+}
 
 export default Footer;

@@ -41,7 +41,6 @@ class NewChangelogsBadge extends React.Component {
     }
   }
 
-
   _onStoreChange(payload) {
     this.setState({ unreadChangelogsCount: payload.unreadChangelogsCount });
   }

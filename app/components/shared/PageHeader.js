@@ -1,12 +1,15 @@
 import React from "react";
 
-const PageHeader = (props) =>
-  <h1 className="h1" style={{marginBottom: "20px", paddingBottom: "0px", marginTop: "0px"}}>{props.children}</h1>
+class PageHeader extends React.Component {
+  static propTypes = {
+    children: React.PropTypes.node.isRequired
+  };
 
-PageHeader.propTypes = {
-  children: React.PropTypes.node.isRequired
-};
-
-PageHeader.displayName = "PageHeader";
+  render() {
+    return (
+      <h1 className="h1" style={{marginBottom: "20px", paddingBottom: "0px", marginTop: "0px"}}>{this.props.children}</h1>
+    );
+  }
+}
 
 export default PageHeader;
