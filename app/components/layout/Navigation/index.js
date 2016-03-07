@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import UserAvatar from './../../shared/UserAvatar';
 import Dropdown from './../../shared/Dropdown';
 import Badge from './../../shared/Badge';
+import Icon from './../../shared/Icon';
 import Permissions from './../../shared/Permissions';
 import AgentsCount from './../../organization/AgentsCount';
 import BuildsCountBadge from './../../user/BuildsCountBadge';
@@ -63,7 +64,7 @@ class Navigation extends React.Component {
                 </span>
               </DropdownButton>
               {this._organizationsList()}
-              <NavigationButton href="/organizations/new" className="block"><i className="fa fa-plus-circle icon-mr"/>Create New Organization</NavigationButton>
+              <NavigationButton href="/organizations/new" className="block"><Icon icon="plus-circle" className="icon-mr" style={{width: 12, height: 12}} />Create New Organization</NavigationButton>
             </Dropdown>
 
             {this._topOrganizationMenu()}
