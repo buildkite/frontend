@@ -5,6 +5,10 @@ import Bugsnag from 'bugsnag-js';
 
 require("./css/main.css");
 
+if(window._css && window._css.reset) {
+  require("./css/reset.css");
+}
+
 // Setup Bugsnag for JS error tracking
 if(window._bugsnag) {
   Bugsnag.apiKey = window._bugsnag.apiKey;

@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  /**
+   * Prefer system fonts (ala -apple-system-body)
+   * Mac/iOS - SF
+   * Chromebook/Android - Roboto
+   * Windows - Helvetica
+   * Linux - Helvetica, Arial
+   **/
+  font-family: "SF UI Text", Roboto, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1;
+  font-weight: 500;
+}
+
+.semi-bold {
+  font-weight: 500;
+}
