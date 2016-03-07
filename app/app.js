@@ -23,7 +23,7 @@ window["Webpack"] = {
   modules: {
     "react": require("react"),
     "react-dom": require("react-dom"),
-    "relay": require("react-relay"),
+    "react-relay": require("react-relay"),
     "classnames": require("classnames"),
     "moment": require("moment"),
     "object-assign": require("object-assign"),
