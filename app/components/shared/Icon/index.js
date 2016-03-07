@@ -1,4 +1,6 @@
 import React from 'react';
+import update from "react-addons-update";
+
 import Logger from '../../../lib/Logger';
 
 const titleNode = (title) => {
@@ -29,6 +31,8 @@ const pathNodes = (icon) => {
       return require("./github").default;
     case 'twitter':
       return require("./twitter").default;
+    case 'chevron-right':
+      return require("./chevron-right").default;
     default:
       Logger.error(`[Icon] No icon defined for "${icon}"`);
       return require("./placeholder").default;
@@ -39,12 +43,22 @@ class Icon extends React.Component {
   static propTypes = {
     icon: React.PropTypes.string.isRequired,
     title: React.PropTypes.string,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    style: React.PropTypes.object
   };
 
   render() {
+    let style = update(this.props.style || {}, {
+      fill: {
+        $set: "currentColor"
+      },
+      verticalAlign: {
+        $set: "middle"
+      }
+    });
+
     return (
-      <svg viewBox="0 0 20 20" width="20px" height="20px" className={this.props.className} style={{fill: "currentColor", verticalAlign: "middle"}}>
+      <svg viewBox="0 0 20 20" width="20px" height="20px" className={this.props.className} style={style}>
         {titleNode(this.props.title)}
         {pathNodes(this.props.icon)}
       </svg>
