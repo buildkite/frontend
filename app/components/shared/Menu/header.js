@@ -1,14 +1,19 @@
 import React from "react";
 
-const Header = (props) =>
-  <div className="border border-gray bg-silver py2 px3 semi-bold rounded-top">
-    {props.children}
-  </div>
+class Header extends React.Component {
+  static displayName = "Menu.Header";
 
-Header.propTypes = {
-  children: React.PropTypes.node.isRequired
-};
+  static propTypes = {
+    children: React.PropTypes.node.isRequired
+  };
 
-Header.displayName = "Menu.Header";
+  render() {
+    return (
+      <div className="border border-gray bg-silver py2 px3 semi-bold rounded-top">
+        {this.props.children}
+      </div>
+    );
+  }
+}
 
 export default Header;

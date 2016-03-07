@@ -7,44 +7,46 @@ import BaseButton from "../Button";
 
 const COLOR = (Features.NewNav) ? "lime" : "blue";
 
-const Button = (props) => {
-  // Use a super simpe way of figuring out if the current href is active
-  let active = (window.location.pathname.indexOf(props.link || props.href) == 0)
+class Button extends React.Component {
+  static displayName = "Menu.Button";
 
-  let badge;
-  if(props.badge) {
-    let badgeClasses = classNames(`right hover-${COLOR}-child`, {
-      "bg-lime": (active && COLOR == "lime"),
-      "bg-blue": (active && COLOR == "blue")
-    })
+  static propTypes = {
+    children: React.PropTypes.node.isRequired,
+    badge: React.PropTypes.number,
+    href: React.PropTypes.string,
+    link: React.PropTypes.string
+  };
 
-    badge = <Badge className={badgeClasses}>{props.badge}</Badge>
-  }
+  render() {
+    // Use a super simpe way of figuring out if the current href is active
+    let active = (window.location.pathname.indexOf(this.props.link || this.props.href) == 0)
 
-  props = update(props, {
-    theme: {
-      $set: false
-    },
-    className: {
-      $set: classNames(`block hover-${COLOR} focus-${COLOR} truncate`, {
-        "lime": (active && COLOR == "lime"),
-        "blue": (active && COLOR == "blue")
+    let badge;
+    if(this.props.badge) {
+      let badgeClasses = classNames(`right hover-${COLOR}-child`, {
+        "bg-lime": (active && COLOR == "lime"),
+        "bg-blue": (active && COLOR == "blue")
       })
+
+      badge = <Badge className={badgeClasses}>{this.props.badge}</Badge>
     }
-  });
 
-  return (
-    <BaseButton {...props}>{props.children}{badge}</BaseButton>
-  )
+    let props = update(this.props, {
+      theme: {
+        $set: false
+      },
+      className: {
+        $set: classNames(`block hover-${COLOR} focus-${COLOR} truncate`, {
+          "lime": (active && COLOR == "lime"),
+          "blue": (active && COLOR == "blue")
+        })
+      }
+    });
+
+    return (
+      <BaseButton {...props}>{props.children}{badge}</BaseButton>
+    )
+  }
 }
-
-Button.propTypes = {
-  children: React.PropTypes.node.isRequired,
-  badge: React.PropTypes.number,
-  href: React.PropTypes.string,
-  link: React.PropTypes.string
-};
-
-Button.displayName = "Menu.Button";
 
 export default Button;

@@ -1,14 +1,19 @@
 import React from "react";
 
-const Body = (props) =>
-  <div className="py3 px3">
-    {props.children}
-  </div>
+class Body extends React.Component {
+  static displayName = "Panel.Body";
 
-Body.propTypes = {
-  children: React.PropTypes.node.isRequired
-};
+  static propTypes = {
+    children: React.PropTypes.node.isRequired
+  };
 
-Body.displayName = "Panel.Body";
+  render() {
+    return (
+      <div className="py3 px3">
+        {this.props.children}
+      </div>
+    );
+  }
+}
 
 export default Body;

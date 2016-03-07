@@ -276,6 +276,11 @@
       "from": "babel-plugin-check-es2015-constants@>=6.3.13 <7.0.0",
       "resolved": "https://registry.npmjs.org/babel-plugin-check-es2015-constants/-/babel-plugin-check-es2015-constants-6.6.5.tgz"
     },
+    "babel-plugin-react-pure-components": {
+      "version": "2.2.2",
+      "from": "babel-plugin-react-pure-components@*",
+      "resolved": "https://registry.npmjs.org/babel-plugin-react-pure-components/-/babel-plugin-react-pure-components-2.2.2.tgz"
+    },
     "babel-plugin-react-transform": {
       "version": "2.0.2",
       "from": "babel-plugin-react-transform@>=2.0.0 <3.0.0",
@@ -4296,6 +4301,11 @@
       "from": "react-deep-force-update@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz"
     },
+    "react-document-title": {
+      "version": "2.0.1",
+      "from": "react-document-title@*",
+      "resolved": "https://registry.npmjs.org/react-document-title/-/react-document-title-2.0.1.tgz"
+    },
     "react-dom": {
       "version": "0.14.7",
       "from": "react-dom@>=0.14.3 <0.15.0",
@@ -4339,6 +4349,23 @@
       "version": "0.9.0",
       "from": "react-router-relay@>=0.9.0 <0.10.0",
       "resolved": "https://registry.npmjs.org/react-router-relay/-/react-router-relay-0.9.0.tgz"
+    },
+    "react-side-effect": {
+      "version": "1.0.2",
+      "from": "react-side-effect@>=1.0.2 <2.0.0",
+      "resolved": "https://registry.npmjs.org/react-side-effect/-/react-side-effect-1.0.2.tgz",
+      "dependencies": {
+        "fbjs": {
+          "version": "0.1.0-alpha.10",
+          "from": "fbjs@0.1.0-alpha.10",
+          "resolved": "https://registry.npmjs.org/fbjs/-/fbjs-0.1.0-alpha.10.tgz"
+        },
+        "whatwg-fetch": {
+          "version": "0.9.0",
+          "from": "whatwg-fetch@>=0.9.0 <0.10.0",
+          "resolved": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-0.9.0.tgz"
+        }
+      }
     },
     "react-static-container": {
       "version": "1.0.0",
