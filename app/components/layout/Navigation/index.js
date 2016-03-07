@@ -38,7 +38,7 @@ class Navigation extends React.Component {
 
   render() {
     return (
-      <div className="border-bottom border-gray bg-silver" style={{fontSize: 13, marginBottom: '2.5rem'}}>
+      <div className="border-bottom border-gray bg-silver" style={{fontSize: 13, marginBottom: 25}}>
         <div className="container">
           <div className="flex flex-stretch" style={{height: 45}}>
             <span className="flex relative border-right border-gray items-center">
@@ -76,8 +76,8 @@ class Navigation extends React.Component {
 
             <Dropdown align="right" width={170} className="flex" onToggle={this.handleUserDropdownToggle}>
               <DropdownButton className={classNames({ "lime": this.state.showingUserDropdown })}
-                              style={{paddingRight: 0, paddingLeft: '1rem'}}>
-                <UserAvatar user={this.props.viewer.user} className="flex-none flex items-center" style={{width: 26, height: 26, marginRight: '.6rem'}} />
+                              style={{paddingRight: 0}}>
+                <UserAvatar user={this.props.viewer.user} className="flex-none flex items-center mr1" style={{width: 26, height: 26}} />
                 <span className="flex items-center xs-hide"><span className="truncate" style={{maxWidth:"9em"}} data-current-user-name>{this.props.viewer.user.name}</span></span>
                 <span className="ml1 flex items-center">
                   &#9662;
