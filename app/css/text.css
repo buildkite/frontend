@@ -1,25 +1,7 @@
-/* The old font we use, only has semi-bold at 600 (not 500 like SF UI does) */
-.semi-bold {
-  font-weight: 600;
-}
-
 .small {
   font-size: 85%;
 }
 
-body.new-nav,
-body.new-nav h1,
-body.new-nav h2,
-body.new-nav h3,
-body.new-nav h4,
-body.new-nav h5,
-body.new-nav input,
-body.new-nav select,
-body.new-nav textarea,
-body.new-nav button {
-  font-family: "SF UI Text", Roboto, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
-}
-
-body.new-nav .semi-bold {
+.semi-bold {
   font-weight: 500;
 }
