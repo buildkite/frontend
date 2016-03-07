@@ -8,7 +8,7 @@ import Button from '../shared/Button'
 // import TeamPipelines from '../components/TeamPipelines';
 // import TeamMembers from '../components/TeamMembers';
 
-// import DeleteTeamMutation from '../mutations/DeleteTeamMutation';
+import TeamDeleteMutation from '../../mutations/TeamDelete';
 
 class Show extends React.Component {
   static propTypes = {
@@ -17,18 +17,22 @@ class Show extends React.Component {
     }).isRequired
   };
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   state = {
     removing: false
   };
 
   render() {
-    // If the team doesn't have an organization, that means that it's just been
-    // deleted. And since we require all the org to render this component,
-    // we'll just short-circut the re-render when it's gone.  This isn't great,
-    // maybe there's a beter way?
-    // if(!this.props.viewer.team.organization) {
-    //   return null;
-    // }
+    // If the team doesn't exist, that means that it's just been deleted. And
+    // since we require all the team to render this component, we'll just
+    // short-circut the re-render when it's gone. This isn't great, maybe
+    // there's a beter way?
+    if(!this.props.team) {
+      return null;
+    }
 
     return (
       <div>
@@ -40,8 +44,7 @@ class Show extends React.Component {
             <PageHeader.Button
               link={`/organizations/${this.props.organization.slug}/teams/${this.props.team.slug}/edit`}>Edit</PageHeader.Button>
             <PageHeader.Button
-              loading={this.state.removing}
-              loadingText={"Deleting…"}
+              loading={this.state.removing ? "Deleting…" : false}
               onClick={this.handleRemoveTeamClick}>Delete</PageHeader.Button>
           </PageHeader.Menu>
 	</PageHeader>
@@ -57,20 +60,20 @@ class Show extends React.Component {
     // Show the removing indicator
     this.setState({ removing: true });
 
-    // var mutation = new DeleteTeamMutation({
-    //   team: this.props.viewer.team
-    // });
+    var mutation = new TeamDeleteMutation({
+      team: this.props.team
+    });
 
-    // // Run the mutation
-    // Relay.Store.update(mutation, {
-    //   onSuccess: this.handleDeleteTeamMutationSuccess,
-    //   onFailure: this.handleDeleteTeamMutationFailure
-    // });
+    // Run the mutation
+    Relay.Store.commitUpdate(mutation, {
+      onSuccess: this.handleDeleteTeamMutationSuccess,
+      onFailure: this.handleDeleteTeamMutationFailure
+    });
   }
 
   handleDeleteTeamMutationSuccess = (response) => {
-    // Redirect back to the list page
-    this.props.history.pushState(null, `/organizations/${this.props.organization.slug}/teams`);
+    // Redirect back to the index page
+    this.context.router.push(`/organizations/${this.props.organization.slug}/teams`);
   }
 
   handleDeleteTeamMutationFailure = (transaction) => {
@@ -83,7 +86,6 @@ class Show extends React.Component {
 
 // ${TeamPipelines.getFragment('team')}
 // ${TeamMembers.getFragment('team')}
-// ${DeleteTeamMutation.getFragment('team')}
 
 export default Relay.createContainer(Show, {
   fragments: {
@@ -94,6 +96,7 @@ export default Relay.createContainer(Show, {
     `,
     team: () => Relay.QL`
       fragment on Team {
+        ${TeamDeleteMutation.getFragment('team')}
 	name
 	description
 	slug
