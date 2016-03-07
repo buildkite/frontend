@@ -80,8 +80,9 @@ window["initializeReactRouter"] = function() {
   let BuildCommentsList = require("./components/build/CommentsList").default;
   let OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
   let TeamIndex = require("./components/team/Index").default;
-  let TeamShow = require("./components/team/Show").default;
   let TeamNew = require("./components/team/New").default;
+  let TeamShow = require("./components/team/Show").default;
+  let TeamEdit = require("./components/team/Edit").default;
 
   // Loading components
   let PageLoader = require("./components/shared/PageLoader").default;
@@ -152,6 +153,7 @@ window["initializeReactRouter"] = function() {
             <IndexRoute component={TeamIndex} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
             <Route path="new" component={TeamNew} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
             <Route path=":team" component={TeamShow} queries={{organization: OrganizationQuery, team: TeamQuery}} prepareParams={prepareTeamParams} renderLoading={handleSectionLoading} />
+            <Route path=":team/edit" component={TeamEdit} queries={{organization: OrganizationQuery, team: TeamQuery}} prepareParams={prepareTeamParams} renderLoading={handleSectionLoading} />
           </Route>
         </Route>
       </Route>
