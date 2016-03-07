@@ -1,4 +1,3 @@
-@import 'colors';
 @import 'btn';
 @import 'btn-primary';
 @import 'bg-colors';
@@ -15,6 +14,7 @@
 @import 'text';
 @import 'icons';
 @import 'forms';
+@import 'colors';
 
 @import 'basscss';
 @import 'basscss-colors';
