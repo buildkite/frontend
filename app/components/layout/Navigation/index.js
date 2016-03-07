@@ -39,7 +39,7 @@ class Navigation extends React.Component {
   render() {
     return (
       <div className="border-bottom border-gray bg-silver" style={{fontSize: 13, marginBottom: '2.5rem'}}>
-        <div className="twbs-container">
+        <div className="container">
           <div className="flex flex-stretch" style={{height: 45}}>
             <span className="flex relative border-right border-gray items-center">
               <NavigationButton href="/" className="px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
@@ -127,7 +127,7 @@ class Navigation extends React.Component {
     if (this.props.organization) {
       return (
         <div className="border-top border-gray sm-hide md-hide lg-hide">
-          <div className="twbs-container flex flex-stretch" style={{height: 45}}>
+          <div className="container flex flex-stretch" style={{height: 45}}>
             {this._organizationMenu({ paddingLeft: 0 })}
           </div>
         </div>
