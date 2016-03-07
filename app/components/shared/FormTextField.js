@@ -54,12 +54,12 @@ class FormTextField extends React.Component {
     } else {
       return (
         <div className="mb2">
-	  <label>
-	    <div className="bold mb1">{this.props.label}</div>
-	    {inputNode}
-	    {helpNode}
-	  </label>
-	</div>
+          <label>
+            <div className="bold mb1">{this.props.label}</div>
+            {inputNode}
+            {helpNode}
+          </label>
+        </div>
       );
     }
   }
