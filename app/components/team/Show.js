@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import { Link } from 'react-router';
 
 import PageHeader from '../shared/PageHeader';
 import Button from '../shared/Button'
@@ -13,6 +12,11 @@ import TeamDeleteMutation from '../../mutations/TeamDelete';
 class Show extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
+      slug: React.PropTypes.string.isRequired
+    }).isRequired,
+    team: React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string,
       slug: React.PropTypes.string.isRequired
     }).isRequired
   };
@@ -71,7 +75,7 @@ class Show extends React.Component {
     });
   }
 
-  handleDeleteTeamMutationSuccess = (response) => {
+  handleDeleteTeamMutationSuccess = () => {
     // Redirect back to the index page
     this.context.router.push(`/organizations/${this.props.organization.slug}/teams`);
   }
