@@ -75,28 +75,23 @@ window["initializeReactRouter"] = function() {
   let TeamNew = require("./components/team/New").default;
   let PageLoader = require("./components/shared/PageLoader").default;
 
-  // Queries used when you want to show a build
-  const BuildQueries = {
-    viewer: () => Relay.QL`
-      query {
-	viewer
-      }
-    `,
-    build: () => Relay.QL`
-      query {
-	build(slug: $slug)
-      }
-    `
-  };
+  const BuildQuery = () => Relay.QL`
+    query {
+      build(slug: $slug)
+    }
+  `
 
-  // When you want to show something related to an organization
-  const OrganizationQueries = {
-    organization: () => Relay.QL`
-      query {
-	organization(slug: $organization)
-      }
-    `
-  }
+  const ViewerQuery = () => Relay.QL`
+    query {
+      viewer
+    }
+  `
+
+  const OrganizationQuery = () => Relay.QL`
+    query {
+      organization(slug: $organization)
+    }
+  `
 
   const handleRenderLoading = () => {
     return (
@@ -118,13 +113,13 @@ window["initializeReactRouter"] = function() {
   // Define and render the routes
   ReactDOM.render(
     <RelayRouter history={browserHistory}>
-      <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={BuildQueries} prepareParams={prepareBuildParams} />
+      <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
 
-      <Route path="/" component={Main}>
-        <Route path="organizations/:organization" component={OrganizationSettingsSection} queries={OrganizationQueries} renderLoading={handleRenderLoading}>
+      <Route path="/" component={Main} queries={{viewer: ViewerQuery, organization: OrganizationQuery}} renderLoading={handleRenderLoading}>
+        <Route path="organizations/:organization" component={OrganizationSettingsSection} queries={{organization: OrganizationQuery}} renderLoading={handleRenderLoading}>
           <Route path="teams">
-            <IndexRoute component={TeamList} queries={OrganizationQueries} renderLoading={handleRenderLoading} />
-            <Route path="new" component={TeamNew} queries={OrganizationQueries} renderLoading={handleRenderLoading} />
+            <IndexRoute component={TeamList} queries={{organization: OrganizationQuery}} renderLoading={handleRenderLoading} />
+            <Route path="new" component={TeamNew} queries={{organization: OrganizationQuery}} renderLoading={handleRenderLoading} />
           </Route>
         </Route>
       </Route>
