@@ -31,7 +31,7 @@ class Button extends React.Component {
       badge = <Badge className={badgeClasses}>{this.props.badge}</Badge>
     }
 
-    let props = update(this.props, {
+    let buttonProps = update(this.props, {
       theme: {
         $set: false
       },
@@ -44,7 +44,7 @@ class Button extends React.Component {
     });
 
     return (
-      <BaseButton {...props}>{props.children}{badge}</BaseButton>
+      <BaseButton {...buttonProps}>{buttonProps.children}{badge}</BaseButton>
     )
   }
 }
