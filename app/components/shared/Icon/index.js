@@ -33,6 +33,8 @@ const pathNodes = (icon) => {
       return require("./twitter").default;
     case 'chevron-right':
       return require("./chevron-right").default;
+    case 'teams':
+      return require("./teams").default;
     default:
       Logger.error(`[Icon] No icon defined for "${icon}"`);
       return require("./placeholder").default;
