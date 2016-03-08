@@ -4,8 +4,8 @@ import Relay from 'react-relay';
 import PageHeader from '../shared/PageHeader';
 import Button from '../shared/Button'
 
-// import TeamPipelines from '../components/TeamPipelines';
-// import TeamMembers from '../components/TeamMembers';
+import Pipelines from './Pipelines';
+import Members from './Members';
 
 import TeamDeleteMutation from '../../mutations/TeamDelete';
 
@@ -53,9 +53,7 @@ class Show extends React.Component {
           </PageHeader.Menu>
 	</PageHeader>
 
-        <div>
-          Team info here
-        </div>
+        <Pipelines team={this.props.team} />
       </div>
     );
   }
@@ -100,6 +98,8 @@ export default Relay.createContainer(Show, {
     `,
     team: () => Relay.QL`
       fragment on Team {
+        ${Pipelines.getFragment('team')}
+        ${Members.getFragment('team')}
         ${TeamDeleteMutation.getFragment('team')}
 	name
 	description
