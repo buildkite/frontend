@@ -6,17 +6,32 @@ class Suggestion extends React.Component {
 
   static propTypes = {
     selected: React.PropTypes.bool,
-    suggestion: React.PropTypes.object
+    suggestion: React.PropTypes.object,
+    className: React.PropTypes.string
   };
 
+  static childContextTypes = {
+    autoCompletorSuggestion: React.PropTypes.object
+  };
+
+  // Pass suggestion information down to the children of this component so they
+  // can handle `selected` highlights if they want
+  getChildContext() {
+    return {
+      autoCompletorSuggestion: {
+        selected: this.props.selected,
+        data: this.props.suggestion
+      }
+    };
+  }
+
   render() {
-    var suggestionClassNames = classNames({
-      "FormAutoCompleteField__Suggestions__List__Item": !this.props.selected,
-      "FormAutoCompleteField__Suggestions__List__Item--Selected": this.props.selected
+    let classes = classNames(this.props.className, "px2 py1", {
+      "bg-blue white": this.props.selected
     });
 
     return (
-      <li className={suggestionClassNames} onMouseDown={this.handleMouseDown} onMouseOver={this.handleMouseOver}>
+      <li className={classes} onMouseDown={this.handleMouseDown} onMouseOver={this.handleMouseOver}>
         {this.props.children}
       </li>
     );

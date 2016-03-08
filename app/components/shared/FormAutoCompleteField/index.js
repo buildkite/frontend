@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import Suggestion from './suggestion';
 
@@ -41,32 +42,38 @@ class FormAutoCompleteField extends React.Component {
   }
 
   clear() {
-    this.refs.input.value = '';
+    this._inputNode.value = '';
     this.setState({ selected: null });
   }
 
   focus() {
-    this.refs.input.focus();
+    this._inputNode.focus();
+  }
+
+  selectItem(item) {
+    this.setState({ visible: false });
+    this._inputNode.blur();
+    this.props.onSelect(item);
   }
 
   render() {
     return (
-      <div className="FormAutoCompleteField">
-	{this._icon()}
-	<input type="text"
-	  ref="input"
-	  onChange={this._handleInputChange.bind(this)}
-	  onKeyDown={this._handleKeyDown.bind(this)}
-	  onFocus={this._handleFocus.bind(this)}
-	  onBlur={this._handleBlur.bind(this)}
-	  placeholder={this.props.placeholder}
-	  className="FormAutoCompleteField__Input" />
-	{this._suggestions()}
+      <div className="relative">
+	{this.renderIcon()}
+	<input type="input"
+          className="input"
+          ref={c => this._inputNode = c}
+	  onChange={this.handleInputChange}
+	  onKeyDown={this.handleKeyDown}
+	  onFocus={this.handleFocus}
+	  onBlur={this.handleBlur}
+	  placeholder={this.props.placeholder} />
+	{this.renderSuggestions()}
       </div>
     );
   }
 
-  _icon() {
+  renderIcon() {
     var icon = this.state.searching ? "fa-spin fa-spinner" : "fa-search";
     var iconClassName = `fa ${icon}`
 
@@ -77,21 +84,33 @@ class FormAutoCompleteField extends React.Component {
     );
   }
 
-  _suggestions() {
-    var style = { display: this.state.visible ? "block" : "none" };
+  renderSuggestions() {
+    let style = {
+      display: this.state.visible ? "block" : "none",
+      marginTop: 3,
+      zIndex: 999,
+      width: "100%",
+      lineHeight: 1.4
+    };
+
+    let items = this.props.items;
 
     return (
-      <div className="FormAutoCompleteField__Suggestions" ref="suggestions" style={style}>
-        <ul className="FormAutoCompleteField__Suggestions__List">
+      <div className="bg-white border border-silver rounded shadow absolute" style={style}>
+        <ul className="list-reset m0 p0">
           {
-            this.props.items.map((item) => {
+            items.map((item, index) => {
               return (
                 <Suggestion
                   key={item[1].id}
+                  className={classNames({
+                    "rounded-top": (index == 0),
+                    "rounded-bottom": (index == (items.length - 1))
+                  })}
                   selected={item[1] == this.state.selected}
                   suggestion={item[1]}
-                  onMouseOver={this._handleSuggestionMouseOver.bind(this)}
-                  onMouseDown={this._handleSuggestionMouseDown.bind(this)}>{item[0]}</Suggestion>
+                  onMouseOver={this.handleSuggestionMouseOver}
+                  onMouseDown={this.handleSuggestionMouseDown}>{item[0]}</Suggestion>
                 );
             })
           }
@@ -100,22 +119,28 @@ class FormAutoCompleteField extends React.Component {
     );
   }
 
-  _handleSuggestionMouseDown(suggestion) {
-    this._selectItem(suggestion);
-  }
+  handleSuggestionMouseDown = (suggestion) => {
+    this.selectItem(suggestion);
+  };
 
-  _handleSuggestionMouseOver(suggestion) {
+  handleSuggestionMouseOver = (suggestion) => {
     this.setState({ selected: suggestion });
-  }
+  };
 
-  _handleKeyDown(e) {
+  handleKeyDown = (e) => {
     // Do nothing if the list isn't visible
     if(!this.state.visible) {
       return false;
     }
 
     // Find the index of the currently selected item
-    var index = this._indexOfItem(this.state.selected);
+    let index;
+    for(var i = 0; i < this.props.items.length; i++) {
+      if(this.props.items[i][1].id == this.state.selected.id) {
+        index = i;
+        break
+      }
+    }
 
     // If it couldn't be found for some reason, bail
     if(index == null) {
@@ -157,28 +182,27 @@ class FormAutoCompleteField extends React.Component {
     // If they've hit enter, select the item
     if(e.keyCode == 13) {
       e.preventDefault();
-      this._selectItem(this.state.selected);
+      this.selectItem(this.state.selected);
       return;
     }
+  };
 
-  }
-
-  _handleFocus(e) {
+  handleFocus = (e) => {
     // Only re-show the list if there's something to show
     if(this.props.items && this.props.items.length > 0) {
       this.setState({ visible: true });
     }
-  }
+  };
 
-  _handleBlur(e) {
+  handleBlur = (e) => {
     // Hide the input in a few ms so that the user has time to click a value.
     // This could probably be done a bit better
-    setTimeout(() => {
-      this.setState({ visible: false });
-    }, 50);
-  }
+    //setTimeout(() => {
+    //  this.setState({ visible: false });
+    //}, 50);
+  };
 
-  _handleInputChange(e) {
+  handleInputChange = (e) => {
     // Get a copy of the target otherwise the event will be cleared between now
     // and when the timeout happens
     let target = e.target;
@@ -195,21 +219,7 @@ class FormAutoCompleteField extends React.Component {
       this.setState({ searching: true });
       delete this._timeout;
     }, 250);
-  }
-
-  _selectItem(item) {
-    this.setState({ visible: false });
-    this.refs.input.blur();
-    this.props.onSelect(item);
-  }
-
-  _indexOfItem(search) {
-    for(var i = 0; i < this.props.items.length; i++) {
-      if(this.props.items[i][1].id == search.id) {
-	return i;
-      }
-    }
-  }
+  };
 }
 
 export default FormAutoCompleteField
