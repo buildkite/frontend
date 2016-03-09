@@ -25,6 +25,9 @@ class SettingsMenu extends React.Component {
         organizationMemberCreate: React.PropTypes.shape({
           allowed: React.PropTypes.bool.isRequired
         }).isRequired,
+        teamAdmin: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired,
         notificationServiceUpdate: React.PropTypes.shape({
           allowed: React.PropTypes.bool.isRequired
         }).isRequired,
@@ -65,6 +68,14 @@ class SettingsMenu extends React.Component {
         render: (idx) => (
           <Menu.Button key={idx} href={`/organizations/${this.props.organization.slug}/users`} badge={this.props.organization.members.count + this.props.organization.invitations.count}>
             <Icon icon="users" className="icon-mr"/>Users
+          </Menu.Button>
+        )
+      },
+      {
+        allowed: "teamAdmin",
+        render: (idx) => (
+          <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/teams`} badge={this.props.organization.teams.count}>
+            <Icon icon="teams" className="icon-mr"/>Teams
           </Menu.Button>
         )
       },
