@@ -42,7 +42,8 @@ class TeamMemberCreate extends Relay.Mutation {
     return {
       teamMemberEdge: {
         node: {
-          user: this.props.user
+          user: this.props.user,
+          admin: false
         }
       },
       team: {
