@@ -20,7 +20,8 @@ class Pipelines extends React.Component {
       }).isRequired,
       organization: React.PropTypes.object.isRequired
     }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    relay: React.PropTypes.object.isRequired,
+    className: React.PropTypes.string
   };
 
   state = {
@@ -29,7 +30,7 @@ class Pipelines extends React.Component {
 
   render() {
     return (
-      <Panel>
+      <Panel className={this.props.className}>
         <Panel.Header>Pipelines</Panel.Header>
         <Panel.Body>
           <FormAutoCompleteField onSearch={this.handlePipelineSearch}
@@ -41,7 +42,7 @@ class Pipelines extends React.Component {
         {
           this.props.team.pipelines.edges.map((edge) => {
             return (
-              <Row key={edge.node.id} pipeline={edge.node} onRemoveClick={this.handlePipelineRemove} relay={this.props.relay} />
+              <Row key={edge.node.id} pipeline={edge.node} onRemoveClick={this.handleTeamPipelineRemove} relay={this.props.relay} />
               )
           })
         }
@@ -53,7 +54,6 @@ class Pipelines extends React.Component {
     // First filter out any pipelines that are already in this list
     let suggestions = [];
     this.props.team.organization.pipelines.edges.forEach((pipeline) => {
-
       let found = false;
       this.props.team.pipelines.edges.forEach((edge) => {
         if(edge.node.pipeline.id == pipeline.node.id) {
@@ -93,7 +93,7 @@ class Pipelines extends React.Component {
     }), { onFailure: this.handleMutationFailure });
   };
 
-  handlePipelineRemove = (teamPipeline) => {
+  handleTeamPipelineRemove = (teamPipeline) => {
     Relay.Store.commitUpdate(new TeamPipelineDeleteMutation({
       teamPipeline: teamPipeline
     }), { onFailure: this.handleMutationFailure });

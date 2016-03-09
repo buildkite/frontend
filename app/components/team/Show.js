@@ -53,6 +53,7 @@ class Show extends React.Component {
           </PageHeader.Menu>
 	</PageHeader>
 
+        <Members team={this.props.team} className="mb4" />
         <Pipelines team={this.props.team} />
       </div>
     );

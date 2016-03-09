@@ -4,14 +4,15 @@ import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
 import Icon from '../../shared/Icon';
 
-import Pipeline from './pipeline';
+import User from './user';
 
 class Row extends React.Component {
-  static displayName = "Team.Pipelines.Row";
+  static displayName = "Team.Members.Row";
 
   static propTypes = {
-    pipeline: React.PropTypes.shape({
-      pipeline: React.PropTypes.object.isRequired
+    member: React.PropTypes.shape({
+      user: React.PropTypes.object.isRequired,
+      admin: React.PropTypes.bool.isRequired
     }).isRequired,
     onRemoveClick: React.PropTypes.func.isRequired,
     relay: React.PropTypes.object.isRequired
@@ -24,7 +25,7 @@ class Row extends React.Component {
   render() {
     return (
       <Panel.Row>
-	<Pipeline pipeline={this.props.pipeline.pipeline} />
+	<User user={this.props.member.user} />
         <Panel.RowActions>
           {this.renderActions()}
         </Panel.RowActions>
@@ -33,7 +34,7 @@ class Row extends React.Component {
   }
 
   renderActions() {
-    var transactions = this.props.relay.getPendingTransactions(this.props.pipeline);
+    var transactions = this.props.relay.getPendingTransactions(this.props.member);
     var transaction = transactions ? transactions[0] : null;
 
     if(transaction && transaction.getStatus() == "COMMITTING") {
@@ -43,15 +44,15 @@ class Row extends React.Component {
     } else {
       return (
         <Button loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true}
-          onClick={this.handlePipelineRemove}>Remove</Button>
+          onClick={this.handleMemberRemove}>Remove</Button>
       );
     }
   }
 
-  handlePipelineRemove = (e) => {
+  handleMemberRemove = (e) => {
     e.preventDefault();
     this.setState({ removing: true });
-    this.props.onRemoveClick(this.props.pipeline);
+    this.props.onRemoveClick(this.props.member);
   };
 }
 
