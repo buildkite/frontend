@@ -49,7 +49,6 @@ class Row extends React.Component {
         <Icon icon="spinner" className="dark-gray animation-spin" style={{width: 18, height: 18}} />
       );
     } else {
-
       // Don't show team admins buttons to modify their own membership
       if(this.props.member.admin && this.props.viewer.user.id == this.props.member.user.id) {
         return (
