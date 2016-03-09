@@ -8,12 +8,29 @@ class IntroWithButton extends React.Component {
   };
 
   render() {
+    let children = React.Children.toArray(this.props.children);
+
+    let intro;
+    let button;
+    if(children.length == 1) {
+      intro = children;
+    } else {
+      button = children.pop();
+      intro = children;
+    }
+
+    if(button) {
+      button = (
+        <div className="ml3">
+          {button}
+        </div>
+      );
+    }
+
     return (
       <div className="py3 px3 flex">
-        {this.props.children[0]}
-        <div className="ml3">
-          {this.props.children[1]}
-        </div>
+        {intro}
+        {button}
       </div>
     );
   }

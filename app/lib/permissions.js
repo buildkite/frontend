@@ -3,7 +3,7 @@ import update from "react-addons-update";
 class PermissionManager {
   constructor(permissions) {
     if(!permissions) {
-      throw "Missing permission hash"
+      throw new Error("Missing permission hash");
     }
 
     // Remove the hidden __dataID__ from the permissions object (which comes
@@ -68,7 +68,7 @@ class PermissionManager {
     } else if (config.only) {
       if(this.isPermissionOnlyOneAllowed(config.only)) return config.render(...args);
     } else {
-      throw('Missing permission config attribute. Must be either `all`, `allowed`, `any` or `only`');
+      throw new Error('Missing permission config attribute. Must be either `all`, `allowed`, `any` or `only`');
     }
 
     return null;
@@ -104,12 +104,12 @@ class PermissionManager {
 
     // Ensure sure the permission is even there
     if(!result) {
-      throw('Missing permission "' + key + '"', this.permissions);
+      throw new Error('Missing permission "' + key + '"', this.permissions);
     }
 
     // Validate that the 'allowed' key is present
     if(result.allowed == undefined) {
-      throw('Missing `allowed` property for "' + key + '" permission');
+      throw new Error('Missing `allowed` property for "' + key + '" permission');
     }
 
     return result;
