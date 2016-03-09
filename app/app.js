@@ -152,7 +152,7 @@ window["initializeReactRouter"] = function() {
           <Route path="teams">
             <IndexRoute component={TeamIndex} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
             <Route path="new" component={TeamNew} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
-            <Route path=":team" component={TeamShow} queries={{organization: OrganizationQuery, team: TeamQuery}} prepareParams={prepareTeamParams} renderLoading={handleSectionLoading} />
+            <Route path=":team" component={TeamShow} queries={{organization: OrganizationQuery, team: TeamQuery, viewer: ViewerQuery}} prepareParams={prepareTeamParams} renderLoading={handleSectionLoading} />
             <Route path=":team/edit" component={TeamEdit} queries={{organization: OrganizationQuery, team: TeamQuery}} prepareParams={prepareTeamParams} renderLoading={handleSectionLoading} />
           </Route>
         </Route>

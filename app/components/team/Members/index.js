@@ -22,6 +22,11 @@ class Members extends React.Component {
       organization: React.PropTypes.object.isRequired
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
+    viewer: React.PropTypes.shape({
+      user: React.PropTypes.shape({
+        id: React.PropTypes.string.isRequired
+      }).isRequired
+    }).isRequired,
     className: React.PropTypes.string
   };
 
@@ -43,7 +48,7 @@ class Members extends React.Component {
         {
           this.props.team.members.edges.map((edge) => {
             return (
-              <Row key={edge.node.id} member={edge.node} onRemoveClick={this.handleTeamMemberRemove} onTeamAdminToggle={this.handleTeamAdminToggle} relay={this.props.relay} />
+              <Row key={edge.node.id} member={edge.node} viewer={this.props.viewer} onRemoveClick={this.handleTeamMemberRemove} onTeamAdminToggle={this.handleTeamAdminToggle} relay={this.props.relay} />
               )
           })
         }
