@@ -3,12 +3,20 @@ import update from "react-addons-update";
 import classNames from "classnames";
 import { Link } from 'react-router';
 
-const THEMES = {
-  outline: "btn-outline",
-  primary: "btn-primary nowrap",
-  success: "btn-primar bg-green nowrap",
-  warning: "btn-primary bg-orange nowrap",
-  error: "btn-primary bg-red nowrap"
+const NORMAL_THEMES = {
+  primary: "btn-primary",
+  success: "btn-primary bg-green",
+  warning: "btn-primary bg-orange",
+  default: "btn-primary bg-gray",
+  error: "btn-primary bg-red"
+};
+
+const OUTLINE_THEMES = {
+  primary: "btn-outline border-blue blue",
+  success: "btn-outline border-green green",
+  warning: "btn-outline border-orange orange",
+  default: "btn-outline border-gray",
+  error: "btn-outline border-red red"
 };
 
 class Button extends React.Component {
@@ -17,6 +25,7 @@ class Button extends React.Component {
     className: React.PropTypes.string,
     link: React.PropTypes.string,
     href: React.PropTypes.string,
+    outline: React.PropTypes.bool,
     loading: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.bool
@@ -48,11 +57,14 @@ class Button extends React.Component {
       )
     }
 
+    // Figure out which set of themese to use
+    let themes = (this.props.outline) ? OUTLINE_THEMES : NORMAL_THEMES;
+
     // Merge the "btn" class onto the props, and toggle the disabled state
     // depending on whether or not this button is in it's "loading" state.
     let props = update(this.props, {
       className: {
-        $set: classNames("btn", this.props.className, THEMES[this.props.theme], { "is-disabled": !!this.props.loading })
+        $set: classNames("btn nowrap", this.props.className, themes[this.props.theme], { "is-disabled": !!this.props.loading })
       },
       disabled: {
         $set: !!this.props.loading

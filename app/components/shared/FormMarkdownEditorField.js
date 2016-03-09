@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import MarkdownEditor from '../../lib/MarkdownEditor';
 import AssetUploader from '../../lib/AssetUploader';
 import autoresizeTextarea from '../../lib/autoresizeTextarea';
+import Button from '../shared/Button';
 
 class FormMarkdownEdtiorField extends React.Component {
   static propTypes = {
@@ -48,13 +49,13 @@ class FormMarkdownEdtiorField extends React.Component {
     return (
       <div className={containerClasses}>
         <div className="mb2">
-          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this.handleBoldButtonClick}><i className="fa fa-bold"></i></button>
-          <button className="btn btn-outline border-gray rounded mr3" tabIndex={-1} onClick={this.handleItalicButtonClick}><i className="fa fa-italic"></i></button>
-          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this.handleQuoteButtonClick}><i className="fa fa-quote-right"></i></button>
-          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this.handleCodeButtonClick}><i className="fa fa-code"></i></button>
-          <button className="btn btn-outline border-gray rounded mr3" tabIndex={-1} onClick={this.handleLinkButtonClick}><i className="fa fa-link"></i></button>
-          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this.handleBulletedListButtonClick}><i className="fa fa-list"></i></button>
-          <button className="btn btn-outline border-gray rounded mr1" tabIndex={-1} onClick={this.handleNumberedListButtonClick}><i className="fa fa-list-ol"></i></button>
+          <Button className="mr1" tabIndex={-1} onClick={this.handleBoldButtonClick} theme="default" outline={true}><i className="fa fa-bold"></i></Button>
+          <Button className="mr3" tabIndex={-1} onClick={this.handleItalicButtonClick} theme="default" outline={true}><i className="fa fa-italic"></i></Button>
+          <Button className="mr1" tabIndex={-1} onClick={this.handleQuoteButtonClick} theme="default" outline={true}><i className="fa fa-quote-right"></i></Button>
+          <Button className="mr1" tabIndex={-1} onClick={this.handleCodeButtonClick} theme="default" outline={true}><i className="fa fa-code"></i></Button>
+          <Button className="mr3" tabIndex={-1} onClick={this.handleLinkButtonClick} theme="default" outline={true}><i className="fa fa-link"></i></Button>
+          <Button className="mr1" tabIndex={-1} onClick={this.handleBulletedListButtonClick} theme="default" outline={true}><i className="fa fa-list"></i></Button>
+          <Button className="mr1" tabIndex={-1} onClick={this.handleNumberedListButtonClick} theme="default" outline={true}><i className="fa fa-list-ol"></i></Button>
         </div>
         {errorNode}
         <textarea
