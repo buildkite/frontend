@@ -34,7 +34,7 @@ class Pipelines extends React.Component {
         <Panel.Body>
           <FormAutoCompleteField onSearch={this.handlePipelineSearch}
             onSelect={this.handlePipelineSelect}
-            items={this.renderItems()}
+            items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
             placeholder="Search for a pipeline to add"
             ref={c => this._autoCompletor = c} />
         </Panel.Body>
@@ -49,10 +49,33 @@ class Pipelines extends React.Component {
     );
   }
 
-  renderItems() {
-    return this.props.team.organization.pipelines.edges.map((teamPipeline) => {
-      return [ <Pipeline key={teamPipeline.node.id} pipeline={teamPipeline.node} />, teamPipeline.node ];
+  renderAutoCompleteSuggstions(search) {
+    // First filter out any pipelines that are already in this list
+    let suggestions = [];
+    this.props.team.organization.pipelines.edges.forEach((pipeline) => {
+
+      let found = false;
+      this.props.team.pipelines.edges.forEach((edge) => {
+        if(edge.node.pipeline.id == pipeline.node.id) {
+          found = true;
+        }
+      });
+
+      if(!found) {
+        suggestions.push(pipeline.node);
+      }
     });
+
+    // Either render the sugggestions, or show a "not found" error
+    if(suggestions.length > 0) {
+      return suggestions.map((pipeline) => {
+        return [ <Pipeline key={pipeline.id} pipeline={pipeline} />, pipeline ];
+      });
+    } else if (search != "") {
+      return [ <FormAutoCompleteField.ErrorMessage>Could not find a pipeline with name <em>{search}</em></FormAutoCompleteField.ErrorMessage> ];
+    } else {
+      return [];
+    }
   }
 
   handlePipelineSearch = (text) => {
