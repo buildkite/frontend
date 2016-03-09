@@ -1,10 +1,13 @@
 import Relay from 'react-relay';
 
-class TeamUpdate extends Relay.Mutation {
+class TeamMemberUpdate extends Relay.Mutation {
   static fragments = {
-    team: () => Relay.QL`
-      fragment on Team {
+    teamMember: () => Relay.QL`
+      fragment on TeamMember {
 	id
+	team {
+	  id
+	}
       }
     `
   }
@@ -12,7 +15,7 @@ class TeamUpdate extends Relay.Mutation {
   getMutation() {
     return Relay.QL`
       mutation {
-	teamUpdate
+	teamMemberUpdate
       }
     `;
   }
@@ -20,10 +23,8 @@ class TeamUpdate extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on TeamUpdatePayload {
-	team {
-          name
-          slug
-          description
+	teamMember {
+          admin
 	}
       }
     `;
@@ -33,15 +34,14 @@ class TeamUpdate extends Relay.Mutation {
     return [{
       type: 'FIELDS_CHANGE',
       fieldIDs: {
-	team: this.props.team.id
+	teamMember: this.props.teamMember.id
       }
     }];
   }
 
-
   getVariables() {
-    return { id: this.props.team.id, name: this.props.name, description: this.props.description };
+    return { id: this.props.teamMember.id, admin: this.props.admin };
   }
 }
 
-export default TeamUpdate;
+export default TeamMemberUpdate;

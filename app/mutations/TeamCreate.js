@@ -62,4 +62,4 @@ class TeamCreate extends Relay.Mutation {
   }
 }
 
-export default TeamCreate
+export default TeamCreate;

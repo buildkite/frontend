@@ -4,6 +4,13 @@ import classNames from 'classnames';
 class Pipeline extends React.Component {
   static displayName = "Team.Pipelines.Pipeline";
 
+  static propTypes = {
+    pipeline: React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired,
+      repository: React.PropTypes.string
+    }).isRequired
+  };
+
   static contextTypes = {
     autoCompletorSuggestion: React.PropTypes.object
   };

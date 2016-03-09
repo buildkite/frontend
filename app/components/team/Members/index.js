@@ -1,8 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-import GraphQLErrors from '../../../constants/GraphQLErrors';
-
 class Members extends React.Component {
   static propTypes = {
     team: React.PropTypes.shape({

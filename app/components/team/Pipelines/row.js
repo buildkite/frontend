@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Panel from '../../shared/Panel';
+import Button from '../../shared/Button';
 
 import Pipeline from './pipeline';
 
@@ -13,10 +14,12 @@ class Row extends React.Component {
 
   render() {
     return (
-      <div>
+      <Panel.Row to={`blah`}>
 	<Pipeline pipeline={this.props.pipeline.pipeline} />
-	{this.renderActions()}
-      </div>
+        <Panel.RowActions>
+          {this.renderActions()}
+        </Panel.RowActions>
+      </Panel.Row>
     );
   }
 
@@ -31,7 +34,7 @@ class Row extends React.Component {
     } else {
       return (
 	<div style={{marginTop: "3px"}}>
-	  <Button loading={this.state.removing ? "Removing…" : false}
+	  <Button loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true}
 	    onClick={this.handlePipelineRemove}>Remove</Button>
 	</div>
       );
@@ -44,3 +47,5 @@ class Row extends React.Component {
     this.props.onRemoveClick(this.props.pipeline);
   };
 }
+
+export default Row;
