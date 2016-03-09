@@ -36,7 +36,7 @@ class Pipelines extends React.Component {
           <FormAutoCompleteField onSearch={this.handlePipelineSearch}
             onSelect={this.handlePipelineSelect}
             items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
-            placeholder="Search for a pipeline to add"
+            placeholder="Search for a pipeline"
             ref={c => this._autoCompletor = c} />
         </Panel.Body>
         {
