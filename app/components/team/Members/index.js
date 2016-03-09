@@ -5,6 +5,7 @@ import Panel from '../../shared/Panel';
 import FormAutoCompleteField from '../../shared/FormAutoCompleteField';
 
 import TeamMemberCreateMutation from '../../../mutations/TeamMemberCreate';
+import TeamMemberUpdateMutation from '../../../mutations/TeamMemberUpdate';
 import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
 
 import Row from './row';
@@ -42,7 +43,7 @@ class Members extends React.Component {
         {
           this.props.team.members.edges.map((edge) => {
             return (
-              <Row key={edge.node.id} member={edge.node} onRemoveClick={this.handleTeamMemberRemove} relay={this.props.relay} />
+              <Row key={edge.node.id} member={edge.node} onRemoveClick={this.handleTeamMemberRemove} onTeamAdminToggle={this.handleTeamAdminToggle} relay={this.props.relay} />
               )
           })
         }
@@ -99,6 +100,13 @@ class Members extends React.Component {
     }), { onFailure: this.handleMutationFailure });
   };
 
+  handleTeamAdminToggle = (teamMember, admin, callback) => {
+    Relay.Store.commitUpdate(new TeamMemberUpdateMutation({
+      teamMember: teamMember,
+      admin: admin
+    }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError) });
+  };
+
   handleMutationFailure = (transaction) => {
     alert(transaction.getError());
   };
@@ -144,6 +152,7 @@ export default Relay.createContainer(Members, {
                 }
 	      }
               ${TeamMemberDeleteMutation.getFragment('teamMember')}
+              ${TeamMemberUpdateMutation.getFragment('teamMember')}
 	    }
 	  }
 	}

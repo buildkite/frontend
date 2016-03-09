@@ -38,7 +38,6 @@ class TeamUpdate extends Relay.Mutation {
     }];
   }
 
-
   getVariables() {
     return { id: this.props.team.id, name: this.props.name, description: this.props.description };
   }

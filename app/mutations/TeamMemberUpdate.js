@@ -5,9 +5,6 @@ class TeamMemberUpdate extends Relay.Mutation {
     teamMember: () => Relay.QL`
       fragment on TeamMember {
 	id
-	team {
-	  id
-	}
       }
     `
   }
@@ -22,7 +19,7 @@ class TeamMemberUpdate extends Relay.Mutation {
 
   getFatQuery() {
     return Relay.QL`
-      fragment on TeamUpdatePayload {
+      fragment on TeamMemberUpdatePayload {
 	teamMember {
           admin
 	}

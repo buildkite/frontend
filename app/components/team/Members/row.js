@@ -15,17 +15,19 @@ class Row extends React.Component {
       admin: React.PropTypes.bool.isRequired
     }).isRequired,
     onRemoveClick: React.PropTypes.func.isRequired,
+    onTeamAdminToggle: React.PropTypes.func.isRequired,
     relay: React.PropTypes.object.isRequired
   };
 
   state = {
-    removing: false
+    removing: false,
+    updating: false
   }
 
   render() {
     return (
       <Panel.Row>
-	<User user={this.props.member.user} />
+	<User user={this.props.member.user} teamAdmin={this.props.member.admin} />
         <Panel.RowActions>
           {this.renderActions()}
         </Panel.RowActions>
@@ -43,15 +45,32 @@ class Row extends React.Component {
       );
     } else {
       return (
-        <Button loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true}
-          onClick={this.handleMemberRemove}>Remove</Button>
+        <div>
+          <Button loading={this.state.updating ? "Updating…" : false} theme={"default"} outline={true} className="mr2"
+            onClick={this.handleTeamAdminToggle}>{this.props.member.admin ? "Remove team Admin" : "Promote to Team Admin"}</Button>
+          <Button loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true}
+            onClick={this.handleMemberRemove}>Remove</Button>
+        </div>
       );
     }
   }
 
+  handleTeamAdminToggle = (e) => {
+    e.preventDefault();
+    this.setState({ updating: true });
+
+    this.props.onTeamAdminToggle(this.props.member, !this.props.member.admin, (error) => {
+      this.setState({ updating: false });
+      if(error) {
+        alert(error);
+      }
+    });
+  };
+
   handleMemberRemove = (e) => {
     e.preventDefault();
     this.setState({ removing: true });
+
     this.props.onRemoveClick(this.props.member);
   };
 }
