@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames";
 
 class Description extends React.Component {
   static propTypes = {

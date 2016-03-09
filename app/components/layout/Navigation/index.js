@@ -5,10 +5,10 @@ import UserAvatar from './../../shared/UserAvatar';
 import Dropdown from './../../shared/Dropdown';
 import Badge from './../../shared/Badge';
 import Icon from './../../shared/Icon';
-import Permissions from './../../shared/Permissions';
 import AgentsCount from './../../organization/AgentsCount';
 import BuildsCountBadge from './../../user/BuildsCountBadge';
 import NewChangelogsBadge from './../../user/NewChangelogsBadge';
+import permissions from './../../../lib/permissions';
 
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
@@ -172,24 +172,47 @@ class Navigation extends React.Component {
   }
 
   _organizationMenu(options = {}) {
-    var organization = this.props.organization;
-    var paddingLeft = options.paddingLeft != undefined ? options.paddingLeft : 15;
+    let organization = this.props.organization;
+    let paddingLeft = options.paddingLeft != undefined ? options.paddingLeft : 15;
 
     if(organization) {
       return (
-        <Permissions permissions={organization.permissions} className={classNames("flex", options.className)}>
+        <div className={classNames("flex", options.className)}>
           <NavigationButton style={{ paddingLeft: paddingLeft }} href={`/${organization.slug}`}>Pipelines</NavigationButton>
           <NavigationButton href={`/organizations/${organization.slug}/agents`}>
             {'Agents'}
             <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
           </NavigationButton>
 
-          <Permissions.Any>
-            <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
-          </Permissions.Any>
-        </Permissions>
+          {this.renderOrganizationSettingsButton()}
+        </div>
       )
     }
+  }
+
+  renderOrganizationSettingsButton() {
+    let organization = this.props.organization;
+
+    // Returns the first permission that's allowed. First, we'll try and render
+    // the "Settings" button as is, which requires all the permissions to be
+    // allowed. If that doesn't work, see if they _just_ have the teamAdmin
+    // permission, and show them a nice "Team Settings" button. If both of
+    // those don't work, but they do have any other permission, show the
+    // regular settings button.
+    return permissions(organization.permissions).first(
+      {
+        all: true,
+        render: () => <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+      },
+      {
+        only: "teamAdmin",
+        render: () => <NavigationButton href={`/organizations/${organization.slug}/teams`}>Teams</NavigationButton>
+      },
+      {
+        any: true,
+        render: () => <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+      }
+    )
   }
 }
 
