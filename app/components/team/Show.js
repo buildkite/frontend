@@ -2,7 +2,8 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import PageHeader from '../shared/PageHeader';
-import Button from '../shared/Button'
+import Button from '../shared/Button';
+import permissions from '../../lib/permissions';
 
 import Pipelines from './Pipelines';
 import Members from './Members';
@@ -17,7 +18,13 @@ class Show extends React.Component {
     team: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       description: React.PropTypes.string,
-      slug: React.PropTypes.string.isRequired
+      slug: React.PropTypes.string.isRequired,
+      permissions: React.PropTypes.shape({
+        teamUpdate: React.PropTypes.object.isRequired,
+        teamDelete: React.PropTypes.object.isRequired,
+        teamPipelineCreate: React.PropTypes.object.isRequired,
+        teamMemberCreate: React.PropTypes.object.isRequired
+      }).isRequired
     }).isRequired
   };
 
@@ -43,20 +50,48 @@ class Show extends React.Component {
 	<PageHeader>
           <PageHeader.Title>{this.props.team.name}</PageHeader.Title>
           <PageHeader.Description>{this.props.team.description}</PageHeader.Description>
-
-          <PageHeader.Menu>
-            <PageHeader.Button
-              link={`/organizations/${this.props.organization.slug}/teams/${this.props.team.slug}/edit`}>Edit</PageHeader.Button>
-            <PageHeader.Button
-              loading={this.state.removing ? "Deleting…" : false}
-              onClick={this.handleRemoveTeamClick}>Delete</PageHeader.Button>
-          </PageHeader.Menu>
+          <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
 	</PageHeader>
 
-        <Members team={this.props.team} className="mb4" />
-        <Pipelines team={this.props.team} />
+        {this.renderMembers()}
+        {this.renderPipelines()}
       </div>
     );
+  }
+
+  renderMenu() {
+    return permissions(this.props.team.permissions).collect(
+      {
+        allowed: "teamUpdate",
+        render: (idx) => (
+          <PageHeader.Button key={idx} link={`/organizations/${this.props.organization.slug}/teams/${this.props.team.slug}/edit`}>Edit</PageHeader.Button>
+        )
+      },
+      {
+        allowed: "teamDelete",
+        render: (idx) => (
+          <PageHeader.Button key={idx} loading={this.state.removing ? "Deleting…" : false} onClick={this.handleRemoveTeamClick}>Delete</PageHeader.Button>
+        )
+      }
+    )
+  }
+
+  renderMembers() {
+    return permissions(this.props.team.permissions).check(
+      {
+        allowed: "teamMemberCreate",
+        render: () => <Members team={this.props.team} className="mb4" />
+      }
+    )
+  }
+
+  renderPipelines() {
+    return permissions(this.props.team.permissions).check(
+      {
+        allowed: "teamPipelineCreate",
+        render: () => <Pipelines team={this.props.team} />
+      }
+    )
   }
 
   handleRemoveTeamClick = () => {
@@ -105,6 +140,20 @@ export default Relay.createContainer(Show, {
 	name
 	description
 	slug
+	permissions {
+	  teamUpdate {
+	    allowed
+	  }
+	  teamDelete {
+	    allowed
+	  }
+	  teamPipelineCreate {
+	    allowed
+	  }
+	  teamMemberCreate {
+	    allowed
+	  }
+        }
       }
     `
   }
