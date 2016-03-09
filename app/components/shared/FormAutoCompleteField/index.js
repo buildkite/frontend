@@ -1,9 +1,18 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import Icon from '../Icon';
+
 import Suggestion from './suggestion';
 
 class FormAutoCompleteField extends React.Component {
+  static propTypes = {
+    onSelect: React.PropTypes.func.isRequired,
+    onSearch: React.PropTypes.func.isRequired,
+    placeholder: React.PropTypes.string,
+    items: React.PropTypes.array
+  };
+
   state = {
     visible: false,
     searching: false
@@ -14,23 +23,23 @@ class FormAutoCompleteField extends React.Component {
       var found = false;
 
       if(this.state.selected) {
-	// See if the currently selected value is in the list of new props
-	nextProps.items.forEach((item) => {
-	  if(item[1].id == this.state.selected.id) {
-	    found = true;
-	  };
-	});
+        // See if the currently selected value is in the list of new props
+        nextProps.items.forEach((item) => {
+          if(item[1].id == this.state.selected.id) {
+            found = true;
+          }
+        });
       }
 
       // Ah, not found! Then we should just select the first one (if there is
       // one of course)
       if(!found && nextProps.items[0]) {
-	this.setState({ selected: nextProps.items[0][1] });
+        this.setState({ selected: nextProps.items[0][1] });
       }
 
       // We can turn off searching now since we've got some items
       if(this.state.searching) {
-	this.setState({ searching: false });
+        this.setState({ searching: false });
       }
 
       // And finally, if we got data, then we should make the list
@@ -59,29 +68,34 @@ class FormAutoCompleteField extends React.Component {
   render() {
     return (
       <div className="relative">
-	{this.renderIcon()}
-	<input type="input"
+        {this.renderIcon()}
+        <input type="input"
           className="input"
           ref={c => this._inputNode = c}
-	  onChange={this.handleInputChange}
-	  onKeyDown={this.handleKeyDown}
-	  onFocus={this.handleFocus}
-	  onBlur={this.handleBlur}
-	  placeholder={this.props.placeholder} />
-	{this.renderSuggestions()}
+          onChange={this.handleInputChange}
+          onKeyDown={this.handleKeyDown}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          placeholder={this.props.placeholder} />
+        {this.renderSuggestions()}
       </div>
     );
   }
 
   renderIcon() {
-    var icon = this.state.searching ? "fa-spin fa-spinner" : "fa-search";
-    var iconClassName = `fa ${icon}`
-
-    return (
-      <div className="FormAutoCompleteField__Icon">
-	<i className={iconClassName} />
-      </div>
-    );
+    if(this.state.searching) {
+      return (
+        <div className="absolute" style={{right: 7, top: 6}}>
+          <Icon icon="spinner" className="dark-gray animation-spin" style={{width: 18, height: 18}} />
+        </div>
+      );
+    } else {
+      return (
+        <div className="absolute" style={{right: 7, top: 6}}>
+          <Icon icon="search" className="dark-gray" style={{width: 17, height: 17}} />
+        </div>
+      );
+    }
   }
 
   renderSuggestions() {
@@ -154,7 +168,7 @@ class FormAutoCompleteField extends React.Component {
       // If the next index doesn't exist, go back to the first
       var next = index + 1;
       if(this.props.items.length == next) {
-	next = 0;
+        next = 0;
       }
 
       // Select the next item in the list
@@ -170,7 +184,7 @@ class FormAutoCompleteField extends React.Component {
       // If the previous index doesn't exist, go back to the first
       var previous = index - 1;
       if(previous == -1) {
-	previous = this.props.items.length - 1;
+        previous = this.props.items.length - 1;
       }
 
       // Select the previous item in the list
@@ -187,19 +201,19 @@ class FormAutoCompleteField extends React.Component {
     }
   };
 
-  handleFocus = (e) => {
+  handleFocus = () => {
     // Only re-show the list if there's something to show
     if(this.props.items && this.props.items.length > 0) {
       this.setState({ visible: true });
     }
   };
 
-  handleBlur = (e) => {
+  handleBlur = () => {
     // Hide the input in a few ms so that the user has time to click a value.
     // This could probably be done a bit better
-    //setTimeout(() => {
-    //  this.setState({ visible: false });
-    //}, 50);
+    setTimeout(() => {
+      this.setState({ visible: false });
+    }, 50);
   };
 
   handleInputChange = (e) => {

@@ -43,3 +43,14 @@
 .animation-duration-2 { animation-duration: 2s; }
 .animation-duration-3 { animation-duration: 3s; }
 .animation-duration-4 { animation-duration: 4s; }
+
+@keyframes animation-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+.animation-spin { animation: animation-spin 2s infinite linear; }

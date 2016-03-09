@@ -39,6 +39,10 @@ const pathNodes = (icon) => {
       return require("./circle").default;
     case 'plus-circle':
       return require("./plus-circle").default;
+    case 'spinner':
+      return require("./spinner").default;
+    case 'search':
+      return require("./search").default;
     default:
       Logger.error(`[Icon] No icon defined for "${icon}"`);
       return require("./placeholder").default;
