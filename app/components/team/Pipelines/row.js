@@ -2,6 +2,7 @@ import React from 'react';
 
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
+import Icon from '../../shared/Icon';
 
 import Pipeline from './pipeline';
 
@@ -29,14 +30,12 @@ class Row extends React.Component {
 
     if(transaction && transaction.getStatus() == "COMMITTING") {
       return (
-	<div>Spinner</div>
+        <Icon icon="spinner" className="dark-gray animation-spin" style={{width: 18, height: 18}} />
       );
     } else {
       return (
-	<div style={{marginTop: "3px"}}>
-	  <Button loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true}
-	    onClick={this.handlePipelineRemove}>Remove</Button>
-	</div>
+        <Button loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true}
+          onClick={this.handlePipelineRemove}>Remove</Button>
       );
     }
   }
