@@ -72,7 +72,7 @@ class Pipelines extends React.Component {
         return [ <Pipeline key={pipeline.id} pipeline={pipeline} />, pipeline ];
       });
     } else if (search != "") {
-      return [ <FormAutoCompleteField.ErrorMessage>Could not find a pipeline with name <em>{search}</em></FormAutoCompleteField.ErrorMessage> ];
+      return [ <FormAutoCompleteField.ErrorMessage key={"error"}>Could not find a pipeline with name <em>{search}</em></FormAutoCompleteField.ErrorMessage> ];
     } else {
       return [];
     }

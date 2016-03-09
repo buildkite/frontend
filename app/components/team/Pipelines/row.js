@@ -9,6 +9,14 @@ import Pipeline from './pipeline';
 class Row extends React.Component {
   static displayName = "Team.Pipelines.Row";
 
+  static propTypes = {
+    pipeline: React.PropTypes.shape({
+      pipeline: React.PropTypes.object.isRequired
+    }).isRequired,
+    onRemoveClick: React.PropTypes.func.isRequired,
+    relay: React.PropTypes.object.isRequired
+  };
+
   state = {
     removing: false
   }
