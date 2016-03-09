@@ -22,11 +22,6 @@ class Members extends React.Component {
       organization: React.PropTypes.object.isRequired
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
-    viewer: React.PropTypes.shape({
-      user: React.PropTypes.shape({
-        id: React.PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
     className: React.PropTypes.string
   };
 
@@ -48,7 +43,7 @@ class Members extends React.Component {
         {
           this.props.team.members.edges.map((edge) => {
             return (
-              <Row key={edge.node.id} member={edge.node} viewer={this.props.viewer} onRemoveClick={this.handleTeamMemberRemove} onTeamAdminToggle={this.handleTeamAdminToggle} relay={this.props.relay} />
+              <Row key={edge.node.id} member={edge.node} onRemoveClick={this.handleTeamMemberRemove} onTeamAdminToggle={this.handleTeamAdminToggle} relay={this.props.relay} />
               )
           })
         }
@@ -96,13 +91,13 @@ class Members extends React.Component {
     Relay.Store.commitUpdate(new TeamMemberCreateMutation({
       team: this.props.team,
       user: user,
-    }), { onFailure: this.handleMutationFailure });
+    }), { onFailure: (transaction) => alert(transaction.getError()) });
   };
 
-  handleTeamMemberRemove = (teamMember) => {
+  handleTeamMemberRemove = (teamMember, callback) => {
     Relay.Store.commitUpdate(new TeamMemberDeleteMutation({
       teamMember: teamMember
-    }), { onFailure: this.handleMutationFailure });
+    }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError) });
   };
 
   handleTeamAdminToggle = (teamMember, admin, callback) => {
@@ -110,10 +105,6 @@ class Members extends React.Component {
       teamMember: teamMember,
       admin: admin
     }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError) });
-  };
-
-  handleMutationFailure = (transaction) => {
-    alert(transaction.getError());
   };
 }
 

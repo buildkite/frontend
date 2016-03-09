@@ -14,11 +14,6 @@ class Row extends React.Component {
       user: React.PropTypes.object.isRequired,
       admin: React.PropTypes.bool.isRequired
     }).isRequired,
-    viewer: React.PropTypes.shape({
-      user: React.PropTypes.shape({
-        id: React.PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
     onRemoveClick: React.PropTypes.func.isRequired,
     onTeamAdminToggle: React.PropTypes.func.isRequired,
     relay: React.PropTypes.object.isRequired
@@ -49,8 +44,7 @@ class Row extends React.Component {
         <Icon icon="spinner" className="dark-gray animation-spin" style={{width: 18, height: 18}} />
       );
     } else {
-      // Don't show team admins buttons to modify their own membership
-      if(this.props.member.admin && this.props.viewer.user.id == this.props.member.user.id) {
+      if(false) {
         return (
           <div className="dark-gray">Team Admin (You)</div>
         );
@@ -83,7 +77,12 @@ class Row extends React.Component {
     e.preventDefault();
     this.setState({ removing: true });
 
-    this.props.onRemoveClick(this.props.member);
+    this.props.onRemoveClick(this.props.member, (error) => {
+      this.setState({ updating: false });
+      if(error) {
+        alert(error);
+      }
+    });
   };
 }
 

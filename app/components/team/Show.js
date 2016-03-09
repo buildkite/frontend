@@ -80,7 +80,7 @@ class Show extends React.Component {
     return permissions(this.props.team.permissions).check(
       {
         allowed: "teamMemberCreate",
-        render: () => <Members team={this.props.team} viewer={this.props.viewer} className="mb4" />
+        render: () => <Members team={this.props.team} className="mb4" />
       }
     )
   }
@@ -127,13 +127,6 @@ export default Relay.createContainer(Show, {
     organization: () => Relay.QL`
       fragment on Organization {
 	slug
-      }
-    `,
-    viewer: () => Relay.QL`
-      fragment on Viewer {
-        user {
-          id
-        }
       }
     `,
     team: () => Relay.QL`
