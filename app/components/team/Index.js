@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 
 import Panel from '../shared/Panel'
 import Button from '../shared/Button'
+import permissions from '../../lib/permissions';
 
 class Index extends React.Component {
   static propTypes = {
@@ -33,7 +34,7 @@ class Index extends React.Component {
         <Panel.Header>Teams</Panel.Header>
         <Panel.IntroWithButton>
           <span>Manage your teams and make some awesome ones so you can do super awesome stuff like organzing users and projects into teams so you can do permissions and stuff.</span>
-          <Button link={`/organizations/${this.props.organization.slug}/teams/new`}>New Team</Button>
+          {this.renderNewTeamButton()}
         </Panel.IntroWithButton>
         {
           this.props.organization.teams.edges.map((team) => {
@@ -48,6 +49,15 @@ class Index extends React.Component {
       </Panel>
     );
   }
+
+  renderNewTeamButton() {
+    return permissions(this.props.organization.permissions).check(
+      {
+        allowed: "teamCreate",
+        render: () => <Button link={`/organizations/${this.props.organization.slug}/teams/new`}>New Team</Button>
+      }
+    )
+  }
 }
 
 export default Relay.createContainer(Index, {
@@ -55,6 +65,11 @@ export default Relay.createContainer(Index, {
     organization: () => Relay.QL`
       fragment on Organization {
         slug
+        permissions {
+          teamCreate {
+            allowed
+          }
+        }
         teams(first: 100) {
           edges {
             node {
