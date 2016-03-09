@@ -4422,6 +4422,20 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "permissions",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "TeamMemberPermissions",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -4437,12 +4451,12 @@
         },
         {
           "kind": "OBJECT",
-          "name": "TeamPermissions",
-          "description": "Permissions information about what actions the current user can do against the team",
+          "name": "TeamMemberPermissions",
+          "description": "Permissions information about what actions the current user can do against the team membership record",
           "fields": [
             {
-              "name": "teamUpdate",
-              "description": "Whether the user can update the team's name and description",
+              "name": "teamMemberUpdate",
+              "description": "Whether the user can update the team's members admin status",
               "args": [
 
               ],
@@ -4455,36 +4469,8 @@
               "deprecationReason": null
             },
             {
-              "name": "teamDelete",
-              "description": "Whether the user can delete the team",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Permission",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "teamPipelineCreate",
-              "description": "Whether the user can add pipelines from other teams to this one",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Permission",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "teamMemberCreate",
-              "description": "Whether the user can administer add members from the organization to this team",
+              "name": "teamMemberDelete",
+              "description": "Whether the user can delete the user from the team",
               "args": [
 
               ],
@@ -4550,6 +4536,75 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "TeamPermissions",
+          "description": "Permissions information about what actions the current user can do against the team",
+          "fields": [
+            {
+              "name": "teamUpdate",
+              "description": "Whether the user can update the team's name and description",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "teamDelete",
+              "description": "Whether the user can delete the team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "teamPipelineCreate",
+              "description": "Whether the user can add pipelines from other teams to this one",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "teamMemberCreate",
+              "description": "Whether the user can administer add members from the organization to this team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
                 "ofType": null
               },
               "isDeprecated": false,
