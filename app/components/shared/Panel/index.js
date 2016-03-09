@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 
 import Header from "./header";
 import IntroWithButton from "./intro-with-button";
@@ -10,12 +11,13 @@ import Footer from "./footer";
 
 class Panel extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node.isRequired
+    children: React.PropTypes.node.isRequired,
+    className: React.PropTypes.string
   };
 
   render() {
     return (
-      <section className="border border-gray rounded">
+      <section className={classNames("border border-gray rounded", this.props.className)}>
         {this.props.children}
       </section>
     );
