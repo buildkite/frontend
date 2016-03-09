@@ -5,8 +5,11 @@ class Suggestion extends React.Component {
   static displayName = "FormAutoCompleteField.Suggestion";
 
   static propTypes = {
-    selected: React.PropTypes.bool,
-    suggestion: React.PropTypes.object,
+    children: React.PropTypes.node.isRequired,
+    selected: React.PropTypes.bool.isRequired,
+    suggestion: React.PropTypes.object.isRequired,
+    onMouseOver: React.PropTypes.func.isRequired,
+    onMouseDown: React.PropTypes.func.isRequired,
     className: React.PropTypes.string
   };
 
@@ -42,7 +45,7 @@ class Suggestion extends React.Component {
     this.props.onMouseDown(this.props.suggestion);
   }
 
-  handleMouseOver = (e) => {
+  handleMouseOver = () => {
     this.props.onMouseOver(this.props.suggestion);
   }
 }
