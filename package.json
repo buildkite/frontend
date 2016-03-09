@@ -52,6 +52,7 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.6.1",
     "basscss": "^8.0.1",
     "basscss-background-colors": "^2.1.0",
     "basscss-border-colors": "^2.1.0",
