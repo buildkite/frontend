@@ -2,6 +2,8 @@ import React from "react";
 
 import Header from "./header";
 import IntroWithButton from "./intro-with-button";
+import Row from "./row";
+import RowActions from "./row-actions";
 import RowLink from "./row-link";
 import Body from "./body";
 import Footer from "./footer";
@@ -23,6 +25,8 @@ class Panel extends React.Component {
 Panel.Header = Header;
 Panel.IntroWithButton = IntroWithButton;
 Panel.RowLink = RowLink;
+Panel.Row = Row;
+Panel.RowActions = RowActions;
 Panel.Body = Body;
 Panel.Footer = Footer;
 

@@ -27,7 +27,6 @@ class PageHeader extends React.Component {
     return (
       <section className="flex items-top mb4">
         <div className="flex-auto">{details}</div>
-
         {menu}
       </section>
     );
