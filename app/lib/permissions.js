@@ -76,7 +76,8 @@ class PermissionManager {
 
   // Returns the result of the first permission that's allowed
   first() {
-    for(let config of arguments) {
+    let args = [].slice.call(arguments);
+    for(let config of args) {
       let result = this.check(config);
 
       if(result) return config.render();
@@ -88,9 +89,10 @@ class PermissionManager {
   // Loops through the arguments, and collects the results of each check. The
   // resulting array has all null values removed.
   collect() {
+    let args = [].slice.call(arguments);
     let results = [];
-    for(let idx in arguments) {
-      let config = arguments[idx];
+    for(let idx in args) {
+      let config = args[idx];
       let result = this.check(config, idx);
 
       if(result) results.push(result);
