@@ -79,7 +79,7 @@ class Navigation extends React.Component {
               <DropdownButton className={classNames({ "lime": this.state.showingUserDropdown })}
                               style={{paddingRight: 0}}>
                 <UserAvatar user={this.props.viewer.user} className="flex-none flex items-center mr1" style={{width: 26, height: 26}} />
-                <span className="flex items-center xs-hide"><span className="truncate" style={{maxWidth:"9em"}} data-current-user-name>{this.props.viewer.user.name}</span></span>
+                <span className="flex items-center xs-hide"><span className="truncate" style={{maxWidth:"9em"}} data-current-user-name={true}>{this.props.viewer.user.name}</span></span>
                 <span className="ml1 flex items-center">
                   &#9662;
                 </span>

@@ -169,7 +169,7 @@ class FormAutoCompleteField extends React.Component {
       // suggestion data
       if(this.isErrorMessageComponent(item)) {
         continue
-      };
+      }
 
       if(item[1].id == this.state.selected.id) {
         index = i;
