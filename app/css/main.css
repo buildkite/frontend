@@ -1,7 +1,9 @@
 @import 'btn';
 @import 'btn-primary';
+@import 'btn-outline';
 @import 'bg-colors';
 @import 'bg-hover-colors';
+@import 'border-colors';
 @import 'hover-colors';
 @import 'hover-fading';
 @import 'hover-underline';
