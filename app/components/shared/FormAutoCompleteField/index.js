@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Icon from '../Icon';
 
 import Suggestion from './suggestion';
+import ErrorMessage from './error-message';
 
 class FormAutoCompleteField extends React.Component {
   static propTypes = {
@@ -23,9 +24,11 @@ class FormAutoCompleteField extends React.Component {
       var found = false;
 
       if(this.state.selected) {
-        // See if the currently selected value is in the list of new props
+        // See if the currently selected value is in the list of new props, but
+        // making sure to skip error message components, since they have no
+        // item id.
         nextProps.items.forEach((item) => {
-          if(item[1].id == this.state.selected.id) {
+          if(!this.isErrorMessageComponent(item) && item[1].id == this.state.selected.id) {
             found = true;
           }
         });
@@ -63,6 +66,10 @@ class FormAutoCompleteField extends React.Component {
     this.setState({ visible: false });
     this._inputNode.blur();
     this.props.onSelect(item);
+  }
+
+  isErrorMessageComponent(node) {
+    return node && node.type && node.type.displayName == "FormAutoCompleteField.ErrorMessage";
   }
 
   render() {
@@ -108,27 +115,33 @@ class FormAutoCompleteField extends React.Component {
     };
 
     let items = this.props.items;
+    let suggestions = items.map((item, index) => {
+      if(this.isErrorMessageComponent(item)) {
+        return (
+          <div key={index}>
+            {item}
+          </div>
+        );
+      } else {
+        return (
+          <Suggestion
+            key={index}
+            className={classNames({
+              "rounded": items.length == 1,
+              "rounded-top": (items.length > 1 && index == 0),
+              "rounded-bottom": (index > 0 && index == (items.length - 1))
+            })}
+            selected={item[1] == this.state.selected}
+            suggestion={item[1]}
+            onMouseOver={this.handleSuggestionMouseOver}
+            onMouseDown={this.handleSuggestionMouseDown}>{item[0]}</Suggestion>
+        );
+      }
+    });
 
     return (
       <div className="bg-white border border-silver rounded shadow absolute" style={style}>
-        <ul className="list-reset m0 p0">
-          {
-            items.map((item, index) => {
-              return (
-                <Suggestion
-                  key={item[1].id}
-                  className={classNames({
-                    "rounded-top": (index == 0),
-                    "rounded-bottom": (index == (items.length - 1))
-                  })}
-                  selected={item[1] == this.state.selected}
-                  suggestion={item[1]}
-                  onMouseOver={this.handleSuggestionMouseOver}
-                  onMouseDown={this.handleSuggestionMouseDown}>{item[0]}</Suggestion>
-                );
-            })
-          }
-        </ul>
+        <ul className="list-reset m0 p0">{suggestions}</ul>
       </div>
     );
   }
@@ -150,7 +163,15 @@ class FormAutoCompleteField extends React.Component {
     // Find the index of the currently selected item
     let index;
     for(var i = 0; i < this.props.items.length; i++) {
-      if(this.props.items[i][1].id == this.state.selected.id) {
+      let item = this.props.items[i]
+
+      // Ensure we skip error message nodes since they have no associated
+      // suggestion data
+      if(this.isErrorMessageComponent(item)) {
+        continue
+      };
+
+      if(item[1].id == this.state.selected.id) {
         index = i;
         break
       }
@@ -235,5 +256,7 @@ class FormAutoCompleteField extends React.Component {
     }, 250);
   };
 }
+
+FormAutoCompleteField.ErrorMessage = ErrorMessage;
 
 export default FormAutoCompleteField
