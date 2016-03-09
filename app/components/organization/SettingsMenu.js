@@ -2,7 +2,7 @@ import React from 'react';
 
 import Menu from '../shared/Menu';
 import Icon from '../shared/Icon';
-import Permissions from '../shared/Permissions';
+import permissions from '../../lib/permissions';
 
 class SettingsMenu extends React.Component {
   static propTypes = {
@@ -34,40 +34,54 @@ class SettingsMenu extends React.Component {
 
   render() {
     return (
-      <Permissions permissions={this.props.organization.permissions}>
+      <div>
         <Menu>
           <Menu.Header>{this.props.organization.name}</Menu.Header>
-
-          <Permissions.Only allowed="organizationUpdate">
-            <Menu.Button href={`/organizations/${this.props.organization.slug}/settings`}>
-              <Icon icon="settings" className="icon-mr"/>Settings
-            </Menu.Button>
-          </Permissions.Only>
-
-          <Permissions.Only allowed="organizationMemberCreate">
-            <Menu.Button href={`/organizations/${this.props.organization.slug}/users`} badge={this.props.organization.members.count + this.props.organization.invitations.count}>
-              <Icon icon="users" className="icon-mr"/>Users
-            </Menu.Button>
-          </Permissions.Only>
-
-          <Permissions.Only allowed="notificationServiceUpdate">
-            <Menu.Button href={`/organizations/${this.props.organization.slug}/services`}>
-              <Icon icon="notification-services" className="icon-mr"/>Notification Services
-            </Menu.Button>
-          </Permissions.Only>
-
-          <Permissions.Only allowed="organizationBillingUpdate">
-            <Menu.Button href={`/organizations/${this.props.organization.slug}/billing`}>
-              <Icon icon="billing" className="icon-mr"/>Billing
-            </Menu.Button>
-          </Permissions.Only>
+          {this.renderButtons()}
         </Menu>
 
         <Menu>
           <Menu.Button href={`/user/settings`}>Personal Settings</Menu.Button>
         </Menu>
-      </Permissions>
+      </div>
     );
+  }
+
+  renderButtons() {
+    return permissions(this.props.organization.permissions).collect(
+      {
+        allowed: "organizationUpdate",
+        render: (idx) => (
+          <Menu.Button key={idx} href={`/organizations/${this.props.organization.slug}/settings`}>
+            <Icon icon="settings" className="icon-mr"/>Settings
+          </Menu.Button>
+        )
+      },
+      {
+        allowed: "organizationMemberCreate",
+        render: (idx) => (
+          <Menu.Button key={idx} href={`/organizations/${this.props.organization.slug}/users`} badge={this.props.organization.members.count + this.props.organization.invitations.count}>
+            <Icon icon="users" className="icon-mr"/>Users
+          </Menu.Button>
+        )
+      },
+      {
+        allowed: "notificationServiceUpdate",
+        render: (idx) => (
+          <Menu.Button key={idx} href={`/organizations/${this.props.organization.slug}/services`}>
+            <Icon icon="notification-services" className="icon-mr"/>Notification Services
+          </Menu.Button>
+        )
+      },
+      {
+        allowed: "organizationBillingUpdate",
+        render: (idx) => (
+          <Menu.Button key={idx} href={`/organizations/${this.props.organization.slug}/billing`}>
+            <Icon icon="billing" className="icon-mr"/>Billing
+          </Menu.Button>
+        )
+      }
+    )
   }
 }
 
