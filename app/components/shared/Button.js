@@ -31,6 +31,7 @@ class Button extends React.Component {
       React.PropTypes.bool
     ]),
     theme: React.PropTypes.oneOf([
+      'default',
       'primary',
       'success',
       'warning',
