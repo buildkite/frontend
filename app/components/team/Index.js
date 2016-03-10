@@ -4,6 +4,7 @@ import DocumentTitle from 'react-document-title';
 
 import Panel from '../shared/Panel'
 import Button from '../shared/Button'
+import UserAvatar from '../shared/UserAvatar'
 import permissions from '../../lib/permissions';
 
 class Index extends React.Component {
@@ -46,6 +47,15 @@ class Index extends React.Component {
                 <Panel.RowLink key={team.node.id} to={`/organizations/${this.props.organization.slug}/teams/${team.node.slug}`}>
                   <strong className="semi-bold">{team.node.name}</strong><br/>
                   <span className="regular dark-gray">{team.node.members.count} members · {team.node.pipelines.count} projects</span><br/>
+                  <div style={{marginTop: 3}}>
+                    {
+                      team.node.members.edges.map((member, index) => {
+                        return (
+                          <UserAvatar key={member.node.id} user={member.node.user} style={{width: 20, height: 20, marginRight: -4, zIndex: team.node.members.edges.length - index, position: "relative"}} />
+                        )
+                      })
+                    }
+                  </div>
                 </Panel.RowLink>
                 )
             })
@@ -83,8 +93,18 @@ export default Relay.createContainer(Index, {
               name,
               description,
               slug,
-              members {
+              members(first: 3) {
                 count
+                edges {
+                  node {
+                    user {
+                      name
+                      avatar {
+                        url
+                      }
+                    }
+                  }
+                }
               },
               pipelines {
                 count
