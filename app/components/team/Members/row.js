@@ -5,6 +5,7 @@ import Button from '../../shared/Button';
 import Icon from '../../shared/Icon';
 
 import FlashesStore from '../../../stores/FlashesStore';
+import permissions from '../../../lib/permissions';
 
 import User from './user';
 
@@ -14,7 +15,15 @@ class Row extends React.Component {
   static propTypes = {
     member: React.PropTypes.shape({
       user: React.PropTypes.object.isRequired,
-      admin: React.PropTypes.bool.isRequired
+      admin: React.PropTypes.bool.isRequired,
+      permissions: React.PropTypes.shape({
+        teamMemberUpdate: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired,
+        teamMemberDelete: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired
+      })
     }).isRequired,
     onRemoveClick: React.PropTypes.func.isRequired,
     onTeamAdminToggle: React.PropTypes.func.isRequired,
@@ -46,20 +55,22 @@ class Row extends React.Component {
         <Icon icon="spinner" className="dark-gray animation-spin" style={{width: 18, height: 18}} />
       );
     } else {
-      if(false) {
-        return (
-          <div className="dark-gray">Team Admin (You)</div>
-        );
-      } else {
-        return (
-          <div>
-            <Button loading={this.state.updating ? "Updating…" : false} theme={"default"} outline={true} className="mr2"
+      return permissions(this.props.member.permissions).collect(
+        {
+          allowed: "teamMemberUpdate",
+          render: (idx) => (
+            <Button key={idx} loading={this.state.updating ? "Updating…" : false} theme={"default"} outline={true} className="mr2"
               onClick={this.handleTeamAdminToggle}>{this.props.member.admin ? "Remove team Admin" : "Promote to Team Admin"}</Button>
-            <Button loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true}
+          )
+        },
+        {
+          allowed: "teamMemberDelete",
+          render: (idx) => (
+            <Button key={idx} loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true}
               onClick={this.handleMemberRemove}>Remove</Button>
-          </div>
-        );
-      }
+          )
+        }
+      )
     }
   }
 

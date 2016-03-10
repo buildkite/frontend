@@ -147,6 +147,14 @@ export default Relay.createContainer(Members, {
                   url
                 }
 	      }
+              permissions {
+                teamMemberUpdate {
+                  allowed
+                }
+                teamMemberDelete {
+                  allowed
+                }
+              }
               ${TeamMemberDeleteMutation.getFragment('teamMember')}
               ${TeamMemberUpdateMutation.getFragment('teamMember')}
 	    }

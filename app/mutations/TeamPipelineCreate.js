@@ -61,7 +61,7 @@ class TeamPipelineCreate extends Relay.Mutation {
       connectionName: 'pipelines',
       edgeName: 'teamPipelineEdge',
       rangeBehaviors: {
-	'': 'append'
+	'': 'prepend'
       }
     }];
   }
