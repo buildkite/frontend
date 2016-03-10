@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import DocumentTitle from 'react-document-title';
 
 import Panel from '../shared/Panel'
 import Button from '../shared/Button'
@@ -8,6 +9,7 @@ import permissions from '../../lib/permissions';
 class Index extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
       teams: React.PropTypes.shape({
         edges: React.PropTypes.arrayOf(
@@ -31,23 +33,25 @@ class Index extends React.Component {
 
   render() {
     return (
-      <Panel>
-        <Panel.Header>Teams</Panel.Header>
-        <Panel.IntroWithButton>
-          <span>Manage your teams and make some awesome ones so you can do super awesome stuff like organzing users and projects into teams so you can do permissions and stuff.</span>
-          {this.renderNewTeamButton()}
-        </Panel.IntroWithButton>
-        {
-          this.props.organization.teams.edges.map((team) => {
-            return (
-              <Panel.RowLink key={team.node.id} to={`/organizations/${this.props.organization.slug}/teams/${team.node.slug}`}>
-                <strong className="semi-bold">{team.node.name}</strong><br/>
-                <span className="regular dark-gray">{team.node.members.count} members · {team.node.pipelines.count} projects</span><br/>
-              </Panel.RowLink>
-              )
-          })
-        }
-      </Panel>
+      <DocumentTitle title={`Teams · ${this.props.organization.name}`}>
+        <Panel>
+          <Panel.Header>Teams</Panel.Header>
+          <Panel.IntroWithButton>
+            <span>Manage your teams and make some awesome ones so you can do super awesome stuff like organzing users and projects into teams so you can do permissions and stuff.</span>
+            {this.renderNewTeamButton()}
+          </Panel.IntroWithButton>
+          {
+            this.props.organization.teams.edges.map((team) => {
+              return (
+                <Panel.RowLink key={team.node.id} to={`/organizations/${this.props.organization.slug}/teams/${team.node.slug}`}>
+                  <strong className="semi-bold">{team.node.name}</strong><br/>
+                  <span className="regular dark-gray">{team.node.members.count} members · {team.node.pipelines.count} projects</span><br/>
+                </Panel.RowLink>
+                )
+            })
+          }
+        </Panel>
+      </DocumentTitle>
     );
   }
 
@@ -65,6 +69,7 @@ export default Relay.createContainer(Index, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+        name
         slug
         permissions {
           teamCreate {

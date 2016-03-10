@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import DocumentTitle from 'react-document-title';
 
 import PageHeader from '../shared/PageHeader';
 import Button from '../shared/Button';
@@ -13,6 +14,7 @@ import TeamDeleteMutation from '../../mutations/TeamDelete';
 class Show extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired
     }).isRequired,
     team: React.PropTypes.shape({
@@ -46,16 +48,18 @@ class Show extends React.Component {
     }
 
     return (
-      <div>
-	<PageHeader>
-          <PageHeader.Title>{this.props.team.name}</PageHeader.Title>
-          <PageHeader.Description>{this.props.team.description}</PageHeader.Description>
-          <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
-	</PageHeader>
+      <DocumentTitle title={`${this.props.team.name} · ${this.props.organization.name} Team`}>
+        <div>
+          <PageHeader>
+            <PageHeader.Title>{this.props.team.name}</PageHeader.Title>
+            <PageHeader.Description>{this.props.team.description}</PageHeader.Description>
+            <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
+          </PageHeader>
 
-        {this.renderMembers()}
-        {this.renderPipelines()}
-      </div>
+          {this.renderMembers()}
+          {this.renderPipelines()}
+        </div>
+      </DocumentTitle>
     );
   }
 
@@ -126,6 +130,7 @@ export default Relay.createContainer(Show, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+	name
 	slug
       }
     `,

@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import DocumentTitle from 'react-document-title';
 
 import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
@@ -12,6 +13,7 @@ import GraphQLErrors from '../../constants/GraphQLErrors';
 class New extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired
     }).isRequired,
     team: React.PropTypes.shape({
@@ -34,25 +36,27 @@ class New extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleFormSubmit}>
-        <PageHeader>
-          <PageHeader.Title>Edit Team</PageHeader.Title>
-        </PageHeader>
+      <DocumentTitle title={`Edit ${this.props.organization.name} · ${this.props.organization.name} Team`}>
+        <form onSubmit={this.handleFormSubmit}>
+          <PageHeader>
+            <PageHeader.Title>Edit Team</PageHeader.Title>
+          </PageHeader>
 
-        <Panel>
-          <Panel.Body>
-            <TeamForm
-              onChange={this.handleFormChange}
-              errors={this.state.errors}
-              name={this.state.name}
-              description={this.state.description} />
-          </Panel.Body>
+          <Panel>
+            <Panel.Body>
+              <TeamForm
+                onChange={this.handleFormChange}
+                errors={this.state.errors}
+                name={this.state.name}
+                description={this.state.description} />
+            </Panel.Body>
 
-          <Panel.Footer>
-            <Button loading={this.state.saving ? "Saving team…" : false}>Save Team</Button>
-          </Panel.Footer>
-        </Panel>
-      </form>
+            <Panel.Footer>
+              <Button loading={this.state.saving ? "Saving team…" : false}>Save Team</Button>
+            </Panel.Footer>
+          </Panel>
+        </form>
+      </DocumentTitle>
     );
   }
 
@@ -102,6 +106,7 @@ export default Relay.createContainer(New, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+        name
         slug
       }
     `,
