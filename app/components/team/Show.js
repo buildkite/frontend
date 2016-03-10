@@ -114,6 +114,15 @@ class Show extends React.Component {
   }
 
   handleDeleteTeamMutationSuccess = () => {
+    // Relay at the moment seems to have a hard time updating the _rootCallMap
+    // when a NODE_DELETE mutation is required. The net result being, that if
+    // you create a team with name "foo", delete it, then create it again, Relay won't be
+    // able to find it again using the `team` root query. That's because it's cached
+    // the slug "org-name/this-slug-name" and it's old relay ID. So when we go
+    // to request it again, Relay is like "oh, I know about this slug, but it
+    // was deleted, so I'll just return nothing.
+    delete Relay.Store._storeData._cachedStore._rootCallMap.team[this.props.slug];
+
     // Redirect back to the index page
     this.context.router.push(`/organizations/${this.props.organization.slug}/teams`);
   }
