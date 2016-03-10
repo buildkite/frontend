@@ -21,7 +21,7 @@ class Flashes extends React.Component {
     if(this.state.flashes.length > 0) {
       return (
         <div className="container mb4">
-          { this.state.flashes.map((flash) => <Flash key={flash.id} flash={flash} onRemoveClick={this.handleFlashRemove} />) }
+          {this.state.flashes.map((flash) => <Flash key={flash.id} flash={flash} onRemoveClick={this.handleFlashRemove} />)}
         </div>
       )
     } else {
