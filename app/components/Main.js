@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 
 import Navigation from './layout/Navigation';
 import Footer from './layout/Footer';
+import Flashes from './layout/Flashes';
 
 class Main extends React.Component {
   static propTypes = {
@@ -15,6 +16,7 @@ class Main extends React.Component {
     return (
       <div>
         <Navigation organization={this.props.organization} viewer={this.props.viewer} />
+        <Flashes />
         {this.props.children}
         <Footer viewer={this.props.viewer} />
       </div>
