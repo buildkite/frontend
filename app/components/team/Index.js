@@ -24,7 +24,8 @@ class Index extends React.Component {
             }).isRequired
           }).isRequired
         ).isRequired
-      }).isRequired
+      }).isRequired,
+      permissions: React.PropTypes.object.isRequired
     }).isRequired
   };
 

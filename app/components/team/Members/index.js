@@ -90,7 +90,7 @@ class Members extends React.Component {
 
     Relay.Store.commitUpdate(new TeamMemberCreateMutation({
       team: this.props.team,
-      user: user,
+      user: user
     }), { onFailure: (transaction) => alert(transaction.getError()) });
   };
 

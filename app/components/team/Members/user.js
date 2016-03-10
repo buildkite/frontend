@@ -12,7 +12,7 @@ class User extends React.Component {
       name: React.PropTypes.string.isRequired,
       email: React.PropTypes.string.isRequired,
       avatar: React.PropTypes.shape({
-        url: React.PropTypes.string.isRequired,
+        url: React.PropTypes.string.isRequired
       }).isRequired
     }).isRequired
   };
