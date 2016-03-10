@@ -4,6 +4,8 @@ import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
 import Icon from '../../shared/Icon';
 
+import FlashesStore from '../../../stores/FlashesStore';
+
 import User from './user';
 
 class Row extends React.Component {
@@ -67,8 +69,9 @@ class Row extends React.Component {
 
     this.props.onTeamAdminToggle(this.props.member, !this.props.member.admin, (error) => {
       this.setState({ updating: false });
+
       if(error) {
-        alert(error);
+        FlashesStore.flash(FlashesStore.ERROR, error);
       }
     });
   };
@@ -78,9 +81,10 @@ class Row extends React.Component {
     this.setState({ removing: true });
 
     this.props.onRemoveClick(this.props.member, (error) => {
-      this.setState({ updating: false });
+      this.setState({ removing: false });
+
       if(error) {
-        alert(error);
+        FlashesStore.flash(FlashesStore.ERROR, error);
       }
     });
   };

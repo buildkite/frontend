@@ -97,14 +97,14 @@ class Members extends React.Component {
   handleTeamMemberRemove = (teamMember, callback) => {
     Relay.Store.commitUpdate(new TeamMemberDeleteMutation({
       teamMember: teamMember
-    }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError) });
+    }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError()) });
   };
 
   handleTeamAdminToggle = (teamMember, admin, callback) => {
     Relay.Store.commitUpdate(new TeamMemberUpdateMutation({
       teamMember: teamMember,
       admin: admin
-    }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError) });
+    }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError()) });
   };
 }
 
