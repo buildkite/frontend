@@ -27,7 +27,7 @@ class Show extends React.Component {
         teamPipelineCreate: React.PropTypes.object.isRequired,
         teamMemberCreate: React.PropTypes.object.isRequired
       }).isRequired
-    }).isRequired
+    })
   };
 
   static contextTypes = {
