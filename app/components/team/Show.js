@@ -13,6 +13,7 @@ import TeamDeleteMutation from '../../mutations/TeamDelete';
 
 class Show extends React.Component {
   static propTypes = {
+    slug: React.PropTypes.string.isRequired,
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired
