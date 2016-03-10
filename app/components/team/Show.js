@@ -99,18 +99,20 @@ class Show extends React.Component {
   }
 
   handleRemoveTeamClick = () => {
-    // Show the removing indicator
-    this.setState({ removing: true });
+    if(confirm("Delete this team?")) {
+      // Show the removing indicator
+      this.setState({ removing: true });
 
-    var mutation = new TeamDeleteMutation({
-      team: this.props.team
-    });
+      var mutation = new TeamDeleteMutation({
+        team: this.props.team
+      });
 
-    // Run the mutation
-    Relay.Store.commitUpdate(mutation, {
-      onSuccess: this.handleDeleteTeamMutationSuccess,
-      onFailure: this.handleDeleteTeamMutationFailure
-    });
+      // Run the mutation
+      Relay.Store.commitUpdate(mutation, {
+        onSuccess: this.handleDeleteTeamMutationSuccess,
+        onFailure: this.handleDeleteTeamMutationFailure
+      });
+    }
   }
 
   handleDeleteTeamMutationSuccess = () => {
