@@ -89,14 +89,15 @@ export default Relay.createContainer(Index, {
         teams(first: 100) {
           edges {
             node {
-              id,
-              name,
-              description,
-              slug,
+              id
+              name
+              description
+              slug
               members(first: 3) {
                 count
                 edges {
                   node {
+                    id
                     user {
                       name
                       avatar {
