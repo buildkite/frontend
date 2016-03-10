@@ -93,10 +93,10 @@ class Pipelines extends React.Component {
     }), { onFailure: this.handleMutationFailure });
   };
 
-  handleTeamPipelineRemove = (teamPipeline) => {
+  handleTeamPipelineRemove = (teamPipeline, callback) => {
     Relay.Store.commitUpdate(new TeamPipelineDeleteMutation({
       teamPipeline: teamPipeline
-    }), { onFailure: this.handleMutationFailure });
+    }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError()) });
   };
 
   handleMutationFailure = (transaction) => {

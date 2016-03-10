@@ -4,6 +4,8 @@ import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
 import Icon from '../../shared/Icon';
 
+import FlashesStore from '../../../stores/FlashesStore';
+
 import Pipeline from './pipeline';
 
 class Row extends React.Component {
@@ -50,8 +52,16 @@ class Row extends React.Component {
 
   handlePipelineRemove = (e) => {
     e.preventDefault();
+
     this.setState({ removing: true });
-    this.props.onRemoveClick(this.props.pipeline);
+
+    this.props.onRemoveClick(this.props.pipeline, (error) => {
+      this.setState({ removing: false });
+
+      if(error) {
+        FlashesStore.flash(FlashesStore.ERROR, error);
+      }
+    });
   };
 }
 
