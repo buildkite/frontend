@@ -37,7 +37,7 @@ class Members extends React.Component {
           <FormAutoCompleteField onSearch={this.handleUserSearch}
             onSelect={this.handleUserSelect}
             items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
-            placeholder="Search for a user"
+            placeholder="Add user to this team…"
             ref={c => this._autoCompletor = c} />
         </Panel.Body>
         {
