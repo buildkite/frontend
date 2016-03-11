@@ -7,6 +7,8 @@ import Button from '../shared/Button'
 import UserAvatar from '../shared/UserAvatar'
 import permissions from '../../lib/permissions';
 
+import Row from './Row';
+
 class Index extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
@@ -15,16 +17,7 @@ class Index extends React.Component {
       teams: React.PropTypes.shape({
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
-            node: React.PropTypes.shape({
-              id: React.PropTypes.string.isRequired,
-              name: React.PropTypes.string.isRequired,
-              members: React.PropTypes.shape({
-                count: React.PropTypes.number.isRequired
-              }).isRequired,
-              pipelines: React.PropTypes.shape({
-                count: React.PropTypes.number.isRequired
-              }).isRequired
-            }).isRequired
+            node: React.PropTypes.object.isRequired
           }).isRequired
         ).isRequired
       }).isRequired,
@@ -41,25 +34,7 @@ class Index extends React.Component {
             <span>Manage your teams and make some awesome ones so you can do super awesome stuff like organzing users and projects into teams so you can do permissions and stuff.</span>
             {this.renderNewTeamButton()}
           </Panel.IntroWithButton>
-          {
-            this.props.organization.teams.edges.map((team) => {
-              return (
-                <Panel.RowLink key={team.node.id} to={`/organizations/${this.props.organization.slug}/teams/${team.node.slug}`}>
-                  <strong className="semi-bold">{team.node.name}</strong><br/>
-                  <span className="regular dark-gray">{team.node.members.count} members · {team.node.pipelines.count} projects</span><br/>
-                  <div style={{marginTop: 3}}>
-                    {
-                      team.node.members.edges.map((member, index) => {
-                        return (
-                          <UserAvatar key={member.node.id} user={member.node.user} style={{width: 20, height: 20, marginRight: -4, zIndex: team.node.members.edges.length - index, position: "relative"}} />
-                        )
-                      })
-                    }
-                  </div>
-                </Panel.RowLink>
-                )
-            })
-          }
+          {this.props.organization.teams.edges.map((edge) => <Row key={edge.node.id} team={edge.node} />)}
         </Panel>
       </DocumentTitle>
     );
@@ -90,26 +65,7 @@ export default Relay.createContainer(Index, {
           edges {
             node {
               id
-              name
-              description
-              slug
-              members(first: 3) {
-                count
-                edges {
-                  node {
-                    id
-                    user {
-                      name
-                      avatar {
-                        url
-                      }
-                    }
-                  }
-                }
-              },
-              pipelines {
-                count
-              }
+              ${Row.getFragment('team')}
             }
           }
         }
