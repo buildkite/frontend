@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 
 import Panel from '../shared/Panel'
 import UserAvatar from '../shared/UserAvatar'
+import Emojify from '../shared/Emojify';
 
 class Row extends React.Component {
   static propTypes = {
@@ -30,7 +31,7 @@ class Row extends React.Component {
   render() {
     return (
       <Panel.RowLink key={this.props.team.id} to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}`}>
-        <span className="semi-bold block">{this.props.team.name}</span>
+        <span className="semi-bold block"><Emojify text={this.props.team.name} /></span>
         <span className="regular dark-gray block">{this.props.team.members.count} members · {this.props.team.pipelines.count} projects</span>
         <div style={{marginTop: 3}}>
           {

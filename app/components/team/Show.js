@@ -4,6 +4,7 @@ import DocumentTitle from 'react-document-title';
 
 import PageHeader from '../shared/PageHeader';
 import Button from '../shared/Button';
+import Emojify from '../shared/Emojify';
 import permissions from '../../lib/permissions';
 
 import Pipelines from './Pipelines';
@@ -52,8 +53,8 @@ class Show extends React.Component {
       <DocumentTitle title={`${this.props.team.name} · ${this.props.organization.name} Team`}>
         <div>
           <PageHeader>
-            <PageHeader.Title>{this.props.team.name}</PageHeader.Title>
-            <PageHeader.Description>{this.props.team.description}</PageHeader.Description>
+            <PageHeader.Title><Emojify text={this.props.team.name} /></PageHeader.Title>
+            <PageHeader.Description><Emojify text={this.props.team.description} /></PageHeader.Description>
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
