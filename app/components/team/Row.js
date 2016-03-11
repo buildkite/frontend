@@ -9,8 +9,17 @@ class Row extends React.Component {
     team: React.PropTypes.shape({
       id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
+      slug: React.PropTypes.string.isRequired,
+      organization: React.PropTypes.shape({
+        slug: React.PropTypes.string.isRequired
+      }).isRequired,
       members: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired
+        count: React.PropTypes.number.isRequired,
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.object.isRequired
+          }).isRequired
+        ).isRequired
       }).isRequired,
       pipelines: React.PropTypes.shape({
         count: React.PropTypes.number.isRequired

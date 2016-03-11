@@ -4,7 +4,6 @@ import DocumentTitle from 'react-document-title';
 
 import Panel from '../shared/Panel'
 import Button from '../shared/Button'
-import UserAvatar from '../shared/UserAvatar'
 import permissions from '../../lib/permissions';
 
 import Row from './Row';
