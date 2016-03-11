@@ -27,7 +27,11 @@ class Row extends React.Component {
           {
             this.props.team.members.edges.map((edge, index) => {
               return (
-                <UserAvatar key={edge.node.id} user={edge.node.user} style={{width: 20, height: 20, marginRight: -4, zIndex: this.props.team.members.edges.length - index, position: "relative"}} />
+                <UserAvatar
+                  key={edge.node.id}
+                  user={edge.node.user}
+                  className="border border-white"
+                  style={{width: 20, height: 20, marginRight: -4, zIndex: this.props.team.members.edges.length - index, position: "relative"}} />
                 )
             })
           }
