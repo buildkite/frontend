@@ -1,28 +1,26 @@
 import React from 'react';
-import Relay from 'react-relay';
 
 import PageWithMenu from '../shared/PageWithMenu';
 import SettingsMenu from './SettingsMenu';
 
-import PreloadedDataStore from '../../stores/PreloadedDataStore';
+import RelayBridge from '../../lib/RelayBridge';
 
 class SettingsSection extends React.Component {
   static propTypes = {
+    organization: React.PropTypes.object.isRequired,
     children: React.PropTypes.node.isRequired
-  };
-
-  state = {
-    organization: PreloadedDataStore.get(`organization/${this.props.params.organization}`)
   };
 
   render() {
     return (
       <PageWithMenu>
-        <SettingsMenu organization={this.state.organization} />
+        <SettingsMenu organization={this.props.organization} />
         {this.props.children}
       </PageWithMenu>
     );
   }
 }
 
-export default SettingsSection;
+export default RelayBridge.createContainer(SettingsSection, {
+  organization: (props) => `organization/${props.params.organization}`
+});

@@ -1,35 +1,34 @@
 import React from 'react';
-import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
 import Navigation from './layout/Navigation';
 import Footer from './layout/Footer';
 import Flashes from './layout/Flashes';
 
-import PreloadedDataStore from '../stores/PreloadedDataStore';
+import RelayBridge from '../lib/RelayBridge';
 
 class Main extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node.isRequired
-  };
-
-  state = {
-    viewer: PreloadedDataStore.get("viewer"),
-    organization: PreloadedDataStore.get(`organization/${this.props.params.organization}`),
+    children: React.PropTypes.node.isRequired,
+    viewer: React.PropTypes.object.isRequired,
+    organization: React.PropTypes.object
   };
 
   render() {
     return (
       <DocumentTitle title={`Buildkite`}>
         <div>
-          <Navigation organization={this.state.organization} viewer={this.state.viewer} />
+          <Navigation organization={this.props.organization} viewer={this.props.viewer} />
           <Flashes />
           {this.props.children}
-          <Footer viewer={this.state.viewer} />
+          <Footer viewer={this.props.viewer} />
         </div>
       </DocumentTitle>
     );
   }
 }
 
-export default Main;
+export default RelayBridge.createContainer(Main, {
+  organization: (props) => `organization/${props.params.organization}`,
+  viewer: () => `viewer`
+});

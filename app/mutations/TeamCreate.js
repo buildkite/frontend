@@ -33,16 +33,20 @@ class TeamCreate extends Relay.Mutation {
   getConfigs() {
     return [{
       type: 'REQUIRED_CHILDREN',
-      // Forces these fragments to be included in the query
       children: [
 	Relay.QL`
-	fragment on TeamCreatePayload {
-	  teamEdge {
-	    node {
-	      slug
+	  fragment on TeamCreatePayload {
+	    teamEdge {
+	      node {
+	        slug
+                organization {
+                  teams {
+                    count
+                  }
+                }
+	      }
 	    }
 	  }
-	}
 	`
       ]
     }, {

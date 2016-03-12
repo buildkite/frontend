@@ -36,6 +36,19 @@ class TeamDelete extends Relay.Mutation {
 
   getConfigs() {
     return [{
+      type: 'REQUIRED_CHILDREN',
+      children: [
+	Relay.QL`
+	  fragment on TeamDeletePayload {
+            organization {
+              teams {
+                count
+              }
+            }
+	  }
+	`
+      ]
+    }, {
       type: 'NODE_DELETE',
       parentName: 'organization',
       parentID: this.props.team.organization.id,

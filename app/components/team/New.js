@@ -7,6 +7,7 @@ import Panel from '../shared/Panel';
 import Button from '../shared/Button';
 import TeamForm from './Form';
 
+import RelayBridge from '../../lib/RelayBridge';
 import TeamCreateMutation from '../../mutations/TeamCreate';
 import GraphQLErrors from '../../constants/GraphQLErrors';
 
@@ -93,6 +94,10 @@ class New extends React.Component {
   };
 
   handleMutationSuccess = (response) => {
+    // Update the relay bridge with the latest information about the organization
+    RelayBridge.update(`organization/${this.props.organization.slug}`, response.teamCreate.teamEdge.node.organization);
+
+    // Redirect to the new team
     this.context.router.push(`/organizations/${this.props.organization.slug}/teams/${response.teamCreate.teamEdge.node.slug}`);
   };
 }

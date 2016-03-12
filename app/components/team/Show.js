@@ -11,6 +11,7 @@ import Pipelines from './Pipelines';
 import Members from './Members';
 
 import TeamDeleteMutation from '../../mutations/TeamDelete';
+import RelayBridge from '../../lib/RelayBridge';
 
 class Show extends React.Component {
   static propTypes = {
@@ -117,7 +118,7 @@ class Show extends React.Component {
     }
   }
 
-  handleDeleteTeamMutationSuccess = () => {
+  handleDeleteTeamMutationSuccess = (response) => {
     // Relay at the moment seems to have a hard time updating the _rootCallMap
     // when a NODE_DELETE mutation is required. The net result being, that if
     // you create a team with name "foo", delete it, then create it again, Relay won't be
@@ -126,6 +127,10 @@ class Show extends React.Component {
     // to request it again, Relay is like "oh, I know about this slug, but it
     // was deleted, so I'll just return nothing.
     delete Relay.Store._storeData._cachedStore._rootCallMap.team[this.props.slug];
+
+    // Update our RelayBridge with the new organization data (in this case, the
+    // teams count will be reduced by 1)
+    RelayBridge.update(`organization/${this.props.organization.slug}`, response.teamDelete.organization);
 
     // Redirect back to the index page
     this.context.router.push(`/organizations/${this.props.organization.slug}/teams`);
