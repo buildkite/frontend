@@ -72,12 +72,12 @@ if(window._graphql) {
 window["initializeReactRouter"] = function() {
   // Require the packages we need to setup routing
   let Route = require("react-router").Route;
-  let IndexRoute = require("react-router").IndexRoute;
+  // let IndexRoute = require("react-router").IndexRoute;
   let browserHistory = require("react-router").browserHistory;
   let RelayRouter = require('react-router-relay').RelayRouter;
 
   // The components used in the router
-  let SectionLoader = require("./components/shared/SectionLoader").default;
+  // let SectionLoader = require("./components/shared/SectionLoader").default;
   let Main = require("./components/Main").default;
   let BuildCommentsList = require("./components/build/CommentsList").default;
   let OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
@@ -94,17 +94,17 @@ window["initializeReactRouter"] = function() {
     }
   `
 
-  const OrganizationQuery = () => Relay.QL`
-    query {
-      organization(slug: $organization)
-    }
-  `
+  // const OrganizationQuery = () => Relay.QL`
+  //   query {
+  //     organization(slug: $organization)
+  //   }
+  // `
 
-  const handleSectionLoading = () => {
-    return (
-      <SectionLoader />
-    )
-  }
+  // const handleSectionLoading = () => {
+  //   return (
+  //     <SectionLoader />
+  //   )
+  // }
 
   // Since relay doesn't currently support root fields with multiple
   // parameters, it means we can't have queries like: build(org: "...",
@@ -123,8 +123,7 @@ window["initializeReactRouter"] = function() {
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
 
       <Route path="/" component={Main}>
-        <Route path="organizations/:organization" component={OrganizationSettingsSection}>
-        </Route>
+        <Route path="organizations/:organization" component={OrganizationSettingsSection} />
       </Route>
     </RelayRouter>
   , document.getElementById('root'));
