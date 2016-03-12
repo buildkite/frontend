@@ -56,7 +56,7 @@ module.exports = {
       "react-router-relay", "history", "graphql", "graphql-relay",
       "moment", "object-assign", "eventemitter3", "pusher-js",
       "whatwg-fetch", "es6-error", "escape-html", "react-addons-update",
-      "react-document-title", "bugsnag-js"]
+      "react-document-title", "bugsnag-js", "deepmerge"]
   },
 
   output: {

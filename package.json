@@ -61,6 +61,7 @@
     "basscss-lighten": "^1.1.0",
     "bugsnag-js": "^2.5.0",
     "classnames": "^2.2.3",
+    "deepmerge": "^0.2.10",
     "es6-error": "^2.0.2",
     "escape-html": "^1.0.3",
     "eventemitter3": "^1.1.1",
