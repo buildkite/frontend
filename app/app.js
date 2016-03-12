@@ -77,6 +77,7 @@ window["initializeReactRouter"] = function() {
   let RelayRouter = require('react-router-relay').RelayRouter;
 
   // The components used in the router
+  let SectionLoader = require("./components/shared/SectionLoader").default;
   let Main = require("./components/Main").default;
   let BuildCommentsList = require("./components/build/CommentsList").default;
   let OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
@@ -84,10 +85,6 @@ window["initializeReactRouter"] = function() {
   let TeamNew = require("./components/team/New").default;
   let TeamShow = require("./components/team/Show").default;
   let TeamEdit = require("./components/team/Edit").default;
-
-  // Loading components
-  let PageLoader = require("./components/shared/PageLoader").default;
-  let SectionLoader = require("./components/shared/SectionLoader").default;
 
   const BuildQuery = () => Relay.QL`
     query {
