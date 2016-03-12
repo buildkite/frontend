@@ -43,6 +43,7 @@ window["Webpack"] = {
     "components/organization/SettingsMenu": require("./components/organization/SettingsMenu").default,
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
     "components/PipelinesWelcome": require("./components/PipelinesWelcome").default,
+    "stores/PreloadedDataStore": require("./stores/PreloadedDataStore").default,
     "stores/PusherStore": require("./stores/PusherStore").default,
     "lib/friendlyRelativeTime": require("./lib/friendlyRelativeTime").default,
     "lib/Logger": require("./lib/Logger").default,
@@ -112,12 +113,6 @@ window["initializeReactRouter"] = function() {
     }
   `
 
-  const handlePageLoading = () => {
-    return (
-      <PageLoader />
-    )
-  }
-
   const handleSectionLoading = () => {
     return (
       <SectionLoader />
@@ -147,8 +142,8 @@ window["initializeReactRouter"] = function() {
     <RelayRouter history={browserHistory}>
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
 
-      <Route path="/" component={Main} queries={{viewer: ViewerQuery, organization: OrganizationQuery}} renderLoading={handlePageLoading}>
-        <Route path="organizations/:organization" component={OrganizationSettingsSection} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading}>
+      <Route path="/" component={Main}>
+        <Route path="organizations/:organization" component={OrganizationSettingsSection}>
           <Route path="teams">
             <IndexRoute component={TeamIndex} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
             <Route path="new" component={TeamNew} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
