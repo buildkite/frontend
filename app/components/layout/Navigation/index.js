@@ -201,7 +201,7 @@ class Navigation extends React.Component {
     // regular settings button.
     return permissions(organization.permissions).first(
       {
-        any: true,
+        all: true,
         render: () => <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
       },
       {
