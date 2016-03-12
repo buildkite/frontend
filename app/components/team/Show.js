@@ -157,22 +157,22 @@ export default Relay.createContainer(Show, {
         ${Pipelines.getFragment('team')}
         ${Members.getFragment('team')}
         ${TeamDeleteMutation.getFragment('team')}
-	name
-	description
-	slug
-	permissions {
-	  teamUpdate {
-	    allowed
-	  }
-	  teamDelete {
-	    allowed
-	  }
-	  teamPipelineCreate {
-	    allowed
-	  }
-	  teamMemberCreate {
-	    allowed
-	  }
+        name
+        description
+        slug
+        permissions {
+          teamUpdate {
+            allowed
+          }
+          teamDelete {
+            allowed
+          }
+          teamPipelineCreate {
+            allowed
+          }
+          teamMemberCreate {
+            allowed
+          }
         }
       }
     `
