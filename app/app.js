@@ -43,11 +43,11 @@ window["Webpack"] = {
     "components/organization/SettingsMenu": require("./components/organization/SettingsMenu").default,
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
     "components/PipelinesWelcome": require("./components/PipelinesWelcome").default,
-    "stores/PreloadedDataStore": require("./stores/PreloadedDataStore").default,
     "stores/PusherStore": require("./stores/PusherStore").default,
     "lib/friendlyRelativeTime": require("./lib/friendlyRelativeTime").default,
     "lib/Logger": require("./lib/Logger").default,
-    "lib/Emoji": require("./lib/Emoji").default
+    "lib/Emoji": require("./lib/Emoji").default,
+    "lib/RelayBridge": require("./lib/RelayBridge").default
   },
 
   require: function(module) {
