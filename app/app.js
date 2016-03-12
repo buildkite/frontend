@@ -72,31 +72,45 @@ if(window._graphql) {
 window["initializeReactRouter"] = function() {
   // Require the packages we need to setup routing
   let Route = require("react-router").Route;
+  let IndexRoute = require("react-router").IndexRoute;
   let browserHistory = require("react-router").browserHistory;
   let RelayRouter = require('react-router-relay').RelayRouter;
 
   // The components used in the router
+  let SectionLoader = require("./components/shared/SectionLoader").default;
+  let Main = require("./components/Main").default;
   let BuildCommentsList = require("./components/build/CommentsList").default;
+  let OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
 
-  // Queries used when you want to show a build
-  const Queries = {
-    viewer: () => Relay.QL`
-      query {
-	viewer
-      }
-    `,
-    build: () => Relay.QL`
-      query {
-	build(slug: $slug)
-      }
-    `
-  };
+  const BuildQuery = () => Relay.QL`
+    query {
+      build(slug: $slug)
+    }
+  `
+
+  const ViewerQuery = () => Relay.QL`
+    query {
+      viewer
+    }
+  `
+
+  const OrganizationQuery = () => Relay.QL`
+    query {
+      organization(slug: $organization)
+    }
+  `
+
+  const handleSectionLoading = () => {
+    return (
+      <SectionLoader />
+    )
+  }
 
   // Since relay doesn't currently support root fields with multiple
   // parameters, it means we can't have queries like: build(org: "...",
   // pipeline: "...", number: "12"), so we have to do this hacky thing where we
   // include them all in the `slug` param.
-  function prepareBuildParams(params) {
+  const prepareBuildParams = (params) => {
     return {
       ...params,
       slug: [ params.organization, params.pipeline, params.number ].join("/")
@@ -106,7 +120,12 @@ window["initializeReactRouter"] = function() {
   // Define and render the routes
   ReactDOM.render(
     <RelayRouter history={browserHistory}>
-      <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={Queries} prepareParams={prepareBuildParams} />
+      <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
+
+      <Route path="/" component={Main}>
+        <Route path="organizations/:organization" component={OrganizationSettingsSection}>
+        </Route>
+      </Route>
     </RelayRouter>
   , document.getElementById('root'));
 }
