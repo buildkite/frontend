@@ -68,7 +68,7 @@ module.exports = {
       "whatwg-fetch", "es6-error", "escape-html", "react-addons-update",
       "react-document-title", "bugsnag-js", "deepmerge"],
     emojis: [ path.join(__dirname, './../app/emojis/buildkite.js'), path.join(__dirname, './../app/emojis/apple.js') ],
-    app: path.join(__dirname, './../app/app.js'),
+    app: path.join(__dirname, './../app/app.js')
   },
 
   output: {
