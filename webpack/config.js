@@ -20,7 +20,7 @@ if(process.env.WEBPACK_HOST.slice(-1) != "/") {
 // clean up after itself)
 var filenameFormat
 if(process.env.NODE_ENV == "production") {
-  filenameFormat = "[name]-[hash].js"
+  filenameFormat = "[name]-[chunkhash].js"
 } else {
   filenameFormat = "[name].js"
 }
@@ -37,7 +37,8 @@ if(process.env.NODE_ENV == "production") {
 var plugins = [
   new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
   new webpack.optimize.CommonsChunkPlugin("vendor", filenameFormat),
-  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' })
+  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' }),
+  new webpack.optimize.OccurenceOrderPlugin() // Need this plugin to ensure consistent module ordering so we can have determenistic filename hashes
 ]
 
 // If we're building for production, minify the JS
