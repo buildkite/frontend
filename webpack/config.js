@@ -19,10 +19,13 @@ if(process.env.WEBPACK_HOST.slice(-1) != "/") {
 // folder with every hashed version of files we've changed (webpack doesn't
 // clean up after itself)
 var filenameFormat
+var chunkFilename
 if(process.env.NODE_ENV == "production") {
   filenameFormat = "[name]-[chunkhash].js"
+  chunkFilename = "[id]-[chunkhash].js"
 } else {
   filenameFormat = "[name].js"
+  chunkFilename = "[id].js"
 }
 
 // Toggle between the devtool if on prod/dev since cheap-module-eval-source-map
@@ -36,7 +39,7 @@ if(process.env.NODE_ENV == "production") {
 
 var plugins = [
   new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
-  new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor" ], filename: filenameFormat, minChunks: Infinity }),
+  new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "manifest" ] }),
   new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' })
 ]
 
@@ -73,6 +76,7 @@ module.exports = {
 
   output: {
     filename: filenameFormat,
+    chunkFilename: chunkFilename,
     path: path.join(__dirname, '..', 'dist'),
     publicPath: process.env.WEBPACK_HOST
   },
