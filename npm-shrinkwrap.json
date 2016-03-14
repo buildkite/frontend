@@ -885,6 +885,11 @@
       "from": "chalk@>=1.1.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/chalk/-/chalk-1.1.1.tgz"
     },
+    "charenc": {
+      "version": "0.0.1",
+      "from": "charenc@>=0.0.1 <0.1.0",
+      "resolved": "https://registry.npmjs.org/charenc/-/charenc-0.0.1.tgz"
+    },
     "chokidar": {
       "version": "1.4.3",
       "from": "chokidar@>=1.0.0 <2.0.0",
@@ -1068,6 +1073,11 @@
       "version": "2.0.1",
       "from": "create-error-class@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/create-error-class/-/create-error-class-2.0.1.tgz"
+    },
+    "crypt": {
+      "version": "0.0.1",
+      "from": "crypt@>=0.0.1 <0.1.0",
+      "resolved": "https://registry.npmjs.org/crypt/-/crypt-0.0.1.tgz"
     },
     "crypto-browserify": {
       "version": "3.2.8",
@@ -3354,6 +3364,11 @@
       "from": "map-obj@>=1.0.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/map-obj/-/map-obj-1.0.1.tgz"
     },
+    "md5": {
+      "version": "2.1.0",
+      "from": "md5@>=2.0.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/md5/-/md5-2.1.0.tgz"
+    },
     "media-typer": {
       "version": "0.3.0",
       "from": "media-typer@0.3.0",
@@ -5185,6 +5200,11 @@
           "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-3.1.2.tgz"
         }
       }
+    },
+    "webpack-md5-hash": {
+      "version": "0.0.5",
+      "from": "webpack-md5-hash@latest",
+      "resolved": "https://registry.npmjs.org/webpack-md5-hash/-/webpack-md5-hash-0.0.5.tgz"
     },
     "websocket-driver": {
       "version": "0.6.4",
