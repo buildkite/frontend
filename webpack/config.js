@@ -36,7 +36,7 @@ if(process.env.NODE_ENV == "production") {
 
 var plugins = [
   new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
-  new webpack.optimize.CommonsChunkPlugin("vendor", filenameFormat),
+  new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor" ], filename: filenameFormat, minChunks: Infinity }),
   new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' })
 ]
 
@@ -62,12 +62,13 @@ module.exports = {
   devtool: devTool,
 
   entry: {
-    app: path.join(__dirname, './../app/app.js'),
     vendor: ["classnames", "react", "react-dom", "react-relay", "react-router",
       "react-router-relay", "history", "graphql", "graphql-relay",
       "moment", "object-assign", "eventemitter3", "pusher-js",
       "whatwg-fetch", "es6-error", "escape-html", "react-addons-update",
-      "react-document-title", "bugsnag-js", "deepmerge"]
+      "react-document-title", "bugsnag-js", "deepmerge"],
+    emojis: [ path.join(__dirname, './../app/emojis/buildkite.js'), path.join(__dirname, './../app/emojis/apple.js') ],
+    app: path.join(__dirname, './../app/app.js'),
   },
 
   output: {
