@@ -37,13 +37,23 @@ if(process.env.NODE_ENV == "production") {
 var plugins = [
   new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
   new webpack.optimize.CommonsChunkPlugin("vendor", filenameFormat),
-  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' }),
-  new webpack.optimize.OccurenceOrderPlugin() // Need this plugin to ensure consistent module ordering so we can have determenistic filename hashes
+  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' })
 ]
 
 // If we're building for production, minify the JS
 if(process.env.NODE_ENV == "production") {
-  plugins.push(new webpack.optimize.UglifyJsPlugin({minimize: true}));
+  // Need this plugin to ensure consistent module ordering so we can have determenistic filename hashes
+  plugins.push(new webpack.optimize.OccurenceOrderPlugin(true));
+  plugins.push(new webpack.optimize.DedupePlugin());
+  plugins.push(new webpack.optimize.UglifyJsPlugin({
+    output: {
+      comments: false
+    },
+    compress: {
+      warnings: false,
+      screw_ie8: true
+    }
+  }));
 }
 
 module.exports = {
