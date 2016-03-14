@@ -54,11 +54,6 @@
   "dependencies": {
     "babel-polyfill": "^6.6.1",
     "basscss": "^8.0.1",
-    "basscss-background-colors": "^2.1.0",
-    "basscss-border-colors": "^2.1.0",
-    "basscss-colors": "^2.2.0",
-    "basscss-darken": "^1.1.0",
-    "basscss-lighten": "^1.1.0",
     "bugsnag-js": "^2.5.0",
     "classnames": "^2.2.3",
     "deepmerge": "^0.2.10",

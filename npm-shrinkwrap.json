@@ -652,30 +652,10 @@
       "from": "basscss-align@>=1.0.2 <2.0.0",
       "resolved": "https://registry.npmjs.org/basscss-align/-/basscss-align-1.0.2.tgz"
     },
-    "basscss-background-colors": {
-      "version": "2.1.0",
-      "from": "basscss-background-colors@>=2.1.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/basscss-background-colors/-/basscss-background-colors-2.1.0.tgz"
-    },
     "basscss-border": {
       "version": "4.0.2",
       "from": "basscss-border@>=4.0.2 <5.0.0",
       "resolved": "https://registry.npmjs.org/basscss-border/-/basscss-border-4.0.2.tgz"
-    },
-    "basscss-border-colors": {
-      "version": "2.1.0",
-      "from": "basscss-border-colors@>=2.1.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/basscss-border-colors/-/basscss-border-colors-2.1.0.tgz"
-    },
-    "basscss-colors": {
-      "version": "2.2.0",
-      "from": "basscss-colors@>=2.2.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/basscss-colors/-/basscss-colors-2.2.0.tgz"
-    },
-    "basscss-darken": {
-      "version": "1.1.0",
-      "from": "basscss-darken@>=1.1.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/basscss-darken/-/basscss-darken-1.1.0.tgz"
     },
     "basscss-flexbox": {
       "version": "1.0.1",
@@ -696,11 +676,6 @@
       "version": "3.1.0",
       "from": "basscss-layout@>=3.1.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/basscss-layout/-/basscss-layout-3.1.0.tgz"
-    },
-    "basscss-lighten": {
-      "version": "1.1.0",
-      "from": "basscss-lighten@>=1.1.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/basscss-lighten/-/basscss-lighten-1.1.0.tgz"
     },
     "basscss-margin": {
       "version": "1.0.7",
@@ -1008,11 +983,6 @@
       "version": "1.1.2",
       "from": "colors@>=1.1.2 <1.2.0",
       "resolved": "https://registry.npmjs.org/colors/-/colors-1.1.2.tgz"
-    },
-    "colors.css": {
-      "version": "3.0.0",
-      "from": "colors.css@>=3.0.0 <4.0.0",
-      "resolved": "https://registry.npmjs.org/colors.css/-/colors.css-3.0.0.tgz"
     },
     "commander": {
       "version": "2.8.1",
@@ -5170,7 +5140,8 @@
       "dependencies": {
         "esprima": {
           "version": "2.7.2",
-          "from": "esprima@>=2.5.0 <3.0.0"
+          "from": "esprima@2.7.2",
+          "resolved": "https://registry.npmjs.org/esprima/-/esprima-2.7.2.tgz"
         },
         "supports-color": {
           "version": "3.1.2",
