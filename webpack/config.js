@@ -42,7 +42,8 @@ var plugins = [
   new WebpackMd5Hash(),
   new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
   new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "manifest" ] }),
-  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' })
+  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' }),
+  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
 ]
 
 // If we're building for production, minify the JS
