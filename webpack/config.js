@@ -1,6 +1,7 @@
 var path = require("path");
 var webpack = require("webpack");
 var AssetsPlugin = require('assets-webpack-plugin');
+var WebpackMd5Hash = require('webpack-md5-hash');
 
 // Ensure a WEBPACK_HOST is setup since we embed it in the assets.json file
 if(!process.env.WEBPACK_HOST) {
@@ -38,6 +39,7 @@ if(process.env.NODE_ENV == "production") {
 }
 
 var plugins = [
+  new WebpackMd5Hash(),
   new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
   new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "manifest" ] }),
   new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' })
