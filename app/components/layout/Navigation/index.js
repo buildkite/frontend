@@ -39,7 +39,7 @@ class Navigation extends React.Component {
 
   render() {
     return (
-      <div className="border-bottom border-gray bg-silver" style={{fontSize: 13, marginBottom: 25}} data-random={true}>
+      <div className="border-bottom border-gray bg-silver" style={{fontSize: 13, marginBottom: 25}}>
         <div className="container">
           <div className="flex flex-stretch" style={{height: 45}}>
             <span className="flex relative border-right border-gray items-center">
