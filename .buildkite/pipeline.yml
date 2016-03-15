@@ -19,7 +19,7 @@ steps:
 
   - wait
 
-  - name: ":shipit:"
+  - name: ":rocket:"
     command: ".buildkite/deploy.sh"
     branches: "master"
     agents:
