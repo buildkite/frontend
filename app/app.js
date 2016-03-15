@@ -72,15 +72,19 @@ if(window._graphql) {
 window["initializeReactRouter"] = function() {
   // Require the packages we need to setup routing
   let Route = require("react-router").Route;
-  // let IndexRoute = require("react-router").IndexRoute;
+  let IndexRoute = require("react-router").IndexRoute;
   let browserHistory = require("react-router").browserHistory;
   let RelayRouter = require('react-router-relay').RelayRouter;
 
   // The components used in the router
-  // let SectionLoader = require("./components/shared/SectionLoader").default;
   let Main = require("./components/Main").default;
+  let SectionLoader = require("./components/shared/SectionLoader").default;
   let BuildCommentsList = require("./components/build/CommentsList").default;
   let OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
+  let TeamIndex = require("./components/team/Index").default;
+  let TeamNew = require("./components/team/New").default;
+  let TeamShow = require("./components/team/Show").default;
+  let TeamEdit = require("./components/team/Edit").default;
 
   const BuildQuery = () => Relay.QL`
     query {
@@ -94,17 +98,23 @@ window["initializeReactRouter"] = function() {
     }
   `
 
-  // const OrganizationQuery = () => Relay.QL`
-  //   query {
-  //     organization(slug: $organization)
-  //   }
-  // `
+  const OrganizationQuery = () => Relay.QL`
+    query {
+      organization(slug: $organization)
+    }
+  `
 
-  // const handleSectionLoading = () => {
-  //   return (
-  //     <SectionLoader />
-  //   )
-  // }
+  const TeamQuery = () => Relay.QL`
+    query {
+      team(slug: $slug)
+    }
+  `
+
+  const handleSectionLoading = () => {
+    return (
+      <SectionLoader />
+    )
+  }
 
   // Since relay doesn't currently support root fields with multiple
   // parameters, it means we can't have queries like: build(org: "...",
@@ -117,13 +127,27 @@ window["initializeReactRouter"] = function() {
     };
   }
 
+  const prepareTeamParams = (params) => {
+    return {
+      ...params,
+      slug: [ params.organization, params.team ].join("/")
+    };
+  }
+
   // Define and render the routes
   ReactDOM.render(
     <RelayRouter history={browserHistory}>
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
 
       <Route path="/" component={Main}>
-        <Route path="organizations/:organization" component={OrganizationSettingsSection} />
+        <Route path="organizations/:organization" component={OrganizationSettingsSection}>
+          <Route path="teams">
+            <IndexRoute component={TeamIndex} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
+            <Route path="new" component={TeamNew} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
+            <Route path=":team" component={TeamShow} queries={{organization: OrganizationQuery, team: TeamQuery}} prepareParams={prepareTeamParams} renderLoading={handleSectionLoading} />
+            <Route path=":team/edit" component={TeamEdit} queries={{organization: OrganizationQuery, team: TeamQuery}} prepareParams={prepareTeamParams} renderLoading={handleSectionLoading} />
+          </Route>
+        </Route>
       </Route>
     </RelayRouter>
   , document.getElementById('root'));

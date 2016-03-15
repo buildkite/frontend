@@ -33,6 +33,8 @@ const pathNodes = (icon) => {
       return require("./twitter").default;
     case 'chevron-right':
       return require("./chevron-right").default;
+    case 'teams':
+      return require("./teams").default;
     case 'circle':
       return require("./circle").default;
     case 'plus-circle':
