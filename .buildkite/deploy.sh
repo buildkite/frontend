@@ -7,9 +7,9 @@ rm -rf "dist"
 mkdir -p "dist"
 buildkite-agent artifact download "dist/*" "dist/"
 
-echo "--- :s3: Deploying frontend to $DIST_S3_URL"
+echo "--- :s3: Deploying frontend to $S3_URL"
 
-s3cmd put -P --recursive --verbose --force --no-preserve "dist/" "$DIST_S3_URL"
+s3cmd put -P --recursive --verbose --force --no-preserve --exclude="manifest.json" "dist/" "$S3_URL"
 
 echo "--- :wastebasket: Cleaning up.."
 
@@ -54,6 +54,10 @@ for f in tmp/verify/*; do
   fi
 done
 
-echo "--- :s3: Deploying manifests to $MANIFEST_S3_URL$BUILDKITE_COMMIT"
+# Now that we've confirmed the uploads are all good, we'll upload the manifest
+# (which signifies that this deploy has been successful)
+MANIFEST_NAME="manifest-$BUILDKITE_COMMIT.json"
 
-s3cmd put -P --recursive --verbose --force --no-preserve "dist/manifest.json" "$MANIFEST_S3_URL$BUILDKITE_COMMIT/"
+echo "--- :s3: Uploading manifest.json and renaming to $MANIFEST_NAME"
+
+s3cmd put -P --recursive --verbose --force --no-preserve "dist/manifest.json" "$S3_URL$MANIFEST_NAME"
