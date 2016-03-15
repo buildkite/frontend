@@ -48,7 +48,8 @@ var plugins = [
 
 // If we're building for production, minify the JS
 if(process.env.NODE_ENV == "production") {
-  plugins.push(new webpack.optimize.DedupePlugin());
+  // Need this plugin to ensure consistent module ordering so we can have determenistic filename hashes
+  plugins.push(new webpack.optimize.OccurenceOrderPlugin(true));
   plugins.push(new webpack.optimize.UglifyJsPlugin({
     output: {
       comments: false
