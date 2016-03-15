@@ -19,7 +19,7 @@ steps:
 
   - wait
 
-  - name: ":rocket:"
+  - name: ":shipit:"
     command: ".buildkite/deploy.sh"
     artifact_paths: "dist/*"
     branches: "master"
