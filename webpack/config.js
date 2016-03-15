@@ -42,13 +42,12 @@ var plugins = [
   new WebpackMd5Hash(),
   new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
   new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "loader" ] }),
-  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'manifest.json' })
+  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'manifest.json' }),
+  new webpack.NamedModulesPlugin()
 ]
 
 // If we're building for production, minify the JS
 if(process.env.NODE_ENV == "production") {
-  // Need this plugin to ensure consistent module ordering so we can have determenistic filename hashes
-  plugins.push(new webpack.optimize.OccurenceOrderPlugin(true));
   plugins.push(new webpack.optimize.DedupePlugin());
   plugins.push(new webpack.optimize.UglifyJsPlugin({
     output: {
