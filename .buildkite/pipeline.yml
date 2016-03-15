@@ -13,6 +13,7 @@ steps:
 
   - name: ":webpack:"
     command: ".buildkite/webpack.sh"
+    artifact_paths: "dist/*"
     env:
       NODE_ENV: "production"
       WEBPACK_HOST: "/dist/"
