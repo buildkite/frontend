@@ -44,9 +44,9 @@ for f in tmp/verify/*; do
   LOCAL=$(openssl md5 "dist/$NAME" | sed 's/^.* //')
 
   if [[ "$DOWNLOADED" == "$LOCAL" ]]; then
-    echo "✅  $NAME"
+    echo "✅ $NAME"
   else
-    echo "❌  $NAME"
+    echo "❌ $NAME"
     echo "tmp/verify/$NAME isn't the same as dist/$NAME"
     echo "Downloaded version: $DOWNLOADED"
     echo "Local version: $LOCAL"
