@@ -49,6 +49,6 @@ for f in tmp/verify/*; do
   fi
 done
 
-echo "--- :s3: Deploying manifests to $MANIFEST_S3_URL"
+echo "--- :s3: Deploying manifests to $MANIFEST_S3_URL/$BUILDKITE_COMMIT"
 
 s3cmd put -P --recursive --verbose --force --no-preserve "dist/assets.json" "$MANIFEST_S3_URL/$BUILDKITE_COMMIT/"
