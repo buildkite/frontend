@@ -1,3 +1,20 @@
-.border-dark-gray {
-  border-color: var(--dark-gray);
-}
+.border-black     { border-color: var(--black) }
+.border-gray      { border-color: var(--gray) }
+.border-dark-gray { border-color: var(--dark-gray) }
+.border-silver    { border-color: var(--silver) }
+.border-white     { border-color: var(--white) }
+
+.border-aqua  { border-color: var(--aqua) }
+.border-blue  { border-color: var(--blue) }
+.border-navy  { border-color: var(--navy) }
+.border-teal  { border-color: var(--teal) }
+.border-green { border-color: var(--green) }
+.border-olive { border-color: var(--olive) }
+.border-lime  { border-color: var(--lime) }
+
+.border-yellow  { border-color: var(--yellow) }
+.border-orange  { border-color: var(--orange) }
+.border-red     { border-color: var(--red) }
+.border-fuchsia { border-color: var(--fuchsia) }
+.border-purple  { border-color: var(--purple) }
+.border-maroon  { border-color: var(--maroon) }

@@ -1,8 +1,8 @@
 @import 'btn';
 @import 'btn-primary';
 @import 'btn-outline';
-@import 'bg-colors';
-@import 'bg-hover-colors';
+@import 'background-colors';
+@import 'background-hover-colors';
 @import 'border-colors';
 @import 'hover-colors';
 @import 'hover-fading';
@@ -19,22 +19,35 @@
 @import 'colors';
 
 @import 'basscss';
-@import 'basscss-colors';
-@import 'basscss-background-colors';
-@import 'basscss-border-colors';
-@import 'basscss-darken';
-@import 'basscss-lighten';
 
 @import 'container';
 
-/* Override some of the basscss defaults */
 :root {
-  --silver: #F9FAFB;
-  --lime: #7EAF25;
-  --blue: #337ab7;
+  --black:  #111111;
   --gray: #DDDDDD;
   --dark-gray: #8E8E8E;
+  --silver: #F9FAFB;
+  --white:  #FFFFFF;
+
+  --aqua: #7FDBFF;
+  --blue: #337ab7;
+  --navy: #001F3F;
+  --teal: #39CCCC;
+  --green: #2ECC40;
+  --olive: #3D9970;
+  --lime: #7EAF25;
+
+  --yellow: #FFDC00;
+  --orange: #FF851B;
   --red: #a94442;
+  --fuchsia: #F012BE;
+  --purple: #B10DC9;
+  --maroon: #85144B;
+
+  --darken-1: rgba(0, 0, 0, .0625);
+  --darken-2: rgba(0, 0, 0, .125);
+  --darken-3: rgba(0, 0, 0, .25);
+  --darken-4: rgba(0, 0, 0, .5);
 
   --bold-font-weight: 600;
 

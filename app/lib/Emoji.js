@@ -1,7 +1,6 @@
 import escape from 'escape-html';
-
-const APPLE_EMOJIS = require("!!./../../webpack/emoji-loader!./../../vendor/emojis/img-apple-64.json");
-const BUILDKITE_EMOJIS = require("!!./../../webpack/emoji-loader!./../../vendor/emojis/img-buildkite-64.json");
+import BUILDKITE_EMOJIS from '../emojis/buildkite';
+import APPLE_EMOJIS from '../emojis/apple';
 
 const UNICODE_REGEXP = new RegExp('\\ud83c[\\udf00-\\udfff]|\\ud83d[\\udc00-\\ude4f]|\\ud83d[\\ude80-\\udeff]', 'g');
 const COLON_REGEXP = new RegExp('\:[^\\s:]+\:', 'g');

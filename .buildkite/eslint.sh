@@ -9,3 +9,5 @@ npm-cache install npm
 
 echo "--- :eslint: Running eslint"
 npm run lint --silent
+
+echo "👌 Looks good to me!"

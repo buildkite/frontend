@@ -1,15 +1,16 @@
 var path = require("path");
 var webpack = require("webpack");
 var AssetsPlugin = require('assets-webpack-plugin');
+var WebpackMd5Hash = require('webpack-md5-hash');
 
-// Ensure a WEBPACK_HOST is setup since we embed it in the assets.json file
-if(!process.env.WEBPACK_HOST) {
-  throw "No WEBPACK_HOST set";
+// Ensure a FRONTEND_HOST is setup since we embed it in the assets.json file
+if(!process.env.FRONTEND_HOST) {
+  throw "No FRONTEND_HOST set";
 }
 
-// The WEBPACK_HOST must end with a /
-if(process.env.WEBPACK_HOST.slice(-1) != "/") {
-  throw "WEBPACK_HOST must end with a /";
+// The FRONTEND_HOST must end with a /
+if(process.env.FRONTEND_HOST.slice(-1) != "/") {
+  throw "FRONTEND_HOST must end with a /";
 }
 
 // Include a hash of the bundle in the name when we're building these files for
@@ -19,10 +20,13 @@ if(process.env.WEBPACK_HOST.slice(-1) != "/") {
 // folder with every hashed version of files we've changed (webpack doesn't
 // clean up after itself)
 var filenameFormat
+var chunkFilename
 if(process.env.NODE_ENV == "production") {
-  filenameFormat = "[name]-[hash].js"
+  filenameFormat = "[name]-[chunkhash].js"
+  chunkFilename = "[id]-[chunkhash].js"
 } else {
   filenameFormat = "[name].js"
+  chunkFilename = "[id].js"
 }
 
 // Toggle between the devtool if on prod/dev since cheap-module-eval-source-map
@@ -35,14 +39,26 @@ if(process.env.NODE_ENV == "production") {
 }
 
 var plugins = [
+  new WebpackMd5Hash(),
   new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
-  new webpack.optimize.CommonsChunkPlugin("vendor", filenameFormat),
-  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' })
+  new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "loader" ] }),
+  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'manifest.json' })
 ]
 
 // If we're building for production, minify the JS
 if(process.env.NODE_ENV == "production") {
-  plugins.push(new webpack.optimize.UglifyJsPlugin({minimize: true}));
+  // Need this plugin to ensure consistent module ordering so we can have determenistic filename hashes
+  plugins.push(new webpack.optimize.OccurenceOrderPlugin(true));
+  plugins.push(new webpack.optimize.DedupePlugin());
+  plugins.push(new webpack.optimize.UglifyJsPlugin({
+    output: {
+      comments: false
+    },
+    compress: {
+      warnings: false,
+      screw_ie8: true
+    }
+  }));
 }
 
 module.exports = {
@@ -51,18 +67,20 @@ module.exports = {
   devtool: devTool,
 
   entry: {
-    app: path.join(__dirname, './../app/app.js'),
     vendor: ["classnames", "react", "react-dom", "react-relay", "react-router",
       "react-router-relay", "history", "graphql", "graphql-relay",
       "moment", "object-assign", "eventemitter3", "pusher-js",
       "whatwg-fetch", "es6-error", "escape-html", "react-addons-update",
-      "react-document-title", "bugsnag-js", "deepmerge"]
+      "react-document-title", "bugsnag-js", "deepmerge"],
+    emojis: [ path.join(__dirname, './../app/emojis/buildkite.js'), path.join(__dirname, './../app/emojis/apple.js') ],
+    app: path.join(__dirname, './../app/app.js')
   },
 
   output: {
     filename: filenameFormat,
+    chunkFilename: chunkFilename,
     path: path.join(__dirname, '..', 'dist'),
-    publicPath: process.env.WEBPACK_HOST
+    publicPath: process.env.FRONTEND_HOST
   },
 
   module: {

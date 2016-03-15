@@ -10,3 +10,6 @@ npm-debug.log
 
 # Webpack
 dist
+
+# Temp folders
+tmp
