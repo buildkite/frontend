@@ -1,11 +1,23 @@
 #!/bin/bash
-set -euo pipefail
+set -e
 
-# Start with a clean slate
+echo "--- :buildkite: Downloading webpack artifacts"
+
+rm -rf "dist"
+mkdir -p "dist"
+buildkite-agent artifact download "dist/*" "dist/"
+
+echo "--- :s3: Deploying frontend to $DIST_S3_URL"
+
+s3cmd put -P --recursive --verbose --force --no-preserve "dist/" "$DIST_S3_URL"
+echo "All deployed! 💪"
+
+echo "--- :wastebasket: Cleaning up.."
+
 rm -rf "tmp/verify"
 mkdir -p "tmp/verify"
 
-echo "--- :earth_asia: Downloading..."
+echo "--- :earth_asia: Downloading files from $FRONTEND_HOST..."
 
 # Download the files in assets.json
 for url in $(cat dist/assets.json | jq -r '.[].js'); do
@@ -18,7 +30,7 @@ for url in $(cat dist/assets.json | jq -r '.[].js'); do
   popd >> /dev/null
 done
 
-echo "--- :mag: Verifiying..."
+echo "--- :mag: Verifiying the files uploaded match the downloads"
 
 # Check that the files are the same
 for f in tmp/verify/*; do
@@ -37,3 +49,7 @@ for f in tmp/verify/*; do
     exit 1
   fi
 done
+
+echo "--- :s3: Deploying manifests to $MANIFEST_S3_URL"
+
+echo "TODO"

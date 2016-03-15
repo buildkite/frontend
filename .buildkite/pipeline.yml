@@ -15,6 +15,13 @@ steps:
     command: ".buildkite/webpack.sh"
     artifact_paths: "dist/*"
     env:
-      NODE_ENV: "production"
-      WEBPACK_HOST: "/dist/"
-      EMOJI_HOST: "/emojis/"
+      NODE_ENV: production
+
+  - wait
+
+  - name: ":deploy:"
+    command: ".buildkite/deploy.sh"
+    artifact_paths: "dist/*"
+    branches: "master"
+    agents:
+      queue: "deploy"

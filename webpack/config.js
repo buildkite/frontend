@@ -3,14 +3,14 @@ var webpack = require("webpack");
 var AssetsPlugin = require('assets-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
 
-// Ensure a WEBPACK_HOST is setup since we embed it in the assets.json file
-if(!process.env.WEBPACK_HOST) {
-  throw "No WEBPACK_HOST set";
+// Ensure a FRONTEND_HOST is setup since we embed it in the assets.json file
+if(!process.env.FRONTEND_HOST) {
+  throw "No FRONTEND_HOST set";
 }
 
-// The WEBPACK_HOST must end with a /
-if(process.env.WEBPACK_HOST.slice(-1) != "/") {
-  throw "WEBPACK_HOST must end with a /";
+// The FRONTEND_HOST must end with a /
+if(process.env.FRONTEND_HOST.slice(-1) != "/") {
+  throw "FRONTEND_HOST must end with a /";
 }
 
 // Include a hash of the bundle in the name when we're building these files for
@@ -80,7 +80,7 @@ module.exports = {
     filename: filenameFormat,
     chunkFilename: chunkFilename,
     path: path.join(__dirname, '..', 'dist'),
-    publicPath: process.env.WEBPACK_HOST
+    publicPath: process.env.FRONTEND_HOST
   },
 
   module: {
