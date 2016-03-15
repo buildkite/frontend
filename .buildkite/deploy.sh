@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Add the MD5 sum of the webpack file to the host path
-WEBPACK_CONFIG_MD5=$(openssl md5 webpack/config.js | sed 's/^.* //')
+# Add the SHA1 sum of the webpack file to the host path
+WEBPACK_CONFIG_SHA1=$(openssl sha1 webpack/config.js | sed 's/^.* //')
 
 echo "--- :buildkite: Downloading webpack artifacts"
 
@@ -10,16 +10,16 @@ rm -rf "dist"
 mkdir -p "dist"
 buildkite-agent artifact download "dist/*" "dist/"
 
-echo "--- :s3: Deploying frontend to $S3_URL$WEBPACK_CONFIG_MD5/"
+echo "--- :s3: Deploying frontend to $S3_URL$WEBPACK_CONFIG_SHA1/"
 
-s3cmd put -P --recursive --verbose --force --no-preserve --exclude="manifest.json" "dist/" "$S3_URL$WEBPACK_CONFIG_MD5/"
+s3cmd put -P --recursive --verbose --force --no-preserve --exclude="manifest.json" "dist/" "$S3_URL$WEBPACK_CONFIG_SHA1/"
 
 echo "--- :wastebasket: Cleaning up.."
 
 rm -rf "tmp/verify"
 mkdir -p "tmp/verify"
 
-echo "--- :earth_asia: Downloading files from $FRONTEND_HOST$WEBPACK_CONFIG_MD5/"
+echo "--- :earth_asia: Downloading files from $FRONTEND_HOST$WEBPACK_CONFIG_SHA1/"
 
 if [ ! -f "dist/manifest.json" ]; then
   echo "❌ Couldn't find dist/manifest.json"
@@ -43,11 +43,11 @@ echo "--- :mag: Verifiying the files uploaded match the downloads"
 for f in tmp/verify/*; do
   NAME=$(basename $f)
 
-  DOWNLOADED=$(openssl md5 "tmp/verify/$NAME" | sed 's/^.* //')
-  LOCAL=$(openssl md5 "dist/$NAME" | sed 's/^.* //')
+  DOWNLOADED=$(openssl sha1 "tmp/verify/$NAME" | sed 's/^.* //')
+  LOCAL=$(openssl sha1 "dist/$NAME" | sed 's/^.* //')
 
   if [[ "$DOWNLOADED" == "$LOCAL" ]]; then
-    echo "✅ $NAME"
+    echo "✅ $NAME ($DOWNLOADED)"
   else
     echo "❌ $NAME"
     echo "tmp/verify/$NAME isn't the same as dist/$NAME"
@@ -63,6 +63,6 @@ MANIFEST_NAME="manifest-$BUILDKITE_COMMIT.json"
 
 echo "--- :s3: Uploading manifest.json and renaming to $MANIFEST_NAME"
 
-# The manifest.json file won't get uploaded to the webpack MD5'd folder beacuse
+# The manifest.json file won't get uploaded to the webpack SHA1'd folder beacuse
 # the name already includes the build commit which is always unique.
 s3cmd put -P --recursive --verbose --force --no-preserve "dist/manifest.json" "$S3_URL$MANIFEST_NAME"
