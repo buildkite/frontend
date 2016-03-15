@@ -88,16 +88,18 @@ class Row extends React.Component {
   };
 
   handleMemberRemove = (e) => {
-    e.preventDefault();
-    this.setState({ removing: true });
+    if(confirm("Remove this user from the team?")) {
+      e.preventDefault();
+      this.setState({ removing: true });
 
-    this.props.onRemoveClick(this.props.member, (error) => {
-      this.setState({ removing: false });
+      this.props.onRemoveClick(this.props.member, (error) => {
+        this.setState({ removing: false });
 
-      if(error) {
-        FlashesStore.flash(FlashesStore.ERROR, error);
-      }
-    });
+        if(error) {
+          FlashesStore.flash(FlashesStore.ERROR, error);
+        }
+      });
+    }
   };
 }
 

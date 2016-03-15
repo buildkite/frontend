@@ -51,17 +51,19 @@ class Row extends React.Component {
   }
 
   handlePipelineRemove = (e) => {
-    e.preventDefault();
+    if(confirm("Remove the pipeline from this team?")) {
+      e.preventDefault();
 
-    this.setState({ removing: true });
+      this.setState({ removing: true });
 
-    this.props.onRemoveClick(this.props.pipeline, (error) => {
-      this.setState({ removing: false });
+      this.props.onRemoveClick(this.props.pipeline, (error) => {
+        this.setState({ removing: false });
 
-      if(error) {
-        FlashesStore.flash(FlashesStore.ERROR, error);
-      }
-    });
+        if(error) {
+          FlashesStore.flash(FlashesStore.ERROR, error);
+        }
+      });
+    }
   };
 }
 
