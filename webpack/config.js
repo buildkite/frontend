@@ -43,7 +43,8 @@ var plugins = [
   new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
   new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "loader" ] }),
   new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'manifest.json' }),
-  new webpack.NamedModulesPlugin()
+  new webpack.NamedModulesPlugin(),
+  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/) // Ensures only moments "en" package is included (saves 200kb in final compilation)
 ]
 
 // If we're building for production, minify the JS
