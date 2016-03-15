@@ -41,7 +41,7 @@ if(process.env.NODE_ENV == "production") {
 var plugins = [
   new WebpackMd5Hash(),
   new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
-  new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "webpack" ] }),
+  new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "loader" ] }),
   new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'manifest.json' })
 ]
 

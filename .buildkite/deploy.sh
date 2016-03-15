@@ -18,8 +18,13 @@ mkdir -p "tmp/verify"
 
 echo "--- :earth_asia: Downloading files from $FRONTEND_HOST"
 
-# Download the files in assets.json
-for url in $(cat dist/assets.json | jq -r '.[].js'); do
+if [ ! -f "dist/manifest.json" ]; then
+  echo "❌ Couldn't find dist/manifest.json"
+  exit 1
+fi
+
+# Download the files in manifest.json
+for url in $(cat dist/manifest.json | jq -r '.[].js'); do
   # Make sure the URL is prefixed with https (if it's just got //)
   URL=$(echo $url | sed -e 's/^\/\//https:\/\//')
 
@@ -49,6 +54,6 @@ for f in tmp/verify/*; do
   fi
 done
 
-echo "--- :s3: Deploying manifests to $MANIFEST_S3_URL/$BUILDKITE_COMMIT"
+echo "--- :s3: Deploying manifests to $MANIFEST_S3_URL$BUILDKITE_COMMIT"
 
-s3cmd put -P --recursive --verbose --force --no-preserve "dist/assets.json" "$MANIFEST_S3_URL/$BUILDKITE_COMMIT/"
+s3cmd put -P --recursive --verbose --force --no-preserve "dist/manifest.json" "$MANIFEST_S3_URL$BUILDKITE_COMMIT/"
