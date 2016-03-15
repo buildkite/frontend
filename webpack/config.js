@@ -41,8 +41,8 @@ if(process.env.NODE_ENV == "production") {
 var plugins = [
   new WebpackMd5Hash(),
   new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
-  new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "manifest" ] }),
-  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'assets.json' })
+  new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "webpack" ] }),
+  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'manifest.json' })
 ]
 
 // If we're building for production, minify the JS

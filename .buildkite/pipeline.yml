@@ -21,7 +21,6 @@ steps:
 
   - name: ":shipit:"
     command: ".buildkite/deploy.sh"
-    artifact_paths: "dist/*"
     branches: "master"
     agents:
       queue: "deploy"
