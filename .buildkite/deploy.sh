@@ -1,22 +1,25 @@
 #!/bin/bash
 set -e
 
+# Add the MD5 sum of the webpack file to the host path
+WEBPACK_CONFIG_MD5=$(openssl md5 webpack/config.js | sed 's/^.* //')
+
 echo "--- :buildkite: Downloading webpack artifacts"
 
 rm -rf "dist"
 mkdir -p "dist"
 buildkite-agent artifact download "dist/*" "dist/"
 
-echo "--- :s3: Deploying frontend to $S3_URL"
+echo "--- :s3: Deploying frontend to $S3_URL$WEBPACK_CONFIG_MD5/"
 
-s3cmd put -P --recursive --verbose --force --no-preserve --exclude="manifest.json" "dist/" "$S3_URL"
+s3cmd put -P --recursive --verbose --force --no-preserve --exclude="manifest.json" "dist/" "$S3_URL$WEBPACK_CONFIG_MD5/"
 
 echo "--- :wastebasket: Cleaning up.."
 
 rm -rf "tmp/verify"
 mkdir -p "tmp/verify"
 
-echo "--- :earth_asia: Downloading files from $FRONTEND_HOST"
+echo "--- :earth_asia: Downloading files from $FRONTEND_HOST$WEBPACK_CONFIG_MD5/"
 
 if [ ! -f "dist/manifest.json" ]; then
   echo "❌ Couldn't find dist/manifest.json"
@@ -60,4 +63,6 @@ MANIFEST_NAME="manifest-$BUILDKITE_COMMIT.json"
 
 echo "--- :s3: Uploading manifest.json and renaming to $MANIFEST_NAME"
 
+# The manifest.json file won't get uploaded to the webpack MD5'd folder beacuse
+# the name already includes the build commit which is always unique.
 s3cmd put -P --recursive --verbose --force --no-preserve "dist/manifest.json" "$S3_URL$MANIFEST_NAME"
