@@ -11,4 +11,4 @@ echo "--- :webpack: Building webpack assets"
 ./node_modules/.bin/webpack -p --config webpack/config.js --progress --bail
 
 echo "--- :javascript: Checking valid JS"
-node --check dist/*
+node --check dist/* && echo "👍 Javascript looks valid!"
