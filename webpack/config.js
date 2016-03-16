@@ -38,17 +38,54 @@ if(process.env.NODE_ENV == "production") {
 }
 
 var plugins = [
+  // Only add the 'whatwg-fetch' plugin if the browser doesn't support it
   new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
+
+  // Split emojis, vendor javascript up. The loader JS doesn't have any modules
+  // inside it, but since it's the last one, that's where Webpack will dump all
+  // of it's bootstrapping JS. This file will change on every compilation.
   new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "loader" ] }),
-  new AssetsPlugin({ path: path.join(__dirname, '..', 'dist'), filename: 'manifest.json' }),
+
+  // After Webpack compilation, spit out a 'manifest.json' file with a mapping
+  // of file name, to compiled name.
+  new AssetsPlugin({
+    path: path.join(__dirname, '..', 'dist'),
+    filename: 'manifest.json'
+  }),
+
+  // By default, Webpack uses numerical ID's for it's internal module
+  // identification. When you add a module, everything gets shift by 1, which
+  // means you end up having a different 'vendor.js' file, if you changed a
+  // module in 'app.js', since all the ID's are now +1. NamedModulesPlugin uses
+  // the name of the plugin instead of a id, the only problem with this, is
+  // that it bloats file size, because instead of "1" being the ID, it's now
+  // "../../node_modules/react/index.js" or something. In saying that though,
+  // after gzipping, it's not a real problem.
   new webpack.NamedModulesPlugin(),
-  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/) // Ensures only moments "en" package is included (saves 200kb in final compilation)
+
+  // Ensures only moments "en" package is included (saves 200kb in final compilation)
+  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+
+  // When you set NODE_ENV=production, that only sets it for the Webpack NodeJS
+  // environment. We need to also send the variable to the JS compilation
+  // inside Babel, so packages like React know now to include development
+  // helpers. Doing this greatly reduces file size, and makes React faster
+  // since it doesn't have to do a ton of type checking (which it only does to
+  // help developers with error messages)
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }
+  })
 ]
 
 // If we're building for production, minify the JS
 if(process.env.NODE_ENV == "production") {
-  // Need this plugin to ensure consistent module ordering so we can have determenistic filename hashes
+  // Need this plugin to ensure consistent module ordering so we can have
+  // determenistic filename hashes
   plugins.push(new webpack.optimize.OccurenceOrderPlugin(true));
+
+  // You're basic, run-of-the-mill, JS uglifier
   plugins.push(new webpack.optimize.UglifyJsPlugin({
     output: {
       comments: false
