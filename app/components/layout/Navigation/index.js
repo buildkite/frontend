@@ -193,20 +193,13 @@ class Navigation extends React.Component {
   renderOrganizationSettingsButton() {
     let organization = this.props.organization;
 
-    // Returns the first permission that's allowed. First, we'll try and render
-    // the "Settings" button as is, which requires all the permissions to be
-    // allowed. If that doesn't work, see if they _just_ have the teamAdmin
-    // permission, and show them a nice "Team Settings" button. If both of
-    // those don't work, but they do have any other permission, show the
-    // regular settings button.
+    // The settings page will redirect to the first section the user has access
+    // to. If they _just_ have teams admin enabled, skip the redirect and go
+    // straight to the teams page.
     return permissions(organization.permissions).first(
       {
-        all: true,
-        render: () => <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
-      },
-      {
         only: "teamAdmin",
-        render: () => <NavigationButton href={`/organizations/${organization.slug}/teams`}>Teams</NavigationButton>
+        render: () => <NavigationButton href={`/organizations/${organization.slug}/teams`}>Settings</NavigationButton>
       },
       {
         any: true,
