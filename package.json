@@ -50,8 +50,7 @@
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0",
-    "webpack-md5-hash": "0.0.5"
+    "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
     "babel-polyfill": "^6.6.1",
