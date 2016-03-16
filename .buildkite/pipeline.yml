@@ -22,5 +22,6 @@ steps:
   - name: ":rocket:"
     command: ".buildkite/deploy.sh"
     branches: "master"
+    artifact_paths: "tmp/verify/*"
     agents:
       queue: "deploy"

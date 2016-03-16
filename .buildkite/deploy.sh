@@ -57,6 +57,10 @@ for f in tmp/verify/*; do
   fi
 done
 
+# If we've gotten this far, the verification was A-OK, and we should remove the
+# tmp/verify folder (so it won't get uploaded as BK artifacts)
+rm -rf "tmp/verify"
+
 # Now that we've confirmed the uploads are all good, we'll upload the manifest
 # (which signifies that this deploy has been successful)
 MANIFEST_NAME="manifest-$BUILDKITE_COMMIT.json"
