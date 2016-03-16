@@ -50,19 +50,29 @@ class Row extends React.Component {
     }
   }
 
+  performPipelineRemove = (force) => {
+    this.setState({ removing: true });
+
+    this.props.onRemoveClick(this.props.pipeline, force, (error) => {
+      this.setState({ removing: false });
+
+      if(error) {
+        if(!force && error.source && error.source.type == "must_force_error") {
+          if (confirm(error.source.errors[0].message + "\n\nAre you sure you want to remove this pipeline from this team?")) {
+            this.performPipelineRemove(true);
+          }
+        } else {
+          FlashesStore.flash(FlashesStore.ERROR, error);
+        }
+      }
+    });
+  };
+
   handlePipelineRemove = (e) => {
     if(confirm("Remove the pipeline from this team?")) {
       e.preventDefault();
 
-      this.setState({ removing: true });
-
-      this.props.onRemoveClick(this.props.pipeline, (error) => {
-        this.setState({ removing: false });
-
-        if(error) {
-          FlashesStore.flash(FlashesStore.ERROR, error);
-        }
-      });
+      this.performPipelineRemove(false);
     }
   };
 }
