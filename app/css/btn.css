@@ -21,6 +21,11 @@
   outline: none;
 }
 
+.btn .emoji {
+  margin-top: -4px;
+  margin-bottom: -2px;
+}
+
 ::-moz-focus-inner {
   border: 0;
   padding: 0;
