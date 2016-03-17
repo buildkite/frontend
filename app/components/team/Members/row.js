@@ -39,9 +39,7 @@ class Row extends React.Component {
     return (
       <Panel.Row>
 	<User user={this.props.member.user} teamAdmin={this.props.member.admin} />
-        <Panel.RowActions>
-          {this.renderActions()}
-        </Panel.RowActions>
+        <Panel.RowActions>{this.renderActions()}</Panel.RowActions>
       </Panel.Row>
     );
   }

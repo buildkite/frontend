@@ -10,6 +10,10 @@ class RowActions extends React.Component {
   render() {
     let children = React.Children.toArray(this.props.children);
 
+    // Since this component is a wrapper for other components, we can't return
+    // null if there aren't any children (otherwise React seems to bork).
+    // Returning a <noscript> if there's nothing to render seems to do the
+    // trick!
     if(children.length > 0) {
       return (
         <div>
@@ -17,7 +21,7 @@ class RowActions extends React.Component {
         </div>
       );
     } else {
-      return null;
+      return <noscript />;
     }
   }
 }

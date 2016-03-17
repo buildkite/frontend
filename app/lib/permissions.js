@@ -98,7 +98,7 @@ class PermissionManager {
       if(result) results.push(result);
     }
 
-    return (results.length > 0) ? results : null;
+    return results;
   }
 
   find(key) {
