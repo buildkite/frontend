@@ -6,7 +6,7 @@ import IntroWithButton from "./intro-with-button";
 import Row from "./row";
 import RowActions from "./row-actions";
 import RowLink from "./row-link";
-import Body from "./body";
+import Section from "./section";
 import Footer from "./footer";
 
 class Panel extends React.Component {
@@ -29,7 +29,7 @@ Panel.IntroWithButton = IntroWithButton;
 Panel.RowLink = RowLink;
 Panel.Row = Row;
 Panel.RowActions = RowActions;
-Panel.Body = Body;
+Panel.Section = Section;
 Panel.Footer = Footer;
 
 export default Panel;

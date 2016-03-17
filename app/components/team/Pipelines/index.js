@@ -50,7 +50,7 @@ class Pipelines extends React.Component {
         )
       });
     } else {
-      return <Panel.Body className="dark-gray">There are no pipelines assigned to this team</Panel.Body>
+      return <Panel.Section className="dark-gray">There are no pipelines assigned to this team</Panel.Section>
     }
   }
 
@@ -59,13 +59,13 @@ class Pipelines extends React.Component {
       {
         allowed: "teamPipelineCreate",
         render: () => (
-          <Panel.Body>
+          <Panel.Section>
             <FormAutoCompleteField onSearch={this.handlePipelineSearch}
               onSelect={this.handlePipelineSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
               placeholder="Add existing pipeline to this team…"
               ref={c => this._autoCompletor = c} />
-          </Panel.Body>
+          </Panel.Section>
         )
       }
     );

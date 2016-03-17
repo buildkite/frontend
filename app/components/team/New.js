@@ -39,13 +39,13 @@ class New extends React.Component {
           </PageHeader>
 
           <Panel>
-            <Panel.Body>
+            <Panel.Section>
               <TeamForm
                 onChange={this.handleFormChange}
                 errors={this.state.errors}
                 name={this.state.name}
                 description={this.state.description} />
-            </Panel.Body>
+            </Panel.Section>
 
             <Panel.Footer>
               <Button loading={this.state.saving ? "Creating team…" : false}>Create Team</Button>

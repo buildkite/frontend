@@ -1,8 +1,8 @@
 import React from "react";
 import classNames from "classnames";
 
-class Body extends React.Component {
-  static displayName = "Panel.Body";
+class Section extends React.Component {
+  static displayName = "Panel.Section";
 
   static propTypes = {
     children: React.PropTypes.node.isRequired,
@@ -20,4 +20,4 @@ class Body extends React.Component {
   }
 }
 
-export default Body;
+export default Section;

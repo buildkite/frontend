@@ -51,7 +51,7 @@ class Members extends React.Component {
         )
       })
     } else {
-      return <Panel.Body className="dark-gray">There are no users assigned to this team</Panel.Body>
+      return <Panel.Section className="dark-gray">There are no users assigned to this team</Panel.Section>
     }
   }
 
@@ -60,13 +60,13 @@ class Members extends React.Component {
       {
         allowed: "teamMemberCreate",
         render: () => (
-          <Panel.Body>
+          <Panel.Section>
             <FormAutoCompleteField onSearch={this.handleUserSearch}
               onSelect={this.handleUserSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
               placeholder="Add existing user to this team…"
               ref={c => this._autoCompletor = c} />
-          </Panel.Body>
+          </Panel.Section>
         )
       }
     );
