@@ -26,9 +26,7 @@ class Show extends React.Component {
       slug: React.PropTypes.string.isRequired,
       permissions: React.PropTypes.shape({
         teamUpdate: React.PropTypes.object.isRequired,
-        teamDelete: React.PropTypes.object.isRequired,
-        teamPipelineCreate: React.PropTypes.object.isRequired,
-        teamMemberCreate: React.PropTypes.object.isRequired
+        teamDelete: React.PropTypes.object.isRequired
       }).isRequired
     })
   };
@@ -59,8 +57,8 @@ class Show extends React.Component {
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
-          {this.renderMembers()}
-          {this.renderPipelines()}
+          <Members team={this.props.team} className="mb4" />
+          <Pipelines team={this.props.team} />
         </div>
       </DocumentTitle>
     );
@@ -79,24 +77,6 @@ class Show extends React.Component {
         render: (idx) => (
           <PageHeader.Button key={idx} loading={this.state.removing ? "Deleting…" : false} onClick={this.handleRemoveTeamClick}>Delete</PageHeader.Button>
         )
-      }
-    )
-  }
-
-  renderMembers() {
-    return permissions(this.props.team.permissions).check(
-      {
-        allowed: "teamMemberCreate",
-        render: () => <Members team={this.props.team} className="mb4" />
-      }
-    )
-  }
-
-  renderPipelines() {
-    return permissions(this.props.team.permissions).check(
-      {
-        allowed: "teamPipelineCreate",
-        render: () => <Pipelines team={this.props.team} />
       }
     )
   }
@@ -165,12 +145,6 @@ export default Relay.createContainer(Show, {
             allowed
           }
           teamDelete {
-            allowed
-          }
-          teamPipelineCreate {
-            allowed
-          }
-          teamMemberCreate {
             allowed
           }
         }

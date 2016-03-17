@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 
 import Panel from '../../shared/Panel';
 import FormAutoCompleteField from '../../shared/FormAutoCompleteField';
+import permissions from '../../../lib/permissions';
 
 import TeamMemberCreateMutation from '../../../mutations/TeamMemberCreate';
 import TeamMemberUpdateMutation from '../../../mutations/TeamMemberUpdate';
@@ -19,7 +20,10 @@ class Members extends React.Component {
       members: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
       }).isRequired,
-      organization: React.PropTypes.object.isRequired
+      organization: React.PropTypes.object.isRequired,
+      permissions: React.PropTypes.shape({
+        teamMemberCreate: React.PropTypes.object.isRequired
+      }).isRequired
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
     className: React.PropTypes.string
@@ -33,21 +37,38 @@ class Members extends React.Component {
     return (
       <Panel className={this.props.className}>
         <Panel.Header>Members</Panel.Header>
-        <Panel.Body>
-          <FormAutoCompleteField onSearch={this.handleUserSearch}
-            onSelect={this.handleUserSelect}
-            items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
-            placeholder="Add user to this team…"
-            ref={c => this._autoCompletor = c} />
-        </Panel.Body>
-        {
-          this.props.team.members.edges.map((edge) => {
-            return (
-              <Row key={edge.node.id} member={edge.node} onRemoveClick={this.handleTeamMemberRemove} onTeamAdminToggle={this.handleTeamAdminToggle} relay={this.props.relay} />
-              )
-          })
-        }
+        {this.renderAutoComplete()}
+        {this.renderMembers()}
       </Panel>
+    );
+  }
+
+  renderMembers() {
+    if(this.props.team.members.edges.length > 0) {
+      return this.props.team.members.edges.map((edge) => {
+        return (
+          <Row key={edge.node.id} member={edge.node} onRemoveClick={this.handleTeamMemberRemove} onTeamAdminToggle={this.handleTeamAdminToggle} relay={this.props.relay} />
+        )
+      })
+    } else {
+      return <Panel.Body className="dark-gray">There are no users assigned to this team</Panel.Body>
+    }
+  }
+
+  renderAutoComplete() {
+    return permissions(this.props.team.permissions).check(
+      {
+        allowed: "teamMemberCreate",
+        render: () => (
+          <Panel.Body>
+            <FormAutoCompleteField onSearch={this.handleUserSearch}
+              onSelect={this.handleUserSelect}
+              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
+              placeholder="Add existing user to this team…"
+              ref={c => this._autoCompletor = c} />
+          </Panel.Body>
+        )
+      }
     );
   }
 
@@ -117,6 +138,7 @@ export default Relay.createContainer(Members, {
     team: () => Relay.QL`
       fragment on Team {
         ${TeamMemberCreateMutation.getFragment('team')}
+
 	organization {
 	  members(search: $search, first: 10) {
 	    edges {
@@ -134,6 +156,13 @@ export default Relay.createContainer(Members, {
 	    }
 	  }
 	}
+
+        permissions {
+          teamMemberCreate {
+            allowed
+          }
+        }
+
 	members(first: 100) {
 	  edges {
 	    node {

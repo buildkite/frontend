@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 
 import Panel from '../../shared/Panel';
 import FormAutoCompleteField from '../../shared/FormAutoCompleteField';
+import permissions from '../../../lib/permissions';
 
 import TeamPipelineCreateMutation from '../../../mutations/TeamPipelineCreate';
 import TeamPipelineDeleteMutation from '../../../mutations/TeamPipelineDelete';
@@ -18,7 +19,10 @@ class Pipelines extends React.Component {
       pipelines: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
       }).isRequired,
-      organization: React.PropTypes.object.isRequired
+      organization: React.PropTypes.object.isRequired,
+      permissions: React.PropTypes.shape({
+        teamPipelineCreate: React.PropTypes.object.isRequired
+      }).isRequired
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
     className: React.PropTypes.string
@@ -32,21 +36,38 @@ class Pipelines extends React.Component {
     return (
       <Panel className={this.props.className}>
         <Panel.Header>Pipelines</Panel.Header>
-        <Panel.Body>
-          <FormAutoCompleteField onSearch={this.handlePipelineSearch}
-            onSelect={this.handlePipelineSelect}
-            items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
-            placeholder="Add pipeline to this team…"
-            ref={c => this._autoCompletor = c} />
-        </Panel.Body>
-        {
-          this.props.team.pipelines.edges.map((edge) => {
-            return (
-              <Row key={edge.node.id} pipeline={edge.node} onRemoveClick={this.handleTeamPipelineRemove} relay={this.props.relay} />
-              )
-          })
-        }
+        {this.renderAutoComplete()}
+        {this.renderPipelines()}
       </Panel>
+    );
+  }
+
+  renderPipelines() {
+    if(this.props.team.pipelines.edges.length > 0) {
+      return this.props.team.pipelines.edges.map((edge) => {
+        return (
+          <Row key={edge.node.id} pipeline={edge.node} onRemoveClick={this.handleTeamPipelineRemove} relay={this.props.relay} />
+        )
+      });
+    } else {
+      return <Panel.Body className="dark-gray">There are no pipelines assigned to this team</Panel.Body>
+    }
+  }
+
+  renderAutoComplete() {
+    return permissions(this.props.team.permissions).check(
+      {
+        allowed: "teamPipelineCreate",
+        render: () => (
+          <Panel.Body>
+            <FormAutoCompleteField onSearch={this.handlePipelineSearch}
+              onSelect={this.handlePipelineSelect}
+              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
+              placeholder="Add existing pipeline to this team…"
+              ref={c => this._autoCompletor = c} />
+          </Panel.Body>
+        )
+      }
     );
   }
 
@@ -114,6 +135,7 @@ export default Relay.createContainer(Pipelines, {
     team: () => Relay.QL`
       fragment on Team {
         ${TeamPipelineCreateMutation.getFragment('team')}
+
         organization {
           pipelines(search: $search, first: 10) {
             edges {
@@ -126,6 +148,13 @@ export default Relay.createContainer(Pipelines, {
             }
           }
         }
+
+        permissions {
+          teamPipelineCreate {
+            allowed
+          }
+        }
+
         pipelines(first: 100) {
           edges {
             node {
@@ -134,6 +163,14 @@ export default Relay.createContainer(Pipelines, {
                 id
                 name
                 repository
+              }
+              permissions {
+                teamPipelineUpdate {
+                  allowed
+                }
+                teamPipelineDelete {
+                  allowed
+                }
               }
               ${TeamPipelineDeleteMutation.getFragment('teamPipeline')}
             }

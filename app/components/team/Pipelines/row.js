@@ -5,6 +5,7 @@ import Button from '../../shared/Button';
 import Icon from '../../shared/Icon';
 
 import FlashesStore from '../../../stores/FlashesStore';
+import permissions from '../../../lib/permissions';
 
 import Pipeline from './pipeline';
 
@@ -13,7 +14,12 @@ class Row extends React.Component {
 
   static propTypes = {
     pipeline: React.PropTypes.shape({
-      pipeline: React.PropTypes.object.isRequired
+      pipeline: React.PropTypes.object.isRequired,
+      permissions: React.PropTypes.shape({
+        teamPipelineDelete: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired
+      })
     }).isRequired,
     onRemoveClick: React.PropTypes.func.isRequired,
     relay: React.PropTypes.object.isRequired
@@ -43,10 +49,13 @@ class Row extends React.Component {
         <Icon icon="spinner" className="dark-gray animation-spin" style={{width: 18, height: 18}} />
       );
     } else {
-      return (
-        <Button loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true}
-          onClick={this.handlePipelineRemove}>Remove</Button>
-      );
+      return permissions(this.props.pipeline.permissions).check({
+        allowed: "teamPipelineDelete",
+        render: () => (
+          <Button loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true}
+            onClick={this.handlePipelineRemove}>Remove</Button>
+        )
+      });
     }
   }
 
