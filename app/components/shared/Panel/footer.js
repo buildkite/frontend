@@ -9,7 +9,7 @@ class Footer extends React.Component {
 
   render() {
     return (
-      <div className="border-top border-gray py2 px3">
+      <div className="py2 px3">
         {this.props.children}
       </div>
     );

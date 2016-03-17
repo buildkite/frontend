@@ -22,13 +22,11 @@ class Row extends React.Component {
     });
 
     return (
-      <div className="border-gray border-top">
-        <div className="py2 px3 flex items-center">
-          <div className="flex-auto">
-            {nodes}
-          </div>
-          {actions}
+      <div className="py2 px3 flex items-center">
+        <div className="flex-auto">
+          {nodes}
         </div>
+        {actions}
       </div>
     );
   }

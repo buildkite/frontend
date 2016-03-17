@@ -16,9 +16,21 @@ class Panel extends React.Component {
   };
 
   render() {
+    let children = React.Children.toArray(this.props.children);
+
+    // Insert a seperator between each section
+    let nodes = [];
+    var k = 0;
+    for(var i = 0, l = children.length; i < l; i++) {
+      if(i > 0) {
+	nodes.push(<hr key={k += 1} className="p0 m0 bg-gray" style={{border: "none", height: 1}} />);
+      }
+      nodes.push(children[i]);
+    }
+
     return (
       <section className={classNames("border border-gray rounded", this.props.className)}>
-        {this.props.children}
+        {nodes}
       </section>
     );
   }
