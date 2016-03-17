@@ -15,25 +15,11 @@
           "description": "The query root for this schema",
           "fields": [
             {
-              "name": "viewer",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Viewer",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "node",
-              "description": null,
+              "name": "agent",
+              "description": "Find an agent by it's UUID",
               "args": [
                 {
-                  "name": "id",
+                  "name": "uuid",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
@@ -48,20 +34,20 @@
                 }
               ],
               "type": {
-                "kind": "INTERFACE",
-                "name": "Node",
+                "kind": "OBJECT",
+                "name": "Agent",
                 "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "organization",
-              "description": "Find an organization by it's slug",
+              "name": "artifact",
+              "description": "Find an artifact by it's UUID",
               "args": [
                 {
-                  "name": "slug",
-                  "description": "The organizations slug",
+                  "name": "uuid",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": "Non-Null",
@@ -76,61 +62,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "team",
-              "description": "Find a team by it's UUID",
-              "args": [
-                {
-                  "name": "slug",
-                  "description": "The slug of the team, prefixed with it's organization. i.e. `acme-inc/awesome-team`",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": "Non-Null",
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "ID",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Team",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pipeline",
-              "description": "Find a pipeline by it's slug",
-              "args": [
-                {
-                  "name": "slug",
-                  "description": "The slug of the pipeline, prefixed with it's organization. i.e. `acme-inc/my-pipeline`",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": "Non-Null",
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "ID",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Pipeline",
+                "name": "Artifact",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -191,11 +123,11 @@
               "deprecationReason": null
             },
             {
-              "name": "agent",
-              "description": "Find an agent by it's UUID",
+              "name": "node",
+              "description": null,
               "args": [
                 {
-                  "name": "uuid",
+                  "name": "id",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
@@ -210,20 +142,20 @@
                 }
               ],
               "type": {
-                "kind": "OBJECT",
-                "name": "Agent",
+                "kind": "INTERFACE",
+                "name": "Node",
                 "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "artifact",
-              "description": "Find an artifact by it's UUID",
+              "name": "organization",
+              "description": "Find an organization by it's slug",
               "args": [
                 {
-                  "name": "uuid",
-                  "description": null,
+                  "name": "slug",
+                  "description": "The organizations slug",
                   "type": {
                     "kind": "NON_NULL",
                     "name": "Non-Null",
@@ -238,7 +170,75 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Artifact",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pipeline",
+              "description": "Find a pipeline by it's slug",
+              "args": [
+                {
+                  "name": "slug",
+                  "description": "The slug of the pipeline, prefixed with it's organization. i.e. `acme-inc/my-pipeline`",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": "Non-Null",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Pipeline",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "team",
+              "description": "Find a team by it's UUID",
+              "args": [
+                {
+                  "name": "slug",
+                  "description": "The slug of the team, prefixed with it's organization. i.e. `acme-inc/awesome-team`",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": "Non-Null",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Team",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "viewer",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Viewer",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -257,53 +257,6 @@
           "name": "Viewer",
           "description": "Represents the current user session",
           "fields": [
-            {
-              "name": "user",
-              "description": "The authenticated user",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organizations",
-              "description": null,
-              "args": [
-                {
-                  "name": "first",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "last",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "OrganizationConnection",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "builds",
               "description": null,
@@ -407,6 +360,53 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "organizations",
+              "description": null,
+              "args": [
+                {
+                  "name": "first",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "last",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "OrganizationConnection",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "user",
+              "description": "The authenticated user",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -422,55 +422,15 @@
           "description": "A user",
           "fields": [
             {
-              "name": "id",
+              "name": "avatar",
               "description": null,
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The public UUID of the user",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": "The name of the user",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "Avatar",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -494,15 +454,37 @@
               "deprecationReason": null
             },
             {
-              "name": "avatar",
+              "name": "id",
               "description": null,
               "args": [
 
               ],
               "type": {
-                "kind": "OBJECT",
-                "name": "Avatar",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the user",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -546,6 +528,24 @@
                 "kind": "OBJECT",
                 "name": "TeamConnection",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The public UUID of the user",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -619,6 +619,24 @@
           "description": null,
           "fields": [
             {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "edges",
               "description": null,
               "args": [
@@ -649,24 +667,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -681,20 +681,6 @@
           "name": "TeamEdge",
           "description": null,
           "fields": [
-            {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Team",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "cursor",
               "description": null,
@@ -712,6 +698,20 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Team",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -726,6 +726,52 @@
           "name": "Team",
           "description": "An organization team",
           "fields": [
+            {
+              "name": "createdAt",
+              "description": "The time when this team was created",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdBy",
+              "description": "The user that created this team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "description",
+              "description": "A description of the team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "id",
               "description": null,
@@ -745,19 +791,24 @@
               "deprecationReason": null
             },
             {
-              "name": "uuid",
-              "description": "The public UUID for this team",
+              "name": "members",
+              "description": "Users that are part of this team",
               "args": [
-
+                {
+                  "name": "first",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "TeamMemberConnection",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -781,38 +832,6 @@
               "deprecationReason": null
             },
             {
-              "name": "slug",
-              "description": "The slug of the team",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "description",
-              "description": "A description of the team",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "organization",
               "description": "The organization that this team is a part of",
               "args": [
@@ -821,6 +840,20 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "permissions",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "TeamPermissions",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -850,45 +883,8 @@
               "deprecationReason": null
             },
             {
-              "name": "members",
-              "description": "Users that are part of this team",
-              "args": [
-                {
-                  "name": "first",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "TeamMemberConnection",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdBy",
-              "description": "The user that created this team",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdAt",
-              "description": "The time when this team was created",
+              "name": "slug",
+              "description": "The slug of the team",
               "args": [
 
               ],
@@ -905,15 +901,19 @@
               "deprecationReason": null
             },
             {
-              "name": "permissions",
-              "description": null,
+              "name": "uuid",
+              "description": "The public UUID for this team",
               "args": [
 
               ],
               "type": {
-                "kind": "OBJECT",
-                "name": "TeamPermissions",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -935,121 +935,6 @@
           "name": "Organization",
           "description": "An organization",
           "fields": [
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The public UUID for this organization",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": "The name of the organization",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "slug",
-              "description": "The slug of the organization used in URL's",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pipelines",
-              "description": "Return all the pipelines the current user has access to for this organization",
-              "args": [
-                {
-                  "name": "first",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "last",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "search",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "PipelineConnection",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "agents",
               "description": null,
@@ -1084,7 +969,25 @@
               "deprecationReason": null
             },
             {
-              "name": "teams",
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "invitations",
               "description": null,
               "args": [
                 {
@@ -1106,21 +1009,11 @@
                     "ofType": null
                   },
                   "defaultValue": null
-                },
-                {
-                  "name": "search",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
                 }
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "TeamConnection",
+                "name": "OrganizationInvitationConnection",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1170,7 +1063,100 @@
               "deprecationReason": null
             },
             {
-              "name": "invitations",
+              "name": "name",
+              "description": "The name of the organization",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "permissions",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "OrganizationPermissions",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pipelines",
+              "description": "Return all the pipelines the current user has access to for this organization",
+              "args": [
+                {
+                  "name": "first",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "last",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "search",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "PipelineConnection",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "slug",
+              "description": "The slug of the organization used in URL's",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "teams",
               "description": null,
               "args": [
                 {
@@ -1192,26 +1178,40 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "search",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "OrganizationInvitationConnection",
+                "name": "TeamConnection",
                 "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "permissions",
-              "description": null,
+              "name": "uuid",
+              "description": "The public UUID for this organization",
               "args": [
 
               ],
               "type": {
-                "kind": "OBJECT",
-                "name": "OrganizationPermissions",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1233,6 +1233,24 @@
           "name": "PipelineConnection",
           "description": null,
           "fields": [
+            {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "edges",
               "description": null,
@@ -1264,24 +1282,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -1296,20 +1296,6 @@
           "name": "PipelineEdge",
           "description": null,
           "fields": [
-            {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Pipeline",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "cursor",
               "description": null,
@@ -1327,6 +1313,20 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Pipeline",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -1341,110 +1341,6 @@
           "name": "Pipeline",
           "description": "A pipeline",
           "fields": [
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The UUID of the pipeline",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": "The name of the pipeline",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "slug",
-              "description": "The slug of the pipeline",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "repository",
-              "description": "The repository for the pipeline",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "builds",
               "description": null,
@@ -1507,6 +1403,92 @@
               "deprecationReason": null
             },
             {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the pipeline",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "repository",
+              "description": "The repository for the pipeline",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "slug",
+              "description": "The slug of the pipeline",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "teams",
               "description": null,
               "args": [
@@ -1548,6 +1530,24 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID of the pipeline",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -1566,6 +1566,24 @@
           "name": "BuildConnection",
           "description": null,
           "fields": [
+            {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "edges",
               "description": null,
@@ -1597,24 +1615,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -1629,20 +1629,6 @@
           "name": "BuildEdge",
           "description": null,
           "fields": [
-            {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Build",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "cursor",
               "description": null,
@@ -1660,6 +1646,20 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Build",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -1674,114 +1674,6 @@
           "name": "Build",
           "description": "A build from a pipeline",
           "fields": [
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The UUID for the build",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "state",
-              "description": "The current state of the build",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "number",
-              "description": "The number of the build",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "message",
-              "description": "The message for the build",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "commit",
-              "description": "The commit for the build",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "branch",
               "description": "The branch for the build",
@@ -1801,136 +1693,6 @@
               "deprecationReason": null
             },
             {
-              "name": "source",
-              "description": "Where the build was created from",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pullRequest",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "PullRequest",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "user",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pipeline",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Pipeline",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdAt",
-              "description": "The time when the build was created",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "scheduledAt",
-              "description": "The time when the build became scheduled for running",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "startedAt",
-              "description": "The time when the build started running",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "finishedAt",
-              "description": "The time when the build finished",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "canceledAt",
               "description": "The time when the build was cancelled",
               "args": [
@@ -1945,20 +1707,6 @@
               "deprecationReason": null
             },
             {
-              "name": "rebuiltFrom",
-              "description": "The build that this build was rebuilt from",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Build",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "canceledBy",
               "description": "The user who canceled this build. If the build was canceled, and this value is null, then it was canceled automatically by Buildkite",
               "args": [
@@ -1967,61 +1715,6 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "env",
-              "description": "Custom environment variables passed to this build",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": "List",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": "Non-Null",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "jobs",
-              "description": null,
-              "args": [
-                {
-                  "name": "first",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "last",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "JobConnection",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -2061,6 +1754,143 @@
               "deprecationReason": null
             },
             {
+              "name": "commit",
+              "description": "The commit for the build",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": "The time when the build was created",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "env",
+              "description": "Custom environment variables passed to this build",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": "List",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": "Non-Null",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "finishedAt",
+              "description": "The time when the build finished",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "jobs",
+              "description": null,
+              "args": [
+                {
+                  "name": "first",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "last",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "JobConnection",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "message",
+              "description": "The message for the build",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "metaData",
               "description": null,
               "args": [
@@ -2089,6 +1919,176 @@
                 "kind": "OBJECT",
                 "name": "BuildMetaDataConnection",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "number",
+              "description": "The number of the build",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pipeline",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Pipeline",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pullRequest",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "PullRequest",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "rebuiltFrom",
+              "description": "The build that this build was rebuilt from",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Build",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "scheduledAt",
+              "description": "The time when the build became scheduled for running",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "source",
+              "description": "Where the build was created from",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "startedAt",
+              "description": "The time when the build started running",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": "The current state of the build",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "user",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID for the build",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2152,6 +2152,24 @@
           "description": null,
           "fields": [
             {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "edges",
               "description": null,
               "args": [
@@ -2182,24 +2200,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -2215,20 +2215,6 @@
           "description": null,
           "fields": [
             {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "UNION",
-                "name": "Job",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "cursor",
               "description": null,
               "args": [
@@ -2242,6 +2228,20 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "UNION",
+                "name": "Job",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2286,145 +2286,15 @@
           "description": "A type of job that runs a command on an agent",
           "fields": [
             {
-              "name": "id",
-              "description": null,
+              "name": "agent",
+              "description": "The agent that is running the job",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The UUID for this job",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "state",
-              "description": "The state of the job",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "label",
-              "description": "The label of the job",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "type",
-              "description": "The type of the job",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "command",
-              "description": "The command the job will run",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "exitStatus",
-              "description": "The exit status returned by the command on the agent",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "automaticArtifactUploadPaths",
-              "description": "A glob of files to automatically upload after the job finishes",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "Agent",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2447,126 +2317,6 @@
                     "ofType": null
                   }
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdAt",
-              "description": "The time when the job was created",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "scheduledAt",
-              "description": "The time when the job became scheduled for running",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "startedAt",
-              "description": "The time when the job started running",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "finishedAt",
-              "description": "The time when the job finished",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "canceledAt",
-              "description": "The time when the job was cancelled",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "env",
-              "description": "Environment variables for this job",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": "List",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": "Non-Null",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "agent",
-              "description": "The agent that is running the job",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Agent",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "build",
-              "description": "The build that this job is a part of",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Build",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2603,24 +2353,139 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
+            },
             {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "Agent",
-          "description": "An agent",
-          "fields": [
+              "name": "automaticArtifactUploadPaths",
+              "description": "A glob of files to automatically upload after the job finishes",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "build",
+              "description": "The build that this job is a part of",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Build",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "canceledAt",
+              "description": "The time when the job was cancelled",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "command",
+              "description": "The command the job will run",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": "The time when the job was created",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "env",
+              "description": "Environment variables for this job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": "List",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": "Non-Null",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "exitStatus",
+              "description": "The exit status returned by the command on the agent",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "finishedAt",
+              "description": "The time when the job finished",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "id",
               "description": null,
@@ -2640,8 +2505,8 @@
               "deprecationReason": null
             },
             {
-              "name": "uuid",
-              "description": "The public UUID for the agent",
+              "name": "label",
+              "description": "The label of the job",
               "args": [
 
               ],
@@ -2650,9 +2515,122 @@
                 "name": "Non-Null",
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "ID",
+                  "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "scheduledAt",
+              "description": "The time when the job became scheduled for running",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "startedAt",
+              "description": "The time when the job started running",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": "The state of the job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "type",
+              "description": "The type of the job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID for this job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "Agent",
+          "description": "An agent",
+          "fields": [
+            {
+              "name": "connectedAt",
+              "description": "The time when the agent connected to Buildkite",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2676,128 +2654,8 @@
               "deprecationReason": null
             },
             {
-              "name": "name",
-              "description": "The name of the agent",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "version",
-              "description": "The version of the agent",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "ipAddress",
-              "description": "The IP address that the agent has connected from",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "hostname",
-              "description": "The hostname of the machine running the agent",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "userAgent",
-              "description": "The User-Agent of the program that is making Agent API requests to Buildkite",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "operatingSystem",
-              "description": "The ID of the operating system this agent is running on",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pid",
-              "description": "The process identifier (PID) of the agent process on the machine",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "metaData",
-              "description": "The meta data this agent was stared with",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": "List",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": "Non-Null",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "connectedAt",
-              "description": "The time when the agent connected to Buildkite",
+              "name": "createdAt",
+              "description": "The date the agent was created",
               "args": [
 
               ],
@@ -2824,8 +2682,40 @@
               "deprecationReason": null
             },
             {
-              "name": "createdAt",
-              "description": "The date the agent was created",
+              "name": "hostname",
+              "description": "The hostname of the machine running the agent",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ipAddress",
+              "description": "The IP address that the agent has connected from",
               "args": [
 
               ],
@@ -2879,6 +2769,116 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "JobConnection",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "metaData",
+              "description": "The meta data this agent was stared with",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": "List",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": "Non-Null",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the agent",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "operatingSystem",
+              "description": "The ID of the operating system this agent is running on",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pid",
+              "description": "The process identifier (PID) of the agent process on the machine",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "userAgent",
+              "description": "The User-Agent of the program that is making Agent API requests to Buildkite",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The public UUID for the agent",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "version",
+              "description": "The version of the agent",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3012,6 +3012,20 @@
           "description": "A type of job that requires a user to unblock it before proceeding in a build pipeline",
           "fields": [
             {
+              "name": "build",
+              "description": "The build that this job is a part of",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Build",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "id",
               "description": null,
               "args": [
@@ -3030,8 +3044,22 @@
               "deprecationReason": null
             },
             {
-              "name": "uuid",
-              "description": "The UUID for this job",
+              "name": "isUnblockable",
+              "description": "Whether or not this job can be unblocked yet (may be waiting on another job to finish)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "label",
+              "description": "The label of the job",
               "args": [
 
               ],
@@ -3066,32 +3094,14 @@
               "deprecationReason": null
             },
             {
-              "name": "label",
-              "description": "The label of the job",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "isUnblockable",
-              "description": "Whether or not this job can be unblocked yet (may be waiting on another job to finish)",
+              "name": "unblockedAt",
+              "description": "The time when the job was created",
               "args": [
 
               ],
               "type": {
                 "kind": "SCALAR",
-                "name": "Boolean",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3112,29 +3122,19 @@
               "deprecationReason": null
             },
             {
-              "name": "unblockedAt",
-              "description": "The time when the job was created",
+              "name": "uuid",
+              "description": "The UUID for this job",
               "args": [
 
               ],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "build",
-              "description": "The build that this job is a part of",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Build",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3167,6 +3167,20 @@
           "description": "A type of job that waits for all previous jobs to pass before proceeding the build pipeline",
           "fields": [
             {
+              "name": "build",
+              "description": "The build that this job is a part of",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Build",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "id",
               "description": null,
               "args": [
@@ -3178,24 +3192,6 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The UUID for this job",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
                   "ofType": null
                 }
               },
@@ -3221,15 +3217,19 @@
               "deprecationReason": null
             },
             {
-              "name": "build",
-              "description": "The build that this job is a part of",
+              "name": "uuid",
+              "description": "The UUID for this job",
               "args": [
 
               ],
               "type": {
-                "kind": "OBJECT",
-                "name": "Build",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3270,26 +3270,22 @@
               "deprecationReason": null
             },
             {
-              "name": "uuid",
-              "description": "The public UUID for this artifact",
+              "name": "job",
+              "description": "The job that uploaded this artifact",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "JobTypeCommand",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "state",
-              "description": "The upload state of the artifact",
+              "name": "mimeType",
+              "description": "The mime type of the file provided by the agent",
               "args": [
 
               ],
@@ -3324,42 +3320,6 @@
               "deprecationReason": null
             },
             {
-              "name": "size",
-              "description": "The size of the file in bytes that was uploaded",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "mimeType",
-              "description": "The mime type of the file provided by the agent",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "sha1sum",
               "description": "A SHA1SUM of the file",
               "args": [
@@ -3378,15 +3338,55 @@
               "deprecationReason": null
             },
             {
-              "name": "job",
-              "description": "The job that uploaded this artifact",
+              "name": "size",
+              "description": "The size of the file in bytes that was uploaded",
               "args": [
 
               ],
               "type": {
-                "kind": "OBJECT",
-                "name": "JobTypeCommand",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": "The upload state of the artifact",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The public UUID for this artifact",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3409,42 +3409,6 @@
           "description": "A member of an organization",
           "fields": [
             {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The public UUID for this organization member",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "admin",
               "description": null,
               "args": [
@@ -3463,14 +3427,14 @@
               "deprecationReason": null
             },
             {
-              "name": "user",
-              "description": null,
+              "name": "createdAt",
+              "description": "The time when this user was added to the organization",
               "args": [
 
               ],
               "type": {
-                "kind": "OBJECT",
-                "name": "User",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3491,15 +3455,19 @@
               "deprecationReason": null
             },
             {
-              "name": "createdAt",
-              "description": "The time when this user was added to the organization",
+              "name": "id",
+              "description": null,
               "args": [
 
               ],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3514,6 +3482,38 @@
                 "kind": "OBJECT",
                 "name": "OrganizationMemberPermissions",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "user",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The public UUID for this organization member",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3536,8 +3536,8 @@
           "description": "Permissions information about what actions the current user can do against the organization membership record",
           "fields": [
             {
-              "name": "organizationMemberUpdate",
-              "description": "Whether the user can update the organization's members role information",
+              "name": "organizationMemberDelete",
+              "description": "Whether the user can delete the user from the organization",
               "args": [
 
               ],
@@ -3550,8 +3550,8 @@
               "deprecationReason": null
             },
             {
-              "name": "organizationMemberDelete",
-              "description": "Whether the user can delete the user from the organization",
+              "name": "organizationMemberUpdate",
+              "description": "Whether the user can update the organization's members role information",
               "args": [
 
               ],
@@ -3636,6 +3636,56 @@
           "description": "An member of a team",
           "fields": [
             {
+              "name": "admin",
+              "description": "Whether or not the user is an admin of this team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": "The time when the team member was added",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdBy",
+              "description": "The user that added this team member",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "id",
               "description": null,
               "args": [
@@ -3654,37 +3704,15 @@
               "deprecationReason": null
             },
             {
-              "name": "uuid",
-              "description": "The public UUID for this team member",
+              "name": "permissions",
+              "description": null,
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "admin",
-              "description": "Whether or not the user is an admin of this team",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "TeamMemberPermissions",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3718,22 +3746,8 @@
               "deprecationReason": null
             },
             {
-              "name": "createdBy",
-              "description": "The user that added this team member",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdAt",
-              "description": "The time when the team member was added",
+              "name": "uuid",
+              "description": "The public UUID for this team member",
               "args": [
 
               ],
@@ -3742,23 +3756,9 @@
                 "name": "Non-Null",
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "ID",
                   "ofType": null
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "permissions",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "TeamMemberPermissions",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3781,8 +3781,8 @@
           "description": "Permissions information about what actions the current user can do against the team membership record",
           "fields": [
             {
-              "name": "teamMemberUpdate",
-              "description": "Whether the user can update the team's members admin status",
+              "name": "teamMemberDelete",
+              "description": "Whether the user can delete the user from the team",
               "args": [
 
               ],
@@ -3795,8 +3795,8 @@
               "deprecationReason": null
             },
             {
-              "name": "teamMemberDelete",
-              "description": "Whether the user can delete the user from the team",
+              "name": "teamMemberUpdate",
+              "description": "Whether the user can update the team's members admin status",
               "args": [
 
               ],
@@ -3821,6 +3821,24 @@
           "name": "ArtifactConnection",
           "description": null,
           "fields": [
+            {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "edges",
               "description": null,
@@ -3852,24 +3870,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -3885,20 +3885,6 @@
           "description": null,
           "fields": [
             {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Artifact",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "cursor",
               "description": null,
               "args": [
@@ -3912,6 +3898,20 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Artifact",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3979,6 +3979,24 @@
           "description": null,
           "fields": [
             {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "edges",
               "description": null,
               "args": [
@@ -4009,24 +4027,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -4042,20 +4042,6 @@
           "description": null,
           "fields": [
             {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Comment",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "cursor",
               "description": null,
               "args": [
@@ -4069,6 +4055,20 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Comment",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4087,42 +4087,6 @@
           "description": "A comment on a build",
           "fields": [
             {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The public UUID for this comment",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "body",
               "description": "The body of the comment",
               "args": [
@@ -4134,6 +4098,42 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": "The date the comment was published",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
                   "ofType": null
                 }
               },
@@ -4155,8 +4155,8 @@
               "deprecationReason": null
             },
             {
-              "name": "createdAt",
-              "description": "The date the comment was published",
+              "name": "uuid",
+              "description": "The public UUID for this comment",
               "args": [
 
               ],
@@ -4165,7 +4165,7 @@
                 "name": "Non-Null",
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "ID",
                   "ofType": null
                 }
               },
@@ -4189,6 +4189,24 @@
           "name": "BuildMetaDataConnection",
           "description": null,
           "fields": [
+            {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "edges",
               "description": null,
@@ -4220,24 +4238,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -4253,20 +4253,6 @@
           "description": null,
           "fields": [
             {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "BuildMetaData",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "cursor",
               "description": null,
               "args": [
@@ -4280,6 +4266,20 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "BuildMetaData",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4382,6 +4382,24 @@
           "description": null,
           "fields": [
             {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "edges",
               "description": null,
               "args": [
@@ -4412,24 +4430,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -4444,20 +4444,6 @@
           "name": "AgentEdge",
           "description": null,
           "fields": [
-            {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Agent",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "cursor",
               "description": null,
@@ -4475,6 +4461,20 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Agent",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -4489,6 +4489,24 @@
           "name": "OrganizationMemberConnection",
           "description": null,
           "fields": [
+            {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "edges",
               "description": null,
@@ -4520,24 +4538,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -4552,20 +4552,6 @@
           "name": "OrganizationMemberEdge",
           "description": null,
           "fields": [
-            {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "OrganizationMember",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "cursor",
               "description": null,
@@ -4583,6 +4569,20 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "OrganizationMember",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -4597,6 +4597,24 @@
           "name": "OrganizationInvitationConnection",
           "description": null,
           "fields": [
+            {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "edges",
               "description": null,
@@ -4628,24 +4646,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -4661,20 +4661,6 @@
           "description": null,
           "fields": [
             {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "OrganizationInvitation",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "cursor",
               "description": null,
               "args": [
@@ -4688,6 +4674,20 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "OrganizationInvitation",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4706,24 +4706,6 @@
           "description": "A pending invitation to a user to join this organization",
           "fields": [
             {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "admin",
               "description": null,
               "args": [
@@ -4737,6 +4719,34 @@
                   "name": "Boolean",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": "The time when the invitation was created",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdBy",
+              "description": "The user that added invited this email address",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4760,29 +4770,19 @@
               "deprecationReason": null
             },
             {
-              "name": "createdBy",
-              "description": "The user that added invited this email address",
+              "name": "id",
+              "description": null,
               "args": [
 
               ],
               "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdAt",
-              "description": "The time when the invitation was created",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4805,8 +4805,22 @@
           "description": "Permissions information about what actions the current user can do against the organization",
           "fields": [
             {
-              "name": "pipelineCreate",
-              "description": "Whether the user can create a new pipeline in the organization",
+              "name": "notificationServiceUpdate",
+              "description": "Whether the user can change the notification services for the organization",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organizationBillingUpdate",
+              "description": "Whether the user can view and manage billing for the organization",
               "args": [
 
               ],
@@ -4847,20 +4861,6 @@
               "deprecationReason": null
             },
             {
-              "name": "organizationBillingUpdate",
-              "description": "Whether the user can view and manage billing for the organization",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Permission",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "organizationUpdate",
               "description": "Whether the user can change the organization name and related source code provider settings",
               "args": [
@@ -4875,22 +4875,8 @@
               "deprecationReason": null
             },
             {
-              "name": "notificationServiceUpdate",
-              "description": "Whether the user can change the notification services for the organization",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Permission",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "teamCreate",
-              "description": "Whether the user can create teams for the organization",
+              "name": "pipelineCreate",
+              "description": "Whether the user can create a new pipeline in the organization",
               "args": [
 
               ],
@@ -4915,6 +4901,20 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "teamCreate",
+              "description": "Whether the user can create teams for the organization",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -4929,6 +4929,24 @@
           "name": "TeamPipelineConnection",
           "description": null,
           "fields": [
+            {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "edges",
               "description": null,
@@ -4960,24 +4978,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -4993,20 +4993,6 @@
           "description": null,
           "fields": [
             {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "TeamPipeline",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "cursor",
               "description": null,
               "args": [
@@ -5020,6 +5006,20 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "TeamPipeline",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -5038,6 +5038,38 @@
           "description": "An pipeline that's been assigned to a team",
           "fields": [
             {
+              "name": "createdAt",
+              "description": "The time when the pipeline was added",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdBy",
+              "description": "The user that added this pipeline to the team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "id",
               "description": null,
               "args": [
@@ -5051,6 +5083,48 @@
                   "name": "ID",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "permissions",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "TeamPipelinePermissions",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pipeline",
+              "description": "The pipeline associated with this team member",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Pipeline",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "team",
+              "description": "The team associated with this team member",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Team",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -5072,66 +5146,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "team",
-              "description": "The team associated with this team member",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Team",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pipeline",
-              "description": "The pipeline associated with this team member",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Pipeline",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdBy",
-              "description": "The user that added this pipeline to the team",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdAt",
-              "description": "The time when the pipeline was added",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -5147,9 +5161,68 @@
         },
         {
           "kind": "OBJECT",
+          "name": "TeamPipelinePermissions",
+          "description": "Permission information about what actions the current user can do against the team pipelines",
+          "fields": [
+            {
+              "name": "teamPipelineDelete",
+              "description": "Whether the user can delete the pipeline from the team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "teamPipelineUpdate",
+              "description": "Whether the user can update the pipeline connection to the team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "TeamMemberConnection",
           "description": null,
           "fields": [
+            {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "edges",
               "description": null,
@@ -5181,24 +5254,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -5214,20 +5269,6 @@
           "description": null,
           "fields": [
             {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "TeamMember",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "cursor",
               "description": null,
               "args": [
@@ -5241,6 +5282,20 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "TeamMember",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -5259,8 +5314,8 @@
           "description": "Permissions information about what actions the current user can do against the team",
           "fields": [
             {
-              "name": "teamUpdate",
-              "description": "Whether the user can update the team's name and description",
+              "name": "teamDelete",
+              "description": "Whether the user can delete the team",
               "args": [
 
               ],
@@ -5273,8 +5328,8 @@
               "deprecationReason": null
             },
             {
-              "name": "teamDelete",
-              "description": "Whether the user can delete the team",
+              "name": "teamMemberCreate",
+              "description": "Whether the user can administer add members from the organization to this team",
               "args": [
 
               ],
@@ -5301,8 +5356,8 @@
               "deprecationReason": null
             },
             {
-              "name": "teamMemberCreate",
-              "description": "Whether the user can administer add members from the organization to this team",
+              "name": "teamUpdate",
+              "description": "Whether the user can update the team's name and description",
               "args": [
 
               ],
@@ -5327,6 +5382,24 @@
           "name": "OrganizationConnection",
           "description": null,
           "fields": [
+            {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "edges",
               "description": null,
@@ -5358,24 +5431,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -5390,20 +5445,6 @@
           "name": "OrganizationEdge",
           "description": null,
           "fields": [
-            {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "cursor",
               "description": null,
@@ -5421,6 +5462,20 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -5435,6 +5490,24 @@
           "name": "ChangelogConnection",
           "description": null,
           "fields": [
+            {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "edges",
               "description": null,
@@ -5466,24 +5539,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -5499,20 +5554,6 @@
           "description": null,
           "fields": [
             {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Changelog",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "cursor",
               "description": null,
               "args": [
@@ -5526,6 +5567,20 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Changelog",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -5562,8 +5617,8 @@
               "deprecationReason": null
             },
             {
-              "name": "uuid",
-              "description": "The public UUID for this changelog",
+              "name": "title",
+              "description": "The title for this changelog",
               "args": [
 
               ],
@@ -5580,8 +5635,8 @@
               "deprecationReason": null
             },
             {
-              "name": "title",
-              "description": "The title for this changelog",
+              "name": "uuid",
+              "description": "The public UUID for this changelog",
               "args": [
 
               ],
@@ -5642,33 +5697,6 @@
               "deprecationReason": null
             },
             {
-              "name": "organizationMemberUpdate",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": "Non-Null",
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "OrganizationMemberUpdateInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "OrganizationMemberUpdatePayload",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "organizationMemberDelete",
               "description": null,
               "args": [
@@ -5696,6 +5724,33 @@
               "deprecationReason": null
             },
             {
+              "name": "organizationMemberUpdate",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": "Non-Null",
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "OrganizationMemberUpdateInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "OrganizationMemberUpdatePayload",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "teamCreate",
               "description": null,
               "args": [
@@ -5717,33 +5772,6 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "TeamCreatePayload",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "teamUpdate",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": "Non-Null",
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "TeamUpdateInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "TeamUpdatePayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -5804,33 +5832,6 @@
               "deprecationReason": null
             },
             {
-              "name": "teamMemberUpdate",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": "Non-Null",
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "TeamMemberUpdateInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "TeamMemberUpdatePayload",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "teamMemberDelete",
               "description": null,
               "args": [
@@ -5852,6 +5853,33 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "TeamMemberDeletePayload",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "teamMemberUpdate",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": "Non-Null",
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "TeamMemberUpdateInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "TeamMemberUpdatePayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -5910,6 +5938,33 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "teamUpdate",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": "Non-Null",
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "TeamUpdateInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "TeamUpdatePayload",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -5925,6 +5980,20 @@
           "description": "Autogenerated return type of CommentCreate",
           "fields": [
             {
+              "name": "build",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Build",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "clientMutationId",
               "description": null,
               "args": [
@@ -5938,20 +6007,6 @@
                   "name": "String",
                   "ofType": null
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "build",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Build",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -6153,20 +6208,6 @@
               "deprecationReason": null
             },
             {
-              "name": "organization",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "deletedOrganizationMemberID",
               "description": null,
               "args": [
@@ -6180,6 +6221,20 @@
                   "name": "ID",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -6817,20 +6872,6 @@
               "deprecationReason": null
             },
             {
-              "name": "team",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Team",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "deletedTeamMemberID",
               "description": null,
               "args": [
@@ -6844,6 +6885,20 @@
                   "name": "ID",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "team",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Team",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -7031,20 +7086,6 @@
               "deprecationReason": null
             },
             {
-              "name": "team",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Team",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "deletedTeamPipelineID",
               "description": null,
               "args": [
@@ -7058,6 +7099,20 @@
                   "name": "ID",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "team",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Team",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -7103,6 +7158,16 @@
                 }
               },
               "defaultValue": null
+            },
+            {
+              "name": "force",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": null
             }
           ],
           "interfaces": null,
@@ -7114,31 +7179,6 @@
           "name": "__Schema",
           "description": "A GraphQL schema",
           "fields": [
-            {
-              "name": "types",
-              "description": "Types in this schema",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "LIST",
-                  "name": "List",
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": "Non-Null",
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "__Type"
-                    }
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "directives",
               "description": "Directives in this schema",
@@ -7165,6 +7205,20 @@
               "deprecationReason": null
             },
             {
+              "name": "mutationType",
+              "description": "The mutation root of this schema",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "__Type",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "queryType",
               "description": "The query root of this schema",
               "args": [
@@ -7183,8 +7237,8 @@
               "deprecationReason": null
             },
             {
-              "name": "mutationType",
-              "description": "The mutation root of this schema",
+              "name": "subscriptionType",
+              "description": "The subscription root of this schema",
               "args": [
 
               ],
@@ -7197,15 +7251,26 @@
               "deprecationReason": null
             },
             {
-              "name": "subscriptionType",
-              "description": "The subscription root of this schema",
+              "name": "types",
+              "description": "Types in this schema",
               "args": [
 
               ],
               "type": {
-                "kind": "OBJECT",
-                "name": "__Type",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "LIST",
+                  "name": "List",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": "Non-Null",
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "__Type"
+                    }
+                  }
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -7224,20 +7289,6 @@
           "description": "A type in the GraphQL schema",
           "fields": [
             {
-              "name": "name",
-              "description": "The name of this type",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "description",
               "description": "What this type represents",
               "args": [
@@ -7252,18 +7303,31 @@
               "deprecationReason": null
             },
             {
-              "name": "kind",
-              "description": "The kind of this type",
+              "name": "enumValues",
+              "description": "Values for this enum",
               "args": [
-
+                {
+                  "name": "includeDeprecated",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": "false"
+                }
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
+                "kind": "LIST",
+                "name": "List",
                 "ofType": {
-                  "kind": "ENUM",
-                  "name": "__TypeKind",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": "Non-Null",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "__EnumValue",
+                    "ofType": null
+                  }
                 }
               },
               "isDeprecated": false,
@@ -7301,20 +7365,6 @@
               "deprecationReason": null
             },
             {
-              "name": "ofType",
-              "description": "The modified type of this type",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "__Type",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "inputFields",
               "description": "fields on this input object",
               "args": [
@@ -7337,8 +7387,8 @@
               "deprecationReason": null
             },
             {
-              "name": "possibleTypes",
-              "description": "Types which compose this Union or Interface",
+              "name": "interfaces",
+              "description": "Interfaces which this object implements",
               "args": [
 
               ],
@@ -7359,39 +7409,54 @@
               "deprecationReason": null
             },
             {
-              "name": "enumValues",
-              "description": "Values for this enum",
+              "name": "kind",
+              "description": "The kind of this type",
               "args": [
-                {
-                  "name": "includeDeprecated",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Boolean",
-                    "ofType": null
-                  },
-                  "defaultValue": "false"
-                }
+
               ],
               "type": {
-                "kind": "LIST",
-                "name": "List",
+                "kind": "NON_NULL",
+                "name": "Non-Null",
                 "ofType": {
-                  "kind": "NON_NULL",
-                  "name": "Non-Null",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "__EnumValue",
-                    "ofType": null
-                  }
+                  "kind": "ENUM",
+                  "name": "__TypeKind",
+                  "ofType": null
                 }
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "interfaces",
-              "description": "Interfaces which this object implements",
+              "name": "name",
+              "description": "The name of this type",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ofType",
+              "description": "The modified type of this type",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "__Type",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "possibleTypes",
+              "description": "Types which compose this Union or Interface",
               "args": [
 
               ],
@@ -7484,74 +7549,6 @@
           "description": "Field on a GraphQL type",
           "fields": [
             {
-              "name": "name",
-              "description": "The name for accessing this field",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "description",
-              "description": "The description of this field",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "type",
-              "description": "The return type of this field",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "__Type",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "isDeprecated",
-              "description": "Is this field deprecated?",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "args",
               "description": "Arguments allowed to this object",
               "args": [
@@ -7589,23 +7586,42 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
+            },
+            {
+              "name": "description",
+              "description": "The description of this field",
+              "args": [
 
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "__InputValue",
-          "description": "An input for a field or InputObject",
-          "fields": [
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isDeprecated",
+              "description": "Is this field deprecated?",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "name",
-              "description": "The key for this value",
+              "description": "The name for accessing this field",
               "args": [
 
               ],
@@ -7622,6 +7638,51 @@
               "deprecationReason": null
             },
             {
+              "name": "type",
+              "description": "The return type of this field",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "__Type",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "__InputValue",
+          "description": "An input for a field or InputObject",
+          "fields": [
+            {
+              "name": "defaultValue",
+              "description": "The value applied if no other value is provided",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "description",
               "description": "What this value is used for",
               "args": [
@@ -7631,6 +7692,24 @@
                 "kind": "SCALAR",
                 "name": "String",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The key for this value",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -7652,20 +7731,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "defaultValue",
-              "description": "The value applied if no other value is provided",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -7681,25 +7746,7 @@
           "description": "A possible value for an Enum",
           "fields": [
             {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "description",
+              "name": "deprecationReason",
               "description": null,
               "args": [
 
@@ -7713,7 +7760,7 @@
               "deprecationReason": null
             },
             {
-              "name": "deprecationReason",
+              "name": "description",
               "description": null,
               "args": [
 
@@ -7743,23 +7790,10 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "__Directive",
-          "description": "A query directive in this schema",
-          "fields": [
+            },
             {
               "name": "name",
-              "description": "The name of this directive",
+              "description": null,
               "args": [
 
               ],
@@ -7774,21 +7808,20 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "description",
-              "description": "The description for this type",
-              "args": [
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
 
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "__Directive",
+          "description": "A query directive in this schema",
+          "fields": [
             {
               "name": "args",
               "description": "Arguments allowed to this object",
@@ -7815,8 +7848,40 @@
               "deprecationReason": null
             },
             {
-              "name": "onOperation",
-              "description": "Does this directive apply to operations?",
+              "name": "description",
+              "description": "The description for this type",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of this directive",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "onField",
+              "description": "Does this directive apply to fields?",
               "args": [
 
               ],
@@ -7851,8 +7916,8 @@
               "deprecationReason": null
             },
             {
-              "name": "onField",
-              "description": "Does this directive apply to fields?",
+              "name": "onOperation",
+              "description": "Does this directive apply to operations?",
               "args": [
 
               ],
