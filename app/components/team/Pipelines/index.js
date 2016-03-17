@@ -93,9 +93,10 @@ class Pipelines extends React.Component {
     }), { onFailure: this.handleMutationFailure });
   };
 
-  handleTeamPipelineRemove = (teamPipeline, callback) => {
+  handleTeamPipelineRemove = (teamPipeline, force, callback) => {
     Relay.Store.commitUpdate(new TeamPipelineDeleteMutation({
-      teamPipeline: teamPipeline
+      teamPipeline: teamPipeline,
+      force: force
     }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError()) });
   };
 
@@ -113,31 +114,31 @@ export default Relay.createContainer(Pipelines, {
     team: () => Relay.QL`
       fragment on Team {
         ${TeamPipelineCreateMutation.getFragment('team')}
-	organization {
-	  pipelines(search: $search, first: 10) {
-	    edges {
-	      node {
-		id
-		name
-		repository
+        organization {
+          pipelines(search: $search, first: 10) {
+            edges {
+              node {
+                id
+                name
+                repository
                 ${TeamPipelineCreateMutation.getFragment('pipeline')}
-	      }
-	    }
-	  }
-	}
-	pipelines(first: 100) {
-	  edges {
-	    node {
-	      id
-	      pipeline {
-		id
-		name
-		repository
-	      }
+              }
+            }
+          }
+        }
+        pipelines(first: 100) {
+          edges {
+            node {
+              id
+              pipeline {
+                id
+                name
+                repository
+              }
               ${TeamPipelineDeleteMutation.getFragment('teamPipeline')}
-	    }
-	  }
-	}
+            }
+          }
+        }
       }
     `
   }

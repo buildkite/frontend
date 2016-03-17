@@ -4,10 +4,10 @@ class TeamPipelineDelete extends Relay.Mutation {
   static fragments = {
     teamPipeline: () => Relay.QL`
       fragment on TeamPipeline {
-	id
-	team {
-	  id
-	}
+        id
+        team {
+          id
+        }
       }
     `
   }
@@ -15,7 +15,7 @@ class TeamPipelineDelete extends Relay.Mutation {
   getMutation() {
     return Relay.QL`
       mutation {
-	teamPipelineDelete
+        teamPipelineDelete
       }
     `;
   }
@@ -23,12 +23,12 @@ class TeamPipelineDelete extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on TeamPipelineDeletePayload {
-	deletedTeamPipelineID,
-	team {
-	  pipelines {
-	    count
-	  }
-	}
+        deletedTeamPipelineID,
+        team {
+          pipelines {
+            count
+          }
+        }
       }
     `;
   }
@@ -44,7 +44,7 @@ class TeamPipelineDelete extends Relay.Mutation {
   }
 
   getVariables() {
-    return { id: this.props.teamPipeline.id };
+    return { id: this.props.teamPipeline.id, force: this.props.force };
   }
 }
 
