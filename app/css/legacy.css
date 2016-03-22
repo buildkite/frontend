@@ -13,7 +13,7 @@ body.new-nav input,
 body.new-nav select,
 body.new-nav textarea,
 body.new-nav button {
-  font-family: "SF UI Text", Roboto, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, sans-serif;
 }
 
 body.new-nav .semi-bold {
