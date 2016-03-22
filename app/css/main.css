@@ -14,6 +14,7 @@
 @import 'animations';
 @import 'interaction-events';
 @import 'text';
+@import 'fonts';
 @import 'icons';
 @import 'forms';
 @import 'colors';
@@ -48,6 +49,9 @@
   --darken-2: rgba(0, 0, 0, .125);
   --darken-3: rgba(0, 0, 0, .25);
   --darken-4: rgba(0, 0, 0, .5);
+
+  --font-family-system: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, sans-serif;
+  --font-family-mono: Consolas, Monaco, monospace;
 
   --bold-font-weight: 600;
 

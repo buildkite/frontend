@@ -1,8 +1,3 @@
-/* The old font we use, only has semi-bold at 600 (not 500 like SF UI does) */
-.semi-bold {
-  font-weight: 600;
-}
-
 body.new-nav,
 body.new-nav h1,
 body.new-nav h2,
@@ -16,6 +11,10 @@ body.new-nav button {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, sans-serif;
 }
 
+/* The old font we use, only has semi-bold at 600 (not 500 like SF UI does) */
+.semi-bold {
+  font-weight: 600;
+}
 body.new-nav .semi-bold {
   font-weight: 500;
 }
