@@ -6,6 +6,7 @@ import CollapsableFormField from './CollapsableFormField';
 class FormTextField extends React.Component {
   static propTypes = {
     label: React.PropTypes.string.isRequired,
+    className: React.PropTypes.string,
     name: React.PropTypes.string,
     value: React.PropTypes.string,
     placeholder: React.PropTypes.string,
@@ -41,7 +42,7 @@ class FormTextField extends React.Component {
     }
 
     let inputNode = (
-      <input className={classNames("input", { "is-error": hasErrors })}
+      <input className={classNames("input", { "is-error": hasErrors }, this.props.className)}
         id={this.state.id}
         name={this.props.name}
         type="text"
