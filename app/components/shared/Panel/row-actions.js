@@ -16,7 +16,7 @@ class RowActions extends React.Component {
     // trick!
     if(children.length > 0) {
       return (
-        <div>
+        <div className="flex items-center">
           {this.props.children}
         </div>
       );
