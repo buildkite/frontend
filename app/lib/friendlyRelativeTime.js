@@ -24,7 +24,7 @@ function isThisYear(momentTime) {
 //   "Fri 1 Jan 2012 at 4:02 PM"
 export default function friendlyRelativeTime(time, options={}) {
   let mTime = moment(time);
-  let timeString = mTime.format('h:mm A');
+  let timeString = options.seconds ? mTime.format('h:mm:s A') : mTime.format('h:mm A');
 
   if (isToday(mTime)) {
     return `${ options.capitalized ? 'Today' : 'today' } at ${ timeString }`;
