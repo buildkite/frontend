@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
+import autosize from 'autosize';
 import MarkdownEditor from '../../lib/MarkdownEditor';
 import AssetUploader from '../../lib/AssetUploader';
-import autoresizeTextarea from '../../lib/autoresizeTextarea';
 import Button from '../shared/Button';
 
 class FormMarkdownEdtiorField extends React.Component {
@@ -22,10 +22,12 @@ class FormMarkdownEdtiorField extends React.Component {
     this.markdownEditor = new MarkdownEditor(this.textarea);
     this.assetUploader = new AssetUploader({ onAssetUploaded: this.handleAssetUploaded, onError: this.handleAssetUploadError });
 
-    autoresizeTextarea(this.textarea);
+    autosize(this.textarea);
   }
 
   componentWillUnmount() {
+    autosize.destroy(this.textarea);
+
     delete this.markdownEditor;
     delete this.assetUploader;
   }
@@ -115,9 +117,6 @@ class FormMarkdownEdtiorField extends React.Component {
         }
       });
 
-      // Since we've modified the textarea's value, we need to resize and focus
-      // again.
-      autoresizeTextarea(this.textarea);
       this.textarea.focus();
     }
   }
@@ -141,7 +140,6 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.bold();
-    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -149,7 +147,6 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.italic();
-    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -157,7 +154,6 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.quote();
-    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -165,7 +161,6 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.numberedList();
-    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -173,7 +168,6 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.bulletedList();
-    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -181,7 +175,6 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.code();
-    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -189,7 +182,6 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.link();
-    autoresizeTextarea(this.textarea);
     this.textarea.focus();
   };
 
@@ -228,7 +220,7 @@ class FormMarkdownEdtiorField extends React.Component {
   };
 
   handleOnChange = () => {
-    autoresizeTextarea(this.textarea);
+    // Nothing to do
   };
 
   handleOnFocus = () => {
