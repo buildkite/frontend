@@ -10,7 +10,7 @@ class Image extends React.Component {
 
   render() {
     return (
-      <div className={classNames(this.props.className)} style={this.props.style}>
+      <div className={classNames("flex-no-shrink", this.props.className)} style={this.props.style}>
         {this.props.children}
       </div>
     );

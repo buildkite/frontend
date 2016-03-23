@@ -21,7 +21,7 @@ class IntroWithButton extends React.Component {
 
     if(button) {
       button = (
-        <div className="ml3">
+        <div className="ml3 flex-no-shrink">
           {button}
         </div>
       );
