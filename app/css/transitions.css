@@ -1,5 +1,9 @@
 /* popup */
 
+.transition-popup-t {
+  transform-origin: 42.5% -15px;
+}
+
 .transition-popup-tl {
   transform-origin: 7.5% -15px;
 }

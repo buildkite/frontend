@@ -4,12 +4,11 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Dropdown extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node,
+    children: React.PropTypes.node.isRequired,
+    width: React.PropTypes.number.isRequired,
     className: React.PropTypes.string,
     align: React.PropTypes.string,
-    topOffset: React.PropTypes.number,
-    width: React.PropTypes.any,
-    onToggle: React.PropTypes.any
+    onToggle: React.PropTypes.func
   };
 
   state = {
@@ -39,39 +38,41 @@ class Dropdown extends React.Component {
 
   renderPopupNode() {
     if (this.state.showing) {
+      let classes = classNames("absolute mt1 bg-white rounded-2 shadow border border-gray block py1 transition-popup", {
+        "transition-popup-t": this.props.align == "center",
+        "transition-popup-tl": this.props.align == "left",
+        "transition-popup-tr": this.props.align == "right"
+      });
+
       return (
-        <div ref={c => this.popupNode = c} className={this.popupClassName()} style={this.popupStyles()} key="popup">
-          <img src={require('../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" className="pointer-events-none" style={this.nibStyles()} />
+        <div ref={c => this.popupNode = c} className={classes} style={this.popupPositionStyles()}>
+          <img src={require('../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" className="pointer-events-none" style={this.nibPositionStyles()} />
           {this.popupItems()}
         </div>
       )
     }
   }
 
-  popupClassName() {
-    return classNames("absolute mt1 bg-white rounded-2 shadow border border-gray block py1 transition-popup", {
-      "transition-popup-tr": this.props.align == "right",
-      "transition-popup-tl": this.props.align != "right"
-    })
-  }
-
-  popupStyles() {
+  popupPositionStyles() {
     let styles = {
-      top: 'calc(3.5rem + ' + (this.props.topOffset || 0) + 'px)',
-      width: this.props.width || 'auto',
+      top: 35,
+      width: this.props.width,
       zIndex: 3
     };
 
     if (this.props.align == 'right') {
-      styles.right = '.25rem';
-    } else {
-      styles.left = '.25rem';
+      styles.right = 3;
+    } else if (this.props.align == 'left') {
+      styles.left = 3;
+    } else if (this.props.align == 'center') {
+      let center = styles.width / 2;
+      styles.left = `calc(50% - ${center}px)`;
     }
 
     return styles;
   }
 
-  nibStyles() {
+  nibPositionStyles() {
     let styles = {
       position: 'absolute',
       top: -20,
@@ -81,8 +82,11 @@ class Dropdown extends React.Component {
 
     if (this.props.align == 'right') {
       styles.right = 10;
-    } else {
+    } else if (this.props.align == 'left') {
       styles.left = 10;
+    } else if (this.props.align == 'center') {
+      styles.left = '50%';
+      styles.marginLeft = (styles.width / 2) * -1;
     }
 
     return styles;
