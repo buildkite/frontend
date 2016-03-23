@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import Icon from '../../shared/Icon';
 import Chooser from '../../shared/Chooser';
@@ -11,7 +10,7 @@ class Role extends React.Component {
 
   static propTypes = {
     teamMember: React.PropTypes.shape({
-      admin: React.PropTypes.bool.isRequired,
+      admin: React.PropTypes.bool.isRequired
     }).isRequired,
     onRoleChange: React.PropTypes.func.isRequired,
     savingNewRole: React.PropTypes.string
@@ -26,9 +25,9 @@ class Role extends React.Component {
         <div className="underline-dotted inline-block regular">{label}</div>
 
         <Chooser selected={role} onSelect={this.props.onRoleChange}>
-          <Chooser.Option value='admin' className="btn block hover-bg-silver">
+          <Chooser.Option value="admin" className="btn block hover-bg-silver">
             <Media align="top">
-              <Media.Image>{this.renderIcon(role, 'admin')}</Media.Image>
+              <Media.Image>{this.renderIcon(role, "admin")}</Media.Image>
               <Media.Description>
                 <span className="semi-bold block">Team Admin</span>
                 <small className="regular dark-gray">Team admins can add other existing users in the organization to this team, as well as other pipelines they may have access to.</small>
@@ -36,9 +35,9 @@ class Role extends React.Component {
             </Media>
           </Chooser.Option>
 
-          <Chooser.Option value='member' className="btn block hover-bg-silver">
+          <Chooser.Option value="member" className="btn block hover-bg-silver">
             <Media align="top">
-              <Media.Image>{this.renderIcon(role, 'member')}</Media.Image>
+              <Media.Image>{this.renderIcon(role, "member")}</Media.Image>
               <Media.Description>
                 <span className="semi-bold block">Member</span>
                 <small className="regular dark-gray">Team members can't make changes to the teams they're in.</small>

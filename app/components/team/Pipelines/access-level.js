@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import Icon from '../../shared/Icon';
 import Chooser from '../../shared/Chooser';
@@ -11,7 +10,7 @@ class AccessLevel extends React.Component {
 
   static propTypes = {
     teamPipeline: React.PropTypes.shape({
-      accessLevel: React.PropTypes.string.isRequired,
+      accessLevel: React.PropTypes.string.isRequired
     }).isRequired,
     onAccessLevelChange: React.PropTypes.func.isRequired,
     saving: React.PropTypes.string
