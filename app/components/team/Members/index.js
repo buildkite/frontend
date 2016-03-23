@@ -47,7 +47,7 @@ class Members extends React.Component {
     if(this.props.team.members.edges.length > 0) {
       return this.props.team.members.edges.map((edge) => {
         return (
-          <Row key={edge.node.id} member={edge.node} onRemoveClick={this.handleTeamMemberRemove} onTeamAdminToggle={this.handleTeamAdminToggle} relay={this.props.relay} />
+          <Row key={edge.node.id} teamMember={edge.node} onRemoveClick={this.handleTeamMemberRemove} onRoleChange={this.handleRoleChange} relay={this.props.relay} />
         )
       })
     } else {
@@ -121,10 +121,10 @@ class Members extends React.Component {
     }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError()) });
   };
 
-  handleTeamAdminToggle = (teamMember, admin, callback) => {
+  handleRoleChange = (teamMember, role, callback) => {
     Relay.Store.commitUpdate(new TeamMemberUpdateMutation({
       teamMember: teamMember,
-      admin: admin
+      admin: (role == 'admin')
     }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError()) });
   };
 }
