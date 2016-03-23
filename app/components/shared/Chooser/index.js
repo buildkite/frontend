@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames";
 
 import Option from "./option";
 
@@ -32,7 +31,7 @@ class Chooser extends React.Component {
 
   isSelected(value) {
     if(this.props.multiple) {
-      return this.props.selected.indexOf(edge.node.id) >= 0;
+      return this.props.selected.indexOf(value) >= 0;
     } else {
       return this.props.selected == value;
     }
