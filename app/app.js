@@ -48,7 +48,8 @@ window["Webpack"] = {
     "lib/friendlyRelativeTime": require("./lib/friendlyRelativeTime").default,
     "lib/Logger": require("./lib/Logger").default,
     "lib/Emoji": require("./lib/Emoji").default,
-    "lib/RelayBridge": require("./lib/RelayBridge").default
+    "lib/RelayBridge": require("./lib/RelayBridge").default,
+    "lib/jobCommandOneliner": require("./lib/jobCommandOneliner").default
   },
 
   require: function(module) {
