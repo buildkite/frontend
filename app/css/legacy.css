@@ -4,10 +4,10 @@ body.new-nav h2,
 body.new-nav h3,
 body.new-nav h4,
 body.new-nav h5,
-body.new-nav input,
-body.new-nav select,
-body.new-nav textarea,
-body.new-nav button {
+body.new-nav input:not(.monospace),
+body.new-nav select:not(.monospace),
+body.new-nav textarea:not(.monospace),
+body.new-nav button:not(.monospace) {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, sans-serif;
 }
 
