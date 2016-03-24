@@ -32,6 +32,7 @@ window["Webpack"] = {
     "moment": require("moment"),
     "object-assign": require("object-assign"),
     "eventemitter3": require("eventemitter3"),
+    "autosize": require("autosize"),
 
     "components/layout/Navigation": require("./components/layout/Navigation").default,
     "components/layout/Footer": require("./components/layout/Footer").default,

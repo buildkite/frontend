@@ -53,6 +53,7 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
+    "autosize": "^3.0.15",
     "babel-polyfill": "^6.6.1",
     "basscss": "^8.0.1",
     "bugsnag-js": "^2.5.0",
