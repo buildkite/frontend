@@ -117,6 +117,7 @@ class FormMarkdownEdtiorField extends React.Component {
         }
       });
 
+      autosize.update(this.textarea);
       this.textarea.focus();
     }
   }
@@ -140,6 +141,7 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.bold();
+    autosize.update(this.textarea);
     this.textarea.focus();
   };
 
@@ -147,6 +149,7 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.italic();
+    autosize.update(this.textarea);
     this.textarea.focus();
   };
 
@@ -154,6 +157,7 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.quote();
+    autosize.update(this.textarea);
     this.textarea.focus();
   };
 
@@ -161,6 +165,7 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.numberedList();
+    autosize.update(this.textarea);
     this.textarea.focus();
   };
 
@@ -168,6 +173,7 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.bulletedList();
+    autosize.update(this.textarea);
     this.textarea.focus();
   };
 
@@ -175,6 +181,7 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.code();
+    autosize.update(this.textarea);
     this.textarea.focus();
   };
 
@@ -182,6 +189,7 @@ class FormMarkdownEdtiorField extends React.Component {
     e.preventDefault();
 
     this.markdownEditor.link();
+    autosize.update(this.textarea);
     this.textarea.focus();
   };
 
@@ -220,7 +228,7 @@ class FormMarkdownEdtiorField extends React.Component {
   };
 
   handleOnChange = () => {
-    // Nothing to do
+    autosize.update(this.textarea);
   };
 
   handleOnFocus = () => {
