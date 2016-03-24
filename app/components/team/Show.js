@@ -24,6 +24,7 @@ class Show extends React.Component {
       name: React.PropTypes.string.isRequired,
       description: React.PropTypes.string,
       slug: React.PropTypes.string.isRequired,
+      everyone: React.PropTypes.bool.isRequired,
       permissions: React.PropTypes.shape({
         teamUpdate: React.PropTypes.object.isRequired,
         teamDelete: React.PropTypes.object.isRequired
@@ -57,11 +58,31 @@ class Show extends React.Component {
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
-          <Members team={this.props.team} className="mb4" />
+          {this.renderMembers()}
           <Pipelines team={this.props.team} />
         </div>
       </DocumentTitle>
     );
+  }
+
+  renderMembers() {
+    if(this.props.team.everyone) {
+      return (
+        <div className="clearfix mxn2">
+          <div className="sm-col sm-col-9 px2 mb4">
+            <Members team={this.props.team} />
+          </div>
+          <div className="sm-col sm-col-3 px2 mb4">
+            <strong className="block mb2">Why can't I edit this team?</strong>
+            <div>This team is managed automatically by Buildkite, so you cannot edit it or modify its membership.</div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <Members team={this.props.team} className="mb4" />
+      );
+    }
   }
 
   renderMenu() {
@@ -140,6 +161,7 @@ export default Relay.createContainer(Show, {
         name
         description
         slug
+        everyone
         permissions {
           teamUpdate {
             allowed
