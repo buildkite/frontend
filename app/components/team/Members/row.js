@@ -8,12 +8,13 @@ import FlashesStore from '../../../stores/FlashesStore';
 import permissions from '../../../lib/permissions';
 
 import User from './user';
+import Role from './role';
 
 class Row extends React.Component {
   static displayName = "Team.Members.Row";
 
   static propTypes = {
-    member: React.PropTypes.shape({
+    teamMember: React.PropTypes.shape({
       user: React.PropTypes.object.isRequired,
       admin: React.PropTypes.bool.isRequired,
       permissions: React.PropTypes.shape({
@@ -26,26 +27,26 @@ class Row extends React.Component {
       })
     }).isRequired,
     onRemoveClick: React.PropTypes.func.isRequired,
-    onTeamAdminToggle: React.PropTypes.func.isRequired,
+    onRoleChange: React.PropTypes.func.isRequired,
     relay: React.PropTypes.object.isRequired
   };
 
   state = {
     removing: false,
-    updating: false
+    savingNewRole: null
   }
 
   render() {
     return (
       <Panel.Row>
-	<User user={this.props.member.user} teamAdmin={this.props.member.admin} />
+	<User user={this.props.teamMember.user} teamAdmin={this.props.teamMember.admin} />
         <Panel.RowActions>{this.renderActions()}</Panel.RowActions>
       </Panel.Row>
     );
   }
 
   renderActions() {
-    var transactions = this.props.relay.getPendingTransactions(this.props.member);
+    var transactions = this.props.relay.getPendingTransactions(this.props.teamMember);
     var transaction = transactions ? transactions[0] : null;
 
     if(transaction && transaction.getStatus() == "COMMITTING") {
@@ -53,18 +54,17 @@ class Row extends React.Component {
         <Icon icon="spinner" className="dark-gray animation-spin" style={{width: 18, height: 18}} />
       );
     } else {
-      return permissions(this.props.member.permissions).collect(
+      return permissions(this.props.teamMember.permissions).collect(
         {
           allowed: "teamMemberUpdate",
           render: (idx) => (
-            <Button key={idx} loading={this.state.updating ? "Updating…" : false} theme={"default"} outline={true} className="mr2"
-              onClick={this.handleTeamAdminToggle}>{this.props.member.admin ? "Remove team Admin" : "Promote to Team Admin"}</Button>
+            <Role key={idx} teamMember={this.props.teamMember} onRoleChange={this.handleRoleChange} savingNewRole={this.state.savingNewRole} />
           )
         },
         {
           allowed: "teamMemberDelete",
           render: (idx) => (
-            <Button key={idx} loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true}
+            <Button key={idx} loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true} className="ml2"
               onClick={this.handleMemberRemove}>Remove</Button>
           )
         }
@@ -72,12 +72,11 @@ class Row extends React.Component {
     }
   }
 
-  handleTeamAdminToggle = (e) => {
-    e.preventDefault();
-    this.setState({ updating: true });
+  handleRoleChange = (role) => {
+    this.setState({ savingNewRole: role });
 
-    this.props.onTeamAdminToggle(this.props.member, !this.props.member.admin, (error) => {
-      this.setState({ updating: false });
+    this.props.onRoleChange(this.props.teamMember, role, (error) => {
+      this.setState({ savingNewRole: null });
 
       if(error) {
         FlashesStore.flash(FlashesStore.ERROR, error);
@@ -90,7 +89,7 @@ class Row extends React.Component {
       e.preventDefault();
       this.setState({ removing: true });
 
-      this.props.onRemoveClick(this.props.member, (error) => {
+      this.props.onRemoveClick(this.props.teamMember, (error) => {
         this.setState({ removing: false });
 
         if(error) {

@@ -7,12 +7,15 @@ import Description from "./description";
 class Media extends React.Component {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    align: React.PropTypes.string
   };
 
   render() {
+    let alignment = (this.props.align == "top") ? "items-top" : "items-center";
+
     return (
-      <section className={classNames("flex items-center", this.props.className)}>
+      <section className={classNames("flex", alignment, this.props.className)}>
         {this.props.children}
       </section>
     );

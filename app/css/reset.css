@@ -10,7 +10,7 @@ body {
    * Windows - Helvetica
    * Linux - Helvetica, Arial
    **/
-  font-family: "SF UI Text", Roboto, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;

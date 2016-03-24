@@ -6,6 +6,7 @@ import FormAutoCompleteField from '../../shared/FormAutoCompleteField';
 import permissions from '../../../lib/permissions';
 
 import TeamPipelineCreateMutation from '../../../mutations/TeamPipelineCreate';
+import TeamPipelineUpdateMutation from '../../../mutations/TeamPipelineUpdate';
 import TeamPipelineDeleteMutation from '../../../mutations/TeamPipelineDelete';
 
 import Row from './row';
@@ -46,7 +47,7 @@ class Pipelines extends React.Component {
     if(this.props.team.pipelines.edges.length > 0) {
       return this.props.team.pipelines.edges.map((edge) => {
         return (
-          <Row key={edge.node.id} pipeline={edge.node} onRemoveClick={this.handleTeamPipelineRemove} relay={this.props.relay} />
+          <Row key={edge.node.id} teamPipeline={edge.node} onRemoveClick={this.handleTeamPipelineRemove} onAccessLevelChange={this.handleAccessLevelChange} relay={this.props.relay} />
         )
       });
     } else {
@@ -114,6 +115,13 @@ class Pipelines extends React.Component {
     }), { onFailure: this.handleMutationFailure });
   };
 
+  handleAccessLevelChange = (teamPipeline, accessLevel, callback) => {
+    Relay.Store.commitUpdate(new TeamPipelineUpdateMutation({
+      teamPipeline: teamPipeline,
+      accessLevel: accessLevel
+    }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError()) });
+  };
+
   handleTeamPipelineRemove = (teamPipeline, force, callback) => {
     Relay.Store.commitUpdate(new TeamPipelineDeleteMutation({
       teamPipeline: teamPipeline,
@@ -159,6 +167,7 @@ export default Relay.createContainer(Pipelines, {
           edges {
             node {
               id
+              accessLevel
               pipeline {
                 id
                 name
@@ -173,6 +182,7 @@ export default Relay.createContainer(Pipelines, {
                 }
               }
               ${TeamPipelineDeleteMutation.getFragment('teamPipeline')}
+              ${TeamPipelineUpdateMutation.getFragment('teamPipeline')}
             }
           }
         }

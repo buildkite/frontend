@@ -8,12 +8,14 @@ import FlashesStore from '../../../stores/FlashesStore';
 import permissions from '../../../lib/permissions';
 
 import Pipeline from './pipeline';
+import AccessLevel from './access-level';
 
 class Row extends React.Component {
   static displayName = "Team.Pipelines.Row";
 
   static propTypes = {
-    pipeline: React.PropTypes.shape({
+    teamPipeline: React.PropTypes.shape({
+      accessLevel: React.PropTypes.string,
       pipeline: React.PropTypes.object.isRequired,
       permissions: React.PropTypes.shape({
         teamPipelineDelete: React.PropTypes.shape({
@@ -21,18 +23,20 @@ class Row extends React.Component {
         }).isRequired
       })
     }).isRequired,
+    onAccessLevelChange: React.PropTypes.func.isRequired,
     onRemoveClick: React.PropTypes.func.isRequired,
     relay: React.PropTypes.object.isRequired
   };
 
   state = {
+    savingNewAccessLevel: null,
     removing: false
   }
 
   render() {
     return (
       <Panel.Row>
-	<Pipeline pipeline={this.props.pipeline.pipeline} />
+	<Pipeline pipeline={this.props.teamPipeline.pipeline} />
         <Panel.RowActions>
           {this.renderActions()}
         </Panel.RowActions>
@@ -41,7 +45,7 @@ class Row extends React.Component {
   }
 
   renderActions() {
-    var transactions = this.props.relay.getPendingTransactions(this.props.pipeline);
+    var transactions = this.props.relay.getPendingTransactions(this.props.teamPipeline);
     var transaction = transactions ? transactions[0] : null;
 
     if(transaction && transaction.getStatus() == "COMMITTING") {
@@ -49,20 +53,48 @@ class Row extends React.Component {
         <Icon icon="spinner" className="dark-gray animation-spin" style={{width: 18, height: 18}} />
       );
     } else {
-      return permissions(this.props.pipeline.permissions).check({
-        allowed: "teamPipelineDelete",
-        render: () => (
-          <Button loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true}
-            onClick={this.handlePipelineRemove}>Remove</Button>
-        )
-      });
+      return permissions(this.props.teamPipeline.permissions).collect(
+        {
+          allowed: "teamPipelineUpdate",
+          render: (idx) => (
+            <AccessLevel key={idx} teamPipeline={this.props.teamPipeline} onAccessLevelChange={this.handleAccessLevelChange} saving={this.state.savingNewAccessLevel} />
+          )
+        },
+        {
+          allowed: "teamPipelineDelete",
+          render: (idx) => (
+            <Button key={idx} loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true} className="ml2"
+              onClick={this.handlePipelineRemove}>Remove</Button>
+          )
+        }
+      )
     }
   }
+
+  handleAccessLevelChange = (accessLevel) => {
+    this.setState({ savingNewAccessLevel: accessLevel });
+
+    this.props.onAccessLevelChange(this.props.teamPipeline, accessLevel, (error) => {
+      this.setState({ savingNewAccessLevel: null });
+
+      if(error) {
+        FlashesStore.flash(FlashesStore.ERROR, error);
+      }
+    });
+  };
+
+  handlePipelineRemove = (e) => {
+    if(confirm("Remove the pipeline from this team?")) {
+      e.preventDefault();
+
+      this.performPipelineRemove(false);
+    }
+  };
 
   performPipelineRemove = (force) => {
     this.setState({ removing: true });
 
-    this.props.onRemoveClick(this.props.pipeline, force, (error) => {
+    this.props.onRemoveClick(this.props.teamPipeline, force, (error) => {
       this.setState({ removing: false });
 
       if(error) {
@@ -75,14 +107,6 @@ class Row extends React.Component {
         }
       }
     });
-  };
-
-  handlePipelineRemove = (e) => {
-    if(confirm("Remove the pipeline from this team?")) {
-      e.preventDefault();
-
-      this.performPipelineRemove(false);
-    }
   };
 }
 
