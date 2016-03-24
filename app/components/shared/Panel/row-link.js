@@ -13,12 +13,12 @@ class RowLink extends React.Component {
 
   render() {
     return (
-      <Link to={this.props.to} className="btn py2 px3 flex items-center hover-bg-silver hover-black focus-black">
-        <div className="flex-auto">
+      <Link to={this.props.to} className="btn p0 flex items-center hover-bg-silver hover-black focus-black">
+        <div className="flex-auto py2 px3">
           {this.props.children}
         </div>
         <div>
-          <Icon icon="chevron-right" className="dark-gray" style={{height: 12, width: 12}} />
+          <Icon icon="chevron-right" className="dark-gray mr3" style={{height: 12, width: 12}} />
         </div>
       </Link>
     );
