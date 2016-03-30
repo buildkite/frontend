@@ -18,6 +18,7 @@ class UserAvatar extends React.Component {
       <img src={this.props.user.avatar.url}
         className={classNames("circle", this.props.className)}
         alt={this.props.user.name}
+        title={this.props.user.name}
         style={this.props.style} />
     );
   }
