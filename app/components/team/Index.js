@@ -30,7 +30,7 @@ class Index extends React.Component {
         <Panel>
           <Panel.Header>Teams</Panel.Header>
           <Panel.IntroWithButton>
-            <span>Teams allow you to create groups of users, and assign fine-grained permissions for who can view builds, create builds, and modify pipelines.</span>
+            <span>Teams allow you to create groups of users, and assign fine-grained permissions for who can view builds, create builds, and modify pipelines.</span>
             {this.renderNewTeamButton()}
           </Panel.IntroWithButton>
           {this.props.organization.teams.edges.map((edge) => <Row key={edge.node.id} team={edge.node} />)}

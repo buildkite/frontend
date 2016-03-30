@@ -1,5 +1,4 @@
 import React from "react";
-import update from "react-addons-update";
 
 import BaseButton from "../Button";
 
@@ -11,17 +10,8 @@ class Button extends React.Component {
   };
 
   render() {
-    let buttonProps = update(this.props, {
-      theme: {
-        $set: false
-      },
-      className: {
-        $set: `dark-gray regular hover-black focus-black truncate`
-      }
-    });
-
     return (
-      <BaseButton {...buttonProps}>{buttonProps.children}</BaseButton>
+      <BaseButton {...this.props} theme="default" outline={true} className="ml1">{this.props.children}</BaseButton>
     )
   }
 }
