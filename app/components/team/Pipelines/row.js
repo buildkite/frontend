@@ -63,7 +63,7 @@ class Row extends React.Component {
         {
           allowed: "teamPipelineDelete",
           render: (idx) => (
-            <Button key={idx} loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true} className="ml2"
+            <Button key={idx} loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true} className="ml3"
               onClick={this.handlePipelineRemove}>Remove</Button>
           )
         }

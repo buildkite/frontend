@@ -22,7 +22,7 @@ class Role extends React.Component {
 
     return (
       <Dropdown align="center" width={270}>
-        <div className="underline-dotted inline-block regular">{label}</div>
+        <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
 
         <Chooser selected={role} onSelect={this.props.onRoleChange}>
           <Chooser.Option value="admin" className="btn block hover-bg-silver">

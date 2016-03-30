@@ -28,7 +28,7 @@ class AccessLevel extends React.Component {
 
     return (
       <Dropdown align="center" width={270}>
-        <div className="underline-dotted inline-block regular">{label}</div>
+        <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
 
         <Chooser selected={this.props.teamPipeline.accessLevel} onSelect={this.props.onAccessLevelChange}>
           <Chooser.Option value="MANAGE_BUILD_AND_READ" className="btn block hover-bg-silver">
