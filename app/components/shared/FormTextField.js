@@ -51,6 +51,10 @@ class FormTextField extends React.Component {
     }
   }
 
+  focus() {
+    this.input.focus();
+  }
+
   _hasErrors() {
     return this.props.errors && this.props.errors.length > 0;
   }
@@ -85,7 +89,8 @@ class FormTextField extends React.Component {
         defaultValue={this.props.value}
         placeholder={this.props.placeholder}
         spellCheck={this.props.spellCheck}
-        onChange={this.props.onChange} />
+        onChange={this.props.onChange}
+        ref={(c) => this.input = c} />
     );
   }
 }
