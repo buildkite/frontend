@@ -20,7 +20,7 @@ class Teams extends React.Component {
       <div>
         {
           this.props.organization.teams.edges.map((edge) => {
-            return <Team key={edge.node.id} team={edge.node} onClick={this.handleTeamClick} selected={this.state.selected.indexOf(edge.node.id) >= 0} />
+            return <Team key={edge.node.id} team={edge.node} onClick={this.handleTeamClick} selected={this.state.selected.indexOf(edge.node.uuid) >= 0} />
           })
         }
       </div>
@@ -30,12 +30,12 @@ class Teams extends React.Component {
   handleTeamClick = (team) => {
     let selected = this.state.selected;
 
-    let index = this.state.selected.indexOf(team.id);
+    let index = this.state.selected.indexOf(team.uuid);
     if(index != -1) {
       selected.splice(index, 1);
       this.props.onTeamDeselect(team);
     } else {
-      selected.push(team.id);
+      selected.push(team.uuid);
       this.props.onTeamSelect(team);
     }
 
