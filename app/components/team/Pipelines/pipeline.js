@@ -26,8 +26,8 @@ class Pipeline extends React.Component {
 
     return (
       <div>
-	<strong className="semi-bold block">{this.props.pipeline.name}</strong>
-	<small className={repositoryTextClasses}>{this.props.pipeline.repository}</small>
+        <strong className="semi-bold block">{this.props.pipeline.name}</strong>
+        <small className={repositoryTextClasses}>{this.props.pipeline.repository}</small>
       </div>
     );
   }

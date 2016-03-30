@@ -36,7 +36,7 @@ class Row extends React.Component {
   render() {
     return (
       <Panel.Row>
-	<Pipeline pipeline={this.props.teamPipeline.pipeline} />
+        <Pipeline pipeline={this.props.teamPipeline.pipeline} />
         <Panel.RowActions>
           {this.renderActions()}
         </Panel.RowActions>
