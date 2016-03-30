@@ -53,7 +53,7 @@ class Show extends React.Component {
         <div>
           <PageHeader>
             <PageHeader.Title><Emojify text={this.props.team.name} /></PageHeader.Title>
-            <PageHeader.Description><Emojify text={this.props.team.description} /></PageHeader.Description>
+            <PageHeader.Description><Emojify text={this.props.team.description || "No description"} /></PageHeader.Description>
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
