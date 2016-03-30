@@ -30,7 +30,7 @@ class Role extends React.Component {
               <Media.Image>{this.renderIcon(role, "admin")}</Media.Image>
               <Media.Description>
                 <span className="semi-bold block">Team Admin</span>
-                <small className="regular dark-gray">Team admins can add other existing users in the organization to this team, as well as other pipelines they may have access to.</small>
+                <small className="regular dark-gray">Manage members and pipelines with unrestricted access</small>
               </Media.Description>
             </Media>
           </Chooser.Option>
@@ -40,7 +40,7 @@ class Role extends React.Component {
               <Media.Image>{this.renderIcon(role, "member")}</Media.Image>
               <Media.Description>
                 <span className="semi-bold block">Member</span>
-                <small className="regular dark-gray">Team members can't make changes to the teams they're in.</small>
+                <small className="regular dark-gray">Create and access pipelines based on each pipeline’s permissions</small>
               </Media.Description>
             </Media>
           </Chooser.Option>
@@ -64,7 +64,7 @@ class Role extends React.Component {
       )
     } else {
       return (
-        <div className="dark-gray" style={{fontSize: 16, width: width}}>✔</div>
+        <div className="gray" style={{fontSize: 16, width: width}}>✔</div>
       )
     }
   }

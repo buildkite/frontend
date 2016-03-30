@@ -19,7 +19,7 @@ class AccessLevel extends React.Component {
   render() {
     let label;
     if(this.props.teamPipeline.accessLevel == "MANAGE_BUILD_AND_READ") {
-      label = "Manage & Build"
+      label = "Full Access"
     } else if (this.props.teamPipeline.accessLevel == "BUILD_AND_READ") {
       label = "Build Only"
     } else if (this.props.teamPipeline.accessLevel == "READ_ONLY") {
@@ -35,8 +35,8 @@ class AccessLevel extends React.Component {
             <Media align="top">
               <Media.Image>{this.renderIcon("MANAGE_BUILD_AND_READ")}</Media.Image>
               <Media.Description>
-                <span className="semi-bold block">Manage &amp; Build</span>
-                <small className="regular dark-gray">Team members can see and trigger builds, as well as editing settings for pipelines in this team.</small>
+                <span className="semi-bold block">Full Access</span>
+                <small className="regular dark-gray">Members can edit pipeline settings, view builds and create builds</small>
               </Media.Description>
             </Media>
           </Chooser.Option>
@@ -45,8 +45,8 @@ class AccessLevel extends React.Component {
             <Media align="top">
               <Media.Image>{this.renderIcon("BUILD_AND_READ")}</Media.Image>
               <Media.Description>
-                <span className="semi-bold block">Build Only</span>
-                <small className="regular dark-gray">Team members can only see and trigger builds for pipelines in this team. Team admins can still manage pipelines.</small>
+                <span className="semi-bold block">Build & Read</span>
+                <small className="regular dark-gray">Members can view builds and create builds</small>
               </Media.Description>
             </Media>
           </Chooser.Option>
@@ -56,7 +56,7 @@ class AccessLevel extends React.Component {
               <Media.Image>{this.renderIcon("READ_ONLY")}</Media.Image>
               <Media.Description>
                 <span className="semi-bold block">Read Only</span>
-                <small className="regular dark-gray">Team members can only see build logs for pipelines in this team. Team admins can still trigger builds and manage pipelines.</small>
+                <small className="regular dark-gray">Members can only view builds</small>
               </Media.Description>
             </Media>
           </Chooser.Option>
