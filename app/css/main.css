@@ -23,6 +23,7 @@
 @import 'basscss';
 
 @import 'container';
+@import 'cursor';
 
 :root {
   --black:  #111111;
