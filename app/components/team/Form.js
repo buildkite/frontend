@@ -22,6 +22,7 @@ class Form extends React.Component {
       <div>
         <FormTextField
           label="Name"
+          help="Pick a name for your team (you can even use :emoji:)"
           errors={errors.findForField("name")}
           value={this.props.name}
           onChange={this.handleTeamNameChange}
@@ -29,6 +30,7 @@ class Form extends React.Component {
 
         <FormTextField
           label="Description"
+          help="Describe what this team is all about"
           errors={errors.findForField("description")}
           value={this.props.description}
           onChange={this.handleDescriptionChange} />
