@@ -80,7 +80,7 @@ class AccessLevel extends React.Component {
       )
     } else {
       return (
-        <div className="dark-gray" style={{fontSize: 16, width: width}}>✔</div>
+        <div className="gray" style={{fontSize: 16, width: width}}>✔</div>
       )
     }
   }
