@@ -35,7 +35,7 @@ class New extends React.Component {
       <DocumentTitle title={`New Team · ${this.props.organization.name}`}>
         <form onSubmit={this.handleFormSubmit}>
           <PageHeader>
-            <PageHeader.Title>Create New Team</PageHeader.Title>
+            <PageHeader.Title>Create a Team</PageHeader.Title>
           </PageHeader>
 
           <Panel>
@@ -48,7 +48,7 @@ class New extends React.Component {
             </Panel.Section>
 
             <Panel.Footer>
-              <Button loading={this.state.saving ? "Creating team…" : false}>Create Team</Button>
+              <Button loading={this.state.saving ? "Creating team…" : false} theme="success">Create Team</Button>
             </Panel.Footer>
           </Panel>
         </form>

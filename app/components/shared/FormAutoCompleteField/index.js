@@ -75,9 +75,12 @@ class FormAutoCompleteField extends React.Component {
   render() {
     return (
       <div className="relative">
-        {this.renderIcon()}
+        <div className="absolute pointer-events-none" style={{left: 8, top: 5}}>
+          {this.renderIcon()}
+        </div>
         <input type="input"
           className="input"
+          style={{paddingLeft: 28}}
           ref={c => this._inputNode = c}
           onChange={this.handleInputChange}
           onKeyDown={this.handleKeyDown}
@@ -92,15 +95,11 @@ class FormAutoCompleteField extends React.Component {
   renderIcon() {
     if(this.state.searching) {
       return (
-        <div className="absolute" style={{right: 7, top: 6}}>
-          <Icon icon="spinner" className="dark-gray animation-spin" style={{width: 18, height: 18}} />
-        </div>
+        <Icon icon="spinner" className="gray animation-spin" style={{width: 15, height: 15}} />
       );
     } else {
       return (
-        <div className="absolute" style={{right: 7, top: 6}}>
-          <Icon icon="search" className="dark-gray" style={{width: 17, height: 17}} />
-        </div>
+        <Icon icon="search" className="gray" style={{width: 15, height: 15}} />
       );
     }
   }

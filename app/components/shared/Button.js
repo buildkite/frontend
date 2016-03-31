@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 const NORMAL_THEMES = {
   primary: "btn-primary",
-  success: "btn-primary bg-green",
+  success: "btn-primary bg-lime",
   warning: "btn-primary bg-orange",
   default: "btn-primary bg-gray",
   error: "btn-primary bg-red"
@@ -13,7 +13,7 @@ const NORMAL_THEMES = {
 
 const OUTLINE_THEMES = {
   primary: "btn-outline border-blue blue",
-  success: "btn-outline border-green green",
+  success: "btn-outline border-lime lime",
   warning: "btn-outline border-orange orange",
   default: "btn-outline border-gray",
   error: "btn-outline border-red red"

@@ -1,15 +1,19 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-import Panel from '../shared/Panel'
-import UserAvatar from '../shared/UserAvatar'
+import Panel from '../shared/Panel';
+import UserAvatar from '../shared/UserAvatar';
 import Emojify from '../shared/Emojify';
+
+const maxAvatars = 4;
+const avatarSize = 30;
 
 class Row extends React.Component {
   static propTypes = {
     team: React.PropTypes.shape({
       id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string,
       slug: React.PropTypes.string.isRequired,
       organization: React.PropTypes.shape({
         slug: React.PropTypes.string.isRequired
@@ -31,27 +35,79 @@ class Row extends React.Component {
   render() {
     return (
       <Panel.RowLink key={this.props.team.id} to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}`}>
-        <span className="semi-bold block"><Emojify text={this.props.team.name} /></span>
-        <span className="regular dark-gray block">{this.props.team.members.count} members · {this.props.team.pipelines.count} projects</span>
-        <div style={{marginTop: 3}}>
-          {
-            this.props.team.members.edges.map((edge, index) => {
-              return (
-                <UserAvatar
-                  key={edge.node.id}
-                  user={edge.node.user}
-                  className="border border-white"
-                  style={{width: 20, height: 20, marginRight: -4, zIndex: this.props.team.members.edges.length - index, position: "relative"}} />
-                )
-            })
-          }
+        <div className="flex flex-stretch items-center line-height-1" style={{minHeight: '3em'}}>
+          <div className="flex-auto">
+            <div className="m0 semi-bold"><Emojify text={this.props.team.name} /></div>
+            {this._renderDescription()}
+          </div>
+          <div className="flex flex-none flex-stretch items-center my1">
+            {this._renderPipelineCount()}
+            {this._renderMemberAvatars()}
+          </div>
         </div>
       </Panel.RowLink>
     );
   }
+
+  _renderPipelineCount() {
+    if (this.props.team.pipelines.count != 0) {
+      return (
+        <span className="regular mr2">
+          {this.props.team.pipelines.count} pipeline{this.props.team.pipelines.count == 1 ? '' : 's'}
+        </span>
+      );
+    }
+  }
+
+  _renderMemberAvatars() {
+    if (this.props.team.members.count != 0) {
+      return (
+        <div className="mr3">
+          {
+            this.props.team.members.edges.map((edge) => {
+              return (
+                <UserAvatar
+                  key={edge.node.id}
+                  user={edge.node.user}
+                  className="align-middle border border-white"
+                  style={{width: avatarSize, height: avatarSize, marginRight: -10, borderWidth: 2}} />
+                )
+            })
+          }
+          {this._renderMemberExtrasCount()}
+        </div>
+      );
+    }
+  }
+
+  _renderMemberExtrasCount() {
+    const extrasCount = this.props.team.members.count - maxAvatars;
+
+    if (extrasCount > 0) {
+      return (
+        <div className="inline-block bg-gray bold circle center border border-white semi-bold"
+             style={{width: avatarSize, height: avatarSize, lineHeight: `${avatarSize - 4}px`, fontSize: 11, borderWidth: 2}}
+             title={`and another ${this.props.team.members.count} member${this.props.team.members.count == 1 ? '' : 's'}`}>
+          {"+" + extrasCount}
+        </div>
+      );
+    }
+  }
+
+  _renderDescription() {
+    if (this.props.team.description) {
+      return (
+        <div className="regular dark-gray mt1"><Emojify text={this.props.team.description} /></div>
+      );
+    }
+  }
 }
 
 export default Relay.createContainer(Row, {
+  initialVariables: {
+    maxAvatars: maxAvatars
+  },
+
   fragments: {
     team: () => Relay.QL`
       fragment on Team {
@@ -62,7 +118,7 @@ export default Relay.createContainer(Row, {
         organization {
           slug
         }
-        members(first: 3) {
+        members(first: $maxAvatars) {
           count
           edges {
             node {

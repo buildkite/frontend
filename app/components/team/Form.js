@@ -2,7 +2,6 @@ import React from 'react';
 
 import FormTextField from '../shared/FormTextField';
 import ValidationErrors from '../../lib/ValidationErrors';
-import dasherize from '../../lib/dasherize';
 
 class Form extends React.Component {
   static propTypes = {
@@ -12,9 +11,9 @@ class Form extends React.Component {
     onChange: React.PropTypes.func
   };
 
-  state = {
-    slug: dasherize(this.props.name)
-  };
+  componentDidMount() {
+    this.nameTextField.focus();
+  }
 
   render() {
     var errors = new ValidationErrors(this.props.errors);
@@ -22,15 +21,16 @@ class Form extends React.Component {
     return (
       <div>
         <FormTextField
-          label="Team Name"
-          help={this.generateTeamNameHelpText()}
+          label="Name"
+          help="Pick a name for your team (you can even use :emoji:)"
           errors={errors.findForField("name")}
           value={this.props.name}
-          onChange={this.handleTeamNameChange} />
+          onChange={this.handleTeamNameChange}
+          ref={(c) => this.nameTextField = c} />
 
         <FormTextField
           label="Description"
-          help="Some helpful information about the team"
+          help="Describe what this team is all about"
           errors={errors.findForField("description")}
           value={this.props.description}
           onChange={this.handleDescriptionChange} />
@@ -38,16 +38,7 @@ class Form extends React.Component {
     );
   }
 
-  generateTeamNameHelpText() {
-    if(this.state && this.state.slug) {
-      return `This team's slug will be: <code>${this.state.slug}</code>`;
-    } else {
-      return "What you call the team";
-    }
-  }
-
   handleTeamNameChange = (e) => {
-    this.setState({ slug: dasherize(e.target.value) });
     this.props.onChange('name', e.target.value);
   };
 

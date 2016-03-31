@@ -30,7 +30,7 @@ class Index extends React.Component {
         <Panel>
           <Panel.Header>Teams</Panel.Header>
           <Panel.IntroWithButton>
-            <span>Manage your teams and make some awesome ones so you can do super awesome stuff like organzing users and projects into teams so you can do permissions and stuff.</span>
+            <span>Teams allow you to create groups of users, and assign fine-grained permissions for who can view builds, create builds, and modify pipelines.</span>
             {this.renderNewTeamButton()}
           </Panel.IntroWithButton>
           {this.props.organization.teams.edges.map((edge) => <Row key={edge.node.id} team={edge.node} />)}
@@ -43,7 +43,7 @@ class Index extends React.Component {
     return permissions(this.props.organization.permissions).check(
       {
         allowed: "teamCreate",
-        render: () => <Button link={`/organizations/${this.props.organization.slug}/teams/new`}>New Team</Button>
+        render: () => <Button link={`/organizations/${this.props.organization.slug}/teams/new`} theme={"default"} outline={true}>Create a Team</Button>
       }
     )
   }
