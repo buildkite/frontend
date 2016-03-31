@@ -6,6 +6,7 @@
 }
 
 .animation-pop-in {
+  will-change: opacity, transform;
   opacity: .25;
   transform: scale(0);
   animation: scale-up 200ms ease-in-out-back forwards;
@@ -28,6 +29,7 @@
 }
 
 .animation-slide-in-from-right {
+  will-change: transform;
   transform: translate(25px,0px);
   animation: animation-slide-in-from-right 1s ease-in-out-back forwards;
 }
@@ -53,4 +55,7 @@
   }
 }
 
-.animation-spin { animation: animation-spin 2s infinite linear; }
+.animation-spin {
+  will-change: transform;
+  animation: animation-spin 1.25s infinite linear;
+}

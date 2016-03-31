@@ -2,7 +2,7 @@ import React from 'react';
 
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
-import Icon from '../../shared/Icon';
+import Spinner from '../../shared/Spinner';
 
 import FlashesStore from '../../../stores/FlashesStore';
 import permissions from '../../../lib/permissions';
@@ -51,7 +51,7 @@ class Row extends React.Component {
 
     if(transaction && transaction.getStatus() == "COMMITTING") {
       return (
-        <Icon icon="spinner" className="dark-gray animation-spin" style={{width: 18, height: 18}} />
+        <Spinner width={18} height={18} color={false}/>
       );
     } else {
       return permissions(this.props.teamMember.permissions).collect(
