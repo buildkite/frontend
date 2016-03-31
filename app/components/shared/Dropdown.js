@@ -8,7 +8,8 @@ class Dropdown extends React.Component {
     width: React.PropTypes.number.isRequired,
     className: React.PropTypes.string,
     align: React.PropTypes.string,
-    onToggle: React.PropTypes.func
+    onToggle: React.PropTypes.func,
+    nibOffset: React.PropTypes.number
   };
 
   static defaultProps = {
