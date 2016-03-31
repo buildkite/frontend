@@ -24,6 +24,9 @@ class Spinner extends React.Component {
       height:        { $set: this.props.height }
     });
 
+    // We use two separate SVGs layered on top of one another, with one
+    // animating, because adding the animation to the inside of the SVG
+    // performs really slowly on both Safari and Chrome
     return (
       <div className={classNames("inline-block relative", this.props.className)} style={style}>
         <div className="absolute top-0 left-0">
