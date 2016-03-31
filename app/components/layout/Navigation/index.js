@@ -71,7 +71,7 @@ class Navigation extends React.Component {
 
             <span className="flex-auto"></span>
 
-            <NavigationButton className="xs-hide sm-hide" href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
+            <NavigationButton href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
             <NavigationButton className="xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
             <NavigationButton className="xs-hide sm-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
 
@@ -85,7 +85,6 @@ class Navigation extends React.Component {
                 </span>
               </DropdownButton>
 
-              <NavigationButton className="md-hide lg-hide" href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
               <NavigationButton href="/user/settings">Personal Settings</NavigationButton>
 
               <div className="md-hide lg-hide">
