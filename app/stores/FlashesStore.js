@@ -10,7 +10,11 @@ class FlashesStore extends EventEmitter {
     // See if the message is actually a GraphQL exception
     if(message.source && message.message) {
       if(message.source.errors[0] && message.source.errors[0].message) {
-        message = message.source.errors[0].message;
+        if(message.source.type == "unknown_error") {
+          message = "Sorry, there’s been an unexpected error and our engineers have been notified";
+        } else {
+          message = message.source.errors[0].message;
+        }
       } else {
         message = "An unknown error occured";
       }
