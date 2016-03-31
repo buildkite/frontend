@@ -48,7 +48,7 @@ class New extends React.Component {
             </Panel.Section>
 
             <Panel.Footer>
-              <Button loading={this.state.saving ? "Creating team…" : false}>Create Team</Button>
+              <Button loading={this.state.saving ? "Creating team…" : false} theme="success">Create Team</Button>
             </Panel.Footer>
           </Panel>
         </form>
