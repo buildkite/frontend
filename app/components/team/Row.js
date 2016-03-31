@@ -104,6 +104,10 @@ class Row extends React.Component {
 }
 
 export default Relay.createContainer(Row, {
+  initialVariables: {
+    maxAvatars: maxAvatars
+  },
+
   fragments: {
     team: () => Relay.QL`
       fragment on Team {
@@ -114,7 +118,7 @@ export default Relay.createContainer(Row, {
         organization {
           slug
         }
-        members(first: 4) {
+        members(first: $maxAvatars) {
           count
           edges {
             node {
