@@ -19,10 +19,13 @@ class Role extends React.Component {
   render() {
     let label = this.props.teamMember.admin ? "Team Admin" : "Member";
     let role = this.props.teamMember.admin ? "admin" : "member";
+    let nib = this.props.teamMember.admin ? 3 : 15;
 
     return (
-      <Dropdown align="center" width={270}>
-        <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
+      <Dropdown align="center" width={270} nibOffset={nib}>
+        <div style={{width: 87}} className="right-align">
+          <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
+        </div>
 
         <Chooser selected={role} onSelect={this.props.onRoleChange}>
           <Chooser.Option value="admin" className="btn block hover-bg-silver">

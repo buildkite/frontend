@@ -18,17 +18,23 @@ class AccessLevel extends React.Component {
 
   render() {
     let label;
+    let nibOffset;
     if(this.props.teamPipeline.accessLevel == "MANAGE_BUILD_AND_READ") {
       label = "Full Access"
+      nibOffset = 10;
     } else if (this.props.teamPipeline.accessLevel == "BUILD_AND_READ") {
-      label = "Build Only"
+      label = "Build & Read"
+      nibOffset = 3;
     } else if (this.props.teamPipeline.accessLevel == "READ_ONLY") {
       label = "Read Only";
+      nibOffset = 13;
     }
 
     return (
-      <Dropdown align="center" width={270}>
-        <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
+      <Dropdown align="center" width={270} nibOffset={nibOffset}>
+        <div style={{width: 90}} className="right-align">
+          <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
+        </div>
 
         <Chooser selected={this.props.teamPipeline.accessLevel} onSelect={this.props.onAccessLevelChange}>
           <Chooser.Option value="MANAGE_BUILD_AND_READ" className="btn block hover-bg-silver">
@@ -45,7 +51,7 @@ class AccessLevel extends React.Component {
             <Media align="top">
               <Media.Image>{this.renderIcon("BUILD_AND_READ")}</Media.Image>
               <Media.Description>
-                <span className="semi-bold block">Build & Read</span>
+                <span className="semi-bold block">Build &amp; Read</span>
                 <small className="regular dark-gray">Members can view builds and create builds</small>
               </Media.Description>
             </Media>
