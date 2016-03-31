@@ -22,9 +22,9 @@ a.btn-primary {
 
 .btn-primary:active {
   outline: 0;
-  box-shadow: inset 0 0 0 20rem var(--darken-2),
-    inset 0 3px 4px 0 var(--darken-3),
-    0 0 1px var(--darken-2);
+  box-shadow: inset 0 0 0 10rem var(--darken-2),
+    inset 0 3px 4px 0 var(--darken-1),
+    0 0 1px var(--darken-1);
 }
 
 .btn-primary:disabled,
