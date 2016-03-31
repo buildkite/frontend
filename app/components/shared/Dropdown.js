@@ -11,6 +11,10 @@ class Dropdown extends React.Component {
     onToggle: React.PropTypes.func
   };
 
+  static defaultProps = {
+    nibOffset: 0
+  };
+
   state = {
     showing: false
   };
@@ -86,7 +90,7 @@ class Dropdown extends React.Component {
       styles.left = 10;
     } else if (this.props.align == 'center') {
       styles.left = '50%';
-      styles.marginLeft = (styles.width / 2) * -1;
+      styles.marginLeft = (styles.width / 2) * -1 + this.props.nibOffset;
     }
 
     return styles;
