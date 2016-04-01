@@ -99,7 +99,7 @@ class Navigation extends React.Component {
               <form action="/logout" method="post" ref={c => this.logoutFormNode = c}>
                 <input type="hidden" name="_method" value={"delete"} />
                 <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
-                <NavigationButton onClick={this.handleLogoutClick}>Logout</NavigationButton>
+                <NavigationButton href="#" onClick={this.handleLogoutClick}>Logout</NavigationButton>
               </form>
             </Dropdown>
           </div>
