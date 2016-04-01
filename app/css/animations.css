@@ -34,6 +34,17 @@
   animation: animation-slide-in-from-right 1s ease-in-out-back forwards;
 }
 
+@keyframes animation-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animation-fade-in {
+  will-change: opacity;
+  opacity: 0;
+  animation: animation-fade-in 200ms linear forwards;
+}
+
 /* Animation modification utilities */
 
 .animation-delay-1 { animation-delay: 1s; }

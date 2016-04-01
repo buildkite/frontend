@@ -8,13 +8,15 @@ class Spinner extends React.Component {
     height: React.PropTypes.number,
     className: React.PropTypes.string,
     style: React.PropTypes.object,
-    color: React.PropTypes.bool
+    color: React.PropTypes.bool,
+    fadeIn: React.PropTypes.bool
   };
 
   static defaultProps = {
     width: 20,
     height: 20,
-    color: true
+    color: true,
+    fadeIn: true
   };
 
   render() {
@@ -28,7 +30,7 @@ class Spinner extends React.Component {
     // animating, because adding the animation to the inside of the SVG
     // performs really slowly on both Safari and Chrome
     return (
-      <div className={classNames("inline-block relative", this.props.className)} style={style}>
+      <div className={classNames("inline-block relative", this.props.className, {"animation-fade-in": this.props.fadeIn})} style={style}>
         <div className="absolute top-0 left-0">
           <svg viewBox="0 0 20 20" width="20px" height="20px" className="absolute top-0 left-0" style={{width: this.props.width, height: this.props.height}}>
             <circle className="stroke-gray" fill="transparent" strokeMiterlimit="10" strokeWidth="3" cx="10" cy="10" r="7"/>

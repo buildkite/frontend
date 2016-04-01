@@ -1,9 +1,13 @@
 import React from 'react';
 
+import Spinner from './spinner';
+
 class SectionLoader extends React.Component {
   render() {
     return (
-      <div style={{fontSize: "15px", color: "#989898", textAlign: "center", marginTop: "30px"}}>Loading...</div>
+      <div className="center mt4">
+      	<Spinner/>
+      </div>
     );
   }
 }
