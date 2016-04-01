@@ -38,7 +38,7 @@ class Navigation extends React.Component {
   };
 
   render() {
-    let myBuildsNode = (Features.MyBuilds || Features.NewNav) ? (
+    let myBuildsNode = Features.NewNav ? (
       <NavigationButton href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
     ) : null;
 
