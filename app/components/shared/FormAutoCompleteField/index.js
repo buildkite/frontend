@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import Icon from '../Icon';
+import Spinner from '../Spinner';
 
 import Suggestion from './suggestion';
 import ErrorMessage from './error-message';
@@ -95,7 +96,7 @@ class FormAutoCompleteField extends React.Component {
   renderIcon() {
     if(this.state.searching) {
       return (
-        <Icon icon="spinner" className="gray animation-spin" style={{width: 15, height: 15}} />
+        <Spinner width={15} height={15} color={false}/>
       );
     } else {
       return (
@@ -252,7 +253,7 @@ class FormAutoCompleteField extends React.Component {
       this.props.onSearch(target.value);
       this.setState({ searching: true });
       delete this._timeout;
-    }, 250);
+    }, 100);
   };
 }
 

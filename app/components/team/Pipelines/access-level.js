@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Icon from '../../shared/Icon';
+import Spinner from '../../shared/Spinner';
 import Chooser from '../../shared/Chooser';
 import Media from '../../shared/Media';
 import Dropdown from '../../shared/Dropdown';
@@ -77,7 +77,7 @@ class AccessLevel extends React.Component {
     if(this.props.saving == accessLevel) {
       return (
         <div style={{width: width}}>
-          <Icon icon="spinner" className="dark-gray animation-spin fit absolute" style={{width: 16, height: 16, marginTop: 3}} />
+          <Spinner className="fit absolute" width={16} height={16} style={{marginTop: 3}} color={false} />
         </div>
       )
     } else if(this.props.teamPipeline.accessLevel == accessLevel) {
