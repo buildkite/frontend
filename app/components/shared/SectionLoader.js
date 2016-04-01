@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Spinner from './spinner';
+import Spinner from './Spinner';
 
 class SectionLoader extends React.Component {
   render() {
