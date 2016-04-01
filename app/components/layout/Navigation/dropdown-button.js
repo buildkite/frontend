@@ -12,8 +12,10 @@ class DropdownButton extends React.Component {
 
   render() {
     return (
-      <button style={this.props.style} className={classNames("btn black hover-lime focus-lime flex items-center flex-none semi-bold", this.props.className)}>
-        {this.props.children}
+      <button style={this.props.style} className={classNames("btn black hover-lime focus-lime semi-bold", this.props.className)}>
+        <div className="flex items-center flex-none">
+          {this.props.children}
+        </div>
       </button>
     );
   }

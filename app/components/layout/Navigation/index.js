@@ -38,6 +38,10 @@ class Navigation extends React.Component {
   };
 
   render() {
+    let myBuildsNode = Features.NewNav ? (
+      <NavigationButton href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
+    ) : null;
+
     return (
       <div className="border-bottom border-gray bg-silver" style={{fontSize: 13, marginBottom: 25}} data-tag={true}>
         <div className="container">
@@ -71,7 +75,7 @@ class Navigation extends React.Component {
 
             <span className="flex-auto"></span>
 
-            <NavigationButton className="xs-hide sm-hide" href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
+            {myBuildsNode}
             <NavigationButton className="xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
             <NavigationButton className="xs-hide sm-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
 
@@ -85,7 +89,6 @@ class Navigation extends React.Component {
                 </span>
               </DropdownButton>
 
-              <NavigationButton className="md-hide lg-hide" href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
               <NavigationButton href="/user/settings">Personal Settings</NavigationButton>
 
               <div className="md-hide lg-hide">
@@ -96,7 +99,7 @@ class Navigation extends React.Component {
               <form action="/logout" method="post" ref={c => this.logoutFormNode = c}>
                 <input type="hidden" name="_method" value={"delete"} />
                 <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
-                <NavigationButton onClick={this.handleLogoutClick}>Logout</NavigationButton>
+                <NavigationButton href="#" onClick={this.handleLogoutClick}>Logout</NavigationButton>
               </form>
             </Dropdown>
           </div>
