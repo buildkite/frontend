@@ -6,7 +6,7 @@ class SectionLoader extends React.Component {
   render() {
     return (
       <div className="center mt4">
-      	<Spinner/>
+        <Spinner/>
       </div>
     );
   }
