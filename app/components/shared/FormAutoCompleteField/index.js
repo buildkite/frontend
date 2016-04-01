@@ -96,7 +96,7 @@ class FormAutoCompleteField extends React.Component {
   renderIcon() {
     if(this.state.searching) {
       return (
-        <Spinner width={18} height={18} color={false}/>
+        <Spinner width={15} height={15} color={false}/>
       );
     } else {
       return (
@@ -253,7 +253,7 @@ class FormAutoCompleteField extends React.Component {
       this.props.onSearch(target.value);
       this.setState({ searching: true });
       delete this._timeout;
-    }, 250);
+    }, 100);
   };
 }
 
