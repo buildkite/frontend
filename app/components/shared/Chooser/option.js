@@ -5,6 +5,7 @@ class Option extends React.Component {
   static displayName = "Chooser.Option";
 
   static propTypes = {
+    tag: React.PropTypes.string.isRequired,
     children: React.PropTypes.node.isRequired,
     className: React.PropTypes.string,
     unselectedClassName: React.PropTypes.string,
@@ -17,14 +18,15 @@ class Option extends React.Component {
     chooser: React.PropTypes.object.isRequired
   };
 
-  render() {
-    let classes = this.context.chooser.isSelected(this.props.value) ? this.props.selectedClassName : this.props.unselectedClassName;
+  static defaultProps = {
+    tag: 'div'
+  };
 
-    return (
-      <div className={classNames(this.props.className, classes)} onClick={this.handleClick}>
-        {this.props.children}
-      </div>
-    );
+  render() {
+    let selectionClasses = this.context.chooser.isSelected(this.props.value) ? this.props.selectedClassName : this.props.unselectedClassName;
+    let classes = classNames(this.props.className, selectionClasses);
+
+    return React.DOM[this.props.tag]({ className: classes, onClick: this.handleClick }, this.props.children)
   }
 
   handleClick = (e) => {

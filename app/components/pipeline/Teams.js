@@ -26,6 +26,7 @@ class Teams extends React.Component {
           this.props.organization.teams.edges.map((edge) => {
             return (
               <Chooser.Option
+                tag="button"
                 key={edge.node.id}
                 value={edge.node.id}
                 data={{team: edge.node}}
