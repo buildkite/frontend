@@ -1,0 +1,12 @@
+/*
+	Classes to use to set SVG color properties
+
+	Create them as you need.
+*/
+
+.stroke-black      { stroke: var(--black) }
+.stroke-gray       { stroke: var(--gray) }
+.stroke-dark-gray  { stroke: var(--dark-gray) }
+.stroke-silver     { stroke: var(--silver) }
+.stroke-white      { stroke: var(--white) }
+.stroke-lime       { stroke: var(--lime) }

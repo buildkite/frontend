@@ -31,7 +31,7 @@ class Spinner extends React.Component {
       <div className={classNames("inline-block relative", this.props.className)} style={style}>
         <div className="absolute top-0 left-0">
           <svg viewBox="0 0 20 20" width="20px" height="20px" className="absolute top-0 left-0" style={{width: this.props.width, height: this.props.height}}>
-            <circle fill="transparent" stroke="#ddd" strokeMiterlimit="10" strokeWidth="3" cx="10" cy="10" r="7"/>
+            <circle className="stroke-gray" fill="transparent" strokeMiterlimit="10" strokeWidth="3" cx="10" cy="10" r="7"/>
           </svg>
           <svg viewBox="0 0 20 20" width="20px" height="20px" className="absolute top-0 left-0 animation-spin" style={{width: this.props.width, height: this.props.height}}>
             <defs>
@@ -43,7 +43,7 @@ class Spinner extends React.Component {
               <g className="animation-spin">
                 <g transform="translate(-10, -10)">
                   <g clipPath="url(#spinner-clip-path)">
-                    <circle fill="transparent" stroke={this._arcColor()} strokeMiterlimit="10" strokeWidth="3" cx="10" cy="10" r="7"/>
+                    <circle fill="transparent" className={this.props.color ? "stroke-lime" : "stroke-dark-gray"} strokeMiterlimit="10" strokeWidth="3" cx="10" cy="10" r="7"/>
                   </g>
                 </g>
               </g>
@@ -52,14 +52,6 @@ class Spinner extends React.Component {
         </div>
       </div>
     );
-  }
-
-  _arcColor() {
-    if (this.props.color) {
-      return "#7EAF25"; // lime-green
-    } else {
-      return "#777";
-    }
   }
 }
 
