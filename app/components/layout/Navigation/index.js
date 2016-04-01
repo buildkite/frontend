@@ -38,6 +38,10 @@ class Navigation extends React.Component {
   };
 
   render() {
+    let myBuildsNode = (Features.MyBuilds || Features.NewNav) ? (
+      <NavigationButton href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
+    ) : null;
+
     return (
       <div className="border-bottom border-gray bg-silver" style={{fontSize: 13, marginBottom: 25}} data-tag={true}>
         <div className="container">
@@ -71,7 +75,7 @@ class Navigation extends React.Component {
 
             <span className="flex-auto"></span>
 
-            <NavigationButton href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
+            {myBuildsNode}
             <NavigationButton className="xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
             <NavigationButton className="xs-hide sm-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
 
