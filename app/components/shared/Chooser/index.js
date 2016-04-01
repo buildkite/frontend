@@ -37,8 +37,8 @@ class Chooser extends React.Component {
     }
   }
 
-  handleChoiceClick = (value) => {
-    this.props.onSelect(value);
+  handleChoiceClick = (value, data) => {
+    this.props.onSelect(value, data);
   }
 }
 

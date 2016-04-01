@@ -9,7 +9,8 @@ class Option extends React.Component {
     className: React.PropTypes.string,
     unselectedClassName: React.PropTypes.string,
     selectedClassName: React.PropTypes.string,
-    value: React.PropTypes.any.isRequired
+    value: React.PropTypes.any.isRequired,
+    data: React.PropTypes.any
   };
 
   static contextTypes = {
@@ -29,7 +30,7 @@ class Option extends React.Component {
   handleClick = (e) => {
     e.preventDefault();
 
-    this.context.chooser.handleChoiceClick(this.props.value);
+    this.context.chooser.handleChoiceClick(this.props.value, this.props.data);
   }
 }
 
