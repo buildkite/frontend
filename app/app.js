@@ -89,6 +89,8 @@ window["initializeReactRouter"] = function() {
   let TeamNew = require("./components/team/New").default;
   let TeamShow = require("./components/team/Show").default;
   let TeamEdit = require("./components/team/Edit").default;
+  let AgentIndex = require("./components/agent/Index").default;
+  let AgentShow = require("./components/agent/Show").default;
 
   const BuildQuery = () => Relay.QL`
     query {
@@ -111,6 +113,12 @@ window["initializeReactRouter"] = function() {
   const TeamQuery = () => Relay.QL`
     query {
       team(slug: $slug)
+    }
+  `
+
+  const AgentQuery = () => Relay.QL`
+    query {
+      agent(uuid: $agent)
     }
   `
 
@@ -144,12 +152,23 @@ window["initializeReactRouter"] = function() {
     };
   }
 
+  const prepareAgentParans = (params) => {
+    return {
+      ...params,
+      slug: [ params.organization, params.agent ].join("/")
+    };
+  }
+
   // Define and render the routes
   ReactDOM.render(
     <RelayRouter history={browserHistory}>
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
 
       <Route path="/" component={Main}>
+        <Route path="organizations/:organization/agents">
+          <IndexRoute component={AgentIndex} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
+          <Route path=":agent" component={AgentShow} queries={{agent: AgentQuery}} renderLoading={handleSectionLoading} />
+        </Route>
         <Route path="organizations/:organization" component={OrganizationSettingsSection}>
           <Route path="teams">
             <IndexRoute component={TeamIndex} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
