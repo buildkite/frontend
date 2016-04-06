@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
 import PageHeader from '../shared/PageHeader';
+import Panel from '../shared/Panel';
 import Button from '../shared/Button';
 import Emojify from '../shared/Emojify';
 import permissions from '../../lib/permissions';
@@ -57,7 +58,7 @@ class Show extends React.Component {
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
-          <Members team={this.props.team} className="mb4" />
+          {this.renderMembers()}
           <Pipelines team={this.props.team} />
         </div>
       </DocumentTitle>
@@ -79,6 +80,21 @@ class Show extends React.Component {
         )
       }
     )
+  }
+
+  renderMembers() {
+    if(this.props.team.everyone) {
+      return (
+	<Panel className="mb4">
+	  <Panel.Header>Members</Panel.Header>
+	  <Panel.Section>This team is automatically managed by Buildkite so as you invite and remove users from your organization they are added and removed from this team.</Panel.Section>
+	</Panel>
+      )
+    } else {
+      return (
+        <Members team={this.props.team} className="mb4" />
+      );
+    }
   }
 
   handleRemoveTeamClick = () => {
@@ -140,6 +156,7 @@ export default Relay.createContainer(Show, {
         name
         description
         slug
+        everyone
         permissions {
           teamUpdate {
             allowed
