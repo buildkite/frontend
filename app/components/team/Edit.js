@@ -12,14 +12,14 @@ import GraphQLErrors from '../../constants/GraphQLErrors';
 
 class New extends React.Component {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired
-    }).isRequired,
     team: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string
+      description: React.PropTypes.string,
+      organization: React.PropTypes.shape({
+        name: React.PropTypes.string.isRequired,
+        slug: React.PropTypes.string.isRequired
+      }).isRequired
     }).isRequired
   };
 
@@ -36,7 +36,7 @@ class New extends React.Component {
 
   render() {
     return (
-      <DocumentTitle title={`Edit ${this.props.organization.name} · ${this.props.organization.name} Team`}>
+      <DocumentTitle title={`Edit ${this.props.team.organization.name} · ${this.props.team.organization.name} Team`}>
         <form onSubmit={this.handleFormSubmit}>
           <PageHeader>
             <PageHeader.Title>Edit Team</PageHeader.Title>
@@ -98,24 +98,22 @@ class New extends React.Component {
   };
 
   handleMutationSuccess = (response) => {
-    this.context.router.push(`/organizations/${this.props.organization.slug}/teams/${response.teamUpdate.team.slug}`);
+    this.context.router.push(`/organizations/${this.props.team.organization.slug}/teams/${response.teamUpdate.team.slug}`);
   };
 }
 
 export default Relay.createContainer(New, {
   fragments: {
-    organization: () => Relay.QL`
-      fragment on Organization {
-        name
-        slug
-      }
-    `,
     team: () => Relay.QL`
       fragment on Team {
         ${TeamUpdateMutation.getFragment('team')}
         name
         slug
         description
+        organization {
+          name
+          slug
+        }
       }
     `
   }

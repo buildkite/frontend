@@ -26,6 +26,7 @@ class TeamDelete extends Relay.Mutation {
         deletedTeamID,
         organization {
           id
+          slug
           teams {
             count
           }

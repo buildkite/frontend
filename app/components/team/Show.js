@@ -17,15 +17,15 @@ import RelayBridge from '../../lib/RelayBridge';
 class Show extends React.Component {
   static propTypes = {
     slug: React.PropTypes.string.isRequired,
-    organization: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired
-    }).isRequired,
     team: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       description: React.PropTypes.string,
       slug: React.PropTypes.string.isRequired,
       everyone: React.PropTypes.bool.isRequired,
+      organization: React.PropTypes.shape({
+        name: React.PropTypes.string.isRequired,
+        slug: React.PropTypes.string.isRequired
+      }).isRequired,
       permissions: React.PropTypes.shape({
         teamUpdate: React.PropTypes.object.isRequired,
         teamDelete: React.PropTypes.object.isRequired
@@ -51,7 +51,7 @@ class Show extends React.Component {
     }
 
     return (
-      <DocumentTitle title={`${this.props.team.name} · ${this.props.organization.name} Team`}>
+      <DocumentTitle title={`${this.props.team.name} · ${this.props.team.organization.name} Team`}>
         <div>
           <PageHeader>
             <PageHeader.Title><Emojify text={this.props.team.name} /></PageHeader.Title>
@@ -71,7 +71,7 @@ class Show extends React.Component {
       {
         allowed: "teamUpdate",
         render: (idx) => (
-          <PageHeader.Button key={idx} link={`/organizations/${this.props.organization.slug}/teams/${this.props.team.slug}/edit`}>Edit</PageHeader.Button>
+          <PageHeader.Button key={idx} link={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}/edit`}>Edit</PageHeader.Button>
         )
       },
       {
@@ -127,10 +127,10 @@ class Show extends React.Component {
 
     // Update our RelayBridge with the new organization data (in this case, the
     // teams count will be reduced by 1)
-    RelayBridge.update(`organization/${this.props.organization.slug}`, response.teamDelete.organization);
+    RelayBridge.update(`organization/${response.teamDelete.organization.slug}`, response.teamDelete.organization);
 
     // Redirect back to the index page
-    this.context.router.push(`/organizations/${this.props.organization.slug}/teams`);
+    this.context.router.push(`/organizations/${response.teamDelete.organization.slug}/teams`);
   }
 
   handleDeleteTeamMutationFailure = (transaction) => {
@@ -142,22 +142,24 @@ class Show extends React.Component {
 }
 
 export default Relay.createContainer(Show, {
+  initialVariables: {
+    isEveryoneTeam: false
+  },
+
   fragments: {
-    organization: () => Relay.QL`
-      fragment on Organization {
-	name
-	slug
-      }
-    `,
-    team: () => Relay.QL`
+    team: (variables) => Relay.QL`
       fragment on Team {
         ${Pipelines.getFragment('team')}
-        ${Members.getFragment('team')}
+        ${Members.getFragment('team').unless(variables.isEveryoneTeam)}
         ${TeamDeleteMutation.getFragment('team')}
         name
         description
         slug
         everyone
+        organization {
+          name
+          slug
+        }
         permissions {
           teamUpdate {
             allowed
