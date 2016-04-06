@@ -123,6 +123,10 @@ class FormAutoCompleteField extends React.Component {
           </div>
         );
       } else {
+        let isSelected = item[1] && this.state.selected && (item[1].id == this.state.selected.id);
+
+        // `selected` needs to always return a boolean as it's a requirement of
+        // the Suggestion component
         return (
           <Suggestion
             key={index}
@@ -131,7 +135,7 @@ class FormAutoCompleteField extends React.Component {
               "rounded-top": (items.length > 1 && index == 0),
               "rounded-bottom": (index > 0 && index == (items.length - 1))
             })}
-            selected={item[1].id == this.state.selected.id}
+            selected={!!isSelected}
             suggestion={item[1]}
             onMouseOver={this.handleSuggestionMouseOver}
             onMouseDown={this.handleSuggestionMouseDown}>{item[0]}</Suggestion>
