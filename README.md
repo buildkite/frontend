@@ -1,6 +1,7 @@
 # Buildkite Frontend
 
-This repository contains the UI components that make up the [Buildkite](https://buildkite.com/) frontend.
+This repository contains the UI components that make up the new [Buildkite](https://buildkite.com/) frontend. It currently can't be run by itself, and it doesn't contain everything, it's currently imported into the main application alongside the existing code. Over time everything will be migrated to this repository.
+
 The main technologies used are:
 
 - ES6
@@ -9,10 +10,6 @@ The main technologies used are:
 - React
 - GraphQL
 - Basscss
-
-It doesn't contain all of Buildkite's frontend currently, but we'll be adding
-to this repository more and more as we migrate stuff from our old frontend
-system to our new one.
 
 ## Contributing
 
