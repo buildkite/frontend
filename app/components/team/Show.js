@@ -25,6 +25,7 @@ class Show extends React.Component {
       name: React.PropTypes.string.isRequired,
       description: React.PropTypes.string,
       slug: React.PropTypes.string.isRequired,
+      everyone: React.PropTypes.bool.isRequired,
       permissions: React.PropTypes.shape({
         teamUpdate: React.PropTypes.object.isRequired,
         teamDelete: React.PropTypes.object.isRequired
@@ -85,10 +86,10 @@ class Show extends React.Component {
   renderMembers() {
     if(this.props.team.everyone) {
       return (
-	<Panel className="mb4">
-	  <Panel.Header>Members</Panel.Header>
-	  <Panel.Section>This team is automatically managed by Buildkite so as you invite and remove users from your organization they are added and removed from this team.</Panel.Section>
-	</Panel>
+        <Panel className="mb4">
+          <Panel.Header>Members</Panel.Header>
+          <Panel.Section>This team is automatically managed by Buildkite so as you invite and remove users from your organization they are added and removed from this team.</Panel.Section>
+        </Panel>
       )
     } else {
       return (
