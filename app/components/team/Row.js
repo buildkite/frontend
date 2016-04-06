@@ -87,7 +87,7 @@ class Row extends React.Component {
       return (
         <div className="inline-block bg-gray bold circle center border border-white semi-bold"
              style={{width: avatarSize, height: avatarSize, lineHeight: `${avatarSize - 4}px`, fontSize: 11, borderWidth: 2}}
-             title={`and another ${this.props.team.members.count} member${this.props.team.members.count == 1 ? '' : 's'}`}>
+             title={`and another ${extrasCount} member${extrasCount == 1 ? '' : 's'}`}>
           {"+" + extrasCount}
         </div>
       );
