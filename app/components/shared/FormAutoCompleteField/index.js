@@ -131,7 +131,7 @@ class FormAutoCompleteField extends React.Component {
               "rounded-top": (items.length > 1 && index == 0),
               "rounded-bottom": (index > 0 && index == (items.length - 1))
             })}
-            selected={item[1] == this.state.selected}
+            selected={item[1].id == this.state.selected.id}
             suggestion={item[1]}
             onMouseOver={this.handleSuggestionMouseOver}
             onMouseDown={this.handleSuggestionMouseDown}>{item[0]}</Suggestion>
