@@ -22,5 +22,3 @@ The main technologies used are:
 ## Copyright
 
 Copyright (c) 2016 Buildkite Pty Ltd. See LICENSE.txt for details.
-
-Blah
