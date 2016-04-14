@@ -1,3 +1,6 @@
 [submodule "vendor/emojis"]
 	path = vendor/emojis
 	url = https://github.com/buildkite/emojis.git
+[submodule "vendor/docs"]
+	path = vendor/docs
+	url = https://github.com/buildkite/docs.git
