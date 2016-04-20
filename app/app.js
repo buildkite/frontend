@@ -84,6 +84,7 @@ window["initializeReactRouter"] = function() {
   let Main = require("./components/Main").default;
   let SectionLoader = require("./components/shared/SectionLoader").default;
   let BuildCommentsList = require("./components/build/CommentsList").default;
+  let OrganizationShow = require("./components/organization/Show").default;
   let OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
   let TeamIndex = require("./components/team/Index").default;
   let TeamNew = require("./components/team/New").default;
@@ -150,6 +151,8 @@ window["initializeReactRouter"] = function() {
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
 
       <Route path="/" component={Main}>
+        <Route path=":organization" component={OrganizationShow} />
+
         <Route path="organizations/:organization" component={OrganizationSettingsSection}>
           <Route path="teams">
             <IndexRoute component={TeamIndex} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
