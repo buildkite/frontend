@@ -38,6 +38,9 @@ class Navigation extends React.Component {
   };
 
   render() {
+    // We're using Features.NewNav to feature flag here, because we enabled it
+    // for some people but switched the whole nav on for everyone, and it was
+    // easier just to use the same feature flag
     let myBuildsNode = Features.NewNav ? (
       <NavigationButton href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
     ) : null;
