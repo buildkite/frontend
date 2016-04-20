@@ -3,8 +3,6 @@ import React from 'react';
 import Link from './link';
 import Icon from '../../shared/Icon';
 
-let COLOR = (Features.NewNav == undefined || Features.NewNav == true) ? "lime" : "blue";
-
 class Footer extends React.Component {
   static propTypes = {
     viewer: React.PropTypes.shape({
@@ -18,7 +16,7 @@ class Footer extends React.Component {
     let changelogBadge;
     if(this.props.viewer && this.props.viewer.unreadChangelogs.count > 0) {
       changelogBadge = (
-        <span className={`inline-block bg-dark-gray hover-${COLOR}-child white rounded ml1 small p1 line-height-1`}>{this.props.viewer.unreadChangelogs.count}</span>
+        <span className={`inline-block bg-dark-gray hover-lime-child white rounded ml1 small p1 line-height-1`}>{this.props.viewer.unreadChangelogs.count}</span>
       );
     }
 
@@ -37,8 +35,8 @@ class Footer extends React.Component {
           <Link href="mailto:support@buildkite.com">Support</Link>
         </div>
         <div className="mt4 mb4">
-          <a href="http://twitter.com/buildkite" className={`btn hover-${COLOR} px1`}><Icon icon="twitter" /></a>
-          <a href="https://github.com/buildkite" className={`btn hover-${COLOR} px1`}><Icon icon="github" /></a>
+          <a href="http://twitter.com/buildkite" className={`btn hover-lime px1`}><Icon icon="twitter" /></a>
+          <a href="https://github.com/buildkite" className={`btn hover-lime px1`}><Icon icon="github" /></a>
         </div>
       </footer>
     )
