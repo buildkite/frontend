@@ -22,9 +22,9 @@ class Show extends React.Component {
 
   _renderHeader() {
     return (
-      <div className="flex">
+      <div className="flex mb2 items-center">
         <div className="mr-auto">
-          <h1 class="m0">Pipelines</h1>
+          <h1 className="h1 m0 regular line-height-1">Pipelines</h1>
         </div>
         <div>
           <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{width:34,height:34}} href={`organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
