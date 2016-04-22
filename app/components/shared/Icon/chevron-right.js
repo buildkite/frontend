@@ -2,6 +2,6 @@ import React from "react";
 
 export default (
   <g>
-    <path d="M16.19,10.56L7,19.76a0.78,0.78,0,0,1-1.12,0L3.81,17.7a0.78,0.78,0,0,1,0-1.12L10.4,10,3.81,3.41a0.78,0.78,0,0,1,0-1.12L5.87,0.24A0.78,0.78,0,0,1,7,.24l9.21,9.21A0.78,0.78,0,0,1,16.19,10.56Z" />
+    <polyline fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-miterlimit="10" points="6,2 14,10 6,18 "/>
   </g>
 )

@@ -41,6 +41,7 @@ window["Webpack"] = {
     "components/shared/FormMarkdownEditorField": require("./components/shared/FormMarkdownEditorField").default,
     "components/shared/CollapsableFormField": require("./components/shared/CollapsableFormField").default,
     "components/shared/Emojify": require("./components/shared/Emojify").default,
+    "components/shared/Icon": require("./components/shared/Icon").default,
     "components/organization/AgentsCount": require("./components/organization/AgentsCount").default,
     "components/organization/SettingsMenu": require("./components/organization/SettingsMenu").default,
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,

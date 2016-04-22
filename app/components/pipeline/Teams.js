@@ -5,8 +5,6 @@ import Emojify from '../shared/Emojify';
 
 import RelayBridge from '../../lib/RelayBridge';
 
-let COLOR = (Features.NewNav == undefined || Features.NewNav == true) ? "lime" : "blue";
-
 class Teams extends React.Component {
   static propTypes = {
     organization: React.PropTypes.object.isRequired,
@@ -31,7 +29,7 @@ class Teams extends React.Component {
                 value={edge.node.id}
                 data={{team: edge.node}}
                 className="btn border border-gray rounded mr2 regular user-select-none"
-                selectedClassName={`border-${COLOR}`}>
+                selectedClassName="border-lime">
                 <Emojify text={edge.node.name} />
               </Chooser.Option>
             )
