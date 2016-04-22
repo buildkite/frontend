@@ -23,6 +23,10 @@ const pathNodes = (icon) => {
       return require("./billing").default;
     case 'emails':
       return require("./emails").default;
+    case 'eye':
+      return require("./eye").default;
+    case 'eye-strikethrough':
+      return require("./eye-strikethrough").default;
     case 'connected-apps':
       return require("./connected-apps").default;
     case 'api-tokens':
