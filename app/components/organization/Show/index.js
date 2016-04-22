@@ -24,11 +24,11 @@ class Show extends React.Component {
     return (
       <div className="flex">
         <div className="mr-auto">
-          <h1>Pipelines</h1>
+          <h1 class="m0">Pipelines</h1>
         </div>
         <div>
-          <Button href={`organizations/${this.props.organization.slug}/pipelines/new`}>
-            <Icon icon="plus-circle" title="New Pipeline"/>
+          <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{width:34,height:34}} href={`organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
+            <Icon icon="plus" title="New Pipeline"/>
           </Button>
         </div>
       </div>

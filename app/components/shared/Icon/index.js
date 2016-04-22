@@ -39,6 +39,8 @@ const pathNodes = (icon) => {
       return require("./circle").default;
     case 'plus-circle':
       return require("./plus-circle").default;
+    case 'plus':
+      return require("./plus").default;
     case 'search':
       return require("./search").default;
     default:
