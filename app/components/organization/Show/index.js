@@ -37,7 +37,7 @@ class Show extends React.Component {
 
   _renderPipelines() {
     return this.props.organization.pipelines.edges.map((edge) =>
-      <Pipeline key={edge.node.id} pipeline={edge.node} />
+      <Pipeline key={edge.node.id} organization={this.props.organization} pipeline={edge.node} />
     )
   }
 }

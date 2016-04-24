@@ -6,6 +6,10 @@
   font-weight: 500;
 }
 
+.light {
+  font-weight: 300;
+}
+
 .underline-dotted {
   border-bottom: 1px dashed currentColor;
 }
