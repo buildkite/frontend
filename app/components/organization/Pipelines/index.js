@@ -8,7 +8,23 @@ import Icon from '../../shared/Icon';
 
 import Pipeline from './pipeline';
 
-class Show extends React.Component {
+class Pipelines extends React.Component {
+  static propTypes = {
+    organization: React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired,
+      slug: React.PropTypes.string.isRequired,
+      pipelines: React.PropTypes.shape({
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.shape({
+              id: React.PropTypes.string.isRequired
+            }).isRequired
+          }).isRequired
+        )
+      }).isRequired
+    }).isRequired
+  };
+
   render() {
     return (
       <DocumentTitle title={`${this.props.organization.name}`}>
@@ -42,6 +58,6 @@ class Show extends React.Component {
   }
 }
 
-export default RelayBridge.createContainer(Show, {
+export default RelayBridge.createContainer(Pipelines, {
   organization: (props) => `organization/${props.params.organization}`
 });
