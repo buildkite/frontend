@@ -54,12 +54,13 @@ export default class Pipeline extends React.Component {
           <h2 className="h4 regular m0 truncate">{this.props.pipeline.name}</h2>
           {this.props.pipeline.description ? <h3 className="h5 regular m0 truncate mt1">{this.props.pipeline.description}</h3> : null}
         </SectionLink>
-        <div className="flex items-center">
+        <div className="flex items-center items-stretch">
           <Metric label="Running" value={this.props.pipeline.scheduledBuildsCount} href={this._pipelineUrl("/builds?state=scheduled")}/>
           <Metric label="Scheduled" value={this.props.pipeline.runningBuildsCount} href={this._pipelineUrl("/builds?state=running")}/>
-          <Metric label="Median Time" value={"3.1min"} />
-          <Metric label="Passed Builds" value={"500/week"} />
-          <Metric label="Pass Rate" value={"90%"} />
+          <Metric label="Builds" value={`${Math.floor(Math.random() * 100)}/day`} />
+          <Metric label="Releases" value={`${Math.floor(Math.random() * 50)}/day`} />
+          <Metric label="Speed" value={`${Math.floor(1 + Math.random() * 10)}min`} />
+          <Metric label="Pass Rate" value={`${Math.floor(75 + Math.random() * 25)}%`} />
         </div>
         <Graph/>
         <div className="flex flex-none flex-column justify-center ml-auto px3">

@@ -25,7 +25,7 @@ export default class Graph extends React.Component {
 
   _bars() {
     let bars = [];
-    for (var i = 0; i < 30; i++) bars.push(i);
+    for (var i = 0; i < 20; i++) bars.push(i);
     return bars;
   }
 

@@ -12,7 +12,7 @@ export default class Metric extends React.Component {
 
   render() {
     return (
-      <SectionLink href={this.props.href} className="flex flex-column items-stretch px1 py3" style={{width:'7em'}}>
+      <SectionLink href={this.props.href} className="flex flex-column justify-center px1 py3" style={{width:'7em'}}>
         {this._renderValue()}
         {this._renderLabel()}
       </SectionLink>
@@ -27,7 +27,7 @@ export default class Metric extends React.Component {
       return (
         <span className="truncate">
           <span className={valueClasses}>{match[1]}</span>
-          <span className="h5 regular m0 line-height-1">{match[2]}</span>
+          <span className="h6 regular m0 line-height-1">{match[2]}</span>
         </span>
       )
     } else {
