@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Metric from './metric';
+import Graph from './graph';
 import SectionLink from './section-link';
 import Icon from '../../shared/Icon';
 
@@ -29,6 +30,9 @@ export default class Pipeline extends React.Component {
     props.pipeline.favorite = Math.random() < 0.5;
     props.pipeline.runningBuildsCount = Math.floor(Math.random() * 5);
     props.pipeline.scheduledBuildsCount = Math.floor(Math.random() * 10);
+    props.pipeline.medianTime = `${Math.round(Math.random() * 10, 0)}.${Math.round(Math.random() * 9, 0)}min`;
+    props.pipeline.passRate = `${Math.round(Math.random() * 100, 0)}`;
+    props.pipeline.passesPerMonth = `${Math.round(Math.random() * 100, 0)}`;
 
     if (Math.random() < 0.75) {
       props.pipeline.lastDefaultBranchBuild = {
@@ -53,8 +57,11 @@ export default class Pipeline extends React.Component {
         <div className="flex items-center">
           <Metric label="Running" value={this.props.pipeline.scheduledBuildsCount} href={this._pipelineUrl("/builds?state=scheduled")}/>
           <Metric label="Scheduled" value={this.props.pipeline.runningBuildsCount} href={this._pipelineUrl("/builds?state=running")}/>
-          <Metric label="Dev Build Avg" value={"3.2min"} />
+          <Metric label="Median Time" value={"3.1min"} />
+          <Metric label="Passed Builds" value={"500/week"} />
+          <Metric label="Pass Rate" value={"90%"} />
         </div>
+        <Graph/>
         <div className="flex flex-none flex-column justify-center ml-auto px3">
           <a className="my1" href=""><Icon/></a>
           <a className="my1" href=""><Icon/></a>

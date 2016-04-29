@@ -12,7 +12,7 @@ export default class Metric extends React.Component {
 
   render() {
     return (
-      <SectionLink href={this.props.href} className="flex flex-column items-stretch px2 py3" style={{width:'6em'}}>
+      <SectionLink href={this.props.href} className="flex flex-column items-stretch px1 py3" style={{width:'7em'}}>
         {this._renderValue()}
         {this._renderLabel()}
       </SectionLink>
