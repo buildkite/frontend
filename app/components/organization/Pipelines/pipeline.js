@@ -4,6 +4,7 @@ import Metric from './metric';
 import Graph from './graph';
 import SectionLink from './section-link';
 import Icon from '../../shared/Icon';
+import BuildStatus from '../../icons/BuildStatus';
 
 export default class Pipeline extends React.Component {
   static propTypes = {
@@ -19,7 +20,7 @@ export default class Pipeline extends React.Component {
       scheduledBuildsCount: React.PropTypes.number.isRequired,
       lastDefaultBranchBuild: React.PropTypes.shape({
         number: React.PropTypes.number.isRequired,
-        state: React.PropTypes.oneOf(["passed","failed","paused","canceled"]).isRequired
+        state: React.PropTypes.oneOf(["passed","failed","paused","canceled","skipped"]).isRequired
       })
     }).isRequired
   };
@@ -47,9 +48,7 @@ export default class Pipeline extends React.Component {
   render() {
     return (
       <div className="border border-gray rounded flex items-stretch mb2 line-height-1">
-        <SectionLink className="flex flex-none items-center p3">
-          <Icon className="ml1"/>
-        </SectionLink>
+        {this._renderLastBuild()}
         <SectionLink className="flex flex-column justify-center px2 py3" style={{width:'15em'}} href={this._pipelineUrl()}>
           <h2 className="h4 regular m0 truncate">{this.props.pipeline.name}</h2>
           {this.props.pipeline.description ? <h3 className="h5 regular m0 truncate mt1">{this.props.pipeline.description}</h3> : null}
@@ -64,8 +63,28 @@ export default class Pipeline extends React.Component {
         </div>
         <Graph/>
         <div className="flex flex-none flex-column justify-center ml-auto px3">
-          <a className="my1" href=""><Icon/></a>
-          <a className="my1" href=""><Icon/></a>
+          <button className="my1 btn p0">
+            <svg width="16px" height="15px" viewBox="0 0 16 15">
+              <title>Favorite</title>
+              <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" fillOpacity="0.3">
+                <g transform="translate(-1157.000000, -134.000000)" stroke="#F8CC1C" fill="#F8CC1C">
+                  <g transform="translate(54.000000, 115.000000)">
+                    <polygon points="1111 31 1106.29772 33.472136 1107.19577 28.236068 1103.39155 24.527864 1108.64886 23.763932 1111 19 1113.35114 23.763932 1118.60845 24.527864 1114.80423 28.236068 1115.70228 33.472136"></polygon>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </button>
+          <button className="my1 btn p0">
+            <svg width="5px" height="19px" viewBox="0 0 5 19">
+              <title>Settings</title>
+              <g fill="#BBBBBB">
+                <circle cx="2.5" cy="2.5" r="2.5"></circle>
+                <circle cx="2.5" cy="9.5" r="2.5"></circle>
+                <circle cx="2.5" cy="16.5" r="2.5"></circle>
+              </g>
+            </svg>
+          </button>
         </div>
       </div>
     );
@@ -76,8 +95,8 @@ export default class Pipeline extends React.Component {
     const href = lastBuild && this._pipelineUrl(`/builds/${this.props.pipeline.lastDefaultBranchBuild.number}`);
 
     return (
-      <SectionLink href={href} className="flex flex-none items-center p3">
-        <Icon icon="placeholder" className="ml1" />
+      <SectionLink href={href} className="flex flex-none items-center pl3 pr2">
+        <BuildStatus status={lastBuild && lastBuild.state || 'pending'} className="ml1" />
       </SectionLink>
     );
   }
