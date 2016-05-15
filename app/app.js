@@ -118,14 +118,14 @@ window["initializeReactRouter"] = function() {
     }
   `
 
-  const renderSectionLoading = ({ props, routerProps, element }) => {
-    if(!props) {
+  const renderSectionLoading = (route) => {
+    if(!route.props) {
       return (
         <SectionLoader />
       )
     }
 
-    return React.cloneElement(element, props);
+    return React.cloneElement(route.element, route.props);
   }
 
   // Since relay doesn't currently support root fields with multiple
