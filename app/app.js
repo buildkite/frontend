@@ -76,10 +76,12 @@ if(window._graphql) {
 // Only do the react-router gear on pages we've designated
 window["initializeReactRouter"] = function() {
   // Require the packages we need to setup routing
+  let Router = require("react-router").Router;
   let Route = require("react-router").Route;
   let IndexRoute = require("react-router").IndexRoute;
   let browserHistory = require("react-router").browserHistory;
-  let RelayRouter = require('react-router-relay').RelayRouter;
+  let applyRouterMiddleware = require("react-router").applyRouterMiddleware;
+  let useRelay = require('react-router-relay');
 
   // The components used in the router
   let Main = require("./components/Main").default;
@@ -116,10 +118,14 @@ window["initializeReactRouter"] = function() {
     }
   `
 
-  const handleSectionLoading = () => {
-    return (
-      <SectionLoader />
-    )
+  const renderSectionLoading = ({ props, routerProps, element }) => {
+    if(!props) {
+      return (
+        <SectionLoader />
+      )
+    }
+
+    return React.cloneElement(element, props);
   }
 
   // Since relay doesn't currently support root fields with multiple
@@ -148,7 +154,7 @@ window["initializeReactRouter"] = function() {
 
   // Define and render the routes
   ReactDOM.render(
-    <RelayRouter history={browserHistory}>
+    <Router history={browserHistory} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
 
       <Route path="/" component={Main}>
@@ -156,13 +162,13 @@ window["initializeReactRouter"] = function() {
 
         <Route path="organizations/:organization" component={OrganizationSettingsSection}>
           <Route path="teams">
-            <IndexRoute component={TeamIndex} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
-            <Route path="new" component={TeamNew} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
-            <Route path=":team" component={TeamShow} queries={{team: TeamQuery}} prepareParams={prepareTeamParams} renderLoading={handleSectionLoading} />
-            <Route path=":team/edit" component={TeamEdit} queries={{team: TeamQuery}} prepareParams={prepareTeamParams} renderLoading={handleSectionLoading} />
+            <IndexRoute component={TeamIndex} queries={{organization: OrganizationQuery}} render={renderSectionLoading} />
+            <Route path="new" component={TeamNew} queries={{organization: OrganizationQuery}} render={renderSectionLoading} />
+            <Route path=":team" component={TeamShow} queries={{team: TeamQuery}} prepareParams={prepareTeamParams} render={renderSectionLoading} />
+            <Route path=":team/edit" component={TeamEdit} queries={{team: TeamQuery}} prepareParams={prepareTeamParams} render={renderSectionLoading} />
           </Route>
         </Route>
       </Route>
-    </RelayRouter>
+    </Router>
   , document.getElementById('root'));
 }
