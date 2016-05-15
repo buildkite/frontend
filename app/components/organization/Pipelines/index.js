@@ -1,8 +1,8 @@
 import React from 'react';
+import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
 import PageWithContainer from '../../shared/PageWithContainer';
-import RelayBridge from '../../../lib/RelayBridge';
 import Button from '../../shared/Button';
 import Icon from '../../shared/Icon';
 
@@ -58,6 +58,22 @@ class Pipelines extends React.Component {
   }
 }
 
-export default RelayBridge.createContainer(Pipelines, {
-  organization: (props) => `organization/${props.params.organization}`
+export default Relay.createContainer(Pipelines, {
+  fragments: {
+    organization: () => Relay.QL`
+      fragment on Organization {
+        id
+        slug
+        pipelines(first: 100) {
+          edges {
+            node {
+              id
+              name
+              slug
+            }
+          }
+        }
+      }
+    `
+  }
 });

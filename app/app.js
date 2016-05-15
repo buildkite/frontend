@@ -52,6 +52,7 @@ window["Webpack"] = {
     "lib/Logger": require("./lib/Logger").default,
     "lib/Emoji": require("./lib/Emoji").default,
     "lib/RelayBridge": require("./lib/RelayBridge").default,
+    "lib/RelayPreloader": require("./lib/RelayPreloader").default,
     "lib/jobCommandOneliner": require("./lib/jobCommandOneliner").default
   },
 
@@ -158,7 +159,7 @@ window["initializeReactRouter"] = function() {
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
 
       <Route path="/" component={Main}>
-        <Route path=":organization" component={OrganizationPipelines} />
+        <Route path=":organization" component={OrganizationPipelines} queries={{organization: OrganizationQuery}} render={renderSectionLoading} />
 
         <Route path="organizations/:organization" component={OrganizationSettingsSection}>
           <Route path="teams">
