@@ -117,10 +117,14 @@ window["initializeReactRouter"] = function() {
     }
   `
 
-  const handleSectionLoading = () => {
-    return (
-      <SectionLoader />
-    )
+  const renderSectionLoading = ({ props, routerProps, element }) => {
+    if(!props) {
+      return (
+        <SectionLoader />
+      )
+    }
+
+    return React.cloneElement(element, props);
   }
 
   // Since relay doesn't currently support root fields with multiple
@@ -155,10 +159,10 @@ window["initializeReactRouter"] = function() {
       <Route path="/" component={Main}>
         <Route path="organizations/:organization" component={OrganizationSettingsSection}>
           <Route path="teams">
-            <IndexRoute component={TeamIndex} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
-            <Route path="new" component={TeamNew} queries={{organization: OrganizationQuery}} renderLoading={handleSectionLoading} />
-            <Route path=":team" component={TeamShow} queries={{team: TeamQuery}} prepareParams={prepareTeamParams} renderLoading={handleSectionLoading} />
-            <Route path=":team/edit" component={TeamEdit} queries={{team: TeamQuery}} prepareParams={prepareTeamParams} renderLoading={handleSectionLoading} />
+            <IndexRoute component={TeamIndex} queries={{organization: OrganizationQuery}} render={renderSectionLoading} />
+            <Route path="new" component={TeamNew} queries={{organization: OrganizationQuery}} render={renderSectionLoading} />
+            <Route path=":team" component={TeamShow} queries={{team: TeamQuery}} prepareParams={prepareTeamParams} render={renderSectionLoading} />
+            <Route path=":team/edit" component={TeamEdit} queries={{team: TeamQuery}} prepareParams={prepareTeamParams} render={renderSectionLoading} />
           </Route>
         </Route>
       </Route>
