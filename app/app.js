@@ -76,10 +76,12 @@ if(window._graphql) {
 // Only do the react-router gear on pages we've designated
 window["initializeReactRouter"] = function() {
   // Require the packages we need to setup routing
+  let Router = require("react-router").Router;
   let Route = require("react-router").Route;
   let IndexRoute = require("react-router").IndexRoute;
   let browserHistory = require("react-router").browserHistory;
-  let RelayRouter = require('react-router-relay').RelayRouter;
+  let applyRouterMiddleware = require("react-router").applyRouterMiddleware;
+  let useRelay = require('react-router-relay');
 
   // The components used in the router
   let Main = require("./components/Main").default;
@@ -147,7 +149,7 @@ window["initializeReactRouter"] = function() {
 
   // Define and render the routes
   ReactDOM.render(
-    <RelayRouter history={browserHistory}>
+    <Router history={browserHistory} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
 
       <Route path="/" component={Main}>
@@ -160,6 +162,6 @@ window["initializeReactRouter"] = function() {
           </Route>
         </Route>
       </Route>
-    </RelayRouter>
+    </Router>
   , document.getElementById('root'));
 }
