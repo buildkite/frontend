@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-export default class SectionLink extends React.Component {
+class SectionLink extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
     href: React.PropTypes.string,
@@ -19,9 +19,11 @@ export default class SectionLink extends React.Component {
 
   _className() {
     if (this.props.href) {
-      return classNames("text-decoration-none color-inherit hover-bg-silver", this.props.className);
+      return classNames("text-decoration-none color-inherit", this.props.className);
     } else {
       return this.props.className;
     }
   }
 }
+
+export default SectionLink

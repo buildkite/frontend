@@ -18,8 +18,12 @@ class Pipeline extends React.Component {
       name: React.PropTypes.string.isRequired,
       description: React.PropTypes.string,
       favorite: React.PropTypes.bool.isRequired,
-      runningBuildsCount: React.PropTypes.number.isRequired,
-      scheduledBuildsCount: React.PropTypes.number.isRequired,
+      runningBuilds: React.PropTypes.shape({
+	count: React.PropTypes.number.isRequired
+      }).isRequired,
+      scheduledBuilds: React.PropTypes.shape({
+	count: React.PropTypes.number.isRequired
+      }).isRequired,
       lastDefaultBranchBuild: React.PropTypes.shape({
         number: React.PropTypes.number.isRequired,
         state: React.PropTypes.oneOf(["passed","failed","paused","canceled","skipped"]).isRequired
@@ -31,8 +35,6 @@ class Pipeline extends React.Component {
   constructor(props) {
     props.pipeline.description = Math.random() < 0.5 ? "Lorem Ipsum" : null;
     props.pipeline.favorite = Math.random() < 0.5;
-    props.pipeline.runningBuildsCount = Math.floor(Math.random() * 5);
-    props.pipeline.scheduledBuildsCount = Math.floor(Math.random() * 10);
     props.pipeline.medianTime = `${Math.round(Math.random() * 10, 0)}.${Math.round(Math.random() * 9, 0)}min`;
     props.pipeline.passRate = `${Math.round(Math.random() * 100, 0)}`;
     props.pipeline.passesPerMonth = `${Math.round(Math.random() * 100, 0)}`;
@@ -56,8 +58,8 @@ class Pipeline extends React.Component {
           {this.props.pipeline.description ? <h3 className="h5 regular m0 truncate mt1">{this.props.pipeline.description}</h3> : null}
         </SectionLink>
         <div className="flex items-center items-stretch">
-          <Metric label="Running" value={this.props.pipeline.scheduledBuildsCount} href={this._pipelineUrl("/builds?state=scheduled")}/>
-          <Metric label="Scheduled" value={this.props.pipeline.runningBuildsCount} href={this._pipelineUrl("/builds?state=running")}/>
+          <Metric label="Running" value={this.props.pipeline.scheduledBuilds.count} href={this._pipelineUrl("/builds?state=scheduled")}/>
+          <Metric label="Scheduled" value={this.props.pipeline.runningBuilds.count} href={this._pipelineUrl("/builds?state=running")}/>
           <Metric label="Builds" value={`${Math.floor(Math.random() * 100)}/day`} />
           <Metric label="Releases" value={`${Math.floor(Math.random() * 50)}/day`} />
           <Metric label="Speed" value={`${Math.floor(1 + Math.random() * 10)}min`} />
@@ -115,6 +117,12 @@ export default Relay.createContainer(Pipeline, {
         id
         name
         slug
+	scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
+	  count
+	}
+	runningBuilds: builds(state: BUILD_STATE_RUNNING) {
+	  count
+	}
       }
     `
   }

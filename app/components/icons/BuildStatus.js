@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class BuildStatus extends React.Component {
   static propTypes = {
-    status: React.PropTypes.oneOf(["pending","scheduled","running","passed","paused","failed"]).isRequired,
+    status: React.PropTypes.oneOf(["pending", "scheduled", "running", "passed", "paused", "failed", "canceled", "skipped"]).isRequired,
     size: React.PropTypes.oneOf(["regular","small"]).isRequired,
     className: React.PropTypes.string
   };

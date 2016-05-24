@@ -2,12 +2,14 @@ import React from 'react';
 import classNames from 'classnames';
 import SectionLink from './section-link';
 
-export default class Metric extends React.Component {
+class Metric extends React.Component {
   static propTypes = {
     label: React.PropTypes.string.isRequired,
-    value: React.PropTypes.string.isRequired,
-    href: React.PropTypes.string,
-    linkClassNames: React.PropTypes.string.isRequired
+    value: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number,
+    ]).isRequired,
+    href: React.PropTypes.string
   };
 
   render() {
@@ -43,3 +45,5 @@ export default class Metric extends React.Component {
     );
   }
 }
+
+export default Metric
