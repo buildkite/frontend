@@ -2,13 +2,13 @@ import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
-import PageWithContainer from '../../shared/PageWithContainer';
-import Button from '../../shared/Button';
-import Icon from '../../shared/Icon';
+import PageWithContainer from '../shared/PageWithContainer';
+import Button from '../shared/Button';
+import Icon from '../shared/Icon';
 
-import Pipeline from './pipeline';
+import Pipeline from './Pipeline';
 
-class Pipelines extends React.Component {
+class Show extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -43,7 +43,7 @@ class Pipelines extends React.Component {
           <h1 className="h1 m0 regular line-height-1">Pipelines</h1>
         </div>
         <div>
-          <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{width:34,height:34}} href={`organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
+          <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{width:34, height:34}} href={`organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
             <Icon icon="plus" title="New Pipeline"/>
           </Button>
         </div>
@@ -58,18 +58,18 @@ class Pipelines extends React.Component {
   }
 }
 
-export default Relay.createContainer(Pipelines, {
+export default Relay.createContainer(Show, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
         id
         slug
+        name
         pipelines(first: 100) {
           edges {
             node {
               id
-              name
-              slug
+              ${Pipeline.getFragment('pipeline')}
             }
           }
         }

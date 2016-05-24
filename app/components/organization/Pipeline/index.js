@@ -1,12 +1,14 @@
 import React from 'react';
+import Relay from 'react-relay';
+
+import Icon from '../../shared/Icon';
+import BuildStatus from '../../icons/BuildStatus';
 
 import Metric from './metric';
 import Graph from './graph';
 import SectionLink from './section-link';
-import Icon from '../../shared/Icon';
-import BuildStatus from '../../icons/BuildStatus';
 
-export default class Pipeline extends React.Component {
+class Pipeline extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
       slug: React.PropTypes.string.isRequired
@@ -105,3 +107,15 @@ export default class Pipeline extends React.Component {
     return `/${this.props.organization.slug}/${this.props.pipeline.slug}${path || ''}`
   }
 }
+
+export default Relay.createContainer(Pipeline, {
+  fragments: {
+    pipeline: () => Relay.QL`
+      fragment on Pipeline {
+        id
+        name
+        slug
+      }
+    `
+  }
+});
