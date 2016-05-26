@@ -1,6 +1,7 @@
 .bg-black     { background-color: var(--black) }
 .bg-gray      { background-color: var(--gray) }
 .bg-dark-gray { background-color: var(--dark-gray); }
+.bg-very-dark-gray { background-color: var(--very-dark-gray); }
 .bg-silver    { background-color: var(--silver) }
 .bg-white     { background-color: var(--white) }
 

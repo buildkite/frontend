@@ -2,10 +2,6 @@
   font-size: 85%;
 }
 
-.semi-bold {
-  font-weight: 500;
-}
-
 .underline-dotted {
   border-bottom: 1px dashed currentColor;
 }

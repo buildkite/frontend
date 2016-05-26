@@ -16,6 +16,8 @@
 @import 'interaction-events';
 @import 'text';
 @import 'fonts';
+@import 'font-weights';
+@import 'letter-spacing';
 @import 'icons';
 @import 'forms';
 @import 'colors';
@@ -30,6 +32,7 @@
   --black:  #111111;
   --gray: #DDDDDD;
   --dark-gray: #8E8E8E;
+  --very-dark-gray: #222;
   --silver: #F9FAFB;
   --white:  #FFFFFF;
 
