@@ -5,3 +5,15 @@
 .underline-dotted {
   border-bottom: 1px dashed currentColor;
 }
+
+@media (--breakpoint-sm) {
+  .sm-right-align { text-align: right }
+}
+
+@media (--breakpoint-md) {
+  .md-right-align { text-align: right }
+}
+
+@media (--breakpoint-lg) {
+  .lg-right-align { text-align: right }
+}
