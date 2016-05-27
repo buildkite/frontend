@@ -27,6 +27,7 @@
 
 @import 'container';
 @import 'cursor';
+@import 'display';
 
 :root {
   --black:  #111111;

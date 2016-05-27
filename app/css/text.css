@@ -7,13 +7,13 @@
 }
 
 @media (--breakpoint-sm) {
-  .sm-right-align { text-align: right }
+  .sm-right-align { text-align: right !important }
 }
 
 @media (--breakpoint-md) {
-  .md-right-align { text-align: right }
+  .md-right-align { text-align: right !important }
 }
 
 @media (--breakpoint-lg) {
-  .lg-right-align { text-align: right }
+  .lg-right-align { text-align: right !important }
 }
