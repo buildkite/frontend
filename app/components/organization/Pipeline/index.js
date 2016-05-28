@@ -60,8 +60,8 @@ class Pipeline extends React.Component {
         </SectionLink>
 
         <div className="flex items-center items-stretch">
-          <Metric label="Running" value={this.props.pipeline.scheduledBuilds.count} href={this._pipelineUrl("/builds?state=scheduled")}/>
-          <Metric label="Scheduled" value={this.props.pipeline.runningBuilds.count} href={this._pipelineUrl("/builds?state=running")}/>
+          <Metric label="Running" value={this.props.pipeline.runningBuilds.count} href={this._pipelineUrl("/builds?state=running")}/>
+          <Metric label="Scheduled" value={this.props.pipeline.scheduledBuilds.count} href={this._pipelineUrl("/builds?state=scheduled")}/>
           <Metric label="Builds" value={`${Math.floor(Math.random() * 100)}/day`} />
           <Metric label="Releases" value={`${Math.floor(Math.random() * 50)}/day`} />
           <Metric label="Speed" value={`${Math.floor(1 + Math.random() * 10)}min`} />
