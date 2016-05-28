@@ -7,7 +7,7 @@ class Graph extends React.Component {
 
   render() {
     return (
-      <div className="py2 flex-auto">
+      <div className="py2" style={{width: 159}}>
         <div className="h6 regular dark-gray">{this.props.branch}</div>
         <div className="overflow-hidden align-bottom relative" style={{height:50}}>
           {this._bars().map((i) =>

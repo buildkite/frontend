@@ -10,20 +10,23 @@ import SectionLink from './section-link';
 
 class Pipeline extends React.Component {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      slug: React.PropTypes.string.isRequired
-    }).isRequired,
     pipeline: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
       description: React.PropTypes.string,
       defaultBranch: React.PropTypes.string.isRequired,
       favorite: React.PropTypes.bool.isRequired,
-      runningBuilds: React.PropTypes.shape({
-	count: React.PropTypes.number.isRequired
-      }).isRequired,
-      scheduledBuilds: React.PropTypes.shape({
-	count: React.PropTypes.number.isRequired
+      url: React.PropTypes.string.isRequired,
+      metrics: React.PropTypes.shape({
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.shape({
+              label: React.PropTypes.string.isRequired,
+              value: React.PropTypes.string,
+              url: React.PropTypes.string
+            }).isRequired
+          }).isRequired
+        )
       }).isRequired,
       lastDefaultBranchBuild: React.PropTypes.shape({
         number: React.PropTypes.number.isRequired,
@@ -54,18 +57,13 @@ class Pipeline extends React.Component {
       <div className="border border-gray rounded flex items-stretch mb2 line-height-1">
         {this._renderLastBuild()}
 
-        <SectionLink className="flex flex-column justify-center px2 py3" style={{width:'15em'}} href={this._pipelineUrl()}>
+        <SectionLink className="flex flex-column justify-center px2 py3" style={{width:'15em'}} href={this.props.pipeline.url}>
           <h2 className="h4 regular m0 truncate">{this.props.pipeline.name}</h2>
           {this.props.pipeline.description ? <h3 className="h5 regular m0 truncate mt1 dark-gray">{this.props.pipeline.description}</h3> : null}
         </SectionLink>
 
-        <div className="flex items-center items-stretch">
-          <Metric label="Running" value={this.props.pipeline.runningBuilds.count} href={this._pipelineUrl("/builds?state=running")}/>
-          <Metric label="Scheduled" value={this.props.pipeline.scheduledBuilds.count} href={this._pipelineUrl("/builds?state=scheduled")}/>
-          <Metric label="Builds" value={`${Math.floor(Math.random() * 100)}/day`} />
-          <Metric label="Releases" value={`${Math.floor(Math.random() * 50)}/day`} />
-          <Metric label="Speed" value={`${Math.floor(1 + Math.random() * 10)}min`} />
-          <Metric label="Pass Rate" value={`${Math.floor(75 + Math.random() * 25)}%`} />
+        <div className="flex items-center flex-stretch flex-auto">
+          {this.props.pipeline.metrics.edges.map((edge) => <Metric label={edge.node.label} value={edge.node.value} href={edge.node.url}/>)}
         </div>
 
         <Graph branch={this.props.pipeline.defaultBranch} />
@@ -100,17 +98,12 @@ class Pipeline extends React.Component {
 
   _renderLastBuild() {
     const lastBuild = this.props.pipeline.lastDefaultBranchBuild;
-    const href = lastBuild && this._pipelineUrl(`/builds/${this.props.pipeline.lastDefaultBranchBuild.number}`);
 
     return (
-      <SectionLink href={href} className="flex flex-none items-center pl3 pr2">
+      <SectionLink href={"#"} className="flex flex-none items-center pl3 pr2">
         <BuildStatus status={lastBuild && lastBuild.state || 'pending'} className="ml1" />
       </SectionLink>
     );
-  }
-
-  _pipelineUrl(path) {
-    return `/${this.props.organization.slug}/${this.props.pipeline.slug}${path || ''}`
   }
 }
 
@@ -123,6 +116,16 @@ export default Relay.createContainer(Pipeline, {
         slug
         description
         defaultBranch
+        url
+        metrics(first: 6) {
+          edges {
+            node {
+              label
+              value
+              url
+            }
+          }
+        }
 	scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
 	  count
 	}
