@@ -59,13 +59,17 @@ class Show extends React.Component {
 }
 
 export default Relay.createContainer(Show, {
+  initialVariables: {
+    team: null
+  },
+
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
         id
         slug
         name
-        pipelines(first: 100) {
+        pipelines(first: 100, team: $team) {
           edges {
             node {
               id

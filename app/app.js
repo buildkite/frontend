@@ -152,13 +152,20 @@ window["initializeReactRouter"] = function() {
     };
   }
 
+  const preparePipelineListParams = (params, { location }) => {
+    return {
+      ...params,
+      team: location.query.team
+    };
+  }
+
   // Define and render the routes
   ReactDOM.render(
     <Router history={browserHistory} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
 
       <Route path="/" component={Main}>
-        <Route path=":organization" component={OrganizationShow} queries={{organization: OrganizationQuery}} render={renderSectionLoading} />
+        <Route path=":organization" component={OrganizationShow} queries={{organization: OrganizationQuery}} prepareParams={preparePipelineListParams}  render={renderSectionLoading} />
 
         <Route path="organizations/:organization" component={OrganizationSettingsSection}>
           <Route path="teams">
