@@ -14,9 +14,10 @@ class Pipeline extends React.Component {
       slug: React.PropTypes.string.isRequired
     }).isRequired,
     pipeline: React.PropTypes.shape({
-      slug: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
+      slug: React.PropTypes.string.isRequired,
       description: React.PropTypes.string,
+      defaultBranch: React.PropTypes.string.isRequired,
       favorite: React.PropTypes.bool.isRequired,
       runningBuilds: React.PropTypes.shape({
 	count: React.PropTypes.number.isRequired
@@ -33,7 +34,6 @@ class Pipeline extends React.Component {
 
   // TODO: Remove this when there's proper data
   constructor(props) {
-    props.pipeline.description = Math.random() < 0.5 ? "Lorem Ipsum" : null;
     props.pipeline.favorite = Math.random() < 0.5;
     props.pipeline.medianTime = `${Math.round(Math.random() * 10, 0)}.${Math.round(Math.random() * 9, 0)}min`;
     props.pipeline.passRate = `${Math.round(Math.random() * 100, 0)}`;
@@ -53,10 +53,12 @@ class Pipeline extends React.Component {
     return (
       <div className="border border-gray rounded flex items-stretch mb2 line-height-1">
         {this._renderLastBuild()}
+
         <SectionLink className="flex flex-column justify-center px2 py3" style={{width:'15em'}} href={this._pipelineUrl()}>
           <h2 className="h4 regular m0 truncate">{this.props.pipeline.name}</h2>
-          {this.props.pipeline.description ? <h3 className="h5 regular m0 truncate mt1">{this.props.pipeline.description}</h3> : null}
+          {this.props.pipeline.description ? <h3 className="h5 regular m0 truncate mt1 dark-gray">{this.props.pipeline.description}</h3> : null}
         </SectionLink>
+
         <div className="flex items-center items-stretch">
           <Metric label="Running" value={this.props.pipeline.scheduledBuilds.count} href={this._pipelineUrl("/builds?state=scheduled")}/>
           <Metric label="Scheduled" value={this.props.pipeline.runningBuilds.count} href={this._pipelineUrl("/builds?state=running")}/>
@@ -65,7 +67,9 @@ class Pipeline extends React.Component {
           <Metric label="Speed" value={`${Math.floor(1 + Math.random() * 10)}min`} />
           <Metric label="Pass Rate" value={`${Math.floor(75 + Math.random() * 25)}%`} />
         </div>
-        <Graph/>
+
+        <Graph branch={this.props.pipeline.defaultBranch} />
+
         <div className="flex flex-none flex-column justify-center ml-auto px3">
           <button className="my1 btn p0">
             <svg width="16px" height="15px" viewBox="0 0 16 15">
@@ -117,6 +121,8 @@ export default Relay.createContainer(Pipeline, {
         id
         name
         slug
+        description
+        defaultBranch
 	scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
 	  count
 	}
