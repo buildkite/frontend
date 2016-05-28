@@ -16,7 +16,7 @@
           "fields": [
             {
               "name": "agent",
-              "description": "Find an agent by it's UUID",
+              "description": "Find an agent by it's slug",
               "args": [
                 {
                   "name": "slug",
@@ -43,7 +43,7 @@
             },
             {
               "name": "agentToken",
-              "description": "Find an agent token by it's UUID",
+              "description": "Find an agent token by it's slug",
               "args": [
                 {
                   "name": "slug",
@@ -97,19 +97,25 @@
             },
             {
               "name": "build",
-              "description": "Find a build by it's build number",
+              "description": "Find a build by it's slug or UUID",
               "args": [
                 {
                   "name": "slug",
                   "description": "The number of the build, prefixed with it's organization and pipeline. i.e. `acme-inc/my-pipeline/123`",
                   "type": {
-                    "kind": "NON_NULL",
-                    "name": "Non-Null",
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "ID",
-                      "ofType": null
-                    }
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "uuid",
+                  "description": "The UUID of the build",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
                   },
                   "defaultValue": null
                 }
@@ -314,6 +320,16 @@
                   "type": {
                     "kind": "ENUM",
                     "name": "BuildStates",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "branch",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -1431,7 +1447,7 @@
           "fields": [
             {
               "name": "builds",
-              "description": null,
+              "description": "Returns the builds for this pipeline",
               "args": [
                 {
                   "name": "first",
@@ -1464,6 +1480,24 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "branch",
+                  "description": "Defaults to the pipelines default branch. Use `*` to return the builds for all branches.",
+                  "type": {
+                    "kind": "LIST",
+                    "name": "List",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": "Non-Null",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "metaData",
                   "description": null,
                   "type": {
@@ -1485,6 +1519,38 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "BuildConnection",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "defaultBranch",
+              "description": "The default branch for this pipeline",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "description",
+              "description": "The short description of the pipeline",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -2150,6 +2216,38 @@
               "deprecationReason": null
             },
             {
+              "name": "triggeredFrom",
+              "description": "The job that this build was triggered from",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "JobTypeTrigger",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "url",
+              "description": "The URL for the build",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "user",
               "description": null,
               "args": [
@@ -2233,6 +2331,207 @@
           ],
           "enumValues": null,
           "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "JobTypeTrigger",
+          "description": "A type of job that triggers another build on a pipeline",
+          "fields": [
+            {
+              "name": "build",
+              "description": "The build that this job is a part of",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Build",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": "The state of the job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID for this job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "Node",
+          "description": null,
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "Agent",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AgentToken",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Artifact",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Build",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Changelog",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Comment",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeCommand",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeManual",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeTrigger",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeWait",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Organization",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationInvitation",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationMember",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Pipeline",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Team",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamMember",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamPipeline",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            }
+          ]
         },
         {
           "kind": "OBJECT",
@@ -2364,6 +2663,11 @@
             {
               "kind": "OBJECT",
               "name": "JobTypeWait",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeTrigger",
               "ofType": null
             }
           ]
@@ -2645,6 +2949,20 @@
 
               ],
               "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "type",
+              "description": "The type of the job",
+              "args": [
+
+              ],
+              "type": {
                 "kind": "NON_NULL",
                 "name": "Non-Null",
                 "ofType": {
@@ -2657,8 +2975,8 @@
               "deprecationReason": null
             },
             {
-              "name": "type",
-              "description": "The type of the job",
+              "name": "url",
+              "description": "The URL for the job",
               "args": [
 
               ],
@@ -3219,12 +3537,12 @@
           "possibleTypes": null
         },
         {
-          "kind": "INTERFACE",
-          "name": "Node",
+          "kind": "OBJECT",
+          "name": "ArtifactConnection",
           "description": null,
           "fields": [
             {
-              "name": "id",
+              "name": "count",
               "description": null,
               "args": [
 
@@ -3234,136 +3552,25 @@
                 "name": "Non-Null",
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "ID",
+                  "name": "Int",
                   "ofType": null
                 }
               },
               "isDeprecated": false,
               "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "User",
-              "ofType": null
             },
             {
-              "kind": "OBJECT",
-              "name": "Organization",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Team",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Pipeline",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Build",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "JobTypeCommand",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "JobTypeManual",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "JobTypeWait",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Agent",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AgentToken",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Artifact",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "OrganizationMember",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "TeamMember",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "TeamPipeline",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Comment",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "OrganizationInvitation",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Changelog",
-              "ofType": null
-            }
-          ]
-        },
-        {
-          "kind": "OBJECT",
-          "name": "JobTypeManual",
-          "description": "A type of job that requires a user to unblock it before proceeding in a build pipeline",
-          "fields": [
-            {
-              "name": "build",
-              "description": "The build that this job is a part of",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Build",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "id",
+              "name": "edges",
               "description": null,
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
+                "kind": "LIST",
+                "name": "List",
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
+                  "kind": "OBJECT",
+                  "name": "ArtifactEdge",
                   "ofType": null
                 }
               },
@@ -3371,97 +3578,15 @@
               "deprecationReason": null
             },
             {
-              "name": "isUnblockable",
-              "description": "Whether or not this job can be unblocked yet (may be waiting on another job to finish)",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "label",
-              "description": "The label of the job",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "state",
-              "description": "The state of the job",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "unblockedAt",
-              "description": "The time when the job was created",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "unblockedBy",
-              "description": "The user that unblocked this job",
+              "name": "pageInfo",
+              "description": null,
               "args": [
 
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "User",
+                "name": "PageInfo",
                 "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The UUID for this job",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3469,55 +3594,19 @@
           ],
           "inputFields": null,
           "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
+
           ],
           "enumValues": null,
           "possibleTypes": null
         },
         {
           "kind": "OBJECT",
-          "name": "JobTypeWait",
-          "description": "A type of job that waits for all previous jobs to pass before proceeding the build pipeline",
+          "name": "ArtifactEdge",
+          "description": null,
           "fields": [
             {
-              "name": "build",
-              "description": "The build that this job is a part of",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Build",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "id",
+              "name": "cursor",
               "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "state",
-              "description": "The state of the job",
               "args": [
 
               ],
@@ -3534,232 +3623,14 @@
               "deprecationReason": null
             },
             {
-              "name": "uuid",
-              "description": "The UUID for this job",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "AgentToken",
-          "description": "A token used to connect an agent to Buildkite",
-          "fields": [
-            {
-              "name": "createdAt",
-              "description": "The time this agent token was created",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdBy",
-              "description": "The user that created this agent token",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "description",
-              "description": "A description about what this agent token is used for",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
+              "name": "node",
               "description": null,
               "args": [
 
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Organization",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "permissions",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "AgentTokenPermissions",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "revokedAt",
-              "description": "The time this agent token was revoked",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "revokedBy",
-              "description": "The user that revoked this agent token",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "revokedReason",
-              "description": "The reason as defined by the user why this token was revoked",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "token",
-              "description": "The name of the agent",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The public UUID for the agent",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "AgentTokenPermissions",
-          "description": "Permissions information about what actions the current user can do against the agent token",
-          "fields": [
-            {
-              "name": "agentTokenRevoke",
-              "description": "Whether the user can revoke this agent token",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Permission",
+                "name": "Artifact",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3932,683 +3803,6 @@
         },
         {
           "kind": "OBJECT",
-          "name": "OrganizationMember",
-          "description": "A member of an organization",
-          "fields": [
-            {
-              "name": "admin",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdAt",
-              "description": "The time when this user was added to the organization",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdBy",
-              "description": "The user that added invited this user",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "permissions",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "OrganizationMemberPermissions",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "user",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The public UUID for this organization member",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "OrganizationMemberPermissions",
-          "description": "Permissions information about what actions the current user can do against the organization membership record",
-          "fields": [
-            {
-              "name": "organizationMemberDelete",
-              "description": "Whether the user can delete the user from the organization",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Permission",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organizationMemberUpdate",
-              "description": "Whether the user can update the organization's members role information",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Permission",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "TeamMember",
-          "description": "An member of a team",
-          "fields": [
-            {
-              "name": "admin",
-              "description": "Whether or not the user is an admin of this team",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdAt",
-              "description": "The time when the team member was added",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdBy",
-              "description": "The user that added this team member",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "permissions",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "TeamMemberPermissions",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "team",
-              "description": "The team associated with this team member",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Team",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "user",
-              "description": "The user associated with this team member",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The public UUID for this team member",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "TeamMemberPermissions",
-          "description": "Permissions information about what actions the current user can do against the team membership record",
-          "fields": [
-            {
-              "name": "teamMemberDelete",
-              "description": "Whether the user can delete the user from the team",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Permission",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "teamMemberUpdate",
-              "description": "Whether the user can update the team's members admin status",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Permission",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "TeamPipeline",
-          "description": "An pipeline that's been assigned to a team",
-          "fields": [
-            {
-              "name": "accessLevel",
-              "description": "The access level users have to this pipeline",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "TeamPipelineAccessLevels",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdAt",
-              "description": "The time when the pipeline was added",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdBy",
-              "description": "The user that added this pipeline to the team",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "permissions",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "TeamPipelinePermissions",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pipeline",
-              "description": "The pipeline associated with this team member",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Pipeline",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "team",
-              "description": "The team associated with this team member",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Team",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The public UUID for this team member",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "TeamPipelineAccessLevels",
-          "description": "The access levels that can be assigned to a pipeline in a team",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "MANAGE_BUILD_AND_READ",
-              "description": "The team member can edit the build pipeline, as well as run builds",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_AND_READ",
-              "description": "The user can only trigger builds and see the pipeline",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "READ_ONLY",
-              "description": "The user can only see builds, and not create them",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "TeamPipelinePermissions",
-          "description": "Permission information about what actions the current user can do against the team pipelines",
-          "fields": [
-            {
-              "name": "teamPipelineDelete",
-              "description": "Whether the user can delete the pipeline from the team",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Permission",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "teamPipelineUpdate",
-              "description": "Whether the user can update the pipeline connection to the team",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Permission",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "ArtifactConnection",
-          "description": null,
-          "fields": [
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "edges",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": "List",
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ArtifactEdge",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pageInfo",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "PageInfo",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "ArtifactEdge",
-          "description": null,
-          "fields": [
-            {
-              "name": "cursor",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Artifact",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
           "name": "PageInfo",
           "description": "Metadata about a connection",
           "fields": [
@@ -4652,6 +3846,228 @@
           "inputFields": null,
           "interfaces": [
 
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "JobTypeManual",
+          "description": "A type of job that requires a user to unblock it before proceeding in a build pipeline",
+          "fields": [
+            {
+              "name": "build",
+              "description": "The build that this job is a part of",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Build",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isUnblockable",
+              "description": "Whether or not this job can be unblocked yet (may be waiting on another job to finish)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "label",
+              "description": "The label of the job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": "The state of the job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "unblockedAt",
+              "description": "The time when the job was created",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "unblockedBy",
+              "description": "The user that unblocked this job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID for this job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "JobTypeWait",
+          "description": "A type of job that waits for all previous jobs to pass before proceeding the build pipeline",
+          "fields": [
+            {
+              "name": "build",
+              "description": "The build that this job is a part of",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Build",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": "The state of the job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID for this job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -5277,6 +4693,216 @@
         },
         {
           "kind": "OBJECT",
+          "name": "AgentToken",
+          "description": "A token used to connect an agent to Buildkite",
+          "fields": [
+            {
+              "name": "createdAt",
+              "description": "The time this agent token was created",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdBy",
+              "description": "The user that created this agent token",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "description",
+              "description": "A description about what this agent token is used for",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "permissions",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "AgentTokenPermissions",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "revokedAt",
+              "description": "The time this agent token was revoked",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "revokedBy",
+              "description": "The user that revoked this agent token",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "revokedReason",
+              "description": "The reason as defined by the user why this token was revoked",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "token",
+              "description": "The name of the agent",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The public UUID for the agent",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AgentTokenPermissions",
+          "description": "Permissions information about what actions the current user can do against the agent token",
+          "fields": [
+            {
+              "name": "agentTokenRevoke",
+              "description": "Whether the user can revoke this agent token",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "OrganizationMemberConnection",
           "description": null,
           "fields": [
@@ -5370,6 +4996,174 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "OrganizationMember",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "OrganizationMember",
+          "description": "A member of an organization",
+          "fields": [
+            {
+              "name": "admin",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": "The time when this user was added to the organization",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdBy",
+              "description": "The user that added invited this user",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "permissions",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "OrganizationMemberPermissions",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "user",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The public UUID for this organization member",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "OrganizationMemberPermissions",
+          "description": "Permissions information about what actions the current user can do against the organization membership record",
+          "fields": [
+            {
+              "name": "organizationMemberDelete",
+              "description": "Whether the user can delete the user from the organization",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organizationMemberUpdate",
+              "description": "Whether the user can update the organization's members role information",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -5853,6 +5647,221 @@
         },
         {
           "kind": "OBJECT",
+          "name": "TeamPipeline",
+          "description": "An pipeline that's been assigned to a team",
+          "fields": [
+            {
+              "name": "accessLevel",
+              "description": "The access level users have to this pipeline",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "TeamPipelineAccessLevels",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": "The time when the pipeline was added",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdBy",
+              "description": "The user that added this pipeline to the team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "permissions",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "TeamPipelinePermissions",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pipeline",
+              "description": "The pipeline associated with this team member",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Pipeline",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "team",
+              "description": "The team associated with this team member",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Team",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The public UUID for this team member",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "TeamPipelineAccessLevels",
+          "description": "The access levels that can be assigned to a pipeline in a team",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "MANAGE_BUILD_AND_READ",
+              "description": "The team member can edit the build pipeline, as well as run builds",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "BUILD_AND_READ",
+              "description": "The user can only trigger builds and see the pipeline",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "READ_ONLY",
+              "description": "The user can only see builds, and not create them",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "TeamPipelinePermissions",
+          "description": "Permission information about what actions the current user can do against the team pipelines",
+          "fields": [
+            {
+              "name": "teamPipelineDelete",
+              "description": "Whether the user can delete the pipeline from the team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "teamPipelineUpdate",
+              "description": "Whether the user can update the pipeline connection to the team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "TeamMemberConnection",
           "description": null,
           "fields": [
@@ -5946,6 +5955,192 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "TeamMember",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "TeamMember",
+          "description": "An member of a team",
+          "fields": [
+            {
+              "name": "admin",
+              "description": "Whether or not the user is an admin of this team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": "The time when the team member was added",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdBy",
+              "description": "The user that added this team member",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "permissions",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "TeamMemberPermissions",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "team",
+              "description": "The team associated with this team member",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Team",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "user",
+              "description": "The user associated with this team member",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The public UUID for this team member",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "TeamMemberPermissions",
+          "description": "Permissions information about what actions the current user can do against the team membership record",
+          "fields": [
+            {
+              "name": "teamMemberDelete",
+              "description": "Whether the user can delete the user from the team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "teamMemberUpdate",
+              "description": "Whether the user can update the team's members admin status",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -9176,6 +9371,31 @@
               "deprecationReason": null
             },
             {
+              "name": "locations",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "LIST",
+                  "name": "List",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": "Non-Null",
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "__DirectiveLocation"
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "name",
               "description": "The name of this directive",
               "args": [
@@ -9192,60 +9412,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "onField",
-              "description": "Does this directive apply to fields?",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "onFragment",
-              "description": "Does this directive apply to fragments?",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "onOperation",
-              "description": "Does this directive apply to operations?",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -9254,12 +9420,70 @@
           ],
           "enumValues": null,
           "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "__DirectiveLocation",
+          "description": "Parts of the query where a directive may be located",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "QUERY",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "MUTATION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SUBSCRIPTION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "FIELD",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "FRAGMENT_DEFINITION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "FRAGMENT_SPREAD",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "INLINE_FRAGMENT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
         }
       ],
       "directives": [
         {
           "name": "skip",
           "description": "Ignore this part of the query if `if` is true",
+          "locations": [
+            "FIELD",
+            "FRAGMENT_SPREAD",
+            "INLINE_FRAGMENT"
+          ],
           "args": [
             {
               "name": "if",
@@ -9275,14 +9499,16 @@
               },
               "defaultValue": null
             }
-          ],
-          "onOperation": false,
-          "onFragment": true,
-          "onField": true
+          ]
         },
         {
           "name": "include",
           "description": "Include this part of the query if `if` is true",
+          "locations": [
+            "FIELD",
+            "FRAGMENT_SPREAD",
+            "INLINE_FRAGMENT"
+          ],
           "args": [
             {
               "name": "if",
@@ -9298,10 +9524,7 @@
               },
               "defaultValue": null
             }
-          ],
-          "onOperation": false,
-          "onFragment": true,
-          "onField": true
+          ]
         }
       ]
     }
