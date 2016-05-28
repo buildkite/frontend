@@ -44,7 +44,7 @@ var plugins = [
   // Split emojis, vendor javascript up. The loader JS doesn't have any modules
   // inside it, but since it's the last one, that's where Webpack will dump all
   // of it's bootstrapping JS. This file will change on every compilation.
-  new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "loader" ] }),
+  new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "loader" ], chunks: [ "emojis", "vendor", "loader" ] }),
 
   // After Webpack compilation, spit out a 'manifest.json' file with a mapping
   // of file name, to compiled name.
@@ -109,7 +109,8 @@ module.exports = {
       "whatwg-fetch", "es6-error", "escape-html", "react-addons-update",
       "react-document-title", "bugsnag-js", "deepmerge"],
     emojis: [ path.join(__dirname, './../app/emojis/buildkite.js'), path.join(__dirname, './../app/emojis/apple.js') ],
-    app: path.join(__dirname, './../app/app.js')
+    app: path.join(__dirname, './../app/app.js'),
+    public: path.join(__dirname, './../app/public.js')
   },
 
   output: {

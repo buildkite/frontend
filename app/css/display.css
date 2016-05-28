@@ -1,0 +1,11 @@
+@media (--breakpoint-sm) {
+  .sm-block { display: block !important }
+}
+
+@media (--breakpoint-md) {
+  .md-block { display: block !important }
+}
+
+@media (--breakpoint-lg) {
+  .lg-block { display: block !important }
+}

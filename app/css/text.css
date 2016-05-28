@@ -2,14 +2,18 @@
   font-size: 85%;
 }
 
-.semi-bold {
-  font-weight: 500;
-}
-
-.light {
-  font-weight: 300;
-}
-
 .underline-dotted {
   border-bottom: 1px dashed currentColor;
+}
+
+@media (--breakpoint-sm) {
+  .sm-right-align { text-align: right !important }
+}
+
+@media (--breakpoint-md) {
+  .md-right-align { text-align: right !important }
+}
+
+@media (--breakpoint-lg) {
+  .lg-right-align { text-align: right !important }
 }

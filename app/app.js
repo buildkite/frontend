@@ -69,7 +69,7 @@ window["Webpack"] = {
 // Configure relay if we have access to the GraphQL URL
 if(window._graphql) {
   Relay.injectNetworkLayer(
-    new Relay.DefaultNetworkLayer(window._graphql['url'], { headers: { 'Authorization': window._graphql['authorization'] } })
+    new Relay.DefaultNetworkLayer(window._graphql["url"], { credentials: "same-origin", headers: window._graphql["headers"] })
   );
 }
 
