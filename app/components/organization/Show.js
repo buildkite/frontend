@@ -7,6 +7,7 @@ import Button from '../shared/Button';
 import Icon from '../shared/Icon';
 
 import Pipeline from './Pipeline';
+import Teams from './Teams';
 
 class Show extends React.Component {
   static propTypes = {
@@ -25,37 +26,43 @@ class Show extends React.Component {
     }).isRequired
   };
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   render() {
     return (
       <DocumentTitle title={`${this.props.organization.name}`}>
         <PageWithContainer>
-          {this._renderHeader()}
-          {this._renderPipelines()}
+          {this.renderHeader()}
+          {this.renderPipelines()}
         </PageWithContainer>
       </DocumentTitle>
     );
   }
 
-  _renderHeader() {
+  renderHeader() {
     return (
-      <div className="flex mb2 items-center">
-        <div className="mr-auto">
-          <h1 className="h1 m0 regular line-height-1">Pipelines</h1>
-        </div>
-        <div>
-          <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{width:34, height:34}} href={`organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
-            <Icon icon="plus" title="New Pipeline"/>
-          </Button>
-        </div>
+      <div className="flex mb2 items-start">
+        <h1 className="h1 p0 m0 mr4 regular line-height-1 inline-block">Pipelines</h1>
+        <Teams selected={this.props.relay.variables.team} organization={this.props.organization} onTeamChange={this.handleTeamChange} />
+        <div className="mr-auto" />
+        <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{width:34, height:34}} href={`organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
+          <Icon icon="plus" title="New Pipeline"/>
+        </Button>
       </div>
     )
   }
 
-  _renderPipelines() {
+  renderPipelines() {
     return this.props.organization.pipelines.edges.map((edge) =>
       <Pipeline key={edge.node.id} organization={this.props.organization} pipeline={edge.node} />
     )
   }
+
+  handleTeamChange = (slug) => {
+    this.context.router.push(`/${this.props.organization.slug}?team=${slug}`);
+  };
 }
 
 export default Relay.createContainer(Show, {
@@ -69,6 +76,7 @@ export default Relay.createContainer(Show, {
         id
         slug
         name
+        ${Teams.getFragment('organization')}
         pipelines(first: 100, team: $team) {
           edges {
             node {

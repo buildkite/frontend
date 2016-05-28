@@ -155,7 +155,7 @@ window["initializeReactRouter"] = function() {
   const preparePipelineListParams = (params, { location }) => {
     return {
       ...params,
-      team: location.query.team
+      team: location.query.team || null // Passing `undefined` seems to break all the things
     };
   }
 
