@@ -15,7 +15,7 @@ const BAR_WIDTH = 7;
 const BAR_SEPERATOR_WIDTH = 1;
 const BAR_WIDTH_WITH_SEPERATOR = BAR_WIDTH + BAR_SEPERATOR_WIDTH;
 
-const GRAPH_HEIGHT = 45;
+const GRAPH_HEIGHT = 35;
 const GRAPH_WIDTH = (BAR_WIDTH * MAXIMUM_NUMBER_OF_BUILDS) + ((MAXIMUM_NUMBER_OF_BUILDS * BAR_SEPERATOR_WIDTH)- 1);
 
 class Graph extends React.Component {
@@ -37,7 +37,7 @@ class Graph extends React.Component {
 
   render() {
     return (
-      <div className="py2" style={{width: GRAPH_WIDTH}}>
+      <div className="py2 ml3" style={{width: GRAPH_WIDTH}}>
         <div className="h6 regular dark-gray mb1">{this.props.branch}</div>
         <div className="overflow-hidden align-bottom relative" style={{height: GRAPH_HEIGHT}}>{this.renderBars()}</div>
       </div>

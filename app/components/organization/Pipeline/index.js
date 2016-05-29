@@ -57,19 +57,19 @@ class Pipeline extends React.Component {
 
   render() {
     return (
-      <div className="border border-gray rounded flex items-stretch mb2 line-height-1">
+      <div className="border border-gray rounded flex items-stretch mb2" style={{height: 82}}>
         {this.renderFeaturedBuildIcon()}
 
-        <SectionLink className="flex flex-column justify-center px2 py3" style={{width:'15em'}} href={this.props.pipeline.url}>
+        <SectionLink className="flex flex-column justify-center px2 py3" href={this.props.pipeline.url}>
           <h2 className="h4 regular m0 truncate">{this.props.pipeline.name}</h2>
           {this.props.pipeline.description ? <Emojify className="h5 regular m0 truncate mt1 dark-gray" text={this.props.pipeline.description} /> : null}
         </SectionLink>
 
-        <div className="flex items-center flex-stretch flex-auto">
-          {this.props.pipeline.metrics.edges.map((edge) => <Metric key={edge.node.label} label={edge.node.label} value={edge.node.value} href={edge.node.url}/>)}
+        <div className="flex items-center flex-stretch flex-auto justify-end mr2">
+          {this.renderMetrics()}
         </div>
 
-        <Graph branch={this.props.pipeline.defaultBranch} builds={this.props.pipeline.defaultBranchBuilds} />
+        {this.renderGraph()}
 
         <div className="flex flex-none flex-column justify-center ml-auto px3">
           <button className="my1 btn p0" onClick={this.handleFavoriteClick}>
@@ -105,6 +105,24 @@ class Pipeline extends React.Component {
           <BuildState state="pending" className="ml1" />
         </div>
       );
+    }
+  }
+
+  renderMetrics() {
+    if(this.props.pipeline.allBuilds.count > 0) {
+      return this.props.pipeline.metrics.edges.map((edge) => {
+        return (
+          <Metric key={edge.node.label} label={edge.node.label} value={edge.node.value} href={edge.node.url} />
+        );
+      })
+    };
+  }
+
+  renderGraph() {
+    if(this.props.pipeline.defaultBranchBuilds.edges.length > 0) {
+      return (
+        <Graph branch={this.props.pipeline.defaultBranch} builds={this.props.pipeline.defaultBranchBuilds} />
+      )
     }
   }
 
@@ -182,6 +200,9 @@ export default Relay.createContainer(Pipeline, {
               }
             }
           }
+        }
+        allBuilds: builds {
+          count
         }
       }
     `
