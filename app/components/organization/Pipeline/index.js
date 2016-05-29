@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import Icon from '../../shared/Icon';
 import Dropdown from '../../shared/Dropdown';
-import BuildStatus from '../../icons/BuildStatus';
+import BuildState from '../../icons/BuildState';
 import Favorite from '../../icons/Favorite';
 import Emojify from '../../shared/Emojify';
 
@@ -50,7 +50,7 @@ class Pipeline extends React.Component {
     if (Math.random() < 0.75) {
       props.pipeline.lastDefaultBranchBuild = {
         number: 42,
-        state: ["passed","failed","paused","canceled"][Math.floor(Math.random() * 4)]
+        state: ["running","scheduled"][Math.floor(Math.random() * 2)]
       }
     }
 
@@ -95,7 +95,7 @@ class Pipeline extends React.Component {
 
     return (
       <SectionLink href={"#"} className="flex flex-none items-center pl3 pr2">
-        <BuildStatus status={lastBuild && lastBuild.state || 'pending'} className="ml1" />
+        <BuildState state={lastBuild && lastBuild.state || 'pending'} className="ml1" />
       </SectionLink>
     );
   }
