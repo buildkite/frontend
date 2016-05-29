@@ -24,7 +24,8 @@ class Show extends React.Component {
           }).isRequired
         )
       })
-    }).isRequired
+    }).isRequired,
+    relay: React.PropTypes.object.isRequired,
   };
 
   static contextTypes = {

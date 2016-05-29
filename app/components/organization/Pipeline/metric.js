@@ -7,7 +7,7 @@ class Metric extends React.Component {
     label: React.PropTypes.string.isRequired,
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
-      React.PropTypes.number,
+      React.PropTypes.number
     ]).isRequired,
     href: React.PropTypes.string
   };

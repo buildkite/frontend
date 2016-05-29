@@ -8,7 +8,7 @@ class Teams extends React.Component {
   static propTypes = {
     selected: React.PropTypes.string,
     organization: React.PropTypes.object.isRequired,
-    onTeamChange: React.PropTypes.func.isRequired,
+    onTeamChange: React.PropTypes.func.isRequired
   };
 
   render() {
