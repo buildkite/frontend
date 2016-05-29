@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import Icon from '../../shared/Icon';
+import Dropdown from '../../shared/Dropdown';
 import BuildStatus from '../../icons/BuildStatus';
 import Favorite from '../../icons/Favorite';
 
@@ -40,10 +41,6 @@ class Pipeline extends React.Component {
 
   // TODO: Remove this when there's proper data
   constructor(props) {
-    props.pipeline.medianTime = `${Math.round(Math.random() * 10, 0)}.${Math.round(Math.random() * 9, 0)}min`;
-    props.pipeline.passRate = `${Math.round(Math.random() * 100, 0)}`;
-    props.pipeline.passesPerMonth = `${Math.round(Math.random() * 100, 0)}`;
-
     if (Math.random() < 0.75) {
       props.pipeline.lastDefaultBranchBuild = {
         number: 42,
@@ -74,16 +71,14 @@ class Pipeline extends React.Component {
           <button className="my1 btn p0" onClick={this.handleFavoriteClick}>
             <Favorite favorite={this.props.pipeline.favorite} />
           </button>
-          <button className="my1 btn p0">
-            <svg width="5px" height="19px" viewBox="0 0 5 19">
-              <title>Settings</title>
-              <g fill="#BBBBBB">
-                <circle cx="2.5" cy="2.5" r="2.5"></circle>
-                <circle cx="2.5" cy="9.5" r="2.5"></circle>
-                <circle cx="2.5" cy="16.5" r="2.5"></circle>
-              </g>
-            </svg>
-          </button>
+
+          <Dropdown align="center" width={180}>
+            <button className="my1 btn p0">
+              <Icon icon="menu" className="dark-gray" />
+            </button>
+
+            <a href={`${this.props.pipeline.url}/settings`} className="btn block hover-lime">Configure Pipeline</a>
+          </Dropdown>
         </div>
       </div>
     );
