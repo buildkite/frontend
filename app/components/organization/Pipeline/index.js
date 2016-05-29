@@ -47,6 +47,9 @@ class Pipeline extends React.Component {
             node: React.PropTypes.object.isRequired
           }).isRequired
         )
+      }).isRequired,
+      allBuilds: React.PropTypes.shape({
+        count: React.PropTypes.number.isRequired
       }).isRequired
     }).isRequired
   };
@@ -115,7 +118,7 @@ class Pipeline extends React.Component {
           <Metric key={edge.node.label} label={edge.node.label} value={edge.node.value} href={edge.node.url} />
         );
       })
-    };
+    }
   }
 
   renderGraph() {
