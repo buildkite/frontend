@@ -8,6 +8,7 @@ class Favorite extends React.Component {
   render() {
     return (
       <svg width="16px" height="15px" viewBox="0 0 16 15">
+        <title>Favorite</title>
         <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" fillOpacity="0.3">
           <g transform="translate(-1157.000000, -134.000000)" stroke="#F8CC1C" fill={this.props.favorite ? "#F8CC1C" : ""}>
             <g transform="translate(54.000000, 115.000000)">
