@@ -1224,7 +1224,7 @@
                 },
                 {
                   "name": "search",
-                  "description": null,
+                  "description": "Pipelines are ordered by most relevant in alphabetical order When searching for a pipeline. The `order` argument is ignored",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -1241,6 +1241,16 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "order",
+                  "description": "Order the pipelines",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "PipelineOrders",
+                    "ofType": null
+                  },
+                  "defaultValue": "\"PIPELINE_ORDER_CREATED_AT\""
                 }
               ],
               "type": {
@@ -1529,6 +1539,20 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "BuildConnection",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": "The time when the pipeline was created",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4802,6 +4826,29 @@
 
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "PipelineOrders",
+          "description": "The diferent orders you can sort pipelines by",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "PIPELINE_ORDER_NAME",
+              "description": "Order by name alphabetically",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "PIPELINE_ORDER_CREATED_AT",
+              "description": "Order by when the pipelines were created, from oldest to newest",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
