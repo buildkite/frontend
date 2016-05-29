@@ -1,45 +1,61 @@
 import React from 'react';
 
+import Bar from './bar';
+
+const PASSED_COLOR = "#B0DF21";
+const RUNNING_COLOR = "#FFBA03";
+const FAILED_COLOR = "#F73F23";
+const PENDING_COLOR = "#DDDDDD";
+
+const MAXIMUM_NUMBER_OF_BUILDS = 30;
+
+const BAR_HEIGHT = 45;
+const BAR_WIDTH = 7;
+const BAR_SEPERATOR_WIDTH = 1;
+
+const GRAPH_WIDTH = (BAR_WIDTH * MAXIMUM_NUMBER_OF_BUILDS) + ((MAXIMUM_NUMBER_OF_BUILDS * BAR_SEPERATOR_WIDTH)- 1);
+
 class Graph extends React.Component {
   static propTypes = {
-    branch: React.PropTypes.string.isRequired
+    branch: React.PropTypes.string.isRequired,
+    builds: React.PropTypes.shape({
+      edges: React.PropTypes.arrayOf(
+        React.PropTypes.shape({
+          node: React.PropTypes.shape({
+            state: React.PropTypes.string.isRequired,
+            createdAt: React.PropTypes.string,
+            finishedAt: React.PropTypes.string
+          }).isRequired
+        }).isRequired
+      )
+    }).isRequired
   };
 
   render() {
     return (
-      <div className="py2" style={{width: (7 * 30) + 20}}>
-        <div className="h6 regular dark-gray">{this.props.branch}</div>
-        <div className="overflow-hidden align-bottom relative" style={{height:50}}>
-          {this._bars().map((i) =>
-            <div
-              key={i}
-              className="border-box inline-block absolute bottom"
-              style={{
-                backgroundColor: this._randomColor(),
-                width: 7,
-                bottom: 0,
-                left: i * (7 + 1),
-                height: `${this._randomHeight()}%`
-              }}>{' '}</div>
-          )}
-        </div>
+      <div className="py2" style={{width: GRAPH_WIDTH}}>
+        <div className="h6 regular dark-gray mb1">{this.props.branch}</div>
+        <div className="overflow-hidden align-bottom relative" style={{height: BAR_HEIGHT}}>{this.renderBars()}</div>
       </div>
     )
   }
 
-  _bars() {
+  renderBars() {
     let bars = [];
-    for (var i = 0; i < 30; i++) bars.push(i);
-    return bars;
-  }
 
-  _randomColor() {
-    const colors = ["#B0DF21", "#B0DF21", "#B0DF21", "#B0DF21", "#FFBA03", "#F73F23"];
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
+    for (let i = 0; i < MAXIMUM_NUMBER_OF_BUILDS; i++) {
+      let buildEdge = this.props.builds.edges[i];
 
-  _randomHeight() {
-    return 50 + Math.random() * 50;
+      if(buildEdge) {
+        bars.push({ color: PASSED_COLOR, height: "50%" });
+      } else {
+        bars.push({ color: PENDING_COLOR, height: "2px" });
+      }
+    }
+
+    return bars.map((bar, index) =>
+      <Bar key={index} left={index * (BAR_WIDTH + BAR_SEPERATOR_WIDTH)} color={bar.color} width={BAR_WIDTH} height={bar.height} />
+    )
   }
 }
 
