@@ -42,7 +42,7 @@ class Pipeline extends React.Component {
   };
 
   state = {
-    showingMenu: false,
+    showingMenu: false
   };
 
   // TODO: Remove this when there's proper data

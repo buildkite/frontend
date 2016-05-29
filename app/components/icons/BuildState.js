@@ -31,7 +31,7 @@ class BuildState extends React.Component {
     switch (this.props.state) {
       case 'failed':
       case 'canceled':
-	return (
+        return (
           <g transform="translate(-219.000000, -19.000000)" stroke="#F83F23" strokeWidth={strokeWidth}>
             <g transform="translate(220.000000, 20.000000)">
               <ellipse fill="none" cx="15" cy="15" rx="15" ry="15"></ellipse>
@@ -41,27 +41,27 @@ class BuildState extends React.Component {
               </g>
             </g>
           </g>
-	);
+        );
 
       case 'passed':
-	return (
+        return (
           <g>
             <circle cx="16" cy="16" r="15" fill="none" stroke="#90c73e" strokeMiterlimit="10" strokeWidth={strokeWidth}/>
             <polyline points="10 17.61 14.38 20.81 21 11.41" fill="none" stroke="#90c73e" strokeMiterlimit="10" strokeWidth={strokeWidth}/>
           </g>
-	);
+        );
 
       case 'paused':
-	return (
+        return (
           <g>
             <circle cx="16" cy="16" r="15" fill="none" stroke="#90c73e" strokeWidth={strokeWidth}/>
             <path d="M13,21V11" fill="none" stroke="#90c73e" strokeWidth={strokeWidth}/>
             <path d="M19,21V11" fill="none" stroke="#90c73e" strokeWidth={strokeWidth}/>
           </g>
-	);
+        );
 
       case 'running':
-	return (
+        return (
           <g>
             <defs>
               <mask id="a" x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
@@ -75,32 +75,32 @@ class BuildState extends React.Component {
               </g>
             </g>
           </g>
-	);
+        );
 
       case 'scheduled':
-	return (
+        return (
           <g>
-	    <defs>
-	      <mask id="a" x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
-		<polygon points="16 16 9 16 9 9 23 9 23 23 16 23 16 16" fill="#fff"/>
-	      </mask>
-	    </defs>
-	    <g>
-	      <circle cx="16" cy="16" r="15" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
-	      <g mask="url(#a)">
-		<circle cx="16" cy="16" r="6" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
-	      </g>
-	    </g>
-	  </g>
-	)
+            <defs>
+              <mask id="a" x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
+                <polygon points="16 16 9 16 9 9 23 9 23 23 16 23 16 16" fill="#fff"/>
+              </mask>
+            </defs>
+            <g>
+              <circle cx="16" cy="16" r="15" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
+              <g mask="url(#a)">
+                <circle cx="16" cy="16" r="6" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
+              </g>
+            </g>
+          </g>
+        );
 
       case 'pending':
-	return (
+        return (
           <g>
             <circle cx="16" cy="16" r="15" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
             <path d="M11,16H21" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
           </g>
-	)
+        );
     }
   }
 }
