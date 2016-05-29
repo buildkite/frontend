@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 
 import Icon from '../../shared/Icon';
 import BuildStatus from '../../icons/BuildStatus';
+import Favorite from '../../icons/Favorite';
 
 import Metric from './metric';
 import Graph from './graph';
@@ -37,7 +38,6 @@ class Pipeline extends React.Component {
 
   // TODO: Remove this when there's proper data
   constructor(props) {
-    props.pipeline.favorite = Math.random() < 0.5;
     props.pipeline.medianTime = `${Math.round(Math.random() * 10, 0)}.${Math.round(Math.random() * 9, 0)}min`;
     props.pipeline.passRate = `${Math.round(Math.random() * 100, 0)}`;
     props.pipeline.passesPerMonth = `${Math.round(Math.random() * 100, 0)}`;
@@ -70,16 +70,7 @@ class Pipeline extends React.Component {
 
         <div className="flex flex-none flex-column justify-center ml-auto px3">
           <button className="my1 btn p0">
-            <svg width="16px" height="15px" viewBox="0 0 16 15">
-              <title>Favorite</title>
-              <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" fillOpacity="0.3">
-                <g transform="translate(-1157.000000, -134.000000)" stroke="#F8CC1C" fill="#F8CC1C">
-                  <g transform="translate(54.000000, 115.000000)">
-                    <polygon points="1111 31 1106.29772 33.472136 1107.19577 28.236068 1103.39155 24.527864 1108.64886 23.763932 1111 19 1113.35114 23.763932 1118.60845 24.527864 1114.80423 28.236068 1115.70228 33.472136"></polygon>
-                  </g>
-                </g>
-              </g>
-            </svg>
+            <Favorite favorite={this.props.pipeline.favorite} />
           </button>
           <button className="my1 btn p0">
             <svg width="5px" height="19px" viewBox="0 0 5 19">
@@ -117,6 +108,7 @@ export default Relay.createContainer(Pipeline, {
         description
         defaultBranch
         url
+        favorite
         metrics(first: 6) {
           edges {
             node {
