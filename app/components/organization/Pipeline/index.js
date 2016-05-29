@@ -154,7 +154,7 @@ export default Relay.createContainer(Pipeline, {
             node {
               state
               message
-              createdAt
+              startedAt
               finishedAt
               url
               user {
@@ -171,7 +171,7 @@ export default Relay.createContainer(Pipeline, {
             node {
               state
               message
-              createdAt
+              startedAt
               finishedAt
               url
               user {
