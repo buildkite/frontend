@@ -29,13 +29,23 @@
 }
 
 .hover-gray:hover {
-  color: var(--white);
+  color: var(--gray);
 }
 
 .hover-gray:hover .hover-gray-child,
 .hover-gray:active .hover-gray-child,
 .hover-gray:focus .hover-gray-child {
   background-color: var(--gray);
+}
+
+.hover-dark-gray:hover {
+  color: var(--dark-gray);
+}
+
+.hover-dark-gray:hover .hover-dark-gray-child,
+.hover-dark-gray:active .hover-dark-gray-child,
+.hover-dark-gray:focus .hover-dark-gray-child {
+  background-color: var(--dark-gray);
 }
 
 .hover-black:hover {

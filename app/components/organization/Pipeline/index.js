@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import classNames from 'classnames';
 
 import Icon from '../../shared/Icon';
 import Dropdown from '../../shared/Dropdown';
@@ -40,6 +41,10 @@ class Pipeline extends React.Component {
     }).isRequired
   };
 
+  state = {
+    showingMenu: false,
+  };
+
   // TODO: Remove this when there's proper data
   constructor(props) {
     if (Math.random() < 0.75) {
@@ -73,9 +78,9 @@ class Pipeline extends React.Component {
             <Favorite favorite={this.props.pipeline.favorite} />
           </button>
 
-          <Dropdown align="center" width={180}>
-            <button className="my1 btn p0">
-              <Icon icon="menu" className="dark-gray" />
+          <Dropdown align="center" width={180} onToggle={this.handleMenuToggle}>
+            <button className="my1 btn p0 gray hover-dark-gray">
+              <Icon icon="menu" className={classNames({ "dark-gray": this.state.showingMenu })} />
             </button>
 
             <a href={`${this.props.pipeline.url}/settings`} className="btn block hover-lime">Configure Pipeline</a>
@@ -94,6 +99,10 @@ class Pipeline extends React.Component {
       </SectionLink>
     );
   }
+
+  handleMenuToggle = (visible) => {
+    this.setState({ showingMenu: visible });
+  };
 
   handleFavoriteClick = () => {
     // Create the PipelineFavoriteMutation mutation
