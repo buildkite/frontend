@@ -5,6 +5,8 @@ import Icon from '../../shared/Icon';
 import BuildStatus from '../../icons/BuildStatus';
 import Favorite from '../../icons/Favorite';
 
+import PipelineFavoriteMutation from '../../../mutations/PipelineFavorite';
+
 import Metric from './metric';
 import Graph from './graph';
 import SectionLink from './section-link';
@@ -63,13 +65,13 @@ class Pipeline extends React.Component {
         </SectionLink>
 
         <div className="flex items-center flex-stretch flex-auto">
-          {this.props.pipeline.metrics.edges.map((edge) => <Metric label={edge.node.label} value={edge.node.value} href={edge.node.url}/>)}
+          {this.props.pipeline.metrics.edges.map((edge) => <Metric key={edge.node.label} label={edge.node.label} value={edge.node.value} href={edge.node.url}/>)}
         </div>
 
         <Graph branch={this.props.pipeline.defaultBranch} />
 
         <div className="flex flex-none flex-column justify-center ml-auto px3">
-          <button className="my1 btn p0">
+          <button className="my1 btn p0" onClick={this.handleFavoriteClick}>
             <Favorite favorite={this.props.pipeline.favorite} />
           </button>
           <button className="my1 btn p0">
@@ -96,12 +98,30 @@ class Pipeline extends React.Component {
       </SectionLink>
     );
   }
+
+  handleFavoriteClick = () => {
+    // Create the PipelineFavoriteMutation mutation
+    var mutation = new PipelineFavoriteMutation({
+      pipeline: this.props.pipeline,
+      favorite: !this.props.pipeline.favorite
+    });
+
+    // Run the mutation with basic failure handling
+    Relay.Store.commitUpdate(mutation, {
+      onFailure: this.handlePipelineFavoriteMutationFailure
+    });
+  }
+
+  handlePipelineFavoriteMutationFailure = (transaction) => {
+    alert(transaction.getError());
+  }
 }
 
 export default Relay.createContainer(Pipeline, {
   fragments: {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
+        ${PipelineFavoriteMutation.getFragment('pipeline')}
         id
         name
         slug
@@ -118,12 +138,6 @@ export default Relay.createContainer(Pipeline, {
             }
           }
         }
-	scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
-	  count
-	}
-	runningBuilds: builds(state: BUILD_STATE_RUNNING) {
-	  count
-	}
       }
     `
   }

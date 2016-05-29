@@ -7,7 +7,7 @@ class Graph extends React.Component {
 
   render() {
     return (
-      <div className="py2" style={{width: 159}}>
+      <div className="py2" style={{width: (7 * 30) + 20}}>
         <div className="h6 regular dark-gray">{this.props.branch}</div>
         <div className="overflow-hidden align-bottom relative" style={{height:50}}>
           {this._bars().map((i) =>
@@ -29,7 +29,7 @@ class Graph extends React.Component {
 
   _bars() {
     let bars = [];
-    for (var i = 0; i < 20; i++) bars.push(i);
+    for (var i = 0; i < 30; i++) bars.push(i);
     return bars;
   }
 
