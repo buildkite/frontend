@@ -33,11 +33,7 @@ class Pipeline extends React.Component {
             }).isRequired
           }).isRequired
         )
-      }).isRequired,
-      lastDefaultBranchBuild: React.PropTypes.shape({
-        number: React.PropTypes.number.isRequired,
-        state: React.PropTypes.oneOf(["passed","failed","paused","canceled","skipped"]).isRequired
-      })
+      }).isRequired
     }).isRequired
   };
 
@@ -45,22 +41,10 @@ class Pipeline extends React.Component {
     showingMenu: false
   };
 
-  // TODO: Remove this when there's proper data
-  constructor(props) {
-    if (Math.random() < 0.75) {
-      props.pipeline.lastDefaultBranchBuild = {
-        number: 42,
-        state: ["running","scheduled"][Math.floor(Math.random() * 2)]
-      }
-    }
-
-    super(props);
-  }
-
   render() {
     return (
       <div className="border border-gray rounded flex items-stretch mb2 line-height-1">
-        {this._renderLastBuild()}
+        {this.renderFeaturedBuildIcon()}
 
         <SectionLink className="flex flex-column justify-center px2 py3" style={{width:'15em'}} href={this.props.pipeline.url}>
           <h2 className="h4 regular m0 truncate">{this.props.pipeline.name}</h2>
@@ -71,7 +55,7 @@ class Pipeline extends React.Component {
           {this.props.pipeline.metrics.edges.map((edge) => <Metric key={edge.node.label} label={edge.node.label} value={edge.node.value} href={edge.node.url}/>)}
         </div>
 
-        <Graph branch={this.props.pipeline.defaultBranch} />
+        <Graph branch={this.props.pipeline.defaultBranch} builds={this.props.pipeline.defaultBranchBuilds} />
 
         <div className="flex flex-none flex-column justify-center ml-auto px3">
           <button className="my1 btn p0" onClick={this.handleFavoriteClick}>
@@ -90,14 +74,24 @@ class Pipeline extends React.Component {
     );
   }
 
-  _renderLastBuild() {
-    const lastBuild = this.props.pipeline.lastDefaultBranchBuild;
+  renderFeaturedBuildIcon() {
+    let featuredBuildEdge = this.props.pipeline.featuredDefaultBranchBuilds.edges[0];
 
-    return (
-      <SectionLink href={"#"} className="flex flex-none items-center pl3 pr2">
-        <BuildState state={lastBuild && lastBuild.state || 'pending'} className="ml1" />
-      </SectionLink>
-    );
+    if(featuredBuildEdge) {
+      let featuredBuild = featuredBuildEdge.node;
+
+      return (
+        <SectionLink href={featuredBuild.url} className="flex flex-none items-center pl3 pr2">
+          <BuildState state={featuredBuild.state} className="ml1" />
+        </SectionLink>
+      );
+    } else {
+      return (
+        <div className="flex flex-none items-center pl3 pr2">
+          <BuildState state='pending' className="ml1" />
+        </div>
+      );
+    }
   }
 
   handleMenuToggle = (visible) => {
@@ -105,13 +99,11 @@ class Pipeline extends React.Component {
   };
 
   handleFavoriteClick = () => {
-    // Create the PipelineFavoriteMutation mutation
     var mutation = new PipelineFavoriteMutation({
       pipeline: this.props.pipeline,
       favorite: !this.props.pipeline.favorite
     });
 
-    // Run the mutation with basic failure handling
     Relay.Store.commitUpdate(mutation, {
       onFailure: this.handlePipelineFavoriteMutationFailure
     });
@@ -140,6 +132,40 @@ export default Relay.createContainer(Pipeline, {
               label
               value
               url
+            }
+          }
+        }
+        featuredDefaultBranchBuilds: builds(first: 1, state: [ BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED ]) {
+          edges {
+            node {
+              state
+              message
+              createdAt
+              finishedAt
+              url
+              user {
+                name
+                avatar {
+                  url
+                }
+              }
+            }
+          }
+        }
+        defaultBranchBuilds: builds(first: 30) {
+          edges {
+            node {
+              state
+              message
+              createdAt
+              finishedAt
+              url
+              user {
+                name
+                avatar {
+                  url
+                }
+              }
             }
           }
         }
