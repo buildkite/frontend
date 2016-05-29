@@ -10,19 +10,15 @@ class SectionLink extends React.Component {
   };
 
   render() {
+    let classes = classNames(this.props.classNames, {
+      "text-decoration-none color-inherit": !!this.props.href
+    });
+
     return (
-      <a href={this.props.href} className={this._className()} style={this.props.style}>
+      <a href={this.props.href} className={classes} style={this.props.style}>
         {this.props.children}
       </a>
     );
-  }
-
-  _className() {
-    if (this.props.href) {
-      return classNames("text-decoration-none color-inherit", this.props.className);
-    } else {
-      return this.props.className;
-    }
   }
 }
 
