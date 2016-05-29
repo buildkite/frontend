@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 
 import Dropdown from '../../shared/Dropdown';
 import Chooser from '../../shared/Chooser';
+import Emojify from '../../shared/Emojify';
 
 class Teams extends React.Component {
   static propTypes = {
@@ -46,7 +47,7 @@ class Teams extends React.Component {
     return this.props.organization.teams.edges.map((edge) =>
       <Chooser.Option key={edge.node.id} value={edge.node.slug} className="btn block hover-bg-silver">
         <div>{edge.node.name}</div>
-        <div className="dark-gray light">{edge.node.description}</div>
+        {edge.node.description ? <Emojify className="dark-gray light" text={edge.node.description} /> : null}
       </Chooser.Option>
     )
   }

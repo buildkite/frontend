@@ -26,6 +26,7 @@ class Show extends React.Component {
       })
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
+    team: React.PropTypes.string
   };
 
   static contextTypes = {
@@ -39,7 +40,7 @@ class Show extends React.Component {
   // When we change teams, it causes a new set of variables to be loaded (I'm
   // not sure why, something in react-router-relay probably) so we'll keep an
   // eye out of team changes, and reset `isMounted`
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if(prevProps.team != this.props.team) {
       this.props.relay.setVariables({ isMounted: true });
     }

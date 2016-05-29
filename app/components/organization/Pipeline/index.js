@@ -5,6 +5,7 @@ import Icon from '../../shared/Icon';
 import Dropdown from '../../shared/Dropdown';
 import BuildStatus from '../../icons/BuildStatus';
 import Favorite from '../../icons/Favorite';
+import Emojify from '../../shared/Emojify';
 
 import PipelineFavoriteMutation from '../../../mutations/PipelineFavorite';
 
@@ -58,7 +59,7 @@ class Pipeline extends React.Component {
 
         <SectionLink className="flex flex-column justify-center px2 py3" style={{width:'15em'}} href={this.props.pipeline.url}>
           <h2 className="h4 regular m0 truncate">{this.props.pipeline.name}</h2>
-          {this.props.pipeline.description ? <h3 className="h5 regular m0 truncate mt1 dark-gray">{this.props.pipeline.description}</h3> : null}
+          {this.props.pipeline.description ? <Emojify className="h5 regular m0 truncate mt1 dark-gray" text={this.props.pipeline.description} /> : null}
         </SectionLink>
 
         <div className="flex items-center flex-stretch flex-auto">
