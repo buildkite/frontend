@@ -66,8 +66,21 @@ class Show extends React.Component {
 
   renderPipelines() {
     if(this.props.organization.pipelines) {
-      return this.props.organization.pipelines.edges.map((edge) =>
-        <Pipeline key={edge.node.id} organization={this.props.organization} pipeline={edge.node} />
+      // Split the pipelines into "favorited" and non "favorited". We don't
+      // user a `sort` method so we preserve the current order the pipelines.
+      let favorited = [];
+      let remainer = [];
+      for(let edge of this.props.organization.pipelines.edges) {
+        if(edge.node.favorite) {
+          favorited.push(edge.node);
+        } else {
+          remainer.push(edge.node);
+        }
+      }
+
+      // Render the pipelines with the favorites first
+      return favorited.concat(remainer).map((pipeline) =>
+        <Pipeline key={pipeline.id} pipeline={pipeline} />
       )
     } else {
       return <SectionLoader />
@@ -97,10 +110,11 @@ export default Relay.createContainer(Show, {
         slug
         name
         ${Teams.getFragment('organization')}
-        pipelines(first: 100, team: $team) @include(if: $isMounted) {
+        pipelines(first: 100, team: $team, order: PIPELINE_ORDER_NAME) @include(if: $isMounted) {
           edges {
             node {
               id
+              favorite
               ${Pipeline.getFragment('pipeline')}
             }
           }
