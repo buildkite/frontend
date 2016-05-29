@@ -4752,6 +4752,11 @@
       "from": "react-addons-css-transition-group@>=15.1.0 <16.0.0",
       "resolved": "https://registry.npmjs.org/react-addons-css-transition-group/-/react-addons-css-transition-group-15.1.0.tgz"
     },
+    "react-addons-shallow-compare": {
+      "version": "15.1.0",
+      "from": "react-addons-shallow-compare@>=15.1.0 <16.0.0",
+      "resolved": "https://registry.npmjs.org/react-addons-shallow-compare/-/react-addons-shallow-compare-15.1.0.tgz"
+    },
     "react-addons-update": {
       "version": "15.1.0",
       "from": "react-addons-update@>=15.1.0 <16.0.0",

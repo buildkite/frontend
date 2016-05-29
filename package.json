@@ -67,6 +67,7 @@
     "pusher-js": "^3.1.0",
     "react": "^15.1.0",
     "react-addons-css-transition-group": "^15.1.0",
+    "react-addons-shallow-compare": "^15.1.0",
     "react-addons-update": "^15.1.0",
     "react-document-title": "^2.0.1",
     "react-dom": "^15.1.0",
