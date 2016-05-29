@@ -28,7 +28,7 @@ class Bar extends React.Component {
         <div className="border-box inline-block absolute" style={style} />
       );
     }
-  };
+  }
 }
 
 export default Bar
