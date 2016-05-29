@@ -33,6 +33,20 @@ class Pipeline extends React.Component {
             }).isRequired
           }).isRequired
         )
+      }).isRequired,
+      defaultBranchBuilds: React.PropTypes.shape({
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.object.isRequired
+          }).isRequired
+        )
+      }).isRequired,
+      featuredDefaultBranchBuilds: React.PropTypes.shape({
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.object.isRequired
+          }).isRequired
+        )
       }).isRequired
     }).isRequired
   };
@@ -88,7 +102,7 @@ class Pipeline extends React.Component {
     } else {
       return (
         <div className="flex flex-none items-center pl3 pr2">
-          <BuildState state='pending' className="ml1" />
+          <BuildState state="pending" className="ml1" />
         </div>
       );
     }
