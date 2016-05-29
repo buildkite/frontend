@@ -71,6 +71,11 @@
   animation: animation-spin 1.1s infinite linear;
 }
 
+.animation-spin-slow {
+  will-change: transform;
+  animation: animation-spin 2.1s infinite linear;
+}
+
 /* Allow CSS animations to be disabled (used in integration tests) */
 .animation-disable * {
   transition-duration: 0s !important;

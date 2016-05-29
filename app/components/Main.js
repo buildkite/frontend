@@ -16,7 +16,7 @@ class Main extends React.Component {
 
   render() {
     return (
-      <DocumentTitle title={`Buildkite`} data-change={true}>
+      <DocumentTitle title={`Buildkite`}>
         <div>
           <Navigation organization={this.props.organization} viewer={this.props.viewer} />
           <Flashes />
