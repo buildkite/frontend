@@ -1493,9 +1493,17 @@
                   "name": "state",
                   "description": null,
                   "type": {
-                    "kind": "ENUM",
-                    "name": "BuildStates",
-                    "ofType": null
+                    "kind": "LIST",
+                    "name": "List",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": "Non-Null",
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "BuildStates",
+                        "ofType": null
+                      }
+                    }
                   },
                   "defaultValue": null
                 },
@@ -4566,14 +4574,20 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "BUILD_STATE_RUNNING",
-              "description": "The build is currently running jobs",
+              "name": "BUILD_STATE_SKIPPED",
+              "description": "The build was skipped",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "BUILD_STATE_SCHEDULED",
               "description": "The build has yet to start running jobs",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "BUILD_STATE_RUNNING",
+              "description": "The build is currently running jobs",
               "isDeprecated": false,
               "deprecationReason": null
             },
@@ -4586,6 +4600,18 @@
             {
               "name": "BUILD_STATE_FAILED",
               "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "BUILD_STATE_CANCELING",
+              "description": "The build is currently being canceled",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "BUILD_STATE_CANCELED",
+              "description": "The build was canceled",
               "isDeprecated": false,
               "deprecationReason": null
             }
