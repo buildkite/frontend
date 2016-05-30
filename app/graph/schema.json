@@ -6063,7 +6063,7 @@
                 "name": "Non-Null",
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "TeamPipelineAccessLevels",
+                  "name": "PipelineAccessLevels",
                   "ofType": null
                 }
               },
@@ -6194,27 +6194,27 @@
         },
         {
           "kind": "ENUM",
-          "name": "TeamPipelineAccessLevels",
-          "description": "The access levels that can be assigned to a pipeline in a team",
+          "name": "PipelineAccessLevels",
+          "description": "The access levels that can be assigned to a pipeline",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
           "enumValues": [
             {
-              "name": "MANAGE_BUILD_AND_READ",
-              "description": "The team member can edit the build pipeline, as well as run builds",
+              "name": "PIPELINE_ACCESS_LEVEL_MANAGE_BUILD_AND_READ",
+              "description": "Allows edits, builds and reads",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "BUILD_AND_READ",
-              "description": "The user can only trigger builds and see the pipeline",
+              "name": "PIPELINE_ACCESS_LEVEL_BUILD_AND_READ",
+              "description": "Allows builds and read only",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "READ_ONLY",
-              "description": "The user can only see builds, and not create them",
+              "name": "PIPELINE_ACCESS_LEVEL_READ_ONLY",
+              "description": "Read only - no builds or edits",
               "isDeprecated": false,
               "deprecationReason": null
             }
@@ -6847,6 +6847,34 @@
           "description": "A changelog",
           "fields": [
             {
+              "name": "author",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "ChangelogAuthor",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "body",
+              "description": "The body of this changelog",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "id",
               "description": null,
               "args": [
@@ -6858,6 +6886,38 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "publishedAt",
+              "description": "The date and time this changelog was published",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "tag",
+              "description": "The tag for this changelog",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
                   "ofType": null
                 }
               },
@@ -6908,6 +6968,51 @@
               "name": "Node",
               "ofType": null
             }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "ChangelogAuthor",
+          "description": "The author of the changelog",
+          "fields": [
+            {
+              "name": "avatar",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Avatar",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the author",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -9087,7 +9192,7 @@
                 "name": "Non-Null",
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "TeamPipelineAccessLevels",
+                  "name": "PipelineAccessLevels",
                   "ofType": null
                 }
               },
