@@ -2,7 +2,6 @@ import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import Emojify from '../../shared/Emojify';
-import BuildState from '../../icons/BuildState';
 import UserAvatar from "../../shared/UserAvatar";
 import Media from "../../shared/Media";
 import FriendlyTime from "../../shared/FriendlyTime";
