@@ -15,6 +15,15 @@ class Show extends React.Component {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
+      teams: React.PropTypes.shape({
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.shape({
+              id: React.PropTypes.string.isRequired
+            }).isRequired
+          }).isRequired
+        )
+      }),
       pipelines: React.PropTypes.shape({
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
@@ -53,7 +62,7 @@ class Show extends React.Component {
           <div className="flex mb2 items-start">
             <div className="mr-auto flex items-start">
               <h1 className="h1 p0 m0 mr4 regular line-height-1 inline-block">Pipelines</h1>
-              <Teams selected={this.props.relay.variables.team} organization={this.props.organization} onTeamChange={this.handleTeamChange} />
+              {this.renderTeams()}
             </div>
             <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{width:34, height:34}} href={`organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
               <Icon icon="plus" title="New Pipeline"/>
@@ -66,24 +75,40 @@ class Show extends React.Component {
     );
   }
 
+  renderTeams() {
+    if(this.props.organization.teams.edges.length > 0) {
+      return (
+        <Teams selected={this.props.relay.variables.team} organization={this.props.organization} onTeamChange={this.handleTeamChange} />
+      );
+    }
+  }
+
   renderPipelines() {
     if(this.props.organization.pipelines) {
-      // Split the pipelines into "favorited" and non "favorited". We don't
-      // user a `sort` method so we preserve the current order the pipelines.
-      let favorited = [];
-      let remainer = [];
-      for(let edge of this.props.organization.pipelines.edges) {
-        if(edge.node.favorite) {
-          favorited.push(edge.node);
-        } else {
-          remainer.push(edge.node);
+        if(this.props.organization.pipelines.edges.length > 0) {
+        // Split the pipelines into "favorited" and non "favorited". We don't
+        // user a `sort` method so we preserve the current order the pipelines.
+        let favorited = [];
+        let remainer = [];
+        for(let edge of this.props.organization.pipelines.edges) {
+          if(edge.node.favorite) {
+            favorited.push(edge.node);
+          } else {
+            remainer.push(edge.node);
+          }
         }
-      }
 
-      // Render the pipelines with the favorites first
-      return favorited.concat(remainer).map((pipeline) =>
-        <Pipeline key={pipeline.id} pipeline={pipeline} />
-      )
+        // Render the pipelines with the favorites first
+        return favorited.concat(remainer).map((pipeline) => {
+          return (
+            <Pipeline key={pipeline.id} pipeline={pipeline} />
+          );
+        })
+      } else {
+        return (
+          <p className="dark-gray">No pipelines to see here!</p>
+        );
+      }
     } else {
       return <SectionLoader />
     }
@@ -108,10 +133,17 @@ export default Relay.createContainer(Show, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+        ${Teams.getFragment('organization')}
         id
         slug
         name
-        ${Teams.getFragment('organization')}
+        teams(first: 100) {
+          edges {
+            node {
+              id
+            }
+          }
+        }
         pipelines(first: 100, team: $team, order: PIPELINE_ORDER_NAME) @include(if: $isMounted) {
           edges {
             node {

@@ -21,11 +21,10 @@ class Teams extends React.Component {
         </button>
 
         <Chooser selected={null} onSelect={this.handleDropdownSelect}>
+          {this.renderOptions()}
           <Chooser.Option value={""} className="btn block hover-bg-silver">
             <div>All teams</div>
           </Chooser.Option>
-
-          {this.renderOptions()}
         </Chooser>
       </Dropdown>
     );
@@ -35,7 +34,9 @@ class Teams extends React.Component {
     if(this.props.selected) {
       for(let edge of this.props.organization.teams.edges) {
         if(edge.node.slug == this.props.selected) {
-          return edge.node.name;
+          return (
+            <Emojify className="block" text={edge.node.name} />
+          );
         }
       }
     }
@@ -46,7 +47,7 @@ class Teams extends React.Component {
   renderOptions() {
     return this.props.organization.teams.edges.map((edge) =>
       <Chooser.Option key={edge.node.id} value={edge.node.slug} className="btn block hover-bg-silver">
-        <div>{edge.node.name}</div>
+        <Emojify className="block" text={edge.node.name} />
         {edge.node.description ? <Emojify className="dark-gray light" text={edge.node.description} /> : null}
       </Chooser.Option>
     )
