@@ -36,7 +36,7 @@ class Graph extends React.Component {
 
   render() {
     return (
-      <div className="overflow-hidden align-bottom relative" style={{width: GRAPH_WIDTH, height: GRAPH_HEIGHT}}>{this.renderBars()}</div>
+      <div className="align-bottom relative" style={{width: GRAPH_WIDTH, height: GRAPH_HEIGHT}}>{this.renderBars()}</div>
     )
   }
 
@@ -51,7 +51,7 @@ class Graph extends React.Component {
         let duration = this.durationForBuild(buildEdge.node);
         if(duration > maximumDuration) maximumDuration = duration;
 
-        bars.push({ color: this.colorForBuild(buildEdge.node), duration: duration, href: buildEdge.node.url });
+        bars.push({ color: this.colorForBuild(buildEdge.node), duration: duration, href: buildEdge.node.url, build: buildEdge.node });
       } else {
         bars.push({ color: PENDING_COLOR, duration: 0 });
       }
@@ -63,7 +63,7 @@ class Graph extends React.Component {
       let height = (bar.duration / maximumDuration) * GRAPH_HEIGHT;
       if(height < BAR_HEIGHT_MINIMUM) height = BAR_HEIGHT_MINIMUM;
 
-      return <Bar key={index} left={left} color={bar.color} width={BAR_WIDTH} height={height} href={bar.href} />
+      return <Bar key={index} left={left} color={bar.color} width={BAR_WIDTH} height={height} href={bar.href} build={bar.build} />
     })
   }
 

@@ -13,6 +13,7 @@ import PipelineFavoriteMutation from '../../../mutations/PipelineFavorite';
 import Metric from './metric';
 import Graph from './graph';
 import SectionLink from './section-link';
+import Build from './build';
 
 class Pipeline extends React.Component {
   static propTypes = {
@@ -108,9 +109,11 @@ class Pipeline extends React.Component {
       let featuredBuild = featuredBuildEdge.node;
 
       return (
-        <SectionLink href={featuredBuild.url} className="flex flex-none items-center pl3 pr2">
-          <BuildState state={featuredBuild.state} className="ml1" />
-        </SectionLink>
+        <Build build={featuredBuild}>
+          <SectionLink href={featuredBuild.url} className="flex flex-none items-center pl3 pr2">
+            <BuildState state={featuredBuild.state} className="ml1" />
+          </SectionLink>
+        </Build>
       );
     } else {
       return (

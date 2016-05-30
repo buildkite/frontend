@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { friendlyRelativeTime } from '../../lib/friendlyRelativeTime';
+import friendlyRelativeTime from '../../lib/friendlyRelativeTime';
 
 class FriendlyTime extends React.Component {
   static propTypes = {
