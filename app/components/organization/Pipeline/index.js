@@ -48,9 +48,6 @@ class Pipeline extends React.Component {
             node: React.PropTypes.object.isRequired
           }).isRequired
         )
-      }).isRequired,
-      allBuilds: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired
       }).isRequired
     }).isRequired
   };
@@ -72,10 +69,19 @@ class Pipeline extends React.Component {
         </SectionLink>
 
         <div className="flex flex-none items-center justify-end mr2">
-          {this.renderMetrics()}
+          {this.props.pipeline.metrics.edges.map((edge) => {
+            return (
+              <Metric key={edge.node.label} label={edge.node.label} value={edge.node.value} href={edge.node.url} />
+              );
+          })}
         </div>
 
-        {this.renderGraph()}
+        <div className="flex items-center flex-none ml3 xs-hide sm-hide">
+          <div>
+            <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
+            <Graph builds={this.props.pipeline.defaultBranchBuilds}  />
+          </div>
+        </div>
 
         <div className="flex flex-none flex-column justify-center ml-auto px3">
           <button className="btn p0 mb1" onClick={this.handleFavoriteClick}>
@@ -125,29 +131,6 @@ class Pipeline extends React.Component {
           <BuildState state="pending" />
         </div>
       );
-    }
-  }
-
-  renderMetrics() {
-    if(this.props.pipeline.allBuilds.count > 0) {
-      return this.props.pipeline.metrics.edges.map((edge) => {
-        return (
-          <Metric key={edge.node.label} label={edge.node.label} value={edge.node.value} href={edge.node.url} />
-        );
-      })
-    }
-  }
-
-  renderGraph() {
-    if(this.props.pipeline.defaultBranchBuilds.edges.length > 0) {
-      return (
-        <div className="flex items-center flex-none ml3 xs-hide sm-hide">
-          <div>
-            <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
-            <Graph builds={this.props.pipeline.defaultBranchBuilds}  />
-          </div>
-        </div>
-      )
     }
   }
 
@@ -225,9 +208,6 @@ export default Relay.createContainer(Pipeline, {
               }
             }
           }
-        }
-        allBuilds: builds {
-          count
         }
       }
     `
