@@ -61,12 +61,14 @@ class Pipeline extends React.Component {
 
   render() {
     return (
-      <div className="border border-gray rounded flex items-center mb2" style={{height: 82}}>
+      <div className="flex items-stretch border border-gray rounded mb2" style={{height: 82}}>
         {this.renderFeaturedBuildIcon()}
 
-        <SectionLink className="flex-auto px2" href={this.props.pipeline.url}>
-          <h2 className="h4 regular m0 truncate">{this.props.pipeline.name}</h2>
-          {this.renderDescription()}
+        <SectionLink className="flex items-center flex-auto px2" href={this.props.pipeline.url}>
+          <div className="truncate">
+            <h2 className="h4 regular m0 line-height-2">{this.props.pipeline.name}</h2>
+            {this.renderDescription()}
+          </div>
         </SectionLink>
 
         <div className="flex flex-none items-center justify-end mr2">
@@ -95,7 +97,7 @@ class Pipeline extends React.Component {
   renderDescription() {
     if(this.props.pipeline.description) {
       return (
-        <div className="truncate dark-gray mt1">
+        <div className="truncate dark-gray" style={{ marginTop: 3 }}>
           {this.props.pipeline.description ? <Emojify className="h5 regular" text={this.props.pipeline.description} /> : null}
         </div>
       );
@@ -109,16 +111,18 @@ class Pipeline extends React.Component {
       let featuredBuild = featuredBuildEdge.node;
 
       return (
-        <Build build={featuredBuild}>
-          <SectionLink href={featuredBuild.url} className="flex flex-none items-center pl3 pr2">
-            <BuildState state={featuredBuild.state} className="ml1" />
-          </SectionLink>
-        </Build>
+        <div className="flex flex-none items-center pl3 pr2">
+          <Build build={featuredBuild}>
+            <SectionLink href={featuredBuild.url} className="block line-height-1">
+              <BuildState state={featuredBuild.state} />
+            </SectionLink>
+          </Build>
+        </div>
       );
     } else {
       return (
         <div className="flex flex-none items-center pl3 pr2">
-          <BuildState state="pending" className="ml1" />
+          <BuildState state="pending" />
         </div>
       );
     }
@@ -137,9 +141,11 @@ class Pipeline extends React.Component {
   renderGraph() {
     if(this.props.pipeline.defaultBranchBuilds.edges.length > 0) {
       return (
-        <div className="ml3 flex-none xs-hide sm-hide">
-          <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
-          <Graph builds={this.props.pipeline.defaultBranchBuilds}  />
+        <div className="flex items-center flex-none ml3 xs-hide sm-hide">
+          <div>
+            <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
+            <Graph builds={this.props.pipeline.defaultBranchBuilds}  />
+          </div>
         </div>
       )
     }
