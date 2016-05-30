@@ -20,7 +20,6 @@ const GRAPH_WIDTH = (BAR_WIDTH * MAXIMUM_NUMBER_OF_BUILDS) + ((MAXIMUM_NUMBER_OF
 
 class Graph extends React.Component {
   static propTypes = {
-    branch: React.PropTypes.string.isRequired,
     builds: React.PropTypes.shape({
       edges: React.PropTypes.arrayOf(
         React.PropTypes.shape({
@@ -37,10 +36,7 @@ class Graph extends React.Component {
 
   render() {
     return (
-      <div className="py2 ml3" style={{width: GRAPH_WIDTH}}>
-        <div className="h6 regular dark-gray mb1">{this.props.branch}</div>
-        <div className="overflow-hidden align-bottom relative" style={{height: GRAPH_HEIGHT}}>{this.renderBars()}</div>
-      </div>
+      <div className="overflow-hidden align-bottom relative" style={{width: GRAPH_WIDTH, height: GRAPH_HEIGHT}}>{this.renderBars()}</div>
     )
   }
 

@@ -60,27 +60,27 @@ class Pipeline extends React.Component {
 
   render() {
     return (
-      <div className="border border-gray rounded flex items-stretch mb2" style={{height: 82}}>
+      <div className="border border-gray rounded flex items-center mb2" style={{height: 82}}>
         {this.renderFeaturedBuildIcon()}
 
-        <SectionLink className="flex flex-column justify-center px2 py3" href={this.props.pipeline.url}>
+        <SectionLink className="flex-auto px2" href={this.props.pipeline.url}>
           <h2 className="h4 regular m0 truncate">{this.props.pipeline.name}</h2>
-          {this.props.pipeline.description ? <Emojify className="h5 regular m0 truncate mt1 dark-gray" text={this.props.pipeline.description} /> : null}
+          {this.renderDescription()}
         </SectionLink>
 
-        <div className="flex items-center flex-stretch flex-auto justify-end mr2">
+        <div className="flex flex-none items-center justify-end mr2">
           {this.renderMetrics()}
         </div>
 
         {this.renderGraph()}
 
         <div className="flex flex-none flex-column justify-center ml-auto px3">
-          <button className="my1 btn p0" onClick={this.handleFavoriteClick}>
+          <button className="btn p0 mb1" onClick={this.handleFavoriteClick}>
             <Favorite favorite={this.props.pipeline.favorite} />
           </button>
 
           <Dropdown align="center" width={180} onToggle={this.handleMenuToggle}>
-            <button className="my1 btn p0 gray hover-dark-gray">
+            <button className="btn p0 gray hover-dark-gray">
               <Icon icon="menu" className={classNames({ "dark-gray": this.state.showingMenu })} />
             </button>
 
@@ -89,6 +89,16 @@ class Pipeline extends React.Component {
         </div>
       </div>
     );
+  }
+
+  renderDescription() {
+    if(this.props.pipeline.description) {
+      return (
+        <div className="truncate dark-gray mt1">
+          {this.props.pipeline.description ? <Emojify className="h5 regular" text={this.props.pipeline.description} /> : null}
+        </div>
+      );
+    }
   }
 
   renderFeaturedBuildIcon() {
@@ -124,7 +134,10 @@ class Pipeline extends React.Component {
   renderGraph() {
     if(this.props.pipeline.defaultBranchBuilds.edges.length > 0) {
       return (
-        <Graph branch={this.props.pipeline.defaultBranch} builds={this.props.pipeline.defaultBranchBuilds} />
+        <div className="ml3 flex-none xs-hide sm-hide">
+          <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
+          <Graph builds={this.props.pipeline.defaultBranchBuilds}  />
+        </div>
       )
     }
   }
