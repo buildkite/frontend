@@ -9,9 +9,15 @@ class Favorite extends React.Component {
     hover: false
   };
 
+  componentWillReceiveProps(nextProps) {
+    if(this.props.favorite != nextProps.favorite && this.state.hover) {
+      this.setState({ hover: false });
+    }
+  }
+
   render() {
     return (
-      <svg width="16px" height="15px" viewBox="0 0 16 15" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+      <svg width="20px" height="15px" viewBox="0 0 16 15" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
         <title>Favorite</title>
         <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" fillOpacity="0.3">
           <g transform="translate(-1157.000000, -134.000000)" stroke={this.props.favorite || this.state.hover ? "#F8CC1C" : "#DDDDDD"} fill={this.props.favorite && !this.state.hover ? "#F8CC1C" : ""}>
