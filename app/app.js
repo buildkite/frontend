@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
 import Bugsnag from 'bugsnag-js';
+import fromGraphQL from 'react-relay/lib/fromGraphQL'
 
 require("./css/main.css");
 
@@ -71,6 +72,7 @@ if(window._graphql) {
   Relay.injectNetworkLayer(
     new Relay.DefaultNetworkLayer(window._graphql["url"], { credentials: "same-origin", headers: window._graphql["headers"] })
   );
+  require('react-relay/lib/RelayNetworkDebug').init();
 }
 
 // Only do the react-router gear on pages we've designated
@@ -158,6 +160,41 @@ window["initializeReactRouter"] = function() {
       team: location.query.team || null // Passing `undefined` seems to break all the things
     };
   }
+
+let concreteQuery = Relay.QL`
+  query ApplesAndStuff($slug_0: ID!) {
+    organization(slug: $slug_0) {
+      id
+      name
+      slug
+      teams(first: 100) {
+      edges {
+  node {
+    id
+    name
+    slug
+    description
+  }
+  cursor
+      }
+      pageInfo {
+  hasNextPage
+  hasPreviousPage
+      }
+    }
+    }
+  }
+`
+
+let storeData = Relay.Store.getStoreData();
+
+const query = fromGraphQL.Query(concreteQuery);
+query.__variables__ = { slug_0: "acme-inc" }
+
+console.log(concreteQuery);
+console.log(storeData);
+console.log(query);
+storeData.handleQueryPayload(query, window.data);
 
   // Define and render the routes
   ReactDOM.render(
