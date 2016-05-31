@@ -50,7 +50,15 @@ class Pipeline extends React.Component {
             node: React.PropTypes.object.isRequired
           }).isRequired
         )
-      }).isRequired
+      }).isRequired,
+      permissions: React.PropTypes.shape({
+        pipelineUpdate: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired,
+        pipelineFavorite: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired
+      })
     }).isRequired
   };
 
