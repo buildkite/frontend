@@ -8,6 +8,8 @@ import BuildState from '../../icons/BuildState';
 import Favorite from '../../icons/Favorite';
 import Emojify from '../../shared/Emojify';
 
+import permissions from '../../../lib/permissions';
+
 import PipelineFavoriteMutation from '../../../mutations/PipelineFavorite';
 
 import Metric from './metric';
@@ -76,26 +78,14 @@ class Pipeline extends React.Component {
           })}
         </div>
 
-        <div className="flex items-center flex-none ml3 xs-hide sm-hide">
+        <div className="flex items-center flex-none ml3 xs-hide sm-hide pr3">
           <div>
             <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
             <Graph builds={this.props.pipeline.defaultBranchBuilds}  />
           </div>
         </div>
 
-        <div className="flex flex-none flex-column justify-center ml-auto px3">
-          <button className="btn p0 mb1" onClick={this.handleFavoriteClick}>
-            <Favorite favorite={this.props.pipeline.favorite} />
-          </button>
-
-          <Dropdown align="center" width={180} onToggle={this.handleMenuToggle}>
-            <button className="btn p0 gray hover-dark-gray">
-              <Icon icon="menu" className={classNames({ "dark-gray": this.state.showingMenu })} />
-            </button>
-
-            <a href={`${this.props.pipeline.url}/settings`} className="btn block hover-lime">Configure Pipeline</a>
-          </Dropdown>
-        </div>
+        {this.renderActions()}
       </div>
     );
   }
@@ -132,6 +122,62 @@ class Pipeline extends React.Component {
         </div>
       );
     }
+  }
+
+  renderActions() {
+    // Make sure we're allowed to favorite this pipeline
+    let favoriteButton = permissions(this.props.pipeline.permissions).check(
+      {
+        allowed: "pipelineFavorite",
+        render: () => {
+          return (
+            <button className="btn p0" onClick={this.handleFavoriteClick}>
+              <Favorite favorite={this.props.pipeline.favorite} />
+            </button>
+          );
+        }
+      }
+    )
+
+    // Make sure we can perform the actions inside the dropdown
+    let dropdownActions = permissions(this.props.pipeline.permissions).collect(
+      {
+        allowed: "pipelineUpdate",
+        render: () => {
+          return (
+            <a key="pipeline-update" href={`${this.props.pipeline.url}/settings`} className="btn block hover-lime">Configure Pipeline</a>
+          );
+        }
+      }
+    )
+
+    // Only render the dropdown button if there's something to put inside it
+    let dropdownButton;
+    if(dropdownActions.length > 0) {
+      dropdownButton = (
+        <Dropdown align="center" width={180} onToggle={this.handleMenuToggle}>
+          <button className="btn p0 gray hover-dark-gray">
+            <Icon icon="menu" className={classNames({ "dark-gray": this.state.showingMenu })} />
+          </button>
+          {dropdownActions}
+        </Dropdown>
+      );
+    }
+
+    let dividerElement;
+    if(favoriteButton && dropdownButton) {
+      dividerElement = (
+        <div className="mb1"></div>
+      );
+    }
+
+    return (
+      <div className="flex flex-none flex-column justify-center ml-auto pr3">
+        {favoriteButton}
+        {dividerElement}
+        {dropdownButton}
+      </div>
+    );
   }
 
   handleMenuToggle = (visible) => {
@@ -207,6 +253,14 @@ export default Relay.createContainer(Pipeline, {
                 }
               }
             }
+          }
+        }
+        permissions {
+          pipelineFavorite {
+            allowed
+          }
+          pipelineUpdate {
+            allowed
           }
         }
       }
