@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import BuildState from '../../icons/BuildState';
+import PusherStore from '../../../stores/PusherStore';
 
 import Build from './build';
 
@@ -22,22 +23,30 @@ class Status extends React.Component {
     }).isRequired
   };
 
+  state = {
+    build: this.props.pipeline.builds.edges[0] ? this.props.pipeline.builds.edges[0].node : null
+  };
+
   shouldComponentUpdate() {
     // Since this component updates itself, no need to re-render when the
     // parent does.
     return false;
   }
 
+  componentDidMount() {
+    PusherStore.on("build:change", this.handleStoreChange);
+  }
+
+  componentWillUnmount() {
+    PusherStore.off("build:change", this.handleStoreChange);
+  }
+
   render() {
-    let buildEdge = this.props.pipeline.builds.edges[0];
-
-    if(buildEdge) {
-      let build = buildEdge.node;
-
+    if(this.state.build) {
       return (
-        <Build build={build}>
-          <a href={build.url} className="block line-height-1">
-            <BuildState state={build.state} />
+        <Build build={this.state.build}>
+          <a href={this.state.build.url} className="block line-height-1">
+            <BuildState state={this.state.build.state} />
           </a>
         </Build>
       );
@@ -47,6 +56,26 @@ class Status extends React.Component {
       );
     }
   }
+
+  handleStoreChange = (payload) => {
+    if(payload.pipeline.id == this.props.pipeline.id) {
+      console.log(payload);
+// const node = Relay.QL`
+//   query {
+//     node(id: $channelId) {
+//       ... on Channel {
+//         joined
+//       }
+//     }
+//   }
+// `;
+//
+// const query = Relay.createQuery(node, {channelId});
+// Relay.Store.primeCache({query}, readyState => {
+//   // do stuff on readyState if you care
+// });
+    }
+  };
 }
 
 export default Relay.createContainer(Status, {
