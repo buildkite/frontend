@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import Emojify from '../../shared/Emojify';
@@ -74,4 +75,22 @@ class Build extends React.Component {
   };
 }
 
-export default Build
+export default Relay.createContainer(Build, {
+  fragments: {
+    build: () => Relay.QL`
+      fragment on Build {
+        state
+        message
+        startedAt
+        finishedAt
+        url
+        user {
+          name
+          avatar {
+            url
+          }
+        }
+      }
+    `
+  }
+});

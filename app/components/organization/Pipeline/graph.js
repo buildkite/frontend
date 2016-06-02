@@ -1,6 +1,8 @@
 import React from 'react';
+import Relay from 'react-relay';
 import moment from 'moment';
 
+import Build from './build';
 import Bar from './bar';
 
 const PASSED_COLOR = "#B0DF21";
@@ -20,19 +22,28 @@ const GRAPH_WIDTH = (BAR_WIDTH * MAXIMUM_NUMBER_OF_BUILDS) + ((MAXIMUM_NUMBER_OF
 
 class Graph extends React.Component {
   static propTypes = {
-    builds: React.PropTypes.shape({
-      edges: React.PropTypes.arrayOf(
-        React.PropTypes.shape({
-          node: React.PropTypes.shape({
-            state: React.PropTypes.oneOf([ "running", "passed", "failed", "canceled", "canceling" ]).isRequired,
-            startedAt: React.PropTypes.string,
-            finishedAt: React.PropTypes.string,
-            url: React.PropTypes.string.isRequired
+    pipeline: React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired,
+      builds: React.PropTypes.shape({
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.shape({
+              state: React.PropTypes.string.isRequired,
+              url: React.PropTypes.string.isRequired,
+              startedAt: React.PropTypes.string,
+              finishedAt: React.PropTypes.string
+            }).isRequired
           }).isRequired
-        }).isRequired
-      )
+        )
+      }).isRequired
     }).isRequired
   };
+
+  shouldComponentUpdate() {
+    // Since this component updates itself, no need to re-render when the
+    // parent does.
+    return false;
+  }
 
   render() {
     return (
@@ -45,7 +56,7 @@ class Graph extends React.Component {
     let maximumDuration = 1; // 1 to avoid a `0/0` when we calculate percentages
 
     for (let i = 0; i < MAXIMUM_NUMBER_OF_BUILDS; i++) {
-      let buildEdge = this.props.builds.edges[i];
+      let buildEdge = this.props.pipeline.builds.edges[i];
 
       if(buildEdge) {
         let duration = this.durationForBuild(buildEdge.node);
@@ -88,4 +99,23 @@ class Graph extends React.Component {
   }
 }
 
-export default Graph
+export default Relay.createContainer(Graph, {
+  fragments: {
+    pipeline: () => Relay.QL`
+      fragment on Pipeline {
+        id
+        builds(first: 30, state: [ BUILD_STATE_RUNNING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_CANCELING ]) {
+          edges {
+            node {
+              state
+              url
+              startedAt
+              finishedAt
+              ${Build.getFragment('build')}
+            }
+          }
+        }
+      }
+    `
+  }
+});
