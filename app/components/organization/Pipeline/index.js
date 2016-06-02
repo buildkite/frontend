@@ -12,7 +12,7 @@ import permissions from '../../../lib/permissions';
 import PipelineFavoriteMutation from '../../../mutations/PipelineFavorite';
 
 import Status from './status';
-import Metrics from './metrics';
+import Metrics from './Metrics';
 import Graph from './graph';
 
 class Pipeline extends React.Component {
