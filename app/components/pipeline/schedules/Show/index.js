@@ -2,15 +2,18 @@ import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
-import PipelineScheduleDeleteMutation from '../../../mutations/PipelineScheduleDelete';
+import PipelineScheduleDeleteMutation from '../../../../mutations/PipelineScheduleDelete';
 
-import PageHeader from '../../shared/PageHeader';
-import Panel from '../../shared/Panel'
-import Button from '../../shared/Button'
-import PageWithContainer from '../../shared/PageWithContainer';
-import Emojify from '../../shared/Emojify';
+import PageHeader from '../../../shared/PageHeader';
+import Panel from '../../../shared/Panel'
+import Button from '../../../shared/Button'
+import PageWithContainer from '../../../shared/PageWithContainer';
+import Emojify from '../../../shared/Emojify';
 
-import permissions from '../../../lib/permissions';
+import permissions from '../../../../lib/permissions';
+import friendlyRelativeTime from '../../../../lib/friendlyRelativeTime';
+
+import Build from './build';
 
 class Show extends React.Component {
   static contextTypes = {
@@ -32,17 +35,33 @@ class Show extends React.Component {
           </PageHeader>
 
           <Panel className="mb4">
-            <Panel.Header>Setup</Panel.Header>
+            <Panel.Header>Schedule</Panel.Header>
             <Panel.Section>
-              awesome
+              <div><strong>Commit</strong></div>
+              <div className="mb2 dark-gray"><code>{this.props.pipelineSchedule.commit}</code></div>
+
+              <div><strong>Branch</strong></div>
+              <div className="mb2 dark-gray"><code>{this.props.pipelineSchedule.branch}</code></div>
+
+              <div><strong>Message</strong></div>
+              <div className="mb2 dark-gray">{this.props.pipelineSchedule.message || "n/a"}</div>
+
+              <div><strong>Environment Variables</strong></div>
+              <div className="mb2 dark-gray"><pre><code>{this.props.pipelineSchedule.env.join("\n")}</code></pre></div>
+
+              <div><strong>Creator</strong></div>
+              <div className="mb2 dark-gray">{this.props.pipelineSchedule.createdBy.name}</div>
             </Panel.Section>
           </Panel>
 
           <Panel>
-            <Panel.Header>Builds</Panel.Header>
-            <Panel.Section>
-              awesome
-            </Panel.Section>
+            <Panel.Header>Recent Builds</Panel.Header>
+            <Panel.Row>
+              <div className="dark-gray py2 center">
+                <Emojify text={`Next build ${friendlyRelativeTime(this.props.pipelineSchedule.nextBuildAt)}...`} />
+              </div>
+            </Panel.Row>
+            {this.props.pipelineSchedule.builds.edges.map((edge) => <Build build={edge.node} />)}
           </Panel>
         </PageWithContainer>
       </DocumentTitle>
@@ -99,6 +118,14 @@ export default Relay.createContainer(Show, {
         ${PipelineScheduleDeleteMutation.getFragment('pipelineSchedule')}
         cronline
         description
+        nextBuildAt
+        commit
+        branch
+        message
+        env
+        createdBy {
+          name
+        }
         permissions {
           pipelineScheduleUpdate {
             allowed
@@ -110,7 +137,7 @@ export default Relay.createContainer(Show, {
         builds(first: 5) {
           edges {
             node {
-              url
+              ${Build.getFragment('build')}
             }
           }
         }
