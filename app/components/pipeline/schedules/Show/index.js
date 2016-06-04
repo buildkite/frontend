@@ -58,7 +58,7 @@ class Show extends React.Component {
             <Panel.Header>Recent Builds</Panel.Header>
             <Panel.Row>
               <div className="dark-gray py2 center">
-                <Emojify text={`Next build ${friendlyRelativeTime(this.props.pipelineSchedule.nextBuildAt)}...`} />
+                <Emojify text={`Next build scheduled for ${friendlyRelativeTime(this.props.pipelineSchedule.nextBuildAt)}...`} />
               </div>
             </Panel.Row>
             {this.props.pipelineSchedule.builds.edges.map((edge) => <Build build={edge.node} />)}
