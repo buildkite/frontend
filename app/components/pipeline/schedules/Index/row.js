@@ -12,7 +12,7 @@ class Row extends React.Component {
     let pipeline = this.props.pipelineSchedule.pipeline;
 
     return (
-      <Panel.RowLink to={`${organization.slug}/${pipeline.slug}/settings/schedules/${this.props.pipelineSchedule.uuid}`}>
+      <Panel.RowLink to={`/${organization.slug}/${pipeline.slug}/settings/schedules/${this.props.pipelineSchedule.uuid}`}>
         <div className="flex flex-stretch items-center line-height-1" style={{minHeight: '3em'}}>
           <div className="flex-auto">
             <div className="m0 semi-bold">{this.props.pipelineSchedule.cronline}</div>
