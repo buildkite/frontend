@@ -9,12 +9,14 @@ class Form extends React.Component {
   static propTypes = {
     cronline: React.PropTypes.string,
     description: React.PropTypes.string,
-    message: React.PropTypes.string,
     commit: React.PropTypes.string,
-    description: React.PropTypes.string,
-    description: React.PropTypes.string,
+    branch: React.PropTypes.string,
+    message: React.PropTypes.string,
+    env: React.PropTypes.string,
     errors: React.PropTypes.array,
-    onChange: React.PropTypes.func
+    pipeline: React.PropTypes.shape({
+      defaultBranch: React.PropTypes.string.isRequired
+    }).isRequired
   };
 
   componentDidMount() {
