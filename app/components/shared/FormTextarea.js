@@ -10,8 +10,8 @@ import FormInputLabel from './FormInputLabel';
 class FormTextarea extends React.Component {
   static propTypes = {
     label: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
     rows: React.PropTypes.number.isRequired,
+    name: React.PropTypes.string,
     value: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     help: React.PropTypes.string,
@@ -75,6 +75,10 @@ class FormTextarea extends React.Component {
     if (this.props.autoresize) {
       autosize.update(this._textarea);
     }
+  }
+
+  getValue() {
+    return this._textarea.value;
   }
 
   _hasErrors() {

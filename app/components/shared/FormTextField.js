@@ -51,6 +51,10 @@ class FormTextField extends React.Component {
     }
   }
 
+  getValue() {
+    return this.input.value;
+  }
+
   focus() {
     this.input.focus();
   }

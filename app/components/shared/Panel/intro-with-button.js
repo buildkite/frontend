@@ -29,7 +29,7 @@ class IntroWithButton extends React.Component {
 
     return (
       <div className="py3 px3 flex">
-        <div className="flex-auto">{intro}</div>
+        <div className="flex flex-auto items-center">{intro}</div>
         {button}
       </div>
     );
