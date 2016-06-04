@@ -100,6 +100,7 @@ window["initializeReactRouter"] = function() {
   let PipelineScheduleIndex = require("./components/pipeline/schedules/Index").default;
   let PipelineScheduleNew = require("./components/pipeline/schedules/New").default;
   let PipelineScheduleShow = require("./components/pipeline/schedules/Show").default;
+  let PipelineScheduleEdit = require("./components/pipeline/schedules/Edit").default;
 
   const BuildQuery = () => Relay.QL`
     query {
@@ -213,6 +214,7 @@ window["initializeReactRouter"] = function() {
           <IndexRoute component={PipelineScheduleIndex} queries={{pipeline: PipelineQuery}} prepareParams={preparePipelineParams} render={renderSectionLoading} />
           <Route path="new" component={PipelineScheduleNew} queries={{pipeline: PipelineQuery}} prepareParams={preparePipelineParams} render={renderSectionLoading} />
           <Route path=":schedule" component={PipelineScheduleShow} queries={{pipelineSchedule: PipelineScheduleQuery}} prepareParams={preparePipelineScheduleParams} render={renderSectionLoading} />
+          <Route path=":schedule/edit" component={PipelineScheduleEdit} queries={{pipelineSchedule: PipelineScheduleQuery}} prepareParams={preparePipelineScheduleParams} render={renderSectionLoading} />
         </Route>
       </Route>
     </Router>
