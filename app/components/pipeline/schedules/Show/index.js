@@ -72,9 +72,14 @@ class Show extends React.Component {
     return permissions(this.props.pipelineSchedule.permissions).collect(
       {
         allowed: "pipelineScheduleUpdate",
-        render: (idx) => (
-          <PageHeader.Button key={idx} link={`#`}>Edit</PageHeader.Button>
-        )
+        render: (idx) => {
+          let pipeline = this.props.pipelineSchedule.pipeline;
+          let organization = this.props.pipelineSchedule.pipeline.organization;
+
+          return (
+            <PageHeader.Button key={idx} link={`/${organization.slug}/${pipeline.slug}/settings/schedules/${this.props.pipelineSchedule.uuid}/edit`}>Edit</PageHeader.Button>
+          )
+        }
       },
       {
         allowed: "pipelineScheduleDelete",
@@ -101,7 +106,10 @@ class Show extends React.Component {
   }
 
   handleDeleteMutationSuccess = (response) => {
-    this.context.router.push(`/${this.props.params.organization}/${this.props.params.pipeline}/settings/schedules`);
+    let pipeline = this.props.pipelineSchedule.pipeline;
+    let organization = this.props.pipelineSchedule.pipeline.organization;
+
+    this.context.router.push(`/${organization.slug}/${pipeline.slug}/settings/schedules`);
   }
 
   handleDeleteMutationFailure = (transaction) => {
@@ -116,6 +124,7 @@ export default Relay.createContainer(Show, {
     pipelineSchedule: () => Relay.QL`
       fragment on PipelineSchedule {
         ${PipelineScheduleDeleteMutation.getFragment('pipelineSchedule')}
+        uuid
         cronline
         description
         nextBuildAt
@@ -125,6 +134,12 @@ export default Relay.createContainer(Show, {
         env
         createdBy {
           name
+        }
+        pipeline {
+          slug
+          organization {
+            slug
+          }
         }
         permissions {
           pipelineScheduleUpdate {
