@@ -7,7 +7,7 @@ class Footer extends React.Component {
   static propTypes = {
     viewer: React.PropTypes.shape({
       unreadChangelogs: React.PropTypes.shape({
-        count: React.PropTypes.integer
+        count: React.PropTypes.number
       })
     })
   };

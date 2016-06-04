@@ -12,6 +12,30 @@ import Emojify from '../../../shared/Emojify';
 import Row from "./row";
 
 class Index extends React.Component {
+  static propTypes = {
+    pipeline: React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired,
+      schedules: React.PropTypes.shape({
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.shape({
+              id: React.PropTypes.string.isRequired
+            }).isRequired
+          }).isRequired
+        )
+      }).isRequired,
+      permissions: React.PropTypes.shape({
+        pipelineScheduleCreate: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired
+      }).isRequired
+    }).isRequired,
+    params: React.PropTypes.shape({
+      organization: React.PropTypes.string.isRequired,
+      pipeline: React.PropTypes.string.isRequired
+    }).isRequired
+  };
+
   render() {
     return (
       <DocumentTitle title={`Schedules · ${this.props.pipeline.name}`}>

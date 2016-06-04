@@ -13,6 +13,24 @@ import PageWithContainer from '../../shared/PageWithContainer';
 import Form from "./form"
 
 class Edit extends React.Component {
+  static propTypes = {
+    pipelineSchedule: React.PropTypes.shape({
+      uuid: React.PropTypes.string.isRequired,
+      cronline: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string,
+      commit: React.PropTypes.string,
+      branch: React.PropTypes.string,
+      message: React.PropTypes.string,
+      env: React.PropTypes.arrayOf(React.PropTypes.string),
+      pipeline: React.PropTypes.shape({
+        slug: React.PropTypes.string.isRequired,
+        organization: React.PropTypes.shape({
+          slug: React.PropTypes.string.isRequired
+        }).isRequired
+      }).isRequired
+    }).isRequired
+  };
+
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
@@ -82,7 +100,7 @@ class Edit extends React.Component {
     this.setState({ saving: false });
   };
 
-  handleMutationSuccess = (response) => {
+  handleMutationSuccess = () => {
     let pipeline = this.props.pipelineSchedule.pipeline;
     let organization = this.props.pipelineSchedule.pipeline.organization;
 

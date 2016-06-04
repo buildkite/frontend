@@ -27,7 +27,7 @@ class Navigation extends React.Component {
         edges: React.PropTypes.array
       }),
       unreadChangelogs: React.PropTypes.shape({
-        count: React.PropTypes.integer
+        count: React.PropTypes.number
       })
     })
   };

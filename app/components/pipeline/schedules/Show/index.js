@@ -16,6 +16,45 @@ import friendlyRelativeTime from '../../../../lib/friendlyRelativeTime';
 import Build from './build';
 
 class Show extends React.Component {
+  static propTypes = {
+    pipelineSchedule: React.PropTypes.shape({
+      uuid: React.PropTypes.string.isRequired,
+      cronline: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string,
+      commit: React.PropTypes.string,
+      branch: React.PropTypes.string,
+      message: React.PropTypes.string,
+      env: React.PropTypes.arrayOf(React.PropTypes.string),
+      nextBuildAt: React.PropTypes.string,
+      pipeline: React.PropTypes.shape({
+        slug: React.PropTypes.string.isRequired,
+        organization: React.PropTypes.shape({
+          slug: React.PropTypes.string.isRequired
+        }).isRequired
+      }).isRequired,
+      builds: React.PropTypes.shape({
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.shape({
+              id: React.PropTypes.string.isRequired
+            }).isRequired
+          }).isRequired
+        )
+      }).isRequired,
+      createdBy: React.PropTypes.shape({
+        name: React.PropTypes.string.isRequired
+      }).isRequired,
+      permissions: React.PropTypes.shape({
+        pipelineScheduleUpdate: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired,
+        pipelineScheduleDelete: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired
+      }).isRequired
+    }).isRequired
+  };
+
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
@@ -104,7 +143,7 @@ class Show extends React.Component {
     }
   }
 
-  handleDeleteMutationSuccess = (response) => {
+  handleDeleteMutationSuccess = () => {
     let pipeline = this.props.pipelineSchedule.pipeline;
     let organization = this.props.pipelineSchedule.pipeline.organization;
 

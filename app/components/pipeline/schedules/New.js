@@ -13,6 +13,16 @@ import PageWithContainer from '../../shared/PageWithContainer';
 import Form from "./form"
 
 class New extends React.Component {
+  static propTypes = {
+    pipeline: React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired
+    }).isRequired,
+    params: React.PropTypes.shape({
+      organization: React.PropTypes.string.isRequired,
+      pipeline: React.PropTypes.string.isRequired
+    }).isRequired
+  };
+
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };

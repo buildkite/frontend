@@ -9,7 +9,7 @@ class NewChangelogsBadge extends React.Component {
     style: React.PropTypes.object,
     viewer: React.PropTypes.shape({
       unreadChangelogs: React.PropTypes.shape({
-        count: React.PropTypes.integer
+        count: React.PropTypes.number
       })
     })
   };

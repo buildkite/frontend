@@ -2,11 +2,25 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import Panel from '../../../shared/Panel'
-import Button from '../../../shared/Button'
 import Emojify from '../../../shared/Emojify'
-import permissions from '../../../../lib/permissions';
 
 class Row extends React.Component {
+  static propTypes = {
+    pipelineSchedule: React.PropTypes.shape({
+      uuid: React.PropTypes.string.isRequired,
+      cronline: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string,
+      commit: React.PropTypes.string,
+      branch: React.PropTypes.string,
+      pipeline: React.PropTypes.shape({
+        slug: React.PropTypes.string.isRequired,
+        organization: React.PropTypes.shape({
+          slug: React.PropTypes.string.isRequired
+        }).isRequired
+      }).isRequired
+    }).isRequired
+  };
+
   render() {
     let organization = this.props.pipelineSchedule.pipeline.organization;
     let pipeline = this.props.pipelineSchedule.pipeline;
