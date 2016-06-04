@@ -35,7 +35,6 @@ class Show extends React.Component {
           </PageHeader>
 
           <Panel className="mb4">
-            <Panel.Header>Schedule</Panel.Header>
             <Panel.Section>
               <div><strong>Commit</strong></div>
               <div className="mb2 dark-gray"><code>{this.props.pipelineSchedule.commit}</code></div>
@@ -58,10 +57,10 @@ class Show extends React.Component {
             <Panel.Header>Recent Builds</Panel.Header>
             <Panel.Row>
               <div className="dark-gray py2 center">
-                <Emojify text={`Next build scheduled for ${friendlyRelativeTime(this.props.pipelineSchedule.nextBuildAt)}...`} />
+                <Emojify text={`:timer_clock: Next build scheduled for ${friendlyRelativeTime(this.props.pipelineSchedule.nextBuildAt)}...`} />
               </div>
             </Panel.Row>
-            {this.props.pipelineSchedule.builds.edges.map((edge) => <Build build={edge.node} />)}
+            {this.props.pipelineSchedule.builds.edges.map((edge) => <Build key={edge.node.id} build={edge.node} />)}
           </Panel>
         </PageWithContainer>
       </DocumentTitle>
@@ -152,6 +151,7 @@ export default Relay.createContainer(Show, {
         builds(first: 5) {
           edges {
             node {
+              id
               ${Build.getFragment('build')}
             }
           }

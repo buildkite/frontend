@@ -41,7 +41,7 @@ class Edit extends React.Component {
                   commit={this.props.pipelineSchedule.commit}
                   branch={this.props.pipelineSchedule.branch}
                   message={this.props.pipelineSchedule.message}
-                  env={this.props.pipelineSchedule.env}
+                  env={this.props.pipelineSchedule.env.join("\n")}
                   ref={(c) => this.form = c} />
               </Panel.Section>
 
