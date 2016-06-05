@@ -24,6 +24,7 @@
 @import 'flexbox';
 
 @import 'basscss';
+@import 'codemirror/lib/codemirror';
 
 @import 'container';
 @import 'cursor';

@@ -33,6 +33,8 @@ window["Webpack"] = {
     "object-assign": require("object-assign"),
     "eventemitter3": require("eventemitter3"),
     "autosize": require("autosize"),
+    "react-codemirror": require("react-codemirror"),
+    "codemirror/mode/yaml/yaml": require("codemirror/mode/yaml/yaml"),
 
     "components/layout/Navigation": require("./components/layout/Navigation").default,
     "components/layout/Footer": require("./components/layout/Footer").default,
@@ -52,7 +54,7 @@ window["Webpack"] = {
     "lib/Logger": require("./lib/Logger").default,
     "lib/Emoji": require("./lib/Emoji").default,
     "lib/RelayBridge": require("./lib/RelayBridge").default,
-    "lib/jobCommandOneliner": require("./lib/jobCommandOneliner").default
+    "lib/jobCommandOneliner": require("./lib/jobCommandOneliner").default,
   },
 
   require: function(module) {
