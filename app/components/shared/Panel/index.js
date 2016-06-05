@@ -8,11 +8,13 @@ import RowActions from "./row-actions";
 import RowLink from "./row-link";
 import Section from "./section";
 import Footer from "./footer";
+import Divider from "./divider";
 
 class Panel extends React.Component {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    outline: React.PropTypes.bool
   };
 
   render() {
@@ -23,13 +25,18 @@ class Panel extends React.Component {
     var k = 0;
     for(var i = 0, l = children.length; i < l; i++) {
       if(i > 0) {
-	nodes.push(<hr key={k += 1} className="p0 m0 bg-gray" style={{border: "none", height: 1}} />);
+	nodes.push(<Divider key={k += 1} />);
       }
       nodes.push(children[i]);
     }
 
+    let className;
+    if(this.props.outline == undefined || this.props.outline) {
+      className = "border border-gray rounded";
+    }
+
     return (
-      <section className={classNames("border border-gray rounded", this.props.className)}>
+      <section className={classNames(className, this.props.className)}>
         {nodes}
       </section>
     );
@@ -43,5 +50,6 @@ Panel.Row = Row;
 Panel.RowActions = RowActions;
 Panel.Section = Section;
 Panel.Footer = Footer;
+Panel.Divider = Divider;
 
 export default Panel;

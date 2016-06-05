@@ -7,7 +7,6 @@ import PipelineScheduleDeleteMutation from '../../../../mutations/PipelineSchedu
 import PageHeader from '../../../shared/PageHeader';
 import Panel from '../../../shared/Panel'
 import Button from '../../../shared/Button'
-import PageWithContainer from '../../../shared/PageWithContainer';
 import Emojify from '../../../shared/Emojify';
 
 import permissions from '../../../../lib/permissions';
@@ -66,42 +65,38 @@ class Show extends React.Component {
   render() {
     return (
       <DocumentTitle title={this.props.pipelineSchedule.cronline}>
-        <PageWithContainer>
-          <PageHeader>
-            <PageHeader.Title>{this.props.pipelineSchedule.cronline}</PageHeader.Title>
-            <PageHeader.Description><Emojify text={this.props.pipelineSchedule.description || "No description"} /></PageHeader.Description>
-            <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
-          </PageHeader>
+        <Panel outline={false}>
+          <Panel.Section>
+            <PageHeader>
+              <PageHeader.Title>{this.props.pipelineSchedule.cronline}</PageHeader.Title>
+              <PageHeader.Description><Emojify text={this.props.pipelineSchedule.description || "No description"} /></PageHeader.Description>
+              <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
+            </PageHeader>
 
-          <Panel className="mb4">
-            <Panel.Section>
-              <div><strong>Commit</strong></div>
-              <div className="mb2 dark-gray"><code>{this.props.pipelineSchedule.commit}</code></div>
+            <div><strong>Commit</strong></div>
+            <div className="mb2 dark-gray"><code>{this.props.pipelineSchedule.commit}</code></div>
 
-              <div><strong>Branch</strong></div>
-              <div className="mb2 dark-gray"><code>{this.props.pipelineSchedule.branch}</code></div>
+            <div><strong>Branch</strong></div>
+            <div className="mb2 dark-gray"><code>{this.props.pipelineSchedule.branch}</code></div>
 
-              <div><strong>Message</strong></div>
-              <div className="mb2 dark-gray">{this.props.pipelineSchedule.message || "n/a"}</div>
+            <div><strong>Message</strong></div>
+            <div className="mb2 dark-gray">{this.props.pipelineSchedule.message || "n/a"}</div>
 
-              <div><strong>Environment Variables</strong></div>
-              <div className="mb2 dark-gray"><pre><code>{this.props.pipelineSchedule.env.join("\n")}</code></pre></div>
+            <div><strong>Environment Variables</strong></div>
+            <div className="mb2 dark-gray"><pre><code>{this.props.pipelineSchedule.env.join("\n")}</code></pre></div>
 
-              <div><strong>Creator</strong></div>
-              <div className="mb2 dark-gray">{this.props.pipelineSchedule.createdBy.name}</div>
-            </Panel.Section>
-          </Panel>
+            <div><strong>Creator</strong></div>
+            <div className="mb2 dark-gray">{this.props.pipelineSchedule.createdBy.name}</div>
+          </Panel.Section>
 
-          <Panel>
-            <Panel.Header>Recent Builds</Panel.Header>
-            <Panel.Row>
-              <div className="dark-gray py2 center">
-                <Emojify text={`:timer_clock: Next build scheduled for ${friendlyRelativeTime(this.props.pipelineSchedule.nextBuildAt)}...`} />
-              </div>
-            </Panel.Row>
-            {this.props.pipelineSchedule.builds.edges.map((edge) => <Build key={edge.node.id} build={edge.node} />)}
-          </Panel>
-        </PageWithContainer>
+          <Panel.Row>
+            <div className="dark-gray py2 center">
+              <Emojify text={`:timer_clock: Next build scheduled for ${friendlyRelativeTime(this.props.pipelineSchedule.nextBuildAt)}...`} />
+            </div>
+          </Panel.Row>
+
+          {this.props.pipelineSchedule.builds.edges.map((edge) => <Build key={edge.node.id} build={edge.node} />)}
+        </Panel>
       </DocumentTitle>
     );
   }

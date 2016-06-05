@@ -8,7 +8,6 @@ import GraphQLErrors from '../../../constants/GraphQLErrors';
 import PageHeader from '../../shared/PageHeader';
 import Panel from '../../shared/Panel'
 import Button from '../../shared/Button'
-import PageWithContainer from '../../shared/PageWithContainer';
 
 import Form from "./form"
 
@@ -35,23 +34,21 @@ class New extends React.Component {
   render() {
     return (
       <DocumentTitle title={`Schedules · ${this.props.pipeline.name}`}>
-        <PageWithContainer>
-          <form onSubmit={this.handleFormSubmit}>
-            <PageHeader>
-              <PageHeader.Title>Create a Schedule</PageHeader.Title>
-            </PageHeader>
+        <form onSubmit={this.handleFormSubmit}>
+          <PageHeader>
+            <PageHeader.Title>Create a Schedule</PageHeader.Title>
+          </PageHeader>
 
-            <Panel>
-              <Panel.Section>
-                <Form pipeline={this.props.pipeline} errors={this.state.errors} ref={(c) => this.form = c} />
-              </Panel.Section>
+          <Panel>
+            <Panel.Section>
+              <Form pipeline={this.props.pipeline} errors={this.state.errors} ref={(c) => this.form = c} />
+            </Panel.Section>
 
-              <Panel.Footer>
-                <Button loading={this.state.saving ? "Creating schedule…" : false} theme="success">Create Schedule</Button>
-              </Panel.Footer>
-            </Panel>
-          </form>
-        </PageWithContainer>
+            <Panel.Footer>
+              <Button loading={this.state.saving ? "Creating schedule…" : false} theme="success">Create Schedule</Button>
+            </Panel.Footer>
+          </Panel>
+        </form>
       </DocumentTitle>
     );
   }

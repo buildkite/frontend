@@ -5,10 +5,8 @@ import DocumentTitle from 'react-document-title';
 import PipelineScheduleUpdateMutation from '../../../mutations/PipelineScheduleUpdate';
 import GraphQLErrors from '../../../constants/GraphQLErrors';
 
-import PageHeader from '../../shared/PageHeader';
 import Panel from '../../shared/Panel'
 import Button from '../../shared/Button'
-import PageWithContainer from '../../shared/PageWithContainer';
 
 import Form from "./form"
 
@@ -43,32 +41,26 @@ class Edit extends React.Component {
   render() {
     return (
       <DocumentTitle title={`Update`}>
-        <PageWithContainer>
-          <form onSubmit={this.handleFormSubmit}>
-            <PageHeader>
-              <PageHeader.Title>Update Schedule</PageHeader.Title>
-            </PageHeader>
+        <form onSubmit={this.handleFormSubmit}>
+          <Panel outline={false}>
+            <Panel.Section>
+              <Form
+                pipeline={this.props.pipelineSchedule.pipeline}
+                errors={this.state.errors}
+                cronline={this.props.pipelineSchedule.cronline}
+                description={this.props.pipelineSchedule.description}
+                commit={this.props.pipelineSchedule.commit}
+                branch={this.props.pipelineSchedule.branch}
+                message={this.props.pipelineSchedule.message}
+                env={this.props.pipelineSchedule.env.join("\n")}
+                ref={(c) => this.form = c} />
+            </Panel.Section>
 
-            <Panel>
-              <Panel.Section>
-                <Form
-                  pipeline={this.props.pipelineSchedule.pipeline}
-                  errors={this.state.errors}
-                  cronline={this.props.pipelineSchedule.cronline}
-                  description={this.props.pipelineSchedule.description}
-                  commit={this.props.pipelineSchedule.commit}
-                  branch={this.props.pipelineSchedule.branch}
-                  message={this.props.pipelineSchedule.message}
-                  env={this.props.pipelineSchedule.env.join("\n")}
-                  ref={(c) => this.form = c} />
-              </Panel.Section>
-
-              <Panel.Footer>
-                <Button loading={this.state.saving ? "Saving schedule…" : false} theme="success">Save Schedule</Button>
-              </Panel.Footer>
-            </Panel>
-          </form>
-        </PageWithContainer>
+            <Panel.Footer>
+              <Button loading={this.state.saving ? "Saving schedule…" : false} theme="success">Save Schedule</Button>
+            </Panel.Footer>
+          </Panel>
+        </form>
       </DocumentTitle>
     );
   }

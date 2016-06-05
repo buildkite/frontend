@@ -22,5 +22,5 @@ class SettingsSection extends React.Component {
 }
 
 export default RelayBridge.createContainer(SettingsSection, {
-  organization: (props) => `organization/${props.params.organization}`
+  organization: (props) => `organization/${props.params.organizationSlug}`
 });

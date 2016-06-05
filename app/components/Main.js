@@ -29,6 +29,6 @@ class Main extends React.Component {
 }
 
 export default RelayBridge.createContainer(Main, {
-  organization: (props) => `organization/${props.params.organization}`,
+  organization: (props) => `organization/${props.params.organizationSlug}`,
   viewer: () => `viewer`
 });
