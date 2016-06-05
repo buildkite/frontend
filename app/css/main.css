@@ -29,6 +29,8 @@
 @import 'cursor';
 @import 'display';
 
+@import 'codemirror/lib/codemirror';
+
 :root {
   --black:  #111111;
   --gray: #DDDDDD;
