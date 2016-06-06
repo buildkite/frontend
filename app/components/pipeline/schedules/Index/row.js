@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import prettyCron from 'prettycron';
 
 import Panel from '../../../shared/Panel'
 import Emojify from '../../../shared/Emojify'
@@ -31,6 +32,7 @@ class Row extends React.Component {
           <div className="flex-auto">
             <div className="m0 semi-bold">{this.props.pipelineSchedule.cronline}</div>
             {this.renderDescription()}
+            <div className="regular dar-gray mt1">{prettyCron.toString(this.props.pipelineSchedule.cronline)}</div>
           </div>
           <div className="flex flex-none flex-stretch items-center my1 pr3">
             <code className="dark-gray">{this.props.pipelineSchedule.branch} | {this.props.pipelineSchedule.commit}</code>

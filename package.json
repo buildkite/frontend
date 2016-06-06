@@ -66,6 +66,7 @@
     "graphql-relay": "^0.4.2",
     "moment": "^2.14.1",
     "object-assign": "^4.1.0",
+    "prettycron": "^0.10.0",
     "pusher-js": "^3.2.1",
     "react": "^15.3.0",
     "react-addons-css-transition-group": "^15.3.0",
