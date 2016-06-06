@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import prettyCron from 'prettycron';
 
 import Panel from '../../../shared/Panel'
 import Emojify from '../../../shared/Emojify'
