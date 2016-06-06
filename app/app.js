@@ -33,14 +33,6 @@ window["Webpack"] = {
     "object-assign": require("object-assign"),
     "eventemitter3": require("eventemitter3"),
     "autosize": require("autosize"),
-    "react-codemirror": require("react-codemirror"),
-    "codemirror": require("codemirror"),
-
-    "codemirror/mode/yaml/yaml": require("codemirror/mode/yaml/yaml"),
-    "codemirror/addon/lint/lint": require("codemirror/addon/lint/lint"),
-    "codemirror/addon/lint/yaml-lint": require("codemirror/addon/lint/yaml-lint"),
-    "codemirror/addon/hint/show-hint": require("codemirror/addon/hint/show-hint"),
-    "js-yaml": require("js-yaml"),
 
     "components/layout/Navigation": require("./components/layout/Navigation").default,
     "components/layout/Footer": require("./components/layout/Footer").default,
@@ -55,6 +47,7 @@ window["Webpack"] = {
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
     "components/PipelinesWelcome": require("./components/PipelinesWelcome").default,
     "components/pipeline/Teams": require("./components/pipeline/Teams").default,
+    "components/pipeline/YAMLEditor": require("./components/pipeline/YAMLEditor").default,
     "stores/PusherStore": require("./stores/PusherStore").default,
     "lib/friendlyRelativeTime": require("./lib/friendlyRelativeTime").default,
     "lib/Logger": require("./lib/Logger").default,
