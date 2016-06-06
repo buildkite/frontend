@@ -34,10 +34,12 @@ window["Webpack"] = {
     "eventemitter3": require("eventemitter3"),
     "autosize": require("autosize"),
     "react-codemirror": require("react-codemirror"),
+    "codemirror": require("codemirror"),
 
     "codemirror/mode/yaml/yaml": require("codemirror/mode/yaml/yaml"),
     "codemirror/addon/lint/lint": require("codemirror/addon/lint/lint"),
     "codemirror/addon/lint/yaml-lint": require("codemirror/addon/lint/yaml-lint"),
+    "codemirror/addon/hint/show-hint": require("codemirror/addon/hint/show-hint"),
     "js-yaml": require("js-yaml"),
 
     "components/layout/Navigation": require("./components/layout/Navigation").default,
