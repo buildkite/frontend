@@ -10,7 +10,7 @@ import Panel from '../../shared/Panel'
 import Button from '../../shared/Button'
 import PageWithContainer from '../../shared/PageWithContainer';
 
-import Form from "./form"
+import Form from "./Form"
 
 class Edit extends React.Component {
   static propTypes = {
