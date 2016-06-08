@@ -30,8 +30,8 @@ CodeMirror.registerHelper("lint", "yaml", function(text) {
 });
 
 // Super basic hints for the editor
-function getHints(cm, option) {
-  let cursor = cm.getCursor(), line = cm.getLine(cursor.line);
+function getHints(cm) {
+  let cursor = cm.getCursor();
   let start = cursor.ch, end = cursor.ch;
 
   return {
