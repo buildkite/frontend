@@ -29,37 +29,17 @@ CodeMirror.registerHelper("lint", "yaml", function(text) {
   return found;
 });
 
+// Super basic hints for the editor
+function getHints(cm, option) {
+  let cursor = cm.getCursor(), line = cm.getLine(cursor.line);
+  let start = cursor.ch, end = cursor.ch;
 
-    var comp = [
-      ["here", "hither"],
-      ["asynchronous", "nonsynchronous"],
-      ["completion", "achievement", "conclusion", "culmination", "expirations"],
-      ["hinting", "advive", "broach", "imply"],
-      ["function","action"],
-      ["provide", "add", "bring", "give"],
-      ["synonyms", "equivalents"],
-      ["words", "token"],
-      ["each", "every"],
-    ]
-
-    function getHints(cm, option) {
-      return new Promise(function(accept) {
-	setTimeout(function() {
-	  var cursor = cm.getCursor(), line = cm.getLine(cursor.line)
-	  var start = cursor.ch, end = cursor.ch
-	  while (start && /\w/.test(line.charAt(start - 1))) --start
-	  while (end < line.length && /\w/.test(line.charAt(end))) ++end
-	  var word = line.slice(start, end).toLowerCase()
-	  for (var i = 0; i < comp.length; i++) if (comp[i].indexOf(word) != -1)
-	    return accept({list: comp[i],
-			   from: CodeMirror.Pos(cursor.line, start),
-			   to: CodeMirror.Pos(cursor.line, end)})
-	  return accept({list: [ "command", "block", "wait", "trigger" ],
-			 from: CodeMirror.Pos(cursor.line, start),
-			 to: CodeMirror.Pos(cursor.line, end)})
-	}, 100)
-      })
-    }
+  return {
+    list: [ "command", "block", "wait", "trigger" ],
+    from: CodeMirror.Pos(cursor.line, start),
+    to: CodeMirror.Pos(cursor.line, end)
+  };
+}
 
 class YAMLEditor extends React.Component {
   static propTypes = {
@@ -88,10 +68,11 @@ class YAMLEditor extends React.Component {
       // Turn on linting
       lint: true,
 
+      // Enable code complete
       hintOptions: { hint: getHints },
 
       // Include the lint marker column in the left gutter
-      gutters: ['CodeMirror-lint-markers'],
+      gutters: [ 'CodeMirror-lint-markers' ],
 
       extraKeys: {
         // Show the hint popup on various keyboard combos
