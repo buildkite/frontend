@@ -53,7 +53,7 @@ window["Webpack"] = {
     "lib/Logger": require("./lib/Logger").default,
     "lib/Emoji": require("./lib/Emoji").default,
     "lib/RelayBridge": require("./lib/RelayBridge").default,
-    "lib/jobCommandOneliner": require("./lib/jobCommandOneliner").default,
+    "lib/jobCommandOneliner": require("./lib/jobCommandOneliner").default
   },
 
   require: function(module) {
