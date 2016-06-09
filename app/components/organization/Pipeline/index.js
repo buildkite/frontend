@@ -42,7 +42,7 @@ class Pipeline extends React.Component {
   render() {
     return (
       <div className="flex items-stretch border border-gray rounded mb2" style={{height: 82}}>
-        <div className="flex flex-none items-center pl3 pr2">
+        <div className="flex flex-none items-center pl4 pr2">
           <Status pipeline={this.props.pipeline} />
         </div>
 
