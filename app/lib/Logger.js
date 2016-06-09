@@ -4,6 +4,9 @@ class Logger {
 
     // Store console on the logger as a hack to skip the `no-console` eslint rule
     this.console = window['console'];
+
+    // Tell the world that logging has been turned on!
+    this.info("[Logger]", "Enabled...");
   }
 
   info() {

@@ -73,6 +73,21 @@ if(window._graphql) {
   );
 }
 
+// Setup the PusherStore
+if(window._pusher) {
+  let PusherStore = require("./stores/PusherStore").default;
+  PusherStore.configure(window._pusher["key"], window._pusher["options"]);
+  for(let channel of window._pusher["channels"]) {
+    PusherStore.listen(channel);
+  }
+}
+
+// Toggle on development features
+if (process.env.NODE_ENV != "production") {
+  require("./lib/Logger").default.enable();
+  require('react-relay/lib/RelayNetworkDebug').init();
+}
+
 // Only do the react-router gear on pages we've designated
 window["initializeReactRouter"] = function() {
   // Require the packages we need to setup routing
