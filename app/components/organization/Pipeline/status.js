@@ -22,11 +22,11 @@ class Status extends React.Component {
     }).isRequired
   };
 
-  shouldComponentUpdate() {
-    // Since this component updates itself, no need to re-render when the
-    // parent does.
-    return false;
-  }
+  // shouldComponentUpdate() {
+  //   // Since this component updates itself, no need to re-render when the
+  //   // parent does.
+  //   return false;
+  // }
 
   render() {
     let buildEdge = this.props.pipeline.builds.edges[0];

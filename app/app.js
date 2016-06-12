@@ -80,6 +80,7 @@ if(window._pusher) {
   for(let channel of window._pusher["channels"]) {
     PusherStore.listen(channel);
   }
+  require("./play.js");
 }
 
 // Toggle on development features

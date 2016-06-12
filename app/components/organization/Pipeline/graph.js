@@ -39,11 +39,11 @@ class Graph extends React.Component {
     }).isRequired
   };
 
-  shouldComponentUpdate() {
-    // Since this component updates itself, no need to re-render when the
-    // parent does.
-    return false;
-  }
+  //  shouldComponentUpdate() {
+  //    // Since this component updates itself, no need to re-render when the
+  //    // parent does.
+  //    return false;
+  //  }
 
   render() {
     return (
@@ -98,6 +98,7 @@ class Graph extends React.Component {
     }
   }
 }
+
 
 export default Relay.createContainer(Graph, {
   fragments: {
