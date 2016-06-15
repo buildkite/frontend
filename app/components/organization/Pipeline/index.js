@@ -1,9 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import classNames from 'classnames';
 
-import Icon from '../../shared/Icon';
-import Dropdown from '../../shared/Dropdown';
 import Favorite from '../../icons/Favorite';
 import Emojify from '../../shared/Emojify';
 
