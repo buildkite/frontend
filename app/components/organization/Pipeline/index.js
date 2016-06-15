@@ -25,9 +25,6 @@ class Pipeline extends React.Component {
       favorite: React.PropTypes.bool.isRequired,
       url: React.PropTypes.string.isRequired,
       permissions: React.PropTypes.shape({
-        pipelineUpdate: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
-        }).isRequired,
         pipelineFavorite: React.PropTypes.shape({
           allowed: React.PropTypes.bool.isRequired
         }).isRequired
@@ -46,22 +43,22 @@ class Pipeline extends React.Component {
           <Status pipeline={this.props.pipeline} />
         </div>
 
-        <a href={this.props.pipeline.url} className="flex items-center flex-auto px2 text-decoration-none color-inherit">
+        <a href={this.props.pipeline.url} className="flex flex-auto items-center px2 text-decoration-none color-inherit mr3">
           <div className="truncate">
             <h2 className="h4 regular m0 line-height-2">{this.props.pipeline.name}</h2>
             {this.renderDescription()}
           </div>
         </a>
 
-        <div className="flex flex-none items-center justify-end mr2">
-          <Metrics pipeline={this.props.pipeline} />
-        </div>
-
-        <div className="flex items-center flex-none ml3 xs-hide sm-hide pr3">
+        <div className="flex items-center flex-none ml3 xs-hide sm-hide pr4">
           <div>
             <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
             <Graph pipeline={this.props.pipeline}  />
           </div>
+        </div>
+
+        <div className="flex flex-none items-center justify-start ml2">
+          <Metrics pipeline={this.props.pipeline} />
         </div>
 
         {this.renderActions()}
@@ -86,7 +83,7 @@ class Pipeline extends React.Component {
         allowed: "pipelineFavorite",
         render: () => {
           return (
-            <button className="btn p0" onClick={this.handleFavoriteClick}>
+            <button className="btn p0 dark-gray line-height-1" onClick={this.handleFavoriteClick}>
               <Favorite favorite={this.props.pipeline.favorite} />
             </button>
           );
@@ -94,43 +91,9 @@ class Pipeline extends React.Component {
       }
     )
 
-    // Make sure we can perform the actions inside the dropdown
-    let dropdownActions = permissions(this.props.pipeline.permissions).collect(
-      {
-        allowed: "pipelineUpdate",
-        render: () => {
-          return (
-            <a key="pipeline-update" href={`${this.props.pipeline.url}/settings`} className="btn block hover-lime">Configure Pipeline</a>
-          );
-        }
-      }
-    )
-
-    // Only render the dropdown button if there's something to put inside it
-    let dropdownButton;
-    if(dropdownActions.length > 0) {
-      dropdownButton = (
-        <Dropdown align="center" width={180} onToggle={this.handleMenuToggle}>
-          <button className="btn p0 gray hover-dark-gray">
-            <Icon icon="menu" className={classNames({ "dark-gray": this.state.showingMenu })} />
-          </button>
-          {dropdownActions}
-        </Dropdown>
-      );
-    }
-
-    let dividerElement;
-    if(favoriteButton && dropdownButton) {
-      dividerElement = (
-        <div className="mb1"></div>
-      );
-    }
-
     return (
-      <div className="flex flex-none flex-column justify-center ml-auto pr3">
+      <div className="flex flex-none flex-column justify-center ml-auto pr4">
         {favoriteButton}
-        {dividerElement}
-        {dropdownButton}
       </div>
     );
   }
@@ -172,9 +135,6 @@ export default Relay.createContainer(Pipeline, {
         favorite
         permissions {
           pipelineFavorite {
-            allowed
-          }
-          pipelineUpdate {
             allowed
           }
         }
