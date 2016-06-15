@@ -62,9 +62,9 @@ class Graph extends React.Component {
         let duration = this.durationForBuild(buildEdge.node);
         if(duration > maximumDuration) maximumDuration = duration;
 
-        bars.push({ color: this.colorForBuild(buildEdge.node), duration: duration, href: buildEdge.node.url, build: buildEdge.node });
+        bars[MAXIMUM_NUMBER_OF_BUILDS - i - 1] = { color: this.colorForBuild(buildEdge.node), duration: duration, href: buildEdge.node.url, build: buildEdge.node };
       } else {
-        bars.push({ color: PENDING_COLOR, duration: 0 });
+        bars[MAXIMUM_NUMBER_OF_BUILDS - i - 1] = { color: PENDING_COLOR, duration: 0 };
       }
     }
 
