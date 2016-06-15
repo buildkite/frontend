@@ -89,21 +89,35 @@ class Show extends React.Component {
         // Split the pipelines into "favorited" and non "favorited". We don't
         // user a `sort` method so we preserve the current order the pipelines.
         let favorited = [];
-        let remainer = [];
+        let remainder = [];
         for(let edge of this.props.organization.pipelines.edges) {
           if(edge.node.favorite) {
             favorited.push(edge.node);
           } else {
-            remainer.push(edge.node);
+            remainder.push(edge.node);
           }
         }
 
-        // Render the pipelines with the favorites first
-        return favorited.concat(remainer).map((pipeline) => {
-          return (
-            <Pipeline key={pipeline.id} pipeline={pipeline} />
+        let nodes = [];
+
+        // Put the favorites in the own section with a divider
+        if(favorited.length > 0) {
+          for(let pipeline of favorited) {
+            nodes.push(
+              <Pipeline key={pipeline.id} pipeline={pipeline} />
+            );
+          }
+
+          nodes.push(
+            <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{height: 1}} />
           );
-        })
+        }
+
+        for(let pipeline of remainder) {
+          nodes.push(<Pipeline key={pipeline.id} pipeline={pipeline} />);
+        }
+
+        return nodes;
       } else {
         return (
           <p className="dark-gray">No pipelines to see here!</p>
