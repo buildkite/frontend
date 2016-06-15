@@ -27,7 +27,7 @@ class Metrics extends React.Component {
   render() {
     return (
       <div className="flex items-center">
-        {this.props.pipeline.metrics.edges.map((edge) => <Metric key={edge.node.label} metric={edge.node} />)}
+        {this.props.pipeline.metrics.edges.map((edge) => <Metric key={edge.node.label} pipelineMetric={edge.node} />)}
       </div>
     );
   }
@@ -41,7 +41,7 @@ export default Relay.createContainer(Metrics, {
           edges {
             node {
               label
-              ${Metric.getFragment('metric')}
+              ${Metric.getFragment('pipelineMetric')}
             }
           }
         }
