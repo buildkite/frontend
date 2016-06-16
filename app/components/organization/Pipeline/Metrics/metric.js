@@ -6,7 +6,7 @@ class Metric extends React.Component {
   static propTypes = {
     pipelineMetric: React.PropTypes.shape({
       label: React.PropTypes.string.isRequired,
-      value: React.PropTypes.string.isRequired,
+      value: React.PropTypes.string,
       url: React.PropTypes.string
     }).isRequired
   };
@@ -28,12 +28,16 @@ class Metric extends React.Component {
       return (
         <span className="truncate">
           <span className={valueClasses}>{match[1]}</span>
-          <span className="h6 regular m0 line-height-1">{match[2]}</span>
+          <span className="h6 regular m0 line-height-1 dark-gray">{match[2]}</span>
         </span>
       )
-    } else {
+    } else if(this.props.pipelineMetric.value) {
       return (
         <span className={classNames(valueClasses, "truncate")}>{this.props.pipelineMetric.value}</span>
+      );
+    } else {
+      return (
+        <span className={classNames(valueClasses, "gray")}>&middot;</span>
       );
     }
   }
