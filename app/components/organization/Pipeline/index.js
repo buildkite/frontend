@@ -17,6 +17,7 @@ import Graph from './graph';
 class Pipeline extends React.Component {
   static propTypes = {
     pipeline: React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
       description: React.PropTypes.string,
@@ -28,7 +29,8 @@ class Pipeline extends React.Component {
           allowed: React.PropTypes.bool.isRequired
         }).isRequired
       })
-    }).isRequired
+    }).isRequired,
+    relay: React.PropTypes.object.isRequired
   };
 
   state = {
@@ -107,7 +109,6 @@ class Pipeline extends React.Component {
 
   handlePusherWebsocketEvent = (payload) => {
     if(payload.event == "project:updated" && payload.graphql.id == this.props.pipeline.id) {
-      console.log("ZOMG UPDATE ME", this.props.pipeline.name);
       this.props.relay.forceFetch();
     }
   };
