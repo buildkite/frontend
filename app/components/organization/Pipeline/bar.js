@@ -25,7 +25,7 @@ class Bar extends React.Component {
             className="border-box inline-block absolute"
             style={{ height: "100%", left: this.props.left, width: this.props.width, bottom: 0 }}
             ref={c => this.barLinkNode = c}>
-            <div style={{ height: this.props.height, width: this.props.width, left: 0, bottom: 0, backgroundColor: this.props.color }} className="border-box inline-block absolute" />
+            <div style={{ height: this.props.height, width: this.props.width, left: 0, bottom: 0, backgroundColor: this.props.color }} className="border-box inline-block absolute animation-height" />
           </a>
         </Build>
       );
@@ -33,7 +33,7 @@ class Bar extends React.Component {
       let style = { backgroundColor: this.props.color, height: this.props.height, left: this.props.left, width: this.props.width, bottom: 0 };
 
       return (
-        <div className="border-box inline-block absolute" style={style} />
+        <div className="border-box inline-block absolute animation-height" style={style} />
       );
     }
   }

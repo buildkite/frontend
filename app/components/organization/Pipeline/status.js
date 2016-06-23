@@ -22,12 +22,6 @@ class Status extends React.Component {
     }).isRequired
   };
 
-  shouldComponentUpdate() {
-    // Since this component updates itself, no need to re-render when the
-    // parent does.
-    return false;
-  }
-
   render() {
     let buildEdge = this.props.pipeline.builds.edges[0];
 
@@ -54,7 +48,7 @@ export default Relay.createContainer(Status, {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
         id
-        builds(first: 1, state: [ BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED ]) {
+        builds(first: 1, state: [ BUILD_STATE_RUNNING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED ]) {
           edges {
             node {
               state

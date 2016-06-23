@@ -18,12 +18,6 @@ class Metrics extends React.Component {
     }).isRequired
   };
 
-  shouldComponentUpdate() {
-    // Each metric is responsible for updating itself, so we don't need to
-    // re-render the list ever
-    return false;
-  }
-
   render() {
     return (
       <div className="flex items-center">

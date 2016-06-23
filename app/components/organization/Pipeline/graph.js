@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import moment from 'moment';
+import classNames from 'classnames';
 
 import Build from './build';
 import Bar from './bar';
@@ -39,15 +40,33 @@ class Graph extends React.Component {
     }).isRequired
   };
 
-  shouldComponentUpdate() {
-    // Since this component updates itself, no need to re-render when the
-    // parent does.
-    return false;
+  componentDidMount() {
+    this.toggleRenderInterval(this.props.pipeline.builds.edges);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let thisLatestBuild = this.props.pipeline.builds.edges[0];
+    let nextLatestBuild = nextProps.pipeline.builds.edges[0];
+
+    // Set `shifting` if all the builds are being moved due to a new one coming in.
+    if((thisLatestBuild && nextLatestBuild) && thisLatestBuild.node.id != nextLatestBuild.node.id) {
+      this._shifting = true;
+    }
+  }
+
+  componentDidUpdate() {
+    this.toggleRenderInterval(this.props.pipeline.builds.edges);
+
+    delete this._shifting;
   }
 
   render() {
+    let classes = classNames("align-bottom relative", {
+      "animation-disable": this._shifting
+    });
+
     return (
-      <div className="align-bottom relative" style={{width: GRAPH_WIDTH, height: GRAPH_HEIGHT}}>{this.renderBars()}</div>
+      <div className={classes} style={{width: GRAPH_WIDTH, height: GRAPH_HEIGHT}}>{this.renderBars()}</div>
     )
   }
 
@@ -97,6 +116,35 @@ class Graph extends React.Component {
       return FAILED_COLOR;
     }
   }
+
+  toggleRenderInterval(buildEdges) {
+    // See if there is a build running
+    let running = false;
+    for(let edge of buildEdges) {
+      if(edge.node.state == "running") {
+        running = true;
+        break;
+      }
+    }
+
+    // If a build is running, ensure we have an interval setup that re-renders
+    // the graph every second.
+    if(running) {
+      if(this._interval) {
+        // no-op, interval already running
+      } else {
+        this._interval = setInterval(() => {
+          this.forceUpdate();
+        }, 1000);
+      }
+    } else {
+      // Clear the interval now that nothing is running
+      if(this._interval) {
+        clearTimeout(this._interval);
+        delete this._interval;
+      }
+    }
+  }
 }
 
 export default Relay.createContainer(Graph, {
@@ -107,6 +155,7 @@ export default Relay.createContainer(Graph, {
         builds(first: 30, state: [ BUILD_STATE_RUNNING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_CANCELING ]) {
           edges {
             node {
+              id
               state
               url
               startedAt

@@ -6,6 +6,8 @@ import Emojify from '../../shared/Emojify';
 
 import permissions from '../../../lib/permissions';
 
+import PusherStore from '../../../stores/PusherStore';
+
 import PipelineFavoriteMutation from '../../../mutations/PipelineFavorite';
 
 import Status from './status';
@@ -32,6 +34,14 @@ class Pipeline extends React.Component {
   state = {
     showingMenu: false
   };
+
+  componentDidMount() {
+    PusherStore.on("websocket:event", this.handlePusherWebsocketEvent.bind(this));
+  }
+
+  componentWillUnmount() {
+    PusherStore.off("websocket:event", this.handlePusherWebsocketEvent.bind(this));
+  }
 
   render() {
     return (
@@ -94,6 +104,13 @@ class Pipeline extends React.Component {
       </div>
     );
   }
+
+  handlePusherWebsocketEvent = (payload) => {
+    if(payload.event == "project:updated" && payload.graphql.id == this.props.pipeline.id) {
+      console.log("ZOMG UPDATE ME", this.props.pipeline.name);
+      this.props.relay.forceFetch();
+    }
+  };
 
   handleMenuToggle = (visible) => {
     this.setState({ showingMenu: visible });

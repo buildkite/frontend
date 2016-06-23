@@ -14,8 +14,8 @@ class Metric extends React.Component {
   render() {
     return (
       <a href={this.props.pipelineMetric.url} className="flex flex-column text-decoration-none color-inherit" style={{width: '7em'}}>
-        {this.renderValue()}
         <span className="h6 regular dark-gray truncate">{this.props.pipelineMetric.label}</span>
+        {this.renderValue()}
       </a>
     )
   }

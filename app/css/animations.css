@@ -45,6 +45,14 @@
   animation: animation-fade-in 200ms linear forwards;
 }
 
+.animation-height {
+  transition: height 0.25s;
+}
+
+.animation-width {
+  transition: width 0.25s;
+}
+
 /* Animation modification utilities */
 
 .animation-delay-1 { animation-delay: 1s; }
