@@ -2,7 +2,7 @@ steps:
   - name: ":docker: :package:"
     plugins:
       docker-compose:
-        build: app
+        build: frontend
         image-repository: index.docker.io/buildkiteci/frontend
     env:
       RAILS_ENV: test
