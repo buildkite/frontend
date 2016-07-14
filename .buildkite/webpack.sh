@@ -9,8 +9,11 @@ echo "--- :information_desk_person: Appending SHA1 of webpack/config.js to \$FRO
 
 echo "\$FRONTEND_HOST is now $FRONTEND_HOST"
 
-echo "--- :webpack: Building webpack assets"
-NODE_ENV=production npm run build
+echo "--- :webpack: Building webpack assets for production"
+# Can't use `npm run build` because we need `-p` which is "production mode" for
+# webpack compilation.
+export NODE_ENV=production
+webpack -p --config webpack/config.js --progress --bail
 
 echo "--- :javascript: Checking valid JS"
 node --check dist/* && echo "👍 Javascript looks valid!"
