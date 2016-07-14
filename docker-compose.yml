@@ -6,6 +6,5 @@ services:
     volumes:
       - "./dist:/frontend/dist"
     environment:
-      NODE_ENV:
       FRONTEND_HOST:
       EMOJI_HOST:
