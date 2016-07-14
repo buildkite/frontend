@@ -4,7 +4,7 @@ services:
   frontend:
     build: .
     volumes:
-      - "./:/frontend"
+      - "./dist:/frontend/dist"
     environment:
       NODE_ENV:
       FRONTEND_HOST:
