@@ -8,3 +8,5 @@ services:
     working_dir: "/app"
     environment:
       NODE_ENV:
+      FRONTEND_HOST:
+      EMOJI_HOST:
