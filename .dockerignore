@@ -1,0 +1,8 @@
+tmp/*
+log/*
+Dockerfile
+docker-compose.yml
+**/.git
+node_modules
+dist
+buildkite-script-*
