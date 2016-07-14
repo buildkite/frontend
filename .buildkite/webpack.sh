@@ -9,9 +9,6 @@ echo "--- :information_desk_person: Appending SHA1 of webpack/config.js to \$FRO
 
 echo "\$FRONTEND_HOST is now $FRONTEND_HOST"
 
-echo "--- :npm: Installing npm packages"
-npm install
-
 echo "--- :webpack: Building webpack assets"
 npm run build
 

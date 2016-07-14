@@ -2,10 +2,9 @@ version: '2'
 
 services:
   frontend:
-    image: node:5
+    build: .
     volumes:
-      - "./:/app"
-    working_dir: "/app"
+      - "./:/frontend"
     environment:
       NODE_ENV:
       FRONTEND_HOST:
