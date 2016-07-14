@@ -1,19 +1,16 @@
 steps:
-  - wait
-
-  - name: ":npm:"
-    command: ".buildkite/npm.sh"
-    concurrency: 1
-    concurrency_group: "npmer"
-
-  - wait
-
   - name: ":eslint:"
     command: ".buildkite/eslint.sh"
+    plugins:
+      docker-compose#e8ce6c1:
+        run: frontend
 
   - name: ":webpack:"
     command: ".buildkite/webpack.sh"
     artifact_paths: "dist/*"
+    plugins:
+      docker-compose#e8ce6c1:
+        run: frontend
     env:
       NODE_ENV: production
 

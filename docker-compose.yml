@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  frontend:
+    image: node:5
+    volumes:
+      - "./:/app"
+    environment:
+      NODE_ENV:

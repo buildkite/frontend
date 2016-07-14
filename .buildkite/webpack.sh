@@ -9,11 +9,8 @@ echo "--- :information_desk_person: Appending SHA1 of webpack/config.js to \$FRO
 
 echo "\$FRONTEND_HOST is now $FRONTEND_HOST"
 
-echo "--- :wastebasket: Cleaning up.."
-rm -rf dist; rm -rf node_modules;
-
 echo "--- :npm: Installing npm packages"
-npm-cache install npm
+npm install
 
 echo "--- :webpack: Building webpack assets"
 ./node_modules/.bin/webpack -p --config webpack/config.js --progress --bail
