@@ -7,6 +7,11 @@ if(!process.env.FRONTEND_HOST) {
   throw "No FRONTEND_HOST set";
 }
 
+// Ensure a NODE_ENV is also present
+if(!process.env.NODE_ENV) {
+  throw "No NODE_ENV set";
+}
+
 // The FRONTEND_HOST must end with a /
 if(process.env.FRONTEND_HOST.slice(-1) != "/") {
   throw "FRONTEND_HOST must end with a /";
