@@ -11,8 +11,6 @@ steps:
     plugins:
       docker-compose#e8ce6c1:
         run: frontend
-    env:
-      NODE_ENV: production
 
   - wait
 
