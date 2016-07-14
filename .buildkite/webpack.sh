@@ -13,7 +13,7 @@ echo "--- :npm: Installing npm packages"
 npm install
 
 echo "--- :webpack: Building webpack assets"
-./node_modules/.bin/webpack -p --config webpack/config.js --progress --bail
+npm run build
 
 echo "--- :javascript: Checking valid JS"
 node --check dist/* && echo "👍 Javascript looks valid!"
