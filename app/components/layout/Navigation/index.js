@@ -209,7 +209,12 @@ class Navigation extends React.Component {
       },
       {
         any: true,
-        render: () => <NavigationButton href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+        render: () => {
+          return [
+            <NavigationButton key={1} href={`/organizations/${organization.slug}/users`}>Users</NavigationButton>,
+            <NavigationButton key={2} href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+          ]
+        }
       }
     )
   }
