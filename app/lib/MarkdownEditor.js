@@ -4,7 +4,7 @@ class MarkdownEditor {
   }
 
   bold() {
-    this.modify("*{s}{t}{s}*");
+    this.modify("**{s}{t}{s}**");
   }
 
   italic() {
