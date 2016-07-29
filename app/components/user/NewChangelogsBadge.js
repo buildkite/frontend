@@ -19,11 +19,11 @@ class NewChangelogsBadge extends React.Component {
   };
 
   componentDidMount() {
-    PusherStore.on("user_stats:change", this._onStoreChange.bind(this));
+    PusherStore.on("user_stats:change", this._onStoreChange);
   }
 
   componentWillUnmount() {
-    PusherStore.off("user_stats:change", this._onStoreChange.bind(this));
+    PusherStore.off("user_stats:change", this._onStoreChange);
   }
 
   render() {
