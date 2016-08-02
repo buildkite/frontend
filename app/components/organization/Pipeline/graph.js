@@ -152,7 +152,7 @@ export default Relay.createContainer(Graph, {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
         id
-        builds(first: 30, state: [ BUILD_STATE_RUNNING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_CANCELING ]) {
+        builds(first: 30, branch: "%default", state: [ BUILD_STATE_RUNNING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_CANCELING ]) {
           edges {
             node {
               id
