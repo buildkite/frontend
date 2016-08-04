@@ -24,6 +24,9 @@
 @import 'flexbox';
 
 @import 'basscss';
+@import 'codemirror/lib/codemirror';
+@import 'codemirror/addon/lint/lint';
+@import 'codemirror/addon/hint/show-hint.css';
 
 @import 'container';
 @import 'cursor';

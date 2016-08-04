@@ -47,6 +47,7 @@ window["Webpack"] = {
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
     "components/PipelinesWelcome": require("./components/PipelinesWelcome").default,
     "components/pipeline/Teams": require("./components/pipeline/Teams").default,
+    "components/pipeline/YAMLEditor": require("./components/pipeline/YAMLEditor").default,
     "stores/PusherStore": require("./stores/PusherStore").default,
     "lib/friendlyRelativeTime": require("./lib/friendlyRelativeTime").default,
     "lib/Logger": require("./lib/Logger").default,

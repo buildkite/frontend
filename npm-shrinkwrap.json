@@ -931,6 +931,11 @@
       "from": "code-point-at@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/code-point-at/-/code-point-at-1.0.0.tgz"
     },
+    "codemirror": {
+      "version": "5.15.2",
+      "from": "codemirror@*",
+      "resolved": "https://registry.npmjs.org/codemirror/-/codemirror-5.15.2.tgz"
+    },
     "color": {
       "version": "0.11.3",
       "from": "color@>=0.11.0 <0.12.0",
@@ -2939,7 +2944,7 @@
     },
     "js-yaml": {
       "version": "3.6.1",
-      "from": "js-yaml@>=3.6.0 <3.7.0",
+      "from": "js-yaml@*",
       "resolved": "https://registry.npmjs.org/js-yaml/-/js-yaml-3.6.1.tgz"
     },
     "jsesc": {
@@ -3138,6 +3143,11 @@
       "version": "3.0.1",
       "from": "lodash.camelcase@>=3.0.1 <4.0.0",
       "resolved": "https://registry.npmjs.org/lodash.camelcase/-/lodash.camelcase-3.0.1.tgz"
+    },
+    "lodash.debounce": {
+      "version": "4.0.6",
+      "from": "lodash.debounce@>=4.0.4 <5.0.0",
+      "resolved": "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.6.tgz"
     },
     "lodash.deburr": {
       "version": "3.2.0",
@@ -4235,6 +4245,11 @@
       "version": "15.1.0",
       "from": "react-addons-update@>=15.1.0 <16.0.0",
       "resolved": "https://registry.npmjs.org/react-addons-update/-/react-addons-update-15.1.0.tgz"
+    },
+    "react-codemirror": {
+      "version": "0.2.6",
+      "from": "react-codemirror@*",
+      "resolved": "https://registry.npmjs.org/react-codemirror/-/react-codemirror-0.2.6.tgz"
     },
     "react-deep-force-update": {
       "version": "1.0.1",
