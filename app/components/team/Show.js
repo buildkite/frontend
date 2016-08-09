@@ -4,7 +4,6 @@ import DocumentTitle from 'react-document-title';
 
 import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
-import Button from '../shared/Button';
 import Emojify from '../shared/Emojify';
 import permissions from '../../lib/permissions';
 
