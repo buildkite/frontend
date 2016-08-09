@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
+import Infinite from 'react-infinite';
 
 import PageWithContainer from '../shared/PageWithContainer';
 import Button from '../shared/Button';
@@ -108,16 +109,20 @@ class Show extends React.Component {
             );
           }
 
-          nodes.push(
-            <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{height: 1}} />
-          );
+          //nodes.push(
+          //  <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{height: 1}} />
+          //);
         }
 
         for(let pipeline of remainder) {
           nodes.push(<Pipeline key={pipeline.id} pipeline={pipeline} />);
         }
 
-        return nodes;
+        return (
+          <Infinite containerHeight={200} elementHeight={40} useWindowAsScrollContainer={true}>
+            {nodes}
+          </Infinite>
+        );
       } else {
         return (
           <p className="dark-gray">No pipelines to see here!</p>
