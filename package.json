@@ -69,6 +69,7 @@
     "react": "^15.3.0",
     "react-addons-css-transition-group": "^15.3.0",
     "react-addons-perf": "^15.3.0",
+    "react-addons-pure-render-mixin": "^15.3.0",
     "react-addons-shallow-compare": "^15.3.0",
     "react-addons-update": "^15.3.0",
     "react-document-title": "^2.0.2",

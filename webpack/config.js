@@ -112,7 +112,7 @@ module.exports = {
       "react-router-relay", "history", "graphql", "graphql-relay",
       "moment", "object-assign", "eventemitter3", "pusher-js",
       "whatwg-fetch", "es6-error", "escape-html", "react-addons-update",
-      "react-document-title", "bugsnag-js", "deepmerge"],
+      "react-document-title", "bugsnag-js", "deepmerge", "react-addons-pure-render-mixin"],
     emojis: [ path.join(__dirname, './../app/emojis/buildkite.js'), path.join(__dirname, './../app/emojis/apple.js') ],
     app: path.join(__dirname, './../app/app.js'),
     public: path.join(__dirname, './../app/public.js')

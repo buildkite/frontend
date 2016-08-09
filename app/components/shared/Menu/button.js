@@ -18,7 +18,8 @@ class Button extends React.Component {
     return (
       <BaseButton className={classNames(`block hover-lime focus-lime truncate`, { "lime": this._isActive() })}
                   theme={false}
-                  {...this.props}>
+                  href={this.props.href}
+                  link={this.props.link}>
         <div className="flex">
           <div className="flex-auto">{this.props.children}</div>
           <div className="flex-none">{this._renderBadge()}</div>
@@ -44,4 +45,4 @@ class Button extends React.Component {
 }
 
 export default Button;
-  
+

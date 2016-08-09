@@ -28,6 +28,7 @@ window["Webpack"] = {
     "react": require("react"),
     "react-dom": require("react-dom"),
     "react-relay": require("react-relay"),
+    "react-addons-pure-render-mixin": require("react-addons-pure-render-mixin"),
     "classnames": require("classnames"),
     "moment": require("moment"),
     "object-assign": require("object-assign"),
