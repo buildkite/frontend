@@ -1,7 +1,8 @@
 import React from 'react';
+import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import Build from './build';
+import BuildTooltip from './build-tooltip';
 
 class Bar extends React.Component {
   static propTypes = {
@@ -13,6 +14,10 @@ class Bar extends React.Component {
     build: React.PropTypes.object
   };
 
+  state = {
+    hover: false
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   }
@@ -20,14 +25,15 @@ class Bar extends React.Component {
   render() {
     if(this.props.href) {
       return (
-        <Build build={this.props.build}>
-          <a href={this.props.href}
-            className="border-box inline-block absolute"
-            style={{ height: "100%", left: this.props.left, width: this.props.width, bottom: 0 }}
-            ref={c => this.barLinkNode = c}>
-            <div style={{ height: this.props.height, width: this.props.width, left: 0, bottom: 0, backgroundColor: this.props.color }} className="border-box inline-block absolute animation-height" />
-          </a>
-        </Build>
+        <a href={this.props.href}
+          className="border-box inline-block absolute color-inherit"
+          style={{ height: "100%", left: this.props.left, width: this.props.width, bottom: 0 }}
+          ref={c => this.barLinkNode = c}
+          onMouseOver={this.handleMouseOver}
+          onMouseOut={this.handleMouseOut}>
+          <div style={{ height: this.props.height, width: this.props.width, left: 0, bottom: 0, backgroundColor: this.props.color }} className="border-box inline-block absolute animation-height" />
+          <BuildTooltip build={this.props.build} visible={this.state.hover} top={45} />
+        </a>
       );
     } else {
       let style = { backgroundColor: this.props.color, height: this.props.height, left: this.props.left, width: this.props.width, bottom: 0 };
@@ -37,6 +43,23 @@ class Bar extends React.Component {
       );
     }
   }
+
+  handleMouseOver = () => {
+    this.setState({hover: true})
+  }
+
+  handleMouseOut = () => {
+    this.setState({hover: false})
+  }
 }
 
-export default Bar
+
+export default Relay.createContainer(Bar, {
+  fragments: {
+    build: () => Relay.QL`
+      fragment on Build {
+        ${BuildTooltip.getFragment('build')}
+      }
+    `
+  }
+});

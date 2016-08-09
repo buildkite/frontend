@@ -3,7 +3,6 @@ import Relay from 'react-relay';
 import moment from 'moment';
 import classNames from 'classnames';
 
-import Build from './build';
 import Bar from './bar';
 
 const PASSED_COLOR = "#B0DF21";
@@ -93,7 +92,7 @@ class Graph extends React.Component {
       let height = (bar.duration / maximumDuration) * GRAPH_HEIGHT;
       if(height < BAR_HEIGHT_MINIMUM) height = BAR_HEIGHT_MINIMUM;
 
-      return <Bar key={index} left={left} color={bar.color} width={BAR_WIDTH} height={height} href={bar.href} build={bar.build} />
+      return <Bar key={index} left={left} color={bar.color} width={BAR_WIDTH} height={height} href={bar.href} build={bar.build || null} />
     })
   }
 
@@ -160,7 +159,7 @@ export default Relay.createContainer(Graph, {
               url
               startedAt
               finishedAt
-              ${Build.getFragment('build')}
+              ${Bar.getFragment('build')}
             }
           }
         }

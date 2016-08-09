@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 
 import BuildState from '../../icons/BuildState';
 
-import Build from './build';
+import BuildTooltip from './build-tooltip';
 
 class Status extends React.Component {
   static propTypes = {
@@ -22,6 +22,10 @@ class Status extends React.Component {
     }).isRequired
   };
 
+  state = {
+    hover: false
+  }
+
   render() {
     let buildEdge = this.props.pipeline.builds.edges[0];
 
@@ -29,17 +33,27 @@ class Status extends React.Component {
       let build = buildEdge.node;
 
       return (
-        <Build build={build}>
-          <a href={build.url} className="block line-height-1">
-            <BuildState state={build.state} />
-          </a>
-        </Build>
+        <a href={build.url}
+           className="block line-height-1 color-inherit relative"
+           onMouseOver={this.handleMouseOver}
+           onMouseOut={this.handleMouseOut}>
+          <BuildState state={build.state} />
+          <BuildTooltip build={build} visible={this.state.hover} top={42} />
+        </a>
       );
     } else {
       return (
         <BuildState state="pending" />
       );
     }
+  }
+
+  handleMouseOver = () => {
+    this.setState({hover: true})
+  }
+
+  handleMouseOut = () => {
+    this.setState({hover: false})
   }
 }
 
@@ -53,7 +67,7 @@ export default Relay.createContainer(Status, {
             node {
               state
               url
-              ${Build.getFragment('build')}
+              ${BuildTooltip.getFragment('build')}
             }
           }
         }
