@@ -38,7 +38,7 @@ class Build extends React.Component {
         <div className="bg-white rounded shadow border border-gray p2 block fixed" style={{ zIndex: 100, left: this.state.mouseX + 10, top: this.state.mouseY + 10, width: 230 }}>
           <Media align="top">
             <Media.Image className="mr2" style={{width: 30, height: 30}} >
-              <UserAvatar user={this.props.build.user} className="fit" />
+              <UserAvatar user={this.props.build.createdBy} className="fit" />
             </Media.Image>
             <Media.Description className="truncate">
               <Emojify className="block line-height-1 truncate" text={this.props.build.message} />
@@ -84,10 +84,18 @@ export default Relay.createContainer(Build, {
         startedAt
         finishedAt
         url
-        user {
-          name
-          avatar {
-            url
+        createdBy {
+          ... on User {
+            name
+            avatar {
+              url
+            }
+          }
+          ...on UnregisteredUser {
+            name
+            avatar {
+              url
+            }
           }
         }
       }
