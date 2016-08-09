@@ -86,7 +86,7 @@ if(window._pusher) {
 if (process.env.NODE_ENV != "production") {
   require("./lib/Logger").default.enable();
   require('react-relay/lib/RelayNetworkDebug').init();
-  global.Perf = require("react-addons-perf");
+  window.Perf = require("react-addons-perf");
 }
 
 // Only do the react-router gear on pages we've designated
