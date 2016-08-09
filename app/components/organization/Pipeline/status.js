@@ -38,7 +38,7 @@ class Status extends React.Component {
            onMouseOver={this.handleMouseOver}
            onMouseOut={this.handleMouseOut}>
           <BuildState state={build.state} />
-          <BuildTooltip build={build} visible={this.state.hover} top={42} />
+          <BuildTooltip build={build} visible={this.state.hover} left={-8} top={44} />
         </a>
       );
     } else {

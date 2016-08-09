@@ -92,7 +92,7 @@ class Graph extends React.Component {
       let height = (bar.duration / maximumDuration) * GRAPH_HEIGHT;
       if(height < BAR_HEIGHT_MINIMUM) height = BAR_HEIGHT_MINIMUM;
 
-      return <Bar key={index} left={left} color={bar.color} width={BAR_WIDTH} height={height} href={bar.href} build={bar.build || null} />
+      return <Bar key={index} left={left} color={bar.color} width={BAR_WIDTH_WITH_SEPERATOR} height={height} href={bar.href} build={bar.build || null} />
     })
   }
 

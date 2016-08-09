@@ -31,8 +31,8 @@ class Bar extends React.Component {
           ref={c => this.barLinkNode = c}
           onMouseOver={this.handleMouseOver}
           onMouseOut={this.handleMouseOut}>
-          <div style={{ height: this.props.height, width: this.props.width, left: 0, bottom: 0, backgroundColor: this.props.color }} className="border-box inline-block absolute animation-height" />
-          <BuildTooltip build={this.props.build} visible={this.state.hover} top={45} />
+          <div style={{ height: this.props.height, width: this.props.width - 1, left: 0, bottom: 0, backgroundColor: this.props.color }} className="border-box inline-block absolute animation-height" />
+          <BuildTooltip build={this.props.build} visible={this.state.hover} left={-20} top={47} />
         </a>
       );
     } else {
