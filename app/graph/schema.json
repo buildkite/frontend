@@ -722,7 +722,7 @@
         {
           "kind": "SCALAR",
           "name": "ID",
-          "description": null,
+          "description": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
@@ -732,7 +732,7 @@
         {
           "kind": "SCALAR",
           "name": "String",
-          "description": null,
+          "description": "Represents textual data as UTF-8 character sequences. This type is most often used by GraphQL to represent free-form human-readable text.",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
@@ -1108,7 +1108,7 @@
         {
           "kind": "SCALAR",
           "name": "Boolean",
-          "description": null,
+          "description": "Represents `true` or `false` values.",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
@@ -1623,7 +1623,7 @@
                 },
                 {
                   "name": "branch",
-                  "description": "Defaults to the pipelines default branch. Use `*` to return the builds for all branches.",
+                  "description": "Use `%default` to search by the Pipelines default branch",
                   "type": {
                     "kind": "LIST",
                     "name": "List",
@@ -2202,6 +2202,20 @@
               "deprecationReason": null
             },
             {
+              "name": "createdBy",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "UNION",
+                "name": "BuildCreator",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "env",
               "description": "Custom environment variables passed to this build",
               "args": [
@@ -2510,20 +2524,6 @@
               "deprecationReason": null
             },
             {
-              "name": "user",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "uuid",
               "description": "The UUID for the build",
               "args": [
@@ -2556,7 +2556,7 @@
         {
           "kind": "SCALAR",
           "name": "Int",
-          "description": null,
+          "description": "Represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
@@ -2571,6 +2571,90 @@
             {
               "name": "id",
               "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "UNION",
+          "name": "BuildCreator",
+          "description": "Either a `User` or an `UnregisteredUser` type",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "UnregisteredUser",
+              "ofType": null
+            }
+          ]
+        },
+        {
+          "kind": "OBJECT",
+          "name": "UnregisteredUser",
+          "description": "A name and email address of a person who hasn't signed up to Buildkite",
+          "fields": [
+            {
+              "name": "avatar",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Avatar",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "email",
+              "description": "The email for the user",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the user",
               "args": [
 
               ],
@@ -5421,8 +5505,8 @@
               "deprecationReason": null
             },
             {
-              "name": "pipelineDestroy",
-              "description": "Whether the user can destroy this pipeline",
+              "name": "pipelineDelete",
+              "description": "Whether the user can delete this pipeline",
               "args": [
 
               ],
@@ -7788,33 +7872,6 @@
               "deprecationReason": null
             },
             {
-              "name": "fetch",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": "Non-Null",
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "FetchInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "FetchPayload",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "organizationMemberDelete",
               "description": null,
               "args": [
@@ -8229,149 +8286,19 @@
         },
         {
           "kind": "OBJECT",
-          "name": "FetchPayload",
-          "description": "Autogenerated return type of Fetch",
-          "fields": [
-            {
-              "name": "agent",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Agent",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "agentEdge",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "AgentEdge",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "build",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Build",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "buildEdge",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "BuildEdge",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "FetchInput",
-          "description": "Autogenerated input type of Fetch",
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
           "name": "PipelineFavoritePayload",
           "description": "Autogenerated return type of PipelineFavorite",
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -8406,15 +8333,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -8472,18 +8395,14 @@
             },
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -8518,15 +8437,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -8588,18 +8503,14 @@
             },
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -8620,15 +8531,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -8672,18 +8579,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -8740,15 +8643,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -8796,18 +8695,14 @@
             },
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -8846,15 +8741,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -8912,18 +8803,14 @@
             },
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -8944,15 +8831,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -8996,18 +8879,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -9042,15 +8921,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -9094,18 +8969,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -9158,15 +9029,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -9196,18 +9063,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -9264,15 +9127,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -9326,18 +9185,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -9376,15 +9231,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -9438,18 +9289,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -9506,15 +9353,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -9544,18 +9387,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -9612,15 +9451,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -9710,18 +9545,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -9760,15 +9591,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -9868,18 +9695,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -9932,15 +9755,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -9970,18 +9789,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10030,15 +9845,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -10082,18 +9893,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10132,15 +9939,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -10184,18 +9987,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10248,15 +10047,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -10286,18 +10081,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10346,15 +10137,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -10398,18 +10185,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10448,15 +10231,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -10500,18 +10279,14 @@
           "fields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10564,15 +10339,11 @@
           "inputFields": [
             {
               "name": "clientMutationId",
-              "description": null,
+              "description": "A unique identifier for the client performing the mutation.",
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
