@@ -1,5 +1,4 @@
 import React from "react";
-import update from "react-addons-update";
 import classNames from "classnames";
 import { Link } from 'react-router';
 
