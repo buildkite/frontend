@@ -182,8 +182,8 @@ window["initializeReactRouter"] = function() {
     <Router history={browserHistory} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
 
-      <Route path="/" component={Main}>
-        <Route path=":organization" component={OrganizationShow} queries={{organization: OrganizationQuery}} prepareParams={preparePipelineListParams}  render={renderSectionLoading} />
+      <Route path="/" component={Main} queries={{viewer: ViewerQuery, organization: OrganizationQuery}} render={renderSectionLoading}>
+        <Route path=":organization" component={OrganizationShow} queries={{organization: OrganizationQuery}} prepareParams={preparePipelineListParams} render={renderSectionLoading} />
 
         <Route path="organizations/:organization" component={OrganizationSettingsSection}>
           <Route path="teams">

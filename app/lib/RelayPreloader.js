@@ -3,7 +3,7 @@ import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
 const QUERIES = {
   "organization/show": Relay.QL`
-    query PipelinesList($organization: ID!, $teamsCount: Int!) {
+    query($organization: ID!, $teamsCount: Int!) {
       organization(slug: $organization) {
         id
         slug
@@ -21,6 +21,74 @@ const QUERIES = {
           pageInfo {
             hasNextPage
             hasPreviousPage
+          }
+        }
+      }
+    }
+  `,
+  "navigation/viewer": Relay.QL`
+    query($organizationsCount: Int!) {
+      viewer {
+        user {
+          id
+          name
+          avatar {
+            url
+          }
+        }
+        organizations(first: $organizationsCount) {
+          edges {
+            node {
+              id
+              name
+              slug
+            }
+            cursor
+          }
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+          }
+        }
+        unreadChangelogs: changelogs(read: false) {
+          count
+        }
+        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
+          count
+        }
+        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
+          count
+        }
+      }
+    }
+  `,
+  "navigation/organization": Relay.QL`
+    query($organization: ID!) {
+      organization(slug: $organization) {
+        id
+        slug
+        name
+        agents {
+          count
+        }
+        permissions {
+          organizationUpdate {
+            allowed
+          }
+          organizationMemberCreate {
+            allowed
+          }
+          notificationServiceUpdate {
+            allowed
+          }
+          organizationBillingUpdate {
+            allowed
+          }
+          teamAdmin {
+            allowed
+          }
+          teamCreate {
+            allowed
           }
         }
       }

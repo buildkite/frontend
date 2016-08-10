@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
 import Navigation from './layout/Navigation';
@@ -28,7 +29,65 @@ class Main extends React.Component {
   }
 }
 
-export default RelayBridge.createContainer(Main, {
-  organization: (props) => `organization/${props.params.organization}`,
-  viewer: () => `viewer`
+export default Relay.createContainer(Main, {
+  fragments: {
+    organization: () => Relay.QL`
+      fragment on Organization {
+        id
+        slug
+        name
+        agents {
+          count
+        }
+        permissions {
+          organizationUpdate {
+            allowed
+          }
+          organizationMemberCreate {
+            allowed
+          }
+          notificationServiceUpdate {
+            allowed
+          }
+          organizationBillingUpdate {
+            allowed
+          }
+          teamAdmin {
+            allowed
+          }
+          teamCreate {
+            allowed
+          }
+        }
+      }
+    `,
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        user {
+          name
+          avatar {
+            url
+          }
+        }
+        organizations(first: 100) {
+          edges {
+            node {
+              id
+              name
+              slug
+            }
+          }
+        }
+        unreadChangelogs: changelogs(read: false) {
+          count
+        }
+        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
+          count
+        }
+        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
+          count
+        }
+      }
+    `
+  }
 });
