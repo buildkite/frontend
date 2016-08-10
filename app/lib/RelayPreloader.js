@@ -34,7 +34,7 @@ class RelayPreloader {
     let concrete = QUERIES[id];
     if(!concrete) {
       throw "No concrete query defined for `" + id + "`";
-    };
+    }
 
     // Create a Relay-readable GraphQL query with the variables loaded in
     let query = fromGraphQL.Query(concrete);
