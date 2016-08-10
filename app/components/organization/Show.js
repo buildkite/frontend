@@ -36,6 +36,7 @@ class Show extends React.Component {
       })
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
+    params: React.PropTypes.object.isRequired,
     team: React.PropTypes.string
   };
 
