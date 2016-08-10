@@ -46,13 +46,14 @@ window["Webpack"] = {
     "components/organization/AgentsCount": require("./components/organization/AgentsCount").default,
     "components/organization/SettingsMenu": require("./components/organization/SettingsMenu").default,
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
-    "components/PipelinesWelcome": require("./components/PipelinesWelcome").default,
+    "components/PipelinesWelcome": require("./components/organization/Welcome").default,
     "components/pipeline/Teams": require("./components/pipeline/Teams").default,
     "stores/PusherStore": require("./stores/PusherStore").default,
     "lib/friendlyRelativeTime": require("./lib/friendlyRelativeTime").default,
     "lib/Logger": require("./lib/Logger").default,
     "lib/Emoji": require("./lib/Emoji").default,
     "lib/RelayBridge": require("./lib/RelayBridge").default,
+    "lib/RelayPreloader": require("./lib/RelayPreloader").default,
     "lib/jobCommandOneliner": require("./lib/jobCommandOneliner").default
   },
 

@@ -9,6 +9,7 @@ import SectionLoader from '../shared/SectionLoader';
 
 import Pipeline from './Pipeline';
 import Teams from './Teams';
+import Welcome from './Welcome';
 
 class Show extends React.Component {
   static propTypes = {
@@ -35,6 +36,7 @@ class Show extends React.Component {
       })
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
+    params: React.PropTypes.object.isRequired,
     team: React.PropTypes.string
   };
 
@@ -120,7 +122,7 @@ class Show extends React.Component {
         return nodes;
       } else {
         return (
-          <p className="dark-gray">No pipelines to see here!</p>
+          <Welcome organization={this.props.params.organization} />
         );
       }
     } else {
