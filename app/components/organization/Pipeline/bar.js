@@ -4,7 +4,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 
 import BuildTooltip from './build-tooltip';
 
-class Bar extends React.Component {
+export default class Bar extends React.Component {
   static propTypes = {
     href: React.PropTypes.string,
     color: React.PropTypes.string.isRequired,
@@ -61,14 +61,3 @@ class Bar extends React.Component {
     this.setState({hover: false})
   }
 }
-
-
-export default Relay.createContainer(Bar, {
-  fragments: {
-    build: () => Relay.QL`
-      fragment on Build {
-        ${BuildTooltip.getFragment('build')}
-      }
-    `
-  }
-});

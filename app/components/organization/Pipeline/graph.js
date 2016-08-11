@@ -4,6 +4,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 
 import Bar from './bar';
+import BuildTooltip from './build-tooltip';
 
 const PASSED_COLOR = "#B0DF21";
 const PASSED_COLOR_HOVER = "#669611";
@@ -173,7 +174,7 @@ export default Relay.createContainer(Graph, {
               url
               startedAt
               finishedAt
-              ${Bar.getFragment('build')}
+              ${BuildTooltip.getFragment('build')}
             }
           }
         }
