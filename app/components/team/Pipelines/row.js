@@ -48,7 +48,7 @@ class Row extends React.Component {
     var transactions = this.props.relay.getPendingTransactions(this.props.teamPipeline);
     var transaction = transactions ? transactions[0] : null;
 
-    if(transaction && transaction.getStatus() == "COMMITTING") {
+    if(transaction) {
       return (
         <Spinner width={18} height={18} color={false}/>
       );
