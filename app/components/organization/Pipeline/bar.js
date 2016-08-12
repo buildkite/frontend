@@ -28,7 +28,6 @@ export default class Bar extends React.Component {
         <a href={this.props.href}
           className="border-box inline-block absolute color-inherit"
           style={{ height: "100%", left: this.props.left, width: this.props.width, bottom: 0 }}
-          ref={c => this.barLinkNode = c}
           onMouseOver={this.handleMouseOver}
           onMouseOut={this.handleMouseOut}>
           <div style={{ height: this.props.height, width: this.props.width - 1, left: 0, bottom: 0, backgroundColor: this.backgroundColor() }} className="border-box inline-block absolute animation-height" />
