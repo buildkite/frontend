@@ -69,4 +69,4 @@ echo "--- :s3: Uploading manifest.json and renaming to $MANIFEST_NAME"
 
 # The manifest.json file won't get uploaded to the webpack SHA1'd folder beacuse
 # the name already includes the build commit which is always unique.
-aws s3 sync --region "us-east-1" --acl "public-read" "dist/manifest.json" "$S3_URL$MANIFEST_NAME"
+aws s3 cp --region "us-east-1" --acl "public-read" "dist/manifest.json" "$S3_URL$MANIFEST_NAME"
