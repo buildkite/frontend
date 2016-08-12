@@ -1,5 +1,4 @@
 import React from 'react';
-import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import BuildTooltip from './build-tooltip';
