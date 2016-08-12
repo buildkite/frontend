@@ -13,7 +13,6 @@ class BuildState extends React.Component {
   };
 
   render() {
-    let strokeWidth = this.props.size == 'regular' ? 2 : 1;
     let size = this.props.size == 'regular' ? 32 : 20;
     let classes = classNames(this.props.className, {
       "animation-spin": this.props.state == "running",
@@ -22,17 +21,17 @@ class BuildState extends React.Component {
 
     return (
       <svg width={size} height={size} viewBox="0 0 32 32" className={classes}>
-        {this.renderPaths(strokeWidth)}
+        {this.renderPaths()}
       </svg>
     )
   }
 
-  renderPaths(strokeWidth) {
+  renderPaths() {
     switch (this.props.state) {
       case 'failed':
       case 'canceled':
         return (
-          <g transform="translate(-219.000000, -19.000000)" stroke="#F83F23" strokeWidth={strokeWidth}>
+          <g transform="translate(-219.000000, -19.000000)" stroke="#F83F23" strokeWidth="2">
             <g transform="translate(220.000000, 20.000000)">
               <ellipse fill="none" cx="15" cy="15" rx="15" ry="15"></ellipse>
               <g transform="translate(9.000000, 9.000000)">
@@ -46,17 +45,17 @@ class BuildState extends React.Component {
       case 'passed':
         return (
           <g>
-            <circle cx="16" cy="16" r="15" fill="none" stroke="#90c73e" strokeMiterlimit="10" strokeWidth={strokeWidth}/>
-            <polyline points="10 17.61 14.38 20.81 21 11.41" fill="none" stroke="#90c73e" strokeMiterlimit="10" strokeWidth={strokeWidth}/>
+            <circle cx="16" cy="16" r="15" fill="none" stroke="#90c73e" strokeMiterlimit="10" strokeWidth="2">
+            <polyline points="10 17.61 14.38 20.81 21 11.41" fill="none" stroke="#90c73e" strokeMiterlimit="10" strokeWidth="2"/>
           </g>
         );
 
       case 'paused':
         return (
           <g>
-            <circle cx="16" cy="16" r="15" fill="none" stroke="#90c73e" strokeWidth={strokeWidth}/>
-            <path d="M13,21V11" fill="none" stroke="#90c73e" strokeWidth={strokeWidth}/>
-            <path d="M19,21V11" fill="none" stroke="#90c73e" strokeWidth={strokeWidth}/>
+            <circle cx="16" cy="16" r="15" fill="none" stroke="#90c73e" strokeWidth="2"/>
+            <path d="M13,21V11" fill="none" stroke="#90c73e" strokeWidth="2"/>
+            <path d="M19,21V11" fill="none" stroke="#90c73e" strokeWidth="2"/>
           </g>
         );
 
@@ -69,9 +68,9 @@ class BuildState extends React.Component {
               </mask>
             </defs>
             <g>
-              <circle cx="16" cy="16" r="15" fill="none" stroke="#fdba12" strokeWidth={strokeWidth}/>
+              <circle cx="16" cy="16" r="15" fill="none" stroke="#fdba12" strokeWidth="2"/>
               <g mask="url(#a)">
-                <path d="M16,22a6,6,0,1,0-6-6A6,6,0,0,0,16,22Z" fill="none" stroke="#fdba12" strokeWidth={strokeWidth}/>
+                <path d="M16,22a6,6,0,1,0-6-6A6,6,0,0,0,16,22Z" fill="none" stroke="#fdba12" strokeWidth="2"/>
               </g>
             </g>
           </g>
@@ -86,9 +85,9 @@ class BuildState extends React.Component {
               </mask>
             </defs>
             <g>
-              <circle cx="16" cy="16" r="15" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
+              <circle cx="16" cy="16" r="15" fill="none" stroke="#cdcccc" strokeWidth="2"/>
               <g mask="url(#a)">
-                <circle cx="16" cy="16" r="6" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
+                <circle cx="16" cy="16" r="6" fill="none" stroke="#cdcccc" strokeWidth="2"/>
               </g>
             </g>
           </g>
@@ -97,8 +96,8 @@ class BuildState extends React.Component {
       case 'pending':
         return (
           <g>
-            <circle cx="16" cy="16" r="15" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
-            <path d="M11,16H21" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
+            <circle cx="16" cy="16" r="15" fill="none" stroke="#cdcccc" strokeWidth="2"/>
+            <path d="M11,16H21" fill="none" stroke="#cdcccc" strokeWidth="2"/>
           </g>
         );
     }
