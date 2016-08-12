@@ -35,10 +35,10 @@ export default class Bar extends React.Component {
         </a>
       );
     } else {
-      let style = { backgroundColor: this.backgroundColor(), height: this.props.height, left: this.props.left, width: this.props.width, bottom: 0 };
-
       return (
-        <div className="border-box inline-block absolute animation-height" style={style} />
+        <div
+          className="border-box inline-block absolute animation-height"
+          style={{ backgroundColor: this.backgroundColor(), height: this.props.height, left: this.props.left, width: this.props.width - 1, bottom: 0 }} />
       );
     }
   }
