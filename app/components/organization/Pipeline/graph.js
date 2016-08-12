@@ -3,13 +3,17 @@ import Relay from 'react-relay';
 import moment from 'moment';
 import classNames from 'classnames';
 
-import Build from './build';
 import Bar from './bar';
+import BuildTooltip from './build-tooltip';
 
 const PASSED_COLOR = "#B0DF21";
+const PASSED_COLOR_HOVER = "#669611";
 const RUNNING_COLOR = "#FFBA03";
-const FAILED_COLOR = "#F73F23";
+const RUNNING_COLOR_HOVER = "#DE8F0C";
+const FAILED_COLOR = "#F83F23";
+const FAILED_COLOR_HOVER = "#AA0A12";
 const PENDING_COLOR = "#DDDDDD";
+const PENDING_COLOR_HOVER = "#DDDDDD";
 
 const MAXIMUM_NUMBER_OF_BUILDS = 30;
 
@@ -81,9 +85,9 @@ class Graph extends React.Component {
         let duration = this.durationForBuild(buildEdge.node);
         if(duration > maximumDuration) maximumDuration = duration;
 
-        bars[MAXIMUM_NUMBER_OF_BUILDS - i - 1] = { color: this.colorForBuild(buildEdge.node), duration: duration, href: buildEdge.node.url, build: buildEdge.node };
+        bars[MAXIMUM_NUMBER_OF_BUILDS - i - 1] = { color: this.colorForBuild(buildEdge.node), hoverColor: this.hoverColorForBuild(buildEdge.node), duration: duration, href: buildEdge.node.url, build: buildEdge.node };
       } else {
-        bars[MAXIMUM_NUMBER_OF_BUILDS - i - 1] = { color: PENDING_COLOR, duration: 0 };
+        bars[MAXIMUM_NUMBER_OF_BUILDS - i - 1] = { color: PENDING_COLOR, hoverColor: PENDING_COLOR_HOVER, duration: 0 };
       }
     }
 
@@ -93,7 +97,7 @@ class Graph extends React.Component {
       let height = (bar.duration / maximumDuration) * GRAPH_HEIGHT;
       if(height < BAR_HEIGHT_MINIMUM) height = BAR_HEIGHT_MINIMUM;
 
-      return <Bar key={index} left={left} color={bar.color} width={BAR_WIDTH} height={height} href={bar.href} build={bar.build} />
+      return <Bar key={index} left={left} color={bar.color} hoverColor={bar.hoverColor} width={BAR_WIDTH_WITH_SEPERATOR} height={height} href={bar.href} build={bar.build || null} />
     })
   }
 
@@ -114,6 +118,16 @@ class Graph extends React.Component {
       return PASSED_COLOR;
     } else {
       return FAILED_COLOR;
+    }
+  }
+
+  hoverColorForBuild(build) {
+    if(build.state == "running") {
+      return RUNNING_COLOR_HOVER;
+    } else if (build.state == "passed" ) {
+      return PASSED_COLOR_HOVER;
+    } else {
+      return FAILED_COLOR_HOVER;
     }
   }
 
@@ -160,7 +174,7 @@ export default Relay.createContainer(Graph, {
               url
               startedAt
               finishedAt
-              ${Build.getFragment('build')}
+              ${BuildTooltip.getFragment('build')}
             }
           }
         }
