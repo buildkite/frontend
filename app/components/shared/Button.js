@@ -26,6 +26,9 @@ class Button extends React.Component {
     href: React.PropTypes.string,
     outline: React.PropTypes.bool,
     style: React.PropTypes.object,
+    onClick: React.PropTypes.func,
+    tabIndex: React.PropTypes.number,
+    type: React.PropTypes.string,
     loading: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.bool
@@ -66,7 +69,10 @@ class Button extends React.Component {
     let props = {
       className: classNames("btn nowrap", this.props.className, themes[this.props.theme], { "is-disabled": !!this.props.loading }),
       disabled: !!this.props.loading,
-      style: this.props.style
+      style: this.props.style,
+      onClick: this.props.onClick,
+      tabIndex: this.props.tabIndex,
+      type: this.props.type
     };
 
     // If we've defined a link instead of a href (a link is used to navigate
