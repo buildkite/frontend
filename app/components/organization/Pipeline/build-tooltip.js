@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 
+import BuildState from '../../icons/BuildState';
 import Emojify from '../../shared/Emojify';
 import UserAvatar from "../../shared/UserAvatar";
 import Media from "../../shared/Media";
@@ -14,14 +15,12 @@ class BuildTooltip extends React.Component {
     left: React.PropTypes.number.isRequired,
     build: React.PropTypes.shape({
       createdBy: React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired,
-        avatar: React.PropTypes.shape({
-          url: React.PropTypes.string
-        }).isRequired
+        name: React.PropTypes.string.isRequired
       }),
       message: React.PropTypes.string,
       startedAt: React.PropTypes.string,
-      finishedAt: React.PropTypes.string
+      finishedAt: React.PropTypes.string,
+      state: React.PropTypes.string.isRequired
     }).isRequired
   };
 
@@ -33,34 +32,23 @@ class BuildTooltip extends React.Component {
     if(this.props.visible) {
       return (
         <div>
-          <div className="bg-white rounded shadow border border-gray p2 block absolute pointer-events-none z2" style={{ left: this.props.left, top: this.props.top, width: 230 }}>
+          <div className="bg-white rounded shadow border border-gray px2 py2 block absolute pointer-events-none z2 h6 line-height-1" style={{ left: this.props.left, top: this.props.top, width: 270 }}>
             <img src={require('../../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" className="absolute pointer-events-none" style={{top: -20, left: 7}} />
-            <Media align="top">
-              <Media.Image className="mr2" style={{width: 30, height: 30}} >
-                <UserAvatar user={this.props.build.createdBy} className="fit" />
-              </Media.Image>
-              <Media.Description className="truncate">
-                <Emojify className="block line-height-1 truncate" text={this.props.build.message} />
-                <small className="dark-gray">{this.renderTime()}</small>
-              </Media.Description>
-            </Media>
+            <div className="flex">
+              <div className="flex-none mr2 center" style={{ width: 30 }}>
+                <BuildState state={this.props.build.state} size="small" />
+                <div className="dark-gray mt1">3s</div>
+              </div>
+              <div>
+                <div><Emojify text={this.props.build.message}/></div>
+                <div className="mt1 dark-gray">{this.props.build.createdBy.name} {this.props.build.startedAt}</div>
+              </div>
+            </div>
           </div>
         </div>
       );
     } else {
       return <div></div>
-    }
-  }
-
-  renderTime() {
-    if(this.props.build.startedAt || this.props.build.finishedAt) {
-      return (
-        <FriendlyTime value={this.props.build.finishedAt || this.props.build.startedAt} />
-      )
-    } else {
-      return (
-        <div>something</div>
-      )
     }
   }
 }
