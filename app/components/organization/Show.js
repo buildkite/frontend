@@ -110,9 +110,11 @@ class Show extends React.Component {
             );
           }
 
-          nodes.push(
-            <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{height: 1}} />
-          );
+          if (remainder.length > 0) {
+            nodes.push(
+              <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{height: 1}} />
+            );
+          }
         }
 
         for(let pipeline of remainder) {
