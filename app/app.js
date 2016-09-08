@@ -108,6 +108,7 @@ window["initializeReactRouter"] = function() {
   const OrganizationShow = require("./components/organization/Show").default;
   const OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
   const AgentIndex = require("./components/agent/Index").default;
+  const AgentShow = require("./components/agent/Show").default;
   const TeamIndex = require("./components/team/Index").default;
   const TeamNew = require("./components/team/New").default;
   const TeamShow = require("./components/team/Show").default;
@@ -134,6 +135,12 @@ window["initializeReactRouter"] = function() {
   const TeamQuery = () => Relay.QL`
     query {
       team(slug: $slug)
+    }
+  `;
+
+  const AgentQuery = () => Relay.QL`
+    query {
+      agent(slug: $slug)
     }
   `;
 
@@ -171,6 +178,13 @@ window["initializeReactRouter"] = function() {
     };
   };
 
+  const prepareAgentParams = (params) => {
+    return {
+      ...params,
+      slug: [params.organization, params.agent].join("/")
+    };
+  };
+
   const preparePipelineListParams = (params, { location }) => {
     return {
       ...params,
@@ -184,11 +198,12 @@ window["initializeReactRouter"] = function() {
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery, build: BuildQuery }} prepareParams={prepareBuildParams} />
 
       <Route path="/" component={Main}>
-        <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery }} prepareParams={preparePipelineListParams}  render={renderSectionLoading} />
+        <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery }} prepareParams={preparePipelineListParams} render={renderSectionLoading} />
 
         <Route path="organizations/:organization">
           <Route path="agents">
             <IndexRoute component={AgentIndex} queries={{ organization: OrganizationQuery }} />
+            <Route path=":agent" component={AgentShow} queries={{ agent: AgentQuery }} prepareParams={prepareAgentParams} />
           </Route>
           <Route path="teams" component={OrganizationSettingsSection}>
             <IndexRoute component={TeamIndex} queries={{ organization: OrganizationQuery }} render={renderSectionLoading} />
