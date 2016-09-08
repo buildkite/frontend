@@ -11,7 +11,8 @@ import FriendlyTime from "../shared/FriendlyTime";
 class AgentShow extends React.Component {
   static propTypes = {
     agent: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired
+      name: React.PropTypes.string.isRequired,
+      connectionState: React.PropTypes.string.isRequired
     })
   };
 
