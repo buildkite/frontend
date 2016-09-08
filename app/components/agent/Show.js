@@ -119,6 +119,7 @@ class AgentShow extends React.Component {
         <PageWithContainer>
           <Panel>
             <Panel.Header>{agent.name}</Panel.Header>
+
             <Panel.Row>
               <div className="left right-align sm-col-3 p2">
                 Status
@@ -132,12 +133,13 @@ class AgentShow extends React.Component {
                 </small>
               </div>
             </Panel.Row>
+
             <Panel.Row>
               <div className="left right-align sm-col-3 p2">
                 Meta Data
               </div>
               <div className="left sm-col-9 p2">
-                <pre>{metaDataContent}</pre>
+                <pre className="black bg-gray border p1 m0">{metaDataContent}</pre>
                 <small className="dark-gray">You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue. See the <a href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a href="/docs/agent/queues">Agent Queues Documentation</a> for more details.</small>
               </div>
             </Panel.Row>
