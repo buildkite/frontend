@@ -111,7 +111,7 @@ class AgentShow extends React.Component {
 
     let metaDataContent = 'None';
     if (agent.metaData) {
-      metaDataContent = agent.metaData.join('\n');
+      metaDataContent = agent.metaData.sort().join('\n');
     }
 
     return (
