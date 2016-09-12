@@ -139,7 +139,7 @@ export default Relay.createContainer(AgentIndex, {
             }
           }
         }
-        agentTokens(first:500) {
+        agentTokens(first:500, revoked:false) {
           edges {
             node {
               description
