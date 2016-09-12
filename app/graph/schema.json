@@ -1122,7 +1122,7 @@
           "fields": [
             {
               "name": "agentTokens",
-              "description": null,
+              "description": "Returns agent access tokens for an Organization. By default returns all tokens, whether revoked or non-revoked.",
               "args": [
                 {
                   "name": "first",
@@ -1140,6 +1140,16 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "revoked",
+                  "description": "Filter tokens by whether they are revoked or not",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -1348,7 +1358,7 @@
                 },
                 {
                   "name": "team",
-                  "description": "Filter the pipleines to those in a paticular team",
+                  "description": "Filter the pipelines to those in a paticular team",
                   "type": {
                     "kind": "SCALAR",
                     "name": "ID",
