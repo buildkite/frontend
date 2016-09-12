@@ -10,7 +10,7 @@ import TeamForm from './Form';
 import TeamUpdateMutation from '../../mutations/TeamUpdate';
 import GraphQLErrors from '../../constants/GraphQLErrors';
 
-class New extends React.Component {
+class TeamEdit extends React.Component {
   static propTypes = {
     team: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -102,7 +102,7 @@ class New extends React.Component {
   };
 }
 
-export default Relay.createContainer(New, {
+export default Relay.createContainer(TeamEdit, {
   fragments: {
     team: () => Relay.QL`
       fragment on Team {

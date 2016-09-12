@@ -5,7 +5,7 @@ import Chooser from '../../shared/Chooser';
 import Media from '../../shared/Media';
 import Dropdown from '../../shared/Dropdown';
 
-class Role extends React.Component {
+class MemberRole extends React.Component {
   static displayName = "Team.Pipelines.Role";
 
   static propTypes = {
@@ -73,4 +73,4 @@ class Role extends React.Component {
   }
 }
 
-export default Role;
+export default MemberRole;

@@ -3,7 +3,7 @@ import React from 'react';
 import FormTextField from '../shared/FormTextField';
 import ValidationErrors from '../../lib/ValidationErrors';
 
-class Form extends React.Component {
+class TeamForm extends React.Component {
   static propTypes = {
     name: React.PropTypes.string,
     description: React.PropTypes.string,
@@ -47,4 +47,4 @@ class Form extends React.Component {
   };
 }
 
-export default Form
+export default TeamForm
