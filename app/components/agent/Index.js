@@ -29,7 +29,6 @@ class AgentIndex extends React.Component {
   render() {
     const tokenViewAllowed = this.props.organization.permissions.agentTokenView.allowed;
     const agentTokens = this.props.organization.agentTokens.edges;
-    console.debug(this.props.organization.permissions.agentTokenView.allowed, this.props.organization.agentTokens.edges);
 
     let pageContent = (
       <Panel>
@@ -56,9 +55,9 @@ class AgentIndex extends React.Component {
               {agentTokens.length > 1 &&
                 <Panel.Row>
                   {agentTokens.map((token, index) => (
-                    <div>
+                    <div key={index}>
                       <small className="dark-gray">{token.node.description}</small>
-                      <code key={index} className="red rounded border border-gray p1 monospace block">{token.node.token}</code>
+                      <code className="red rounded border border-gray p1 monospace block">{token.node.token}</code>
                     </div>
                   ))}
                 </Panel.Row>
