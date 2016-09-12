@@ -11,7 +11,7 @@ import RelayBridge from '../../lib/RelayBridge';
 import TeamCreateMutation from '../../mutations/TeamCreate';
 import GraphQLErrors from '../../constants/GraphQLErrors';
 
-class New extends React.Component {
+class TeamNew extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -102,7 +102,7 @@ class New extends React.Component {
   };
 }
 
-export default Relay.createContainer(New, {
+export default Relay.createContainer(TeamNew, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {

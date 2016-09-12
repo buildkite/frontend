@@ -8,7 +8,7 @@ import permissions from '../../lib/permissions';
 
 import Row from './Row';
 
-class Index extends React.Component {
+class TeamIndex extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -49,7 +49,7 @@ class Index extends React.Component {
   }
 }
 
-export default Relay.createContainer(Index, {
+export default Relay.createContainer(TeamIndex, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {

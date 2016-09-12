@@ -11,7 +11,7 @@ import Pipeline from './Pipeline';
 import Teams from './Teams';
 import Welcome from './Welcome';
 
-class Show extends React.Component {
+class OrganizationShow extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -142,7 +142,7 @@ class Show extends React.Component {
   };
 }
 
-export default Relay.createContainer(Show, {
+export default Relay.createContainer(OrganizationShow, {
   initialVariables: {
     team: null,
     isMounted: false

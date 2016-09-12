@@ -8,7 +8,7 @@ import Emojify from '../shared/Emojify';
 const maxAvatars = 4;
 const avatarSize = 30;
 
-class Row extends React.Component {
+class TeamRow extends React.Component {
   static propTypes = {
     team: React.PropTypes.shape({
       id: React.PropTypes.string.isRequired,
@@ -103,7 +103,7 @@ class Row extends React.Component {
   }
 }
 
-export default Relay.createContainer(Row, {
+export default Relay.createContainer(TeamRow, {
   initialVariables: {
     maxAvatars: maxAvatars
   },

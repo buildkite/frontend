@@ -13,7 +13,7 @@ import Members from './Members';
 import TeamDeleteMutation from '../../mutations/TeamDelete';
 import RelayBridge from '../../lib/RelayBridge';
 
-class Show extends React.Component {
+class TeamShow extends React.Component {
   static propTypes = {
     slug: React.PropTypes.string.isRequired,
     team: React.PropTypes.shape({
@@ -140,7 +140,7 @@ class Show extends React.Component {
   }
 }
 
-export default Relay.createContainer(Show, {
+export default Relay.createContainer(TeamShow, {
   initialVariables: {
     isEveryoneTeam: false
   },
