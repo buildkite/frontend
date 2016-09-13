@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from 'classnames';
 
-var _collapsableFormFieldCounter = 0;
+let _collapsableFormFieldCounter = 0;
 
 class CollapsableFormField extends React.Component {
   static propTypes = {
@@ -16,15 +16,15 @@ class CollapsableFormField extends React.Component {
   };
 
   render() {
-    let containerClasses = classNames("CollapsableFormComponent form-group", {
+    const containerClasses = classNames("CollapsableFormComponent form-group", {
       "CollapsableFormComponent--collapsed": this.state.collapsed
     });
 
-    let contentClasses = classNames("CollapsableFormComponent__content collapse", {
+    const contentClasses = classNames("CollapsableFormComponent__content collapse", {
       "in": !this.state.collapsed
     });
 
-    let buttonClasses = classNames("CollapseExpandLinkComponent twbs-btn twbs-btn-link", {
+    const buttonClasses = classNames("CollapseExpandLinkComponent twbs-btn twbs-btn-link", {
       "collapsed": this.state.collapsed
     });
 
@@ -32,7 +32,7 @@ class CollapsableFormField extends React.Component {
       <div className={containerClasses}>
         <button type="button" className={buttonClasses} data-toggle="collapse" data-target={"#" + this.state.id} aria-expanded={!this.state.collapsed} aria-controls={this.state.id} style={{ paddingLeft: 0 }}>
           <strong className="semi-bold">{this.props.label}</strong>
-          <i className="fa fa-angle-down" style={{ marginLeft: 6 }}></i>
+          <i className="fa fa-angle-down" style={{ marginLeft: 6 }} />
         </button>
         <div className={contentClasses} id={this.state.id} aria-expanded={!this.state.collapsed}>
           {this.props.children}

@@ -3,17 +3,17 @@ var webpack = require("webpack");
 var AssetsPlugin = require('assets-webpack-plugin');
 
 // Ensure a FRONTEND_HOST is setup since we embed it in the assets.json file
-if(!process.env.FRONTEND_HOST) {
+if (!process.env.FRONTEND_HOST) {
   throw "No FRONTEND_HOST set";
 }
 
 // Ensure a NODE_ENV is also present
-if(!process.env.NODE_ENV) {
+if (!process.env.NODE_ENV) {
   throw "No NODE_ENV set";
 }
 
 // The FRONTEND_HOST must end with a /
-if(process.env.FRONTEND_HOST.slice(-1) != "/") {
+if (process.env.FRONTEND_HOST.slice(-1) != "/") {
   throw "FRONTEND_HOST must end with a /";
 }
 
@@ -23,23 +23,23 @@ if(process.env.FRONTEND_HOST.slice(-1) != "/") {
 // Also, if we used hashes in development, we'd be forever filling up our dist
 // folder with every hashed version of files we've changed (webpack doesn't
 // clean up after itself)
-var filenameFormat
-var chunkFilename
-if(process.env.NODE_ENV == "production") {
-  filenameFormat = "[name]-[chunkhash].js"
-  chunkFilename = "[id]-[chunkhash].js"
+var filenameFormat;
+var chunkFilename;
+if (process.env.NODE_ENV == "production") {
+  filenameFormat = "[name]-[chunkhash].js";
+  chunkFilename = "[id]-[chunkhash].js";
 } else {
-  filenameFormat = "[name].js"
-  chunkFilename = "[id].js"
+  filenameFormat = "[name].js";
+  chunkFilename = "[id].js";
 }
 
 // Toggle between the devtool if on prod/dev since cheap-module-eval-source-map
 // is way faster for development.
-var devTool
-if(process.env.NODE_ENV == "production") {
-  devTool = "source-map"
+var devTool;
+if (process.env.NODE_ENV == "production") {
+  devTool = "source-map";
 } else {
-  devTool = "cheap-module-eval-source-map"
+  devTool = "cheap-module-eval-source-map";
 }
 
 var plugins = [
@@ -49,7 +49,7 @@ var plugins = [
   // Split emojis, vendor javascript up. The loader JS doesn't have any modules
   // inside it, but since it's the last one, that's where Webpack will dump all
   // of it's bootstrapping JS. This file will change on every compilation.
-  new webpack.optimize.CommonsChunkPlugin({ names: [ "emojis", "vendor", "loader" ], chunks: [ "emojis", "vendor", "loader" ] }),
+  new webpack.optimize.CommonsChunkPlugin({ names: ["emojis", "vendor", "loader"], chunks: ["emojis", "vendor", "loader"] }),
 
   // After Webpack compilation, spit out a 'manifest.json' file with a mapping
   // of file name, to compiled name.
@@ -82,10 +82,10 @@ var plugins = [
       'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }
   })
-]
+];
 
 // If we're building for production, minify the JS
-if(process.env.NODE_ENV == "production") {
+if (process.env.NODE_ENV == "production") {
   // Need this plugin to ensure consistent module ordering so we can have
   // determenistic filename hashes
   plugins.push(new webpack.optimize.OccurenceOrderPlugin(true));
@@ -113,7 +113,7 @@ module.exports = {
       "moment", "object-assign", "eventemitter3", "pusher-js",
       "whatwg-fetch", "es6-error", "escape-html", "react-addons-update",
       "react-document-title", "bugsnag-js", "deepmerge", "react-addons-pure-render-mixin"],
-    emojis: [ path.join(__dirname, './../app/emojis/buildkite.js'), path.join(__dirname, './../app/emojis/apple.js') ],
+    emojis: [path.join(__dirname, './../app/emojis/buildkite.js'), path.join(__dirname, './../app/emojis/apple.js')],
     app: path.join(__dirname, './../app/app.js'),
     public: path.join(__dirname, './../app/public.js')
   },
@@ -152,7 +152,7 @@ module.exports = {
 
   plugins: plugins,
 
-  postcss: function (webpack) {
+  postcss: function(webpack) {
     return [
       require("postcss-import")({ addDependencyTo: webpack }),
       // require("postcss-url")(),
@@ -164,6 +164,6 @@ module.exports = {
       // just use css-loader option that already use cssnano under the hood
       require("postcss-browser-reporter")(),
       require("postcss-reporter")()
-    ]
+    ];
   }
-}
+};

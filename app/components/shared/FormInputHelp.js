@@ -7,7 +7,7 @@ class FormInputHelp extends React.Component {
 
   render() {
     return (
-      <p className="mt1 mb0 p0 dark-gray" dangerouslySetInnerHTML={{__html: this.props.html}} />
+      <p className="mt1 mb0 p0 dark-gray" dangerouslySetInnerHTML={{ __html: this.props.html }} />
     );
   }
 }

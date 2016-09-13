@@ -13,24 +13,24 @@ class SettingsMenu extends React.Component {
   };
 
   render() {
-    let organizations = []
+    const organizations = [];
 
     this.props.viewer.organizations.edges.forEach((organization) => {
-      if(organization.node.permissions.organizationUpdate.allowed) {
+      if (organization.node.permissions.organizationUpdate.allowed) {
         organizations.push(
           <Menu.Button key={organization.node.slug} href={`/organizations/${organization.node.slug}/settings`}>{organization.node.name}</Menu.Button>
-        )
+        );
       }
     });
 
     let organizationsMenu;
-    if(organizations.length > 0) {
+    if (organizations.length > 0) {
       organizationsMenu = (
         <Menu>
           <Menu.Header>Organization Settings</Menu.Header>
           {organizations}
         </Menu>
-      )
+      );
     }
 
     return (

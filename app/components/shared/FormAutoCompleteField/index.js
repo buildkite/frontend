@@ -21,15 +21,15 @@ class FormAutoCompleteField extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.items) {
-      var found = false;
+    if (nextProps.items) {
+      let found = false;
 
-      if(this.state.selected) {
+      if (this.state.selected) {
         // See if the currently selected value is in the list of new props, but
         // making sure to skip error message components, since they have no
         // item id.
         nextProps.items.forEach((item) => {
-          if(!this.isErrorMessageComponent(item) && item[1].id == this.state.selected.id) {
+          if (!this.isErrorMessageComponent(item) && item[1].id == this.state.selected.id) {
             found = true;
           }
         });
@@ -37,12 +37,12 @@ class FormAutoCompleteField extends React.Component {
 
       // Ah, not found! Then we should just select the first one (if there is
       // one of course)
-      if(!found && nextProps.items[0]) {
+      if (!found && nextProps.items[0]) {
         this.setState({ selected: nextProps.items[0][1] });
       }
 
       // We can turn off searching now since we've got some items
-      if(this.state.searching) {
+      if (this.state.searching) {
         this.setState({ searching: false });
       }
 
@@ -76,37 +76,38 @@ class FormAutoCompleteField extends React.Component {
   render() {
     return (
       <div className="relative">
-        <div className="absolute pointer-events-none" style={{left: 8, top: 5}}>
+        <div className="absolute pointer-events-none" style={{ left: 8, top: 5 }}>
           {this.renderIcon()}
         </div>
         <input type="input"
           className="input"
-          style={{paddingLeft: 28}}
-          ref={c => this._inputNode = c}
+          style={{ paddingLeft: 28 }}
+          ref={(c) => this._inputNode = c}
           onChange={this.handleInputChange}
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
-          placeholder={this.props.placeholder} />
+          placeholder={this.props.placeholder}
+        />
         {this.renderSuggestions()}
       </div>
     );
   }
 
   renderIcon() {
-    if(this.state.searching) {
+    if (this.state.searching) {
       return (
         <Spinner width={15} height={15} color={false}/>
       );
     } else {
       return (
-        <Icon icon="search" className="gray" style={{width: 15, height: 15}} />
+        <Icon icon="search" className="gray" style={{ width: 15, height: 15 }} />
       );
     }
   }
 
   renderSuggestions() {
-    let style = {
+    const style = {
       display: this.state.visible ? "block" : "none",
       marginTop: 3,
       zIndex: 999,
@@ -114,16 +115,16 @@ class FormAutoCompleteField extends React.Component {
       lineHeight: 1.4
     };
 
-    let items = this.props.items;
-    let suggestions = items.map((item, index) => {
-      if(this.isErrorMessageComponent(item)) {
+    const items = this.props.items;
+    const suggestions = items.map((item, index) => {
+      if (this.isErrorMessageComponent(item)) {
         return (
           <div key={index}>
             {item}
           </div>
         );
       } else {
-        let isSelected = item[1] && this.state.selected && (item[1].id == this.state.selected.id);
+        const isSelected = item[1] && this.state.selected && (item[1].id == this.state.selected.id);
 
         // `selected` needs to always return a boolean as it's a requirement of
         // the Suggestion component
@@ -138,7 +139,8 @@ class FormAutoCompleteField extends React.Component {
             selected={!!isSelected}
             suggestion={item[1]}
             onMouseOver={this.handleSuggestionMouseOver}
-            onMouseDown={this.handleSuggestionMouseDown}>{item[0]}</Suggestion>
+            onMouseDown={this.handleSuggestionMouseDown}
+          >{item[0]}</Suggestion>
         );
       }
     });
@@ -160,39 +162,39 @@ class FormAutoCompleteField extends React.Component {
 
   handleKeyDown = (e) => {
     // Do nothing if the list isn't visible
-    if(!this.state.visible) {
+    if (!this.state.visible) {
       return false;
     }
 
     // Find the index of the currently selected item
     let index;
-    for(var i = 0; i < this.props.items.length; i++) {
-      let item = this.props.items[i]
+    for (let i = 0; i < this.props.items.length; i++) {
+      const item = this.props.items[i];
 
       // Ensure we skip error message nodes since they have no associated
       // suggestion data
-      if(this.isErrorMessageComponent(item)) {
-        continue
+      if (this.isErrorMessageComponent(item)) {
+        continue;
       }
 
-      if(item[1].id == this.state.selected.id) {
+      if (item[1].id == this.state.selected.id) {
         index = i;
-        break
+        break;
       }
     }
 
     // If it couldn't be found for some reason, bail
-    if(index == null) {
+    if (index == null) {
       return false;
     }
 
     // If they've pressed the down key, progress to the next item in the list.
-    if(e.keyCode == 40) {
+    if (e.keyCode == 40) {
       e.preventDefault();
 
       // If the next index doesn't exist, go back to the first
-      var next = index + 1;
-      if(this.props.items.length == next) {
+      let next = index + 1;
+      if (this.props.items.length == next) {
         next = 0;
       }
 
@@ -203,12 +205,12 @@ class FormAutoCompleteField extends React.Component {
     }
 
     // If they've pressed the up key, progress to the next item in the list.
-    if(e.keyCode == 38) {
+    if (e.keyCode == 38) {
       e.preventDefault();
 
       // If the previous index doesn't exist, go back to the first
-      var previous = index - 1;
-      if(previous == -1) {
+      let previous = index - 1;
+      if (previous == -1) {
         previous = this.props.items.length - 1;
       }
 
@@ -219,7 +221,7 @@ class FormAutoCompleteField extends React.Component {
     }
 
     // If they've hit enter, select the item
-    if(e.keyCode == 13) {
+    if (e.keyCode == 13) {
       e.preventDefault();
       this.selectItem(this.state.selected);
       return;
@@ -228,7 +230,7 @@ class FormAutoCompleteField extends React.Component {
 
   handleFocus = () => {
     // Only re-show the list if there's something to show
-    if(this.props.items && this.props.items.length > 0) {
+    if (this.props.items && this.props.items.length > 0) {
       this.setState({ visible: true });
     }
   };
@@ -244,10 +246,10 @@ class FormAutoCompleteField extends React.Component {
   handleInputChange = (e) => {
     // Get a copy of the target otherwise the event will be cleared between now
     // and when the timeout happens
-    let target = e.target;
+    const target = e.target;
 
     // If a timeout is already present, clear it since the user is still typing
-    if(this._timeout) {
+    if (this._timeout) {
       clearTimeout(this._timeout);
     }
 
@@ -263,4 +265,4 @@ class FormAutoCompleteField extends React.Component {
 
 FormAutoCompleteField.ErrorMessage = ErrorMessage;
 
-export default FormAutoCompleteField
+export default FormAutoCompleteField;

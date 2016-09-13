@@ -4,7 +4,7 @@ class TeamUpdate extends Relay.Mutation {
   static fragments = {
     team: () => Relay.QL`
       fragment on Team {
-	id
+        id
       }
     `
   }
@@ -12,7 +12,7 @@ class TeamUpdate extends Relay.Mutation {
   getMutation() {
     return Relay.QL`
       mutation {
-	teamUpdate
+        teamUpdate
       }
     `;
   }
@@ -20,11 +20,11 @@ class TeamUpdate extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on TeamUpdatePayload {
-	team {
+        team {
           name
           slug
           description
-	}
+        }
       }
     `;
   }
@@ -33,7 +33,7 @@ class TeamUpdate extends Relay.Mutation {
     return [{
       type: 'FIELDS_CHANGE',
       fieldIDs: {
-	team: this.props.team.id
+        team: this.props.team.id
       }
     }];
   }

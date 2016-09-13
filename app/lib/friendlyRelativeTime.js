@@ -1,17 +1,17 @@
 import moment from 'moment';
 
 function isToday(momentTime) {
-  let now = moment();
-  return momentTime.isSame(now, 'day')
+  const now = moment();
+  return momentTime.isSame(now, 'day');
 }
 
 function isYesterday(momentTime) {
-  let yesterday = moment().subtract(1, 'days');
+  const yesterday = moment().subtract(1, 'days');
   return momentTime.isSame(yesterday, 'day');
 }
 
 function isThisYear(momentTime) {
-  let now = moment();
+  const now = moment();
   return momentTime.isSame(now, 'year');
 }
 
@@ -22,9 +22,9 @@ function isThisYear(momentTime) {
 //   "Yesterday at 11:01 AM"
 //   "Wed 13 Nov at 1:00 AM"
 //   "Fri 1 Jan 2012 at 4:02 PM"
-export default function friendlyRelativeTime(time, options={}) {
-  let mTime = moment(time);
-  let timeString = options.seconds ? mTime.format('h:mm:s A') : mTime.format('h:mm A');
+export default function friendlyRelativeTime(time, options = {}) {
+  const mTime = moment(time);
+  const timeString = options.seconds ? mTime.format('h:mm:s A') : mTime.format('h:mm A');
 
   if (isToday(mTime)) {
     return `${ options.capitalized ? 'Today' : 'today' } at ${ timeString }`;

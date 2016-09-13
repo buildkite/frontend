@@ -10,7 +10,7 @@ class Section extends React.Component {
   };
 
   render() {
-    let classes = classNames("m3", this.props.className);
+    const classes = classNames("m3", this.props.className);
 
     return (
       <div className={classes}>

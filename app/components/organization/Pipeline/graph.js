@@ -23,7 +23,7 @@ const BAR_SEPERATOR_WIDTH = 1;
 const BAR_WIDTH_WITH_SEPERATOR = BAR_WIDTH + BAR_SEPERATOR_WIDTH;
 
 const GRAPH_HEIGHT = 35;
-const GRAPH_WIDTH = (BAR_WIDTH * MAXIMUM_NUMBER_OF_BUILDS) + ((MAXIMUM_NUMBER_OF_BUILDS * BAR_SEPERATOR_WIDTH)- 1);
+const GRAPH_WIDTH = (BAR_WIDTH * MAXIMUM_NUMBER_OF_BUILDS) + ((MAXIMUM_NUMBER_OF_BUILDS * BAR_SEPERATOR_WIDTH) - 1);
 
 class Graph extends React.Component {
   static propTypes = {
@@ -49,11 +49,11 @@ class Graph extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let thisLatestBuild = this.props.pipeline.builds.edges[0];
-    let nextLatestBuild = nextProps.pipeline.builds.edges[0];
+    const thisLatestBuild = this.props.pipeline.builds.edges[0];
+    const nextLatestBuild = nextProps.pipeline.builds.edges[0];
 
     // Set `shifting` if all the builds are being moved due to a new one coming in.
-    if((thisLatestBuild && nextLatestBuild) && thisLatestBuild.node.id != nextLatestBuild.node.id) {
+    if ((thisLatestBuild && nextLatestBuild) && thisLatestBuild.node.id != nextLatestBuild.node.id) {
       this._shifting = true;
     }
   }
@@ -65,25 +65,25 @@ class Graph extends React.Component {
   }
 
   render() {
-    let classes = classNames("align-bottom relative", {
+    const classes = classNames("align-bottom relative", {
       "animation-disable": this._shifting
     });
 
     return (
-      <div className={classes} style={{width: GRAPH_WIDTH, height: GRAPH_HEIGHT}}>{this.renderBars()}</div>
-    )
+      <div className={classes} style={{ width: GRAPH_WIDTH, height: GRAPH_HEIGHT }}>{this.renderBars()}</div>
+    );
   }
 
   renderBars() {
-    let bars = [];
+    const bars = [];
     let maximumDuration = 1; // 1 to avoid a `0/0` when we calculate percentages
 
     for (let i = 0; i < MAXIMUM_NUMBER_OF_BUILDS; i++) {
-      let buildEdge = this.props.pipeline.builds.edges[i];
+      const buildEdge = this.props.pipeline.builds.edges[i];
 
-      if(buildEdge) {
-        let duration = this.durationForBuild(buildEdge.node);
-        if(duration > maximumDuration) maximumDuration = duration;
+      if (buildEdge) {
+        const duration = this.durationForBuild(buildEdge.node);
+        if (duration > maximumDuration) {maximumDuration = duration;}
 
         bars[MAXIMUM_NUMBER_OF_BUILDS - i - 1] = { color: this.colorForBuild(buildEdge.node), hoverColor: this.hoverColorForBuild(buildEdge.node), duration: duration, href: buildEdge.node.url, build: buildEdge.node };
       } else {
@@ -92,17 +92,17 @@ class Graph extends React.Component {
     }
 
     return bars.map((bar, index) => {
-      let left = index * BAR_WIDTH_WITH_SEPERATOR;
+      const left = index * BAR_WIDTH_WITH_SEPERATOR;
 
       let height = (bar.duration / maximumDuration) * GRAPH_HEIGHT;
-      if(height < BAR_HEIGHT_MINIMUM) height = BAR_HEIGHT_MINIMUM;
+      if (height < BAR_HEIGHT_MINIMUM) {height = BAR_HEIGHT_MINIMUM;}
 
-      return <Bar key={index} left={left} color={bar.color} hoverColor={bar.hoverColor} width={BAR_WIDTH_WITH_SEPERATOR} height={height} href={bar.href} build={bar.build || null} />
-    })
+      return <Bar key={index} left={left} color={bar.color} hoverColor={bar.hoverColor} width={BAR_WIDTH_WITH_SEPERATOR} height={height} href={bar.href} build={bar.build || null} />;
+    });
   }
 
   durationForBuild(build) {
-    if(build.startedAt) {
+    if (build.startedAt) {
       // Passing `null` to moment will result in a blank moment instance, so if
       // there isn't a finishedAt, just switch to undefined.
       return moment(build.finishedAt || undefined).diff(moment(build.startedAt));
@@ -112,9 +112,9 @@ class Graph extends React.Component {
   }
 
   colorForBuild(build) {
-    if(build.state == "running") {
+    if (build.state == "running") {
       return RUNNING_COLOR;
-    } else if (build.state == "passed" ) {
+    } else if (build.state == "passed") {
       return PASSED_COLOR;
     } else {
       return FAILED_COLOR;
@@ -122,9 +122,9 @@ class Graph extends React.Component {
   }
 
   hoverColorForBuild(build) {
-    if(build.state == "running") {
+    if (build.state == "running") {
       return RUNNING_COLOR_HOVER;
-    } else if (build.state == "passed" ) {
+    } else if (build.state == "passed") {
       return PASSED_COLOR_HOVER;
     } else {
       return FAILED_COLOR_HOVER;
@@ -134,8 +134,8 @@ class Graph extends React.Component {
   toggleRenderInterval(buildEdges) {
     // See if there is a build running
     let running = false;
-    for(let edge of buildEdges) {
-      if(edge.node.state == "running") {
+    for (const edge of buildEdges) {
+      if (edge.node.state == "running") {
         running = true;
         break;
       }
@@ -143,8 +143,8 @@ class Graph extends React.Component {
 
     // If a build is running, ensure we have an interval setup that re-renders
     // the graph every second.
-    if(running) {
-      if(this._interval) {
+    if (running) {
+      if (this._interval) {
         // no-op, interval already running
       } else {
         this._interval = setInterval(() => {
@@ -153,7 +153,7 @@ class Graph extends React.Component {
       }
     } else {
       // Clear the interval now that nothing is running
-      if(this._interval) {
+      if (this._interval) {
         clearTimeout(this._interval);
         delete this._interval;
       }

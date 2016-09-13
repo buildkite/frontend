@@ -27,16 +27,17 @@ class Status extends React.Component {
   }
 
   render() {
-    let buildEdge = this.props.pipeline.builds.edges[0];
+    const buildEdge = this.props.pipeline.builds.edges[0];
 
-    if(buildEdge) {
-      let build = buildEdge.node;
+    if (buildEdge) {
+      const build = buildEdge.node;
 
       return (
         <a href={build.url}
-           className="block line-height-1 color-inherit relative"
-           onMouseOver={this.handleMouseOver}
-           onMouseOut={this.handleMouseOut}>
+          className="block line-height-1 color-inherit relative"
+          onMouseOver={this.handleMouseOver}
+          onMouseOut={this.handleMouseOut}
+        >
           <BuildState state={build.state} />
           <BuildTooltip build={build} visible={this.state.hover} left={-8} top={44} />
         </a>
@@ -49,11 +50,11 @@ class Status extends React.Component {
   }
 
   handleMouseOver = () => {
-    this.setState({hover: true})
+    this.setState({ hover: true });
   }
 
   handleMouseOut = () => {
-    this.setState({hover: false})
+    this.setState({ hover: false });
   }
 }
 

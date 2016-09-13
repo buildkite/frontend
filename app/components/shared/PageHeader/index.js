@@ -11,13 +11,13 @@ class PageHeader extends React.Component {
   };
 
   render() {
-    let children = React.Children.toArray(this.props.children);
+    const children = React.Children.toArray(this.props.children);
 
     // Filter out the menu from the children
-    let details = [];
+    const details = [];
     let menu;
     children.forEach((child) => {
-      if(child.type.displayName == "PageHeader.Menu") {
+      if (child.type.displayName == "PageHeader.Menu") {
         menu = child;
       } else {
         details.push(child);

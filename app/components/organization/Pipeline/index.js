@@ -47,7 +47,7 @@ class Pipeline extends React.Component {
 
   render() {
     return (
-      <div className="flex items-stretch border border-gray rounded mb2" style={{height: 82}}>
+      <div className="flex items-stretch border border-gray rounded mb2" style={{ height: 82 }}>
         <div className="flex flex-none items-center pl4 pr2">
           <Status pipeline={this.props.pipeline} />
         </div>
@@ -76,7 +76,7 @@ class Pipeline extends React.Component {
   }
 
   renderDescription() {
-    if(this.props.pipeline.description) {
+    if (this.props.pipeline.description) {
       return (
         <div className="truncate dark-gray" style={{ marginTop: 3 }}>
           {this.props.pipeline.description ? <Emojify className="h5 regular" text={this.props.pipeline.description} /> : null}
@@ -87,7 +87,7 @@ class Pipeline extends React.Component {
 
   renderActions() {
     // Make sure we're allowed to favorite this pipeline
-    let favoriteButton = permissions(this.props.pipeline.permissions).check(
+    const favoriteButton = permissions(this.props.pipeline.permissions).check(
       {
         allowed: "pipelineFavorite",
         render: () => {
@@ -98,7 +98,7 @@ class Pipeline extends React.Component {
           );
         }
       }
-    )
+    );
 
     return (
       <div className="flex flex-none flex-column justify-center ml-auto pr4">
@@ -108,7 +108,7 @@ class Pipeline extends React.Component {
   }
 
   handlePusherWebsocketEvent = (payload) => {
-    if(payload.event == "project:updated" && payload.graphql.id == this.props.pipeline.id) {
+    if (payload.event == "project:updated" && payload.graphql.id == this.props.pipeline.id) {
       this.props.relay.forceFetch();
     }
   };
@@ -118,7 +118,7 @@ class Pipeline extends React.Component {
   };
 
   handleFavoriteClick = () => {
-    var mutation = new PipelineFavoriteMutation({
+    const mutation = new PipelineFavoriteMutation({
       pipeline: this.props.pipeline,
       favorite: !this.props.pipeline.favorite
     });

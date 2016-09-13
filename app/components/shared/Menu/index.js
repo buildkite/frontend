@@ -10,12 +10,12 @@ class Menu extends React.Component {
   };
 
   render() {
-    let children = React.Children.toArray(this.props.children);
+    const children = React.Children.toArray(this.props.children);
 
     // See if the first child is a header component
     let header;
     let buttons;
-    if(children[0].type.displayName == "Menu.Header") {
+    if (children[0].type.displayName == "Menu.Header") {
       header = children[0];
       buttons = children.slice(1);
     } else {
@@ -23,7 +23,7 @@ class Menu extends React.Component {
     }
 
     // Toggle the presence of the top border in the list if there isn't a header
-    let classes = classNames("list-reset mt0 mb4 py1 border-gray", {
+    const classes = classNames("list-reset mt0 mb4 py1 border-gray", {
       "border rounded": !header,
       "border-bottom border-left border-right rounded-bottom": header
     });
@@ -35,7 +35,7 @@ class Menu extends React.Component {
           {buttons.map((b, i) => {
             return (
               <li key={i}>{b}</li>
-              )
+              );
           })}
         </ul>
       </div>

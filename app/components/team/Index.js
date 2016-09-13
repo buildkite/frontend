@@ -2,8 +2,8 @@ import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
-import Panel from '../shared/Panel'
-import Button from '../shared/Button'
+import Panel from '../shared/Panel';
+import Button from '../shared/Button';
 import permissions from '../../lib/permissions';
 
 import Row from './Row';
@@ -45,7 +45,7 @@ class TeamIndex extends React.Component {
         allowed: "teamCreate",
         render: () => <Button link={`/organizations/${this.props.organization.slug}/teams/new`} theme={"default"} outline={true}>Create a Team</Button>
       }
-    )
+    );
   }
 }
 

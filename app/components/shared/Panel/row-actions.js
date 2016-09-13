@@ -8,13 +8,13 @@ class RowActions extends React.Component {
   };
 
   render() {
-    let children = React.Children.toArray(this.props.children);
+    const children = React.Children.toArray(this.props.children);
 
     // Since this component is a wrapper for other components, we can't return
     // null if there aren't any children (otherwise React seems to bork).
     // Returning a <noscript> if there's nothing to render seems to do the
     // trick!
-    if(children.length > 0) {
+    if (children.length > 0) {
       return (
         <div className="flex items-center">
           {this.props.children}

@@ -44,14 +44,14 @@ class Members extends React.Component {
   }
 
   renderMembers() {
-    if(this.props.team.members.edges.length > 0) {
+    if (this.props.team.members.edges.length > 0) {
       return this.props.team.members.edges.map((edge) => {
         return (
           <Row key={edge.node.id} teamMember={edge.node} onRemoveClick={this.handleTeamMemberRemove} onRoleChange={this.handleRoleChange} relay={this.props.relay} />
-        )
-      })
+        );
+      });
     } else {
-      return <Panel.Section className="dark-gray">There are no users assigned to this team</Panel.Section>
+      return <Panel.Section className="dark-gray">There are no users assigned to this team</Panel.Section>;
     }
   }
 
@@ -65,7 +65,8 @@ class Members extends React.Component {
               onSelect={this.handleUserSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
               placeholder="Add user…"
-              ref={c => this._autoCompletor = c} />
+              ref={(c) => this._autoCompletor = c}
+            />
           </Panel.Section>
         )
       }
@@ -74,27 +75,27 @@ class Members extends React.Component {
 
   renderAutoCompleteSuggstions(search) {
     // First filter out any members that are already in this list
-    let suggestions = [];
+    const suggestions = [];
     this.props.team.organization.members.edges.forEach((member) => {
       let found = false;
       this.props.team.members.edges.forEach((edge) => {
-        if(edge.node.user.id == member.node.user.id) {
+        if (edge.node.user.id == member.node.user.id) {
           found = true;
         }
       });
 
-      if(!found) {
+      if (!found) {
         suggestions.push(member.node.user);
       }
     });
 
     // Either render the sugggestions, or show a "not found" error
-    if(suggestions.length > 0) {
+    if (suggestions.length > 0) {
       return suggestions.map((user) => {
-        return [ <User key={user.id} user={user} />, user ];
+        return [<User key={user.id} user={user} />, user];
       });
     } else if (search != "") {
-      return [ <FormAutoCompleteField.ErrorMessage key={"error"}>Could not find a user with name <em>{search}</em></FormAutoCompleteField.ErrorMessage> ];
+      return [<FormAutoCompleteField.ErrorMessage key={"error"}>Could not find a user with name <em>{search}</em></FormAutoCompleteField.ErrorMessage>];
     } else {
       return [];
     }

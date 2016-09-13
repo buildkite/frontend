@@ -18,8 +18,8 @@ class Pipeline extends React.Component {
   render() {
     // Toggle the `dark-gray` color on the repository text if this component is
     // in an auto completor and is highlighted.
-    let autoCompletorSuggestion = this.context.autoCompletorSuggestion;
-    let repositoryTextClasses = classNames({
+    const autoCompletorSuggestion = this.context.autoCompletorSuggestion;
+    const repositoryTextClasses = classNames({
       "dark-gray": !autoCompletorSuggestion || (autoCompletorSuggestion && !autoCompletorSuggestion.selected),
       "white": (autoCompletorSuggestion && autoCompletorSuggestion.selected)
     });

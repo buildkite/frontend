@@ -1,6 +1,6 @@
 // dasherize("SomeStringTesting") will return some-string-testing
 export default function dasherize(string) {
-  if(string) {
+  if (string) {
     return string.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/\-+/g, "-").replace(/^\-/g, "").replace(/\-$/, "");
   }
 }

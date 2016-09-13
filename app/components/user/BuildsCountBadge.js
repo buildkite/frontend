@@ -38,7 +38,7 @@ class BuildsCountBadge extends React.Component {
   }
 
   _renderBadge() {
-    var count = this.state.runningBuildsCount + this.state.scheduledBuildsCount;
+    const count = this.state.runningBuildsCount + this.state.scheduledBuildsCount;
 
     if (count > 0) {
       return (

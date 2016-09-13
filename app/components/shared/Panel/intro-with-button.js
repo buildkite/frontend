@@ -8,18 +8,18 @@ class IntroWithButton extends React.Component {
   };
 
   render() {
-    let children = React.Children.toArray(this.props.children);
+    const children = React.Children.toArray(this.props.children);
 
     let intro;
     let button;
-    if(children.length == 1) {
+    if (children.length == 1) {
       intro = children;
     } else {
       button = children.pop();
       intro = children;
     }
 
-    if(button) {
+    if (button) {
       button = (
         <div className="ml3 flex-none">
           {button}

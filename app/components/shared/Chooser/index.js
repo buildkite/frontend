@@ -30,7 +30,7 @@ class Chooser extends React.Component {
   }
 
   isSelected(value) {
-    if(this.props.multiple) {
+    if (this.props.multiple) {
       return this.props.selected.indexOf(value) >= 0;
     } else {
       return this.props.selected == value;

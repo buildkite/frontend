@@ -31,13 +31,13 @@ const QUERIES = {
 class RelayPreloader {
   preload(id, payload, variables) {
     // Get the concrete query
-    let concrete = QUERIES[id];
-    if(!concrete) {
+    const concrete = QUERIES[id];
+    if (!concrete) {
       throw "No concrete query defined for `" + id + "`";
     }
 
     // Create a Relay-readable GraphQL query with the variables loaded in
-    let query = fromGraphQL.Query(concrete);
+    const query = fromGraphQL.Query(concrete);
     query.__variables__ = variables;
 
     // Load it with the payload into the Relay store
@@ -45,4 +45,4 @@ class RelayPreloader {
   }
 }
 
-export default new RelayPreloader()
+export default new RelayPreloader();

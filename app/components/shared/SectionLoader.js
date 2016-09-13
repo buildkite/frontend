@@ -12,4 +12,4 @@ class SectionLoader extends React.Component {
   }
 }
 
-export default SectionLoader
+export default SectionLoader;

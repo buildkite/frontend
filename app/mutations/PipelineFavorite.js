@@ -4,7 +4,7 @@ class PipelineFavorite extends Relay.Mutation {
   static fragments = {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
-	id
+        id
       }
     `
   }
@@ -12,7 +12,7 @@ class PipelineFavorite extends Relay.Mutation {
   getMutation() {
     return Relay.QL`
       mutation {
-	pipelineFavorite
+        pipelineFavorite
       }
     `;
   }
@@ -20,9 +20,9 @@ class PipelineFavorite extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on PipelineFavoritePayload {
-	pipeline {
+        pipeline {
           favorite
-	}
+        }
       }
     `;
   }
@@ -40,7 +40,7 @@ class PipelineFavorite extends Relay.Mutation {
     return [{
       type: 'FIELDS_CHANGE',
       fieldIDs: {
-	pipeline: this.props.pipeline.id
+        pipeline: this.props.pipeline.id
       }
     }];
   }

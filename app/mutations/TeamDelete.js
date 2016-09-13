@@ -39,15 +39,15 @@ class TeamDelete extends Relay.Mutation {
     return [{
       type: 'REQUIRED_CHILDREN',
       children: [
-	Relay.QL`
-	  fragment on TeamDeletePayload {
-            organization {
-              teams {
-                count
-              }
-            }
-	  }
-	`
+        Relay.QL`
+          fragment on TeamDeletePayload {
+                  organization {
+                    teams {
+                      count
+                    }
+                  }
+          }
+        `
       ]
     }, {
       type: 'NODE_DELETE',

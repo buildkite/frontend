@@ -37,7 +37,7 @@ class FormTextField extends React.Component {
           {this._renderErrors()}
           {this._renderHelp()}
         </CollapsableFormField>
-      )
+      );
     } else {
       return (
         <div className="mb2">
@@ -90,7 +90,8 @@ class FormTextField extends React.Component {
         placeholder={this.props.placeholder}
         spellCheck={this.props.spellCheck}
         onChange={this.props.onChange}
-        ref={(c) => this.input = c} />
+        ref={(c) => this.input = c}
+      />
     );
   }
 }

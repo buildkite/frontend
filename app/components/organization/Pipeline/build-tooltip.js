@@ -30,13 +30,13 @@ class BuildTooltip extends React.Component {
   }
 
   render() {
-    if(this.props.visible) {
+    if (this.props.visible) {
       return (
         <div>
           <div className="bg-white rounded shadow border border-gray p2 block absolute pointer-events-none z2" style={{ left: this.props.left, top: this.props.top, width: 230 }}>
-            <img src={require('../../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" className="absolute pointer-events-none" style={{top: -20, left: 7}} />
+            <img src={require('../../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" className="absolute pointer-events-none" style={{ top: -20, left: 7 }} />
             <Media align="top">
-              <Media.Image className="mr2" style={{width: 30, height: 30}} >
+              <Media.Image className="mr2" style={{ width: 30, height: 30 }} >
                 <UserAvatar user={this.props.build.createdBy} className="fit" />
               </Media.Image>
               <Media.Description className="truncate">
@@ -48,19 +48,19 @@ class BuildTooltip extends React.Component {
         </div>
       );
     } else {
-      return <div></div>
+      return <div />;
     }
   }
 
   renderTime() {
-    if(this.props.build.startedAt || this.props.build.finishedAt) {
+    if (this.props.build.startedAt || this.props.build.finishedAt) {
       return (
         <FriendlyTime value={this.props.build.finishedAt || this.props.build.startedAt} />
-      )
+      );
     } else {
       return (
         <div>something</div>
-      )
+      );
     }
   }
 }

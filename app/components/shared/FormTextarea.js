@@ -102,7 +102,7 @@ class FormTextarea extends React.Component {
   }
 
   _renderTextArea() {
-    var style = {}
+    const style = {};
     if (this.props.resizable) {
       style.resize = this.props.resizable;
     }
@@ -118,7 +118,8 @@ class FormTextarea extends React.Component {
         onChange={this.props.onChange}
         rows={this.props.rows}
         style={style}
-        ref={(c) => this._textarea = c} />
+        ref={(c) => this._textarea = c}
+      />
     );
   }
 }

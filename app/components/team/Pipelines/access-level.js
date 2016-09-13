@@ -23,11 +23,11 @@ class AccessLevel extends React.Component {
   render() {
     let label;
     let nibOffset;
-    if(this.props.teamPipeline.accessLevel == MANAGE_BUILD_AND_READ) {
-      label = "Full Access"
+    if (this.props.teamPipeline.accessLevel == MANAGE_BUILD_AND_READ) {
+      label = "Full Access";
       nibOffset = 10;
     } else if (this.props.teamPipeline.accessLevel == BUILD_AND_READ) {
-      label = "Build & Read"
+      label = "Build & Read";
       nibOffset = 3;
     } else if (this.props.teamPipeline.accessLevel == READ_ONLY) {
       label = "Read Only";
@@ -36,7 +36,7 @@ class AccessLevel extends React.Component {
 
     return (
       <Dropdown align="center" width={270} nibOffset={nibOffset}>
-        <div style={{width: 90}} className="right-align">
+        <div style={{ width: 90 }} className="right-align">
           <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
         </div>
 
@@ -76,22 +76,22 @@ class AccessLevel extends React.Component {
   }
 
   renderIcon(accessLevel) {
-    let width = 25;
+    const width = 25;
 
-    if(this.props.saving == accessLevel) {
+    if (this.props.saving == accessLevel) {
       return (
-        <div style={{width: width}}>
-          <Spinner className="fit absolute" width={16} height={16} style={{marginTop: 3}} color={false} />
+        <div style={{ width: width }}>
+          <Spinner className="fit absolute" width={16} height={16} style={{ marginTop: 3 }} color={false} />
         </div>
-      )
-    } else if(this.props.teamPipeline.accessLevel == accessLevel) {
+      );
+    } else if (this.props.teamPipeline.accessLevel == accessLevel) {
       return (
-        <div className="green" style={{fontSize: 16, width: width}}>✔</div>
-      )
+        <div className="green" style={{ fontSize: 16, width: width }}>✔</div>
+      );
     } else {
       return (
-        <div className="gray" style={{fontSize: 16, width: width}}>✔</div>
-      )
+        <div className="gray" style={{ fontSize: 16, width: width }}>✔</div>
+      );
     }
   }
 }

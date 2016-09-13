@@ -4,7 +4,7 @@ class TeamPipelineUpdate extends Relay.Mutation {
   static fragments = {
     teamPipeline: () => Relay.QL`
       fragment on TeamPipeline {
-	id
+        id
       }
     `
   }
@@ -12,7 +12,7 @@ class TeamPipelineUpdate extends Relay.Mutation {
   getMutation() {
     return Relay.QL`
       mutation {
-	teamPipelineUpdate
+        teamPipelineUpdate
       }
     `;
   }
@@ -20,9 +20,9 @@ class TeamPipelineUpdate extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on TeamPipelineUpdatePayload {
-	teamPipeline {
+        teamPipeline {
           accessLevel
-	}
+        }
       }
     `;
   }
@@ -31,7 +31,7 @@ class TeamPipelineUpdate extends Relay.Mutation {
     return [{
       type: 'FIELDS_CHANGE',
       fieldIDs: {
-	teamPipeline: this.props.teamPipeline.id
+        teamPipeline: this.props.teamPipeline.id
       }
     }];
   }

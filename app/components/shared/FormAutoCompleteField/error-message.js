@@ -10,7 +10,7 @@ class ErrorMessage extends React.Component {
   };
 
   render() {
-    let classes = classNames(this.props.className, "px2 py2 dark-gray");
+    const classes = classNames(this.props.className, "px2 py2 dark-gray");
 
     return (
       <li className={classes}>{this.props.children}</li>

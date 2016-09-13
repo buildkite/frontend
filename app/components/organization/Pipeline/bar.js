@@ -23,13 +23,14 @@ export default class Bar extends React.Component {
   }
 
   render() {
-    if(this.props.href) {
+    if (this.props.href) {
       return (
         <a href={this.props.href}
           className="border-box inline-block absolute color-inherit"
           style={{ height: "100%", left: this.props.left, width: this.props.width, bottom: 0 }}
           onMouseOver={this.handleMouseOver}
-          onMouseOut={this.handleMouseOut}>
+          onMouseOut={this.handleMouseOut}
+        >
           <div style={{ height: this.props.height, width: this.props.width - 1, left: 0, bottom: 0, backgroundColor: this.backgroundColor() }} className="border-box inline-block absolute animation-height" />
           <BuildTooltip build={this.props.build} visible={this.state.hover} left={-20} top={47} />
         </a>
@@ -38,24 +39,25 @@ export default class Bar extends React.Component {
       return (
         <div
           className="border-box inline-block absolute animation-height"
-          style={{ backgroundColor: this.backgroundColor(), height: this.props.height, left: this.props.left, width: this.props.width - 1, bottom: 0 }} />
+          style={{ backgroundColor: this.backgroundColor(), height: this.props.height, left: this.props.left, width: this.props.width - 1, bottom: 0 }}
+        />
       );
     }
   }
 
   backgroundColor() {
     if (this.state.hover) {
-      return this.props.hoverColor
+      return this.props.hoverColor;
     } else {
-      return this.props.color
+      return this.props.color;
     }
   }
 
   handleMouseOver = () => {
-    this.setState({hover: true})
+    this.setState({ hover: true });
   }
 
   handleMouseOut = () => {
-    this.setState({hover: false})
+    this.setState({ hover: false });
   }
 }

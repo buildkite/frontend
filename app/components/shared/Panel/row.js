@@ -8,13 +8,13 @@ class Row extends React.Component {
   };
 
   render() {
-    let children = React.Children.toArray(this.props.children);
+    const children = React.Children.toArray(this.props.children);
 
     // Filter out the actions from the rest of the children
-    let nodes = [];
+    const nodes = [];
     let actions;
     children.forEach((child) => {
-      if(child.type.displayName == "Panel.RowActions") {
+      if (child.type.displayName == "Panel.RowActions") {
         actions = child;
       } else {
         nodes.push(child);

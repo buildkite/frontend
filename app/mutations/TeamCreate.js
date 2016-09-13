@@ -4,7 +4,7 @@ class TeamCreate extends Relay.Mutation {
   static fragments = {
     organization: () => Relay.QL`
       fragment on Organization {
-	id
+        id
       }
     `
   }
@@ -12,7 +12,7 @@ class TeamCreate extends Relay.Mutation {
   getMutation() {
     return Relay.QL`
       mutation {
-	teamCreate
+        teamCreate
       }
     `;
   }
@@ -20,12 +20,12 @@ class TeamCreate extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on TeamCreatePayload {
-	teamEdge,
-	organization {
-	  teams {
-	    count
-	  }
-	}
+        teamEdge,
+        organization {
+          teams {
+            count
+          }
+        }
       }
     `;
   }
@@ -34,20 +34,20 @@ class TeamCreate extends Relay.Mutation {
     return [{
       type: 'REQUIRED_CHILDREN',
       children: [
-	Relay.QL`
-	  fragment on TeamCreatePayload {
-	    teamEdge {
-	      node {
-	        slug
+        Relay.QL`
+          fragment on TeamCreatePayload {
+            teamEdge {
+              node {
+                slug
                 organization {
                   teams {
                     count
                   }
                 }
-	      }
-	    }
-	  }
-	`
+              }
+            }
+          }
+        `
       ]
     }, {
       type: 'RANGE_ADD',
@@ -56,7 +56,7 @@ class TeamCreate extends Relay.Mutation {
       connectionName: 'teams',
       edgeName: 'teamEdge',
       rangeBehaviors: {
-	'': 'append'
+        '': 'append'
       }
     }];
   }

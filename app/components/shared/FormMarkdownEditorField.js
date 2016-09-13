@@ -33,12 +33,12 @@ class FormMarkdownEdtiorField extends React.Component {
   }
 
   render() {
-    let containerClasses = classNames({ "has-success": this.state.draggingFile });
+    const containerClasses = classNames({ "has-success": this.state.draggingFile });
 
-    if(this.state.error) {
+    if (this.state.error) {
       var errorNode = (
         <div className="mt2 mb2 border border-gray border-red p2 red rounded clearfix">
-          <div className="col" style={{position: "relative", top: "1px"}}>
+          <div className="col" style={{ position: "relative", top: "1px" }}>
             <i className="fa fa-warning mr2" />{this.state.error}
           </div>
           <div className="col-right">
@@ -51,13 +51,13 @@ class FormMarkdownEdtiorField extends React.Component {
     return (
       <div className={containerClasses}>
         <div className="mb2">
-          <Button type="button" className="mr1" tabIndex={-1} onClick={this.handleBoldButtonClick} theme="default" outline={true}><i className="fa fa-bold"></i></Button>
-          <Button type="button" className="mr3" tabIndex={-1} onClick={this.handleItalicButtonClick} theme="default" outline={true}><i className="fa fa-italic"></i></Button>
-          <Button type="button" className="mr1" tabIndex={-1} onClick={this.handleQuoteButtonClick} theme="default" outline={true}><i className="fa fa-quote-right"></i></Button>
-          <Button type="button" className="mr1" tabIndex={-1} onClick={this.handleCodeButtonClick} theme="default" outline={true}><i className="fa fa-code"></i></Button>
-          <Button type="button" className="mr3" tabIndex={-1} onClick={this.handleLinkButtonClick} theme="default" outline={true}><i className="fa fa-link"></i></Button>
-          <Button type="button" className="mr1" tabIndex={-1} onClick={this.handleBulletedListButtonClick} theme="default" outline={true}><i className="fa fa-list"></i></Button>
-          <Button type="button" className="mr1" tabIndex={-1} onClick={this.handleNumberedListButtonClick} theme="default" outline={true}><i className="fa fa-list-ol"></i></Button>
+          <Button type="button" className="mr1" tabIndex={-1} onClick={this.handleBoldButtonClick} theme="default" outline={true}><i className="fa fa-bold" /></Button>
+          <Button type="button" className="mr3" tabIndex={-1} onClick={this.handleItalicButtonClick} theme="default" outline={true}><i className="fa fa-italic" /></Button>
+          <Button type="button" className="mr1" tabIndex={-1} onClick={this.handleQuoteButtonClick} theme="default" outline={true}><i className="fa fa-quote-right" /></Button>
+          <Button type="button" className="mr1" tabIndex={-1} onClick={this.handleCodeButtonClick} theme="default" outline={true}><i className="fa fa-code" /></Button>
+          <Button type="button" className="mr3" tabIndex={-1} onClick={this.handleLinkButtonClick} theme="default" outline={true}><i className="fa fa-link" /></Button>
+          <Button type="button" className="mr1" tabIndex={-1} onClick={this.handleBulletedListButtonClick} theme="default" outline={true}><i className="fa fa-list" /></Button>
+          <Button type="button" className="mr1" tabIndex={-1} onClick={this.handleNumberedListButtonClick} theme="default" outline={true}><i className="fa fa-list-ol" /></Button>
         </div>
         {errorNode}
         <textarea
@@ -74,33 +74,34 @@ class FormMarkdownEdtiorField extends React.Component {
           onDragOver={this.handleOnDragOver}
           onDragLeave={this.handleOnDragLeave}
           onDrop={this.handleOnDrop}
-          ref={c => this.textarea = c}
-          style={{overflowY: "hidden", resize: "vertical"}}
-          className={"form-control"} />
+          ref={(c) => this.textarea = c}
+          style={{ overflowY: "hidden", resize: "vertical" }}
+          className={"form-control"}
+        />
       </div>
     );
   }
 
   _uploadFilesFromEvent(e) {
-    var files = this.assetUploader.uploadFromEvent(e);
+    const files = this.assetUploader.uploadFromEvent(e);
 
     // Were there any files uploaded in this event?
-    if(files.length > 0) {
+    if (files.length > 0) {
       // Since we've caught these files, we don't want the browser redirecting
       // to the file's location on the filesystem
       e.preventDefault();
 
       // Insert each of the files into the textarea
       files.forEach((file) => {
-        let prefix = file.type.indexOf("image/") == 0 ? "!" : "";
+        const prefix = file.type.indexOf("image/") == 0 ? "!" : "";
         let text = prefix + "[Uploading " + file.name + "...]()";
 
         // If the input is currently in focus, insert the image where the users
         // cursor is.
-        if(this.state.focused) {
+        if (this.state.focused) {
           // If we're inserting the image at the end of a line with text, add a
           // new line before the insertion so it goes onto a new line.
-          if(!this.markdownEditor.isCursorOnNewLine()) {
+          if (!this.markdownEditor.isCursorOnNewLine()) {
             text = "\n" + text;
           } else {
             text = text + "\n";
@@ -110,7 +111,7 @@ class FormMarkdownEdtiorField extends React.Component {
         } else {
           // If there's something already in the textrea, add a new line and
           // add it to the bottom of the text.
-          if(this.textarea.value.length > 0) {
+          if (this.textarea.value.length > 0) {
             text = "\n" + text;
           }
           this.markdownEditor.append(text);
@@ -124,7 +125,7 @@ class FormMarkdownEdtiorField extends React.Component {
 
   handleAssetUploaded = (file, url) => {
     // Replace the "uploading..." version of the file with the correct path
-    this.markdownEditor.replace("[Uploading " + file.name + "...]()", "[" + file.name + "](" + url + ")")
+    this.markdownEditor.replace("[Uploading " + file.name + "...]()", "[" + file.name + "](" + url + ")");
   };
 
   handleAssetUploadError = (exception) => {
@@ -194,7 +195,7 @@ class FormMarkdownEdtiorField extends React.Component {
   };
 
   handleOnDragEnter = (e) => {
-    if(this.assetUploader.doesEventContainFiles(e)) {
+    if (this.assetUploader.doesEventContainFiles(e)) {
       this.setState({ draggingFile: true });
     }
   };
@@ -240,4 +241,4 @@ class FormMarkdownEdtiorField extends React.Component {
   };
 }
 
-export default FormMarkdownEdtiorField
+export default FormMarkdownEdtiorField;

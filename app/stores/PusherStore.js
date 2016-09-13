@@ -24,4 +24,4 @@ class PusherStore extends EventEmitter {
   }
 }
 
-export default new PusherStore()
+export default new PusherStore();

@@ -9,7 +9,7 @@ const titleNode = (title) => {
       <title>{title}</title>
     );
   }
-}
+};
 
 const pathNodes = (icon) => {
   switch (icon) {
@@ -53,7 +53,7 @@ const pathNodes = (icon) => {
       Logger.error(`[Icon] No icon defined for "${icon}"`);
       return require("./placeholder").default;
   }
-}
+};
 
 class Icon extends React.Component {
   static propTypes = {
@@ -64,7 +64,7 @@ class Icon extends React.Component {
   };
 
   render() {
-    let style = update(this.props.style || {}, {
+    const style = update(this.props.style || {}, {
       fill: {
         $set: "currentColor"
       },
