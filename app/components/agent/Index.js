@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 import Panel from '../shared/Panel';
 import PageWithContainer from '../shared/PageWithContainer';
+import RevealButton from '../shared/RevealButton';
 
 class AgentIndex extends React.Component {
   static propTypes = {
@@ -47,9 +48,11 @@ class AgentIndex extends React.Component {
             <Panel>
               <Panel.Header>Agent Token</Panel.Header>
               <Panel.Row>
-                <p className="black mt0">Your Buildkite agent token is used to configure and start new Buildkite agents.</p>
+                <p className={classNames("black", { [agentTokens.length === 1 ? 'mt0' : 'm0']: true })}>Your Buildkite agent token is used to configure and start new Buildkite agents.</p>
                 {agentTokens.length === 1 &&
-                  <code className="red rounded border border-gray p1 monospace block">{agentTokens[0].node.token}</code>
+                  <RevealButton caption="Reveal Agent Token">
+                    <code className="red monospace" style={{ wordWrap: "break-word" }}>{agentTokens[0].node.token}</code>
+                  </RevealButton>
                 }
               </Panel.Row>
               {agentTokens.length > 1 &&
@@ -57,7 +60,9 @@ class AgentIndex extends React.Component {
                   {agentTokens.map((token, index) => (
                     <div key={index}>
                       <small className="dark-gray">{token.node.description}</small>
-                      <code className="red rounded border border-gray p1 monospace block">{token.node.token}</code>
+                      <RevealButton caption="Reveal Agent Token">
+                        <code className="red monospace" style={{ wordWrap: "break-word" }}>{token.node.token}</code>
+                      </RevealButton>
                     </div>
                   ))}
                 </Panel.Row>
