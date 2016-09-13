@@ -4,8 +4,7 @@ import friendlyRelativeTime from '../../lib/friendlyRelativeTime';
 
 class FriendlyTime extends React.Component {
   static propTypes = {
-    value: React.PropTypes.string.isRequired,
-    capitalized: React.PropTypes.bool
+    value: React.PropTypes.string.isRequired
   };
 
   render() {
