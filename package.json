@@ -14,6 +14,7 @@
     "env": "env",
     "start": "NODE_ENV=development webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --port 4890",
     "lint": "eslint .",
+    "lint-and-fix": "eslint --fix .",
     "build": "NODE_ENV=development webpack --config webpack/config.js --progress --bail",
     "build-production": "NODE_ENV=production webpack --config webpack/config.js --progress --bail --optimize-minimize"
   },
