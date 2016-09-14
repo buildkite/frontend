@@ -41,10 +41,10 @@ class AgentIndex extends React.Component {
     if (tokenViewAllowed && agentTokens.length) {
       pageContent = (
         <div className="clearfix mxn3">
-          <div className="col col-8 px3">
+          <div className="sm-col sm-col-8 px3">
             {pageContent}
           </div>
-          <div className="col col-4 px3">
+          <div className="sm-col sm-col-4 px3">
             <Panel>
               <Panel.Header>Agent Token</Panel.Header>
               <Panel.Row>

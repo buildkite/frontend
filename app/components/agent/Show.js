@@ -172,10 +172,10 @@ class AgentShow extends React.Component {
             <Panel.Header>{agent.name}</Panel.Header>
 
             <Panel.Row>
-              <div className="left right-align sm-col-3 p2">
+              <div className="sm-col sm-right-align sm-col-3 p2">
                 Status
               </div>
-              <div className="left sm-col-9 p2">
+              <div className="sm-col sm-col-9 p2">
                 <strong className={connectionStateClassName}>{CONNECTION_STATE_LABELS[agent.connectionState]}</strong><br/>
                 <small className="dark-gray">
                   <ul className="list-reset m0">
@@ -186,7 +186,7 @@ class AgentShow extends React.Component {
             </Panel.Row>
 
             <Panel.Row>
-              <div className="left right-align sm-col-3 p2">
+              <div className="sm-col sm-right-align sm-col-3 p2">
                 Meta Data
               </div>
               <div className="left sm-col-9 p2">
@@ -212,8 +212,8 @@ class AgentShow extends React.Component {
         allowed: "agentStop",
         render: (idx) => (
           <Panel.Row key={idx}>
-            <div className="left right-align sm-col-3 p2" />
-            <div className="left sm-col-9 p2">
+            <div className="sm-col sm-right-align sm-col-3 p2 xs-hide" />
+            <div className="sm-col sm-col-9 p2">
               <Button theme="default" outline={true} loading={this.state.stopping ? "Stopping…" : false} onClick={this.handleStopButtonClick}>Stop Agent</Button><br/>
               <small className="dark-gray">Remotely stop this agent process. Any running build job will be canceled.</small>
             </div>
