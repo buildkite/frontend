@@ -57,12 +57,14 @@ class Navigation extends React.Component {
             </span>
 
             <Dropdown align="left" width={250} className="flex" style={{ minWidth: "5em" }} onToggle={this.handleOrgDropdownToggle}>
-              <DropdownButton className={classNames({ "lime": this.state.showingOrgDropdown })}
+              <DropdownButton
+                className={classNames({ "lime": this.state.showingOrgDropdown })}
                 style={{
                   backgroundImage: 'url(' + require('./nav-button-right-arrow.svg') + ')',
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center right',
-                  paddingRight: 20 }}
+                  paddingRight: 20
+                }}
               >
                 <span className="truncate" style={{ maxWidth: "10em" }}>
                   {this._organizationSelectorLabel()}
@@ -101,7 +103,7 @@ class Navigation extends React.Component {
                 <NavigationButton className="md-hide lg-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
               </div>
 
-              <form action="/logout" method="post" ref={(c) => this.logoutFormNode = c}>
+              <form action="/logout" method="post" ref={(logoutFormNode) => this.logoutFormNode = logoutFormNode}>
                 <input type="hidden" name="_method" value={"delete"} />
                 <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
                 <NavigationButton href="#" onClick={this.handleLogoutClick}>Logout</NavigationButton>
@@ -152,8 +154,8 @@ class Navigation extends React.Component {
     this.setState({ showingUserDropdown: visible });
   };
 
-  handleLogoutClick = (e) => {
-    e.preventDefault();
+  handleLogoutClick = (evt) => {
+    evt.preventDefault();
     this.logoutFormNode.submit();
   };
 
@@ -169,7 +171,7 @@ class Navigation extends React.Component {
     const nodes = [];
     this.props.viewer.organizations.edges.forEach((org) => {
       // Don't show the active organization in the selector
-      if (!this.props.organization || (org.node.slug != this.props.organization.slug)) {
+      if (!this.props.organization || (org.node.slug !== this.props.organization.slug)) {
         nodes.push(<NavigationButton key={org.node.slug} href={`/${org.node.slug}`} className="block">{org.node.name}</NavigationButton>);
       }
     });
@@ -181,7 +183,7 @@ class Navigation extends React.Component {
 
   _organizationMenu(options = {}) {
     const organization = this.props.organization;
-    const paddingLeft = options.paddingLeft != undefined ? options.paddingLeft : 15;
+    const paddingLeft = typeof options.paddingLeft === "number" ? options.paddingLeft : 15;
 
     if (organization) {
       return (
