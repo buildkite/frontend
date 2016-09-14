@@ -14,18 +14,65 @@ class AgentIndex extends React.Component {
       slug: React.PropTypes.string.isRequired,
       agents: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
+      }).isRequired,
+      permissions: React.PropTypes.shape({
+        agentTokenView: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired
+      }).isRequired,
+      agentTokens: React.PropTypes.shape({
+        edges: React.PropTypes.array.isRequired
       }).isRequired
     }).isRequired
   };
 
   render() {
+    const tokenViewAllowed = this.props.organization.permissions.agentTokenView.allowed;
+    const agentTokens = this.props.organization.agentTokens.edges;
+    console.debug(this.props.organization.permissions.agentTokenView.allowed, this.props.organization.agentTokens.edges);
+
+    let pageContent = (
+      <Panel>
+        <Panel.Header>Agents</Panel.Header>
+        {this.renderAgentList()}
+      </Panel>
+    );
+
+    if (tokenViewAllowed && agentTokens.length) {
+      pageContent = (
+        <div className="clearfix mxn3">
+          <div className="col col-8 px3">
+            {pageContent}
+          </div>
+          <div className="col col-4 px3">
+            <Panel>
+              <Panel.Header>Agent Token</Panel.Header>
+              <Panel.Row>
+                <p className="black mt0">Your Buildkite agent token is used to configure and start new Buildkite agents.</p>
+                {agentTokens.length === 1 &&
+                  <code className="red rounded border border-gray p1 monospace block">{agentTokens[0].node.token}</code>
+                }
+              </Panel.Row>
+              {agentTokens.length > 1 &&
+                <Panel.Row>
+                  {agentTokens.map((token, index) => (
+                    <div>
+                      <small className="dark-gray">{token.node.description}</small>
+                      <code key={index} className="red rounded border border-gray p1 monospace block">{token.node.token}</code>
+                    </div>
+                  ))}
+                </Panel.Row>
+              }
+            </Panel>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <DocumentTitle title={`Agents · ${this.props.organization.name}`}>
         <PageWithContainer>
-          <Panel>
-            <Panel.Header>Agents</Panel.Header>
-            {this.renderAgentList()}
-          </Panel>
+          {pageContent}
         </PageWithContainer>
       </DocumentTitle>
     );
@@ -75,6 +122,11 @@ export default Relay.createContainer(AgentIndex, {
       fragment on Organization {
         name
         slug
+        permissions {
+          agentTokenView {
+            allowed
+          }
+        }
         agents(first:500) {
           edges {
             node {
@@ -85,6 +137,14 @@ export default Relay.createContainer(AgentIndex, {
               metaData
               version
               uuid
+            }
+          }
+        }
+        agentTokens(first:500) {
+          edges {
+            node {
+              description
+              token
             }
           }
         }
