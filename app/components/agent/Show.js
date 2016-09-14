@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import Button from '../shared/Button';
 import Emojify from '../shared/Emojify';
+import FlashesStore from '../../stores/FlashesStore';
 import FriendlyTime from "../shared/FriendlyTime";
 import PageWithContainer from '../shared/PageWithContainer';
 import Panel from '../shared/Panel';
@@ -138,7 +139,9 @@ class AgentShow extends React.Component {
     this.setState({ stopping: false });
   };
 
-  handleMutationError = () => {
+  handleMutationError = (transaction) => {
+    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
+
     this.setState({ stopping: false });
   };
 
