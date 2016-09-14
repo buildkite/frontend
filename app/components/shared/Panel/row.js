@@ -14,7 +14,7 @@ class Row extends React.Component {
     const nodes = [];
     let actions;
     children.forEach((child) => {
-      if (child.type.displayName == "Panel.RowActions") {
+      if (child.type && child.type.displayName === "Panel.RowActions") {
         actions = child;
       } else {
         nodes.push(child);
