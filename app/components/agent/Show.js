@@ -10,6 +10,7 @@ import FriendlyTime from "../shared/FriendlyTime";
 import PageWithContainer from '../shared/PageWithContainer';
 import Panel from '../shared/Panel';
 import PusherStore from '../../stores/PusherStore';
+import permissions from '../../lib/permissions';
 
 import AgentStopMutation from '../../mutations/AgentStop';
 
@@ -27,7 +28,12 @@ class AgentShow extends React.Component {
     agent: React.PropTypes.shape({
       id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
-      connectionState: React.PropTypes.string.isRequired
+      connectionState: React.PropTypes.string.isRequired,
+      permissions: React.PropTypes.shape({
+        agentStop: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired
+      }).isRequired
     }),
     relay: React.PropTypes.object.isRequired
   };
@@ -201,14 +207,19 @@ class AgentShow extends React.Component {
       return null;
     }
 
-    return (
-      <Panel.Row>
-        <div className="left right-align sm-col-3 p2" />
-        <div className="left sm-col-9 p2">
-          <Button theme="default" outline={true} loading={this.state.stopping ? "Stopping…" : false} onClick={this.handleStopButtonClick}>Stop Agent</Button><br/>
-          <small className="dark-gray">Remotely stop this agent process. Any running build job will be canceled.</small>
-        </div>
-      </Panel.Row>
+    return permissions(this.props.agent.permissions).collect(
+      {
+        allowed: "agentStop",
+        render: (idx) => (
+          <Panel.Row key={idx}>
+            <div className="left right-align sm-col-3 p2" />
+            <div className="left sm-col-9 p2">
+              <Button theme="default" outline={true} loading={this.state.stopping ? "Stopping…" : false} onClick={this.handleStopButtonClick}>Stop Agent</Button><br/>
+              <small className="dark-gray">Remotely stop this agent process. Any running build job will be canceled.</small>
+            </div>
+          </Panel.Row>
+        )
+      }
     );
   }
 }
@@ -232,6 +243,13 @@ export default Relay.createContainer(AgentShow, {
         organization {
           name
           slug
+        }
+        permissions {
+          agentStop {
+            allowed
+            code
+            message
+          }
         }
         pid
         pingedAt
