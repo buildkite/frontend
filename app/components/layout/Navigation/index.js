@@ -50,8 +50,8 @@ class Navigation extends React.Component {
         <div className="container">
           <div className="flex flex-stretch" style={{ height: 45 }}>
             <span className="flex relative border-right border-gray items-center">
-              <NavigationButton href="/" className="px3 hover-faded-children" style={{ paddingLeft: 0, paddingTop: 0, paddingBottom: 0 }}>
-                <img src={require('./logo.svg')} style={{ width: 27, height: 18, marginTop: 3 }} />
+              <NavigationButton href="/" className="px3 hover-faded-children" style={{ paddingLeft: 0 }}>
+                <img src={require('./logo.svg')} style={{ width: 27, height: 18, marginTop: 7.5, marginBottom: 4.5 }} />
               </NavigationButton>
               {this._newChangelogsBadge()}
             </span>
