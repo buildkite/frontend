@@ -24,9 +24,11 @@ const CONNECTION_STATE_LABELS = {
 class AgentShow extends React.Component {
   static propTypes = {
     agent: React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
       connectionState: React.PropTypes.string.isRequired
-    })
+    }),
+    relay: React.PropTypes.object.isRequired
   };
 
   state = {
@@ -116,8 +118,8 @@ class AgentShow extends React.Component {
     return extras;
   }
 
-  onStopButtonClick = (e) => {
-    e.preventDefault();
+  handleStopButtonClick = (evt) => {
+    evt.preventDefault();
 
     this.setState({ stopping: true });
 
@@ -200,7 +202,7 @@ class AgentShow extends React.Component {
       <Panel.Row>
         <div className="left right-align sm-col-3 p2" />
         <div className="left sm-col-9 p2">
-          <Button theme="default" outline={true} onClick={this.onStopButtonClick}>Stop Agent</Button><br/>
+          <Button theme="default" outline={true} loading={this.state.stopping ? "Stopping…" : false} onClick={this.handleStopButtonClick}>Stop Agent</Button><br/>
           <small className="dark-gray">Remotely stop this agent process. Any running build job will be canceled.</small>
         </div>
       </Panel.Row>
