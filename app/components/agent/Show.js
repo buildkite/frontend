@@ -9,6 +9,8 @@ import FriendlyTime from "../shared/FriendlyTime";
 import PageWithContainer from '../shared/PageWithContainer';
 import Panel from '../shared/Panel';
 
+import AgentStopMutation from '../../mutations/AgentStop';
+
 class AgentShow extends React.Component {
   static propTypes = {
     agent: React.PropTypes.shape({
@@ -35,10 +37,6 @@ class AgentShow extends React.Component {
   }
 
   renderExtras(agent) {
-    if (agent.hosted) {
-      return 'Hosted by Buildkite';
-    }
-
     const extras = [];
 
     if (agent.version) {
@@ -90,7 +88,7 @@ class AgentShow extends React.Component {
     } else if (agent.connectionState === 'lost') {
       extras.push(this.renderExtraItem('Lost', <FriendlyTime value={agent.lostAt} />));
     } else if (agent.connectionState === 'stopped' || agent.connectionState === 'stopping') {
-      extras.push(this.renderExtraItem('Stopped', <span><FriendlyTime value={agent.stoppedAt} /> by {agent.stoppedBy}</span>));
+      extras.push(this.renderExtraItem('Stopped', <span><FriendlyTime value={agent.stoppedAt} /> by {agent.stoppedBy.name}</span>));
 
       // Also show when the agent eventually disconnected
       if (agent.disconnectedAt) {
@@ -100,6 +98,46 @@ class AgentShow extends React.Component {
 
     return extras;
   }
+
+  renderStopRow() {
+    if (this.props.agent.connectionState !== 'connected') {
+      return null;
+    }
+
+    return (
+      <Panel.Row>
+        <div className="left right-align sm-col-3 p2" />
+        <div className="left sm-col-9 p2">
+          <Button theme="default" outline={true} onClick={this.onStopButtonClick}>Stop Agent</Button><br/>
+          <small className="dark-gray">Remotely stop this agent process. Any running build job will be canceled.</small>
+        </div>
+      </Panel.Row>
+    );
+  }
+
+  onStopButtonClick = (e) => {
+    e.preventDefault();
+
+    //this.setState({ saving: true });
+
+    const mutation = new AgentStopMutation({
+      agent: this.props.agent,
+      graceful: true
+    });
+
+    Relay.Store.commitUpdate(mutation, {
+      onSuccess: this.handleMutationSuccess,
+      onFailure: this.handleMutationError
+    });
+  };
+
+  handleMutationSuccess = () => {
+    console.log('handleMutationSuccess');
+  };
+
+  handleMutationError = () => {
+    console.log('handleMutationError');
+  };
 
   render() {
     const agent = this.props.agent;
@@ -111,7 +149,7 @@ class AgentShow extends React.Component {
     });
 
     let metaDataContent = 'None';
-    if (agent.metaData) {
+    if (agent.metaData && agent.metaData.length) {
       metaDataContent = agent.metaData.sort().join('\n');
     }
 
@@ -145,14 +183,7 @@ class AgentShow extends React.Component {
               </div>
             </Panel.Row>
 
-            <Panel.Row>
-              <div className="left right-align sm-col-3 p2">
-              </div>
-              <div className="left sm-col-9 p2">
-                <Button theme="default" outline={true}>Stop Agent</Button><br/>
-                <small className="dark-gray">Remotely stop this agent process. Any running build job will be canceled.</small>
-              </div>
-            </Panel.Row>
+            {this.renderStopRow()}
           </Panel>
         </PageWithContainer>
       </DocumentTitle>
@@ -164,6 +195,7 @@ export default Relay.createContainer(AgentShow, {
   fragments: {
     agent: () => Relay.QL`
       fragment on Agent {
+        ${AgentStopMutation.getFragment('agent')}
         connectedAt
         connectionState
         disconnectedAt
@@ -181,7 +213,9 @@ export default Relay.createContainer(AgentShow, {
         pid
         pingedAt
         stoppedAt
-        stoppedBy
+        stoppedBy {
+          name
+        }
         userAgent
         uuid
         version
