@@ -24,15 +24,15 @@ class User extends React.Component {
   render() {
     // Toggle the `dark-gray` color on the repository text if this component is
     // in an auto completor and is highlighted.
-    let autoCompletorSuggestion = this.context.autoCompletorSuggestion;
-    let emailTextClass = classNames({
+    const autoCompletorSuggestion = this.context.autoCompletorSuggestion;
+    const emailTextClass = classNames({
       "dark-gray": !autoCompletorSuggestion || (autoCompletorSuggestion && !autoCompletorSuggestion.selected),
       "white": (autoCompletorSuggestion && autoCompletorSuggestion.selected)
     });
 
     return (
       <Media>
-        <Media.Image className="icon-mr" style={{width: 39, height: 39}} >
+        <Media.Image className="icon-mr" style={{ width: 39, height: 39 }} >
           <UserAvatar user={this.props.user} className="fit" />
         </Media.Image>
         <Media.Description>

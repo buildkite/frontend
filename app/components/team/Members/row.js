@@ -39,17 +39,17 @@ class Row extends React.Component {
   render() {
     return (
       <Panel.Row>
-	<User user={this.props.teamMember.user} teamAdmin={this.props.teamMember.admin} />
+        <User user={this.props.teamMember.user} teamAdmin={this.props.teamMember.admin} />
         <Panel.RowActions>{this.renderActions()}</Panel.RowActions>
       </Panel.Row>
     );
   }
 
   renderActions() {
-    var transactions = this.props.relay.getPendingTransactions(this.props.teamMember);
-    var transaction = transactions ? transactions[0] : null;
+    const transactions = this.props.relay.getPendingTransactions(this.props.teamMember);
+    const transaction = transactions ? transactions[0] : null;
 
-    if(transaction) {
+    if (transaction) {
       return (
         <Spinner width={18} height={18} color={false}/>
       );
@@ -65,10 +65,11 @@ class Row extends React.Component {
           allowed: "teamMemberDelete",
           render: (idx) => (
             <Button key={idx} loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true} className="ml3"
-              onClick={this.handleMemberRemove}>Remove</Button>
+              onClick={this.handleMemberRemove}
+            >Remove</Button>
           )
         }
-      )
+      );
     }
   }
 
@@ -78,21 +79,21 @@ class Row extends React.Component {
     this.props.onRoleChange(this.props.teamMember, role, (error) => {
       this.setState({ savingNewRole: null });
 
-      if(error) {
+      if (error) {
         FlashesStore.flash(FlashesStore.ERROR, error);
       }
     });
   };
 
   handleMemberRemove = (e) => {
-    if(confirm("Remove this user from the team?")) {
+    if (confirm("Remove this user from the team?")) {
       e.preventDefault();
       this.setState({ removing: true });
 
       this.props.onRemoveClick(this.props.teamMember, (error) => {
         this.setState({ removing: false });
 
-        if(error) {
+        if (error) {
           FlashesStore.flash(FlashesStore.ERROR, error);
         }
       });

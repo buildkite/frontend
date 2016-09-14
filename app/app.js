@@ -5,7 +5,7 @@ import Bugsnag from 'bugsnag-js';
 
 require("./css/main.css");
 
-if(window._standalone) {
+if (window._standalone) {
   // Reset includes all the styles needed if bootstrap.css isn't loaded on the page
   require("./css/reset.css");
 } else {
@@ -14,7 +14,7 @@ if(window._standalone) {
 }
 
 // Setup Bugsnag for JS error tracking
-if(window._bugsnag) {
+if (window._bugsnag) {
   Bugsnag.apiKey = window._bugsnag.apiKey;
   Bugsnag.appVersion = window._bugsnag.appVersion;
   Bugsnag.user = window._bugsnag.user;
@@ -58,28 +58,28 @@ window["Webpack"] = {
   },
 
   require: function(module) {
-    let exported = window["Webpack"].modules[module]
+    const exported = window["Webpack"].modules[module];
 
-    if(exported) {
-      return exported
+    if (exported) {
+      return exported;
     } else {
-      throw "No webpack module exported `" + module + "`"
+      throw "No webpack module exported `" + module + "`";
     }
   }
-}
+};
 
 // Configure relay if we have access to the GraphQL URL
-if(window._graphql) {
+if (window._graphql) {
   Relay.injectNetworkLayer(
     new Relay.DefaultNetworkLayer(window._graphql["url"], { credentials: "same-origin", headers: window._graphql["headers"] })
   );
 }
 
 // Setup the PusherStore
-if(window._pusher) {
-  let PusherStore = require("./stores/PusherStore").default;
+if (window._pusher) {
+  const PusherStore = require("./stores/PusherStore").default;
   PusherStore.configure(window._pusher["key"], window._pusher["options"]);
-  for(let channel of window._pusher["channels"]) {
+  for (const channel of window._pusher["channels"]) {
     PusherStore.listen(channel);
   }
 }
@@ -94,57 +94,57 @@ if (process.env.NODE_ENV != "production") {
 // Only do the react-router gear on pages we've designated
 window["initializeReactRouter"] = function() {
   // Require the packages we need to setup routing
-  let Router = require("react-router").Router;
-  let Route = require("react-router").Route;
-  let IndexRoute = require("react-router").IndexRoute;
-  let browserHistory = require("react-router").browserHistory;
-  let applyRouterMiddleware = require("react-router").applyRouterMiddleware;
-  let useRelay = require('react-router-relay');
+  const Router = require("react-router").Router;
+  const Route = require("react-router").Route;
+  const IndexRoute = require("react-router").IndexRoute;
+  const browserHistory = require("react-router").browserHistory;
+  const applyRouterMiddleware = require("react-router").applyRouterMiddleware;
+  const useRelay = require('react-router-relay');
 
   // The components used in the router
-  let Main = require("./components/Main").default;
-  let SectionLoader = require("./components/shared/SectionLoader").default;
-  let BuildCommentsList = require("./components/build/CommentsList").default;
-  let OrganizationShow = require("./components/organization/Show").default;
-  let OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
-  let TeamIndex = require("./components/team/Index").default;
-  let TeamNew = require("./components/team/New").default;
-  let TeamShow = require("./components/team/Show").default;
-  let TeamEdit = require("./components/team/Edit").default;
+  const Main = require("./components/Main").default;
+  const SectionLoader = require("./components/shared/SectionLoader").default;
+  const BuildCommentsList = require("./components/build/CommentsList").default;
+  const OrganizationShow = require("./components/organization/Show").default;
+  const OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
+  const TeamIndex = require("./components/team/Index").default;
+  const TeamNew = require("./components/team/New").default;
+  const TeamShow = require("./components/team/Show").default;
+  const TeamEdit = require("./components/team/Edit").default;
 
   const BuildQuery = () => Relay.QL`
     query {
       build(slug: $slug)
     }
-  `
+  `;
 
   const ViewerQuery = () => Relay.QL`
     query {
       viewer
     }
-  `
+  `;
 
   const OrganizationQuery = () => Relay.QL`
     query {
       organization(slug: $organization)
     }
-  `
+  `;
 
   const TeamQuery = () => Relay.QL`
     query {
       team(slug: $slug)
     }
-  `
+  `;
 
   const renderSectionLoading = (route) => {
-    if(!route.props) {
+    if (!route.props) {
       return (
         <SectionLoader />
-      )
+      );
     }
 
     return React.cloneElement(route.element, route.props);
-  }
+  };
 
   // Since relay doesn't currently support root fields with multiple
   // parameters, it means we can't have queries like: build(org: "...",
@@ -153,9 +153,9 @@ window["initializeReactRouter"] = function() {
   const prepareBuildParams = (params) => {
     return {
       ...params,
-      slug: [ params.organization, params.pipeline, params.number ].join("/")
+      slug: [params.organization, params.pipeline, params.number].join("/")
     };
-  }
+  };
 
   const prepareTeamParams = (params) => {
     // Send through `isEveryoneTeam` as a variable to the compoent, so we can
@@ -165,35 +165,35 @@ window["initializeReactRouter"] = function() {
     // query to get the members.
     return {
       ...params,
-      slug: [ params.organization, params.team ].join("/"),
+      slug: [params.organization, params.team].join("/"),
       isEveryoneTeam: (params.team == "everyone")
     };
-  }
+  };
 
   const preparePipelineListParams = (params, { location }) => {
     return {
       ...params,
       team: location.query.team || null // Passing `undefined` seems to break all the things
     };
-  }
+  };
 
   // Define and render the routes
   ReactDOM.render(
     <Router history={browserHistory} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
-      <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{viewer: ViewerQuery, build: BuildQuery}} prepareParams={prepareBuildParams} />
+      <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery, build: BuildQuery }} prepareParams={prepareBuildParams} />
 
       <Route path="/" component={Main}>
-        <Route path=":organization" component={OrganizationShow} queries={{organization: OrganizationQuery}} prepareParams={preparePipelineListParams}  render={renderSectionLoading} />
+        <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery }} prepareParams={preparePipelineListParams}  render={renderSectionLoading} />
 
         <Route path="organizations/:organization" component={OrganizationSettingsSection}>
           <Route path="teams">
-            <IndexRoute component={TeamIndex} queries={{organization: OrganizationQuery}} render={renderSectionLoading} />
-            <Route path="new" component={TeamNew} queries={{organization: OrganizationQuery}} render={renderSectionLoading} />
-            <Route path=":team" component={TeamShow} queries={{team: TeamQuery}} prepareParams={prepareTeamParams} render={renderSectionLoading} />
-            <Route path=":team/edit" component={TeamEdit} queries={{team: TeamQuery}} prepareParams={prepareTeamParams} render={renderSectionLoading} />
+            <IndexRoute component={TeamIndex} queries={{ organization: OrganizationQuery }} render={renderSectionLoading} />
+            <Route path="new" component={TeamNew} queries={{ organization: OrganizationQuery }} render={renderSectionLoading} />
+            <Route path=":team" component={TeamShow} queries={{ team: TeamQuery }} prepareParams={prepareTeamParams} render={renderSectionLoading} />
+            <Route path=":team/edit" component={TeamEdit} queries={{ team: TeamQuery }} prepareParams={prepareTeamParams} render={renderSectionLoading} />
           </Route>
         </Route>
       </Route>
     </Router>
   , document.getElementById('root'));
-}
+};

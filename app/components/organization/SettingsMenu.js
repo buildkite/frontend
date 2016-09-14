@@ -95,7 +95,7 @@ class SettingsMenu extends React.Component {
           </Menu.Button>
         )
       }
-    )
+    );
   }
 }
 

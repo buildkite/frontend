@@ -3,8 +3,8 @@ import classNames from 'classnames';
 
 class BuildState extends React.Component {
   static propTypes = {
-    state: React.PropTypes.oneOf([ "pending", "scheduled", "running", "passed", "paused", "failed", "canceled" ]).isRequired,
-    size: React.PropTypes.oneOf([ "regular","small" ]).isRequired,
+    state: React.PropTypes.oneOf(["pending", "scheduled", "running", "passed", "paused", "failed", "canceled"]).isRequired,
+    size: React.PropTypes.oneOf(["regular", "small"]).isRequired,
     className: React.PropTypes.string
   };
 
@@ -13,9 +13,9 @@ class BuildState extends React.Component {
   };
 
   render() {
-    let strokeWidth = this.props.size == 'regular' ? 2 : 1;
-    let size = this.props.size == 'regular' ? 32 : 20;
-    let classes = classNames(this.props.className, {
+    const strokeWidth = this.props.size == 'regular' ? 2 : 1;
+    const size = this.props.size == 'regular' ? 32 : 20;
+    const classes = classNames(this.props.className, {
       "animation-spin": this.props.state == "running",
       "animation-spin-slow": this.props.state == "scheduled"
     });
@@ -24,7 +24,7 @@ class BuildState extends React.Component {
       <svg width={size} height={size} viewBox="0 0 32 32" className={classes}>
         {this.renderPaths(strokeWidth)}
       </svg>
-    )
+    );
   }
 
   renderPaths(strokeWidth) {
@@ -34,10 +34,10 @@ class BuildState extends React.Component {
         return (
           <g transform="translate(-219.000000, -19.000000)" stroke="#F83F23" strokeWidth={strokeWidth}>
             <g transform="translate(220.000000, 20.000000)">
-              <ellipse fill="none" cx="15" cy="15" rx="15" ry="15"></ellipse>
+              <ellipse fill="none" cx="15" cy="15" rx="15" ry="15" />
               <g transform="translate(9.000000, 9.000000)">
-                <path d="M0.600275489,0.600275489 L11.3997245,11.3997245"></path>
-                <path d="M11.3997245,0.600275489 L0.600275489,11.3997245"></path>
+                <path d="M0.600275489,0.600275489 L11.3997245,11.3997245" />
+                <path d="M11.3997245,0.600275489 L0.600275489,11.3997245" />
               </g>
             </g>
           </g>
@@ -105,4 +105,4 @@ class BuildState extends React.Component {
   }
 }
 
-export default BuildState
+export default BuildState;

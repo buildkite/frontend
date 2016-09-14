@@ -44,7 +44,8 @@ class TeamNew extends React.Component {
                 onChange={this.handleFormChange}
                 errors={this.state.errors}
                 name={this.state.name}
-                description={this.state.description} />
+                description={this.state.description}
+              />
             </Panel.Section>
 
             <Panel.Footer>
@@ -57,7 +58,7 @@ class TeamNew extends React.Component {
   }
 
   handleFormChange = (field, value) => {
-    var state = {};
+    const state = {};
     state[field] = value;
 
     this.setState(state);
@@ -68,7 +69,7 @@ class TeamNew extends React.Component {
 
     this.setState({ saving: true });
 
-    var mutation = new TeamCreateMutation({
+    const mutation = new TeamCreateMutation({
       organization: this.props.organization,
       name: this.state.name,
       description: this.state.description
@@ -81,9 +82,9 @@ class TeamNew extends React.Component {
   };
 
   handleMutationError = (transaction) => {
-    var error = transaction.getError();
-    if(error) {
-      if(error.source && error.source.type == GraphQLErrors.RECORD_VALIDATION_ERROR) {
+    const error = transaction.getError();
+    if (error) {
+      if (error.source && error.source.type == GraphQLErrors.RECORD_VALIDATION_ERROR) {
         this.setState({ errors: transaction.getError().source.errors });
       } else {
         alert(error);

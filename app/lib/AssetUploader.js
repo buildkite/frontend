@@ -17,17 +17,17 @@ class AssetUploader {
   }
 
   uploadFromEvent(event) {
-    var files;
+    let files;
 
-    if(event.type == "drop") {
+    if (event.type == "drop") {
       files = this._extractFilesFromDropEvent(event);
     } else if (event.type == "paste") {
       files = this._extractFilesFromPasteEvent(event);
     } else {
-      throw("Unknown event for asset upload `" + event.type + "`")
+      throw ("Unknown event for asset upload `" + event.type + "`");
     }
 
-    if(files.length > 0) {
+    if (files.length > 0) {
       this._startUploadingFiles(files);
     }
 
@@ -37,7 +37,7 @@ class AssetUploader {
   // This will post file information to Buildkite. The resulting response from
   // the server will include instructions on where to upload the files.
   _startUploadingFiles(files) {
-    var payload = { files: [] }
+    const payload = { files: [] };
 
     // Add the files to the payload
     files.forEach((f) => {
@@ -49,7 +49,7 @@ class AssetUploader {
       credentials: 'same-origin',
       method: 'post',
       headers: {
-	'Accept': 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
         'X-CSRF-Token': window._csrf.token
       },
@@ -67,17 +67,17 @@ class AssetUploader {
             this._uploadFile(asset.upload, files[index]);
           });
         }
-      })
-    })
+      });
+    });
   }
 
   // Takes an upload instruction, and a file object, and uploads it as per the
   // instructions.
   _uploadFile(upload, file) {
-    var formData = new FormData();
+    const formData = new FormData();
 
     // Copy the keys from our upload instructions into the form data
-    for(let key in upload.fields) {
+    for (const key in upload.fields) {
       formData.append(key, upload.fields[key]);
     }
 
@@ -90,7 +90,7 @@ class AssetUploader {
       method: 'post',
       body: formData
     }).then((response) => {
-      if(response.ok) {
+      if (response.ok) {
         this._finalizeFileUpload(upload, file);
       } else {
         this.options.onError(new AssetUploaderError("There was an error uploading the file. Please try again."));
@@ -105,7 +105,7 @@ class AssetUploader {
       credentials: 'same-origin',
       method: 'put',
       headers: {
-	'Accept': 'application/json',
+        'Accept': 'application/json',
         'X-CSRF-Token': window._csrf.token
       },
       body: JSON.stringify({ finished: true })
@@ -117,15 +117,15 @@ class AssetUploader {
           // Yay! File all uploaded and ready to show :)
           this.options.onAssetUploaded(file, json.url);
         }
-      })
-    })
+      });
+    });
   }
 
   _extractFilesFromDropEvent(event) {
-    var files = [];
+    const files = [];
 
-    for (var i = 0; i < event.dataTransfer.files.length; i++) {
-      var f = event.dataTransfer.files[i];
+    for (let i = 0; i < event.dataTransfer.files.length; i++) {
+      const f = event.dataTransfer.files[i];
       files.push(f);
     }
 
@@ -133,15 +133,15 @@ class AssetUploader {
   }
 
   _extractFilesFromPasteEvent(event) {
-    var files = [];
+    const files = [];
 
-    for (var i = 0; i < event.clipboardData.items.length; i++) {
-      var item = event.clipboardData.items[i];
-      var file = item.getAsFile();
+    for (let i = 0; i < event.clipboardData.items.length; i++) {
+      const item = event.clipboardData.items[i];
+      const file = item.getAsFile();
 
-      if(file) {
+      if (file) {
         // Files that get pasted don't have file names, so we'll generate one
-        let parts = file.type.split("/");
+        const parts = file.type.split("/");
         file.name = parts[0] + "-" + (this._pasteCounter += 1) + "." + parts[1];
 
         files.push(file);

@@ -41,29 +41,30 @@ class Navigation extends React.Component {
     // We're using Features.NewNav to feature flag here, because we enabled it
     // for some people but switched the whole nav on for everyone, and it was
     // easier just to use the same feature flag
-    let myBuildsNode = Features.NewNav ? (
+    const myBuildsNode = Features.NewNav ? (
       <NavigationButton href={`/builds`}>My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} /></NavigationButton>
     ) : null;
 
     return (
-      <div className="border-bottom border-gray bg-silver" style={{fontSize: 13, marginBottom: 25}} data-tag={true}>
+      <div className="border-bottom border-gray bg-silver" style={{ fontSize: 13, marginBottom: 25 }} data-tag={true}>
         <div className="container">
-          <div className="flex flex-stretch" style={{height: 45}}>
+          <div className="flex flex-stretch" style={{ height: 45 }}>
             <span className="flex relative border-right border-gray items-center">
-              <NavigationButton href="/" className="px3 hover-faded-children" style={{paddingLeft: 0, paddingTop: 0, paddingBottom: 0}}>
-                <img src={require('./logo.svg')} style={{width: 27, height: 18, marginTop: 3}} />
+              <NavigationButton href="/" className="px3 hover-faded-children" style={{ paddingLeft: 0, paddingTop: 0, paddingBottom: 0 }}>
+                <img src={require('./logo.svg')} style={{ width: 27, height: 18, marginTop: 3 }} />
               </NavigationButton>
               {this._newChangelogsBadge()}
             </span>
 
-            <Dropdown align="left" width={250} className="flex" style={{ minWidth: "5em"}} onToggle={this.handleOrgDropdownToggle}>
+            <Dropdown align="left" width={250} className="flex" style={{ minWidth: "5em" }} onToggle={this.handleOrgDropdownToggle}>
               <DropdownButton className={classNames({ "lime": this.state.showingOrgDropdown })}
-                              style={{
-                                backgroundImage: 'url(' + require('./nav-button-right-arrow.svg') + ')',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundPosition: 'center right',
-                                paddingRight: 20}}>
-                <span className="truncate" style={{maxWidth:"10em"}}>
+                style={{
+                  backgroundImage: 'url(' + require('./nav-button-right-arrow.svg') + ')',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center right',
+                  paddingRight: 20 }}
+              >
+                <span className="truncate" style={{ maxWidth: "10em" }}>
                   {this._organizationSelectorLabel()}
                 </span>
                 <span className="ml1">
@@ -71,12 +72,12 @@ class Navigation extends React.Component {
                 </span>
               </DropdownButton>
               {this._organizationsList()}
-              <NavigationButton href="/organizations/new" className="block"><Icon icon="plus-circle" className="icon-mr" style={{width: 12, height: 12}} />Create New Organization</NavigationButton>
+              <NavigationButton href="/organizations/new" className="block"><Icon icon="plus-circle" className="icon-mr" style={{ width: 12, height: 12 }} />Create New Organization</NavigationButton>
             </Dropdown>
 
             {this._topOrganizationMenu()}
 
-            <span className="flex-auto"></span>
+            <span className="flex-auto" />
 
             {myBuildsNode}
             <NavigationButton className="xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
@@ -84,9 +85,10 @@ class Navigation extends React.Component {
 
             <Dropdown align="right" width={170} className="flex" onToggle={this.handleUserDropdownToggle}>
               <DropdownButton className={classNames({ "lime": this.state.showingUserDropdown })}
-                              style={{paddingRight: 0}}>
-                <UserAvatar user={this.props.viewer.user} className="flex-none flex items-center mr1" style={{width: 26, height: 26}} />
-                <span className="flex items-center xs-hide"><span className="truncate" style={{maxWidth:"9em"}} data-current-user-name={true}>{this.props.viewer.user.name}</span></span>
+                style={{ paddingRight: 0 }}
+              >
+                <UserAvatar user={this.props.viewer.user} className="flex-none flex items-center mr1" style={{ width: 26, height: 26 }} />
+                <span className="flex items-center xs-hide"><span className="truncate" style={{ maxWidth: "9em" }} data-current-user-name={true}>{this.props.viewer.user.name}</span></span>
                 <span className="ml1 flex items-center">
                   &#9662;
                 </span>
@@ -99,7 +101,7 @@ class Navigation extends React.Component {
                 <NavigationButton className="md-hide lg-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
               </div>
 
-              <form action="/logout" method="post" ref={c => this.logoutFormNode = c}>
+              <form action="/logout" method="post" ref={(c) => this.logoutFormNode = c}>
                 <input type="hidden" name="_method" value={"delete"} />
                 <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
                 <NavigationButton href="#" onClick={this.handleLogoutClick}>Logout</NavigationButton>
@@ -117,7 +119,7 @@ class Navigation extends React.Component {
   _newChangelogsBadge() {
     return (
       <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -8 }} viewer={this.props.viewer} />
-    )
+    );
   }
 
   _topOrganizationMenu() {
@@ -126,7 +128,7 @@ class Navigation extends React.Component {
         <span className="flex xs-hide">
           {this._organizationMenu()}
         </span>
-      )
+      );
     }
   }
 
@@ -134,11 +136,11 @@ class Navigation extends React.Component {
     if (this.props.organization) {
       return (
         <div className="border-top border-gray sm-hide md-hide lg-hide">
-          <div className="container flex flex-stretch" style={{height: 45}}>
+          <div className="container flex flex-stretch" style={{ height: 45 }}>
             {this._organizationMenu({ paddingLeft: 0 })}
           </div>
         </div>
-      )
+      );
     }
   }
 
@@ -156,32 +158,32 @@ class Navigation extends React.Component {
   };
 
   _organizationSelectorLabel() {
-    if(this.props.organization) {
+    if (this.props.organization) {
       return this.props.organization.name;
     } else {
-      return "Organizations"
+      return "Organizations";
     }
   }
 
   _organizationsList() {
-    let nodes = [];
+    const nodes = [];
     this.props.viewer.organizations.edges.forEach((org) => {
       // Don't show the active organization in the selector
-      if(!this.props.organization || (org.node.slug != this.props.organization.slug)) {
+      if (!this.props.organization || (org.node.slug != this.props.organization.slug)) {
         nodes.push(<NavigationButton key={org.node.slug} href={`/${org.node.slug}`} className="block">{org.node.name}</NavigationButton>);
       }
     });
 
-    if(nodes.length > 0) {
+    if (nodes.length > 0) {
       return nodes;
     }
   }
 
   _organizationMenu(options = {}) {
-    let organization = this.props.organization;
-    let paddingLeft = options.paddingLeft != undefined ? options.paddingLeft : 15;
+    const organization = this.props.organization;
+    const paddingLeft = options.paddingLeft != undefined ? options.paddingLeft : 15;
 
-    if(organization) {
+    if (organization) {
       return (
         <div className={classNames("flex", options.className)}>
           <NavigationButton style={{ paddingLeft: paddingLeft }} href={`/${organization.slug}`}>Pipelines</NavigationButton>
@@ -192,12 +194,12 @@ class Navigation extends React.Component {
 
           {this.renderOrganizationSettingsButton()}
         </div>
-      )
+      );
     }
   }
 
   renderOrganizationSettingsButton() {
-    let organization = this.props.organization;
+    const organization = this.props.organization;
 
     // The settings page will redirect to the first section the user has access
     // to. If they _just_ have teams admin enabled, skip the redirect and go
@@ -213,10 +215,10 @@ class Navigation extends React.Component {
           return [
             <NavigationButton key={1} href={`/organizations/${organization.slug}/users`}>Users</NavigationButton>,
             <NavigationButton key={2} href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
-          ]
+          ];
         }
       }
-    )
+    );
   }
 }
 

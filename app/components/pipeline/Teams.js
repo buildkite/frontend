@@ -27,24 +27,25 @@ class Teams extends React.Component {
                 tag="button"
                 key={edge.node.id}
                 value={edge.node.id}
-                data={{team: edge.node}}
+                data={{ team: edge.node }}
                 className="btn border border-gray rounded mr2 regular user-select-none"
-                selectedClassName="border-lime">
+                selectedClassName="border-lime"
+              >
                 <Emojify text={edge.node.name} />
               </Chooser.Option>
-            )
+            );
           })
         }
       </Chooser>
-    )
+    );
   }
 
   handleTeamSelect = (id, data) => {
-    let selected = this.state.selected;
+    const selected = this.state.selected;
 
     // Toggle it's selected state and fire callbacks
-    let index = this.state.selected.indexOf(id);
-    if(index != -1) {
+    const index = this.state.selected.indexOf(id);
+    if (index != -1) {
       selected.splice(index, 1);
       this.props.onTeamDeselect(data.team);
     } else {

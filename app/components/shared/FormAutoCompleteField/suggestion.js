@@ -29,7 +29,7 @@ class Suggestion extends React.Component {
   }
 
   render() {
-    let classes = classNames(this.props.className, "px2 py1", {
+    const classes = classNames(this.props.className, "px2 py1", {
       "bg-blue white": this.props.selected
     });
 
@@ -41,7 +41,7 @@ class Suggestion extends React.Component {
   }
 
   handleMouseDown = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     this.props.onMouseDown(this.props.suggestion);
   }
 

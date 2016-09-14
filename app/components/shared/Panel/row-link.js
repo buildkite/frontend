@@ -17,7 +17,7 @@ class RowLink extends React.Component {
         <div className="flex-auto">
           {this.props.children}
         </div>
-        <Icon icon="chevron-right" className="dark-gray" style={{height: 15, width: 15}} />
+        <Icon icon="chevron-right" className="dark-gray" style={{ height: 15, width: 15 }} />
       </Link>
     );
   }

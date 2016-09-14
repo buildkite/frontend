@@ -16,7 +16,7 @@ class TeamForm extends React.Component {
   }
 
   render() {
-    var errors = new ValidationErrors(this.props.errors);
+    const errors = new ValidationErrors(this.props.errors);
 
     return (
       <div>
@@ -26,14 +26,16 @@ class TeamForm extends React.Component {
           errors={errors.findForField("name")}
           value={this.props.name}
           onChange={this.handleTeamNameChange}
-          ref={(c) => this.nameTextField = c} />
+          ref={(c) => this.nameTextField = c}
+        />
 
         <FormTextField
           label="Description"
           help="Describe what this team is all about"
           errors={errors.findForField("description")}
           value={this.props.description}
-          onChange={this.handleDescriptionChange} />
+          onChange={this.handleDescriptionChange}
+        />
       </div>
     );
   }
@@ -47,4 +49,4 @@ class TeamForm extends React.Component {
   };
 }
 
-export default TeamForm
+export default TeamForm;

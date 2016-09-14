@@ -19,7 +19,8 @@ class UserAvatar extends React.Component {
         className={classNames("circle", this.props.className)}
         alt={this.props.user.name}
         title={this.props.user.name}
-        style={this.props.style} />
+        style={this.props.style}
+      />
     );
   }
 }

@@ -13,40 +13,40 @@ class MarkdownEditor {
 
   quote() {
     this.modify(function(selectedText) {
-      let lines = selectedText.split(/\r\n|\r|\n/);
-      var replacement = [];
+      const lines = selectedText.split(/\r\n|\r|\n/);
+      const replacement = [];
 
-      for(var line of lines) {
+      for (const line of lines) {
         replacement.push("> " + line);
       }
 
-      return "{s}" + replacement.join("\r\n") + "{s}"
+      return "{s}" + replacement.join("\r\n") + "{s}";
     });
   }
 
   numberedList() {
     this.modify(function(selectedText) {
-      let lines = selectedText.split(/\r\n|\r|\n/);
-      var replacement = [];
+      const lines = selectedText.split(/\r\n|\r|\n/);
+      const replacement = [];
 
-      for (var index = 0; index < lines.length; index++) {
+      for (let index = 0; index < lines.length; index++) {
         replacement.push(`${index + 1}. ${lines[index]}`);
       }
 
-      return "{s}" + replacement.join("\r\n") + "{s}"
+      return "{s}" + replacement.join("\r\n") + "{s}";
     });
   }
 
   bulletedList() {
     this.modify(function(selectedText) {
-      let lines = selectedText.split(/\r\n|\r|\n/);
-      var replacement = [];
+      const lines = selectedText.split(/\r\n|\r|\n/);
+      const replacement = [];
 
-      for(var line of lines) {
-        replacement.push(`- ${line}`)
+      for (const line of lines) {
+        replacement.push(`- ${line}`);
       }
 
-      return "{s}" + replacement.join("\r\n") + "{s}"
+      return "{s}" + replacement.join("\r\n") + "{s}";
     });
   }
 
@@ -54,10 +54,10 @@ class MarkdownEditor {
     this.modify(function(selectedText) {
       // If there's more than 1 line of text, we should use a code fence
       // instead of just wrapping with a `
-      if(selectedText.split(/\r\n|\r|\n/).length > 1) {
-        return "```\n{s}{t}{s}\n```"
+      if (selectedText.split(/\r\n|\r|\n/).length > 1) {
+        return "```\n{s}{t}{s}\n```";
       } else {
-        return "`{s}{t}{s}`"
+        return "`{s}{t}{s}`";
       }
     });
   }
@@ -66,9 +66,9 @@ class MarkdownEditor {
     this.modify(function(selectedText) {
       // If we're making a link out text that starts with HTTP, then this
       // should become the link portion of the replacement.
-      if(selectedText.indexOf("http:") == 0) {
+      if (selectedText.indexOf("http:") == 0) {
         return "[{s}text{s}]({t})";
-      } else if(selectedText.length > 0) {
+      } else if (selectedText.length > 0) {
         return "[{t}]({s}url{s})";
       } else {
         return "[{s}text{s}](url)";
@@ -77,7 +77,7 @@ class MarkdownEditor {
   }
 
   isCursorOnNewLine() {
-    return !!(this.textarea.value.substr(0,this.textarea.selectionStart).match(/(?:^|\r?\n\s*)$/)
+    return !!(this.textarea.value.substr(0, this.textarea.selectionStart).match(/(?:^|\r?\n\s*)$/)
               && this.textarea.value.substr(this.textarea.selectionStart).match(/^(?:\s*\r?\n|$)/));
   }
 
@@ -87,10 +87,10 @@ class MarkdownEditor {
     let selectionStart = this.textarea.selectionStart;
     let selectionEnd = this.textarea.selectionEnd;
 
-    let indexOfBeforeText = this.textarea.value.indexOf(before);
+    const indexOfBeforeText = this.textarea.value.indexOf(before);
 
-    if(indexOfBeforeText < selectionStart) {
-      let changeInLength = after.length - before.length;
+    if (indexOfBeforeText < selectionStart) {
+      const changeInLength = after.length - before.length;
 
       selectionStart += changeInLength;
       selectionEnd += changeInLength;
@@ -111,11 +111,11 @@ class MarkdownEditor {
   // Insert text at the current cursor position
   insert(text) {
     // Grab the start/end of the currently selected text
-    let selectionStart = this.textarea.selectionStart;
-    let selectionEnd = this.textarea.selectionEnd;
+    const selectionStart = this.textarea.selectionStart;
+    const selectionEnd = this.textarea.selectionEnd;
 
     // Insert the text in between the selection start & end
-    let value = this.textarea.value;
+    const value = this.textarea.value;
     this.textarea.value = value.substring(0, selectionStart) + text + value.substring(selectionEnd, value.length);
 
     // Now set the selection to the end of what we just inserted
@@ -138,46 +138,46 @@ class MarkdownEditor {
   // was "{s}__{t}__{s}", the entire text would be highlighted after the modification.
   modify(instruction) {
     // Get the value current length of the string in the text area
-    let value = this.textarea.value;
-    let length = value.length;
+    const value = this.textarea.value;
+    const length = value.length;
 
     // Grab the start/end of the currently selected text
-    let selectionStart = this.textarea.selectionStart;
-    let selectionEnd = this.textarea.selectionEnd;
+    const selectionStart = this.textarea.selectionStart;
+    const selectionEnd = this.textarea.selectionEnd;
 
     // Substring the selected text out of the value
-    var selectedText = value.substring(selectionStart, selectionEnd);
+    let selectedText = value.substring(selectionStart, selectionEnd);
 
     // Escape the magical characters "{" and "}" that we use
-    selectedText = selectedText.replace(/\{(t|s)\}/gmi, "\\{$1\\}")
+    selectedText = selectedText.replace(/\{(t|s)\}/gmi, "\\{$1\\}");
 
     // Figure out what to surround the text with
-    if(typeof instruction == "function") {
+    if (typeof instruction == "function") {
       instruction = instruction(selectedText);
     }
 
     // Make sure that if the highlighter characters are there, that there are
     // exactly 2 of them
-    let highlighterCount = instruction.match(/\{s\}/gmi);
-    if(!highlighterCount || highlighterCount.length != 2) {
-      throw(`There needs to be only 2 {s} sequences in this modification instruction "${instruction}"`);
+    const highlighterCount = instruction.match(/\{s\}/gmi);
+    if (!highlighterCount || highlighterCount.length != 2) {
+      throw (`There needs to be only 2 {s} sequences in this modification instruction "${instruction}"`);
     }
 
     // Split the instruction on the string replacement
-    let explodedInstruction = instruction.split("{t}");
+    const explodedInstruction = instruction.split("{t}");
 
-    var replacement;
+    let replacement;
 
     // If there wasn't a $t character, then the length of the explosion will
     // just be 1 (since there was nothing to split on). In that case we'll just
     // insert the instruction as is.
-    if(explodedInstruction.length == 1) {
+    if (explodedInstruction.length == 1) {
       replacement = instruction;
     } else {
       // Get the text before and after the $t so we know what to surround the
       // selection with.
-      let beforeText = explodedInstruction[0];
-      let afterText = explodedInstruction[1];
+      const beforeText = explodedInstruction[0];
+      const afterText = explodedInstruction[1];
 
       // Wrap the text in it's new replacement
       replacement = beforeText + selectedText + afterText;
@@ -185,10 +185,10 @@ class MarkdownEditor {
 
     // Record the current replacement length because we'll need to know it's
     // original size after we remove the {t} and {s} characters from it
-    let replacementLengthBefore = replacement.length;
+    const replacementLengthBefore = replacement.length;
 
     // Get the indexes of the {s} sequences so we know where to highlight
-    let newSelectionStart = replacement.indexOf("{s}");
+    const newSelectionStart = replacement.indexOf("{s}");
     let newSelectionEnd = replacement.indexOf("{s}", newSelectionStart + 1) + "{s}".length;
 
     // Remove the highlight sequences and un-escape any {t} and {s} sequences that may

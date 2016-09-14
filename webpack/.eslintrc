@@ -1,5 +1,8 @@
 {
   "env": {
     "node": true
+  },
+  "rules": {
+    "no-var": "off"
   }
 }

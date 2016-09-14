@@ -17,17 +17,17 @@ class RelayBridge extends EventEmitter {
   }
 
   update(id, data) {
-    if(!this.store[id]) {
+    if (!this.store[id]) {
       throw new Error("No object with id `" + id + "` to update");
     }
 
-    let updated = this.store[id] = merge(this.store[id] || {}, data);
+    const updated = this.store[id] = merge(this.store[id] || {}, data);
     this.emit(id, id, updated);
     return updated;
   }
 
   createContainer(component, propertyToIdMapping) {
-    let store = this;
+    const store = this;
 
     return class DataContainer extends React.Component {
       static displayName = `${component.displayName}RelayBridgeContainer`;
@@ -35,13 +35,13 @@ class RelayBridge extends EventEmitter {
       constructor(props) {
         super(props);
 
-        this.mappings = {}
-        for(let property in propertyToIdMapping) {
+        this.mappings = {};
+        for (const property in propertyToIdMapping) {
           this.mappings[property] = propertyToIdMapping[property](this.props);
         }
 
-        let state = {};
-        for(let property in this.mappings) {
+        const state = {};
+        for (const property in this.mappings) {
           state[property] = store.find(this.mappings[property]);
         }
 
@@ -49,13 +49,13 @@ class RelayBridge extends EventEmitter {
       }
 
       componentDidMount() {
-        for(let property in this.mappings) {
+        for (const property in this.mappings) {
           store.on(this.mappings[property], this.handleDataChange);
         }
       }
 
       componentWillUnmount() {
-        for(let property in this.mappings) {
+        for (const property in this.mappings) {
           store.off(this.mappings[property], this.handleDataChange);
         }
       }
@@ -65,9 +65,9 @@ class RelayBridge extends EventEmitter {
       }
 
       handleDataChange = (id, data) => {
-        let state = {}
-        for(let property in this.mappings) {
-          if(this.mappings[property] == id) {
+        const state = {};
+        for (const property in this.mappings) {
+          if (this.mappings[property] == id) {
             state[property] = data;
           }
         }
@@ -78,4 +78,4 @@ class RelayBridge extends EventEmitter {
   }
 }
 
-export default new RelayBridge()
+export default new RelayBridge();

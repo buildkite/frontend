@@ -18,22 +18,22 @@ class Flashes extends React.Component {
   }
 
   render() {
-    if(this.state.flashes.length > 0) {
+    if (this.state.flashes.length > 0) {
       return (
         <div className="container mb4">
           {this.state.flashes.map((flash) => <Flash key={flash.id} flash={flash} onRemoveClick={this.handleFlashRemove} />)}
         </div>
-      )
+      );
     } else {
       return null;
     }
   }
 
   handleFlashRemove = (flash) => {
-    let flashes = [];
+    const flashes = [];
 
-    for(let f of this.state.flashes) {
-      if(flash.id != f.id) {
+    for (const f of this.state.flashes) {
+      if (flash.id != f.id) {
         flashes.push(f);
       }
     }

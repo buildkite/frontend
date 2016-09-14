@@ -45,7 +45,7 @@ class TeamShow extends React.Component {
     // since we require all the team to render this component, we'll just
     // short-circut the re-render when it's gone. This isn't great, maybe
     // there's a beter way?
-    if(!this.props.team) {
+    if (!this.props.team) {
       return null;
     }
 
@@ -79,17 +79,17 @@ class TeamShow extends React.Component {
           <PageHeader.Button key={idx} loading={this.state.removing ? "Deleting…" : false} onClick={this.handleRemoveTeamClick}>Delete</PageHeader.Button>
         )
       }
-    )
+    );
   }
 
   renderMembers() {
-    if(this.props.team.everyone) {
+    if (this.props.team.everyone) {
       return (
         <Panel className="mb4">
           <Panel.Header>Members</Panel.Header>
           <Panel.Section>This team is automatically managed by Buildkite so as you invite and remove users from your organization they are added and removed from this team.</Panel.Section>
         </Panel>
-      )
+      );
     } else {
       return (
         <Members team={this.props.team} className="mb4" />
@@ -98,11 +98,11 @@ class TeamShow extends React.Component {
   }
 
   handleRemoveTeamClick = () => {
-    if(confirm("Delete this team?")) {
+    if (confirm("Delete this team?")) {
       // Show the removing indicator
       this.setState({ removing: true });
 
-      var mutation = new TeamDeleteMutation({
+      const mutation = new TeamDeleteMutation({
         team: this.props.team
       });
 

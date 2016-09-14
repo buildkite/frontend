@@ -12,4 +12,4 @@ class PageWithContainer extends React.Component {
   }
 }
 
-export default PageWithContainer
+export default PageWithContainer;

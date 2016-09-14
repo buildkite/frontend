@@ -52,7 +52,7 @@ class OrganizationShow extends React.Component {
   // not sure why, something in react-router-relay probably) so we'll keep an
   // eye out of team changes, and reset `isMounted`
   componentDidUpdate(prevProps) {
-    if(prevProps.team != this.props.team) {
+    if (prevProps.team != this.props.team) {
       this.props.relay.setVariables({ isMounted: true });
     }
   }
@@ -66,7 +66,7 @@ class OrganizationShow extends React.Component {
               <h1 className="h1 p0 m0 mr4 regular line-height-1 inline-block">Pipelines</h1>
               {this.renderTeams()}
             </div>
-            <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{width:34, height:34}} href={`organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
+            <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{ width: 34, height: 34 }} href={`organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
               <Icon icon="plus" title="New Pipeline"/>
             </Button>
           </div>
@@ -78,7 +78,7 @@ class OrganizationShow extends React.Component {
   }
 
   renderTeams() {
-    if(this.props.organization.teams.edges.length > 0) {
+    if (this.props.organization.teams.edges.length > 0) {
       return (
         <Teams selected={this.props.relay.variables.team} organization={this.props.organization} onTeamChange={this.handleTeamChange} />
       );
@@ -86,25 +86,25 @@ class OrganizationShow extends React.Component {
   }
 
   renderPipelines() {
-    if(this.props.organization.pipelines) {
-        if(this.props.organization.pipelines.edges.length > 0) {
+    if (this.props.organization.pipelines) {
+      if (this.props.organization.pipelines.edges.length > 0) {
         // Split the pipelines into "favorited" and non "favorited". We don't
         // user a `sort` method so we preserve the current order the pipelines.
-        let favorited = [];
-        let remainder = [];
-        for(let edge of this.props.organization.pipelines.edges) {
-          if(edge.node.favorite) {
+        const favorited = [];
+        const remainder = [];
+        for (const edge of this.props.organization.pipelines.edges) {
+          if (edge.node.favorite) {
             favorited.push(edge.node);
           } else {
             remainder.push(edge.node);
           }
         }
 
-        let nodes = [];
+        const nodes = [];
 
         // Put the favorites in the own section with a divider
-        if(favorited.length > 0) {
-          for(let pipeline of favorited) {
+        if (favorited.length > 0) {
+          for (const pipeline of favorited) {
             nodes.push(
               <Pipeline key={pipeline.id} pipeline={pipeline} />
             );
@@ -112,12 +112,12 @@ class OrganizationShow extends React.Component {
 
           if (remainder.length > 0) {
             nodes.push(
-              <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{height: 1}} />
+              <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{ height: 1 }} />
             );
           }
         }
 
-        for(let pipeline of remainder) {
+        for (const pipeline of remainder) {
           nodes.push(<Pipeline key={pipeline.id} pipeline={pipeline} />);
         }
 
@@ -128,13 +128,13 @@ class OrganizationShow extends React.Component {
         );
       }
     } else {
-      return <SectionLoader />
+      return <SectionLoader />;
     }
   }
 
   handleTeamChange = (slug) => {
     // Prevent ugly URL's that look like "/acme-inc?team="
-    if(slug) {
+    if (slug) {
       this.context.router.push(`/${this.props.organization.slug}?team=${slug}`);
     } else {
       this.context.router.push(`/${this.props.organization.slug}`);

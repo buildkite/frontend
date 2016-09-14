@@ -12,7 +12,7 @@ class Button extends React.Component {
   render() {
     return (
       <BaseButton {...this.props} theme="default" outline={true} className="ml1">{this.props.children}</BaseButton>
-    )
+    );
   }
 }
 

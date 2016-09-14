@@ -9,7 +9,7 @@ class Emojify extends React.Component {
 
   render() {
     return (
-      <span className={this.props.className} dangerouslySetInnerHTML={{__html: Emoji.parse(this.props.text)}} />
+      <span className={this.props.className} dangerouslySetInnerHTML={{ __html: Emoji.parse(this.props.text) }} />
     );
   }
 }

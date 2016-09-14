@@ -6,7 +6,7 @@ class PageWithMenu extends React.Component {
   };
 
   render() {
-    let children = React.Children.toArray(this.props.children);
+    const children = React.Children.toArray(this.props.children);
 
     return (
       <div className="container">
@@ -23,4 +23,4 @@ class PageWithMenu extends React.Component {
   }
 }
 
-export default PageWithMenu
+export default PageWithMenu;

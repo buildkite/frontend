@@ -17,13 +17,13 @@ class MemberRole extends React.Component {
   };
 
   render() {
-    let label = this.props.teamMember.admin ? "Team Admin" : "Member";
-    let role = this.props.teamMember.admin ? "admin" : "member";
-    let nib = this.props.teamMember.admin ? 3 : 15;
+    const label = this.props.teamMember.admin ? "Team Admin" : "Member";
+    const role = this.props.teamMember.admin ? "admin" : "member";
+    const nib = this.props.teamMember.admin ? 3 : 15;
 
     return (
       <Dropdown align="center" width={270} nibOffset={nib}>
-        <div style={{width: 87}} className="right-align">
+        <div style={{ width: 87 }} className="right-align">
           <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
         </div>
 
@@ -53,22 +53,22 @@ class MemberRole extends React.Component {
   }
 
   renderIcon(currentRole, roleOption) {
-    let width = 25;
+    const width = 25;
 
-    if(this.props.savingNewRole == roleOption) {
+    if (this.props.savingNewRole == roleOption) {
       return (
-        <div style={{width: width}}>
-          <Spinner className="fit absolute" width={16} height={16} style={{marginTop: 3}} color={false} />
+        <div style={{ width: width }}>
+          <Spinner className="fit absolute" width={16} height={16} style={{ marginTop: 3 }} color={false} />
         </div>
-      )
-    } else if(currentRole == roleOption) {
+      );
+    } else if (currentRole == roleOption) {
       return (
-        <div className="green" style={{fontSize: 16, width: width}}>✔</div>
-      )
+        <div className="green" style={{ fontSize: 16, width: width }}>✔</div>
+      );
     } else {
       return (
-        <div className="gray" style={{fontSize: 16, width: width}}>✔</div>
-      )
+        <div className="gray" style={{ fontSize: 16, width: width }}>✔</div>
+      );
     }
   }
 }

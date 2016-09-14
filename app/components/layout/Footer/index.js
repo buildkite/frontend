@@ -14,14 +14,14 @@ class Footer extends React.Component {
 
   render() {
     let changelogBadge;
-    if(this.props.viewer && this.props.viewer.unreadChangelogs.count > 0) {
+    if (this.props.viewer && this.props.viewer.unreadChangelogs.count > 0) {
       changelogBadge = (
         <span className={`inline-block bg-dark-gray hover-lime-child white rounded ml1 small p1 line-height-1`}>{this.props.viewer.unreadChangelogs.count}</span>
       );
     }
 
     return (
-      <footer className="center border-top border-gray dark-gray" style={{marginTop: 40, paddingTop: 30}}>
+      <footer className="center border-top border-gray dark-gray" style={{ marginTop: 40, paddingTop: 30 }}>
         <div className="mt4 mb4 small">
           <Link href="/home">Home</Link>
           <Link href="/changelog">
@@ -39,7 +39,7 @@ class Footer extends React.Component {
           <a href="https://github.com/buildkite" className={`btn hover-lime px1`}><Icon icon="github" /></a>
         </div>
       </footer>
-    )
+    );
   }
 }
 

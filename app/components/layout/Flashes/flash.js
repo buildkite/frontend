@@ -14,7 +14,7 @@ class Flash extends React.Component {
   };
 
   render() {
-    let classes = classNames("py2 px3 rounded flex items-center mb2", {
+    const classes = classNames("py2 px3 rounded flex items-center mb2", {
       "bg-red white": FlashesStore.ERROR
     });
 
@@ -23,7 +23,7 @@ class Flash extends React.Component {
         <div className="flex-auto">{this.props.flash.message}</div>
         <button onClick={this.handleCloseClick} className="btn pl0 pr0">Close</button>
       </div>
-    )
+    );
   }
 
   handleCloseClick = () => {

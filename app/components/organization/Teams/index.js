@@ -14,8 +14,8 @@ class Teams extends React.Component {
 
   render() {
     return (
-      <Dropdown align="center" width={300} ref={c => this.dropdownNode = c}>
-        <button className="h4 p0 m0 light dark-gray inline-block btn flex" style={{marginTop: 3, fontSize: 16}}>
+      <Dropdown align="center" width={300} ref={(c) => this.dropdownNode = c}>
+        <button className="h4 p0 m0 light dark-gray inline-block btn flex" style={{ marginTop: 3, fontSize: 16 }}>
           <span className="flex items-center xs-hide"><span className="truncate">{this.renderLabel()}</span></span>
           <span className="ml2 flex items-center">&#9662;</span>
         </button>
@@ -31,9 +31,9 @@ class Teams extends React.Component {
   }
 
   renderLabel() {
-    if(this.props.selected) {
-      for(let edge of this.props.organization.teams.edges) {
-        if(edge.node.slug == this.props.selected) {
+    if (this.props.selected) {
+      for (const edge of this.props.organization.teams.edges) {
+        if (edge.node.slug == this.props.selected) {
           return (
             <Emojify className="block" text={edge.node.name} />
           );
@@ -50,7 +50,7 @@ class Teams extends React.Component {
         <Emojify className="block" text={edge.node.name} />
         {edge.node.description ? <Emojify className="dark-gray light" text={edge.node.description} /> : null}
       </Chooser.Option>
-    )
+    );
   }
 
   handleDropdownSelect = (slug) => {

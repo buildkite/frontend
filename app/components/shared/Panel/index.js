@@ -16,14 +16,14 @@ class Panel extends React.Component {
   };
 
   render() {
-    let children = React.Children.toArray(this.props.children);
+    const children = React.Children.toArray(this.props.children);
 
     // Insert a seperator between each section
-    let nodes = [];
-    var k = 0;
-    for(var i = 0, l = children.length; i < l; i++) {
-      if(i > 0) {
-	nodes.push(<hr key={k += 1} className="p0 m0 bg-gray" style={{border: "none", height: 1}} />);
+    const nodes = [];
+    let k = 0;
+    for (let i = 0, l = children.length; i < l; i++) {
+      if (i > 0) {
+        nodes.push(<hr key={k += 1} className="p0 m0 bg-gray" style={{ border: "none", height: 1 }} />);
       }
       nodes.push(children[i]);
     }

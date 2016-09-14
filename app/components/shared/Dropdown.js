@@ -32,34 +32,34 @@ class Dropdown extends React.Component {
 
   render() {
     return (
-      <span ref={c => this.rootNode = c} className={classNames("relative", this.props.className)}>
+      <span ref={(c) => this.rootNode = c} className={classNames("relative", this.props.className)}>
         {this.props.children[0]}
         <ReactCSSTransitionGroup transitionName="transition-popup" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
           {this.renderPopupNode()}
         </ReactCSSTransitionGroup>
       </span>
-    )
+    );
   }
 
   renderPopupNode() {
     if (this.state.showing) {
-      let classes = classNames("absolute mt1 bg-white rounded-2 shadow border border-gray block py1 transition-popup", {
+      const classes = classNames("absolute mt1 bg-white rounded-2 shadow border border-gray block py1 transition-popup", {
         "transition-popup-t": this.props.align == "center",
         "transition-popup-tl": this.props.align == "left",
         "transition-popup-tr": this.props.align == "right"
       });
 
       return (
-        <div ref={c => this.popupNode = c} className={classes} style={this.popupPositionStyles()}>
+        <div ref={(c) => this.popupNode = c} className={classes} style={this.popupPositionStyles()}>
           <img src={require('../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" className="pointer-events-none" style={this.nibPositionStyles()} />
           {this.popupItems()}
         </div>
-      )
+      );
     }
   }
 
   popupPositionStyles() {
-    let styles = {
+    const styles = {
       top: 35,
       width: this.props.width,
       zIndex: 3
@@ -70,7 +70,7 @@ class Dropdown extends React.Component {
     } else if (this.props.align == 'left') {
       styles.left = 3;
     } else if (this.props.align == 'center') {
-      let center = styles.width / 2;
+      const center = styles.width / 2;
       styles.left = `calc(50% - ${center}px)`;
     }
 
@@ -78,7 +78,7 @@ class Dropdown extends React.Component {
   }
 
   nibPositionStyles() {
-    let styles = {
+    const styles = {
       position: 'absolute',
       top: -20,
       width: 32,
@@ -105,7 +105,7 @@ class Dropdown extends React.Component {
   handleDocumentClick = (event) => {
     const target = event.target;
 
-    const clickWasInComponent = this.rootNode.contains(target)
+    const clickWasInComponent = this.rootNode.contains(target);
 
     // We don't have a ref to the popup button, so to detect a click on the
     // button we detect that it "wasn't" in the popup node, leaving only the

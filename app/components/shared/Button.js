@@ -53,20 +53,20 @@ class Button extends React.Component {
 
   render() {
     let children = this.props.children;
-    if(this.props.loading) {
+    if (this.props.loading) {
       children = (
         <span>
-          <i className="fa fa-spinner fa-spin icon-mr"></i>{this.props.loading}
+          <i className="fa fa-spinner fa-spin icon-mr" />{this.props.loading}
         </span>
-      )
+      );
     }
 
     // Figure out which set of themese to use
-    let themes = (this.props.outline) ? OUTLINE_THEMES : NORMAL_THEMES;
+    const themes = (this.props.outline) ? OUTLINE_THEMES : NORMAL_THEMES;
 
     // Merge the "btn" class onto the props, and toggle the disabled state
     // depending on whether or not this button is in it's "loading" state.
-    let props = {
+    const props = {
       className: classNames("btn nowrap", this.props.className, themes[this.props.theme], { "is-disabled": !!this.props.loading }),
       disabled: !!this.props.loading,
       style: this.props.style,
@@ -79,20 +79,20 @@ class Button extends React.Component {
     // through react-router, instead of a regular href) and context.router is
     // present (which means the routing gear has been activated) then create a
     // react-router link - otherwise, just fallback to a regular href.
-    if(this.props.link && this.context.router) {
+    if (this.props.link && this.context.router) {
       return (
         <Link to={this.props.link} {...props}>{children}</Link>
       );
     } else {
       props.href = this.props.link || this.props.href;
 
-      if(props.href) {
-        return React.DOM.a(props, children)
+      if (props.href) {
+        return React.DOM.a(props, children);
       } else {
-        return React.DOM.button(props, children)
+        return React.DOM.button(props, children);
       }
     }
   }
 }
 
-export default Button
+export default Button;

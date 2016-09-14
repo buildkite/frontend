@@ -15,4 +15,4 @@ export default (
     <rect x="14.5" y="13" width="5" height="5"/>
     <rect x="7" y="1" width="6" height="6"/>
   </g>
-)
+);

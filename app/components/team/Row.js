@@ -35,7 +35,7 @@ class TeamRow extends React.Component {
   render() {
     return (
       <Panel.RowLink key={this.props.team.id} to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}`}>
-        <div className="flex flex-stretch items-center line-height-1" style={{minHeight: '3em'}}>
+        <div className="flex flex-stretch items-center line-height-1" style={{ minHeight: '3em' }}>
           <div className="flex-auto">
             <div className="m0 semi-bold"><Emojify text={this.props.team.name} /></div>
             {this._renderDescription()}
@@ -70,8 +70,9 @@ class TeamRow extends React.Component {
                   key={edge.node.id}
                   user={edge.node.user}
                   className="align-middle border border-white"
-                  style={{width: avatarSize, height: avatarSize, marginRight: -10, borderWidth: 2}} />
-                )
+                  style={{ width: avatarSize, height: avatarSize, marginRight: -10, borderWidth: 2 }}
+                />
+              );
             })
           }
           {this._renderMemberExtrasCount()}
@@ -86,8 +87,9 @@ class TeamRow extends React.Component {
     if (extrasCount > 0) {
       return (
         <div className="inline-block bg-gray bold circle center border border-white semi-bold"
-             style={{width: avatarSize, height: avatarSize, lineHeight: `${avatarSize - 4}px`, fontSize: 11, borderWidth: 2}}
-             title={`and another ${extrasCount} member${extrasCount == 1 ? '' : 's'}`}>
+          style={{ width: avatarSize, height: avatarSize, lineHeight: `${avatarSize - 4}px`, fontSize: 11, borderWidth: 2 }}
+          title={`and another ${extrasCount} member${extrasCount == 1 ? '' : 's'}`}
+        >
           {"+" + extrasCount}
         </div>
       );

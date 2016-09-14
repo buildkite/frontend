@@ -45,10 +45,10 @@ class Row extends React.Component {
   }
 
   renderActions() {
-    var transactions = this.props.relay.getPendingTransactions(this.props.teamPipeline);
-    var transaction = transactions ? transactions[0] : null;
+    const transactions = this.props.relay.getPendingTransactions(this.props.teamPipeline);
+    const transaction = transactions ? transactions[0] : null;
 
-    if(transaction) {
+    if (transaction) {
       return (
         <Spinner width={18} height={18} color={false}/>
       );
@@ -64,10 +64,11 @@ class Row extends React.Component {
           allowed: "teamPipelineDelete",
           render: (idx) => (
             <Button key={idx} loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true} className="ml3"
-              onClick={this.handlePipelineRemove}>Remove</Button>
+              onClick={this.handlePipelineRemove}
+            >Remove</Button>
           )
         }
-      )
+      );
     }
   }
 
@@ -77,14 +78,14 @@ class Row extends React.Component {
     this.props.onAccessLevelChange(this.props.teamPipeline, accessLevel, (error) => {
       this.setState({ savingNewAccessLevel: null });
 
-      if(error) {
+      if (error) {
         FlashesStore.flash(FlashesStore.ERROR, error);
       }
     });
   };
 
   handlePipelineRemove = (e) => {
-    if(confirm("Remove the pipeline from this team?")) {
+    if (confirm("Remove the pipeline from this team?")) {
       e.preventDefault();
 
       this.performPipelineRemove(false);
@@ -97,8 +98,8 @@ class Row extends React.Component {
     this.props.onRemoveClick(this.props.teamPipeline, force, (error) => {
       this.setState({ removing: false });
 
-      if(error) {
-        if(!force && error.source && error.source.type == "must_force_error") {
+      if (error) {
+        if (!force && error.source && error.source.type == "must_force_error") {
           if (confirm(error.source.errors[0].message + "\n\nAre you sure you want to remove this pipeline from this team?")) {
             this.performPipelineRemove(true);
           }

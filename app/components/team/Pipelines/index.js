@@ -44,14 +44,14 @@ class Pipelines extends React.Component {
   }
 
   renderPipelines() {
-    if(this.props.team.pipelines.edges.length > 0) {
+    if (this.props.team.pipelines.edges.length > 0) {
       return this.props.team.pipelines.edges.map((edge) => {
         return (
           <Row key={edge.node.id} teamPipeline={edge.node} onRemoveClick={this.handleTeamPipelineRemove} onAccessLevelChange={this.handleAccessLevelChange} relay={this.props.relay} />
-        )
+        );
       });
     } else {
-      return <Panel.Section className="dark-gray">There are no pipelines assigned to this team</Panel.Section>
+      return <Panel.Section className="dark-gray">There are no pipelines assigned to this team</Panel.Section>;
     }
   }
 
@@ -65,7 +65,8 @@ class Pipelines extends React.Component {
               onSelect={this.handlePipelineSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
               placeholder="Add pipeline…"
-              ref={c => this._autoCompletor = c} />
+              ref={(c) => this._autoCompletor = c}
+            />
           </Panel.Section>
         )
       }
@@ -74,27 +75,27 @@ class Pipelines extends React.Component {
 
   renderAutoCompleteSuggstions(search) {
     // First filter out any pipelines that are already in this list
-    let suggestions = [];
+    const suggestions = [];
     this.props.team.organization.pipelines.edges.forEach((pipeline) => {
       let found = false;
       this.props.team.pipelines.edges.forEach((edge) => {
-        if(edge.node.pipeline.id == pipeline.node.id) {
+        if (edge.node.pipeline.id == pipeline.node.id) {
           found = true;
         }
       });
 
-      if(!found) {
+      if (!found) {
         suggestions.push(pipeline.node);
       }
     });
 
     // Either render the sugggestions, or show a "not found" error
-    if(suggestions.length > 0) {
+    if (suggestions.length > 0) {
       return suggestions.map((pipeline) => {
-        return [ <Pipeline key={pipeline.id} pipeline={pipeline} />, pipeline ];
+        return [<Pipeline key={pipeline.id} pipeline={pipeline} />, pipeline];
       });
     } else if (search != "") {
-      return [ <FormAutoCompleteField.ErrorMessage key={"error"}>Could not find a pipeline with name <em>{search}</em></FormAutoCompleteField.ErrorMessage> ];
+      return [<FormAutoCompleteField.ErrorMessage key={"error"}>Could not find a pipeline with name <em>{search}</em></FormAutoCompleteField.ErrorMessage>];
     } else {
       return [];
     }

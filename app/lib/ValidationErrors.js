@@ -4,11 +4,11 @@ class ValidationErrors {
   }
 
   findForField(field) {
-    if(this.errors && this.errors.length > 0) {
-      var messages = [];
+    if (this.errors && this.errors.length > 0) {
+      const messages = [];
 
-      this.errors.forEach(error => {
-        if(error.field == field) {
+      this.errors.forEach((error) => {
+        if (error.field == field) {
           messages.push(error.message);
         }
       });
