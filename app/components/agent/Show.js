@@ -8,8 +8,18 @@ import Emojify from '../shared/Emojify';
 import FriendlyTime from "../shared/FriendlyTime";
 import PageWithContainer from '../shared/PageWithContainer';
 import Panel from '../shared/Panel';
+import PusherStore from '../../stores/PusherStore';
 
 import AgentStopMutation from '../../mutations/AgentStop';
+
+const CONNECTION_STATE_LABELS = {
+  'connected': 'Connected',
+  'disconnected': 'Disconnected',
+  'never_connected': 'Never Connected',
+  'lost': 'Lost Connection',
+  'stopped': 'Stopped',
+  'stopping': 'Stopping…'
+};
 
 class AgentShow extends React.Component {
   static propTypes = {
@@ -19,16 +29,23 @@ class AgentShow extends React.Component {
     })
   };
 
-  getConnectionStateLabel(state) {
-    return {
-      'connected': 'Connected',
-      'disconnected': 'Disconnected',
-      'never_connected': 'Never Connected',
-      'lost': 'Lost Connection',
-      'stopped': 'Stopped',
-      'stopping': 'Stopping…'
-    }[state];
+  state = {
+    stopping: false
+  };
+
+  componentDidMount() {
+    PusherStore.on("websocket:event", this.handlePusherWebsocketEvent);
   }
+
+  componentWillUnmount() {
+    PusherStore.off("websocket:event", this.handlePusherWebsocketEvent);
+  }
+
+  handlePusherWebsocketEvent = (payload) => {
+    if (payload.event === "agent:updated" && payload.graphql.id === this.props.agent.id) {
+      this.props.relay.forceFetch(true);
+    }
+  };
 
   renderExtraItem(title, content) {
     return (
@@ -99,26 +116,10 @@ class AgentShow extends React.Component {
     return extras;
   }
 
-  renderStopRow() {
-    if (this.props.agent.connectionState !== 'connected') {
-      return null;
-    }
-
-    return (
-      <Panel.Row>
-        <div className="left right-align sm-col-3 p2" />
-        <div className="left sm-col-9 p2">
-          <Button theme="default" outline={true} onClick={this.onStopButtonClick}>Stop Agent</Button><br/>
-          <small className="dark-gray">Remotely stop this agent process. Any running build job will be canceled.</small>
-        </div>
-      </Panel.Row>
-    );
-  }
-
   onStopButtonClick = (e) => {
     e.preventDefault();
 
-    //this.setState({ saving: true });
+    this.setState({ stopping: true });
 
     const mutation = new AgentStopMutation({
       agent: this.props.agent,
@@ -132,11 +133,11 @@ class AgentShow extends React.Component {
   };
 
   handleMutationSuccess = () => {
-    console.log('handleMutationSuccess');
+    this.setState({ stopping: false });
   };
 
   handleMutationError = () => {
-    console.log('handleMutationError');
+    this.setState({ stopping: false });
   };
 
   render() {
@@ -164,7 +165,7 @@ class AgentShow extends React.Component {
                 Status
               </div>
               <div className="left sm-col-9 p2">
-                <strong className={connectionStateClassName}>{this.getConnectionStateLabel(agent.connectionState)}</strong><br/>
+                <strong className={connectionStateClassName}>{CONNECTION_STATE_LABELS[agent.connectionState]}</strong><br/>
                 <small className="dark-gray">
                   <ul className="list-reset m0">
                     {this.renderExtras(agent)}
@@ -189,6 +190,22 @@ class AgentShow extends React.Component {
       </DocumentTitle>
     );
   }
+
+  renderStopRow() {
+    if (this.props.agent.connectionState !== 'connected') {
+      return null;
+    }
+
+    return (
+      <Panel.Row>
+        <div className="left right-align sm-col-3 p2" />
+        <div className="left sm-col-9 p2">
+          <Button theme="default" outline={true} onClick={this.onStopButtonClick}>Stop Agent</Button><br/>
+          <small className="dark-gray">Remotely stop this agent process. Any running build job will be canceled.</small>
+        </div>
+      </Panel.Row>
+    );
+  }
 }
 
 export default Relay.createContainer(AgentShow, {
@@ -200,6 +217,7 @@ export default Relay.createContainer(AgentShow, {
         connectionState
         disconnectedAt
         hostname
+        id
         ipAddress
         job
         lostAt
