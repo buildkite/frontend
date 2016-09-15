@@ -8,6 +8,8 @@ import AgentRow from './Row';
 import Panel from '../shared/Panel';
 import PageWithContainer from '../shared/PageWithContainer';
 import RevealButton from '../shared/RevealButton';
+import MarkdownTemplateTest from '../docs/test.mdt';
+import 'highlight.js/styles/github.css';
 
 const AGENT_LIST_REFRESH_INTERVAL = 10 * 1000;
 
@@ -92,6 +94,7 @@ class AgentIndex extends React.Component {
     return (
       <DocumentTitle title={`Agents · ${this.props.organization.name}`}>
         <PageWithContainer>
+          <MarkdownTemplateTest foo="Hello there!!!" />
           {pageContent}
         </PageWithContainer>
       </DocumentTitle>

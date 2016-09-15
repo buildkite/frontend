@@ -158,6 +158,10 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.mdt$/i,
+        loader: 'babel-loader!mdtemplate-loader'
+      },
+      {
         test: /\.(woff)$/i,
         loader: 'url-loader?limit=8192'
       },
