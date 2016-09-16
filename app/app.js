@@ -104,6 +104,7 @@ window["initializeReactRouter"] = function() {
   // The components used in the router
   const Main = require("./components/Main").default;
   const SectionLoader = require("./components/shared/SectionLoader").default;
+  const AuthCodeAccept = require("./components/auth/AuthCodeAccept").default;
   const BuildCommentsList = require("./components/build/CommentsList").default;
   const OrganizationShow = require("./components/organization/Show").default;
   const OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
@@ -183,6 +184,7 @@ window["initializeReactRouter"] = function() {
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery, build: BuildQuery }} prepareParams={prepareBuildParams} />
 
       <Route path="/" component={Main}>
+        <Route path="auth/:type/:code" component={AuthCodeAccept} />
         <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery }} prepareParams={preparePipelineListParams}  render={renderSectionLoading} />
 
         <Route path="organizations/:organization" component={OrganizationSettingsSection}>
