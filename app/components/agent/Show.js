@@ -102,9 +102,9 @@ class AgentShow extends React.Component {
       extras.push(this.renderExtraItem(
         'Connected',
         <span>
-          <FriendlyTime value={agent.connectedAt} capitalized={true} />
+          <FriendlyTime value={agent.connectedAt} />
           {agent.pingedAt && agent.connectionState === 'connected' &&
-            <span> (last check-in was {<FriendlyTime value={agent.pingedAt} />})</span>
+            <span> (last check-in was {<FriendlyTime value={agent.pingedAt} capitalized={false} />})</span>
           }
         </span>
       ));

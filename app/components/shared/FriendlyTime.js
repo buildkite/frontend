@@ -9,7 +9,7 @@ class FriendlyTime extends React.Component {
   };
 
   static defaultProps = {
-    capitalized: false
+    capitalized: true
   };
 
   render() {
