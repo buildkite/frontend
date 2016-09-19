@@ -55,7 +55,7 @@ class BuildTooltip extends React.Component {
   renderTime() {
     if (this.props.build.startedAt || this.props.build.finishedAt) {
       return (
-        <FriendlyTime value={this.props.build.finishedAt || this.props.build.startedAt} />
+        <FriendlyTime value={this.props.build.finishedAt || this.props.build.startedAt} capitalized={true} />
       );
     } else {
       return (
