@@ -133,7 +133,7 @@ class AgentShow extends React.Component {
 
     const mutation = new AgentStopMutation({
       agent: this.props.agent,
-      graceful: true
+      graceful: false
     });
 
     Relay.Store.commitUpdate(mutation, {
