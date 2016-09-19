@@ -8,10 +8,8 @@ import AgentRow from './Row';
 import Panel from '../shared/Panel';
 import PageWithContainer from '../shared/PageWithContainer';
 import RevealButton from '../shared/RevealButton';
-import PusherStore from '../../stores/PusherStore';
 
-const DEBOUNCED_REFRESH_AGENT_THRESHOLD = 100;
-const DEBOUNCED_REFRESH_INTERVAL = 10 * 1000;
+const AGENT_LIST_REFRESH_INTERVAL = 15 * 1000;
 
 class AgentIndex extends React.Component {
   static propTypes = {
@@ -33,31 +31,15 @@ class AgentIndex extends React.Component {
   };
 
   componentDidMount() {
-    PusherStore.on("websocket:event", this.handlePusherWebsocketEvent);
-    this._pusherWebsocketEventInterval = setInterval(this.maybeFetchNewData, DEBOUNCED_REFRESH_INTERVAL);
+    this._agentRefreshInterval = setInterval(this.fetchUpdatedData, AGENT_LIST_REFRESH_INTERVAL);
   }
 
   componentWillUnmount() {
-    PusherStore.off("websocket:event", this.handlePusherWebsocketEvent);
-    clearInterval(this._pusherWebsocketEventInterval);
+    clearInterval(this._agentRefreshInterval);
   }
 
-  handlePusherWebsocketEvent = (payload) => {
-    if (payload.event === "agent:created") {
-      this._hasRecievedWebsocketEvent = true;
-
-      if (this.props.organization.agents.edges.length < DEBOUNCED_REFRESH_AGENT_THRESHOLD) {
-        // fetch data immediately if we don't have too many agents to keep up with
-        this.maybeFetchNewData();
-      }
-    }
-  };
-
-  maybeFetchNewData = () => {
-    if (this._hasRecievedWebsocketEvent) {
-      this.props.relay.forceFetch(true);
-      this._hasRecievedWebsocketEvent = false;
-    }
+  fetchUpdatedData = () => {
+    this.props.relay.forceFetch(true);
   };
 
   render() {
