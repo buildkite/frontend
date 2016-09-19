@@ -23,20 +23,6 @@ class AgentRow extends React.Component {
     relay: React.PropTypes.object.isRequired
   };
 
-  componentDidMount() {
-    PusherStore.on("websocket:event", this.handlePusherWebsocketEvent);
-  }
-
-  componentWillUnmount() {
-    PusherStore.off("websocket:event", this.handlePusherWebsocketEvent);
-  }
-
-  handlePusherWebsocketEvent = (payload) => {
-    if (payload.event === "agent:updated" && payload.graphql.id === this.props.agent.id) {
-      this.props.relay.forceFetch(true);
-    }
-  };
-
   render() {
     const iconClassName = classNames('circle', {
       'bg-lime': this.props.agent.connectionState === 'connected',

@@ -9,7 +9,7 @@ import Panel from '../shared/Panel';
 import PageWithContainer from '../shared/PageWithContainer';
 import RevealButton from '../shared/RevealButton';
 
-const AGENT_LIST_REFRESH_INTERVAL = 15 * 1000;
+const AGENT_LIST_REFRESH_INTERVAL = 10 * 1000;
 
 class AgentIndex extends React.Component {
   static propTypes = {
@@ -31,11 +31,11 @@ class AgentIndex extends React.Component {
   };
 
   componentDidMount() {
-    this._agentRefreshInterval = setInterval(this.fetchUpdatedData, AGENT_LIST_REFRESH_INTERVAL);
+    this._agentListRefreshInterval = setInterval(this.fetchUpdatedData, AGENT_LIST_REFRESH_INTERVAL);
   }
 
   componentWillUnmount() {
-    clearInterval(this._agentRefreshInterval);
+    clearInterval(this._agentListRefreshInterval);
   }
 
   fetchUpdatedData = () => {

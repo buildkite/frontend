@@ -9,10 +9,11 @@ import FlashesStore from '../../stores/FlashesStore';
 import FriendlyTime from "../shared/FriendlyTime";
 import PageWithContainer from '../shared/PageWithContainer';
 import Panel from '../shared/Panel';
-import PusherStore from '../../stores/PusherStore';
 import permissions from '../../lib/permissions';
 
 import AgentStopMutation from '../../mutations/AgentStop';
+
+const AGENT_REFRESH_INTERVAL = 5 * 1000;
 
 const CONNECTION_STATE_LABELS = {
   'connected': 'Connected',
@@ -43,22 +44,22 @@ class AgentShow extends React.Component {
   };
 
   componentDidMount() {
-    PusherStore.on("websocket:event", this.handlePusherWebsocketEvent);
+    this._agentRefreshInterval = setInterval(this.fetchUpdatedData, AGENT_REFRESH_INTERVAL);
   }
 
   componentWillUnmount() {
-    PusherStore.off("websocket:event", this.handlePusherWebsocketEvent);
+    clearInterval(this._agentRefreshInterval);
   }
 
-  handlePusherWebsocketEvent = (payload) => {
-    if (payload.event === "agent:updated" && payload.graphql.id === this.props.agent.id) {
-      this.props.relay.forceFetch(true);
-    }
+  fetchUpdatedData = () => {
+    this.props.relay.forceFetch(true);
   };
 
   renderExtraItem(title, content) {
     return (
-      <li key={title}><strong className="black">{title}:</strong> {content}</li>
+      <li key={title}>
+        <strong className="black">{title}:</strong> {content}
+      </li>
     );
   }
 
