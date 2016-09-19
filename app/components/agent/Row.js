@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import classNames from 'classnames';
 
 import Panel from '../shared/Panel';
-import PusherStore from '../../stores/PusherStore';
 
 class AgentRow extends React.Component {
   static propTypes = {
@@ -19,8 +18,7 @@ class AgentRow extends React.Component {
       }).isRequired,
       uuid: React.PropTypes.string.isRequired,
       version: React.PropTypes.string.isRequired
-    }),
-    relay: React.PropTypes.object.isRequired
+    })
   };
 
   render() {
