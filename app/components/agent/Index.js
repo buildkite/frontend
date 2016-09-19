@@ -74,11 +74,11 @@ class AgentIndex extends React.Component {
                 <Panel.Row>
                   {agentTokens.map((token, index, array) => (
                     <div key={index}>
-                      <small className="dark-gray">{token.node.description}</small><br />
+                      <small className="dark-gray mb1 block">{token.node.description}</small>
                       <RevealButton caption="Reveal Agent Token">
                         <code className="red monospace" style={{ wordWrap: "break-word" }}>{token.node.token}</code>
                       </RevealButton>
-                      {index !== array.length - 1 && <hr className="bg-gray mx-auto max-width-1 border-none height-0" style={{ height: 1 }} />}
+                      {index !== array.length - 1 && <hr className="bg-gray mx-auto max-width-1 border-none height-0 my3" style={{ height: 1 }} />}
                     </div>
                   ))}
                 </Panel.Row>
