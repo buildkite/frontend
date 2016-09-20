@@ -4,7 +4,7 @@ class PipelineScheduleUpdate extends Relay.Mutation {
   static fragments = {
     pipelineSchedule: () => Relay.QL`
       fragment on PipelineSchedule {
-	id
+        id
       }
     `
   }
@@ -12,7 +12,7 @@ class PipelineScheduleUpdate extends Relay.Mutation {
   getMutation() {
     return Relay.QL`
       mutation {
-	pipelineScheduleUpdate
+        pipelineScheduleUpdate
       }
     `;
   }
@@ -20,9 +20,9 @@ class PipelineScheduleUpdate extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on PipelineScheduleUpdatePayload {
-	pipelineSchedule {
+        pipelineSchedule {
           cronline
-          description
+          label
           message
           commit
           branch
@@ -31,7 +31,7 @@ class PipelineScheduleUpdate extends Relay.Mutation {
           enabled
           failedMessage
           failedAt
-	}
+        }
       }
     `;
   }
@@ -40,7 +40,7 @@ class PipelineScheduleUpdate extends Relay.Mutation {
     return [{
       type: 'FIELDS_CHANGE',
       fieldIDs: {
-	pipelineSchedule: this.props.pipelineSchedule.id
+        pipelineSchedule: this.props.pipelineSchedule.id
       }
     }];
   }
@@ -49,7 +49,7 @@ class PipelineScheduleUpdate extends Relay.Mutation {
     return {
       id: this.props.pipelineSchedule.id,
       cronline: this.props.cronline,
-      description: this.props.description,
+      label: this.props.label,
       message: this.props.message,
       commit: this.props.commit,
       branch: this.props.branch,

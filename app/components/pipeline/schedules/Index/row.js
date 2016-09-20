@@ -30,7 +30,7 @@ class Row extends React.Component {
         <div className="flex flex-stretch items-center line-height-1" style={{minHeight: '3em'}}>
           <div className="flex-auto">
             <div className="m0 semi-bold">{this.props.pipelineSchedule.cronline}</div>
-            {this.renderDescription()}
+            {this.renderLabel()}
           </div>
           <div className="flex flex-none flex-stretch items-center my1 pr3">
             <code className="dark-gray">{this.props.pipelineSchedule.branch} | {this.props.pipelineSchedule.commit}</code>
@@ -40,10 +40,10 @@ class Row extends React.Component {
     );
   }
 
-  renderDescription() {
-    if (this.props.pipelineSchedule.description) {
+  renderLabel() {
+    if (this.props.pipelineSchedule.label) {
       return (
-        <div className="regular dark-gray mt1"><Emojify text={this.props.pipelineSchedule.description} /></div>
+        <div className="regular dark-gray mt1"><Emojify text={this.props.pipelineSchedule.label} /></div>
       );
     }
   }
@@ -55,7 +55,7 @@ export default Relay.createContainer(Row, {
       fragment on PipelineSchedule {
         uuid
         cronline
-        description
+        label
         commit
         branch
         pipeline {

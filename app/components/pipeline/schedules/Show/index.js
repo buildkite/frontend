@@ -20,7 +20,7 @@ class Show extends React.Component {
     pipelineSchedule: React.PropTypes.shape({
       uuid: React.PropTypes.string.isRequired,
       cronline: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string,
+      label: React.PropTypes.string,
       commit: React.PropTypes.string,
       branch: React.PropTypes.string,
       message: React.PropTypes.string,
@@ -69,7 +69,7 @@ class Show extends React.Component {
         <PageWithContainer>
           <PageHeader>
             <PageHeader.Title>{this.props.pipelineSchedule.cronline}</PageHeader.Title>
-            <PageHeader.Description><Emojify text={this.props.pipelineSchedule.description || "No description"} /></PageHeader.Description>
+            <PageHeader.Description><Emojify text={this.props.pipelineSchedule.label || "No label"} /></PageHeader.Description>
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
@@ -164,7 +164,7 @@ export default Relay.createContainer(Show, {
         ${PipelineScheduleDeleteMutation.getFragment('pipelineSchedule')}
         uuid
         cronline
-        description
+        label
         nextBuildAt
         commit
         branch

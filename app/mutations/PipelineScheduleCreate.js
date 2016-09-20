@@ -4,7 +4,7 @@ class PipelineScheduleCreate extends Relay.Mutation {
   static fragments = {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
-	id
+        id
       }
     `
   }
@@ -12,7 +12,7 @@ class PipelineScheduleCreate extends Relay.Mutation {
   getMutation() {
     return Relay.QL`
       mutation {
-	pipelineScheduleCreate
+        pipelineScheduleCreate
       }
     `;
   }
@@ -20,12 +20,12 @@ class PipelineScheduleCreate extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on PipelineScheduleCreatePayload {
-	pipelineScheduleEdge,
-	pipeline {
-	  schedules {
-	    count
-	  }
-	}
+        pipelineScheduleEdge,
+        pipeline {
+          schedules {
+            count
+          }
+        }
       }
     `;
   }
@@ -34,20 +34,20 @@ class PipelineScheduleCreate extends Relay.Mutation {
     return [{
       type: 'REQUIRED_CHILDREN',
       children: [
-	Relay.QL`
-	  fragment on PipelineScheduleCreatePayload {
-	    pipelineScheduleEdge {
-	      node {
-	        uuid
+        Relay.QL`
+          fragment on PipelineScheduleCreatePayload {
+            pipelineScheduleEdge {
+              node {
+                uuid
                 pipeline {
                   schedules {
                     count
                   }
                 }
-	      }
-	    }
-	  }
-	`
+              }
+            }
+          }
+        `
       ]
     }, {
       type: 'RANGE_ADD',
@@ -56,7 +56,7 @@ class PipelineScheduleCreate extends Relay.Mutation {
       connectionName: 'schedules',
       edgeName: 'pipelineScheduleEdge',
       rangeBehaviors: {
-	'': 'append'
+        '': 'append'
       }
     }];
   }
@@ -65,7 +65,7 @@ class PipelineScheduleCreate extends Relay.Mutation {
     return {
       pipelineID: this.props.pipeline.id,
       cronline: this.props.cronline,
-      description: this.props.description,
+      label: this.props.label,
       message: this.props.message,
       commit: this.props.commit,
       branch: this.props.branch,

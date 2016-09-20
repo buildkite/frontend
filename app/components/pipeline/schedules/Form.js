@@ -8,7 +8,7 @@ import ValidationErrors from '../../../lib/ValidationErrors';
 class Form extends React.Component {
   static propTypes = {
     cronline: React.PropTypes.string,
-    description: React.PropTypes.string,
+    label: React.PropTypes.string,
     commit: React.PropTypes.string,
     branch: React.PropTypes.string,
     message: React.PropTypes.string,
@@ -36,11 +36,11 @@ class Form extends React.Component {
           ref={(c) => this.cronlineTextField = c} />
 
         <FormTextField
-          label="Description"
+          label="Label"
           help="Describe what this schedule is all about (you can even use :emoji:)"
-          errors={errors.findForField("description")}
-          value={this.props.description}
-          ref={(c) => this.descriptionTextField = c} />
+          errors={errors.findForField("label")}
+          value={this.props.label}
+          ref={(c) => this.labelTextField = c} />
 
         <FormTextField
           label="Message"
@@ -81,7 +81,7 @@ class Form extends React.Component {
   getFormData() {
     return {
       cronline: this.cronlineTextField.getValue(),
-      description: this.descriptionTextField.getValue(),
+      label: this.labelTextField.getValue(),
       message: this.messageTextField.getValue(),
       commit: this.commitTextField.getValue(),
       branch: this.branchTextField.getValue(),

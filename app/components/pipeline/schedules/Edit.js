@@ -17,7 +17,7 @@ class Edit extends React.Component {
     pipelineSchedule: React.PropTypes.shape({
       uuid: React.PropTypes.string.isRequired,
       cronline: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string,
+      label: React.PropTypes.string,
       commit: React.PropTypes.string,
       branch: React.PropTypes.string,
       message: React.PropTypes.string,
@@ -55,7 +55,7 @@ class Edit extends React.Component {
                   pipeline={this.props.pipelineSchedule.pipeline}
                   errors={this.state.errors}
                   cronline={this.props.pipelineSchedule.cronline}
-                  description={this.props.pipelineSchedule.description}
+                  label={this.props.pipelineSchedule.label}
                   commit={this.props.pipelineSchedule.commit}
                   branch={this.props.pipelineSchedule.branch}
                   message={this.props.pipelineSchedule.message}
@@ -115,7 +115,7 @@ export default Relay.createContainer(Edit, {
         ${PipelineScheduleUpdateMutation.getFragment('pipelineSchedule')}
         uuid
         cronline
-        description
+        label
         commit
         branch
         message

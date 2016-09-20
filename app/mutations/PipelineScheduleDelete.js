@@ -37,15 +37,15 @@ class PipelineScheduleDelete extends Relay.Mutation {
     return [{
       type: 'REQUIRED_CHILDREN',
       children: [
-	Relay.QL`
-	  fragment on PipelineScheduleDeletePayload {
+        Relay.QL`
+          fragment on PipelineScheduleDeletePayload {
             pipeline {
               schedules {
                 count
               }
             }
-	  }
-	`
+          }
+        `
       ]
     }, {
       type: 'NODE_DELETE',
