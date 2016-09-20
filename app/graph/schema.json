@@ -507,7 +507,7 @@
             },
             {
               "name": "builds",
-              "description": null,
+              "description": "Returns builds that this user has created.",
               "args": [
                 {
                   "name": "first",
