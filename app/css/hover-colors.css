@@ -67,3 +67,13 @@
 .hover-blue:focus .hover-blue-child {
   background-color: var(--blue);
 }
+
+.hover-navy:hover {
+  color: var(--navy);
+}
+
+.hover-navy:hover .hover-navy-child,
+.hover-navy:active .hover-navy-child,
+.hover-navy:focus .hover-navy-child {
+  background-color: var(--navy);
+}
