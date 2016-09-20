@@ -2,9 +2,9 @@ import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
-import Panel from '../../../shared/Panel'
-import PageHeader from '../../../shared/PageHeader'
-import Button from '../../../shared/Button'
+import Panel from '../../../shared/Panel';
+import PageHeader from '../../../shared/PageHeader';
+import Button from '../../../shared/Button';
 import permissions from '../../../../lib/permissions';
 import PageWithContainer from '../../../shared/PageWithContainer';
 import Emojify from '../../../shared/Emojify';
@@ -62,16 +62,16 @@ class Index extends React.Component {
         allowed: "pipelineScheduleCreate",
         render: () => <Button link={`/${this.props.params.organization}/${this.props.params.pipeline}/settings/schedules/new`} theme={"default"} outline={true}>Create a Schedule</Button>
       }
-    )
+    );
   }
 
   renderScheduleRows() {
-    if(this.props.pipeline.schedules.edges.length > 0) {
+    if (this.props.pipeline.schedules.edges.length > 0) {
       return this.props.pipeline.schedules.edges.map((edge) => {
         return (
           <Row key={edge.node.id} pipelineSchedule={edge.node} />
-        )
-      })
+        );
+      });
     } else {
       return (
         <Panel.Row>

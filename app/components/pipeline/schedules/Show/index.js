@@ -5,8 +5,7 @@ import DocumentTitle from 'react-document-title';
 import PipelineScheduleDeleteMutation from '../../../../mutations/PipelineScheduleDelete';
 
 import PageHeader from '../../../shared/PageHeader';
-import Panel from '../../../shared/Panel'
-import Button from '../../../shared/Button'
+import Panel from '../../../shared/Panel';
 import PageWithContainer from '../../../shared/PageWithContainer';
 import Emojify from '../../../shared/Emojify';
 
@@ -111,12 +110,12 @@ class Show extends React.Component {
       {
         allowed: "pipelineScheduleUpdate",
         render: (idx) => {
-          let pipeline = this.props.pipelineSchedule.pipeline;
-          let organization = this.props.pipelineSchedule.pipeline.organization;
+          const pipeline = this.props.pipelineSchedule.pipeline;
+          const organization = this.props.pipelineSchedule.pipeline.organization;
 
           return (
             <PageHeader.Button key={idx} link={`/${organization.slug}/${pipeline.slug}/settings/schedules/${this.props.pipelineSchedule.uuid}/edit`}>Edit</PageHeader.Button>
-          )
+          );
         }
       },
       {
@@ -125,14 +124,14 @@ class Show extends React.Component {
           <PageHeader.Button key={idx} loading={this.state.deleting ? "Deleting…" : false} onClick={this.handleScheduleDeleteClick}>Delete</PageHeader.Button>
         )
       }
-    )
+    );
   }
 
   handleScheduleDeleteClick = () => {
-    if(confirm("Delete this schedule?")) {
+    if (confirm("Delete this schedule?")) {
       this.setState({ deleting: true });
 
-      var mutation = new PipelineScheduleDeleteMutation({
+      const mutation = new PipelineScheduleDeleteMutation({
         pipelineSchedule: this.props.pipelineSchedule
       });
 
@@ -144,8 +143,8 @@ class Show extends React.Component {
   }
 
   handleDeleteMutationSuccess = () => {
-    let pipeline = this.props.pipelineSchedule.pipeline;
-    let organization = this.props.pipelineSchedule.pipeline.organization;
+    const pipeline = this.props.pipelineSchedule.pipeline;
+    const organization = this.props.pipelineSchedule.pipeline.organization;
 
     this.context.router.push(`/${organization.slug}/${pipeline.slug}/settings/schedules`);
   }

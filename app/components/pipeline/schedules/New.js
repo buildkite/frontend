@@ -6,11 +6,11 @@ import PipelineScheduleCreateMutation from '../../../mutations/PipelineScheduleC
 import GraphQLErrors from '../../../constants/GraphQLErrors';
 
 import PageHeader from '../../shared/PageHeader';
-import Panel from '../../shared/Panel'
-import Button from '../../shared/Button'
+import Panel from '../../shared/Panel';
+import Button from '../../shared/Button';
 import PageWithContainer from '../../shared/PageWithContainer';
 
-import Form from "./Form"
+import Form from "./Form";
 
 class New extends React.Component {
   static propTypes = {
@@ -61,8 +61,8 @@ class New extends React.Component {
 
     this.setState({ saving: true });
 
-    let data = this.form.refs.component.getFormData();
-    let mutation = new PipelineScheduleCreateMutation({ ...data, pipeline: this.props.pipeline });
+    const data = this.form.refs.component.getFormData();
+    const mutation = new PipelineScheduleCreateMutation({ ...data, pipeline: this.props.pipeline });
 
     Relay.Store.commitUpdate(mutation, {
       onSuccess: this.handleMutationSuccess,
@@ -71,9 +71,9 @@ class New extends React.Component {
   };
 
   handleMutationError = (transaction) => {
-    var error = transaction.getError();
-    if(error) {
-      if(error.source && error.source.type == GraphQLErrors.RECORD_VALIDATION_ERROR) {
+    const error = transaction.getError();
+    if (error) {
+      if (error.source && error.source.type == GraphQLErrors.RECORD_VALIDATION_ERROR) {
         this.setState({ errors: transaction.getError().source.errors });
       } else {
         alert(error);

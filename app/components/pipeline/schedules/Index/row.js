@@ -1,15 +1,15 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-import Panel from '../../../shared/Panel'
-import Emojify from '../../../shared/Emojify'
+import Panel from '../../../shared/Panel';
+import Emojify from '../../../shared/Emojify';
 
 class Row extends React.Component {
   static propTypes = {
     pipelineSchedule: React.PropTypes.shape({
       uuid: React.PropTypes.string.isRequired,
       cronline: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string,
+      label: React.PropTypes.string,
       commit: React.PropTypes.string,
       branch: React.PropTypes.string,
       pipeline: React.PropTypes.shape({
@@ -22,12 +22,12 @@ class Row extends React.Component {
   };
 
   render() {
-    let organization = this.props.pipelineSchedule.pipeline.organization;
-    let pipeline = this.props.pipelineSchedule.pipeline;
+    const organization = this.props.pipelineSchedule.pipeline.organization;
+    const pipeline = this.props.pipelineSchedule.pipeline;
 
     return (
       <Panel.RowLink to={`/${organization.slug}/${pipeline.slug}/settings/schedules/${this.props.pipelineSchedule.uuid}`}>
-        <div className="flex flex-stretch items-center line-height-1" style={{minHeight: '3em'}}>
+        <div className="flex flex-stretch items-center line-height-1" style={{ minHeight: '3em' }}>
           <div className="flex-auto">
             <div className="m0 semi-bold">{this.props.pipelineSchedule.cronline}</div>
             {this.renderLabel()}

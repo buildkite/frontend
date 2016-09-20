@@ -13,7 +13,7 @@ class RowLink extends React.Component {
   };
 
   render() {
-    if(this.props.to) {
+    if (this.props.to) {
       return (
         <Link to={this.props.to} className="btn py2 px3 flex items-center hover-bg-silver hover-black focus-black">
           <div className="flex-auto">

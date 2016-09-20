@@ -24,7 +24,7 @@ class Form extends React.Component {
   }
 
   render() {
-    var errors = new ValidationErrors(this.props.errors);
+    const errors = new ValidationErrors(this.props.errors);
 
     return (
       <div>
@@ -33,21 +33,24 @@ class Form extends React.Component {
           help="The interval or time that this schedule should run using cron syntax, e.g (<code>30 * * * *</code> or <code>@midnight</code>). These times should be in UTC."
           errors={errors.findForField("cronline")}
           value={this.props.cronline}
-          ref={(c) => this.cronlineTextField = c} />
+          ref={(c) => this.cronlineTextField = c}
+        />
 
         <FormTextField
           label="Label"
           help="Describe what this schedule is all about (you can even use :emoji:)"
           errors={errors.findForField("label")}
           value={this.props.label}
-          ref={(c) => this.labelTextField = c} />
+          ref={(c) => this.labelTextField = c}
+        />
 
         <FormTextField
           label="Message"
           help="The message to use for the created build"
           errors={errors.findForField("message")}
           value={this.props.message}
-          ref={(c) => this.messageTextField = c} />
+          ref={(c) => this.messageTextField = c}
+        />
 
         <FormTextField
           label="Commit"
@@ -55,7 +58,8 @@ class Form extends React.Component {
           errors={errors.findForField("commit")}
           value={this.props.commit}
           placeholder={"HEAD"}
-          ref={(c) => this.commitTextField = c} />
+          ref={(c) => this.commitTextField = c}
+        />
 
         <FormTextField
           label="Branch"
@@ -63,7 +67,8 @@ class Form extends React.Component {
           errors={errors.findForField("branch")}
           value={this.props.branch}
           placeholder={this.props.pipeline.defaultBranch}
-          ref={(c) => this.branchTextField = c} />
+          ref={(c) => this.branchTextField = c}
+        />
 
         <FormTextarea
           label="Environment Varibles"
@@ -73,7 +78,8 @@ class Form extends React.Component {
           autoresize={true}
           errors={errors.findForField("env")}
           value={this.props.env}
-          ref={(c) => this.envTextField = c} />
+          ref={(c) => this.envTextField = c}
+        />
       </div>
     );
   }
@@ -86,7 +92,7 @@ class Form extends React.Component {
       commit: this.commitTextField.getValue(),
       branch: this.branchTextField.getValue(),
       env: this.envTextField.getValue()
-    }
+    };
   }
 }
 

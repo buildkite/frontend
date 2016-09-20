@@ -138,13 +138,13 @@ window["initializeReactRouter"] = function() {
     query {
       pipeline(slug: $slug)
     }
-  `
+  `;
 
   const PipelineScheduleQuery = () => Relay.QL`
     query {
       pipelineSchedule(slug: $slug)
     }
-  `
+  `;
 
   const TeamQuery = () => Relay.QL`
     query {
@@ -189,16 +189,16 @@ window["initializeReactRouter"] = function() {
   const preparePipelineParams = (params) => {
     return {
       ...params,
-      slug: [ params.organization, params.pipeline ].join("/")
+      slug: [params.organization, params.pipeline].join("/")
     };
-  }
+  };
 
   const preparePipelineScheduleParams = (params) => {
     return {
       ...params,
-      slug: [ params.organization, params.pipeline, params.schedule ].join("/")
+      slug: [params.organization, params.pipeline, params.schedule].join("/")
     };
-  }
+  };
 
   const preparePipelineListParams = (params, { location }) => {
     return {
@@ -225,10 +225,10 @@ window["initializeReactRouter"] = function() {
         </Route>
 
         <Route path="/:organization/:pipeline/settings/schedules">
-          <IndexRoute component={PipelineScheduleIndex} queries={{pipeline: PipelineQuery}} prepareParams={preparePipelineParams} render={renderSectionLoading} />
-          <Route path="new" component={PipelineScheduleNew} queries={{pipeline: PipelineQuery}} prepareParams={preparePipelineParams} render={renderSectionLoading} />
-          <Route path=":schedule" component={PipelineScheduleShow} queries={{pipelineSchedule: PipelineScheduleQuery}} prepareParams={preparePipelineScheduleParams} render={renderSectionLoading} />
-          <Route path=":schedule/edit" component={PipelineScheduleEdit} queries={{pipelineSchedule: PipelineScheduleQuery}} prepareParams={preparePipelineScheduleParams} render={renderSectionLoading} />
+          <IndexRoute component={PipelineScheduleIndex} queries={{ pipeline: PipelineQuery }} prepareParams={preparePipelineParams} render={renderSectionLoading} />
+          <Route path="new" component={PipelineScheduleNew} queries={{ pipeline: PipelineQuery }} prepareParams={preparePipelineParams} render={renderSectionLoading} />
+          <Route path=":schedule" component={PipelineScheduleShow} queries={{ pipelineSchedule: PipelineScheduleQuery }} prepareParams={preparePipelineScheduleParams} render={renderSectionLoading} />
+          <Route path=":schedule/edit" component={PipelineScheduleEdit} queries={{ pipelineSchedule: PipelineScheduleQuery }} prepareParams={preparePipelineScheduleParams} render={renderSectionLoading} />
         </Route>
       </Route>
     </Router>

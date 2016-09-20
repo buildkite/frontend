@@ -6,11 +6,11 @@ import PipelineScheduleUpdateMutation from '../../../mutations/PipelineScheduleU
 import GraphQLErrors from '../../../constants/GraphQLErrors';
 
 import PageHeader from '../../shared/PageHeader';
-import Panel from '../../shared/Panel'
-import Button from '../../shared/Button'
+import Panel from '../../shared/Panel';
+import Button from '../../shared/Button';
 import PageWithContainer from '../../shared/PageWithContainer';
 
-import Form from "./Form"
+import Form from "./Form";
 
 class Edit extends React.Component {
   static propTypes = {
@@ -60,7 +60,8 @@ class Edit extends React.Component {
                   branch={this.props.pipelineSchedule.branch}
                   message={this.props.pipelineSchedule.message}
                   env={this.props.pipelineSchedule.env.join("\n")}
-                  ref={(c) => this.form = c} />
+                  ref={(c) => this.form = c}
+                />
               </Panel.Section>
 
               <Panel.Footer>
@@ -78,8 +79,8 @@ class Edit extends React.Component {
 
     this.setState({ saving: true });
 
-    let data = this.form.refs.component.getFormData();
-    let mutation = new PipelineScheduleUpdateMutation({ ...data, pipelineSchedule: this.props.pipelineSchedule });
+    const data = this.form.refs.component.getFormData();
+    const mutation = new PipelineScheduleUpdateMutation({ ...data, pipelineSchedule: this.props.pipelineSchedule });
 
     Relay.Store.commitUpdate(mutation, {
       onSuccess: this.handleMutationSuccess,
@@ -88,9 +89,9 @@ class Edit extends React.Component {
   };
 
   handleMutationError = (transaction) => {
-    var error = transaction.getError();
-    if(error) {
-      if(error.source && error.source.type == GraphQLErrors.RECORD_VALIDATION_ERROR) {
+    const error = transaction.getError();
+    if (error) {
+      if (error.source && error.source.type == GraphQLErrors.RECORD_VALIDATION_ERROR) {
         this.setState({ errors: transaction.getError().source.errors });
       } else {
         alert(error);
@@ -101,8 +102,8 @@ class Edit extends React.Component {
   };
 
   handleMutationSuccess = () => {
-    let pipeline = this.props.pipelineSchedule.pipeline;
-    let organization = this.props.pipelineSchedule.pipeline.organization;
+    const pipeline = this.props.pipelineSchedule.pipeline;
+    const organization = this.props.pipelineSchedule.pipeline.organization;
 
     this.context.router.push(`/${organization.slug}/${pipeline.slug}/settings/schedules/${this.props.pipelineSchedule.uuid}`);
   };
