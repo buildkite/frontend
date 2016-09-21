@@ -25,6 +25,71 @@ const QUERIES = {
         }
       }
     }
+  `,
+  "navigation/organization": Relay.QL`
+    query NavigationOrganization($organization: ID!) {
+      organization(slug: $organization) {
+        name
+        id
+        slug
+        agents {
+          count
+        }
+        permissions {
+          organizationUpdate {
+            allowed
+          }
+          organizationMemberCreate {
+            allowed
+          }
+          notificationServiceUpdate {
+            allowed
+          }
+          organizationBillingUpdate {
+            allowed
+          }
+          teamAdmin {
+            allowed
+          }
+        }
+      }
+    }
+  `,
+  "navigation/viewer": Relay.QL`
+    query NavigationViewer {
+      viewer {
+        user {
+          name,
+          avatar {
+            url
+          }
+          id
+        }
+        organizations(first: 500) {
+          edges {
+            node {
+              slug,
+              name,
+              id
+            }
+            cursor
+          }
+          pageInfo {
+            hasNextPage,
+            hasPreviousPage
+          }
+        }
+        unreadChangelogs: changelogs(read: false) {
+          count
+        }
+        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
+          count
+        }
+        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
+          count
+        }
+      }
+    }
   `
 };
 
