@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay';
 import classNames from 'classnames';
 
 import UserAvatar from './../../shared/UserAvatar';
@@ -224,4 +225,61 @@ class Navigation extends React.Component {
   }
 }
 
-export default Navigation;
+export default Relay.createContainer(Navigation, {
+  fragments: {
+    organization: () => Relay.QL`
+      fragment on Organization {
+        name
+        id
+        slug
+        agents {
+          count
+        }
+        permissions {
+          organizationUpdate {
+            allowed
+          }
+          organizationMemberCreate {
+            allowed
+          }
+          notificationServiceUpdate {
+            allowed
+          }
+          organizationBillingUpdate {
+            allowed
+          }
+          teamAdmin {
+            allowed
+          }
+        }
+      }
+    `,
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        user {
+          name
+          avatar {
+            url
+          }
+        }
+        organizations(first: 500) {
+          edges {
+            node {
+              slug
+              name
+            }
+          }
+        }
+        unreadChangelogs: changelogs(read: false) {
+          count
+        }
+        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
+          count
+        }
+        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
+          count
+        }
+      }
+    `
+  }
+});
