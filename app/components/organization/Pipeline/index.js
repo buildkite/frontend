@@ -108,7 +108,7 @@ class Pipeline extends React.Component {
   }
 
   handlePusherWebsocketEvent = (payload) => {
-    if (payload.event == "project:updated" && payload.graphql.id == this.props.pipeline.id) {
+    if (payload.event === "project:updated" && payload.graphql.id === this.props.pipeline.id) {
       this.props.relay.forceFetch();
     }
   };
