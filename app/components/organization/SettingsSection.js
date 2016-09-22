@@ -1,9 +1,8 @@
 import React from 'react';
+import Relay from 'react-relay';
 
 import PageWithMenu from '../shared/PageWithMenu';
 import SettingsMenu from './SettingsMenu';
-
-import RelayBridge from '../../lib/RelayBridge';
 
 class SettingsSection extends React.Component {
   static propTypes = {
@@ -21,6 +20,12 @@ class SettingsSection extends React.Component {
   }
 }
 
-export default RelayBridge.createContainer(SettingsSection, {
-  organization: (props) => `organization/${props.params.organization}`
+export default Relay.createContainer(SettingsSection, {
+  fragments: {
+    organization: () => Relay.QL`
+      fragment on Organization {
+        ${SettingsMenu.getFragment('organization')}
+      }
+    `
+  }
 });

@@ -163,7 +163,7 @@ window["initializeReactRouter"] = function() {
             <IndexRoute component={AgentIndex} queries={{ organization: OrganizationQuery.query }} />
             <Route path=":agent" component={AgentShow} queries={{ agent: AgentQuery.query }} prepareParams={AgentQuery.prepareParams} />
           </Route>
-          <Route path="teams" component={OrganizationSettingsSection}>
+          <Route path="teams" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
             <IndexRoute component={TeamIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
             <Route path="new" component={TeamNew} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
             <Route path=":team" component={TeamShow} queries={{ team: TeamQuery.query }} prepareParams={TeamQuery.prepareParams} render={renderSectionLoading} />
