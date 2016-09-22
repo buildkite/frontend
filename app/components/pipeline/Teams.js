@@ -3,9 +3,7 @@ import React from 'react';
 import Chooser from '../shared/Chooser';
 import Emojify from '../shared/Emojify';
 
-import RelayBridge from '../../lib/RelayBridge';
-
-class Teams extends React.Component {
+class PipelineTeams extends React.Component {
   static propTypes = {
     organization: React.PropTypes.object.isRequired,
     selected: React.PropTypes.array.isRequired,
@@ -43,9 +41,9 @@ class Teams extends React.Component {
   handleTeamSelect = (id, data) => {
     const selected = this.state.selected;
 
-    // Toggle it's selected state and fire callbacks
+    // Toggle its selected state and fire callbacks
     const index = this.state.selected.indexOf(id);
-    if (index != -1) {
+    if (index !== -1) {
       selected.splice(index, 1);
       this.props.onTeamDeselect(data.team);
     } else {
@@ -57,6 +55,4 @@ class Teams extends React.Component {
   };
 }
 
-export default RelayBridge.createContainer(Teams, {
-  organization: (props) => `organization/${props.params.organization}`
-});
+export default PipelineTeams;
