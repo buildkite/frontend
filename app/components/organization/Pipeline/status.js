@@ -34,11 +34,11 @@ class Status extends React.Component {
 
       return (
         <a href={build.url}
-          className="block line-height-1 color-inherit relative"
+          className="color-inherit relative"
           onMouseOver={this.handleMouseOver}
           onMouseOut={this.handleMouseOut}
         >
-          <BuildState state={build.state} />
+          <span className="block line-height-1"><BuildState state={build.state} /></span>
           <BuildTooltip build={build} visible={this.state.hover} left={-8} top={44} />
         </a>
       );
