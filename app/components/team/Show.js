@@ -11,7 +11,6 @@ import Pipelines from './Pipelines';
 import Members from './Members';
 
 import TeamDeleteMutation from '../../mutations/TeamDelete';
-import RelayBridge from '../../lib/RelayBridge';
 
 class TeamShow extends React.Component {
   static propTypes = {
@@ -123,10 +122,6 @@ class TeamShow extends React.Component {
     // to request it again, Relay is like "oh, I know about this slug, but it
     // was deleted, so I'll just return nothing.
     delete Relay.Store._storeData._cachedStore._rootCallMap.team[this.props.slug];
-
-    // Update our RelayBridge with the new organization data (in this case, the
-    // teams count will be reduced by 1)
-    RelayBridge.update(`organization/${response.teamDelete.organization.slug}`, response.teamDelete.organization);
 
     // Redirect back to the index page
     this.context.router.push(`/organizations/${response.teamDelete.organization.slug}/teams`);

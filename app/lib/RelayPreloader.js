@@ -90,6 +90,44 @@ const QUERIES = {
         }
       }
     }
+  `,
+  "organization/settings_navigation": Relay.QL`
+    query GetOrganization($organization: ID!) {
+      organization(slug: $organization) {
+        id
+        name
+        slug
+        members {
+          count
+        }
+        invitations {
+          count
+        }
+        teams {
+          count
+        }
+        permissions {
+          organizationUpdate {
+            allowed
+          }
+          organizationMemberCreate {
+            allowed
+          }
+          notificationServiceUpdate {
+            allowed
+          }
+          organizationBillingUpdate {
+            allowed
+          }
+          teamAdmin {
+            allowed
+          }
+          teamCreate {
+            allowed
+          }
+        }
+      }
+    }
   `
 };
 
