@@ -32,9 +32,6 @@ const QUERIES = {
         name
         id
         slug
-        agents {
-          count
-        }
         permissions {
           organizationUpdate {
             allowed
@@ -78,15 +75,6 @@ const QUERIES = {
             hasNextPage,
             hasPreviousPage
           }
-        }
-        unreadChangelogs: changelogs(read: false) {
-          count
-        }
-        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
-          count
-        }
-        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
-          count
         }
       }
     }

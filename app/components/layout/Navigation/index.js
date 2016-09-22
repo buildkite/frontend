@@ -31,8 +31,13 @@ class Navigation extends React.Component {
       unreadChangelogs: React.PropTypes.shape({
         count: React.PropTypes.number
       })
-    })
+    }),
+    relay: React.PropTypes.object.isRequired
   };
+
+  componentDidMount() {
+    this.props.relay.setVariables({ isMounted: true });
+  }
 
   state = {
     showingOrgDropdown: false,
@@ -41,6 +46,7 @@ class Navigation extends React.Component {
   };
 
   render() {
+    console.debug("rendered nav index", this.props.organization.agents ? this.props.organization.agents.count : 'No agents');
     // We're using Features.NewNav to feature flag here, because we enabled it
     // for some people but switched the whole nav on for everyone, and it was
     // easier just to use the same feature flag
@@ -237,13 +243,17 @@ class Navigation extends React.Component {
 }
 
 export default Relay.createContainer(Navigation, {
+  initialVariables: {
+    isMounted: false
+  },
+
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
         name
         id
         slug
-        agents {
+        agents @include(if: $isMounted) {
           count
         }
         permissions {
@@ -282,13 +292,13 @@ export default Relay.createContainer(Navigation, {
             }
           }
         }
-        unreadChangelogs: changelogs(read: false) {
+        unreadChangelogs: changelogs(read: false) @include(if: $isMounted) {
           count
         }
-        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
+        runningBuilds: builds(state: BUILD_STATE_RUNNING) @include(if: $isMounted) {
           count
         }
-        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
+        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) @include(if: $isMounted) {
           count
         }
       }

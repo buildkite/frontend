@@ -17,8 +17,8 @@ class BuildsCountBadge extends React.Component {
   };
 
   state = {
-    scheduledBuildsCount: this.props.viewer.scheduledBuilds.count,
-    runningBuildsCount: this.props.viewer.runningBuilds.count
+    scheduledBuildsCount: this.props.viewer.scheduledBuilds ? this.props.viewer.scheduledBuilds.count : 0,
+    runningBuildsCount: this.props.viewer.runningBuilds ? this.props.viewer.runningBuilds.count : 0
   };
 
   componentDidMount() {

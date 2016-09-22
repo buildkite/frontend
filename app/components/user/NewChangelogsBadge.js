@@ -15,7 +15,7 @@ class NewChangelogsBadge extends React.Component {
   };
 
   state = {
-    unreadChangelogsCount: this.props.viewer.unreadChangelogs.count
+    unreadChangelogsCount: this.props.viewer.unreadChangelogs ? this.props.viewer.unreadChangelogs.count : 0
   };
 
   componentDidMount() {
@@ -24,6 +24,12 @@ class NewChangelogsBadge extends React.Component {
 
   componentWillUnmount() {
     PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent);
+  }
+
+  componentWillReceiveProps = () => {
+    if (this.props.viewer.unreadChangelogs) {
+      this.setState({ unreadChangelogsCount: this.props.viewer.unreadChangelogs.count });
+    }
   }
 
   render() {
