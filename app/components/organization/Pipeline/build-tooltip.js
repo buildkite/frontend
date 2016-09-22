@@ -41,7 +41,7 @@ class BuildTooltip extends React.Component {
                 <UserAvatar user={this.props.build.createdBy} className="fit" />
               </Media.Image>
               <Media.Description className="line-height-1">
-                <Emojify className="block truncate line-height-3" text={this.props.build.message} />
+                <Emojify className="block line-height-3" text={this.props.build.message.split("\n")[0]} />
                 <small className="dark-gray">{this.renderTime()}</small>
               </Media.Description>
             </Media>
