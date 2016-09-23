@@ -53,7 +53,7 @@ class Graph extends React.Component {
     const nextLatestBuild = nextProps.pipeline.builds.edges[0];
 
     // Set `shifting` if all the builds are being moved due to a new one coming in.
-    if ((thisLatestBuild && nextLatestBuild) && thisLatestBuild.node.id != nextLatestBuild.node.id) {
+    if ((thisLatestBuild && nextLatestBuild) && thisLatestBuild.node.id !== nextLatestBuild.node.id) {
       this._shifting = true;
     }
   }
@@ -78,16 +78,16 @@ class Graph extends React.Component {
     const bars = [];
     let maximumDuration = 1; // 1 to avoid a `0/0` when we calculate percentages
 
-    for (let i = 0; i < MAXIMUM_NUMBER_OF_BUILDS; i++) {
-      const buildEdge = this.props.pipeline.builds.edges[i];
+    for (let buildIndex = 0; buildIndex < MAXIMUM_NUMBER_OF_BUILDS; buildIndex++) {
+      const buildEdge = this.props.pipeline.builds.edges[buildIndex];
 
       if (buildEdge) {
         const duration = this.durationForBuild(buildEdge.node);
         if (duration > maximumDuration) {maximumDuration = duration;}
 
-        bars[MAXIMUM_NUMBER_OF_BUILDS - i - 1] = { color: this.colorForBuild(buildEdge.node), hoverColor: this.hoverColorForBuild(buildEdge.node), duration: duration, href: buildEdge.node.url, build: buildEdge.node };
+        bars[MAXIMUM_NUMBER_OF_BUILDS - buildIndex - 1] = { color: this.colorForBuild(buildEdge.node), hoverColor: this.hoverColorForBuild(buildEdge.node), duration: duration, href: buildEdge.node.url, build: buildEdge.node };
       } else {
-        bars[MAXIMUM_NUMBER_OF_BUILDS - i - 1] = { color: PENDING_COLOR, hoverColor: PENDING_COLOR_HOVER, duration: 0 };
+        bars[MAXIMUM_NUMBER_OF_BUILDS - buildIndex - 1] = { color: PENDING_COLOR, hoverColor: PENDING_COLOR_HOVER, duration: 0 };
       }
     }
 
@@ -112,9 +112,9 @@ class Graph extends React.Component {
   }
 
   colorForBuild(build) {
-    if (build.state == "running") {
+    if (build.state === "running") {
       return RUNNING_COLOR;
-    } else if (build.state == "passed") {
+    } else if (build.state === "passed") {
       return PASSED_COLOR;
     } else {
       return FAILED_COLOR;
@@ -122,9 +122,9 @@ class Graph extends React.Component {
   }
 
   hoverColorForBuild(build) {
-    if (build.state == "running") {
+    if (build.state === "running") {
       return RUNNING_COLOR_HOVER;
-    } else if (build.state == "passed") {
+    } else if (build.state === "passed") {
       return PASSED_COLOR_HOVER;
     } else {
       return FAILED_COLOR_HOVER;
@@ -135,7 +135,7 @@ class Graph extends React.Component {
     // See if there is a build running
     let running = false;
     for (const edge of buildEdges) {
-      if (edge.node.state == "running") {
+      if (edge.node.state === "running") {
         running = true;
         break;
       }

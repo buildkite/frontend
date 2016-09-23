@@ -1,11 +1,10 @@
 import React from 'react';
+import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
 import Navigation from './layout/Navigation';
 import Footer from './layout/Footer';
 import Flashes from './layout/Flashes';
-
-import RelayBridge from '../lib/RelayBridge';
 
 class Main extends React.Component {
   static propTypes = {
@@ -28,7 +27,20 @@ class Main extends React.Component {
   }
 }
 
-export default RelayBridge.createContainer(Main, {
-  organization: (props) => `organization/${props.params.organization}`,
-  viewer: () => `viewer`
+export default Relay.createContainer(Main, {
+  fragments: {
+    organization: () => Relay.QL`
+      fragment on Organization {
+        ${Navigation.getFragment('organization')}
+      }
+    `,
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        ${Navigation.getFragment('viewer')}
+        unreadChangelogs: changelogs(read: false) {
+          count
+        }
+      }
+    `
+  }
 });

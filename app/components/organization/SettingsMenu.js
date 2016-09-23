@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay';
 
 import Menu from '../shared/Menu';
 import Icon from '../shared/Icon';
@@ -99,4 +100,42 @@ class SettingsMenu extends React.Component {
   }
 }
 
-export default SettingsMenu;
+export default Relay.createContainer(SettingsMenu, {
+  fragments: {
+    organization: () => Relay.QL`
+      fragment on Organization {
+        name
+        slug
+        agents {
+          count
+        }
+        members {
+          count
+        }
+        invitations {
+          count
+        }
+        teams {
+          count
+        }
+        permissions {
+          organizationUpdate {
+            allowed
+          }
+          organizationMemberCreate {
+            allowed
+          }
+          notificationServiceUpdate {
+            allowed
+          }
+          organizationBillingUpdate {
+            allowed
+          }
+          teamAdmin {
+            allowed
+          }
+        }
+      }
+    `
+  }
+});

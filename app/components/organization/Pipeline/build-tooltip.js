@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
+import moment from 'moment';
 
 import Emojify from '../../shared/Emojify';
 import UserAvatar from "../../shared/UserAvatar";
@@ -39,8 +40,8 @@ class BuildTooltip extends React.Component {
               <Media.Image className="mr2" style={{ width: 30, height: 30 }} >
                 <UserAvatar user={this.props.build.createdBy} className="fit" />
               </Media.Image>
-              <Media.Description className="truncate">
-                <Emojify className="block line-height-1 truncate" text={this.props.build.message} />
+              <Media.Description className="line-height-1">
+                <Emojify className="block line-height-3" text={this.props.build.message.split("\n")[0]} />
                 <small className="dark-gray">{this.renderTime()}</small>
               </Media.Description>
             </Media>
@@ -53,15 +54,26 @@ class BuildTooltip extends React.Component {
   }
 
   renderTime() {
+    let timeValue = (
+      <span>Waiting</span>
+    );
+
     if (this.props.build.startedAt || this.props.build.finishedAt) {
-      return (
-        <FriendlyTime value={this.props.build.finishedAt || this.props.build.startedAt} />
-      );
-    } else {
-      return (
-        <div>something</div>
+      timeValue = (
+        <span>
+          {this.props.build.finishedAt
+            ? 'Finished '
+            : 'Started '
+          }
+          <FriendlyTime value={this.props.build.finishedAt || this.props.build.startedAt} capitalized={false} />
+          {this.props.build.finishedAt &&
+            `. Took ${moment.duration(moment(this.props.build.finishedAt || undefined).diff(moment(this.props.build.startedAt))).humanize()}`
+          }
+        </span>
       );
     }
+
+    return timeValue;
   }
 }
 

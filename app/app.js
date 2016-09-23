@@ -48,13 +48,19 @@ window["Webpack"] = {
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
     "components/PipelinesWelcome": require("./components/organization/Welcome").default,
     "components/pipeline/Teams": require("./components/pipeline/Teams").default,
-    "stores/PusherStore": require("./stores/PusherStore").default,
     "lib/friendlyRelativeTime": require("./lib/friendlyRelativeTime").default,
     "lib/Logger": require("./lib/Logger").default,
     "lib/Emoji": require("./lib/Emoji").default,
-    "lib/RelayBridge": require("./lib/RelayBridge").default,
     "lib/RelayPreloader": require("./lib/RelayPreloader").default,
-    "lib/jobCommandOneliner": require("./lib/jobCommandOneliner").default
+    "lib/jobCommandOneliner": require("./lib/jobCommandOneliner").default,
+    "queries/Agent": require("./queries/Agent"),
+    "queries/Build": require("./queries/Build"),
+    "queries/Organization": require("./queries/Organization"),
+    "queries/Pipeline": require("./queries/Pipeline"),
+    "queries/PipelineSchedule": require("./queries/PipelineSchedule"),
+    "queries/Team": require("./queries/Team"),
+    "queries/Viewer": require("./queries/Viewer"),
+    "stores/PusherStore": require("./stores/PusherStore").default
   },
 
   require: function(module) {
@@ -85,7 +91,7 @@ if (window._pusher) {
 }
 
 // Toggle on development features
-if (process.env.NODE_ENV != "production") {
+if (process.env.NODE_ENV !== "production") {
   require("./lib/Logger").default.enable();
   require('react-relay/lib/RelayNetworkDebug').init();
   window.Perf = require("react-addons-perf");
@@ -108,34 +114,23 @@ window["initializeReactRouter"] = function() {
   const BuildCommentsList = require("./components/build/CommentsList").default;
   const OrganizationShow = require("./components/organization/Show").default;
   const OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
+  const AgentIndex = require("./components/agent/Index").default;
+  const AgentShow = require("./components/agent/Show").default;
   const TeamIndex = require("./components/team/Index").default;
   const TeamNew = require("./components/team/New").default;
   const TeamShow = require("./components/team/Show").default;
   const TeamEdit = require("./components/team/Edit").default;
-
-  const BuildQuery = () => Relay.QL`
-    query {
-      build(slug: $slug)
-    }
-  `;
-
-  const ViewerQuery = () => Relay.QL`
-    query {
-      viewer
-    }
-  `;
-
-  const OrganizationQuery = () => Relay.QL`
-    query {
-      organization(slug: $organization)
-    }
-  `;
-
-  const TeamQuery = () => Relay.QL`
-    query {
-      team(slug: $slug)
-    }
-  `;
+  const AgentQuery = require("./queries/Agent");
+  const BuildQuery = require("./queries/Build");
+  const OrganizationQuery = require("./queries/Organization");
+  const PipelineQuery = require("./queries/Pipeline");
+  const PipelineScheduleQuery = require("./queries/PipelineSchedule");
+  const TeamQuery = require("./queries/Team");
+  const ViewerQuery = require("./queries/Viewer");
+  const PipelineScheduleIndex = require("./components/pipeline/schedules/Index").default;
+  const PipelineScheduleNew = require("./components/pipeline/schedules/New").default;
+  const PipelineScheduleShow = require("./components/pipeline/schedules/Show").default;
+  const PipelineScheduleEdit = require("./components/pipeline/schedules/Edit").default;
 
   const renderSectionLoading = (route) => {
     if (!route.props) {
@@ -147,30 +142,7 @@ window["initializeReactRouter"] = function() {
     return React.cloneElement(route.element, route.props);
   };
 
-  // Since relay doesn't currently support root fields with multiple
-  // parameters, it means we can't have queries like: build(org: "...",
-  // pipeline: "...", number: "12"), so we have to do this hacky thing where we
-  // include them all in the `slug` param.
-  const prepareBuildParams = (params) => {
-    return {
-      ...params,
-      slug: [params.organization, params.pipeline, params.number].join("/")
-    };
-  };
-
-  const prepareTeamParams = (params) => {
-    // Send through `isEveryoneTeam` as a variable to the compoent, so we can
-    // dynamically decide whether or not to do a GraphQL for all the members.
-    // If we don't set it at this level, we'd need to do a GraphQL to get the
-    // team, see if it's the "everyone" team, and then decide to do another
-    // query to get the members.
-    return {
-      ...params,
-      slug: [params.organization, params.team].join("/"),
-      isEveryoneTeam: (params.team == "everyone")
-    };
-  };
-
+  // Custom params for pipeline list to support "teams" feature
   const preparePipelineListParams = (params, { location }) => {
     return {
       ...params,
@@ -181,19 +153,30 @@ window["initializeReactRouter"] = function() {
   // Define and render the routes
   ReactDOM.render(
     <Router history={browserHistory} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
-      <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery, build: BuildQuery }} prepareParams={prepareBuildParams} />
+      <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery.query, build: BuildQuery.query }} prepareParams={BuildQuery.prepareParams} />
 
-      <Route path="/" component={Main}>
+      <Route path="/" component={Main} queries={{ organization: OrganizationQuery.query, viewer: ViewerQuery.query }}>
         <Route path="auth/:type/:code" component={AuthCodeAccept} />
-        <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery }} prepareParams={preparePipelineListParams}  render={renderSectionLoading} />
+        <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} prepareParams={preparePipelineListParams} render={renderSectionLoading} />
 
-        <Route path="organizations/:organization" component={OrganizationSettingsSection}>
-          <Route path="teams">
-            <IndexRoute component={TeamIndex} queries={{ organization: OrganizationQuery }} render={renderSectionLoading} />
-            <Route path="new" component={TeamNew} queries={{ organization: OrganizationQuery }} render={renderSectionLoading} />
-            <Route path=":team" component={TeamShow} queries={{ team: TeamQuery }} prepareParams={prepareTeamParams} render={renderSectionLoading} />
-            <Route path=":team/edit" component={TeamEdit} queries={{ team: TeamQuery }} prepareParams={prepareTeamParams} render={renderSectionLoading} />
+        <Route path="organizations/:organization">
+          <Route path="agents">
+            <IndexRoute component={AgentIndex} queries={{ organization: OrganizationQuery.query }} />
+            <Route path=":agent" component={AgentShow} queries={{ agent: AgentQuery.query }} prepareParams={AgentQuery.prepareParams} />
           </Route>
+          <Route path="teams" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
+            <IndexRoute component={TeamIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+            <Route path="new" component={TeamNew} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+            <Route path=":team" component={TeamShow} queries={{ team: TeamQuery.query }} prepareParams={TeamQuery.prepareParams} render={renderSectionLoading} />
+            <Route path=":team/edit" component={TeamEdit} queries={{ team: TeamQuery.query }} prepareParams={TeamQuery.prepareParams} render={renderSectionLoading} />
+          </Route>
+        </Route>
+
+        <Route path="/:organization/:pipeline/settings/schedules">
+          <IndexRoute component={PipelineScheduleIndex} queries={{ pipeline: PipelineQuery.query }} prepareParams={PipelineQuery.prepareParams} render={renderSectionLoading} />
+          <Route path="new" component={PipelineScheduleNew} queries={{ pipeline: PipelineQuery.query }} prepareParams={PipelineQuery.prepareParams} render={renderSectionLoading} />
+          <Route path=":schedule" component={PipelineScheduleShow} queries={{ pipelineSchedule: PipelineScheduleQuery.query }} prepareParams={PipelineScheduleQuery.prepareParams} render={renderSectionLoading} />
+          <Route path=":schedule/edit" component={PipelineScheduleEdit} queries={{ pipelineSchedule: PipelineScheduleQuery.query }} prepareParams={PipelineScheduleQuery.prepareParams} render={renderSectionLoading} />
         </Route>
       </Route>
     </Router>

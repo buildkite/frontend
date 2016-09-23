@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay';
 import classNames from 'classnames';
 
 import UserAvatar from './../../shared/UserAvatar';
@@ -27,7 +28,7 @@ class Navigation extends React.Component {
         edges: React.PropTypes.array
       }),
       unreadChangelogs: React.PropTypes.shape({
-        count: React.PropTypes.integer
+        count: React.PropTypes.number
       })
     })
   };
@@ -188,8 +189,8 @@ class Navigation extends React.Component {
     if (organization) {
       return (
         <div className={classNames("flex", options.className)}>
-          <NavigationButton style={{ paddingLeft: paddingLeft }} href={`/${organization.slug}`}>Pipelines</NavigationButton>
-          <NavigationButton href={`/organizations/${organization.slug}/agents`}>
+          <NavigationButton style={{ paddingLeft: paddingLeft }} href={`/${organization.slug}`} linkIf={Features.NewPipelineList}>Pipelines</NavigationButton>
+          <NavigationButton href={`/organizations/${organization.slug}/agents`} linkIf={Features.NewAgentList}>
             {'Agents'}
             <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
           </NavigationButton>
@@ -224,4 +225,61 @@ class Navigation extends React.Component {
   }
 }
 
-export default Navigation;
+export default Relay.createContainer(Navigation, {
+  fragments: {
+    organization: () => Relay.QL`
+      fragment on Organization {
+        name
+        id
+        slug
+        agents {
+          count
+        }
+        permissions {
+          organizationUpdate {
+            allowed
+          }
+          organizationMemberCreate {
+            allowed
+          }
+          notificationServiceUpdate {
+            allowed
+          }
+          organizationBillingUpdate {
+            allowed
+          }
+          teamAdmin {
+            allowed
+          }
+        }
+      }
+    `,
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        user {
+          name
+          avatar {
+            url
+          }
+        }
+        organizations(first: 500) {
+          edges {
+            node {
+              slug
+              name
+            }
+          }
+        }
+        unreadChangelogs: changelogs(read: false) {
+          count
+        }
+        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
+          count
+        }
+        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
+          count
+        }
+      }
+    `
+  }
+});
