@@ -1,4 +1,5 @@
 import React from 'react';
+
 import PusherStore from '../../stores/PusherStore';
 import CachedStateWrapper from '../../helpers/CachedStateWrapper';
 
