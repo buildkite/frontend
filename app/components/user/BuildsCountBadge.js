@@ -22,22 +22,22 @@ class BuildsCountBadge extends React.Component {
   };
 
   componentDidMount() {
-    PusherStore.on("user_stats:change", this._onStoreChange.bind(this));
+    PusherStore.on("user_stats:change", this.handlePusherWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off("user_stats:change", this._onStoreChange.bind(this));
+    PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent);
   }
 
   render() {
     return (
       <ReactCSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
-        {this._renderBadge()}
+        {this.renderBadge()}
       </ReactCSSTransitionGroup>
     );
   }
 
-  _renderBadge() {
+  renderBadge() {
     const count = this.state.runningBuildsCount + this.state.scheduledBuildsCount;
 
     if (count > 0) {
@@ -47,9 +47,9 @@ class BuildsCountBadge extends React.Component {
     }
   }
 
-  _onStoreChange(payload) {
+  handlePusherWebsocketEvent = (payload) => {
     this.setState({ scheduledBuildsCount: payload.scheduledBuildsCount, runningBuildsCount: payload.runningBuildsCount });
-  }
+  };
 }
 
 export default BuildsCountBadge;
