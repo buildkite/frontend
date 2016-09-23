@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 import Relay from 'react-relay';
 
 import Emojify from '../../shared/Emojify';
 
-import PusherStore from '../../../stores/PusherStore'
-import BuildState from '../../icons/BuildState'
+import PusherStore from '../../../stores/PusherStore';
+import BuildState from '../../icons/BuildState';
 
 class BuildsDropdownBuild extends React.Component {
   static propTypes = {
@@ -24,10 +24,10 @@ class BuildsDropdownBuild extends React.Component {
   }
 
   render() {
-    let commitClassName = this.state.hover ? "lime" : "dark-gray";
+    const commitClassName = this.state.hover ? "lime" : "dark-gray";
 
     return (
-      <div className="flex mb2" style={{fontSize: "12px"}}>
+      <div className="flex mb2" style={{ fontSize: "12px" }}>
         <a href={this.props.build.url} className="pr2">
           <div>
             <BuildState state={this.props.build.state} size={'small'} />
@@ -40,12 +40,12 @@ class BuildsDropdownBuild extends React.Component {
           <a href={`/${this.props.build.organization.slug}/${this.props.build.pipeline.slug}`} className="dark-gray text-decoration-none hover-navy">{this.props.build.organization.name} / {this.props.build.pipeline.name}</a>
         </div>
       </div>
-    )
+    );
   }
 
   shortCommit(commit) {
     // Does this commit look like a git sha?
-    if(commit && commit.length == 40) {
+    if (commit && commit.length == 40) {
       return commit.substring(0, 7);
     } else {
       return commit;

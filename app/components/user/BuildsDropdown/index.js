@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 import Relay from 'react-relay';
 
-import PusherStore from '../../../stores/PusherStore'
+import PusherStore from '../../../stores/PusherStore';
 import Button from '../../shared/Button';
 import Spinner from '../../shared/Spinner';
 
-import Build from './build'
+import Build from './build';
 
 class BuildsDropdownIndex extends React.Component {
   static propTypes = {
@@ -13,13 +13,13 @@ class BuildsDropdownIndex extends React.Component {
   }
 
   componentDidMount() {
-    PusherStore.on("user_stats:change", this.handlePusherWebsocketEvent)
+    PusherStore.on("user_stats:change", this.handlePusherWebsocketEvent);
 
     this.props.relay.setVariables({ isMounted: true });
   }
 
   componentWillUnmount() {
-    PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent)
+    PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent);
   }
 
   render() {
@@ -41,19 +41,19 @@ class BuildsDropdownIndex extends React.Component {
           {this.props.viewer.builds.edges.map((edge) => <Build key={edge.node.id} build={edge.node} />)}
         </div>
         <div className="pb2 px3">
-          <Button href="/builds" theme="default" outline={true} className="center" style={{width: "100%"}}>More Builds</Button>
+          <Button href="/builds" theme="default" outline={true} className="center" style={{ width: "100%" }}>More Builds</Button>
         </div>
       </div>
-    )
+    );
   }
 
   renderSetupInstructions() {
     return (
       <div className="px3 py2">
         <div className="mb3">It looks like you haven’t created any builds yet. If you have created builds check that you’ve added all your git commit email addresses in your personal settings.</div>
-        <Button href="/user/emails" theme="default" outline={true} className="center" style={{width: "100%"}}>Update Email Settings</Button>
+        <Button href="/user/emails" theme="default" outline={true} className="center" style={{ width: "100%" }}>Update Email Settings</Button>
       </div>
-    )
+    );
   }
 
   renderSpinner() {
@@ -61,13 +61,13 @@ class BuildsDropdownIndex extends React.Component {
       <div className="px3 py2 center">
         <Spinner/>
       </div>
-    )
+    );
   }
 
   handlePusherWebsocketEvent = (payload) => {
     // Only do a relay update of the builds count changes
-    if(this._buildsCount != payload.buildsCount) {
-      this.props.relay.forceFetch()
+    if (this._buildsCount != payload.buildsCount) {
+      this.props.relay.forceFetch();
     }
 
     // Save the new builds count
