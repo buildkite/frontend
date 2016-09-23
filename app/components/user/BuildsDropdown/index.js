@@ -9,7 +9,8 @@ import Build from './build';
 
 class BuildsDropdownIndex extends React.Component {
   static propTypes = {
-    viewer: React.PropTypes.object
+    viewer: React.PropTypes.object,
+    relay: React.PropTypes.object.isRequired
   }
 
   componentDidMount() {

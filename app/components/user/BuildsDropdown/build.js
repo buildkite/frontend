@@ -8,7 +8,8 @@ import BuildState from '../../icons/BuildState';
 
 class BuildsDropdownBuild extends React.Component {
   static propTypes = {
-    build: React.PropTypes.object
+    build: React.PropTypes.object,
+    relay: React.PropTypes.object.isRequired
   }
 
   state = {
