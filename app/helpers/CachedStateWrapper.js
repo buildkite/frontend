@@ -19,12 +19,8 @@ function CachedStateWrapper(Component, options = {}) {
 
   Component.prototype.getCachedState = function() {
     const localStorageKey = CachedStateWrapper.getLocalStorageKey(this, propsForContext);
-    const stringState = localStorage[localStorageKey];
-    if (!stringState) {
-      return {};
-    }
 
-    const cachedState = JSON.parse(stringState);
+    const cachedState = JSON.parse(localStorage[localStorageKey] || '{}');
     if (cachedState.expiresAt && (cachedState.expiresAt < Date.now())) {
       return {};
     }
