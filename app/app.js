@@ -150,12 +150,38 @@ window["initializeReactRouter"] = function() {
     };
   };
 
+  // Only require the `organization` fragment if there's an ":organization"
+  // param in the URL
+  const getMainQueries = ({ location, params }) => {
+    if(params.organization) {
+      return {
+        viewer: ViewerQuery.query,
+        organization: OrganizationQuery.query
+      };
+    } else {
+      return {
+        viewer: ViewerQuery.query
+      };
+    }
+  };
+
+  // Since you can't pass `undefined` as a property to a Relay.Container, and
+  // not all pages have the `organization` available, we need to change it to
+  // `null` if it's not available.
+  const renderMain = (route) => {
+    if(route.props) {
+      route.props.organization = route.props.organization || null;
+
+      return React.cloneElement(route.element, route.props);
+    }
+  };
+
   // Define and render the routes
   ReactDOM.render(
     <Router history={browserHistory} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery.query, build: BuildQuery.query }} prepareParams={BuildQuery.prepareParams} />
 
-      <Route path="/" component={Main} queries={{ organization: OrganizationQuery.query, viewer: ViewerQuery.query }}>
+      <Route path="/" component={Main} getQueries={getMainQueries} render={renderMain}>
         <Route path="auth/:code" component={AuthCodeAccept} />
         <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} prepareParams={preparePipelineListParams} render={renderSectionLoading} />
 
