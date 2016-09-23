@@ -23,6 +23,10 @@ class AgentsCount extends React.Component {
     PusherStore.off("organization_stats:change", this.handleStoreChange);
   }
 
+  handleStoreChange = (payload) => {
+    this.setState({ agentCount: payload.agentsConnectedCount });
+  };
+
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.organization.agents) {
       this.setState({ agentCount: nextProps.organization.agents.count });
@@ -46,10 +50,6 @@ class AgentsCount extends React.Component {
       <span>{this.state.agentCount}</span>
     );
   }
-
-  handleStoreChange = (payload) => {
-    this.setState({ agentCount: payload.agentsConnectedCount });
-  };
 }
 
 export default AgentsCount;

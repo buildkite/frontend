@@ -29,6 +29,45 @@ class BuildsCountBadge extends React.Component {
     PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent);
   }
 
+  handleStoreChange = (payload) => {
+    this.setState({
+      scheduledBuildsCount: payload.scheduledBuildsCount,
+      runningBuildsCount: payload.runningBuildsCount
+    });
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.viewer.scheduledBuilds || nextProps.viewer.runningBuilds) {
+      this.setState({
+        scheduledBuildsCount: nextProps.viewer.scheduledBuilds.count,
+        runningBuildsCount: nextProps.viewer.runningBuilds.count
+      });
+    }
+  };
+
+  shouldComponentUpdate = (nextProps, nextState) => {
+    const {
+      scheduledBuildsCount: lastScheduledBuildsCount,
+      runningBuildsCount: lastRunningBuildsCount
+    } = this.state;
+
+    const {
+      scheduledBuildsCount: newScheduledBuildsCount,
+      runningBuildsCount: newRunningBuildsCount
+    } = nextState;
+    const {
+      scheduledBuilds: newScheduledBuilds,
+      runningBuilds: newRunningBuilds
+    } = nextProps.viewer;
+
+    return (
+      (newScheduledBuilds && newScheduledBuilds.count !== lastScheduledBuildsCount)
+      || (newScheduledBuildsCount !== lastScheduledBuildsCount)
+      || (newRunningBuilds && newRunningBuilds.count !== lastRunningBuildsCount)
+      || (newRunningBuildsCount !== lastRunningBuildsCount)
+    );
+  };
+
   render() {
     return (
       <ReactCSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
