@@ -28,7 +28,7 @@ class BuildsDropdownBuild extends React.Component {
     const commitClassName = this.state.hover ? "lime" : "dark-gray";
 
     return (
-      <div className="flex mb2" style={{ fontSize: "12px" }}>
+      <div className="flex mb2" style={{ fontSize: 12 }}>
         <a href={this.props.build.url} className="pr2">
           <div>
             <BuildState state={this.props.build.state} size={'small'} />
