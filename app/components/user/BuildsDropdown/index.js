@@ -24,8 +24,8 @@ class BuildsDropdownIndex extends React.Component {
   }
 
   render() {
-    if (this.props.viewer.builds) {
-      if (this.props.viewer.builds.edges.length > 0) {
+    if (this.props.viewer.user.builds) {
+      if (this.props.viewer.user.builds.edges.length > 0) {
         return this.renderBuilds();
       } else {
         return this.renderSetupInstructions();
@@ -39,7 +39,7 @@ class BuildsDropdownIndex extends React.Component {
     return (
       <div>
         <div className="px3 py2">
-          {this.props.viewer.builds.edges.map((edge) => <Build key={edge.node.id} build={edge.node} />)}
+          {this.props.viewer.user.builds.edges.map((edge) => <Build key={edge.node.id} build={edge.node} />)}
         </div>
         <div className="pb2 px3">
           <Button href="/builds" theme="default" outline={true} className="center" style={{ width: "100%" }}>More Builds</Button>
@@ -84,11 +84,13 @@ export default Relay.createContainer(BuildsDropdownIndex, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
-        builds(first: 5) @include(if: $isMounted) {
-          edges {
-            node {
-              id
-              ${Build.getFragment('build')}
+        user {
+          builds(first: 5) @include(if: $isMounted) {
+            edges {
+              node {
+                id
+                ${Build.getFragment('build')}
+              }
             }
           }
         }
