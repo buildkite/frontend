@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay';
 
 import Link from './link';
 import Icon from '../../shared/Icon';
@@ -9,12 +10,17 @@ class Footer extends React.Component {
       unreadChangelogs: React.PropTypes.shape({
         count: React.PropTypes.number
       })
-    })
+    }),
+    relay: React.PropTypes.object.isRequired
   };
+
+  componentDidMount() {
+    this.props.relay.setVariables({ isMounted: true });
+  }
 
   render() {
     let changelogBadge;
-    if (this.props.viewer && this.props.viewer.unreadChangelogs.count > 0) {
+    if (this.props.viewer.unreadChangelogs && this.props.viewer.unreadChangelogs.count > 0) {
       changelogBadge = (
         <span className={`inline-block bg-dark-gray hover-lime-child white rounded ml1 small p1 line-height-1`}>{this.props.viewer.unreadChangelogs.count}</span>
       );
@@ -43,4 +49,18 @@ class Footer extends React.Component {
   }
 }
 
-export default Footer;
+export default Relay.createContainer(Footer, {
+  initialVariables: {
+    isMounted: false
+  },
+
+  fragments: {
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        unreadChangelogs: changelogs(read: false) @include(if: $isMounted) {
+          count
+        }
+      }
+    `
+  }
+});
