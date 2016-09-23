@@ -19,11 +19,11 @@ class NewChangelogsBadge extends React.Component {
   };
 
   componentDidMount() {
-    PusherStore.on("user_stats:change", this._onStoreChange);
+    PusherStore.on("user_stats:change", this.handlePusherWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off("user_stats:change", this._onStoreChange);
+    PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent);
   }
 
   render() {
@@ -41,9 +41,9 @@ class NewChangelogsBadge extends React.Component {
     }
   }
 
-  _onStoreChange(payload) {
+  handlePusherWebsocketEvent = (payload) => {
     this.setState({ unreadChangelogsCount: payload.unreadChangelogsCount });
-  }
+  };
 }
 
 export default NewChangelogsBadge;
