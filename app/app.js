@@ -156,7 +156,7 @@ window["initializeReactRouter"] = function() {
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery.query, build: BuildQuery.query }} prepareParams={BuildQuery.prepareParams} />
 
       <Route path="/" component={Main} queries={{ organization: OrganizationQuery.query, viewer: ViewerQuery.query }}>
-        <Route path="auth/:type/:code" component={AuthCodeAccept} />
+        <Route path="auth/:code" component={AuthCodeAccept} />
         <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} prepareParams={preparePipelineListParams} render={renderSectionLoading} />
 
         <Route path="organizations/:organization">
