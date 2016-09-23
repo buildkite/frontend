@@ -6,6 +6,7 @@ import UserAvatar from './../../shared/UserAvatar';
 import Dropdown from './../../shared/Dropdown';
 import Badge from './../../shared/Badge';
 import Icon from './../../shared/Icon';
+import SectionLoader from '../../shared/SectionLoader';
 import AgentsCount from './../../organization/AgentsCount';
 import BuildsCountBadge from './../../user/BuildsCountBadge';
 import BuildsDropdown from './../../user/BuildsDropdown';
@@ -46,7 +47,6 @@ class Navigation extends React.Component {
   };
 
   render() {
-    console.debug("rendered nav index", this.props.organization.agents ? this.props.organization.agents.count : 'No agents');
     // We're using Features.NewNav to feature flag here, because we enabled it
     // for some people but switched the whole nav on for everyone, and it was
     // easier just to use the same feature flag
@@ -88,7 +88,6 @@ class Navigation extends React.Component {
                 </span>
               </DropdownButton>
               {this._organizationsList()}
-              <NavigationButton href="/organizations/new" className="block"><Icon icon="plus-circle" className="icon-mr" style={{ width: 12, height: 12 }} />Create New Organization</NavigationButton>
             </Dropdown>
 
             {this._topOrganizationMenu()}
@@ -186,13 +185,20 @@ class Navigation extends React.Component {
   }
 
   _organizationsList() {
+    if (!this.props.viewer.organizations) {
+      return <SectionLoader />;
+    }
+
     const nodes = [];
+
     this.props.viewer.organizations.edges.forEach((org) => {
       // Don't show the active organization in the selector
       if (!this.props.organization || (org.node.slug !== this.props.organization.slug)) {
         nodes.push(<NavigationButton key={org.node.slug} href={`/${org.node.slug}`} className="block">{org.node.name}</NavigationButton>);
       }
     });
+
+    nodes.push(<NavigationButton key="newOrganization" href="/organizations/new" className="block"><Icon icon="plus-circle" className="icon-mr" style={{ width: 12, height: 12 }} />Create New Organization</NavigationButton>);
 
     if (nodes.length > 0) {
       return nodes;
@@ -284,7 +290,7 @@ export default Relay.createContainer(Navigation, {
             url
           }
         }
-        organizations(first: 500) {
+        organizations(first: 500) @include(if: $isMounted) {
           edges {
             node {
               slug

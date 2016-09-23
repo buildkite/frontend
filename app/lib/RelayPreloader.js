@@ -62,20 +62,6 @@ const QUERIES = {
           }
           id
         }
-        organizations(first: 500) {
-          edges {
-            node {
-              slug,
-              name,
-              id
-            }
-            cursor
-          }
-          pageInfo {
-            hasNextPage,
-            hasPreviousPage
-          }
-        }
       }
     }
   `,
