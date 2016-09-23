@@ -20,7 +20,8 @@ class Footer extends React.Component {
 
   render() {
     let changelogBadge;
-    if (this.props.viewer.unreadChangelogs && this.props.viewer.unreadChangelogs.count > 0) {
+    // Viewer is not supplied when rendered for an anonymous user
+    if (this.props.viewer && this.props.viewer.unreadChangelogs && this.props.viewer.unreadChangelogs.count > 0) {
       changelogBadge = (
         <span className={`inline-block bg-dark-gray hover-lime-child white rounded ml1 small p1 line-height-1`}>{this.props.viewer.unreadChangelogs.count}</span>
       );
