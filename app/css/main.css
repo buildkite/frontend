@@ -28,6 +28,7 @@
 @import 'container';
 @import 'cursor';
 @import 'display';
+@import 'emoji';
 
 :root {
   --black:  #111111;

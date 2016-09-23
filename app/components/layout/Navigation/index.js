@@ -8,7 +8,7 @@ import Badge from './../../shared/Badge';
 import Icon from './../../shared/Icon';
 import AgentsCount from './../../organization/AgentsCount';
 import BuildsCountBadge from './../../user/BuildsCountBadge';
-import BuildsDropdownList from './../../user/BuildsDropdownList';
+import BuildsDropdown from './../../user/BuildsDropdown';
 import NewChangelogsBadge from './../../user/NewChangelogsBadge';
 import permissions from './../../../lib/permissions';
 
@@ -45,11 +45,11 @@ class Navigation extends React.Component {
     // for some people but switched the whole nav on for everyone, and it was
     // easier just to use the same feature flag
     const myBuildsNode = Features.NewNav ? (
-      <Dropdown align="right" width={170} className="flex" onToggle={this.handleBuildsDropdownToggle}>
+      <Dropdown align="center" width={250} className="flex" onToggle={this.handleBuildsDropdownToggle}>
         <DropdownButton className={classNames({ "lime": this.state.showingBuildsDropdown })}>
           My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} />
         </DropdownButton>
-        <BuildsDropdownList viewer={this.props.viewer} />
+        <BuildsDropdown viewer={this.props.viewer} />
       </Dropdown>
     ) : null;
 
@@ -267,6 +267,7 @@ export default Relay.createContainer(Navigation, {
     `,
     viewer: () => Relay.QL`
       fragment on Viewer {
+        ${BuildsDropdown.getFragment('viewer')}
         user {
           name
           avatar {
