@@ -1,5 +1,6 @@
 import React from 'react';
 import PusherStore from '../../stores/PusherStore';
+import CachedStateWrapper from '../../helpers/CachedStateWrapper';
 
 class AgentsCount extends React.Component {
   static propTypes = {
@@ -15,6 +16,14 @@ class AgentsCount extends React.Component {
     agentCount: this.props.organization.agents ? this.props.organization.agents.count : 0
   };
 
+  componentWillMount() {
+    if (!this.props.organization.agents) {
+      this.setState({
+        agentCount: this.getCachedState().agentCount || 0
+      });
+    }
+  }
+
   componentDidMount() {
     PusherStore.on("organization_stats:change", this.handleStoreChange);
   }
@@ -24,12 +33,12 @@ class AgentsCount extends React.Component {
   }
 
   handleStoreChange = (payload) => {
-    this.setState({ agentCount: payload.agentsConnectedCount });
+    this.setCachedState({ agentCount: payload.agentsConnectedCount });
   };
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.organization.agents) {
-      this.setState({ agentCount: nextProps.organization.agents.count });
+      this.setCachedState({ agentCount: nextProps.organization.agents.count });
     }
   };
 
@@ -52,4 +61,4 @@ class AgentsCount extends React.Component {
   }
 }
 
-export default AgentsCount;
+export default CachedStateWrapper(AgentsCount, { propsForContext: ["organization.id"] });
