@@ -1,7 +1,9 @@
 import React from 'react';
-import PusherStore from '../../stores/PusherStore';
-import classNames from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import classNames from 'classnames';
+
+import PusherStore from '../../stores/PusherStore';
+import CachedStateWrapper from '../../helpers/CachedStateWrapper';
 
 class NewChangelogsBadge extends React.Component {
   static propTypes = {
@@ -18,6 +20,14 @@ class NewChangelogsBadge extends React.Component {
     unreadChangelogsCount: this.props.viewer.unreadChangelogs ? this.props.viewer.unreadChangelogs.count : 0
   };
 
+  componentWillMount() {
+    if (!this.props.viewer.unreadChangelogs) {
+      this.setState({
+        unreadChangelogsCount: this.getCachedState().unreadChangelogsCount || 0
+      });
+    }
+  }
+
   componentDidMount() {
     PusherStore.on("user_stats:change", this.handlePusherWebsocketEvent);
   }
@@ -27,12 +37,12 @@ class NewChangelogsBadge extends React.Component {
   }
 
   handlePusherWebsocketEvent = (payload) => {
-    this.setState({ unreadChangelogsCount: payload.unreadChangelogsCount });
+    this.setCachedState({ unreadChangelogsCount: payload.unreadChangelogsCount });
   };
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.viewer.unreadChangelogs) {
-      this.setState({ unreadChangelogsCount: nextProps.viewer.unreadChangelogs.count });
+      this.setCachedState({ unreadChangelogsCount: nextProps.viewer.unreadChangelogs.count });
     }
   }
 
@@ -64,4 +74,4 @@ class NewChangelogsBadge extends React.Component {
   }
 }
 
-export default NewChangelogsBadge;
+export default CachedStateWrapper(NewChangelogsBadge);
