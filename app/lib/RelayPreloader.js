@@ -3,12 +3,12 @@ import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
 const QUERIES = {
   "organization/show": Relay.QL`
-    query PipelinesList($organization: ID!, $team: ID, $teamsCount: Int!, $pipelinesCount: Int!) {
+    query PipelinesList($organization: ID!, $team: ID) {
       organization(slug: $organization) {
         id
         slug
         name
-        teams(first: $teamsCount) {
+        teams(first: 500) {
           edges {
             node {
               id
@@ -23,7 +23,7 @@ const QUERIES = {
             hasPreviousPage
           }
         }
-        pipelines(first: $pipelinesCount, team: $team, order: PIPELINE_ORDER_NAME) {
+        pipelines(first: 500, team: $team, order: PIPELINE_ORDER_NAME) {
           edges {
             node {
               id
@@ -41,13 +41,16 @@ const QUERIES = {
               builds(first: 1, branch: "%default", state: [ BUILD_STATE_RUNNING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED ]) {
                 edges {
                   node {
+                    id
                     state
                     message
                     startedAt
                     finishedAt
                     url
                     createdBy {
+                      __typename
                       ... on User {
+                        id
                         name
                         avatar {
                           url
