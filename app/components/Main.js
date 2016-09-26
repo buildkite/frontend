@@ -37,9 +37,7 @@ export default Relay.createContainer(Main, {
     viewer: () => Relay.QL`
       fragment on Viewer {
         ${Navigation.getFragment('viewer')}
-        unreadChangelogs: changelogs(read: false) {
-          count
-        }
+        ${Footer.getFragment('viewer')}
       }
     `
   }

@@ -110,6 +110,7 @@ window["initializeReactRouter"] = function() {
   // The components used in the router
   const Main = require("./components/Main").default;
   const SectionLoader = require("./components/shared/SectionLoader").default;
+  const APIAccessTokenCodeAuthorize = require("./components/api_access_token_code/APIAccessTokenCodeAuthorize").default;
   const BuildCommentsList = require("./components/build/CommentsList").default;
   const OrganizationShow = require("./components/organization/Show").default;
   const OrganizationSettingsSection = require("./components/organization/SettingsSection").default;
@@ -119,6 +120,11 @@ window["initializeReactRouter"] = function() {
   const TeamNew = require("./components/team/New").default;
   const TeamShow = require("./components/team/Show").default;
   const TeamEdit = require("./components/team/Edit").default;
+  const PipelineScheduleIndex = require("./components/pipeline/schedules/Index").default;
+  const PipelineScheduleNew = require("./components/pipeline/schedules/New").default;
+  const PipelineScheduleShow = require("./components/pipeline/schedules/Show").default;
+  const PipelineScheduleEdit = require("./components/pipeline/schedules/Edit").default;
+
   const AgentQuery = require("./queries/Agent");
   const BuildQuery = require("./queries/Build");
   const OrganizationQuery = require("./queries/Organization");
@@ -126,10 +132,7 @@ window["initializeReactRouter"] = function() {
   const PipelineScheduleQuery = require("./queries/PipelineSchedule");
   const TeamQuery = require("./queries/Team");
   const ViewerQuery = require("./queries/Viewer");
-  const PipelineScheduleIndex = require("./components/pipeline/schedules/Index").default;
-  const PipelineScheduleNew = require("./components/pipeline/schedules/New").default;
-  const PipelineScheduleShow = require("./components/pipeline/schedules/Show").default;
-  const PipelineScheduleEdit = require("./components/pipeline/schedules/Edit").default;
+  const APIAccessTokenCodeQuery = require("./queries/APIAccessTokenCode");
 
   const renderSectionLoading = (route) => {
     if (!route.props) {
@@ -149,12 +152,39 @@ window["initializeReactRouter"] = function() {
     };
   };
 
+  // Only require the `organization` fragment if there's an ":organization"
+  // param in the URL
+  const getMainQueries = ({ params }) => {
+    if (params.organization) {
+      return {
+        viewer: ViewerQuery.query,
+        organization: OrganizationQuery.query
+      };
+    } else {
+      return {
+        viewer: ViewerQuery.query
+      };
+    }
+  };
+
+  // Since you can't pass `undefined` as a property to a Relay.Container, and
+  // not all pages have the `organization` available, we need to change it to
+  // `null` if it's not available.
+  const renderMain = (route) => {
+    if (route.props) {
+      route.props.organization = route.props.organization || null;
+
+      return React.cloneElement(route.element, route.props);
+    }
+  };
+
   // Define and render the routes
   ReactDOM.render(
     <Router history={browserHistory} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
       <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery.query, build: BuildQuery.query }} prepareParams={BuildQuery.prepareParams} />
 
-      <Route path="/" component={Main} queries={{ organization: OrganizationQuery.query, viewer: ViewerQuery.query }}>
+      <Route path="/" component={Main} getQueries={getMainQueries} render={renderMain}>
+        <Route path="authorize/:code" component={APIAccessTokenCodeAuthorize} queries={{ apiAccessTokenCode: APIAccessTokenCodeQuery.query }} />
         <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} prepareParams={preparePipelineListParams} render={renderSectionLoading} />
 
         <Route path="organizations/:organization">
