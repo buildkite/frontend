@@ -38,11 +38,11 @@ class Pipeline extends React.Component {
   };
 
   componentDidMount() {
-    PusherStore.on("websocket:event", this.handlePusherWebsocketEvent.bind(this));
+    PusherStore.on("websocket:event", this.handlePusherWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off("websocket:event", this.handlePusherWebsocketEvent.bind(this));
+    PusherStore.off("websocket:event", this.handlePusherWebsocketEvent);
   }
 
   render() {
