@@ -11,6 +11,15 @@ import APIAccessTokenCodeAuthorizeMutation from '../../mutations/APIAccessTokenC
 import FlashesStore from '../../stores/FlashesStore';
 
 class APIAccessTokenCodeAuthorize extends React.Component {
+  static propTypes = {
+    apiAccessTokenCode: React.PropTypes.shape({
+      authorizedAt: React.PropTypes.string,
+      application: React.PropTypes.shape({
+        name: React.PropTypes.string.isRequired
+      }).isRequired
+    })
+  };
+
   state = {
     authorizing: false
   };
@@ -34,7 +43,7 @@ class APIAccessTokenCodeAuthorize extends React.Component {
       <div className="py4">
         <p>Sorry...we couldn't find that code. It may have expired!</p>
       </div>
-    )
+    );
   }
 
   renderAPIAccessTokenCode() {
@@ -48,14 +57,14 @@ class APIAccessTokenCodeAuthorize extends React.Component {
         <p className="black">Authorizing {this.props.apiAccessTokenCode.application.name} will create a new API access token with permission to do anything. You can revoke this at any time in your Personal Settings.</p>
         {this.renderAction()}
       </div>
-    )
+    );
   }
 
   renderAction() {
-    if(this.props.apiAccessTokenCode.authorizedAt) {
+    if (this.props.apiAccessTokenCode.authorizedAt) {
       return (
         <p>Authorized!!</p>
-      )
+      );
     } else if (this.state.authorizing) {
       return (
         <Spinner />

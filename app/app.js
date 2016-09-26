@@ -154,8 +154,8 @@ window["initializeReactRouter"] = function() {
 
   // Only require the `organization` fragment if there's an ":organization"
   // param in the URL
-  const getMainQueries = ({ location, params }) => {
-    if(params.organization) {
+  const getMainQueries = ({ params }) => {
+    if (params.organization) {
       return {
         viewer: ViewerQuery.query,
         organization: OrganizationQuery.query
@@ -171,7 +171,7 @@ window["initializeReactRouter"] = function() {
   // not all pages have the `organization` available, we need to change it to
   // `null` if it's not available.
   const renderMain = (route) => {
-    if(route.props) {
+    if (route.props) {
       route.props.organization = route.props.organization || null;
 
       return React.cloneElement(route.element, route.props);
