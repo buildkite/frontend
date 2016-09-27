@@ -32,6 +32,9 @@ const QUERIES = {
         name
         id
         slug
+        agents {
+          count
+        }
         permissions {
           organizationUpdate {
             allowed

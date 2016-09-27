@@ -259,7 +259,7 @@ export default Relay.createContainer(Navigation, {
         name
         id
         slug
-        agents @include(if: $isMounted) {
+        agents {
           count
         }
         permissions {
