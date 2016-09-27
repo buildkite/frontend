@@ -7,12 +7,12 @@ const COLON_REGEXP = new RegExp('\:[^\\s:]+\:', 'g');
 
 class Emoji {
   parse(string, options = {}) {
-    if (!string || string.length == 0) {
+    if (!string || string.length === 0) {
       return "";
     }
 
     // Turn off escaping if the option is explicitly set
-    if (options.escape != false) {
+    if (options.escape !== false) {
       string = escape(string);
     }
 
@@ -35,9 +35,9 @@ class Emoji {
       return string;
     }
 
-    for (let i = 0, l = matches.length; i < l; i++) {
-      const match = matches[i];
-      const nextMatch = matches[i + 1];
+    for (let matchIndex = 0, matchLength = matches.length; matchIndex < matchLength; matchIndex++) {
+      const match = matches[matchIndex];
+      const nextMatch = matches[matchIndex + 1];
 
       // See if this match and the next one, makes a new emoji. For example,
       // :fist::skin-tone-4:
@@ -47,7 +47,7 @@ class Emoji {
         if (modifiedEmoji) {
           replacements.push(this._image(catalogue, modifiedEmoji));
           replacements.push("");
-          i += 1;
+          matchIndex += 1;
 
           continue;
         }
@@ -61,14 +61,12 @@ class Emoji {
       }
     }
 
-    return string.replace(regexp, () => {
-      return replacements.shift();
-    });
+    return string.replace(regexp, () => replacements.shift());
   }
 
   _image(catalogue, emoji) {
     // Emoji catalogue hosts have a normalized host that always end with a "/"
-    return `<img class="emoji" title="${emoji.name}" alt="${emoji.name}" src="${catalogue.host}${emoji.image}" height="20" width="20" align="absmiddle" />`;
+    return `<img class="emoji" title="${emoji.name}" alt="${emoji.unicode || emoji.name}" src="${catalogue.host}${emoji.image}" draggable="false" />`;
   }
 }
 

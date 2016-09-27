@@ -5,30 +5,23 @@
 // The exported hash from this loader looks like this:
 //
 // {
-//   host: "http://assets.buildkite.com/emojis"
-//   emojis: [ { name: "smiley", image: "img-buildkite-64/smiley.png" } ],
+//   host: "http://assets.buildkite.com/emojis",
+//   emojis: [ { name: "smiley", image: "img-apple-64/1f603.png", unicode: "😃" } ],
 //   indexed: {
-//     ":smiley:": 0,
-//     ":smiling": 0,
-//     ":smiley::skin-tone-4:": 0,
-//     "\u43f3g: 0
+//     "😃": { name: "smiley", image: "img-apple-64/1f603.png", unicode: "😃" },
+//     ":smiley:": { name: "smiley", image: "img-apple-64/1f603.png", unicode: "😃" },
+//     ":smiley::skin-tone-4:": { name: "smiley", image: "img-apple-64/1f603.png", unicode: "😃" }
 //   }
 // }
 //
-// The value of the indexed hash referes to the emojis index in the `emojis`
-// array.
-//
-// Emoji unicode values, names and aliased are all indexed.
+// Emoji unicode values, names and aliases are all indexed.
 
 function convertToUnicode(code) {
   if (!code || !code.length) {
     return null;
   }
 
-  var points = [];
-  code.split("-").forEach(function(p) {
-    points.push("0x" + p);
-  });
+  var points = code.split("-").map((point) => `0x${point}`);
 
   return String.fromCodePoint.apply(String, points);
 }
@@ -37,9 +30,6 @@ module.exports = function(source) {
   // Mark this loader as being cacheable
   this.cacheable && this.cacheable();
 
-  // Parse the JSON source
-  source = typeof source === "string" ? JSON.parse(source) : source;
-
   // Get the emoji host and throw and error if it's missing
   var host = process.env.EMOJI_HOST;
   if (!host) {
@@ -47,23 +37,33 @@ module.exports = function(source) {
     throw new Error("Failed to load emojis");
   }
 
+  // Parse the JSON source
+  source = typeof source === "string" ? JSON.parse(source) : source;
+
   // Normalize the host (should always end with a "/")
-  if (host.slice(-1) != "/") {
+  if (host.slice(-1) !== "/") {
     host = host + "/";
   }
 
   // Index the emojis
-  var emojis = { emojis: [], indexed: {}, host: host };
+  var emojiData = { emojis: [], indexed: {}, host: host };
+
   source.forEach(function(emoji) {
     var item = { name: emoji["name"], image: emoji["image"] };
 
-    emojis.emojis.push(item);
+    emojiData.emojis.push(item);
 
-    emojis.indexed[`:${emoji["name"]}:`] = item;
-    emojis.indexed[convertToUnicode(emoji["unicode"])] = item;
+    var emojiUnicode = convertToUnicode(emoji["unicode"]);
+
+    if (emojiUnicode) {
+      item.unicode = emojiUnicode;
+      emojiData.indexed[emojiUnicode] = item;
+    }
+
+    emojiData.indexed[`:${emoji["name"]}:`] = item;
 
     emoji["aliases"].forEach(function(alias) {
-      emojis.indexed[`:${alias}:`] = item;
+      emojiData.indexed[`:${alias}:`] = item;
     });
 
     var modifiers = emoji["modifiers"];
@@ -71,19 +71,27 @@ module.exports = function(source) {
       modifiers.forEach(function(modifier) {
         var modified = { name: emoji["name"], image: modifier["image"] };
 
-        emojis.indexed[`:${emoji["name"]}::${modifier["name"]}:`] = modified;
-        emojis.indexed[convertToUnicode(modifier["unicode"])] = modified;
+        emojiData.emojis.push(modified);
+
+        var modifierUnicode = convertToUnicode(modifier["unicode"]);
+
+        if (modifierUnicode) {
+          modified.unicode = modifierUnicode;
+          emojiData.indexed[modifierUnicode] = modified;
+        }
+
+        emojiData.indexed[`:${emoji["name"]}::${modifier["name"]}:`] = modified;
 
         emoji["aliases"].forEach(function(alias) {
-          emojis.indexed[`:${alias}::${modifier["name"]}:`] = modified;
+          emojiData.indexed[`:${alias}::${modifier["name"]}:`] = modified;
         });
       });
     }
   });
 
   // Store the newly sorted emojis
-  this.value = [emojis];
+  this.value = [emojiData];
 
   // Re-export the emojis as native code
-  return "module.exports = " + JSON.stringify(emojis, undefined, "\t") + ";";
+  return "module.exports = " + JSON.stringify(emojiData, undefined, "\t") + ";";
 };
