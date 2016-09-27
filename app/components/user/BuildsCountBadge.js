@@ -3,6 +3,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import PusherStore from '../../stores/PusherStore';
 import Badge from './../shared/Badge';
+import CachedStateWrapper from '../../helpers/CachedStateWrapper';
 
 class BuildsCountBadge extends React.Component {
   static propTypes = {
@@ -22,6 +23,23 @@ class BuildsCountBadge extends React.Component {
     runningBuildsCount: this.props.viewer.runningBuilds ? this.props.viewer.runningBuilds.count : 0
   };
 
+  componentWillMount() {
+    const initialState = {};
+    const cachedState = this.getCachedState();
+
+    if (!this.props.viewer.scheduledBuilds) {
+      initialState.scheduledBuildsCount = cachedState.scheduledBuildsCount || 0;
+    }
+
+    if (!this.props.viewer.runningBuilds) {
+      initialState.runningBuildsCount = cachedState.runningBuildsCount || 0;
+    }
+
+    if (Object.keys(initialState).length) {
+      this.setState(initialState);
+    }
+  }
+
   componentDidMount() {
     PusherStore.on("user_stats:change", this.handlePusherWebsocketEvent);
   }
@@ -31,7 +49,7 @@ class BuildsCountBadge extends React.Component {
   }
 
   handlePusherWebsocketEvent = (payload) => {
-    this.setState({
+    this.setCachedState({
       scheduledBuildsCount: payload.scheduledBuildsCount,
       runningBuildsCount: payload.runningBuildsCount
     });
@@ -39,7 +57,7 @@ class BuildsCountBadge extends React.Component {
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.viewer.scheduledBuilds || nextProps.viewer.runningBuilds) {
-      this.setState({
+      this.setCachedState({
         scheduledBuildsCount: nextProps.viewer.scheduledBuilds.count,
         runningBuildsCount: nextProps.viewer.runningBuilds.count
       });
@@ -88,4 +106,4 @@ class BuildsCountBadge extends React.Component {
   }
 }
 
-export default BuildsCountBadge;
+export default CachedStateWrapper(BuildsCountBadge, { validLength: 60 * 60 * 1000 /* 1 hour */ });
