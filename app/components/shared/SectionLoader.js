@@ -5,7 +5,7 @@ import Spinner from './Spinner';
 class SectionLoader extends React.Component {
   render() {
     return (
-      <div className="center mt4">
+      <div className="center my4">
         <Spinner/>
       </div>
     );

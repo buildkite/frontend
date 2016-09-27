@@ -6,6 +6,7 @@ import UserAvatar from './../../shared/UserAvatar';
 import Dropdown from './../../shared/Dropdown';
 import Badge from './../../shared/Badge';
 import Icon from './../../shared/Icon';
+import SectionLoader from '../../shared/SectionLoader';
 import AgentsCount from './../../organization/AgentsCount';
 import BuildsCountBadge from './../../user/BuildsCountBadge';
 import BuildsDropdown from './../../user/BuildsDropdown';
@@ -31,8 +32,13 @@ class Navigation extends React.Component {
       unreadChangelogs: React.PropTypes.shape({
         count: React.PropTypes.number
       })
-    })
+    }),
+    relay: React.PropTypes.object.isRequired
   };
+
+  componentDidMount() {
+    this.props.relay.setVariables({ isMounted: true });
+  }
 
   state = {
     showingOrgDropdown: false,
@@ -82,7 +88,6 @@ class Navigation extends React.Component {
                 </span>
               </DropdownButton>
               {this._organizationsList()}
-              <NavigationButton href="/organizations/new" className="block"><Icon icon="plus-circle" className="icon-mr" style={{ width: 12, height: 12 }} />Create New Organization</NavigationButton>
             </Dropdown>
 
             {this._topOrganizationMenu()}
@@ -180,13 +185,20 @@ class Navigation extends React.Component {
   }
 
   _organizationsList() {
+    if (!this.props.viewer.organizations) {
+      return <SectionLoader />;
+    }
+
     const nodes = [];
+
     this.props.viewer.organizations.edges.forEach((org) => {
       // Don't show the active organization in the selector
       if (!this.props.organization || (org.node.slug !== this.props.organization.slug)) {
         nodes.push(<NavigationButton key={org.node.slug} href={`/${org.node.slug}`} className="block">{org.node.name}</NavigationButton>);
       }
     });
+
+    nodes.push(<NavigationButton key="newOrganization" href="/organizations/new" className="block"><Icon icon="plus-circle" className="icon-mr" style={{ width: 12, height: 12 }} />Create New Organization</NavigationButton>);
 
     if (nodes.length > 0) {
       return nodes;
@@ -237,6 +249,10 @@ class Navigation extends React.Component {
 }
 
 export default Relay.createContainer(Navigation, {
+  initialVariables: {
+    isMounted: false
+  },
+
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
@@ -274,7 +290,7 @@ export default Relay.createContainer(Navigation, {
             url
           }
         }
-        organizations(first: 500) {
+        organizations(first: 500) @include(if: $isMounted) {
           edges {
             node {
               slug
@@ -282,13 +298,13 @@ export default Relay.createContainer(Navigation, {
             }
           }
         }
-        unreadChangelogs: changelogs(read: false) {
+        unreadChangelogs: changelogs(read: false) @include(if: $isMounted) {
           count
         }
-        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
+        runningBuilds: builds(state: BUILD_STATE_RUNNING) @include(if: $isMounted) {
           count
         }
-        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
+        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) @include(if: $isMounted) {
           count
         }
       }

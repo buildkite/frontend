@@ -52,7 +52,7 @@ class OrganizationShow extends React.Component {
   // not sure why, something in react-router-relay probably) so we'll keep an
   // eye out of team changes, and reset `isMounted`
   componentDidUpdate(prevProps) {
-    if (prevProps.team != this.props.team) {
+    if (prevProps.team !== this.props.team) {
       this.props.relay.setVariables({ isMounted: true });
     }
   }

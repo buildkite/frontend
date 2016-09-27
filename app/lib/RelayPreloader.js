@@ -65,29 +65,6 @@ const QUERIES = {
           }
           id
         }
-        organizations(first: 500) {
-          edges {
-            node {
-              slug,
-              name,
-              id
-            }
-            cursor
-          }
-          pageInfo {
-            hasNextPage,
-            hasPreviousPage
-          }
-        }
-        unreadChangelogs: changelogs(read: false) {
-          count
-        }
-        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
-          count
-        }
-        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
-          count
-        }
       }
     }
   `,

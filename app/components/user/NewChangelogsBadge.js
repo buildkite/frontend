@@ -1,7 +1,8 @@
 import React from 'react';
-import PusherStore from '../../stores/PusherStore';
-import classNames from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import classNames from 'classnames';
+
+import PusherStore from '../../stores/PusherStore';
 
 class NewChangelogsBadge extends React.Component {
   static propTypes = {
@@ -15,7 +16,7 @@ class NewChangelogsBadge extends React.Component {
   };
 
   state = {
-    unreadChangelogsCount: this.props.viewer.unreadChangelogs.count
+    unreadChangelogsCount: this.props.viewer.unreadChangelogs ? this.props.viewer.unreadChangelogs.count : 0
   };
 
   componentDidMount() {
@@ -25,6 +26,28 @@ class NewChangelogsBadge extends React.Component {
   componentWillUnmount() {
     PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent);
   }
+
+  handlePusherWebsocketEvent = (payload) => {
+    this.setState({ unreadChangelogsCount: payload.unreadChangelogsCount });
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.viewer.unreadChangelogs) {
+      this.setState({ unreadChangelogsCount: nextProps.viewer.unreadChangelogs.count });
+    }
+  }
+
+  shouldComponentUpdate = (nextProps, nextState) => {
+    const { unreadChangeLogsCount: lastChangeLogsCount } = this.state;
+
+    const { unreadChangeLogsCount: newChangeLogsCount } = nextState;
+    const { unreadChangelogs: newUnreadChangelogs } = nextProps.viewer;
+
+    return (
+      (newUnreadChangelogs && newUnreadChangelogs.count !== lastChangeLogsCount)
+      || (newChangeLogsCount !== lastChangeLogsCount)
+    );
+  };
 
   render() {
     if (this.state.unreadChangelogsCount > 0) {
@@ -40,10 +63,6 @@ class NewChangelogsBadge extends React.Component {
       return null;
     }
   }
-
-  handlePusherWebsocketEvent = (payload) => {
-    this.setState({ unreadChangelogsCount: payload.unreadChangelogsCount });
-  };
 }
 
 export default NewChangelogsBadge;

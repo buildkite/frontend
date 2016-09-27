@@ -106,9 +106,6 @@ export default Relay.createContainer(SettingsMenu, {
       fragment on Organization {
         name
         slug
-        agents {
-          count
-        }
         members {
           count
         }
