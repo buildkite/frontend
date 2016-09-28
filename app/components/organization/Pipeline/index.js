@@ -47,14 +47,14 @@ class Pipeline extends React.Component {
 
   render() {
     return (
-      <div className="flex items-stretch border border-gray rounded mb2" style={{ height: 82 }}>
-        <div className="flex flex-none items-center pl4 pr2">
+      <div className="flex items-stretch border border-gray rounded px2 mb2" style={{ height: 82 }}>
+        <div className="flex flex-none items-center pl2 pr2">
           <Status pipeline={this.props.pipeline} />
         </div>
 
         <a href={this.props.pipeline.url} className="flex flex-auto items-center px2 text-decoration-none color-inherit mr3">
           <div className="truncate">
-            <h2 className="h4 regular m0 line-height-2">{this.props.pipeline.name}</h2>
+            <h2 className="inline h4 regular m0 line-height-2">{this.props.pipeline.name}</h2>
             {this.renderDescription()}
           </div>
         </a>
@@ -66,7 +66,7 @@ class Pipeline extends React.Component {
           </div>
         </div>
 
-        <div className="flex flex-none items-center justify-start ml2">
+        <div className="flex flex-none items-center justify-start xs-hide ml2">
           <Metrics pipeline={this.props.pipeline} />
         </div>
 
@@ -79,7 +79,7 @@ class Pipeline extends React.Component {
     if (this.props.pipeline.description) {
       return (
         <div className="truncate dark-gray" style={{ marginTop: 3 }}>
-          {this.props.pipeline.description ? <Emojify className="h5 regular" text={this.props.pipeline.description} /> : null}
+          <Emojify className="h5 regular" text={this.props.pipeline.description} />
         </div>
       );
     }
@@ -101,7 +101,7 @@ class Pipeline extends React.Component {
     );
 
     return (
-      <div className="flex flex-none flex-column justify-center ml-auto pr4">
+      <div className="flex flex-none flex-column justify-center ml-auto pr2">
         {favoriteButton}
       </div>
     );
