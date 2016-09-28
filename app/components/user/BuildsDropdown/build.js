@@ -36,7 +36,7 @@ class BuildsDropdownBuild extends React.Component {
         </a>
         <div className="flex-auto">
           <a href={this.props.build.url} className="mb1 black text-decoration-none hover-lime block" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
-            <Emojify text={this.props.build.message} className="emoji-small" /> <span className={commitClassName}>{this.shortCommit(this.props.build.commit)}</span>
+            <Emojify text={this.props.build.message} /> <span className={commitClassName}>{this.shortCommit(this.props.build.commit)}</span>
           </a>
           <a href={`/${this.props.build.organization.slug}/${this.props.build.pipeline.slug}`} className="dark-gray text-decoration-none hover-navy">{this.props.build.organization.name} / {this.props.build.pipeline.name}</a>
         </div>
