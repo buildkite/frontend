@@ -38,6 +38,21 @@ const QUERIES = {
                   allowed
                 }
               }
+              metrics(first: 6) {
+                edges {
+                  node {
+                    label
+                    value
+                    url
+                    id
+                  }
+                  cursor
+                }
+                pageInfo {
+                  hasNextPage
+                  hasPreviousPage
+                }
+              }
               builds(first: 1, branch: "%default", state: [ BUILD_STATE_RUNNING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED ]) {
                 edges {
                   node {
