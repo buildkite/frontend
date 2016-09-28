@@ -59,12 +59,7 @@ class Pipeline extends React.Component {
           </div>
         </a>
 
-        <div className="flex items-center flex-none ml3 xs-hide sm-hide pr4">
-          <div>
-            <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
-            <Graph pipeline={this.props.pipeline}  />
-          </div>
-        </div>
+        {this.renderGraph()}
 
         <div className="flex flex-none items-center justify-start ml2">
           <Metrics pipeline={this.props.pipeline} />
@@ -83,6 +78,28 @@ class Pipeline extends React.Component {
         </div>
       );
     }
+  }
+
+  renderGraph() {
+    let graph;
+    if(this.props.relay.variables.includeGraphData) {
+      graph = <Graph pipeline={this.props.pipeline} />;
+    } else {
+      graph = (
+        <div style={{width: 239, height: 35}}>
+          Loading..
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex items-center flex-none ml3 xs-hide sm-hide pr4">
+        <div>
+          <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
+          {graph}
+        </div>
+      </div>
+    );
   }
 
   renderActions() {
@@ -134,13 +151,17 @@ class Pipeline extends React.Component {
 }
 
 export default Relay.createContainer(Pipeline, {
+  initialVariables: {
+    includeGraphData: false
+  },
+
   fragments: {
-    pipeline: () => Relay.QL`
+    pipeline: (variables) => Relay.QL`
       fragment on Pipeline {
         ${PipelineFavoriteMutation.getFragment('pipeline')}
         ${Status.getFragment('pipeline')}
-        ${Graph.getFragment('pipeline')}
         ${Metrics.getFragment('pipeline')}
+        ${Graph.getFragment('pipeline').if(variables.includeGraphData)}
         id
         name
         slug
