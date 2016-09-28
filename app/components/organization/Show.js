@@ -16,15 +16,6 @@ class OrganizationShow extends React.Component {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
-      teams: React.PropTypes.shape({
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.shape({
-              id: React.PropTypes.string.isRequired
-            }).isRequired
-          }).isRequired
-        )
-      }),
       pipelines: React.PropTypes.shape({
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
@@ -66,6 +57,7 @@ class OrganizationShow extends React.Component {
               <h1 className="h1 p0 m0 mr4 regular line-height-1 inline-block">Pipelines</h1>
               {this.renderTeams()}
             </div>
+
             <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{ width: 34, height: 34 }} href={`organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
               <Icon icon="plus" title="New Pipeline"/>
             </Button>
@@ -78,9 +70,11 @@ class OrganizationShow extends React.Component {
   }
 
   renderTeams() {
-    if (this.props.organization.teams.edges.length > 0) {
+    // Only render the teams dropdown once the `isMounted` Relay variable has
+    // been executed
+    if(this.props.relay.variables.isMounted) {
       return (
-        <Teams selected={this.props.relay.variables.team} organization={this.props.organization} onTeamChange={this.handleTeamChange} />
+        <Teams selected={this.props.location.query.team} organization={this.props.organization} onTeamChange={this.handleTeamChange} />
       );
     }
   }
@@ -149,19 +143,12 @@ export default Relay.createContainer(OrganizationShow, {
   },
 
   fragments: {
-    organization: () => Relay.QL`
+    organization: (variables) => Relay.QL`
       fragment on Organization {
-        ${Teams.getFragment('organization')}
+        ${Teams.getFragment('organization').if(variables.isMounted)}
         id
         slug
         name
-        teams(first: 100) {
-          edges {
-            node {
-              id
-            }
-          }
-        }
         pipelines(first: 100, team: $team, order: PIPELINE_ORDER_NAME) @include(if: $isMounted) {
           edges {
             node {
