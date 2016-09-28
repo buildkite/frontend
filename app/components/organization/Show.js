@@ -7,24 +7,15 @@ import Button from '../shared/Button';
 import Icon from '../shared/Icon';
 import SectionLoader from '../shared/SectionLoader';
 
-import Pipeline from './Pipeline';
+import Pipelines from './Pipelines';
 import Teams from './Teams';
-import Welcome from './Welcome';
 
 class OrganizationShow extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired,
-      pipelines: React.PropTypes.shape({
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.shape({
-              id: React.PropTypes.string.isRequired
-            }).isRequired
-          }).isRequired
-        )
-      })
+      slug: React.PropTypes.string.isRequired
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
     params: React.PropTypes.object.isRequired,
@@ -80,49 +71,16 @@ class OrganizationShow extends React.Component {
   }
 
   renderPipelines() {
-    if (this.props.organization.pipelines) {
-      if (this.props.organization.pipelines.edges.length > 0) {
-        // Split the pipelines into "favorited" and non "favorited". We don't
-        // user a `sort` method so we preserve the current order the pipelines.
-        const favorited = [];
-        const remainder = [];
-        for (const edge of this.props.organization.pipelines.edges) {
-          if (edge.node.favorite) {
-            favorited.push(edge.node);
-          } else {
-            remainder.push(edge.node);
-          }
-        }
-
-        const nodes = [];
-
-        // Put the favorites in the own section with a divider
-        if (favorited.length > 0) {
-          for (const pipeline of favorited) {
-            nodes.push(
-              <Pipeline key={pipeline.id} pipeline={pipeline} />
-            );
-          }
-
-          if (remainder.length > 0) {
-            nodes.push(
-              <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{ height: 1 }} />
-            );
-          }
-        }
-
-        for (const pipeline of remainder) {
-          nodes.push(<Pipeline key={pipeline.id} pipeline={pipeline} />);
-        }
-
-        return nodes;
-      } else {
-        return (
-          <Welcome organization={this.props.params.organization} />
-        );
-      }
+    // Just like the "Teams" dropdown, only render the Pipelines once
+    // `isMounted` has taken effect
+    if(this.props.relay.variables.isMounted) {
+      return (
+        <Pipelines organization={this.props.organization} team={this.props.team || null} />
+      );
     } else {
-      return <SectionLoader />;
+      return (
+        <SectionLoader />
+      );
     }
   }
 
@@ -146,18 +104,10 @@ export default Relay.createContainer(OrganizationShow, {
     organization: (variables) => Relay.QL`
       fragment on Organization {
         ${Teams.getFragment('organization').if(variables.isMounted)}
+        ${Pipelines.getFragment('organization', { team: variables.team }).if(variables.isMounted)}
         id
         slug
         name
-        pipelines(first: 100, team: $team, order: PIPELINE_ORDER_NAME) @include(if: $isMounted) {
-          edges {
-            node {
-              id
-              favorite
-              ${Pipeline.getFragment('pipeline')}
-            }
-          }
-        }
       }
     `
   }
