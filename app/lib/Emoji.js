@@ -42,10 +42,10 @@ class Emoji {
       // See if this match and the next one, makes a new emoji. For example,
       // :fist::skin-tone-4:
       if (nextMatch) {
-        const modifiedEmoji = catalogue.indexed[`${match}${nextMatch}`];
+        const modifiedEmoji = catalogue.index[`${match}${nextMatch}`];
 
         if (modifiedEmoji) {
-          replacements.push(this._image(catalogue, modifiedEmoji));
+          replacements.push(this._image(catalogue, catalogue.emoji[modifiedEmoji]));
           replacements.push("");
           matchIndex += 1;
 
@@ -53,9 +53,9 @@ class Emoji {
         }
       }
 
-      const emoji = catalogue.indexed[match];
+      const emoji = catalogue.index[match];
       if (emoji) {
-        replacements.push(this._image(catalogue, emoji));
+        replacements.push(this._image(catalogue, catalogue.emoji[emoji]));
       } else {
         replacements.push(match);
       }

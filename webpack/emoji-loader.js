@@ -6,11 +6,11 @@
 //
 // {
 //   host: "http://assets.buildkite.com/emojis",
-//   emojis: [ { name: "smiley", image: "img-apple-64/1f603.png", unicode: "😃" } ],
-//   indexed: {
-//     "😃": { name: "smiley", image: "img-apple-64/1f603.png", unicode: "😃" },
-//     ":smiley:": { name: "smiley", image: "img-apple-64/1f603.png", unicode: "😃" },
-//     ":smiley::skin-tone-4:": { name: "smiley", image: "img-apple-64/1f603.png", unicode: "😃" }
+//   emoji: [ { name: "smiley", image: "img-apple-64/1f603.png", unicode: "😃" } ],
+//   index: {
+//     "😃": 0,
+//     ":smiley:": 0,
+//     ":smiley::skin-tone-4:": 0
 //   }
 // }
 //
@@ -33,8 +33,8 @@ module.exports = function(source) {
   // Get the emoji host and throw and error if it's missing
   var host = process.env.EMOJI_HOST;
   if (!host) {
-    this.emitError("ERROR: No EMOJI_HOST set, can't load emojis");
-    throw new Error("Failed to load emojis");
+    this.emitError("ERROR: No EMOJI_HOST set, can't load emoji");
+    throw new Error("Failed to load emoji");
   }
 
   // Parse the JSON source
@@ -45,25 +45,27 @@ module.exports = function(source) {
     host = host + "/";
   }
 
-  // Index the emojis
-  var emojiData = { emojis: [], indexed: {}, host: host };
+  // Index the emoji
+  var emojiList = [];
+  var emojiIndex = {};
 
   source.forEach(function(emoji) {
     var item = { name: emoji["name"], image: emoji["image"] };
 
-    emojiData.emojis.push(item);
+    emojiList.push(item);
+    var itemIndex = emojiList.indexOf(item);
 
     var emojiUnicode = convertToUnicode(emoji["unicode"]);
 
     if (emojiUnicode) {
       item.unicode = emojiUnicode;
-      emojiData.indexed[emojiUnicode] = item;
+      emojiIndex[emojiUnicode] = itemIndex;
     }
 
-    emojiData.indexed[`:${emoji["name"]}:`] = item;
+    emojiIndex[`:${emoji["name"]}:`] = itemIndex;
 
     emoji["aliases"].forEach(function(alias) {
-      emojiData.indexed[`:${alias}:`] = item;
+      emojiIndex[`:${alias}:`] = itemIndex;
     });
 
     var modifiers = emoji["modifiers"];
@@ -71,27 +73,30 @@ module.exports = function(source) {
       modifiers.forEach(function(modifier) {
         var modified = { name: emoji["name"], image: modifier["image"] };
 
-        emojiData.emojis.push(modified);
+        emojiList.push(modified);
+        var modifiedIndex = emojiList.indexOf(modified);
 
         var modifierUnicode = convertToUnicode(modifier["unicode"]);
 
         if (modifierUnicode) {
           modified.unicode = modifierUnicode;
-          emojiData.indexed[modifierUnicode] = modified;
+          emojiIndex[modifierUnicode] = modifiedIndex;
         }
 
-        emojiData.indexed[`:${emoji["name"]}::${modifier["name"]}:`] = modified;
+        emojiIndex[`:${emoji["name"]}::${modifier["name"]}:`] = modifiedIndex;
 
         emoji["aliases"].forEach(function(alias) {
-          emojiData.indexed[`:${alias}::${modifier["name"]}:`] = modified;
+          emojiIndex[`:${alias}::${modifier["name"]}:`] = modifiedIndex;
         });
       });
     }
   });
 
-  // Store the newly sorted emojis
+  var emojiData = { emoji: emojiList, index: emojiIndex, host: host };
+
+  // Store the newly sorted emoji
   this.value = [emojiData];
 
-  // Re-export the emojis as native code
+  // Re-export the emoji as native code
   return "module.exports = " + JSON.stringify(emojiData, undefined, "\t") + ";";
 };
