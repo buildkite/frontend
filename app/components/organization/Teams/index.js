@@ -13,6 +13,14 @@ class Teams extends React.Component {
   };
 
   render() {
+    if (this.props.organization.teams.edges.length > 0) {
+      return this.renderDropdown()
+    } else {
+      return null;
+    }
+  }
+
+  renderDropdown() {
     return (
       <Dropdown align="center" width={300} ref={(c) => this.dropdownNode = c}>
         <button className="h4 p0 m0 light dark-gray inline-block btn flex" style={{ marginTop: 3, fontSize: 16 }}>
