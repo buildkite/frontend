@@ -93,7 +93,7 @@ class Pipeline extends React.Component {
       );
     } else {
       graph = (
-        <div style={{width: 239}}></div>
+        <div style={{ width: 239 }}></div>
       );
     }
 
