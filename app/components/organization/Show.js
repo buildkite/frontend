@@ -5,7 +5,6 @@ import DocumentTitle from 'react-document-title';
 import PageWithContainer from '../shared/PageWithContainer';
 import Button from '../shared/Button';
 import Icon from '../shared/Icon';
-import SectionLoader from '../shared/SectionLoader';
 
 import Pipelines from './Pipelines';
 import Teams from './Teams';
@@ -18,7 +17,7 @@ class OrganizationShow extends React.Component {
       slug: React.PropTypes.string.isRequired
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
-    params: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
     team: React.PropTypes.string
   };
 

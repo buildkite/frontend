@@ -4,12 +4,12 @@ import Relay from 'react-relay';
 import SectionLoader from '../shared/SectionLoader';
 
 import Pipeline from './Pipeline';
-import Teams from './Teams';
 import Welcome from './Welcome';
 
 class OrganizationPipelines extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
+      slug: React.PropTypes.string.isRequired,
       pipelines: React.PropTypes.shape({
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
@@ -79,7 +79,7 @@ class OrganizationPipelines extends React.Component {
       );
     } else {
       return (
-        <Welcome organization={this.props.params.organization} />
+        <Welcome organization={this.props.organization.slug} />
       );
     }
   }
@@ -132,6 +132,7 @@ export default Relay.createContainer(OrganizationPipelines, {
   fragments: {
     organization: (variables) => Relay.QL`
       fragment on Organization {
+        slug
         pipelines(first: 100, team: $teamSearch, order: PIPELINE_ORDER_NAME) @include(if: $isMounted) {
           edges {
             node {
