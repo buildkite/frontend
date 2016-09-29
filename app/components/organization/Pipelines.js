@@ -24,43 +24,62 @@ class OrganizationPipelines extends React.Component {
     team: React.PropTypes.string
   };
 
+  state = {
+    fetching: false
+  }
+
   componentDidMount() {
+    // After the `OrganizationPipelines` component has mounted, kick off a
+    // Relay query to load in all the pipelines. `includeGraphData` is still
+    // false at this point because we'll load in that data after this.
+    this.props.relay.setVariables({ isMounted: true, teamSearch: this.props.team }, (readyState) => {
+      if (readyState.done) {
+        // Now kick off a full reload, which will grab the pipelines again, but
+        // this time with all the graph data.
+        setTimeout(() => {
+          this.props.relay.forceFetch({ includeGraphData: true });
+        }, 0);
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
-  }
-
-  componentDidUpdate(prevProps) {
-    if(prevProps.organization != this.props.organization) {
-      //this.props.relay.setVariables({ team: this.props.team }, ({ ready }) => {
-      //  console.log('pipelines has loaded', ready);
-      //});
-    } else if(prevProps.team != this.props.team) {
-      // this.props.relay.forceFetch({ includeGraphData: false, teamSearch: this.props.team }, ({ ready }) => {
-      //   console.log(ready);
-      // });
+    // Are we switching teams?
+    if(this.props.team != nextProps.team) {
+      // Start by changing the `fetching` state to show the spinner
+      this.setState({ fetching: true }, () => {
+        // Once state has been set, force a full re-fetch of the pipelines in
+        // the new team
+        this.props.relay.forceFetch({ teamSearch: nextProps.team }, (readyState) => {
+          // Now that we've got the data, turn off the spinner
+          if (readyState.done) {
+            this.setState({ fetching: false });
+          }
+        });
+      });
     }
   }
 
   render() {
-
-    console.log("PIPELINE RENDER ", this.props.organization, this.props.organization.pipelines);
-
-    if (this.props.organization && this.props.organization.pipelines) {
-      if (this.props.organization.pipelines.edges.length > 0) {
-        return (
-          <div>
-            {this.renderPipelines()}
-          </div>
-        )
-      } else {
-        return (
-          <Welcome organization={this.props.params.organization} />
-        );
-      }
-    } else {
+    // Are we switching teams or getting the first set of data? Lets bail out
+    // early and show the spinner.
+    if(this.state.fetching || !this.props.organization.pipelines) {
       return (
         <SectionLoader />
+      );
+    }
+
+    // Switch between rendering the actual teams, or showing the "Welcome"
+    // message
+    if (this.props.organization.pipelines.edges.length > 0) {
+      return (
+        <div>
+          {this.renderPipelines()}
+        </div>
+      )
+    } else {
+      return (
+        <Welcome organization={this.props.params.organization} />
       );
     }
   }
@@ -105,19 +124,20 @@ class OrganizationPipelines extends React.Component {
 
 export default Relay.createContainer(OrganizationPipelines, {
   initialVariables: {
-    team: null,
-    includeGraphData: false
+    teamSearch: null,
+    includeGraphData: false,
+    isMounted: false
   },
 
   fragments: {
     organization: (variables) => Relay.QL`
       fragment on Organization {
-        pipelines(first: 100, team: $team, order: PIPELINE_ORDER_NAME) {
+        pipelines(first: 100, team: $teamSearch, order: PIPELINE_ORDER_NAME) @include(if: $isMounted) {
           edges {
             node {
               id
               favorite
-              ${Pipeline.getFragment('pipeline')
+              ${Pipeline.getFragment('pipeline', { includeGraphData: variables.includeGraphData })}
             }
           }
         }

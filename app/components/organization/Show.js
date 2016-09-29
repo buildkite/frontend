@@ -45,7 +45,7 @@ class OrganizationShow extends React.Component {
             </Button>
           </div>
 
-          {this.renderPipelines()}
+          <Pipelines organization={this.props.organization} team={this.props.location.query.team || null} />
         </PageWithContainer>
       </DocumentTitle>
     );
@@ -57,20 +57,6 @@ class OrganizationShow extends React.Component {
     if(this.props.relay.variables.isMounted) {
       return (
         <Teams selected={this.props.location.query.team} organization={this.props.organization} onTeamChange={this.handleTeamChange} />
-      );
-    }
-  }
-
-  renderPipelines() {
-    // Only render the teams dropdown once the `isMounted` Relay variable has
-    // been executed
-    if(this.props.relay.variables.isMounted) {
-      return (
-        <Pipelines organization={this.props.organization} team={this.props.location.query.team} />
-      );
-    } else {
-      return (
-        <Pipelines organization={null} team={this.props.location.query.team} />
       );
     }
   }
@@ -94,7 +80,7 @@ export default Relay.createContainer(OrganizationShow, {
     organization: (variables) => Relay.QL`
       fragment on Organization {
         ${Teams.getFragment('organization').if(variables.isMounted)}
-        ${Pipelines.getFragment('organization').if(variables.isMounted)}
+        ${Pipelines.getFragment('organization')}
         id
         slug
         name
