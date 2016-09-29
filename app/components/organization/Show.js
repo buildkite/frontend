@@ -54,7 +54,7 @@ class OrganizationShow extends React.Component {
   renderTeams() {
     // Only render the teams dropdown once the `isMounted` Relay variable has
     // been executed
-    if(this.props.relay.variables.isMounted) {
+    if (this.props.relay.variables.isMounted) {
       return (
         <Teams selected={this.props.location.query.team} organization={this.props.organization} onTeamChange={this.handleTeamChange} />
       );

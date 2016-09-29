@@ -45,7 +45,7 @@ class OrganizationPipelines extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Are we switching teams?
-    if(this.props.team != nextProps.team) {
+    if (this.props.team != nextProps.team) {
       // Start by changing the `fetching` state to show the spinner
       this.setState({ fetching: true }, () => {
         // Once state has been set, force a full re-fetch of the pipelines in
@@ -63,7 +63,7 @@ class OrganizationPipelines extends React.Component {
   render() {
     // Are we switching teams or getting the first set of data? Lets bail out
     // early and show the spinner.
-    if(this.state.fetching || !this.props.organization.pipelines) {
+    if (this.state.fetching || !this.props.organization.pipelines) {
       return (
         <SectionLoader />
       );
@@ -76,7 +76,7 @@ class OrganizationPipelines extends React.Component {
         <div>
           {this.renderPipelines()}
         </div>
-      )
+      );
     } else {
       return (
         <Welcome organization={this.props.params.organization} />
