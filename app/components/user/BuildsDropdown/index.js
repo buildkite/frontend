@@ -13,10 +13,19 @@ class BuildsDropdownIndex extends React.Component {
     relay: React.PropTypes.object.isRequired
   }
 
+  state = {
+    fetching: true
+  }
+
   componentDidMount() {
     PusherStore.on("user_stats:change", this.handlePusherWebsocketEvent);
 
-    this.props.relay.setVariables({ isMounted: true });
+    this.props.relay.forceFetch({ isMounted: true }, (readyState) => {
+      // Now that we've got the data, turn off the spinner
+      if (readyState.done) {
+        this.setState({ fetching: false });
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -24,14 +33,12 @@ class BuildsDropdownIndex extends React.Component {
   }
 
   render() {
-    if (this.props.viewer.user.builds) {
-      if (this.props.viewer.user.builds.edges.length > 0) {
-        return this.renderBuilds();
-      } else {
-        return this.renderSetupInstructions();
-      }
-    } else {
+    if(this.state.fetching) {
       return this.renderSpinner();
+    } else if (this.props.viewer.user.builds.edges.length > 0) {
+      return this.renderBuilds();
+    } else {
+      return this.renderSetupInstructions();
     }
   }
 
