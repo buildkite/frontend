@@ -5,38 +5,19 @@ import DocumentTitle from 'react-document-title';
 import PageWithContainer from '../shared/PageWithContainer';
 import Button from '../shared/Button';
 import Icon from '../shared/Icon';
-import SectionLoader from '../shared/SectionLoader';
 
-import Pipeline from './Pipeline';
+import Pipelines from './Pipelines';
 import Teams from './Teams';
-import Welcome from './Welcome';
 
 class OrganizationShow extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired,
-      teams: React.PropTypes.shape({
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.shape({
-              id: React.PropTypes.string.isRequired
-            }).isRequired
-          }).isRequired
-        )
-      }),
-      pipelines: React.PropTypes.shape({
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.shape({
-              id: React.PropTypes.string.isRequired
-            }).isRequired
-          }).isRequired
-        )
-      })
+      slug: React.PropTypes.string.isRequired
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
-    params: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
     team: React.PropTypes.string
   };
 
@@ -48,15 +29,6 @@ class OrganizationShow extends React.Component {
     this.props.relay.setVariables({ isMounted: true });
   }
 
-  // When we change teams, it causes a new set of variables to be loaded (I'm
-  // not sure why, something in react-router-relay probably) so we'll keep an
-  // eye out of team changes, and reset `isMounted`
-  componentDidUpdate(prevProps) {
-    if (prevProps.team !== this.props.team) {
-      this.props.relay.setVariables({ isMounted: true });
-    }
-  }
-
   render() {
     return (
       <DocumentTitle title={`${this.props.organization.name}`}>
@@ -66,69 +38,25 @@ class OrganizationShow extends React.Component {
               <h1 className="h1 p0 m0 mr4 regular line-height-1 inline-block">Pipelines</h1>
               {this.renderTeams()}
             </div>
+
             <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{ width: 34, height: 34 }} href={`organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
               <Icon icon="plus" title="New Pipeline"/>
             </Button>
           </div>
 
-          {this.renderPipelines()}
+          <Pipelines organization={this.props.organization} team={this.props.location.query.team || null} />
         </PageWithContainer>
       </DocumentTitle>
     );
   }
 
   renderTeams() {
-    if (this.props.organization.teams.edges.length > 0) {
+    // Only render the teams dropdown once the `isMounted` Relay variable has
+    // been executed
+    if (this.props.relay.variables.isMounted) {
       return (
-        <Teams selected={this.props.relay.variables.team} organization={this.props.organization} onTeamChange={this.handleTeamChange} />
+        <Teams selected={this.props.location.query.team} organization={this.props.organization} onTeamChange={this.handleTeamChange} />
       );
-    }
-  }
-
-  renderPipelines() {
-    if (this.props.organization.pipelines) {
-      if (this.props.organization.pipelines.edges.length > 0) {
-        // Split the pipelines into "favorited" and non "favorited". We don't
-        // user a `sort` method so we preserve the current order the pipelines.
-        const favorited = [];
-        const remainder = [];
-        for (const edge of this.props.organization.pipelines.edges) {
-          if (edge.node.favorite) {
-            favorited.push(edge.node);
-          } else {
-            remainder.push(edge.node);
-          }
-        }
-
-        const nodes = [];
-
-        // Put the favorites in the own section with a divider
-        if (favorited.length > 0) {
-          for (const pipeline of favorited) {
-            nodes.push(
-              <Pipeline key={pipeline.id} pipeline={pipeline} />
-            );
-          }
-
-          if (remainder.length > 0) {
-            nodes.push(
-              <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{ height: 1 }} />
-            );
-          }
-        }
-
-        for (const pipeline of remainder) {
-          nodes.push(<Pipeline key={pipeline.id} pipeline={pipeline} />);
-        }
-
-        return nodes;
-      } else {
-        return (
-          <Welcome organization={this.props.params.organization} />
-        );
-      }
-    } else {
-      return <SectionLoader />;
     }
   }
 
@@ -144,33 +72,17 @@ class OrganizationShow extends React.Component {
 
 export default Relay.createContainer(OrganizationShow, {
   initialVariables: {
-    team: null,
     isMounted: false
   },
 
   fragments: {
-    organization: () => Relay.QL`
+    organization: (variables) => Relay.QL`
       fragment on Organization {
-        ${Teams.getFragment('organization')}
+        ${Teams.getFragment('organization').if(variables.isMounted)}
+        ${Pipelines.getFragment('organization')}
         id
         slug
         name
-        teams(first: 100) {
-          edges {
-            node {
-              id
-            }
-          }
-        }
-        pipelines(first: 100, team: $team, order: PIPELINE_ORDER_NAME) @include(if: $isMounted) {
-          edges {
-            node {
-              id
-              favorite
-              ${Pipeline.getFragment('pipeline')}
-            }
-          }
-        }
       }
     `
   }

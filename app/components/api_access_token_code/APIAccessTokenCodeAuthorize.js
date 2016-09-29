@@ -25,7 +25,7 @@ class APIAccessTokenCodeAuthorize extends React.Component {
   };
 
   render() {
-    let title = this.props.apiAccessTokenCode ? `Authorize ${this.props.apiAccessTokenCode.application.name}?` : "Code not found";
+    const title = this.props.apiAccessTokenCode ? `Authorize ${this.props.apiAccessTokenCode.application.name}?` : "Code not found";
 
     return (
       <DocumentTitle title={title}>
