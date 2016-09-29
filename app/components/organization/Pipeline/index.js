@@ -91,6 +91,10 @@ class Pipeline extends React.Component {
           <Graph pipeline={this.props.pipeline} />
         </div>
       );
+    } else {
+      graph = (
+        <div style={{width: 239}}></div>
+      );
     }
 
     return (
