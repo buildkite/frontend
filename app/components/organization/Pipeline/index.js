@@ -81,23 +81,21 @@ class Pipeline extends React.Component {
   }
 
   renderGraph() {
+    // Toggle between showing the graph, or showing a placeholder until the
+    // data is finally loaded in.
     let graph;
     if(this.props.relay.variables.includeGraphData) {
-      graph = <Graph pipeline={this.props.pipeline} />;
-    } else {
       graph = (
-        <div style={{width: 239, height: 35}}>
-          Loading..
+        <div>
+          <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
+          <Graph pipeline={this.props.pipeline} />
         </div>
       );
     }
 
     return (
       <div className="flex items-center flex-none ml3 xs-hide sm-hide pr4">
-        <div>
-          <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
-          {graph}
-        </div>
+        {graph}
       </div>
     );
   }
