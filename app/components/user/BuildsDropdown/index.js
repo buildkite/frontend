@@ -33,7 +33,7 @@ class BuildsDropdownIndex extends React.Component {
   }
 
   render() {
-    if(this.state.fetching) {
+    if (this.state.fetching) {
       return this.renderSpinner();
     } else if (this.props.viewer.user.builds.edges.length > 0) {
       return this.renderBuilds();
