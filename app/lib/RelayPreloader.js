@@ -181,6 +181,10 @@ const QUERIES = {
 
 class RelayPreloader {
   preload(id, payload, variables) {
+    if(id == "organization/show") {
+      return
+    }
+
     // Get the concrete query
     const concrete = QUERIES[id];
     if (!concrete) {

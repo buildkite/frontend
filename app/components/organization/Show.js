@@ -30,15 +30,6 @@ class OrganizationShow extends React.Component {
     this.props.relay.setVariables({ isMounted: true });
   }
 
-  // When we change teams, it causes a new set of variables to be loaded (I'm
-  // not sure why, something in react-router-relay probably) so we'll keep an
-  // eye out of team changes, and reset `isMounted`
-  componentDidUpdate(prevProps) {
-    if (prevProps.team !== this.props.team) {
-      this.props.relay.setVariables({ isMounted: true });
-    }
-  }
-
   render() {
     return (
       <DocumentTitle title={`${this.props.organization.name}`}>
@@ -71,15 +62,15 @@ class OrganizationShow extends React.Component {
   }
 
   renderPipelines() {
-    // Just like the "Teams" dropdown, only render the Pipelines once
-    // `isMounted` has taken effect
+    // Only render the teams dropdown once the `isMounted` Relay variable has
+    // been executed
     if(this.props.relay.variables.isMounted) {
       return (
-        <Pipelines organization={this.props.organization} team={this.props.team || null} />
+        <Pipelines organization={this.props.organization} team={this.props.location.query.team} />
       );
     } else {
       return (
-        <SectionLoader />
+        <Pipelines organization={null} team={this.props.location.query.team} />
       );
     }
   }
@@ -96,7 +87,6 @@ class OrganizationShow extends React.Component {
 
 export default Relay.createContainer(OrganizationShow, {
   initialVariables: {
-    team: null,
     isMounted: false
   },
 
@@ -104,7 +94,7 @@ export default Relay.createContainer(OrganizationShow, {
     organization: (variables) => Relay.QL`
       fragment on Organization {
         ${Teams.getFragment('organization').if(variables.isMounted)}
-        ${Pipelines.getFragment('organization', { team: variables.team }).if(variables.isMounted)}
+        ${Pipelines.getFragment('organization').if(variables.isMounted)}
         id
         slug
         name

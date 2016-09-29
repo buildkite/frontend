@@ -144,14 +144,6 @@ window["initializeReactRouter"] = function() {
     return React.cloneElement(route.element, route.props);
   };
 
-  // Custom params for pipeline list to support "teams" feature
-  const preparePipelineListParams = (params, { location }) => {
-    return {
-      ...params,
-      team: location.query.team || null // Passing `undefined` seems to break all the things
-    };
-  };
-
   // Only require the `organization` fragment if there's an ":organization"
   // param in the URL
   const getMainQueries = ({ params }) => {
@@ -185,7 +177,7 @@ window["initializeReactRouter"] = function() {
 
       <Route path="/" component={Main} getQueries={getMainQueries} render={renderMain}>
         <Route path="authorize/:code" component={APIAccessTokenCodeAuthorize} queries={{ apiAccessTokenCode: APIAccessTokenCodeQuery.query }} />
-        <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} prepareParams={preparePipelineListParams} render={renderSectionLoading} />
+        <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
         <Route path="organizations/:organization">
           <Route path="agents">

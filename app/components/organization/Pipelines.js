@@ -19,28 +19,48 @@ class OrganizationPipelines extends React.Component {
           }).isRequired
         )
       })
-    }).isRequired,
+    }),
     relay: React.PropTypes.object.isRequired,
     team: React.PropTypes.string
   };
 
   componentDidMount() {
-    // this.props.relay.setVariables({ isMounted: true });
+  }
+
+  componentWillReceiveProps(nextProps) {
   }
 
   componentDidUpdate(prevProps) {
+    if(prevProps.organization != this.props.organization) {
+      //this.props.relay.setVariables({ team: this.props.team }, ({ ready }) => {
+      //  console.log('pipelines has loaded', ready);
+      //});
+    } else if(prevProps.team != this.props.team) {
+      // this.props.relay.forceFetch({ includeGraphData: false, teamSearch: this.props.team }, ({ ready }) => {
+      //   console.log(ready);
+      // });
+    }
   }
 
   render() {
-    if (this.props.organization.pipelines.edges.length > 0) {
-      return (
-        <div>
-          {this.renderPipelines()}
-        </div>
-      )
+
+    console.log("PIPELINE RENDER ", this.props.organization, this.props.organization.pipelines);
+
+    if (this.props.organization && this.props.organization.pipelines) {
+      if (this.props.organization.pipelines.edges.length > 0) {
+        return (
+          <div>
+            {this.renderPipelines()}
+          </div>
+        )
+      } else {
+        return (
+          <Welcome organization={this.props.params.organization} />
+        );
+      }
     } else {
       return (
-        <Welcome organization={this.props.params.organization} />
+        <SectionLoader />
       );
     }
   }
@@ -64,7 +84,7 @@ class OrganizationPipelines extends React.Component {
     if (favorited.length > 0) {
       for (const pipeline of favorited) {
         nodes.push(
-          <Pipeline key={pipeline.id} pipeline={pipeline} />
+          <Pipeline key={pipeline.id} pipeline={pipeline} includeGraphData={this.props.relay.variables.includeGraphData} />
         );
       }
 
@@ -76,7 +96,7 @@ class OrganizationPipelines extends React.Component {
     }
 
     for (const pipeline of remainder) {
-      nodes.push(<Pipeline key={pipeline.id} pipeline={pipeline} />);
+      nodes.push(<Pipeline key={pipeline.id} pipeline={pipeline} includeGraphData={this.props.relay.variables.includeGraphData} />);
     }
 
     return nodes;
@@ -85,7 +105,8 @@ class OrganizationPipelines extends React.Component {
 
 export default Relay.createContainer(OrganizationPipelines, {
   initialVariables: {
-    team: null
+    team: null,
+    includeGraphData: false
   },
 
   fragments: {
@@ -96,7 +117,7 @@ export default Relay.createContainer(OrganizationPipelines, {
             node {
               id
               favorite
-              ${Pipeline.getFragment('pipeline')}
+              ${Pipeline.getFragment('pipeline')
             }
           }
         }
