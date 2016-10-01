@@ -1,5 +1,14 @@
 .emoji {
-  width: 1.25em;
-  height: 1.25em;
-  vertical-align: -.2em;
+  font-size: 1.25em;
+}
+
+img.emoji {
+  width: 1em;
+  height: 1em;
+  vertical-align: -.1em;
+}
+
+span.emoji {
+  display: inline-block;
+  line-height: 1em;
 }

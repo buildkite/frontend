@@ -1,6 +1,7 @@
 import escape from 'escape-html';
 import BUILDKITE_EMOJIS from '../emojis/buildkite';
 import APPLE_EMOJIS from '../emojis/apple';
+import {detectVersion as detectEmojiVersion} from 'mojibaka';
 
 const UNICODE_REGEXP = new RegExp('\\ud83c[\\udf00-\\udfff]|\\ud83d[\\udc00-\\ude4f]|\\ud83d[\\ude80-\\udeff]', 'g');
 const COLON_REGEXP = new RegExp('\:[^\\s:]+\:', 'g');
@@ -17,16 +18,16 @@ class Emoji {
     }
 
     // Start with replacing BK emojis (which are more likely than Apple emojis)
-    string = this._replace(BUILDKITE_EMOJIS, COLON_REGEXP, string);
+    string = this._process_catalogue(BUILDKITE_EMOJIS, COLON_REGEXP, string);
 
     // Then do an Apple emoji parse
-    string = this._replace(APPLE_EMOJIS, UNICODE_REGEXP, string);
-    string = this._replace(APPLE_EMOJIS, COLON_REGEXP, string);
+    string = this._process_catalogue(APPLE_EMOJIS, UNICODE_REGEXP, string);
+    string = this._process_catalogue(APPLE_EMOJIS, COLON_REGEXP, string);
 
     return string;
   }
 
-  _replace(catalogue, regexp, string) {
+  _process_catalogue(catalogue, regexp, string) {
     const matches = string.match(regexp);
     const replacements = [];
 
@@ -45,7 +46,7 @@ class Emoji {
         const modifiedEmojiIndex = catalogue.index[`${match}${nextMatch}`];
 
         if ((typeof modifiedEmojiIndex) === 'number') {
-          replacements.push(this._image(catalogue, catalogue.emoji[modifiedEmojiIndex]));
+          replacements.push(this._replace(catalogue, catalogue.emoji[modifiedEmojiIndex]));
           replacements.push("");
           matchIndex += 1;
 
@@ -56,13 +57,25 @@ class Emoji {
       const emojiIndex = catalogue.index[match];
 
       if ((typeof emojiIndex) === 'number') {
-        replacements.push(this._image(catalogue, catalogue.emoji[emojiIndex]));
+        replacements.push(this._replace(catalogue, catalogue.emoji[emojiIndex]));
       } else {
         replacements.push(match);
       }
     }
 
     return string.replace(regexp, () => replacements.shift());
+  }
+
+  _replace(catalogue, emoji) {
+    if (emoji.unicode && detectEmojiVersion() >= 7) {
+      return this._unicode(catalogue, emoji);
+    }
+
+    return this._image(catalogue, emoji);
+  }
+
+  _unicode(catalogue, emoji) {
+    return `<span class="emoji" title="${emoji.name}">${emoji.unicode}</span>`;
   }
 
   _image(catalogue, emoji) {
