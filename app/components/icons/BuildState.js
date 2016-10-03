@@ -1,10 +1,48 @@
 import React from 'react';
 import classNames from 'classnames';
+import shallowCompare from 'react-addons-shallow-compare';
+
+const SIZE_DEFINITIONS = {
+  regular: {
+    strokeWidth: 2,
+    size: 32
+  },
+  small: {
+    strokeWidth: 3,
+    size: 20
+  }
+};
+
+const passedStateDefinition = {
+  strokeColor: '#90c73e'
+};
+
+const failedStateDefinition = {
+  strokeColor: '#F83F23'
+};
+
+const STATE_DEFINITIONS = {
+  pending: {
+    strokeColor: '#cdcccc'
+  },
+  scheduled: {
+    animation: 'animation-spin-slow',
+    strokeColor: '#cdcccc'
+  },
+  running: {
+    animation: 'animation-spin',
+    strokeColor: '#fdba12'
+  },
+  passed: passedStateDefinition,
+  paused: passedStateDefinition,
+  failed: failedStateDefinition,
+  canceled: failedStateDefinition
+};
 
 class BuildState extends React.Component {
   static propTypes = {
-    state: React.PropTypes.oneOf(["pending", "scheduled", "running", "passed", "paused", "failed", "canceled"]).isRequired,
-    size: React.PropTypes.oneOf(["regular", "small"]).isRequired,
+    state: React.PropTypes.oneOf(Object.keys(STATE_DEFINITIONS)).isRequired,
+    size: React.PropTypes.oneOf(Object.keys(SIZE_DEFINITIONS)).isRequired,
     className: React.PropTypes.string
   };
 
@@ -12,33 +50,49 @@ class BuildState extends React.Component {
     size: 'regular'
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
-    const strokeWidth = this.props.size == 'regular' ? 2 : 1;
-    const size = this.props.size == 'regular' ? 32 : 20;
+    const sizeDefinition = SIZE_DEFINITIONS[this.props.size] || {};
+    const strokeWidth = sizeDefinition.strokeWidth || 2;
+    const size = sizeDefinition.size || 32;
     const classes = classNames(this.props.className, {
-      "animation-spin": this.props.state == "running",
-      "animation-spin-slow": this.props.state == "scheduled"
+      [STATE_DEFINITIONS[this.props.state] && STATE_DEFINITIONS[this.props.state].animation]: this.props.state && STATE_DEFINITIONS[this.props.state] && STATE_DEFINITIONS[this.props.state].animation
     });
+
+    const circleId = parseInt(Math.random().toString(10).replace('.', ''), 10).toString(36);
 
     return (
       <svg width={size} height={size} viewBox="0 0 32 32" className={classes}>
+        <defs>
+          <circle id={`circle_${circleId}`} fill="none" cx="16" cy="16" r="15" stroke={STATE_DEFINITIONS[this.props.state].strokeColor} strokeWidth={strokeWidth * 2} />
+          <clipPath id={`circleClip_${circleId}`}>
+            <use xlinkHref={`#circle_${circleId}`}/>
+          </clipPath>
+        </defs>
+        <use xlinkHref={`#circle_${circleId}`} clipPath={`url(#circleClip_${circleId})`} />
         {this.renderPaths(strokeWidth)}
       </svg>
     );
   }
 
   renderPaths(strokeWidth) {
+    const applyStroke = {
+      fill: 'none',
+      stroke: STATE_DEFINITIONS[this.props.state].strokeColor,
+      strokeWidth
+    };
+
     switch (this.props.state) {
       case 'failed':
       case 'canceled':
         return (
-          <g transform="translate(-219.000000, -19.000000)" stroke="#F83F23" strokeWidth={strokeWidth}>
-            <g transform="translate(220.000000, 20.000000)">
-              <ellipse fill="none" cx="15" cy="15" rx="15" ry="15" />
-              <g transform="translate(9.000000, 9.000000)">
-                <path d="M0.600275489,0.600275489 L11.3997245,11.3997245" />
-                <path d="M11.3997245,0.600275489 L0.600275489,11.3997245" />
-              </g>
+          <g {...applyStroke}>
+            <g transform="translate(10.000000, 10.000000)">
+              <path d="M0.600275489,0.600275489 L11.3997245,11.3997245" />
+              <path d="M11.3997245,0.600275489 L0.600275489,11.3997245" />
             </g>
           </g>
         );
@@ -46,17 +100,15 @@ class BuildState extends React.Component {
       case 'passed':
         return (
           <g>
-            <circle cx="16" cy="16" r="15" fill="none" stroke="#90c73e" strokeMiterlimit="10" strokeWidth={strokeWidth}/>
-            <polyline points="10 17.61 14.38 20.81 21 11.41" fill="none" stroke="#90c73e" strokeMiterlimit="10" strokeWidth={strokeWidth}/>
+            <polyline points="10 17.61 14.38 20.81 21 11.41" {...applyStroke} strokeMiterlimit="10" />
           </g>
         );
 
       case 'paused':
         return (
           <g>
-            <circle cx="16" cy="16" r="15" fill="none" stroke="#90c73e" strokeWidth={strokeWidth}/>
-            <path d="M13,21V11" fill="none" stroke="#90c73e" strokeWidth={strokeWidth}/>
-            <path d="M19,21V11" fill="none" stroke="#90c73e" strokeWidth={strokeWidth}/>
+            <path d="M13,21V11" {...applyStroke} />
+            <path d="M19,21V11" {...applyStroke} />
           </g>
         );
 
@@ -68,11 +120,8 @@ class BuildState extends React.Component {
                 <polygon points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16" fill="#fff"/>
               </mask>
             </defs>
-            <g>
-              <circle cx="16" cy="16" r="15" fill="none" stroke="#fdba12" strokeWidth={strokeWidth}/>
-              <g mask="url(#a)">
-                <path d="M16,22a6,6,0,1,0-6-6A6,6,0,0,0,16,22Z" fill="none" stroke="#fdba12" strokeWidth={strokeWidth}/>
-              </g>
+            <g mask="url(#a)">
+              <path d="M16,22a6,6,0,1,0-6-6A6,6,0,0,0,16,22Z" {...applyStroke}/>
             </g>
           </g>
         );
@@ -85,11 +134,8 @@ class BuildState extends React.Component {
                 <polygon points="16 16 9 16 9 9 23 9 23 23 16 23 16 16" fill="#fff"/>
               </mask>
             </defs>
-            <g>
-              <circle cx="16" cy="16" r="15" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
-              <g mask="url(#a)">
-                <circle cx="16" cy="16" r="6" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
-              </g>
+            <g mask="url(#a)">
+              <circle cx="16" cy="16" r="6" {...applyStroke} />
             </g>
           </g>
         );
@@ -97,8 +143,7 @@ class BuildState extends React.Component {
       case 'pending':
         return (
           <g>
-            <circle cx="16" cy="16" r="15" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
-            <path d="M11,16H21" fill="none" stroke="#cdcccc" strokeWidth={strokeWidth}/>
+            <path d="M11,16H21" fill="none" {...applyStroke} />
           </g>
         );
     }
