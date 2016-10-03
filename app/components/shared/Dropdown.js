@@ -32,7 +32,7 @@ class Dropdown extends React.Component {
 
   render() {
     return (
-      <span ref={(c) => this.rootNode = c} className={classNames("relative", this.props.className)}>
+      <span ref={(rootNode) => this.rootNode = rootNode} className={classNames("relative", this.props.className)}>
         {this.props.children[0]}
         <ReactCSSTransitionGroup transitionName="transition-popup" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
           {this.renderPopupNode()}
@@ -44,13 +44,13 @@ class Dropdown extends React.Component {
   renderPopupNode() {
     if (this.state.showing) {
       const classes = classNames("absolute mt1 bg-white rounded-2 shadow border border-gray block py1 transition-popup", {
-        "transition-popup-t": this.props.align == "center",
-        "transition-popup-tl": this.props.align == "left",
-        "transition-popup-tr": this.props.align == "right"
+        "transition-popup-t": this.props.align === "center",
+        "transition-popup-tl": this.props.align === "left",
+        "transition-popup-tr": this.props.align === "right"
       });
 
       return (
-        <div ref={(c) => this.popupNode = c} className={classes} style={this.popupPositionStyles()}>
+        <div ref={(popupNode) => this.popupNode = popupNode} className={classes} style={this.popupPositionStyles()}>
           <img src={require('../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" className="pointer-events-none" style={this.nibPositionStyles()} />
           {this.popupItems()}
         </div>
@@ -65,11 +65,11 @@ class Dropdown extends React.Component {
       zIndex: 3
     };
 
-    if (this.props.align == 'right') {
+    if (this.props.align === 'right') {
       styles.right = 3;
-    } else if (this.props.align == 'left') {
+    } else if (this.props.align === 'left') {
       styles.left = 3;
-    } else if (this.props.align == 'center') {
+    } else if (this.props.align === 'center') {
       const center = styles.width / 2;
       styles.left = `calc(50% - ${center}px)`;
     }
@@ -85,11 +85,11 @@ class Dropdown extends React.Component {
       zIndex: 3
     };
 
-    if (this.props.align == 'right') {
+    if (this.props.align === 'right') {
       styles.right = 10;
-    } else if (this.props.align == 'left') {
+    } else if (this.props.align === 'left') {
       styles.left = 10;
-    } else if (this.props.align == 'center') {
+    } else if (this.props.align === 'center') {
       styles.left = '50%';
       styles.marginLeft = (styles.width / 2) * -1 + this.props.nibOffset;
     }
@@ -121,7 +121,7 @@ class Dropdown extends React.Component {
 
   handleDocumentKeyDown = (event) => {
     // Handle the escape key
-    if (this.state.showing && event.keyCode == 27) {
+    if (this.state.showing && event.keyCode === 27) {
       this.setShowing(false);
     }
   };
