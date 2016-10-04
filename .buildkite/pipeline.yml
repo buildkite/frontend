@@ -14,14 +14,20 @@ steps:
   - name: ":eslint:"
     command: ".buildkite/eslint.sh"
     plugins:
-      docker-compose#e8ce6c1:
+      docker-compose#ed68516:
+        run: frontend
+
+  - name: ":jest:"
+    command: ".buildkite/jest.sh"
+    plugins:
+      docker-compose#ed68516:
         run: frontend
 
   - name: ":webpack:"
     command: ".buildkite/webpack.sh"
     artifact_paths: "dist/*"
     plugins:
-      docker-compose#e8ce6c1:
+      docker-compose#ed68516:
         run: frontend
 
   - wait
