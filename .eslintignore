@@ -1,2 +1,5 @@
 # Webpack
 dist
+
+# Jest Snapshots
+**/__snapshots__
