@@ -48,6 +48,7 @@ window["Webpack"] = {
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
     "components/PipelinesWelcome": require("./components/organization/Welcome").default,
     "components/pipeline/Teams": require("./components/pipeline/Teams").default,
+    "lib/commits": require("./lib/commits"),
     "lib/friendlyRelativeTime": require("./lib/friendlyRelativeTime").default,
     "lib/Logger": require("./lib/Logger").default,
     "lib/Emoji": require("./lib/Emoji").default,

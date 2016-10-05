@@ -6,6 +6,8 @@ import Emojify from '../../shared/Emojify';
 import PusherStore from '../../../stores/PusherStore';
 import BuildState from '../../icons/BuildState';
 
+import { shortMessage, shortCommit } from '../../../lib/commits';
+
 class BuildsDropdownBuild extends React.Component {
   static propTypes = {
     build: React.PropTypes.object,
@@ -25,32 +27,23 @@ class BuildsDropdownBuild extends React.Component {
   }
 
   render() {
-    const commitClassName = this.state.hover ? "lime" : "dark-gray";
+    const messageClassName = `semi-bold ${this.state.hover ? 'lime' : 'black'}`;
 
     return (
-      <div className="flex mb2" style={{ fontSize: 12 }}>
-        <a href={this.props.build.url} className="pr2">
-          <div>
-            <BuildState state={this.props.build.state} size={'small'} />
+      <div>
+        <a href={this.props.build.url} className="flex text-decoration-none dark-gray hover-lime mb2" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+          <div className="pr2">
+            <BuildState state={this.props.build.state} size="small" />
+          </div>
+          <div className="flex-auto line-height-2">
+            <span className="line-height-3 block">
+              <Emojify className={messageClassName} text={shortMessage(this.props.build.message)} /> {shortCommit(this.props.build.commit)}
+            </span>
+            <small className="block">{this.props.build.organization.name} / {this.props.build.pipeline.name}</small>
           </div>
         </a>
-        <div className="flex-auto">
-          <a href={this.props.build.url} className="mb1 black text-decoration-none hover-lime block" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
-            <Emojify text={this.props.build.message} /> <span className={commitClassName}>{this.shortCommit(this.props.build.commit)}</span>
-          </a>
-          <a href={`/${this.props.build.organization.slug}/${this.props.build.pipeline.slug}`} className="dark-gray text-decoration-none hover-navy">{this.props.build.organization.name} / {this.props.build.pipeline.name}</a>
-        </div>
       </div>
     );
-  }
-
-  shortCommit(commit) {
-    // Does this commit look like a git sha?
-    if (commit && commit.length == 40) {
-      return commit.substring(0, 7);
-    } else {
-      return commit;
-    }
   }
 
   handleMouseOver = () => {

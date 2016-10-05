@@ -74,7 +74,7 @@ class BuildsDropdownIndex extends React.Component {
 
   handlePusherWebsocketEvent = (payload) => {
     // Only do a relay update of the builds count changes
-    if (this._buildsCount != payload.buildsCount) {
+    if (this._buildsCount !== payload.buildsCount) {
       this.props.relay.forceFetch();
     }
 

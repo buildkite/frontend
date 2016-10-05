@@ -6,5 +6,7 @@ services:
     volumes:
       - "./dist:/frontend/dist"
     environment:
-      FRONTEND_HOST:
+      BUILDKITE:
+      CI:
       EMOJI_HOST:
+      FRONTEND_HOST:
