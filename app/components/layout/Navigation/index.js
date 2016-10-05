@@ -53,7 +53,7 @@ class Navigation extends React.Component {
     const myBuildsNode = Features.NewNav ? (
       <Dropdown align="center" width={250} className="flex" onToggle={this.handleBuildsDropdownToggle}>
         <DropdownButton className={classNames({ "lime": this.state.showingBuildsDropdown })}>
-          My Builds <BuildsCountBadge className="hover-lime-child" viewer={this.props.viewer} />
+          My Builds <BuildsCountBadge className={classNames("hover-lime-child", { "bg-lime": this.state.showingBuildsDropdown })} viewer={this.props.viewer} />
         </DropdownButton>
         <BuildsDropdown viewer={this.props.viewer} />
       </Dropdown>
