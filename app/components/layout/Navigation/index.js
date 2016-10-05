@@ -83,9 +83,7 @@ class Navigation extends React.Component {
                 <span className="truncate" style={{ maxWidth: "10em" }}>
                   {this._organizationSelectorLabel()}
                 </span>
-                <span className="ml1">
-                  &#9662;
-                </span>
+                <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
               </DropdownButton>
               {this._organizationsList()}
             </Dropdown>
@@ -102,10 +100,10 @@ class Navigation extends React.Component {
               <DropdownButton className={classNames({ "lime": this.state.showingUserDropdown })}
                 style={{ paddingRight: 0 }}
               >
-                <UserAvatar user={this.props.viewer.user} className="flex-none flex items-center mr1" style={{ width: 26, height: 26 }} />
-                <span className="flex items-center xs-hide"><span className="truncate" style={{ maxWidth: "9em" }} data-current-user-name={true}>{this.props.viewer.user.name}</span></span>
-                <span className="ml1 flex items-center">
-                  &#9662;
+                <UserAvatar user={this.props.viewer.user} className="flex-none flex items-center" style={{ width: 26, height: 26 }} />
+                <span className="flex items-center xs-hide ml1"><span className="truncate" style={{ maxWidth: "9em" }} data-current-user-name={true}>{this.props.viewer.user.name}</span></span>
+                <span className="flex items-center">
+                  <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
                 </span>
               </DropdownButton>
 

@@ -35,6 +35,8 @@ const pathNodes = (icon) => {
       return require("./github").default;
     case 'twitter':
       return require("./twitter").default;
+    case 'down-triangle':
+      return require("./down-triangle").default;
     case 'chevron-right':
       return require("./chevron-right").default;
     case 'teams':
