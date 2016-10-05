@@ -34,7 +34,7 @@ const STATE_DEFINITIONS = {
     strokeColor: '#fdba12'
   },
   passed: passedStateDefinition,
-  paused: passedStateDefinition,
+  blocked: passedStateDefinition,
   failed: failedStateDefinition,
   canceled: failedStateDefinition
 };
@@ -104,7 +104,7 @@ class BuildState extends React.Component {
           </g>
         );
 
-      case 'paused':
+      case 'blocked':
         return (
           <g>
             <path d="M13,21V11" {...applyStroke} />

@@ -114,7 +114,7 @@ class Graph extends React.Component {
   colorForBuild(build) {
     if (build.state === "running") {
       return RUNNING_COLOR;
-    } else if (build.state === "passed") {
+    } else if (build.state === "passed" || build.state == "blocked") {
       return PASSED_COLOR;
     } else {
       return FAILED_COLOR;
@@ -124,7 +124,7 @@ class Graph extends React.Component {
   hoverColorForBuild(build) {
     if (build.state === "running") {
       return RUNNING_COLOR_HOVER;
-    } else if (build.state === "passed") {
+    } else if (build.state === "passed" || build.state == "blocked") {
       return PASSED_COLOR_HOVER;
     } else {
       return FAILED_COLOR_HOVER;
@@ -166,7 +166,7 @@ export default Relay.createContainer(Graph, {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
         id
-        builds(first: 30, branch: "%default", state: [ BUILD_STATE_RUNNING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_CANCELING ]) {
+        builds(first: 30, branch: "%default", state: [ BUILD_STATE_RUNNING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_CANCELING, BUILD_STATE_BLOCKED ]) {
           edges {
             node {
               id
