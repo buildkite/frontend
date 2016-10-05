@@ -62,6 +62,7 @@ const QUERIES = {
                     startedAt
                     finishedAt
                     url
+                    commit
                     createdBy {
                       __typename
                       ... on User {
