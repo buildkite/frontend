@@ -53,6 +53,23 @@
   transition: width 0.25s;
 }
 
+@keyframes animation-loading-bar {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 100% 0;
+  }
+}
+
+.animation-loading-bar {
+  background: linear-gradient(to right, var(--gray), var(--white), var(--gray), var(--white), var(--gray));
+  background-size: 200% 100%;
+  animation: animation-loading-bar 0.5s infinite linear;
+  opacity: 0.5;
+}
+
 /* Animation modification utilities */
 
 .animation-delay-1 { animation-delay: 1s; }
