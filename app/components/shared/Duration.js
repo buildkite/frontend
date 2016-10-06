@@ -77,7 +77,12 @@ class Duration extends React.Component {
 const exported = {};
 
 getDurationString.formats.forEach((format) => {
-  exported[format.charAt(0).toUpperCase() + format.slice(1)] = (props) => <Duration {...props} format={format} />;
+  const componentName = format.charAt(0).toUpperCase() + format.slice(1);
+
+  const component = (props) => <Duration {...props} format={format} />;
+  component.displayName = `Duration.${componentName}`;
+
+  exported[componentName] = component;
 });
 
 export default exported;
