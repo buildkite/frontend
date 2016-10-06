@@ -9,7 +9,10 @@ export default class Bar extends React.Component {
     color: React.PropTypes.string.isRequired,
     hoverColor: React.PropTypes.string.isRequired,
     width: React.PropTypes.number.isRequired,
-    height: React.PropTypes.number.isRequired,
+    height: React.PropTypes.oneOfType([
+      React.PropTypes.number,
+      React.PropTypes.string
+    ]),
     left: React.PropTypes.number.isRequired,
     build: React.PropTypes.object
   };

@@ -44,8 +44,18 @@ class Graph extends React.Component {
     }).isRequired
   };
 
+  state = {
+    height: 0
+  }
+
   componentDidMount() {
     this.toggleRenderInterval(this.props.pipeline.builds.edges);
+
+    // As soon as the graph has mounted, set the height back to 100% to animate
+    // the bars growing into view.
+    setTimeout(() => {
+      this.setState({ height: "100%" });
+    }, 0);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -65,12 +75,16 @@ class Graph extends React.Component {
   }
 
   render() {
-    const classes = classNames("align-bottom relative", {
+    const classes = classNames("animation-height align-bottom relative absolute", {
       "animation-disable": this._shifting
     });
 
     return (
-      <div className={classes} style={{ width: GRAPH_WIDTH, height: GRAPH_HEIGHT }}>{this.renderBars()}</div>
+      <div style={{ width: GRAPH_WIDTH, height: GRAPH_HEIGHT }} className="relative">
+        <div style={{ height: this.state.height, bottom: 0 }} className={classes}>
+          {this.renderBars()}
+        </div>
+      </div>
     );
   }
 
@@ -94,8 +108,19 @@ class Graph extends React.Component {
     return bars.map((bar, index) => {
       const left = index * BAR_WIDTH_WITH_SEPERATOR;
 
-      let height = (bar.duration / maximumDuration) * GRAPH_HEIGHT;
-      if (height < BAR_HEIGHT_MINIMUM) {height = BAR_HEIGHT_MINIMUM;}
+      // Calcualte what percentage this bar is in relation to the longest
+      // running build
+      let height = (bar.duration / maximumDuration);
+
+      // See if the height is less than our minimum. If it is, set a hard pixel
+      // height, otherwise make the height a percentage. We use percentages so
+      // we can animate the height of the graph as it loads in.
+      let heightInPixels = (height * GRAPH_HEIGHT);
+      if (heightInPixels < BAR_HEIGHT_MINIMUM) {
+        height = BAR_HEIGHT_MINIMUM;
+      } else {
+        height = (height * 100) + "%";
+      }
 
       return <Bar key={index} left={left} color={bar.color} hoverColor={bar.hoverColor} width={BAR_WIDTH_WITH_SEPERATOR} height={height} href={bar.href} build={bar.build || null} />;
     });
