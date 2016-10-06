@@ -1,0 +1,25 @@
+exports[`getDurationString correctly handles \`full\` dates 1`] = `"5 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 2`] = `"3 minutes, 28 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 3`] = `"2 hours, 3 minutes, 28 seconds"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 1`] = `"5s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 2`] = `"3m"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 3`] = `"2h"`;
+
+exports[`getDurationString correctly handles \`short\` dates 1`] = `"5s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 2`] = `"3m 28s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 3`] = `"2h 3m"`;
+
+exports[`getDurationString defaults to full dates 1`] = `"5 seconds"`;
+
+exports[`getDurationString falls back to \`now\` when not supplied a \`to\` value 1`] = `"4 hours, 30 minutes, 23 seconds"`;
+
+exports[`getDurationString falls back to \`now\` when not supplied a \`to\` value 2`] = `"4h 30m"`;
+
+exports[`getDurationString formats are supplied as an array 1`] = `3`;

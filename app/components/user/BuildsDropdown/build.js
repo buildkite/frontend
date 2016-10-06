@@ -5,8 +5,9 @@ import Emojify from '../../shared/Emojify';
 
 import PusherStore from '../../../stores/PusherStore';
 import BuildState from '../../icons/BuildState';
+import Duration from "../../shared/Duration";
 
-import { shortMessage, shortCommit } from '../../../lib/commits';
+import { shortMessage, shortCommit, buildTime } from '../../../lib/builds';
 
 class BuildsDropdownBuild extends React.Component {
   static propTypes = {
@@ -32,8 +33,9 @@ class BuildsDropdownBuild extends React.Component {
     return (
       <div>
         <a href={this.props.build.url} className="flex text-decoration-none dark-gray hover-lime mb2" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
-          <div className="pr2">
-            <BuildState state={this.props.build.state} size="small" />
+          <div className="pr2 center">
+            <BuildState className="block" state={this.props.build.state} size="small" />
+            <small><Duration.Micro className="dark-gray" {...buildTime(this.props.build)} /></small>
           </div>
           <div className="flex-auto line-height-2">
             <span className="line-height-3 block">
@@ -68,6 +70,8 @@ export default Relay.createContainer(BuildsDropdownBuild, {
         id
         message
         state
+        startedAt
+        finishedAt
         url
         commit
         organization {

@@ -1,9 +1,0 @@
-exports[`shortCommit returns a 7-character SHA1 for a full SHA1 commitish 1`] = `"be9c03b"`;
-
-exports[`shortCommit returns the full name for a 40-character non-SHA1 commitish 1`] = `"so-this-is-a-forty-character-branch-name"`;
-
-exports[`shortCommit returns the full name for a non-SHA1 commitish 1`] = `"preload-pipeline-names-sperlunking"`;
-
-exports[`shortMessage returns the first line of a multi-line message 1`] = `"✨ Somehow this is the first spec I\'ve written for our front-end, and this seems really odd to me"`;
-
-exports[`shortMessage returns the whole message in a one-line message 1`] = `"Bump frontend"`;

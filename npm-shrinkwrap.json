@@ -4504,6 +4504,11 @@
       "from": "mkdirp@>=0.5.1 <0.6.0",
       "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-0.5.1.tgz"
     },
+    "mockdate": {
+      "version": "1.0.4",
+      "from": "mockdate@latest",
+      "resolved": "https://registry.npmjs.org/mockdate/-/mockdate-1.0.4.tgz"
+    },
     "moment": {
       "version": "2.15.0",
       "from": "moment@2.15.0",
