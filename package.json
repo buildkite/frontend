@@ -50,6 +50,7 @@
     "postcss-import": "^8.1.2",
     "postcss-loader": "^0.9.1",
     "postcss-reporter": "^1.4.1",
+    "react-test-renderer": "^15.3.2",
     "react-transform-hmr": "^1.0.4",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",

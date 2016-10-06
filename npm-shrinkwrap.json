@@ -5635,6 +5635,11 @@
       "from": "react-static-container@>=1.0.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/react-static-container/-/react-static-container-1.0.1.tgz"
     },
+    "react-test-renderer": {
+      "version": "15.3.2",
+      "from": "react-test-renderer@latest",
+      "resolved": "https://registry.npmjs.org/react-test-renderer/-/react-test-renderer-15.3.2.tgz"
+    },
     "react-transform-catch-errors": {
       "version": "1.0.2",
       "from": "react-transform-catch-errors@>=1.0.2 <2.0.0",

@@ -13,3 +13,6 @@ dist
 
 # Temp folders
 tmp
+
+# Jest coverage output
+coverage
