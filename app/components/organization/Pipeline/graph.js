@@ -55,7 +55,7 @@ class Graph extends React.Component {
     // the bars growing into view.
     setTimeout(() => {
       this.setState({ height: "100%" });
-    }, 0)
+    }, 0);
   }
 
   componentWillReceiveProps(nextProps) {
