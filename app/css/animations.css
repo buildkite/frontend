@@ -46,11 +46,7 @@
 }
 
 .animation-height {
-  transition: height 0.25s;
-}
-
-.animation-width {
-  transition: width 0.25s;
+  transition: height 200ms;
 }
 
 @keyframes animation-loading-bar {
