@@ -32,12 +32,12 @@ const runDateFixtureSpecs = (options) => (() => {
       MockDate.reset();
     });
   });
-})
+});
 
 describe('friendlyRelativeTime', () => {
   BOOL_FIXTURES.forEach((seconds) => {
     BOOL_FIXTURES.forEach((capitalized) => {
-      describe(`when supplied with options=\`{ seconds: ${seconds}, capitalized: ${capitalized} }\``, runDateFixtureSpecs({seconds, capitalized}));
+      describe(`when supplied with options=\`{ seconds: ${seconds}, capitalized: ${capitalized} }\``, runDateFixtureSpecs({ seconds, capitalized }));
     });
   });
 
