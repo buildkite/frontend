@@ -2,6 +2,17 @@
 import MockDate from 'mockdate';
 import { getDurationString } from './date';
 
+const DATE_FIXTURES = [
+  ["2016-05-07T09:00:00.000Z", "2016-05-07T09:00:00.000Z"],
+  ["2016-05-07T09:00:00.000Z", "2016-05-07T09:00:05.000Z"],
+  ["2016-05-07T09:00:00.000Z", "2016-05-07T09:15:07.000Z"],
+  ["2016-05-07T09:00:00.000Z", "2016-05-07T10:45:16.000Z"],
+  ["2016-05-07T09:00:00.000Z", "2016-05-07T13:59:03.000Z"],
+  ["2016-05-07T09:00:00.000Z", "2016-05-08T16:03:21.000Z"],
+  ["2016-05-07T09:00:00.000Z", "2016-05-21T01:22:12.000Z"],
+  ["2016-05-07T09:00:00.000Z", "2016-07-10T04:34:17.000Z"]
+];
+
 describe('getDurationString', () => {
   describe('formats', () => {
     it('are supplied as an array', () => {
@@ -16,14 +27,9 @@ describe('getDurationString', () => {
 
   getDurationString.formats.map((format) => {
     it(`correctly handles \`${format}\` dates`, () => {
-      expect(getDurationString("2016-05-07T09:00:00.000Z", "2016-05-07T09:00:00.000Z", format)).toMatchSnapshot();
-      expect(getDurationString("2016-05-07T09:00:00.000Z", "2016-05-07T09:00:05.000Z", format)).toMatchSnapshot();
-      expect(getDurationString("2016-05-07T09:00:00.000Z", "2016-05-07T09:15:07.000Z", format)).toMatchSnapshot();
-      expect(getDurationString("2016-05-07T09:00:00.000Z", "2016-05-07T10:45:16.000Z", format)).toMatchSnapshot();
-      expect(getDurationString("2016-05-07T09:00:00.000Z", "2016-05-07T13:59:03.000Z", format)).toMatchSnapshot();
-      expect(getDurationString("2016-05-07T09:00:00.000Z", "2016-05-08T16:03:21.000Z", format)).toMatchSnapshot();
-      expect(getDurationString("2016-05-07T09:00:00.000Z", "2016-05-21T01:22:12.000Z", format)).toMatchSnapshot();
-      expect(getDurationString("2016-05-07T09:00:00.000Z", "2016-07-10T04:34:17.000Z", format)).toMatchSnapshot();
+      DATE_FIXTURES.forEach(([from, to]) => {
+        expect(getDurationString(from, to, format)).toMatchSnapshot();
+      });
     });
   });
 
