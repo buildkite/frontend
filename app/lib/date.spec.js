@@ -27,7 +27,7 @@ describe('getDurationString', () => {
 
   getDurationString.formats.map((format) => {
     it(`correctly handles \`${format}\` dates`, () => {
-      DATE_FIXTURES.forEach(({from, to}) => {
+      DATE_FIXTURES.forEach(({ from, to }) => {
         expect(getDurationString(from, to, format)).toMatchSnapshot();
       });
     });
@@ -38,5 +38,9 @@ describe('getDurationString', () => {
     expect(getDurationString("2016-10-05T03:40:02.000Z")).toMatchSnapshot();
     expect(getDurationString("2016-10-05T03:40:02.000Z", undefined, "short")).toMatchSnapshot();
     MockDate.reset();
+  });
+
+  it('throws if supplied with an unknown format', () => {
+    expect(() => getDurationString("2016-10-05T03:40:02.000Z", "2016-10-05T03:40:02.000Z", "not-a-date-format")).toThrowErrorMatchingSnapshot();
   });
 });

@@ -53,3 +53,5 @@ exports[`getDurationString falls back to \`now\` when not supplied a \`to\` valu
 exports[`getDurationString falls back to \`now\` when not supplied a \`to\` value 2`] = `"1d 5h"`;
 
 exports[`getDurationString formats are supplied as an array 1`] = `3`;
+
+exports[`getDurationString throws if supplied with an unknown format 1`] = `"getDurationString: Unknown format \`not-a-date-format\`."`;
