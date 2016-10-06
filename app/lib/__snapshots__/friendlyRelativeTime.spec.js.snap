@@ -1,215 +1,279 @@
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: false }\` renders a correct time in the future 1`] = `"today at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the future 1`] = `"today at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: false }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: false }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: false }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: false }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: false }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 1`] = `"today at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the future 7`] = `"Mon 1st Jan 18 at 3:34 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 2`] = `"yesterday at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 1`] = `"today at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 3`] = `"yesterday at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 2`] = `"yesterday at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 3`] = `"yesterday at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: true }\` renders a correct time in the future 1`] = `"Today at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: true }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: false }\` renders a correct time in the past or present 7`] = `"Sat 7th May 16 at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: true }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the future 1`] = `"Today at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: true }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: true }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: true }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 1`] = `"Today at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 2`] = `"Yesterday at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 3`] = `"Yesterday at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the future 7`] = `"Mon 1st Jan 18 at 3:34 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 1`] = `"Today at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 2`] = `"Yesterday at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 3`] = `"Yesterday at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 1`] = `"today at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: true }\` renders a correct time in the past or present 7`] = `"Sat 7th May 16 at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 1`] = `"today at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 1`] = `"today at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 2`] = `"yesterday at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 3`] = `"yesterday at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the future 7`] = `"Mon 1st Jan 18 at 3:34 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 1`] = `"today at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: false }\` renders a correct time in the future 1`] = `"today at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 2`] = `"yesterday at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: false }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45:16 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 3`] = `"yesterday at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: false }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59:03 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: false }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03:21 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: false }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22:12 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: false }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34:17 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: false, capitalized: undefined }\` renders a correct time in the past or present 7`] = `"Sat 7th May 16 at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 1`] = `"today at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the future 1`] = `"today at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 2`] = `"yesterday at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45:16 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 3`] = `"yesterday at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59:03 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03:21 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22:12 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34:17 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: true }\` renders a correct time in the future 1`] = `"Today at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the future 7`] = `"Mon 1st Jan 18 at 3:34:17 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: true }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45:16 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 1`] = `"today at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: true }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59:03 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 2`] = `"yesterday at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: true }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03:21 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 3`] = `"yesterday at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: true }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22:12 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: true }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34:17 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 1`] = `"Today at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 2`] = `"Yesterday at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: false }\` renders a correct time in the past or present 7`] = `"Sat 7th May 16 at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 3`] = `"Yesterday at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the future 1`] = `"Today at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45:16 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59:03 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03:21 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 1`] = `"today at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22:12 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45:16 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34:17 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59:03 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the future 7`] = `"Mon 1st Jan 18 at 3:34:17 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03:21 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 1`] = `"Today at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22:12 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 2`] = `"Yesterday at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34:17 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 3`] = `"Yesterday at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 1`] = `"today at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 2`] = `"yesterday at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 3`] = `"yesterday at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: true }\` renders a correct time in the past or present 7`] = `"Sat 7th May 16 at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 1`] = `"today at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45:16 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 1`] = `"today at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59:03 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03:21 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22:12 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34:17 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the future 7`] = `"Mon 1st Jan 18 at 3:34:17 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 1`] = `"today at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 1`] = `"today at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 2`] = `"yesterday at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 2`] = `"yesterday at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 3`] = `"yesterday at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 3`] = `"yesterday at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: true, capitalized: undefined }\` renders a correct time in the past or present 7`] = `"Sat 7th May 16 at 7:00:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 1`] = `"Today at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 1`] = `"today at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 1`] = `"Today at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the future 7`] = `"Mon 1st Jan 18 at 3:34 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 2`] = `"Yesterday at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 1`] = `"today at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 3`] = `"Yesterday at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 2`] = `"yesterday at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 3`] = `"yesterday at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 1`] = `"today at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: false }\` renders a correct time in the past or present 7`] = `"Sat 7th May 16 at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 1`] = `"Today at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 1`] = `"today at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 2`] = `"yesterday at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 3`] = `"yesterday at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the future 7`] = `"Mon 1st Jan 18 at 3:34 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 1`] = `"Today at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 2`] = `"Yesterday at 7:00 PM"`;
 
-exports[`friendlyRelativeTime when supplied with \`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 3`] = `"Yesterday at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: true }\` renders a correct time in the past or present 7`] = `"Sat 7th May 16 at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 1`] = `"today at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the future 7`] = `"Mon 1st Jan 18 at 3:34 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 1`] = `"today at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 2`] = `"yesterday at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 3`] = `"yesterday at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=\`{ seconds: undefined, capitalized: undefined }\` renders a correct time in the past or present 7`] = `"Sat 7th May 16 at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the future 1`] = `"today at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the future 2`] = `"Sun 8th May at 2:45 AM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the future 3`] = `"Sun 8th May at 6:59 AM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the future 4`] = `"Mon 9th May at 2:03 AM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the future 5`] = `"Sat 21st May at 11:22 AM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the future 6`] = `"Sun 10th Jul at 2:34 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the future 7`] = `"Mon 1st Jan 18 at 3:34 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the past or present 1`] = `"today at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the past or present 2`] = `"yesterday at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the past or present 3`] = `"yesterday at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the past or present 4`] = `"Sat 7th May at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the past or present 5`] = `"Sat 7th May at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the past or present 6`] = `"Sat 7th May at 7:00 PM"`;
+
+exports[`friendlyRelativeTime when supplied with options=undefined renders a correct time in the past or present 7`] = `"Sat 7th May 16 at 7:00 PM"`;
