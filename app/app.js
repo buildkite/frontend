@@ -38,6 +38,7 @@ window["Webpack"] = {
     "components/layout/Navigation": require("./components/layout/Navigation").default,
     "components/layout/Footer": require("./components/layout/Footer").default,
     "components/shared/Duration": require("./components/shared/Duration").default,
+    "components/shared/FriendlyTime": require("./components/shared/FriendlyTime").default,
     "components/shared/FormTextField": require("./components/shared/FormTextField").default,
     "components/shared/FormTextarea": require("./components/shared/FormTextarea").default,
     "components/shared/FormMarkdownEditorField": require("./components/shared/FormMarkdownEditorField").default,
