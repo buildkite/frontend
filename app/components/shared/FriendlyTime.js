@@ -5,20 +5,23 @@ import friendlyRelativeTime from '../../lib/friendlyRelativeTime';
 class FriendlyTime extends React.Component {
   static propTypes = {
     value: React.PropTypes.string.isRequired,
-    capitalized: React.PropTypes.bool.isRequired
+    capitalized: React.PropTypes.bool.isRequired,
+    seconds: React.PropTypes.bool.isRequired
   };
 
   static defaultProps = {
-    capitalized: true
+    capitalized: true,
+    seconds: false
   };
 
   render() {
-    const localTimeString = moment(this.props.value).format('LLLL');
-    const capitalized = this.props.capitalized;
+    const { value, capitalized, seconds } = this.props;
+
+    const localTimeString = moment(value).format('LLLL');
 
     return (
-      <time dateTime={this.props.value} title={localTimeString}>
-        {friendlyRelativeTime(this.props.value, { capitalized })}
+      <time dateTime={value} title={localTimeString}>
+        {friendlyRelativeTime(this.props.value, { capitalized, seconds })}
       </time>
     );
   }
