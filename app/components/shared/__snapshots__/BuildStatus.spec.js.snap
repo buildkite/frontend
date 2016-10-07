@@ -1,0 +1,107 @@
+exports[`BuildStatus shows correct build status for the \`blocked\` state 1`] = `
+<span>
+  Blocked
+   
+  <time
+    dateTime={2016-10-05T04:57:47.000Z}
+    title="Wednesday, October 5, 2016 3:57 PM">
+    Wednesday at 3:57 PM
+  </time>
+</span>
+`;
+
+exports[`BuildStatus shows correct build status for the \`canceled\` state 1`] = `
+<span>
+  Canceled
+   
+  <time
+    dateTime={2016-10-05T04:57:47.000Z}
+    title="Wednesday, October 5, 2016 3:57 PM">
+    Wednesday at 3:57 PM
+  </time>
+</span>
+`;
+
+exports[`BuildStatus shows correct build status for the \`canceling\` state 1`] = `
+<span>
+  Canceled
+   
+  <time
+    dateTime={2016-10-05T04:57:47.000Z}
+    title="Wednesday, October 5, 2016 3:57 PM">
+    Wednesday at 3:57 PM
+  </time>
+</span>
+`;
+
+exports[`BuildStatus shows correct build status for the \`failed\` state 1`] = `
+<span>
+  Finished
+   
+  <time
+    dateTime={2016-10-05T04:57:47.000Z}
+    title="Wednesday, October 5, 2016 3:57 PM">
+    Wednesday at 3:57 PM
+  </time>
+</span>
+`;
+
+exports[`BuildStatus shows correct build status for the \`not_run\` state 1`] = `
+<span>
+  Created
+   
+  <time
+    dateTime={2016-10-05T04:57:46.920Z}
+    title="Wednesday, October 5, 2016 3:57 PM">
+    Wednesday at 3:57 PM
+  </time>
+</span>
+`;
+
+exports[`BuildStatus shows correct build status for the \`passed\` state 1`] = `
+<span>
+  Finished
+   
+  <time
+    dateTime={2016-10-05T04:57:47.000Z}
+    title="Wednesday, October 5, 2016 3:57 PM">
+    Wednesday at 3:57 PM
+  </time>
+</span>
+`;
+
+exports[`BuildStatus shows correct build status for the \`scheduled\` state 1`] = `
+<span>
+  Created
+   
+  <time
+    dateTime={2016-10-05T04:57:46.920Z}
+    title="Wednesday, October 5, 2016 3:57 PM">
+    Wednesday at 3:57 PM
+  </time>
+</span>
+`;
+
+exports[`BuildStatus shows correct build status for the \`skipped\` state 1`] = `
+<span>
+  Skipped
+   
+  <time
+    dateTime={2016-10-05T04:57:46.920Z}
+    title="Wednesday, October 5, 2016 3:57 PM">
+    Wednesday at 3:57 PM
+  </time>
+</span>
+`;
+
+exports[`BuildStatus shows correct build status for the \`started\` state 1`] = `
+<span>
+  Created
+   
+  <time
+    dateTime={2016-10-05T04:57:46.920Z}
+    title="Wednesday, October 5, 2016 3:57 PM">
+    Wednesday at 3:57 PM
+  </time>
+</span>
+`;

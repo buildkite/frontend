@@ -1,20 +1,65 @@
-exports[`buildStatus returns correct build status for the \`blocked\` state 1`] = `"Blocked Wednesday at 2:57 PM"`;
+exports[`buildStatus returns correct build status for the \`blocked\` state 1`] = `
+Object {
+  "prefix": "Blocked",
+  "timeValue": 2016-10-05T04:57:47.000Z,
+}
+`;
 
-exports[`buildStatus returns correct build status for the \`canceled\` state 1`] = `"Canceled Wednesday at 2:57 PM"`;
+exports[`buildStatus returns correct build status for the \`canceled\` state 1`] = `
+Object {
+  "prefix": "Canceled",
+  "timeValue": 2016-10-05T04:57:47.000Z,
+}
+`;
 
-exports[`buildStatus returns correct build status for the \`canceling\` state 1`] = `"Canceled Wednesday at 2:57 PM"`;
+exports[`buildStatus returns correct build status for the \`canceling\` state 1`] = `
+Object {
+  "prefix": "Canceled",
+  "timeValue": 2016-10-05T04:57:47.000Z,
+}
+`;
 
-exports[`buildStatus returns correct build status for the \`failed\` state 1`] = `"Finished Wednesday at 2:57 PM"`;
+exports[`buildStatus returns correct build status for the \`failed\` state 1`] = `
+Object {
+  "prefix": "Finished",
+  "timeValue": 2016-10-05T04:57:47.000Z,
+}
+`;
 
-exports[`buildStatus returns correct build status for the \`not_run\` state 1`] = `"Created Wednesday at 2:57 PM"`;
+exports[`buildStatus returns correct build status for the \`not_run\` state 1`] = `
+Object {
+  "prefix": "Created",
+  "timeValue": 2016-10-05T04:57:46.920Z,
+}
+`;
 
-exports[`buildStatus returns correct build status for the \`passed\` state 1`] = `"Finished Wednesday at 2:57 PM"`;
+exports[`buildStatus returns correct build status for the \`passed\` state 1`] = `
+Object {
+  "prefix": "Finished",
+  "timeValue": 2016-10-05T04:57:47.000Z,
+}
+`;
 
-exports[`buildStatus returns correct build status for the \`scheduled\` state 1`] = `"Created Wednesday at 2:57 PM"`;
+exports[`buildStatus returns correct build status for the \`scheduled\` state 1`] = `
+Object {
+  "prefix": "Created",
+  "timeValue": 2016-10-05T04:57:46.920Z,
+}
+`;
 
-exports[`buildStatus returns correct build status for the \`skipped\` state 1`] = `"Skipped Wednesday at 2:57 PM"`;
+exports[`buildStatus returns correct build status for the \`skipped\` state 1`] = `
+Object {
+  "prefix": "Skipped",
+  "timeValue": 2016-10-05T04:57:46.920Z,
+}
+`;
 
-exports[`buildStatus returns correct build status for the \`started\` state 1`] = `"Created Wednesday at 2:57 PM"`;
+exports[`buildStatus returns correct build status for the \`started\` state 1`] = `
+Object {
+  "prefix": "Created",
+  "timeValue": 2016-10-05T04:57:46.920Z,
+}
+`;
 
 exports[`buildTime returns correct time properties for the \`blocked\` state 1`] = `Object {}`;
 
