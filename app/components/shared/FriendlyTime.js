@@ -1,4 +1,5 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import moment from 'moment';
 import friendlyRelativeTime from '../../lib/friendlyRelativeTime';
 
@@ -63,7 +64,7 @@ class FriendlyTime extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.value !== this.props.value || nextProps.capitalized !== this.props.capitalized || nextProps.seconds !== this.props.seconds || nextState.value !== this.state.value;
+    return shallowCompare(this, nextProps, nextState);
   }
 
   render() {

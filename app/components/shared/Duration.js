@@ -1,4 +1,5 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import { getDurationString } from '../../lib/date';
 
 class Duration extends React.Component {
@@ -53,18 +54,20 @@ class Duration extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.updateFrequency !== this.props.updateFrequency) {
+    const { from, to, format, updateFrequency } = nextProps;
+
+    if (updateFrequency !== this.props.updateFrequency) {
       this.maybeClearInterval();
-      this.maybeSetInterval(nextProps.updateFrequency);
+      this.maybeSetInterval(updateFrequency);
     }
 
     this.setState({
-      value: getDurationString(nextProps.from, nextProps.to, nextProps.format)
+      value: getDurationString(from, to, format)
     });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.format !== this.props.format || nextProps.updateFrequency !== this.props.updateFrequency || nextState.value !== this.state.value;
+    return shallowCompare(this, nextProps, nextState);
   }
 
   render() {
