@@ -1,11 +1,5 @@
 import moment from 'moment';
 
-const CALENDAR_LOCALE_STRINGS_TO_LOWERCASE = [
-  'lastDay',
-  'sameDay',
-  'nextDay'
-];
-
 // Returns a friendly, relative version of a timestamp.
 //
 // For example:
@@ -14,15 +8,23 @@ const CALENDAR_LOCALE_STRINGS_TO_LOWERCASE = [
 //   "Wed 13 Nov at 1:00 AM"
 //   "Fri 1 Jan 2012 at 4:02 PM"
 export default function friendlyRelativeTime(time, options = {}) {
-  const formats = {
-    sameElse: function(date) {return `ddd Do MMM${this.year() === moment(date).year() ? '' : ' YY'} [at] h:mm${options.seconds ? ':ss' : ''} A`;},
-    lastWeek: function() {return `${options.inPast ? '[last] ' : ''}dddd [at] LT`;},
-    nextWeek: function() {return `${options.inPast ? '' : '[next] '}dddd [at] LT`;}
-  };
+  const formats = Object.assign({}, moment.localeData()._calendar);
+  const timeFormat = `h:mm${options.seconds ? ':ss' : ''} A`;
 
-  if (options.capitalized !== true) {
-    CALENDAR_LOCALE_STRINGS_TO_LOWERCASE.forEach((calendarString) => {
-      formats[calendarString] = moment.localeData().calendar([calendarString]).replace(/\[[^\]]+\]/g, (replacement) => replacement.toLowerCase());
+  if (!options.inPast) {
+    formats.lastWeek = formats.lastWeek.replace('[Last] ', '');
+    formats.nextWeek = `[Next] ${formats.lastWeek}`;
+  }
+
+  formats.sameElse = function(date) {return `ddd Do MMM${this.year() === moment(date).year() ? '' : ' YY'} [at] ${timeFormat}`;};
+
+  if (!options.capitalized) {
+    Object.keys(formats).forEach((calendarString) => {
+      if ((typeof formats[calendarString]) === 'string') {
+        formats[calendarString] = formats[calendarString]
+          .replace(/\[[^\]]+\]/g, (replacement) => replacement.toLowerCase())
+          .replace('LT', timeFormat);
+      }
     });
   }
 
