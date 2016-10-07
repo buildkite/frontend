@@ -2,7 +2,7 @@ import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import moment from 'moment';
 import friendlyRelativeTime from '../../lib/friendlyRelativeTime';
-import { buildStatus, buildTime } from '../../lib/builds';
+import { buildStatus } from '../../lib/builds';
 
 class BuildStatus extends React.Component {
   static propTypes = {
@@ -56,7 +56,7 @@ class BuildStatus extends React.Component {
       this.maybeSetInterval(updateFrequency);
     }
 
-    this.updateBuildInfo(this.props.build);
+    this.updateBuildInfo(build);
   }
 
   shouldComponentUpdate(nextProps, nextState) {

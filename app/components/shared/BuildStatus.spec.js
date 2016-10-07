@@ -1,4 +1,4 @@
-/* global describe, it, expect, xdescribe */
+/* global describe, it, expect */
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 
