@@ -1,19 +1,10 @@
 import moment from 'moment';
 
-function isToday(momentTime) {
-  const now = moment();
-  return momentTime.isSame(now, 'day');
-}
-
-function isYesterday(momentTime) {
-  const yesterday = moment().subtract(1, 'days');
-  return momentTime.isSame(yesterday, 'day');
-}
-
-function isThisYear(momentTime) {
-  const now = moment();
-  return momentTime.isSame(now, 'year');
-}
+const CALENDAR_LOCALE_STRINGS_TO_LOWERCASE = [
+  'lastDay',
+  'sameDay',
+  'nextDay'
+];
 
 // Returns a friendly, relative version of a timestamp.
 //
@@ -23,15 +14,17 @@ function isThisYear(momentTime) {
 //   "Wed 13 Nov at 1:00 AM"
 //   "Fri 1 Jan 2012 at 4:02 PM"
 export default function friendlyRelativeTime(time, options = {}) {
-  const momentTime = moment(time);
-  const timeString = momentTime.format(`h:mm${options.seconds ? ':ss' : ''} A`);
-  let dateString = momentTime.format(`ddd Do MMM${isThisYear(momentTime) ? '' : ' YY'}`);
+  const formats = {
+    sameElse: function(date) {return `ddd Do MMM${this.year() === moment(date).year() ? '' : ' YY'} [at] h:mm${options.seconds ? ':ss' : ''} A`;},
+    lastWeek: function() {return `${options.inPast ? '[last] ' : ''}dddd [at] LT`;},
+    nextWeek: function() {return `${options.inPast ? '' : '[next] '}dddd [at] LT`;}
+  };
 
-  if (isToday(momentTime)) {
-    dateString = options.capitalized ? 'Today' : 'today';
-  } else if (isYesterday(momentTime)) {
-    dateString = options.capitalized ? 'Yesterday' : 'yesterday';
+  if (options.capitalized !== true) {
+    CALENDAR_LOCALE_STRINGS_TO_LOWERCASE.forEach((calendarString) => {
+      formats[calendarString] = moment.localeData().calendar([calendarString]).replace(/\[[^\]]+\]/g, (replacement) => replacement.toLowerCase());
+    });
   }
 
-  return `${dateString} at ${timeString}`;
+  return moment(time).calendar(moment(), formats);
 }
