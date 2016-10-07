@@ -1,4 +1,5 @@
 /* global describe, it, expect */
+import moment from 'moment';
 import { shortMessage, shortCommit, buildTime, buildStatus } from './builds';
 
 describe('shortMessage', () => {
@@ -67,9 +68,9 @@ describe('buildStatus', () => {
     it(`returns correct build status for the \`${state}\` state`, () => {
       expect(buildStatus({
         state,
-        canceledAt: new Date(1475643467000),
-        createdAt: new Date(1475643466920),
-        finishedAt: new Date(1475643467000)
+        canceledAt: moment(1475643467000).utcOffset(10),
+        createdAt: moment(1475643466920).utcOffset(10),
+        finishedAt: moment(1475643467000).utcOffset(10)
       })).toMatchSnapshot();
     });
   });
