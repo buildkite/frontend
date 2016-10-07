@@ -1,5 +1,5 @@
 /* global describe, it, expect */
-import { shortMessage, shortCommit, buildTime } from './builds';
+import { shortMessage, shortCommit, buildTime, buildStatus } from './builds';
 
 describe('shortMessage', () => {
   const BIG_MESSAGE = `✨ Somehow this is the first spec I've written for our front-end, and this seems really odd to me
@@ -29,59 +29,48 @@ describe('shortCommit', () => {
   });
 });
 
+const BUILD_STATES = [
+  'started',
+  'failed',
+  'passed',
+  'blocked',
+  'canceled',
+  'canceling',
+  'scheduled',
+  'skipped',
+  'not_run'
+];
+
 describe('buildTime', () => {
-  it('returns correct time properties for the `started` state', () => {
-    expect(buildTime({
-      state: 'started',
-      startedAt: new Date(1475643466920)
-    })).toMatchSnapshot();
-  });
+  BUILD_STATES.forEach((state) => {
+    it(`returns correct time properties for the \`${state}\` state`, () => {
+      expect(buildTime({
+        state,
+        canceledAt: new Date(1475643467000),
+        startedAt: new Date(1475643466920),
+        finishedAt: new Date(1475643467000),
+        scheduledAt: new Date(1475644466920)
+      })).toMatchSnapshot();
 
-  it('returns correct time properties for the `failed` state', () => {
-    expect(buildTime({
-      state: 'failed',
-      startedAt: new Date(1475643466920),
-      finishedAt: new Date(1475643467000)
-    })).toMatchSnapshot();
-  });
-
-  it('returns correct time properties for the `passed` state', () => {
-    expect(buildTime({
-      state: 'passed',
-      startedAt: new Date(1475643466920),
-      finishedAt: new Date(1475643467000)
-    })).toMatchSnapshot();
-  });
-
-  it('returns correct time properties for the `canceled` state', () => {
-    expect(buildTime({
-      state: 'canceled',
-      startedAt: new Date(1475643466920),
-      canceledAt: new Date(1475643467000)
-    })).toMatchSnapshot();
-    expect(buildTime({ state: 'canceled' })).toMatchSnapshot();
-  });
-
-  it('returns correct time properties for the `canceling` state', () => {
-    expect(buildTime({
-      state: 'canceling',
-      startedAt: new Date(1475643466920)
-    })).toMatchSnapshot();
-  });
-
-  it('returns correct time properties for the `scheduled` state', () => {
-    expect(buildTime({
-      state: 'scheduled',
-      scheduledAt: new Date(1475644466920)
-    })).toMatchSnapshot();
-  });
-
-  it('returns correct time properties for the `skipped` state', () => {
-    expect(buildTime({ state: 'skipped' })).toMatchSnapshot();
-  });
-
-  it('returns correct time properties for the `not_run` state', () => {
-    expect(buildTime({ state: 'not_run' })).toMatchSnapshot();
+      if (state === 'canceled') {
+        expect(buildTime({
+          state,
+          canceledAt: new Date(1475643467000)
+        })).toMatchSnapshot();
+      }
+    });
   });
 });
 
+describe('buildStatus', () => {
+  BUILD_STATES.forEach((state) => {
+    it(`returns correct build status for the \`${state}\` state`, () => {
+      expect(buildStatus({
+        state,
+        canceledAt: new Date(1475643467000),
+        createdAt: new Date(1475643466920),
+        finishedAt: new Date(1475643467000)
+      })).toMatchSnapshot();
+    });
+  });
+});

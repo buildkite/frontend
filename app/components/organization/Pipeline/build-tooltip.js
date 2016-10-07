@@ -6,9 +6,8 @@ import Emojify from '../../shared/Emojify';
 import UserAvatar from "../../shared/UserAvatar";
 import Media from "../../shared/Media";
 import Duration from "../../shared/Duration";
-import FriendlyTime from "../../shared/FriendlyTime";
 
-import { shortMessage, shortCommit, buildTime } from '../../../lib/builds';
+import { shortMessage, shortCommit, buildTime, buildStatus } from '../../../lib/builds';
 
 class BuildTooltip extends React.Component {
   static propTypes = {
@@ -46,7 +45,7 @@ class BuildTooltip extends React.Component {
               </Media.Image>
               <Media.Description className="line-height-2">
                 <span className="block line-height-3"><Emojify className="semi-bold" text={shortMessage(this.props.build.message)} /> <span className="dark-gray">{shortCommit(this.props.build.commit)}</span></span>
-                <small className="dark-gray">{this.renderStats()}</small>
+                <small className="dark-gray">{buildStatus(this.props.build)}</small>
               </Media.Description>
             </Media>
           </div>
@@ -55,26 +54,6 @@ class BuildTooltip extends React.Component {
     } else {
       return <div />;
     }
-  }
-
-  renderStats() {
-    let timeValue = (
-      <span>Waiting</span>
-    );
-
-    if (this.props.build.startedAt || this.props.build.finishedAt) {
-      timeValue = (
-        <span>
-          {this.props.build.finishedAt
-            ? 'Finished '
-            : 'Started '
-          }
-          <FriendlyTime value={this.props.build.finishedAt || this.props.build.startedAt} capitalized={false} />
-        </span>
-      );
-    }
-
-    return timeValue;
   }
 }
 

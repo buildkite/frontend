@@ -1,3 +1,5 @@
+import friendlyRelativeTime from './friendlyRelativeTime';
+
 export function shortMessage(message) {
   return message.split("\n")[0];
 }
@@ -49,4 +51,20 @@ export function buildTime(build) {
   }
 
   return buildTime;
+}
+
+export function buildStatus(build) {
+  const { state, createdAt, canceledAt, finishedAt } = build;
+
+  if (state === 'failed' || state === 'passed') {
+    return `Finished ${friendlyRelativeTime(finishedAt)}`;
+  } else if (state === 'blocked') {
+    return `Blocked ${friendlyRelativeTime(finishedAt)}`;
+  } else if (state === 'canceled' || state === 'canceling') {
+    return `Canceled ${friendlyRelativeTime(canceledAt)}`;
+  } else if (state === 'skipped') {
+    return `Skipped ${friendlyRelativeTime(createdAt)}`;
+  }
+
+  return `Created ${friendlyRelativeTime(createdAt)}`;
 }
