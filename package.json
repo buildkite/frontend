@@ -92,5 +92,14 @@
     "react-router-relay": "^0.13.5",
     "webpack-dev-server": "^1.16.1",
     "whatwg-fetch": "^1.0.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "app/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
