@@ -37,7 +37,7 @@ class Metric extends React.Component {
       );
     } else {
       return (
-        <span className={classNames(valueClasses, "gray")}>&middot;</span>
+        <span className={classNames(valueClasses, "gray")}>-</span>
       );
     }
   }
