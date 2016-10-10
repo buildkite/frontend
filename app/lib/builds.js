@@ -44,7 +44,12 @@ export function buildTime(build) {
 export function buildStatus(build) {
   const { state, createdAt, canceledAt, finishedAt } = build;
 
-  if (state === 'failed' || state === 'passed') {
+  if (state === 'scheduled') {
+    return {
+      prefix: 'Scheduled',
+      timeValue: createdAt
+    };
+  } else if (state === 'failed' || state === 'passed') {
     return {
       prefix: 'Finished',
       timeValue: finishedAt
