@@ -61,7 +61,12 @@ Object {
 }
 `;
 
-exports[`buildTime returns correct time properties for the \`blocked\` state 1`] = `Object {}`;
+exports[`buildTime returns correct time properties for the \`blocked\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+  "to": 2016-10-05T04:57:47.000Z,
+}
+`;
 
 exports[`buildTime returns correct time properties for the \`canceled\` state 1`] = `
 Object {
