@@ -6689,7 +6689,7 @@
     },
     "uuid": {
       "version": "2.0.2",
-      "from": "https://registry.npmjs.org/uuid/-/uuid-2.0.2.tgz",
+      "from": "uuid@>=2.0.1 <3.0.0",
       "resolved": "https://registry.npmjs.org/uuid/-/uuid-2.0.2.tgz"
     },
     "vali-date": {
