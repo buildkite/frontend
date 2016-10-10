@@ -1,4 +1,4 @@
-/* global describe, it, expect */
+/* global describe, it, expect, jest */
 import moment from 'moment';
 import MockDate from 'mockdate';
 import React from 'react';
