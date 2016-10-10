@@ -49,7 +49,7 @@ Object {
 
 exports[`buildStatus returns correct build status for the \`scheduled\` state 1`] = `
 Object {
-  "prefix": "Created",
+  "prefix": "Scheduled",
   "timeValue": 2016-10-05T04:57:46.920Z,
 }
 `;
