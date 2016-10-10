@@ -52,6 +52,7 @@ window["Webpack"] = {
     "components/PipelinesWelcome": require("./components/organization/Welcome").default,
     "components/pipeline/Teams": require("./components/pipeline/Teams").default,
     "lib/builds": require("./lib/builds"),
+    "lib/commits": require("./lib/commits"),
     "lib/date": require("./lib/date"),
     "lib/Emoji": require("./lib/Emoji").default,
     "lib/friendlyRelativeTime": require("./lib/friendlyRelativeTime").default,

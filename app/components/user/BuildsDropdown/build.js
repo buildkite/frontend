@@ -7,7 +7,8 @@ import PusherStore from '../../../stores/PusherStore';
 import BuildState from '../../icons/BuildState';
 import Duration from "../../shared/Duration";
 
-import { shortMessage, shortCommit, buildTime } from '../../../lib/builds';
+import { buildTime } from '../../../lib/builds';
+import { shortMessage, shortCommit } from '../../../lib/commits';
 
 class BuildsDropdownBuild extends React.Component {
   static propTypes = {

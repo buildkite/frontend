@@ -8,7 +8,8 @@ import UserAvatar from "../../shared/UserAvatar";
 import Media from "../../shared/Media";
 import Duration from "../../shared/Duration";
 
-import { shortMessage, shortCommit, buildTime } from '../../../lib/builds';
+import { buildTime } from '../../../lib/builds';
+import { shortMessage, shortCommit } from '../../../lib/commits';
 
 class BuildTooltip extends React.Component {
   static propTypes = {

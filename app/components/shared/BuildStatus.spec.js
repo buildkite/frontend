@@ -10,7 +10,7 @@ describe('BuildStatus', () => {
 
     const BUILD_STATUS_FIXTURE = {
       prefix: 'tested',
-      timeValue: new Date(1475643467000)
+      timeValue: moment.parseZone("2016-10-09T23:58:05+1100")
     };
 
     const fauxFriendlyRelativeTime = jest.fn(() => 'at some point');
