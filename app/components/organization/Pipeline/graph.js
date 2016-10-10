@@ -12,6 +12,8 @@ const RUNNING_COLOR = "#FFBA03";
 const RUNNING_COLOR_HOVER = "#DE8F0C";
 const FAILED_COLOR = "#F83F23";
 const FAILED_COLOR_HOVER = "#AA0A12";
+const SCHEDULED_COLOR = "#aeaeae";
+const SCHEDULED_COLOR_HOVER = "#6e6e6e";
 const PENDING_COLOR = "#DDDDDD";
 const PENDING_COLOR_HOVER = "#DDDDDD";
 
@@ -137,7 +139,9 @@ class Graph extends React.Component {
   }
 
   colorForBuild(build) {
-    if (build.state === "running") {
+    if (build.state === "scheduled") {
+      return SCHEDULED_COLOR;
+    } else if (build.state === "running") {
       return RUNNING_COLOR;
     } else if (build.state === "passed" || build.state == "blocked") {
       return PASSED_COLOR;
@@ -147,7 +151,9 @@ class Graph extends React.Component {
   }
 
   hoverColorForBuild(build) {
-    if (build.state === "running") {
+    if (build.state === "scheduled") {
+      return SCHEDULED_COLOR_HOVER;
+    } else if (build.state === "running") {
       return RUNNING_COLOR_HOVER;
     } else if (build.state === "passed" || build.state == "blocked") {
       return PASSED_COLOR_HOVER;
@@ -191,7 +197,7 @@ export default Relay.createContainer(Graph, {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
         id
-        builds(first: 30, branch: "%default", state: [ BUILD_STATE_RUNNING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_CANCELING, BUILD_STATE_BLOCKED ]) {
+        builds(first: 30, branch: "%default", state: [ BUILD_STATE_SCHEDULED, BUILD_STATE_RUNNING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_CANCELING, BUILD_STATE_BLOCKED ]) {
           edges {
             node {
               id

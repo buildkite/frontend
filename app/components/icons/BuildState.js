@@ -27,7 +27,7 @@ const STATE_DEFINITIONS = {
   },
   scheduled: {
     animation: 'animation-spin-slow',
-    strokeColor: '#cdcccc'
+    strokeColor: '#aeaeae'
   },
   running: {
     animation: 'animation-spin',
@@ -116,6 +116,7 @@ class BuildState extends React.Component {
           </g>
         );
 
+      case 'scheduled':
       case 'running':
         return (
           <g>
@@ -126,20 +127,6 @@ class BuildState extends React.Component {
             </defs>
             <g mask="url(#a)">
               <path d="M16,22a6,6,0,1,0-6-6A6,6,0,0,0,16,22Z" {...applyStroke} />
-            </g>
-          </g>
-        );
-
-      case 'scheduled':
-        return (
-          <g>
-            <defs>
-              <mask id="a" x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
-                <polygon points="16 16 9 16 9 9 23 9 23 23 16 23 16 16" fill="#fff" {...applyAnimation} />
-              </mask>
-            </defs>
-            <g mask="url(#a)">
-              <circle cx="16" cy="16" r="6" {...applyStroke} />
             </g>
           </g>
         );
