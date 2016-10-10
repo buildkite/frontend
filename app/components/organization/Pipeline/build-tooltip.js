@@ -45,8 +45,10 @@ class BuildTooltip extends React.Component {
                 <UserAvatar user={this.props.build.createdBy} className="block fit" />
                 <small className="dark-gray"><Duration.Micro {...buildTime(this.props.build)} /></small>
               </Media.Image>
-              <Media.Description className="line-height-2">
-                <span className="block line-height-3"><Emojify className="semi-bold" text={shortMessage(this.props.build.message)} /> <span className="dark-gray">{shortCommit(this.props.build.commit)}</span></span>
+              <Media.Description className="flex-auto line-height-2">
+                <span className="block line-height-3 overflow-hidden overflow-ellipsis">
+                  <Emojify className="semi-bold" text={shortMessage(this.props.build.message)} /> <span className="dark-gray">{shortCommit(this.props.build.commit)}</span>
+                </span>
                 <small className="dark-gray"><BuildStatusDescription build={this.props.build} updateFrequency={0} /></small>
               </Media.Description>
             </Media>

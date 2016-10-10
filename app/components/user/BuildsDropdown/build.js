@@ -39,7 +39,7 @@ class BuildsDropdownBuild extends React.Component {
             <small><Duration.Micro className="dark-gray" {...buildTime(this.props.build)} /></small>
           </div>
           <div className="flex-auto line-height-2">
-            <span className="line-height-3 block text-overflow-ellipsis">
+            <span className="block line-height-3 overflow-hidden overflow-ellipsis">
               <Emojify className={messageClassName} text={shortMessage(this.props.build.message)} /> {shortCommit(this.props.build.commit)}
             </span>
             <small className="block">{this.props.build.organization.name} / {this.props.build.pipeline.name}</small>
