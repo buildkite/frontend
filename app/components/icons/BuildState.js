@@ -58,14 +58,11 @@ class BuildState extends React.Component {
     const sizeDefinition = SIZE_DEFINITIONS[this.props.size] || {};
     const strokeWidth = sizeDefinition.strokeWidth || 2;
     const size = sizeDefinition.size || 32;
-    const classes = classNames(this.props.className, {
-      [STATE_DEFINITIONS[this.props.state] && STATE_DEFINITIONS[this.props.state].animation]: this.props.state && STATE_DEFINITIONS[this.props.state] && STATE_DEFINITIONS[this.props.state].animation
-    });
 
     const circleId = parseInt(Math.random().toString(10).replace('.', ''), 10).toString(36);
 
     return (
-      <svg width={size} height={size} viewBox="0 0 32 32" className={classes}>
+      <svg width={size} height={size} viewBox="0 0 32 32" className={this.props.className}>
         <defs>
           <circle id={`circle_${circleId}`} fill="none" cx="16" cy="16" r="15" stroke={STATE_DEFINITIONS[this.props.state].strokeColor} strokeWidth={strokeWidth * 2} />
           <clipPath id={`circleClip_${circleId}`}>
@@ -83,6 +80,13 @@ class BuildState extends React.Component {
       fill: 'none',
       stroke: STATE_DEFINITIONS[this.props.state].strokeColor,
       strokeWidth
+    };
+
+    const applyAnimation = {
+      style: { transformOrigin: 'center' },
+      className: classNames({
+        [STATE_DEFINITIONS[this.props.state] && STATE_DEFINITIONS[this.props.state].animation]: this.props.state && STATE_DEFINITIONS[this.props.state] && STATE_DEFINITIONS[this.props.state].animation
+      })
     };
 
     switch (this.props.state) {
@@ -117,11 +121,11 @@ class BuildState extends React.Component {
           <g>
             <defs>
               <mask id="a" x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
-                <polygon points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16" fill="#fff"/>
+                <polygon points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16" fill="#fff" {...applyAnimation}/>
               </mask>
             </defs>
             <g mask="url(#a)">
-              <path d="M16,22a6,6,0,1,0-6-6A6,6,0,0,0,16,22Z" {...applyStroke}/>
+              <path d="M16,22a6,6,0,1,0-6-6A6,6,0,0,0,16,22Z" {...applyStroke} />
             </g>
           </g>
         );
@@ -131,7 +135,7 @@ class BuildState extends React.Component {
           <g>
             <defs>
               <mask id="a" x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
-                <polygon points="16 16 9 16 9 9 23 9 23 23 16 23 16 16" fill="#fff"/>
+                <polygon points="16 16 9 16 9 9 23 9 23 23 16 23 16 16" fill="#fff" {...applyAnimation} />
               </mask>
             </defs>
             <g mask="url(#a)">
