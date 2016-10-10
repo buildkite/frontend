@@ -2,15 +2,16 @@
 import { buildTime, buildStatus } from './builds';
 
 const BUILD_STATES = [
-  'started',
-  'failed',
-  'passed',
   'blocked',
   'canceled',
   'canceling',
+  'failed',
+  'not_run',
+  'passed',
+  'running',
   'scheduled',
   'skipped',
-  'not_run'
+  'started'
 ];
 
 describe('buildTime', () => {

@@ -8,6 +8,7 @@ export function buildTime(build) {
     case 'canceling':
     case 'failed':
     case 'passed':
+    case 'running':
     case 'started':
       if (state === 'canceled' && !startedAt) {
         break;
