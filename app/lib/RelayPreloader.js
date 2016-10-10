@@ -57,12 +57,14 @@ const QUERIES = {
                 edges {
                   node {
                     id
-                    state
                     message
-                    startedAt
-                    finishedAt
                     url
                     commit
+                    state
+                    startedAt
+                    finishedAt
+                    canceledAt
+                    scheduledAt
                     createdBy {
                       __typename
                       ... on User {

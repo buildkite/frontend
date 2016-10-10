@@ -63,12 +63,14 @@ export default Relay.createContainer(BuildTooltip, {
   fragments: {
     build: () => Relay.QL`
       fragment on Build {
-        state
         message
-        startedAt
-        finishedAt
         url
         commit
+        state
+        startedAt
+        finishedAt
+        canceledAt
+        scheduledAt
         createdBy {
           ... on User {
             name
