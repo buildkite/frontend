@@ -2,30 +2,28 @@ import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import moment from 'moment';
 import friendlyRelativeTime from '../../lib/friendlyRelativeTime';
+import { buildStatus } from '../../lib/builds';
 
-class FriendlyTime extends React.Component {
+class BuildStatusDescription extends React.Component {
   static propTypes = {
-    value: React.PropTypes.string.isRequired,
-    updateFrequency: React.PropTypes.number.isRequired,
-    capitalized: React.PropTypes.bool.isRequired,
-    seconds: React.PropTypes.bool.isRequired
+    build: React.PropTypes.object.isRequired,
+    updateFrequency: React.PropTypes.number.isRequired
   };
 
   static defaultProps = {
-    updateFrequency: 60000,
-    capitalized: true,
-    seconds: false
+    updateFrequency: 60000
   };
 
   state = {
-    value: ''
+    timeValue: ''
   };
 
-  updateTime() {
-    const { value, capitalized, seconds } = this.props;
+  updateBuildInfo(build) {
+    const status = buildStatus(build);
 
     this.setState({
-      value: friendlyRelativeTime(value, { capitalized, seconds })
+      localTimeString: moment(status.timeValue).format('LLLL'),
+      ...status
     });
   }
 
@@ -35,9 +33,9 @@ class FriendlyTime extends React.Component {
 
   maybeSetInterval(updateFrequency) {
     if (updateFrequency > 0) {
-      this._interval = setInterval(() => this.updateTime(), updateFrequency);
+      this._interval = setInterval(() => this.updateBuildInfo(this.props.build), updateFrequency);
     }
-    this.updateTime();
+    this.updateBuildInfo(this.props.build);
   }
 
   maybeClearInterval() {
@@ -51,16 +49,14 @@ class FriendlyTime extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { value, capitalized, seconds, updateFrequency } = nextProps;
+    const { build, updateFrequency } = nextProps;
 
     if (updateFrequency !== this.props.updateFrequency) {
       this.maybeClearInterval();
       this.maybeSetInterval(updateFrequency);
     }
 
-    this.setState({
-      value: friendlyRelativeTime(value, { capitalized, seconds })
-    });
+    this.updateBuildInfo(build);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -68,14 +64,12 @@ class FriendlyTime extends React.Component {
   }
 
   render() {
-    const localTimeString = moment(this.props.value).format('LLLL');
-
     return (
-      <time dateTime={this.props.value} title={localTimeString}>
-        {this.state.value}
-      </time>
+      <span>
+        {this.state.prefix} <time dateTime={this.state.timeValue} title={this.state.localTimeString}>{friendlyRelativeTime(this.state.timeValue)}</time>
+      </span>
     );
   }
 }
 
-export default FriendlyTime;
+export default BuildStatusDescription;

@@ -14,6 +14,7 @@
     "env": "env",
     "start": "NODE_ENV=development webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --port 4890",
     "test": "jest",
+    "test-with-coverage": "jest --coverage",
     "lint": "eslint .",
     "lint-and-fix": "eslint --fix .",
     "build": "NODE_ENV=development webpack --config webpack/config.js --progress --bail",
@@ -42,6 +43,7 @@
     "image-webpack-loader": "^2.0.0",
     "imports-loader": "^0.6.5",
     "jest": "^16.0.0",
+    "mockdate": "^1.0.4",
     "postcss": "^5.1.2",
     "postcss-browser-reporter": "^0.5.0",
     "postcss-cssnext": "^2.7.0",
@@ -49,6 +51,7 @@
     "postcss-import": "^8.1.2",
     "postcss-loader": "^0.9.1",
     "postcss-reporter": "^1.4.1",
+    "react-test-renderer": "^15.3.2",
     "react-transform-hmr": "^1.0.4",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
@@ -90,5 +93,13 @@
     "react-router-relay": "^0.13.5",
     "webpack-dev-server": "^1.16.1",
     "whatwg-fetch": "^1.0.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "app/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

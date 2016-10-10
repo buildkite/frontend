@@ -3,3 +3,6 @@ dist
 
 # Jest Snapshots
 **/__snapshots__
+
+# Jest coverage output
+coverage

@@ -4504,6 +4504,11 @@
       "from": "mkdirp@>=0.5.1 <0.6.0",
       "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-0.5.1.tgz"
     },
+    "mockdate": {
+      "version": "1.0.4",
+      "from": "mockdate@latest",
+      "resolved": "https://registry.npmjs.org/mockdate/-/mockdate-1.0.4.tgz"
+    },
     "moment": {
       "version": "2.15.0",
       "from": "moment@2.15.0",
@@ -5629,6 +5634,11 @@
       "version": "1.0.1",
       "from": "react-static-container@>=1.0.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/react-static-container/-/react-static-container-1.0.1.tgz"
+    },
+    "react-test-renderer": {
+      "version": "15.3.2",
+      "from": "react-test-renderer@latest",
+      "resolved": "https://registry.npmjs.org/react-test-renderer/-/react-test-renderer-15.3.2.tgz"
     },
     "react-transform-catch-errors": {
       "version": "1.0.2",

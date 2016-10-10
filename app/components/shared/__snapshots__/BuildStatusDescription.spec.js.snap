@@ -1,0 +1,11 @@
+exports[`BuildStatusDescription calls through to \`friendlyRelativeTime\` and \`buildStatus\` 1`] = `
+<span>
+  tested
+   
+  <time
+    dateTime={"2016-10-09T12:58:05.000Z"}
+    title="Sunday, October 9, 2016 11:58 PM">
+    at some point
+  </time>
+</span>
+`;
