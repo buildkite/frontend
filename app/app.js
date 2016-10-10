@@ -37,7 +37,7 @@ window["Webpack"] = {
 
     "components/layout/Navigation": require("./components/layout/Navigation").default,
     "components/layout/Footer": require("./components/layout/Footer").default,
-    "components/shared/BuildStatus": require("./components/shared/BuildStatus").default,
+    "components/shared/BuildStatusDescription": require("./components/shared/BuildStatusDescription").default,
     "components/shared/CollapsableFormField": require("./components/shared/CollapsableFormField").default,
     "components/shared/Duration": require("./components/shared/Duration").default,
     "components/shared/Emojify": require("./components/shared/Emojify").default,

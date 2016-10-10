@@ -4,7 +4,7 @@ import moment from 'moment';
 import friendlyRelativeTime from '../../lib/friendlyRelativeTime';
 import { buildStatus } from '../../lib/builds';
 
-class BuildStatus extends React.Component {
+class BuildStatusDescription extends React.Component {
   static propTypes = {
     build: React.PropTypes.object.isRequired,
     updateFrequency: React.PropTypes.number.isRequired
@@ -72,4 +72,4 @@ class BuildStatus extends React.Component {
   }
 }
 
-export default BuildStatus;
+export default BuildStatusDescription;

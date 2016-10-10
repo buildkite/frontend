@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import BuildStatus from "../../shared/BuildStatus";
+import BuildStatusDescription from "../../shared/BuildStatusDescription";
 import Emojify from '../../shared/Emojify';
 import UserAvatar from "../../shared/UserAvatar";
 import Media from "../../shared/Media";
@@ -47,7 +47,7 @@ class BuildTooltip extends React.Component {
               </Media.Image>
               <Media.Description className="line-height-2">
                 <span className="block line-height-3"><Emojify className="semi-bold" text={shortMessage(this.props.build.message)} /> <span className="dark-gray">{shortCommit(this.props.build.commit)}</span></span>
-                <small className="dark-gray"><BuildStatus build={this.props.build} updateFrequency={0} /></small>
+                <small className="dark-gray"><BuildStatusDescription build={this.props.build} updateFrequency={0} /></small>
               </Media.Description>
             </Media>
           </div>

@@ -1,4 +1,4 @@
-exports[`BuildStatus calls through to \`friendlyRelativeTime\` and \`buildStatus\` 1`] = `
+exports[`BuildStatusDescription calls through to \`friendlyRelativeTime\` and \`buildStatus\` 1`] = `
 <span>
   tested
    
