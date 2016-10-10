@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import shallowCompare from 'react-addons-shallow-compare';
+import { v4 as uuid } from 'uuid';
 
 const SIZE_DEFINITIONS = {
   regular: {
@@ -50,6 +51,16 @@ class BuildState extends React.Component {
     size: 'regular'
   };
 
+  state = {
+    uuid: ''
+  };
+
+  componentWillMount() {
+    this.setState({
+      uuid: uuid()
+    });
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   }
@@ -59,17 +70,18 @@ class BuildState extends React.Component {
     const strokeWidth = sizeDefinition.strokeWidth || 2;
     const size = sizeDefinition.size || 32;
 
-    const circleId = parseInt(Math.random().toString(10).replace('.', ''), 10).toString(36);
+    const outerCircleId = `BuildState_${this.state.uuid}_circle`;
+    const strokeClipPathId = `BuildState_${this.state.uuid}_strokeClipPath`;
 
     return (
       <svg width={size} height={size} viewBox="0 0 32 32" className={this.props.className}>
         <defs>
-          <circle id={`circle_${circleId}`} fill="none" cx="16" cy="16" r="15" stroke={STATE_DEFINITIONS[this.props.state].strokeColor} strokeWidth={strokeWidth * 2} />
-          <clipPath id={`circleClip_${circleId}`}>
-            <use xlinkHref={`#circle_${circleId}`}/>
+          <circle id={outerCircleId} fill="none" cx="16" cy="16" r="15" stroke={STATE_DEFINITIONS[this.props.state].strokeColor} strokeWidth={strokeWidth * 2} />
+          <clipPath id={strokeClipPathId}>
+            <use xlinkHref={`#${outerCircleId}`}/>
           </clipPath>
         </defs>
-        <use xlinkHref={`#circle_${circleId}`} clipPath={`url(#circleClip_${circleId})`} />
+        <use xlinkHref={`#${outerCircleId}`} clipPath={`url(#${strokeClipPathId})`} />
         {this.renderPaths(strokeWidth)}
       </svg>
     );
@@ -88,6 +100,8 @@ class BuildState extends React.Component {
         [STATE_DEFINITIONS[this.props.state] && STATE_DEFINITIONS[this.props.state].animation]: this.props.state && STATE_DEFINITIONS[this.props.state] && STATE_DEFINITIONS[this.props.state].animation
       })
     };
+
+    const maskId = `BuildState_${this.state.uuid}_mask`;
 
     switch (this.props.state) {
       case 'failed':
@@ -121,11 +135,11 @@ class BuildState extends React.Component {
         return (
           <g>
             <defs>
-              <mask id="a" x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
+              <mask id={maskId} x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
                 <polygon points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16" fill="#fff" {...applyAnimation}/>
               </mask>
             </defs>
-            <g mask="url(#a)">
+            <g mask={`url(#${maskId})`}>
               <path d="M16,22a6,6,0,1,0-6-6A6,6,0,0,0,16,22Z" {...applyStroke} />
             </g>
           </g>
