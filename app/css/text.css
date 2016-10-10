@@ -6,6 +6,10 @@
   border-bottom: 1px dashed currentColor;
 }
 
+.overflow-ellipsis {
+  text-overflow: ellipsis;
+}
+
 @media (--breakpoint-sm) {
   .sm-right-align { text-align: right !important }
 }
