@@ -38,7 +38,7 @@ class Teams extends React.Component {
   renderLabel() {
     if (this.props.selected) {
       for (const edge of this.props.organization.teams.edges) {
-        if (edge.node.slug == this.props.selected) {
+        if (edge.node.slug === this.props.selected) {
           return (
             <Emojify className="block" text={edge.node.name} />
           );

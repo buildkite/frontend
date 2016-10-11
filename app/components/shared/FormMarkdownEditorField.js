@@ -93,7 +93,7 @@ class FormMarkdownEdtiorField extends React.Component {
 
       // Insert each of the files into the textarea
       files.forEach((file) => {
-        const prefix = file.type.indexOf("image/") == 0 ? "!" : "";
+        const prefix = file.type.indexOf("image/") === 0 ? "!" : "";
         let text = prefix + "[Uploading " + file.name + "...]()";
 
         // If the input is currently in focus, insert the image where the users

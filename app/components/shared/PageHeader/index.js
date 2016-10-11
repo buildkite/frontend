@@ -17,7 +17,7 @@ class PageHeader extends React.Component {
     const details = [];
     let menu;
     children.forEach((child) => {
-      if (child.type.displayName == "PageHeader.Menu") {
+      if (child.type.displayName === "PageHeader.Menu") {
         menu = child;
       } else {
         details.push(child);

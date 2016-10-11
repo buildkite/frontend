@@ -13,9 +13,11 @@ if (!process.env.NODE_ENV) {
 }
 
 // The FRONTEND_HOST must end with a /
-if (process.env.FRONTEND_HOST.slice(-1) != "/") {
+if (process.env.FRONTEND_HOST.slice(-1) !== "/") {
   throw "FRONTEND_HOST must end with a /";
 }
+
+var IS_PRODUCTION = (process.env.NODE_ENV === "production");
 
 // Include a hash of the bundle in the name when we're building these files for
 // production so we can use non-expiring caches for them.
@@ -25,7 +27,7 @@ if (process.env.FRONTEND_HOST.slice(-1) != "/") {
 // clean up after itself)
 var filenameFormat;
 var chunkFilename;
-if (process.env.NODE_ENV == "production") {
+if (IS_PRODUCTION) {
   filenameFormat = "[name]-[chunkhash].js";
   chunkFilename = "[id]-[chunkhash].js";
 } else {
@@ -35,12 +37,7 @@ if (process.env.NODE_ENV == "production") {
 
 // Toggle between the devtool if on prod/dev since cheap-module-eval-source-map
 // is way faster for development.
-var devTool;
-if (process.env.NODE_ENV == "production") {
-  devTool = "source-map";
-} else {
-  devTool = "cheap-module-eval-source-map";
-}
+var devTool = IS_PRODUCTION ? "source-map" : "cheap-module-eval-source-map";
 
 var plugins = [
   // Only add the 'whatwg-fetch' plugin if the browser doesn't support it
@@ -85,7 +82,7 @@ var plugins = [
 ];
 
 // If we're building for production, minify the JS
-if (process.env.NODE_ENV == "production") {
+if (IS_PRODUCTION) {
   // Need this plugin to ensure consistent module ordering so we can have
   // determenistic filename hashes
   plugins.push(new webpack.optimize.OccurenceOrderPlugin(true));

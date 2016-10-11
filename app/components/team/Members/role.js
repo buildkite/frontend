@@ -55,13 +55,13 @@ class MemberRole extends React.Component {
   renderIcon(currentRole, roleOption) {
     const width = 25;
 
-    if (this.props.savingNewRole == roleOption) {
+    if (this.props.savingNewRole === roleOption) {
       return (
         <div style={{ width: width }}>
           <Spinner className="fit absolute" width={16} height={16} style={{ marginTop: 3 }} color={false} />
         </div>
       );
-    } else if (currentRole == roleOption) {
+    } else if (currentRole === roleOption) {
       return (
         <div className="green" style={{ fontSize: 16, width: width }}>✔</div>
       );

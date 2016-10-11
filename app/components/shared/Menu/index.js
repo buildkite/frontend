@@ -15,7 +15,7 @@ class Menu extends React.Component {
     // See if the first child is a header component
     let header;
     let buttons;
-    if (children[0].type.displayName == "Menu.Header") {
+    if (children[0].type.displayName === "Menu.Header") {
       header = children[0];
       buttons = children.slice(1);
     } else {

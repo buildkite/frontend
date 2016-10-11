@@ -99,7 +99,7 @@ class Row extends React.Component {
       this.setState({ removing: false });
 
       if (error) {
-        if (!force && error.source && error.source.type == "must_force_error") {
+        if (!force && error.source && error.source.type === "must_force_error") {
           if (confirm(error.source.errors[0].message + "\n\nAre you sure you want to remove this pipeline from this team?")) {
             this.performPipelineRemove(true);
           }

@@ -23,15 +23,22 @@ class AccessLevel extends React.Component {
   render() {
     let label;
     let nibOffset;
-    if (this.props.teamPipeline.accessLevel == MANAGE_BUILD_AND_READ) {
-      label = "Full Access";
-      nibOffset = 10;
-    } else if (this.props.teamPipeline.accessLevel == BUILD_AND_READ) {
-      label = "Build & Read";
-      nibOffset = 3;
-    } else if (this.props.teamPipeline.accessLevel == READ_ONLY) {
-      label = "Read Only";
-      nibOffset = 13;
+
+    switch (this.props.teamPipeline.accessLevel) {
+      case MANAGE_BUILD_AND_READ:
+        label = "Full Access";
+        nibOffset = 10;
+        break;
+
+      case BUILD_AND_READ:
+        label = "Build & Read";
+        nibOffset = 3;
+        break;
+
+      case READ_ONLY:
+        label = "Read Only";
+        nibOffset = 13;
+        break;
     }
 
     return (
@@ -78,13 +85,13 @@ class AccessLevel extends React.Component {
   renderIcon(accessLevel) {
     const width = 25;
 
-    if (this.props.saving == accessLevel) {
+    if (this.props.saving === accessLevel) {
       return (
         <div style={{ width: width }}>
           <Spinner className="fit absolute" width={16} height={16} style={{ marginTop: 3 }} color={false} />
         </div>
       );
-    } else if (this.props.teamPipeline.accessLevel == accessLevel) {
+    } else if (this.props.teamPipeline.accessLevel === accessLevel) {
       return (
         <div className="green" style={{ fontSize: 16, width: width }}>✔</div>
       );

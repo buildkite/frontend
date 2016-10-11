@@ -96,7 +96,7 @@ class Pipeline extends React.Component {
         <div style={{ width: 239 }}>
           <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
           <div style={{ height: 35 }} className="flex">
-            <div style={{ height: 3, width: "100%", marginTop: "auto" }} className="bg-gray animation-loading-bar" ></div>
+            <div style={{ height: 3, width: "100%", marginTop: "auto" }} className="bg-gray animation-loading-bar" />
           </div>
         </div>
       );

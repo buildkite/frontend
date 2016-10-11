@@ -8,7 +8,7 @@ class ValidationErrors {
       const messages = [];
 
       this.errors.forEach((error) => {
-        if (error.field == field) {
+        if (error.field === field) {
           messages.push(error.message);
         }
       });

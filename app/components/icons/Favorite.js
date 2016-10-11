@@ -10,7 +10,7 @@ class Favorite extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.favorite != nextProps.favorite && this.state.hover) {
+    if (this.props.favorite !== nextProps.favorite && this.state.hover) {
       this.setState({ hover: false });
     }
   }

@@ -12,7 +12,7 @@ class Media extends React.Component {
   };
 
   render() {
-    const alignment = (this.props.align == "top") ? "items-top" : "items-center";
+    const alignment = (this.props.align === "top") ? "items-top" : "items-center";
 
     return (
       <section className={classNames("flex", alignment, this.props.className)}>

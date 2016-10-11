@@ -29,7 +29,7 @@ class FormAutoCompleteField extends React.Component {
         // making sure to skip error message components, since they have no
         // item id.
         nextProps.items.forEach((item) => {
-          if (!this.isErrorMessageComponent(item) && item[1].id == this.state.selected.id) {
+          if (!this.isErrorMessageComponent(item) && item[1].id === this.state.selected.id) {
             found = true;
           }
         });
@@ -70,7 +70,7 @@ class FormAutoCompleteField extends React.Component {
   }
 
   isErrorMessageComponent(node) {
-    return node && node.type && node.type.displayName == "FormAutoCompleteField.ErrorMessage";
+    return node && node.type && node.type.displayName === "FormAutoCompleteField.ErrorMessage";
   }
 
   render() {
@@ -124,7 +124,7 @@ class FormAutoCompleteField extends React.Component {
           </div>
         );
       } else {
-        const isSelected = item[1] && this.state.selected && (item[1].id == this.state.selected.id);
+        const isSelected = item[1] && this.state.selected && (item[1].id === this.state.selected.id);
 
         // `selected` needs to always return a boolean as it's a requirement of
         // the Suggestion component
@@ -132,9 +132,9 @@ class FormAutoCompleteField extends React.Component {
           <Suggestion
             key={index}
             className={classNames({
-              "rounded": items.length == 1,
-              "rounded-top": (items.length > 1 && index == 0),
-              "rounded-bottom": (index > 0 && index == (items.length - 1))
+              "rounded": items.length === 1,
+              "rounded-top": (items.length > 1 && index === 0),
+              "rounded-bottom": (index > 0 && index === (items.length - 1))
             })}
             selected={!!isSelected}
             suggestion={item[1]}
@@ -177,8 +177,8 @@ class FormAutoCompleteField extends React.Component {
         continue;
       }
 
-      if (item[1].id == this.state.selected.id) {
         index = i;
+      if (item[1].id === this.state.selected.id) {
         break;
       }
     }

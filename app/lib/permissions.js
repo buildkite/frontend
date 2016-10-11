@@ -24,7 +24,7 @@ class PermissionManager {
 
     // Check to see if one of the other permissions is allowed
     for (const name in this.permissions) {
-      if (name != key && this.find(name).allowed) {
+      if (name !== key && this.find(name).allowed) {
         othersAllowed = true;
       }
     }
@@ -110,7 +110,7 @@ class PermissionManager {
     }
 
     // Validate that the 'allowed' key is present
-    if (result.allowed == undefined) {
+    if (result.allowed === undefined) {
       throw new Error('Missing `allowed` property for "' + key + '" permission');
     }
 

@@ -50,17 +50,17 @@ class TeamRow extends React.Component {
   }
 
   _renderPipelineCount() {
-    if (this.props.team.pipelines.count != 0) {
+    if (this.props.team.pipelines.count !== 0) {
       return (
         <span className="regular mr2">
-          {this.props.team.pipelines.count} pipeline{this.props.team.pipelines.count == 1 ? '' : 's'}
+          {this.props.team.pipelines.count} pipeline{this.props.team.pipelines.count === 1 ? '' : 's'}
         </span>
       );
     }
   }
 
   _renderMemberAvatars() {
-    if (this.props.team.members.count != 0) {
+    if (this.props.team.members.count !== 0) {
       return (
         <div className="mr3">
           {
@@ -88,7 +88,7 @@ class TeamRow extends React.Component {
       return (
         <div className="inline-block bg-gray bold circle center border border-white semi-bold"
           style={{ width: avatarSize, height: avatarSize, lineHeight: `${avatarSize - 4}px`, fontSize: 11, borderWidth: 2 }}
-          title={`and another ${extrasCount} member${extrasCount == 1 ? '' : 's'}`}
+          title={`and another ${extrasCount} member${extrasCount === 1 ? '' : 's'}`}
         >
           {"+" + extrasCount}
         </div>

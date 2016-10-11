@@ -19,9 +19,9 @@ class AssetUploader {
   uploadFromEvent(event) {
     let files;
 
-    if (event.type == "drop") {
+    if (event.type === "drop") {
       files = this._extractFilesFromDropEvent(event);
-    } else if (event.type == "paste") {
+    } else if (event.type === "paste") {
       files = this._extractFilesFromPasteEvent(event);
     } else {
       throw ("Unknown event for asset upload `" + event.type + "`");
