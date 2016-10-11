@@ -3,18 +3,17 @@ export function buildTime(build) {
   const buildTime = {};
 
   switch (state) {
-    case 'blocked':
-    case 'canceled':
     case 'canceling':
     case 'failed':
     case 'passed':
     case 'running':
     case 'started':
-      if (state === 'canceled' && !startedAt) {
-        break;
-      }
-
       buildTime.from = startedAt;
+      break;
+
+    case 'blocked':
+    case 'canceled':
+      buildTime.from = startedAt || scheduledAt;
       break;
 
     case 'scheduled':
@@ -23,14 +22,21 @@ export function buildTime(build) {
   }
 
   switch (state) {
-    case 'blocked':
     case 'failed':
     case 'passed':
       buildTime.to = finishedAt;
       break;
 
+    case 'blocked':
+      if (!buildTime.from) {
+        break;
+      }
+
+      buildTime.to = finishedAt;
+      break;
+
     case 'canceled':
-      if (!startedAt) {
+      if (!buildTime.from) {
         break;
       }
 

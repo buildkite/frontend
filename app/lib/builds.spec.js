@@ -25,10 +25,18 @@ describe('buildTime', () => {
         scheduledAt: new Date(1475644466920)
       })).toMatchSnapshot();
 
-      if (state === 'canceled') {
+      if (['canceled', 'blocked'].indexOf(state) !== -1) {
         expect(buildTime({
           state,
-          canceledAt: new Date(1475643467000)
+          canceledAt: new Date(1475643467000),
+          finishedAt: new Date(1475643467000)
+        })).toMatchSnapshot();
+
+        expect(buildTime({
+          state,
+          scheduledAt: new Date(1475644466920),
+          canceledAt: new Date(1475643467000),
+          finishedAt: new Date(1475643467000)
         })).toMatchSnapshot();
       }
     });
