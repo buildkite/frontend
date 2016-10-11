@@ -10,10 +10,18 @@ class Favorite extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.favorite != nextProps.favorite && this.state.hover) {
+    if (this.props.favorite !== nextProps.favorite && this.state.hover) {
       this.setState({ hover: false });
     }
   }
+
+  handleMouseOver = () => {
+    this.setState({ hover: true });
+  };
+
+  handleMouseOut = () => {
+    this.setState({ hover: false });
+  };
 
   render() {
     return (
@@ -29,14 +37,6 @@ class Favorite extends React.Component {
       </svg>
     );
   }
-
-  handleMouseOver = () => {
-    this.setState({ hover: true });
-  };
-
-  handleMouseOut = () => {
-    this.setState({ hover: false });
-  };
 }
 
 export default Favorite;
