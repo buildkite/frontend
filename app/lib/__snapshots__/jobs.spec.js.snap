@@ -1,0 +1,184 @@
+exports[`jobTime returns correct time properties for the \`accepted\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`accepted\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`accepted\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`assigned\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`assigned\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`assigned\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`blocked_failed\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`blocked_failed\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`blocked_failed\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`blocked\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`blocked\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`blocked\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`broken\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`broken\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`broken\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`canceled\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+  "to": 2016-10-05T04:57:47.000Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`canceled\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`canceled\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`canceling\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+  "to": 2016-10-05T04:57:47.000Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`canceling\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`canceling\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`finished\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+  "to": 2016-10-05T04:57:47.000Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`finished\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`finished\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`pending\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`pending\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`pending\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`running\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`running\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`running\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`scheduled\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`scheduled\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`scheduled\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`skipped\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`skipped\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`skipped\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`timed_out\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+  "to": 2016-10-05T05:14:26.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`timed_out\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`timed_out\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`timing_out\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+  "to": 2016-10-05T05:14:26.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`timing_out\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`timing_out\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`unblocked_failed\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`unblocked_failed\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`unblocked_failed\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`unblocked\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`unblocked\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`unblocked\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`waiting_failed\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`waiting_failed\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`waiting_failed\` state 3`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`waiting\` state 1`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`jobTime returns correct time properties for the \`waiting\` state 2`] = `Object {}`;
+
+exports[`jobTime returns correct time properties for the \`waiting\` state 3`] = `Object {}`;
