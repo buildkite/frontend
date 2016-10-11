@@ -84,9 +84,9 @@ class Row extends React.Component {
     });
   };
 
-  handlePipelineRemove = (e) => {
+  handlePipelineRemove = (evt) => {
     if (confirm("Remove the pipeline from this team?")) {
-      e.preventDefault();
+      evt.preventDefault();
 
       this.performPipelineRemove(false);
     }

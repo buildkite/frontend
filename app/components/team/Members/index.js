@@ -65,7 +65,7 @@ class Members extends React.Component {
               onSelect={this.handleUserSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
               placeholder="Add user…"
-              ref={(c) => this._autoCompletor = c}
+              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
             />
           </Panel.Section>
         )

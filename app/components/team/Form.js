@@ -26,7 +26,7 @@ class TeamForm extends React.Component {
           errors={errors.findForField("name")}
           value={this.props.name}
           onChange={this.handleTeamNameChange}
-          ref={(c) => this.nameTextField = c}
+          ref={(nameTextField) => this.nameTextField = nameTextField}
         />
 
         <FormTextField
@@ -40,12 +40,12 @@ class TeamForm extends React.Component {
     );
   }
 
-  handleTeamNameChange = (e) => {
-    this.props.onChange('name', e.target.value);
+  handleTeamNameChange = (evt) => {
+    this.props.onChange('name', evt.target.value);
   };
 
-  handleDescriptionChange = (e) => {
-    this.props.onChange('description', e.target.value);
+  handleDescriptionChange = (evt) => {
+    this.props.onChange('description', evt.target.value);
   };
 }
 

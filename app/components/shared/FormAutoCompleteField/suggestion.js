@@ -40,8 +40,8 @@ class Suggestion extends React.Component {
     );
   }
 
-  handleMouseDown = (e) => {
-    e.preventDefault();
+  handleMouseDown = (evt) => {
+    evt.preventDefault();
     this.props.onMouseDown(this.props.suggestion);
   }
 

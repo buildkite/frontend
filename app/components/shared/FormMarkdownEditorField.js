@@ -74,7 +74,7 @@ class FormMarkdownEdtiorField extends React.Component {
           onDragOver={this.handleOnDragOver}
           onDragLeave={this.handleOnDragLeave}
           onDrop={this.handleOnDrop}
-          ref={(c) => this.textarea = c}
+          ref={(textarea) => this.textarea = textarea}
           style={{ overflowY: "hidden", resize: "vertical" }}
           className={"form-control"}
         />
@@ -82,14 +82,14 @@ class FormMarkdownEdtiorField extends React.Component {
     );
   }
 
-  _uploadFilesFromEvent(e) {
-    const files = this.assetUploader.uploadFromEvent(e);
+  _uploadFilesFromEvent(evt) {
+    const files = this.assetUploader.uploadFromEvent(evt);
 
     // Were there any files uploaded in this event?
     if (files.length > 0) {
       // Since we've caught these files, we don't want the browser redirecting
       // to the file's location on the filesystem
-      e.preventDefault();
+      evt.preventDefault();
 
       // Insert each of the files into the textarea
       files.forEach((file) => {
@@ -132,81 +132,81 @@ class FormMarkdownEdtiorField extends React.Component {
     this.setState({ error: exception.message });
   };
 
-  handleErrorDismissClick = (e) => {
-    e.preventDefault();
+  handleErrorDismissClick = (evt) => {
+    evt.preventDefault();
 
     this.setState({ error: null });
   };
 
-  handleBoldButtonClick = (e) => {
-    e.preventDefault();
+  handleBoldButtonClick = (evt) => {
+    evt.preventDefault();
 
     this.markdownEditor.bold();
     autosize.update(this.textarea);
     this.textarea.focus();
   };
 
-  handleItalicButtonClick = (e) => {
-    e.preventDefault();
+  handleItalicButtonClick = (evt) => {
+    evt.preventDefault();
 
     this.markdownEditor.italic();
     autosize.update(this.textarea);
     this.textarea.focus();
   };
 
-  handleQuoteButtonClick = (e) => {
-    e.preventDefault();
+  handleQuoteButtonClick = (evt) => {
+    evt.preventDefault();
 
     this.markdownEditor.quote();
     autosize.update(this.textarea);
     this.textarea.focus();
   };
 
-  handleNumberedListButtonClick = (e) => {
-    e.preventDefault();
+  handleNumberedListButtonClick = (evt) => {
+    evt.preventDefault();
 
     this.markdownEditor.numberedList();
     autosize.update(this.textarea);
     this.textarea.focus();
   };
 
-  handleBulletedListButtonClick = (e) => {
-    e.preventDefault();
+  handleBulletedListButtonClick = (evt) => {
+    evt.preventDefault();
 
     this.markdownEditor.bulletedList();
     autosize.update(this.textarea);
     this.textarea.focus();
   };
 
-  handleCodeButtonClick = (e) => {
-    e.preventDefault();
+  handleCodeButtonClick = (evt) => {
+    evt.preventDefault();
 
     this.markdownEditor.code();
     autosize.update(this.textarea);
     this.textarea.focus();
   };
 
-  handleLinkButtonClick = (e) => {
-    e.preventDefault();
+  handleLinkButtonClick = (evt) => {
+    evt.preventDefault();
 
     this.markdownEditor.link();
     autosize.update(this.textarea);
     this.textarea.focus();
   };
 
-  handleOnDragEnter = (e) => {
-    if (this.assetUploader.doesEventContainFiles(e)) {
+  handleOnDragEnter = (evt) => {
+    if (this.assetUploader.doesEventContainFiles(evt)) {
       this.setState({ draggingFile: true });
     }
   };
 
-  handleOnDragOver = (e) => {
+  handleOnDragOver = (evt) => {
     // When you drag a file over a text area, the default browser behaviour
     // will show an insert caret at the cursor postition. Since there's no way
     // to get that caret, it doesn't make sense to show it, and then have to
     // insert the image at the end of the text area. So we'll just turn that
     // behaviour off.
-    e.preventDefault();
+    evt.preventDefault();
   };
 
   handleOnDragLeave = () => {
@@ -215,17 +215,17 @@ class FormMarkdownEdtiorField extends React.Component {
     this.setState({ draggingFile: false });
   };
 
-  handleOnDrop = (e) => {
+  handleOnDrop = (evt) => {
     // Drag leave won't fire on a drop, so we need to switch the state here
     // manually.
     this.setState({ draggingFile: false });
 
-    this._uploadFilesFromEvent(e);
+    this._uploadFilesFromEvent(evt);
   };
 
   // Only available in Chrome
-  handleOnPaste = (e) => {
-    this._uploadFilesFromEvent(e);
+  handleOnPaste = (evt) => {
+    this._uploadFilesFromEvent(evt);
   };
 
   handleOnChange = () => {

@@ -32,10 +32,10 @@ class Menu extends React.Component {
       <div>
         {header}
         <ul className={classes}>
-          {buttons.map((b, i) => {
+          {buttons.map((button, index) => {
             return (
-              <li key={i}>{b}</li>
-              );
+              <li key={index}>{button}</li>
+            );
           })}
         </ul>
       </div>

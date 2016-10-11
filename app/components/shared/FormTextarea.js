@@ -122,7 +122,7 @@ class FormTextarea extends React.Component {
         onChange={this.props.onChange}
         rows={this.props.rows}
         style={style}
-        ref={(c) => this._textarea = c}
+        ref={(_textarea) => this._textarea = _textarea}
       />
     );
   }

@@ -43,7 +43,7 @@ class New extends React.Component {
 
             <Panel>
               <Panel.Section>
-                <Form pipeline={this.props.pipeline} errors={this.state.errors} ref={(c) => this.form = c} />
+                <Form pipeline={this.props.pipeline} errors={this.state.errors} ref={(form) => this.form = form} />
               </Panel.Section>
 
               <Panel.Footer>
@@ -56,8 +56,8 @@ class New extends React.Component {
     );
   }
 
-  handleFormSubmit = (e) => {
-    e.preventDefault();
+  handleFormSubmit = (evt) => {
+    evt.preventDefault();
 
     this.setState({ saving: true });
 

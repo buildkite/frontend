@@ -15,7 +15,7 @@ class Teams extends React.Component {
 
   render() {
     return (
-      <Dropdown align="center" width={300} ref={(c) => this.dropdownNode = c}>
+      <Dropdown align="center" width={300} ref={(dropdownNode) => this.dropdownNode = dropdownNode}>
         <button className="h4 p0 m0 light dark-gray inline-block btn" style={{ marginTop: 3, fontSize: 16 }}>
           <div className="flex">
             <span className="flex items-center"><span className="truncate">{this.renderLabel()}</span></span>

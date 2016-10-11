@@ -68,8 +68,8 @@ class TeamEdit extends React.Component {
     this.setState(state);
   };
 
-  handleFormSubmit = (e) => {
-    e.preventDefault();
+  handleFormSubmit = (evt) => {
+    evt.preventDefault();
 
     this.setState({ saving: true });
 

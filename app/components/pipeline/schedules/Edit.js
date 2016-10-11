@@ -60,7 +60,7 @@ class Edit extends React.Component {
                   branch={this.props.pipelineSchedule.branch}
                   message={this.props.pipelineSchedule.message}
                   env={this.props.pipelineSchedule.env.join("\n")}
-                  ref={(c) => this.form = c}
+                  ref={(form) => this.form = form}
                 />
               </Panel.Section>
 
@@ -74,8 +74,8 @@ class Edit extends React.Component {
     );
   }
 
-  handleFormSubmit = (e) => {
-    e.preventDefault();
+  handleFormSubmit = (evt) => {
+    evt.preventDefault();
 
     this.setState({ saving: true });
 

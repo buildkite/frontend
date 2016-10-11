@@ -65,7 +65,7 @@ class Pipelines extends React.Component {
               onSelect={this.handlePipelineSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
               placeholder="Add pipeline…"
-              ref={(c) => this._autoCompletor = c}
+              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
             />
           </Panel.Section>
         )
