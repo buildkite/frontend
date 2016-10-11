@@ -22,9 +22,16 @@ export function buildTime(build) {
   }
 
   switch (state) {
-    case 'blocked':
     case 'failed':
     case 'passed':
+      buildTime.to = finishedAt;
+      break;
+
+    case 'blocked':
+      if (!buildTime.from) {
+        break;
+      }
+
       buildTime.to = finishedAt;
       break;
 
