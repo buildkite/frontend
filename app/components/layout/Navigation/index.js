@@ -54,6 +54,7 @@ class Navigation extends React.Component {
       <Dropdown align="center" width={250} className="flex" onToggle={this.handleBuildsDropdownToggle}>
         <DropdownButton className={classNames({ "lime": this.state.showingBuildsDropdown })}>
           My Builds <BuildsCountBadge className={classNames("hover-lime-child", { "bg-lime": this.state.showingBuildsDropdown })} viewer={this.props.viewer} />
+          <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
         </DropdownButton>
         <BuildsDropdown viewer={this.props.viewer} />
       </Dropdown>
