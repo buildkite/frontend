@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import Bar from './bar';
 import BuildTooltip from './build-tooltip';
 
+import { buildTime } from '../../../lib/builds';
+
 const PASSED_COLOR = "#B0DF21";
 const PASSED_COLOR_HOVER = "#669611";
 const RUNNING_COLOR = "#FFBA03";
@@ -98,12 +100,26 @@ class Graph extends React.Component {
       const buildEdge = this.props.pipeline.builds.edges[buildIndex];
 
       if (buildEdge) {
-        const duration = this.durationForBuild(buildEdge.node);
-        if (duration > maximumDuration) {maximumDuration = duration;}
+        const { from, to } = buildTime(buildEdge.node);
+        const duration = moment(to).diff(moment(from));
 
-        bars[MAXIMUM_NUMBER_OF_BUILDS - buildIndex - 1] = { color: this.colorForBuild(buildEdge.node), hoverColor: this.hoverColorForBuild(buildEdge.node), duration: duration, href: buildEdge.node.url, build: buildEdge.node };
+        if (duration > maximumDuration) {
+          maximumDuration = duration;
+        }
+
+        bars[MAXIMUM_NUMBER_OF_BUILDS - buildIndex - 1] = {
+          color: this.colorForBuild(buildEdge.node),
+          hoverColor: this.hoverColorForBuild(buildEdge.node),
+          duration,
+          href: buildEdge.node.url,
+          build: buildEdge.node
+        };
       } else {
-        bars[MAXIMUM_NUMBER_OF_BUILDS - buildIndex - 1] = { color: PENDING_COLOR, hoverColor: PENDING_COLOR_HOVER, duration: 0 };
+        bars[MAXIMUM_NUMBER_OF_BUILDS - buildIndex - 1] = {
+          color: PENDING_COLOR,
+          hoverColor: PENDING_COLOR_HOVER,
+          duration: 0
+        };
       }
     }
 
@@ -121,21 +137,19 @@ class Graph extends React.Component {
       if (heightInPixels < BAR_HEIGHT_MINIMUM) {
         height = BAR_HEIGHT_MINIMUM;
       } else {
-        height = (height * 100) + "%";
+        height = `${height * 100}%`;
       }
 
-      return <Bar key={index} left={left} color={bar.color} hoverColor={bar.hoverColor} width={BAR_WIDTH_WITH_SEPERATOR} height={height} href={bar.href} build={bar.build || null} />;
+      return (
+        <Bar
+          key={index}
+          {...bar}
+          left={left}
+          width={BAR_WIDTH_WITH_SEPERATOR}
+          height={height}
+        />
+      );
     });
-  }
-
-  durationForBuild(build) {
-    if (build.startedAt) {
-      // Passing `null` to moment will result in a blank moment instance, so if
-      // there isn't a finishedAt, just switch to undefined.
-      return moment(build.finishedAt || undefined).diff(moment(build.startedAt));
-    } else {
-      return 0;
-    }
   }
 
   colorForBuild(build) {
