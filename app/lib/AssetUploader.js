@@ -40,8 +40,8 @@ class AssetUploader {
     const payload = { files: [] };
 
     // Add the files to the payload
-    files.forEach((f) => {
-      payload.files.push({ name: f.name, type: f.type, size: f.size });
+    files.forEach(({ name, type, size }) => {
+      payload.files.push({ name, type, size });
     });
 
     // Post the files back to Buildkite
@@ -124,9 +124,9 @@ class AssetUploader {
   _extractFilesFromDropEvent(event) {
     const files = [];
 
-    for (let i = 0; i < event.dataTransfer.files.length; i++) {
-      const f = event.dataTransfer.files[i];
-      files.push(f);
+    for (let fileIndex = 0; fileIndex < event.dataTransfer.files.length; fileIndex++) {
+      const file = event.dataTransfer.files[fileIndex];
+      files.push(file);
     }
 
     return files;
@@ -135,8 +135,8 @@ class AssetUploader {
   _extractFilesFromPasteEvent(event) {
     const files = [];
 
-    for (let i = 0; i < event.clipboardData.items.length; i++) {
-      const item = event.clipboardData.items[i];
+    for (let fileIndex = 0; fileIndex < event.clipboardData.items.length; fileIndex++) {
+      const item = event.clipboardData.items[fileIndex];
       const file = item.getAsFile();
 
       if (file) {
