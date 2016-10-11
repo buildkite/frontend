@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import PusherStore from '../../stores/PusherStore';
 import Badge from '../shared/Badge';
@@ -56,6 +57,12 @@ class BuildsCountBadge extends React.Component {
   };
 
   componentWillReceiveProps = (nextProps) => {
+    // if the next `viewer` instance is the same as our old one, any statistics
+    // attached are *probably* outdated and our previous state is more trustworthy
+    if (nextProps.viewer === this.props.viewer) {
+      return;
+    }
+
     if (nextProps.viewer.scheduledBuilds || nextProps.viewer.runningBuilds) {
       this.setCachedState({
         scheduledBuildsCount: nextProps.viewer.scheduledBuilds.count,
@@ -65,26 +72,7 @@ class BuildsCountBadge extends React.Component {
   };
 
   shouldComponentUpdate = (nextProps, nextState) => {
-    const {
-      scheduledBuildsCount: lastScheduledBuildsCount,
-      runningBuildsCount: lastRunningBuildsCount
-    } = this.state;
-
-    const {
-      scheduledBuildsCount: newScheduledBuildsCount,
-      runningBuildsCount: newRunningBuildsCount
-    } = nextState;
-    const {
-      scheduledBuilds: newScheduledBuilds,
-      runningBuilds: newRunningBuilds
-    } = nextProps.viewer;
-
-    return (
-      (newScheduledBuilds && newScheduledBuilds.count !== lastScheduledBuildsCount)
-      || (newScheduledBuildsCount !== lastScheduledBuildsCount)
-      || (newRunningBuilds && newRunningBuilds.count !== lastRunningBuildsCount)
-      || (newRunningBuildsCount !== lastRunningBuildsCount)
-    );
+    return shallowCompare(this, nextProps, nextState);
   };
 
   render() {
