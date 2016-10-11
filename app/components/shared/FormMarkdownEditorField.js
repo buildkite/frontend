@@ -34,9 +34,10 @@ class FormMarkdownEdtiorField extends React.Component {
 
   render() {
     const containerClasses = classNames({ "has-success": this.state.draggingFile });
+    let errorNode;
 
     if (this.state.error) {
-      var errorNode = (
+      errorNode = (
         <div className="mt2 mb2 border border-gray border-red p2 red rounded clearfix">
           <div className="col" style={{ position: "relative", top: "1px" }}>
             <i className="fa fa-warning mr2" />{this.state.error}
