@@ -4511,8 +4511,8 @@
     },
     "mojibaka": {
       "version": "0.0.1",
-      "from": "../../../mojibaka",
-      "resolved": "file:../../../mojibaka"
+      "from": "mojibaka@0.0.1",
+      "resolved": "https://registry.npmjs.org/mojibaka/-/mojibaka-0.0.1.tgz"
     },
     "moment": {
       "version": "2.15.0",
