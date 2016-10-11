@@ -49,6 +49,9 @@ export function getDurationString(from, to = moment(), format = 'full') {
       amount = duration.get(label);
     }
 
+    // disallow negative values
+    amount = Math.max(amount, 0);
+
     // the last label is always supplied, even if it's 0
     if (amount > 0 || index === labels.length - 1) {
       times.push({ amount, label });

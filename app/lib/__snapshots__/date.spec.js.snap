@@ -14,6 +14,14 @@ exports[`getDurationString correctly handles \`full\` dates 7`] = `"1 week, 13 d
 
 exports[`getDurationString correctly handles \`full\` dates 8`] = `"9 weeks, 2 days, 20 hours"`;
 
+exports[`getDurationString correctly handles \`full\` dates 9`] = `"0 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 10`] = `"0 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 11`] = `"0 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 12`] = `"0 seconds"`;
+
 exports[`getDurationString correctly handles \`micro\` dates 1`] = `"0s"`;
 
 exports[`getDurationString correctly handles \`micro\` dates 2`] = `"5s"`;
@@ -29,6 +37,14 @@ exports[`getDurationString correctly handles \`micro\` dates 6`] = `"1d"`;
 exports[`getDurationString correctly handles \`micro\` dates 7`] = `"3w"`;
 
 exports[`getDurationString correctly handles \`micro\` dates 8`] = `"9w"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 9`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 10`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 11`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 12`] = `"0s"`;
 
 exports[`getDurationString correctly handles \`short\` dates 1`] = `"0s"`;
 
@@ -46,11 +62,21 @@ exports[`getDurationString correctly handles \`short\` dates 7`] = `"1w 14d"`;
 
 exports[`getDurationString correctly handles \`short\` dates 8`] = `"9w 3d"`;
 
+exports[`getDurationString correctly handles \`short\` dates 9`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 10`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 11`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 12`] = `"0s"`;
+
 exports[`getDurationString defaults to full dates 1`] = `"5 seconds"`;
 
 exports[`getDurationString falls back to \`now\` when not supplied a \`to\` value 1`] = `"1 day, 4 hours, 30 minutes"`;
 
 exports[`getDurationString falls back to \`now\` when not supplied a \`to\` value 2`] = `"1d 5h"`;
+
+exports[`getDurationString falls back to \`now\` when not supplied a \`to\` value 3`] = `"0s"`;
 
 exports[`getDurationString formats are supplied as an array 1`] = `3`;
 

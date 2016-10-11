@@ -82,7 +82,18 @@ Object {
 }
 `;
 
-exports[`buildTime returns correct time properties for the \`canceled\` state 2`] = `Object {}`;
+exports[`buildTime returns correct time properties for the \`canceled\` state 2`] = `
+Object {
+  "from": undefined,
+}
+`;
+
+exports[`buildTime returns correct time properties for the \`canceled\` state 3`] = `
+Object {
+  "from": 2016-10-05T05:14:26.920Z,
+  "to": 2016-10-05T04:57:47.000Z,
+}
+`;
 
 exports[`buildTime returns correct time properties for the \`canceling\` state 1`] = `
 Object {
