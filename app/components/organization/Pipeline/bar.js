@@ -42,7 +42,7 @@ export default class Bar extends React.Component {
       return (
         <div
           className="border-box inline-block absolute animation-height"
-          style={{ backgroundColor: this.backgroundColor(), height: this.props.height, left: this.props.left, width: this.props.width - 1, bottom: 0 }}
+          style={{ height: this.props.height, left: this.props.left, width: this.props.width - 1, bottom: 0, border: `1px solid ${this.backgroundColor()}` }}
         />
       );
     }

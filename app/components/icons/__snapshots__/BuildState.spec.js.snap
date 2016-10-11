@@ -304,7 +304,7 @@ exports[`BuildState where size="regular" renders correctly for build state \`sch
       fill="none"
       id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle"
       r="15"
-      stroke="#aeaeae"
+      stroke="#bbbbbb"
       strokeWidth={4} />
     <clipPath
       id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath">
@@ -339,7 +339,7 @@ exports[`BuildState where size="regular" renders correctly for build state \`sch
       cy="16"
       fill="none"
       r="6"
-      stroke="#aeaeae"
+      stroke="#bbbbbb"
       strokeWidth={2} />
   </g>
 </svg>
@@ -587,7 +587,7 @@ exports[`BuildState where size="small" renders correctly for build state \`sched
       fill="none"
       id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle"
       r="15"
-      stroke="#aeaeae"
+      stroke="#bbbbbb"
       strokeWidth={6} />
     <clipPath
       id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath">
@@ -622,7 +622,7 @@ exports[`BuildState where size="small" renders correctly for build state \`sched
       cy="16"
       fill="none"
       r="6"
-      stroke="#aeaeae"
+      stroke="#bbbbbb"
       strokeWidth={3} />
   </g>
 </svg>

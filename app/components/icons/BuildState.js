@@ -15,7 +15,7 @@ const SIZE_DEFINITIONS = {
 
 const STATE_COLORS = {
   pending: '#cdcccc',
-  scheduled: '#aeaeae',
+  scheduled: '#bbbbbb',
   running: '#fdba12',
   passed: '#90c73e',
   blocked: '#90c73e',
