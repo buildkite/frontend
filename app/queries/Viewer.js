@@ -5,3 +5,5 @@ export const query = () => Relay.QL`
     viewer
   }
 `;
+
+export default { query };

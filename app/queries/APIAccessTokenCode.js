@@ -5,3 +5,5 @@ export const query = () => Relay.QL`
     apiAccessTokenCode(code: $code)
   }
 `;
+
+export default { query };

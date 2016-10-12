@@ -18,3 +18,5 @@ export const prepareParams = (params) => {
     isEveryoneTeam: params.team === "everyone"
   };
 };
+
+export default { query, prepareParams };

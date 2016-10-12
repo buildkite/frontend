@@ -12,3 +12,5 @@ export const prepareParams = (params) => {
     slug: [params.organization, params.agent].join("/")
   };
 };
+
+export default { query, prepareParams };
