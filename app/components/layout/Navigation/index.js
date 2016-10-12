@@ -2,16 +2,16 @@ import React from 'react';
 import Relay from 'react-relay';
 import classNames from 'classnames';
 
-import UserAvatar from './../../shared/UserAvatar';
-import Dropdown from './../../shared/Dropdown';
-import Badge from './../../shared/Badge';
-import Icon from './../../shared/Icon';
+import UserAvatar from '../../shared/UserAvatar';
+import Dropdown from '../../shared/Dropdown';
+import Badge from '../../shared/Badge';
+import Icon from '../../shared/Icon';
 import SectionLoader from '../../shared/SectionLoader';
-import AgentsCount from './../../organization/AgentsCount';
-import BuildsCountBadge from './../../user/BuildsCountBadge';
-import BuildsDropdown from './../../user/BuildsDropdown';
-import NewChangelogsBadge from './../../user/NewChangelogsBadge';
-import permissions from './../../../lib/permissions';
+import AgentsCount from '../../organization/AgentsCount';
+import BuildsCountBadge from '../../user/BuildsCountBadge';
+import BuildsDropdown from '../../user/BuildsDropdown';
+import NewChangelogsBadge from '../../user/NewChangelogsBadge';
+import permissions from '../../../lib/permissions';
 
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';

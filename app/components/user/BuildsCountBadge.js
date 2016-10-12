@@ -2,7 +2,7 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import PusherStore from '../../stores/PusherStore';
-import Badge from './../shared/Badge';
+import Badge from '../shared/Badge';
 import CachedStateWrapper from '../../lib/CachedStateWrapper';
 
 class BuildsCountBadge extends React.Component {
