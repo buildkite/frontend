@@ -45,7 +45,7 @@ class OrganizationPipelines extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Are we switching teams?
-    if (this.props.team != nextProps.team) {
+    if (this.props.team !== nextProps.team) {
       // Start by changing the `fetching` state to show the spinner
       this.setState({ fetching: true }, () => {
         // Once state has been set, force a full re-fetch of the pipelines in

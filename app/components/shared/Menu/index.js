@@ -15,7 +15,7 @@ class Menu extends React.Component {
     // See if the first child is a header component
     let header;
     let buttons;
-    if (children[0].type.displayName == "Menu.Header") {
+    if (children[0].type.displayName === "Menu.Header") {
       header = children[0];
       buttons = children.slice(1);
     } else {
@@ -32,10 +32,10 @@ class Menu extends React.Component {
       <div>
         {header}
         <ul className={classes}>
-          {buttons.map((b, i) => {
+          {buttons.map((button, index) => {
             return (
-              <li key={i}>{b}</li>
-              );
+              <li key={index}>{button}</li>
+            );
           })}
         </ul>
       </div>

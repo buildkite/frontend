@@ -68,7 +68,7 @@ class Navigation extends React.Component {
               <NavigationButton href="/" className="px3 hover-faded-children" style={{ paddingLeft: 0 }}>
                 <img src={require('./logo.svg')} style={{ width: 27, height: 18, marginTop: 7.5, marginBottom: 4.5 }} />
               </NavigationButton>
-              {this._newChangelogsBadge()}
+              <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -8 }} viewer={this.props.viewer} />
             </span>
 
             <Dropdown align="left" width={250} className="flex" style={{ minWidth: "5em" }} onToggle={this.handleOrgDropdownToggle}>
@@ -127,12 +127,6 @@ class Navigation extends React.Component {
 
         {this._bottomOrganizationMenu()}
       </div>
-    );
-  }
-
-  _newChangelogsBadge() {
-    return (
-      <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -8 }} viewer={this.props.viewer} />
     );
   }
 

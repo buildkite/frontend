@@ -20,12 +20,13 @@ class Panel extends React.Component {
 
     // Insert a seperator between each section
     const nodes = [];
-    let k = 0;
-    for (let i = 0, l = children.length; i < l; i++) {
-      if (i > 0) {
-        nodes.push(<hr key={k += 1} className="p0 m0 bg-gray" style={{ border: "none", height: 1 }} />);
+    let key = 0;
+    for (let index = 0, length = children.length; index < length; index++) {
+      if (index > 0) {
+        nodes.push(<hr key={key += 1} className="p0 m0 bg-gray" style={{ border: "none", height: 1 }} />);
       }
-      nodes.push(children[i]);
+
+      nodes.push(children[index]);
     }
 
     return (

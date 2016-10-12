@@ -63,8 +63,8 @@ class TeamNew extends React.Component {
     this.setState(state);
   };
 
-  handleFormSubmit = (e) => {
-    e.preventDefault();
+  handleFormSubmit = (evt) => {
+    evt.preventDefault();
 
     this.setState({ saving: true });
 
@@ -83,7 +83,7 @@ class TeamNew extends React.Component {
   handleMutationError = (transaction) => {
     const error = transaction.getError();
     if (error) {
-      if (error.source && error.source.type == GraphQLErrors.RECORD_VALIDATION_ERROR) {
+      if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
         this.setState({ errors: transaction.getError().source.errors });
       } else {
         alert(error);

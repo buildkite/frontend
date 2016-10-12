@@ -29,7 +29,7 @@ class FormAutoCompleteField extends React.Component {
         // making sure to skip error message components, since they have no
         // item id.
         nextProps.items.forEach((item) => {
-          if (!this.isErrorMessageComponent(item) && item[1].id == this.state.selected.id) {
+          if (!this.isErrorMessageComponent(item) && item[1].id === this.state.selected.id) {
             found = true;
           }
         });
@@ -70,7 +70,7 @@ class FormAutoCompleteField extends React.Component {
   }
 
   isErrorMessageComponent(node) {
-    return node && node.type && node.type.displayName == "FormAutoCompleteField.ErrorMessage";
+    return node && node.type && node.type.displayName === "FormAutoCompleteField.ErrorMessage";
   }
 
   render() {
@@ -82,7 +82,7 @@ class FormAutoCompleteField extends React.Component {
         <input type="input"
           className="input"
           style={{ paddingLeft: 28 }}
-          ref={(c) => this._inputNode = c}
+          ref={(_inputNode) => this._inputNode = _inputNode}
           onChange={this.handleInputChange}
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleFocus}
@@ -124,7 +124,7 @@ class FormAutoCompleteField extends React.Component {
           </div>
         );
       } else {
-        const isSelected = item[1] && this.state.selected && (item[1].id == this.state.selected.id);
+        const isSelected = item[1] && this.state.selected && (item[1].id === this.state.selected.id);
 
         // `selected` needs to always return a boolean as it's a requirement of
         // the Suggestion component
@@ -132,9 +132,9 @@ class FormAutoCompleteField extends React.Component {
           <Suggestion
             key={index}
             className={classNames({
-              "rounded": items.length == 1,
-              "rounded-top": (items.length > 1 && index == 0),
-              "rounded-bottom": (index > 0 && index == (items.length - 1))
+              "rounded": items.length === 1,
+              "rounded-top": (items.length > 1 && index === 0),
+              "rounded-bottom": (index > 0 && index === (items.length - 1))
             })}
             selected={!!isSelected}
             suggestion={item[1]}
@@ -160,7 +160,7 @@ class FormAutoCompleteField extends React.Component {
     this.setState({ selected: suggestion });
   };
 
-  handleKeyDown = (e) => {
+  handleKeyDown = (evt) => {
     // Do nothing if the list isn't visible
     if (!this.state.visible) {
       return false;
@@ -168,8 +168,8 @@ class FormAutoCompleteField extends React.Component {
 
     // Find the index of the currently selected item
     let index;
-    for (let i = 0; i < this.props.items.length; i++) {
-      const item = this.props.items[i];
+    for (let itemIndex = 0; itemIndex < this.props.items.length; itemIndex++) {
+      const item = this.props.items[itemIndex];
 
       // Ensure we skip error message nodes since they have no associated
       // suggestion data
@@ -177,8 +177,8 @@ class FormAutoCompleteField extends React.Component {
         continue;
       }
 
-      if (item[1].id == this.state.selected.id) {
-        index = i;
+      if (item[1].id === this.state.selected.id) {
+        index = itemIndex;
         break;
       }
     }
@@ -189,12 +189,12 @@ class FormAutoCompleteField extends React.Component {
     }
 
     // If they've pressed the down key, progress to the next item in the list.
-    if (e.keyCode == 40) {
-      e.preventDefault();
+    if (evt.keyCode === 40) {
+      evt.preventDefault();
 
       // If the next index doesn't exist, go back to the first
       let next = index + 1;
-      if (this.props.items.length == next) {
+      if (this.props.items.length === next) {
         next = 0;
       }
 
@@ -205,12 +205,12 @@ class FormAutoCompleteField extends React.Component {
     }
 
     // If they've pressed the up key, progress to the next item in the list.
-    if (e.keyCode == 38) {
-      e.preventDefault();
+    if (evt.keyCode === 38) {
+      evt.preventDefault();
 
       // If the previous index doesn't exist, go back to the first
       let previous = index - 1;
-      if (previous == -1) {
+      if (previous === -1) {
         previous = this.props.items.length - 1;
       }
 
@@ -221,8 +221,8 @@ class FormAutoCompleteField extends React.Component {
     }
 
     // If they've hit enter, select the item
-    if (e.keyCode == 13) {
-      e.preventDefault();
+    if (evt.keyCode === 13) {
+      evt.preventDefault();
       this.selectItem(this.state.selected);
       return;
     }
@@ -243,10 +243,10 @@ class FormAutoCompleteField extends React.Component {
     }, 50);
   };
 
-  handleInputChange = (e) => {
+  handleInputChange = (evt) => {
     // Get a copy of the target otherwise the event will be cleared between now
     // and when the timeout happens
-    const target = e.target;
+    const target = evt.target;
 
     // If a timeout is already present, clear it since the user is still typing
     if (this._timeout) {

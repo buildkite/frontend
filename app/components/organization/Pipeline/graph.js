@@ -133,7 +133,7 @@ class Graph extends React.Component {
       // See if the height is less than our minimum. If it is, set a hard pixel
       // height, otherwise make the height a percentage. We use percentages so
       // we can animate the height of the graph as it loads in.
-      let heightInPixels = (height * GRAPH_HEIGHT);
+      const heightInPixels = (height * GRAPH_HEIGHT);
       if (heightInPixels < BAR_HEIGHT_MINIMUM) {
         height = BAR_HEIGHT_MINIMUM;
       } else {
@@ -157,7 +157,7 @@ class Graph extends React.Component {
       return SCHEDULED_COLOR;
     } else if (build.state === "running") {
       return RUNNING_COLOR;
-    } else if (build.state === "passed" || build.state == "blocked") {
+    } else if (build.state === "passed" || build.state === "blocked") {
       return PASSED_COLOR;
     } else {
       return FAILED_COLOR;
@@ -169,7 +169,7 @@ class Graph extends React.Component {
       return SCHEDULED_COLOR_HOVER;
     } else if (build.state === "running") {
       return RUNNING_COLOR_HOVER;
-    } else if (build.state === "passed" || build.state == "blocked") {
+    } else if (build.state === "passed" || build.state === "blocked") {
       return PASSED_COLOR_HOVER;
     } else {
       return FAILED_COLOR_HOVER;

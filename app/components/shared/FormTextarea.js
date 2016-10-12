@@ -86,7 +86,7 @@ class FormTextarea extends React.Component {
   }
 
   _hasEmptyValue() {
-    return !this.props.value || this.props.value.length == 0;
+    return !this.props.value || this.props.value.length === 0;
   }
 
   _renderErrors() {
@@ -122,7 +122,7 @@ class FormTextarea extends React.Component {
         onChange={this.props.onChange}
         rows={this.props.rows}
         style={style}
-        ref={(c) => this._textarea = c}
+        ref={(_textarea) => this._textarea = _textarea}
       />
     );
   }

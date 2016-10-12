@@ -32,9 +32,9 @@ class Flashes extends React.Component {
   handleFlashRemove = (flash) => {
     const flashes = [];
 
-    for (const f of this.state.flashes) {
-      if (flash.id != f.id) {
-        flashes.push(f);
+    for (const nextFlash of this.state.flashes) {
+      if (flash.id !== nextFlash.id) {
+        flashes.push(nextFlash);
       }
     }
 

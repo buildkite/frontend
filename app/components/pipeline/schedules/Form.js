@@ -33,7 +33,7 @@ class Form extends React.Component {
           help="The interval or time that this schedule should run using cron syntax, e.g (<code>30 * * * *</code> or <code>@midnight</code>). These times should be in UTC."
           errors={errors.findForField("cronline")}
           value={this.props.cronline}
-          ref={(c) => this.cronlineTextField = c}
+          ref={(cronlineTextField) => this.cronlineTextField = cronlineTextField}
         />
 
         <FormTextField
@@ -41,7 +41,7 @@ class Form extends React.Component {
           help="Describe what this schedule is all about (you can even use :emoji:)"
           errors={errors.findForField("label")}
           value={this.props.label}
-          ref={(c) => this.labelTextField = c}
+          ref={(labelTextField) => this.labelTextField = labelTextField}
         />
 
         <FormTextField
@@ -49,7 +49,7 @@ class Form extends React.Component {
           help="The message to use for the created build"
           errors={errors.findForField("message")}
           value={this.props.message}
-          ref={(c) => this.messageTextField = c}
+          ref={(messageTextField) => this.messageTextField = messageTextField}
         />
 
         <FormTextField
@@ -58,7 +58,7 @@ class Form extends React.Component {
           errors={errors.findForField("commit")}
           value={this.props.commit}
           placeholder={"HEAD"}
-          ref={(c) => this.commitTextField = c}
+          ref={(commitTextField) => this.commitTextField = commitTextField}
         />
 
         <FormTextField
@@ -67,7 +67,7 @@ class Form extends React.Component {
           errors={errors.findForField("branch")}
           value={this.props.branch}
           placeholder={this.props.pipeline.defaultBranch}
-          ref={(c) => this.branchTextField = c}
+          ref={(branchTextField) => this.branchTextField = branchTextField}
         />
 
         <FormTextarea
@@ -78,7 +78,7 @@ class Form extends React.Component {
           autoresize={true}
           errors={errors.findForField("env")}
           value={this.props.env}
-          ref={(c) => this.envTextField = c}
+          ref={(envTextField) => this.envTextField = envTextField}
         />
       </div>
     );

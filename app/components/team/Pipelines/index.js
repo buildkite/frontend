@@ -65,7 +65,7 @@ class Pipelines extends React.Component {
               onSelect={this.handlePipelineSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
               placeholder="Add pipeline…"
-              ref={(c) => this._autoCompletor = c}
+              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
             />
           </Panel.Section>
         )
@@ -79,7 +79,7 @@ class Pipelines extends React.Component {
     this.props.team.organization.pipelines.edges.forEach((pipeline) => {
       let found = false;
       this.props.team.pipelines.edges.forEach((edge) => {
-        if (edge.node.pipeline.id == pipeline.node.id) {
+        if (edge.node.pipeline.id === pipeline.node.id) {
           found = true;
         }
       });
@@ -94,7 +94,7 @@ class Pipelines extends React.Component {
       return suggestions.map((pipeline) => {
         return [<Pipeline key={pipeline.id} pipeline={pipeline} />, pipeline];
       });
-    } else if (search != "") {
+    } else if (search !== "") {
       return [<FormAutoCompleteField.ErrorMessage key={"error"}>Could not find a pipeline with name <em>{search}</em></FormAutoCompleteField.ErrorMessage>];
     } else {
       return [];

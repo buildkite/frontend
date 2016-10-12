@@ -94,7 +94,7 @@ class FormTextField extends React.Component {
         placeholder={this.props.placeholder}
         spellCheck={this.props.spellCheck}
         onChange={this.props.onChange}
-        ref={(c) => this.input = c}
+        ref={(input) => this.input = input}
       />
     );
   }

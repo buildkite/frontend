@@ -65,7 +65,7 @@ class Members extends React.Component {
               onSelect={this.handleUserSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
               placeholder="Add user…"
-              ref={(c) => this._autoCompletor = c}
+              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
             />
           </Panel.Section>
         )
@@ -79,7 +79,7 @@ class Members extends React.Component {
     this.props.team.organization.members.edges.forEach((member) => {
       let found = false;
       this.props.team.members.edges.forEach((edge) => {
-        if (edge.node.user.id == member.node.user.id) {
+        if (edge.node.user.id === member.node.user.id) {
           found = true;
         }
       });
@@ -94,8 +94,12 @@ class Members extends React.Component {
       return suggestions.map((user) => {
         return [<User key={user.id} user={user} />, user];
       });
-    } else if (search != "") {
-      return [<FormAutoCompleteField.ErrorMessage key={"error"}>Could not find a user with name <em>{search}</em></FormAutoCompleteField.ErrorMessage>];
+    } else if (search !== "") {
+      return [
+        <FormAutoCompleteField.ErrorMessage key="error">
+          Could not find a user with name <em>{search}</em>
+        </FormAutoCompleteField.ErrorMessage>
+      ];
     } else {
       return [];
     }
@@ -125,7 +129,7 @@ class Members extends React.Component {
   handleRoleChange = (teamMember, role, callback) => {
     Relay.Store.commitUpdate(new TeamMemberUpdateMutation({
       teamMember: teamMember,
-      admin: (role == 'admin')
+      admin: (role === 'admin')
     }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError()) });
   };
 }
@@ -140,10 +144,10 @@ export default Relay.createContainer(Members, {
       fragment on Team {
         ${TeamMemberCreateMutation.getFragment('team')}
 
-	organization {
-	  members(search: $search, first: 10) {
-	    edges {
-	      node {
+        organization {
+          members(search: $search, first: 10) {
+            edges {
+              node {
                 user {
                   id
                   name
@@ -153,10 +157,10 @@ export default Relay.createContainer(Members, {
                   }
                   ${TeamMemberCreateMutation.getFragment('user')}
                 }
-	      }
-	    }
-	  }
-	}
+              }
+            }
+          }
+        }
 
         permissions {
           teamMemberCreate {
@@ -164,19 +168,19 @@ export default Relay.createContainer(Members, {
           }
         }
 
-	members(first: 100) {
-	  edges {
-	    node {
-	      id
+        members(first: 100) {
+          edges {
+            node {
+              id
               admin
-	      user {
-		id
-		name
-		email
+              user {
+                id
+                name
+                email
                 avatar {
                   url
                 }
-	      }
+              }
               permissions {
                 teamMemberUpdate {
                   allowed
@@ -187,9 +191,9 @@ export default Relay.createContainer(Members, {
               }
               ${TeamMemberDeleteMutation.getFragment('teamMember')}
               ${TeamMemberUpdateMutation.getFragment('teamMember')}
-	    }
-	  }
-	}
+            }
+          }
+        }
       }
     `
   }

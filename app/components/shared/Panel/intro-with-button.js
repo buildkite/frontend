@@ -12,7 +12,7 @@ class IntroWithButton extends React.Component {
 
     let intro;
     let button;
-    if (children.length == 1) {
+    if (children.length === 1) {
       intro = children;
     } else {
       button = children.pop();

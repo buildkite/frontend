@@ -15,7 +15,7 @@ class Teams extends React.Component {
 
   render() {
     return (
-      <Dropdown align="center" width={300} ref={(c) => this.dropdownNode = c}>
+      <Dropdown align="center" width={300} ref={(dropdownNode) => this.dropdownNode = dropdownNode}>
         <button className="h4 p0 m0 light dark-gray inline-block btn" style={{ marginTop: 3, fontSize: 16 }}>
           <div className="flex">
             <span className="flex items-center"><span className="truncate">{this.renderLabel()}</span></span>
@@ -38,7 +38,7 @@ class Teams extends React.Component {
   renderLabel() {
     if (this.props.selected) {
       for (const edge of this.props.organization.teams.edges) {
-        if (edge.node.slug == this.props.selected) {
+        if (edge.node.slug === this.props.selected) {
           return (
             <Emojify className="block" text={edge.node.name} />
           );

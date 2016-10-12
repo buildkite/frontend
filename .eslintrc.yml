@@ -47,10 +47,10 @@ rules:
     - all
 
   eqeqeq:
-    - warn
+    - error
     - smart
 
-  id-length: warn
+  id-length: error
 
   indent:
     - error

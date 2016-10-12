@@ -29,8 +29,8 @@ class Option extends React.Component {
     return React.DOM[this.props.tag]({ className: classes, onClick: this.handleClick }, this.props.children);
   }
 
-  handleClick = (e) => {
-    e.preventDefault();
+  handleClick = (evt) => {
+    evt.preventDefault();
 
     this.context.chooser.handleChoiceClick(this.props.value, this.props.data);
   }

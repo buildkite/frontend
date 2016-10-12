@@ -66,7 +66,7 @@ class MarkdownEditor {
     this.modify(function(selectedText) {
       // If we're making a link out text that starts with HTTP, then this
       // should become the link portion of the replacement.
-      if (selectedText.indexOf("http:") == 0) {
+      if (selectedText.indexOf("http:") === 0) {
         return "[{s}text{s}]({t})";
       } else if (selectedText.length > 0) {
         return "[{t}]({s}url{s})";
@@ -159,7 +159,7 @@ class MarkdownEditor {
     // Make sure that if the highlighter characters are there, that there are
     // exactly 2 of them
     const highlighterCount = instruction.match(/\{s\}/gmi);
-    if (!highlighterCount || highlighterCount.length != 2) {
+    if (!highlighterCount || highlighterCount.length !== 2) {
       throw (`There needs to be only 2 {s} sequences in this modification instruction "${instruction}"`);
     }
 
@@ -171,7 +171,7 @@ class MarkdownEditor {
     // If there wasn't a $t character, then the length of the explosion will
     // just be 1 (since there was nothing to split on). In that case we'll just
     // insert the instruction as is.
-    if (explodedInstruction.length == 1) {
+    if (explodedInstruction.length === 1) {
       replacement = instruction;
     } else {
       // Get the text before and after the $t so we know what to surround the

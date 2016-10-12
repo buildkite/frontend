@@ -30,8 +30,8 @@ class Button extends React.Component {
   }
 
   _isActive() {
-    // Use a super simpe way of figuring out if the current href is active
-    return window.location.pathname.indexOf(this.props.link || this.props.href) == 0;
+    // Use a super simple way of figuring out if the current href is active
+    return window.location.pathname.indexOf(this.props.link || this.props.href) === 0;
   }
 
   _renderBadge() {
