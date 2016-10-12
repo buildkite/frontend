@@ -40,7 +40,9 @@ class Graph extends React.Component {
               state: React.PropTypes.string.isRequired,
               url: React.PropTypes.string.isRequired,
               startedAt: React.PropTypes.string,
-              finishedAt: React.PropTypes.string
+              finishedAt: React.PropTypes.string,
+              canceledAt: React.PropTypes.string,
+              scheduledAt: React.PropTypes.string
             }).isRequired
           }).isRequired
         )
@@ -219,6 +221,8 @@ export default Relay.createContainer(Graph, {
               url
               startedAt
               finishedAt
+              canceledAt
+              scheduledAt
               ${BuildTooltip.getFragment('build')}
             }
           }
