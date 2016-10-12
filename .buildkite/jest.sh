@@ -2,7 +2,7 @@
 set -euo pipefail
 
 echo "+++ :jest: Running Jest"
-npm run test-with-coverage --silent
+yarn run test-with-coverage
 
 echo "👌 Looks good to me!"
 
