@@ -1,14 +1,14 @@
-/* global describe, it, expect */
+/* global describe, it, expect, jest */
 import Emoji from './Emoji';
 
 function loadWebpackedEmojis(catalogue) {
-  process.env.EMOJI_HOST = 'emoji-host.com'
+  process.env.EMOJI_HOST = 'emoji-host.com';
 
-  let loader = require('../../webpack/emoji-loader');
-  let emojis = require(`../../vendor/emojis/img-${catalogue}-64.json`);
-  let webpackContext = {};
+  const loader = require('../../webpack/emoji-loader');
+  const emojis = require(`../../vendor/emojis/img-${catalogue}-64.json`);
+  const webpack = {};
 
-  return eval(loader.call(webpackContext, emojis));
+  return eval(loader.call(webpack, emojis)); // eslint-disable-line no-eval
 }
 
 jest.mock('../emojis/buildkite', () => loadWebpackedEmojis('buildkite'));
