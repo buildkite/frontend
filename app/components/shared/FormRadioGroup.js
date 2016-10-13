@@ -64,7 +64,7 @@ class FormRadioGroup extends React.Component {
     return this.props.options.map(
       (option, index) => (
         <div key={index} className="mb2">
-          <label className="mb1 block pl4">
+          <label className="mb1 inline-block pl4">
             <input
               className={classNames('absolute', { "is-error": this._hasErrors() }, option.className)}
               style={{ marginLeft: '-20px' }}
