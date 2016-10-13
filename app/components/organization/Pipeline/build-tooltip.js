@@ -38,7 +38,7 @@ class BuildTooltip extends React.Component {
     if (this.props.visible) {
       return (
         <div style={{ fontSize: 13 }}>
-          <div className="bg-white rounded-2 shadow border border-gray p2 block absolute pointer-events-none z2" style={{ left: this.props.left, top: this.props.top, width: 230 }}>
+          <div className="bg-white rounded-2 shadow border border-gray p2 block absolute pointer-events-none z2" style={{ left: this.props.left, top: this.props.top, width: 260 }}>
             <img src={require('../../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" className="absolute pointer-events-none" style={{ top: -20, left: 7 }} />
             <Media align="top">
               <Media.Image className="mr2 center" style={{ width: 30 }} >
