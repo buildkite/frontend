@@ -5,6 +5,7 @@ services:
     build: .
     volumes:
       - "./dist:/frontend/dist"
+      - "./coverage:/frontend/coverage"
     environment:
       BUILDKITE:
       CI:
