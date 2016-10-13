@@ -1,0 +1,11 @@
+exports[`Emoji parse allows you to turn of unicode parsing of emojis 1`] = `"👍 <img class=\"emoji\" title=\"buildkite\" alt=\"buildkite\" src=\"emoji-host.com/img-buildkite-64/buildkite.png\" draggable=\"false\" />"`;
+
+exports[`Emoji parse allows you to turn off HTML escaping 1`] = `"<img class=\"emoji\" title=\"tada\" alt=\"🎉\" src=\"emoji-host.com/img-apple-64/1f389.png\" draggable=\"false\" /> <strong>This be strong...</strong>"`;
+
+exports[`Emoji parse escapes other HTML by default 1`] = `"<img class=\"emoji\" title=\"tada\" alt=\"🎉\" src=\"emoji-host.com/img-apple-64/1f389.png\" draggable=\"false\" /> &lt;strong&gt;This be strong...&lt;/strong&gt;"`;
+
+exports[`Emoji parse turns emojis into HTML 1`] = `"<img class=\"emoji\" title=\"buildkite\" alt=\"buildkite\" src=\"emoji-host.com/img-buildkite-64/buildkite.png\" draggable=\"false\" />"`;
+
+exports[`Emoji parse turns emojis into HTML 2`] = `"<img class=\"emoji\" title=\"wave\" alt=\"👋🏼\" src=\"emoji-host.com/img-apple-64/1f44b-1f3fc.png\" draggable=\"false\" />"`;
+
+exports[`Emoji parse turns emojis into HTML 3`] = `"<img class=\"emoji\" title=\"wave\" alt=\"👋🏿\" src=\"emoji-host.com/img-apple-64/1f44b-1f3ff.png\" draggable=\"false\" />"`;

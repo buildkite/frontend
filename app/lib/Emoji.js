@@ -20,7 +20,9 @@ class Emoji {
     string = this._replace(BUILDKITE_EMOJIS, COLON_REGEXP, string);
 
     // Then do an Apple emoji parse
-    string = this._replace(APPLE_EMOJIS, UNICODE_REGEXP, string);
+    if (options.replaceUnicode !== false) {
+      string = this._replace(APPLE_EMOJIS, UNICODE_REGEXP, string);
+    }
     string = this._replace(APPLE_EMOJIS, COLON_REGEXP, string);
 
     return string;
