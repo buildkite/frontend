@@ -87,7 +87,6 @@ class FormTextField extends React.Component {
     return (
       <input
         className={classNames("input", { "is-error": this._hasErrors() }, this.props.className)}
-        id={this.state.id}
         name={this.props.name}
         type="text"
         defaultValue={this.props.value}
