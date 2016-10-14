@@ -42,7 +42,8 @@ class TeamPipelineCreate extends Relay.Mutation {
     return {
       teamPipelineEdge: {
         node: {
-          pipeline: this.props.pipeline
+          pipeline: this.props.pipeline,
+          team: this.props.team
         }
       },
       team: {
@@ -59,6 +60,15 @@ class TeamPipelineCreate extends Relay.Mutation {
       parentName: 'team',
       parentID: this.props.team.id,
       connectionName: 'pipelines',
+      edgeName: 'teamPipelineEdge',
+      rangeBehaviors: {
+        '': 'prepend'
+      }
+    }, {
+      type: 'RANGE_ADD',
+      parentName: 'pipeline',
+      parentID: this.props.pipeline.id,
+      connectionName: 'teams',
       edgeName: 'teamPipelineEdge',
       rangeBehaviors: {
         '': 'prepend'
