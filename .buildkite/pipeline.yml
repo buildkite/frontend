@@ -19,7 +19,7 @@ steps:
 
   - name: ":jest:"
     command: ".buildkite/jest.sh"
-    artifact_paths: "coverage/**/*"
+    artifact_paths: "coverage/*"
     plugins:
       docker-compose#ed68516:
         run: frontend
