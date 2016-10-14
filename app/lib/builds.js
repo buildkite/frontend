@@ -8,9 +8,6 @@ export function buildTime(build) {
     case 'passed':
     case 'running':
     case 'started':
-      buildTime.from = startedAt;
-      break;
-
     case 'blocked':
     case 'canceled':
       buildTime.from = startedAt || scheduledAt;
