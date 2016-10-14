@@ -90,35 +90,27 @@ class OrganizationPipelines extends React.Component {
     const favorited = [];
     const remainder = [];
     for (const edge of this.props.organization.pipelines.edges) {
+      // Put the favorites in the own section
       if (edge.node.favorite) {
-        favorited.push(edge.node);
+        favorited.push(<Pipeline key={edge.node.id} pipeline={edge.node} includeGraphData={this.props.relay.variables.includeGraphData} />);
       } else {
-        remainder.push(edge.node);
+        remainder.push(<Pipeline key={edge.node.id} pipeline={edge.node} includeGraphData={this.props.relay.variables.includeGraphData} />);
       }
     }
 
-    const nodes = [];
-
-    // Put the favorites in the own section with a divider
-    if (favorited.length > 0) {
-      for (const pipeline of favorited) {
-        nodes.push(
-          <Pipeline key={pipeline.id} pipeline={pipeline} includeGraphData={this.props.relay.variables.includeGraphData} />
-        );
-      }
-
-      if (remainder.length > 0) {
-        nodes.push(
-          <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{ height: 1 }} />
-        );
-      }
+    if (favorited.length > 0 && remainder.length > 0) {
+      return favorited.concat(
+        [<hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{ height: 1 }} />],
+        remainder
+      );
+    } else if (favorited.length > 0) {
+      return favorited;
+    } else if (remainder.length > 0) {
+      return remainder;
     }
 
-    for (const pipeline of remainder) {
-      nodes.push(<Pipeline key={pipeline.id} pipeline={pipeline} includeGraphData={this.props.relay.variables.includeGraphData} />);
-    }
-
-    return nodes;
+    // Just in case
+    return [];
   }
 }
 
