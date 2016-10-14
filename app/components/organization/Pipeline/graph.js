@@ -8,6 +8,8 @@ import BuildTooltip from './build-tooltip';
 
 import { buildTime } from '../../../lib/builds';
 
+import { MAXIMUM_NUMBER_OF_BUILDS, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT, GRAPH_WIDTH } from './constants';
+
 const PASSED_COLOR = "#B0DF21";
 const PASSED_COLOR_HOVER = "#669611";
 const RUNNING_COLOR = "#FFBA03";
@@ -18,16 +20,6 @@ const SCHEDULED_COLOR = "#BBB";
 const SCHEDULED_COLOR_HOVER = "#888";
 const PENDING_COLOR = "#DDD";
 const PENDING_COLOR_HOVER = "#DDD";
-
-const MAXIMUM_NUMBER_OF_BUILDS = 30;
-
-const BAR_HEIGHT_MINIMUM = 3;
-const BAR_WIDTH = 7;
-const BAR_SEPERATOR_WIDTH = 1;
-const BAR_WIDTH_WITH_SEPERATOR = BAR_WIDTH + BAR_SEPERATOR_WIDTH;
-
-const GRAPH_HEIGHT = 35;
-const GRAPH_WIDTH = (BAR_WIDTH * MAXIMUM_NUMBER_OF_BUILDS) + ((MAXIMUM_NUMBER_OF_BUILDS * BAR_SEPERATOR_WIDTH) - 1);
 
 class Graph extends React.Component {
   static propTypes = {
@@ -51,16 +43,15 @@ class Graph extends React.Component {
   };
 
   state = {
-    height: 0
-  }
+    showFullGraph: false
+  };
 
   componentDidMount() {
     this.toggleRenderInterval(this.props.pipeline.builds.edges);
 
-    // As soon as the graph has mounted, set the height back to 100% to animate
-    // the bars growing into view.
+    // As soon as the graph has mounted, animate the bars growing into view.
     setTimeout(() => {
-      this.setState({ height: "100%" });
+      this.setState({ showFullGraph: true });
     }, 0);
   }
 
@@ -81,15 +72,13 @@ class Graph extends React.Component {
   }
 
   render() {
-    const classes = classNames("animation-height align-bottom relative absolute", {
+    const classes = classNames("relative", {
       "animation-disable": this._shifting
     });
 
     return (
-      <div style={{ width: GRAPH_WIDTH, height: GRAPH_HEIGHT }} className="relative">
-        <div style={{ height: this.state.height, bottom: 0 }} className={classes}>
-          {this.renderBars()}
-        </div>
+      <div style={{ width: GRAPH_WIDTH, height: GRAPH_HEIGHT }} className={classes}>
+        {this.renderBars()}
       </div>
     );
   }
@@ -125,33 +114,16 @@ class Graph extends React.Component {
       }
     }
 
-    return bars.map((bar, index) => {
-      const left = index * BAR_WIDTH_WITH_SEPERATOR;
-
-      // Calcualte what percentage this bar is in relation to the longest
-      // running build
-      let height = (bar.duration / maximumDuration);
-
-      // See if the height is less than our minimum. If it is, set a hard pixel
-      // height, otherwise make the height a percentage. We use percentages so
-      // we can animate the height of the graph as it loads in.
-      const heightInPixels = (height * GRAPH_HEIGHT);
-      if (heightInPixels < BAR_HEIGHT_MINIMUM) {
-        height = BAR_HEIGHT_MINIMUM;
-      } else {
-        height = `${height * 100}%`;
-      }
-
-      return (
-        <Bar
-          key={index}
-          {...bar}
-          left={left}
-          width={BAR_WIDTH_WITH_SEPERATOR}
-          height={height}
-        />
-      );
-    });
+    return bars.map((bar, index) => (
+      <Bar
+        key={index}
+        {...bar}
+        left={index * BAR_WIDTH_WITH_SEPERATOR}
+        width={BAR_WIDTH_WITH_SEPERATOR}
+        maximumDuration={maximumDuration}
+        showFullGraph={this.state.showFullGraph}
+      />
+    ));
   }
 
   colorForBuild(build) {
