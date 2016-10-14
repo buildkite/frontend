@@ -8,9 +8,9 @@ services:
       - "./coverage:/frontend/coverage"
     environment:
       BUILDKITE:
+      BUILDKITE_COMMIT:
       BUILDKITE_ORGANIZATION_SLUG:
       BUILDKITE_PIPELINE_SLUG:
-      BUILDKITE_BUILD_NUMBER:
       CI:
       EMOJI_HOST:
       FRONTEND_HOST:
