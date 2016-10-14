@@ -81,6 +81,29 @@ var plugins = [
   })
 ];
 
+var vendor_modules = [
+  "classnames",
+  "deepmerge",
+  "es6-error",
+  "escape-html",
+  "eventemitter3",
+  "graphql",
+  "graphql-relay",
+  "history",
+  "moment",
+  "object-assign",
+  "pusher-js",
+  "react",
+  "react-addons-pure-render-mixin",
+  "react-addons-update",
+  "react-document-title",
+  "react-dom",
+  "react-relay",
+  "react-router",
+  "react-router-relay",
+  "whatwg-fetch"
+];
+
 // If we're building for production, minify the JS
 if (IS_PRODUCTION) {
   // Need this plugin to ensure consistent module ordering so we can have
@@ -99,17 +122,18 @@ if (IS_PRODUCTION) {
   }));
 }
 
+if (process.env['BUGSNAG_JS_API_KEY']) {
+  // Only load Bugsnag if configured
+  vendor_modules.push("bugsnag-js");
+}
+
 module.exports = {
   context: __dirname,
 
   devtool: devTool,
 
   entry: {
-    vendor: ["classnames", "react", "react-dom", "react-relay", "react-router",
-      "react-router-relay", "history", "graphql", "graphql-relay",
-      "moment", "object-assign", "eventemitter3", "pusher-js",
-      "whatwg-fetch", "es6-error", "escape-html", "react-addons-update",
-      "react-document-title", "bugsnag-js", "deepmerge", "react-addons-pure-render-mixin"],
+    vendor: vendor_modules,
     emojis: [path.join(__dirname, '../app/emojis/buildkite.js'), path.join(__dirname, '../app/emojis/apple.js')],
     app: path.join(__dirname, '../app/app.js'),
     public: path.join(__dirname, '../app/public.js')
