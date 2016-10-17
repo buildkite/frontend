@@ -88,6 +88,7 @@ class Graph extends React.Component {
     let maximumDuration = 1; // 1 to avoid a `0/0` when we calculate percentages
 
     for (let buildIndex = 0; buildIndex < MAXIMUM_NUMBER_OF_BUILDS; buildIndex++) {
+      const index = MAXIMUM_NUMBER_OF_BUILDS - buildIndex - 1;
       const buildEdge = this.props.pipeline.builds.edges[buildIndex];
 
       if (buildEdge) {
@@ -98,32 +99,37 @@ class Graph extends React.Component {
           maximumDuration = duration;
         }
 
-        bars[MAXIMUM_NUMBER_OF_BUILDS - buildIndex - 1] = {
-          color: this.colorForBuild(buildEdge.node),
-          hoverColor: this.hoverColorForBuild(buildEdge.node),
-          duration,
-          href: buildEdge.node.url,
-          build: buildEdge.node
-        };
+        bars[index] = (
+          <Bar
+            key={index}
+            color={this.colorForBuild(buildEdge.node)}
+            hoverColor={this.hoverColorForBuild(buildEdge.node)}
+            duration={duration}
+            href={buildEdge.node.url}
+            build={buildEdge.node}
+            left={index * BAR_WIDTH_WITH_SEPERATOR}
+            width={BAR_WIDTH_WITH_SEPERATOR}
+            maximumDuration={maximumDuration}
+            showFullGraph={this.state.showFullGraph}
+          />
+        );
       } else {
-        bars[MAXIMUM_NUMBER_OF_BUILDS - buildIndex - 1] = {
-          color: PENDING_COLOR,
-          hoverColor: PENDING_COLOR_HOVER,
-          duration: 0
-        };
+        bars[index] = (
+          <Bar
+            key={index}
+            color={PENDING_COLOR}
+            hoverColor={PENDING_COLOR_HOVER}
+            duration={0}
+            left={index * BAR_WIDTH_WITH_SEPERATOR}
+            width={BAR_WIDTH_WITH_SEPERATOR}
+            maximumDuration={maximumDuration}
+            showFullGraph={this.state.showFullGraph}
+          />
+        );
       }
     }
 
-    return bars.map((bar, index) => (
-      <Bar
-        key={index}
-        {...bar}
-        left={index * BAR_WIDTH_WITH_SEPERATOR}
-        width={BAR_WIDTH_WITH_SEPERATOR}
-        maximumDuration={maximumDuration}
-        showFullGraph={this.state.showFullGraph}
-      />
-    ));
+    return bars;
   }
 
   colorForBuild(build) {
