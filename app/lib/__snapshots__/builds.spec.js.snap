@@ -21,7 +21,7 @@ Object {
 
 exports[`buildStatus returns correct build status for the \`failed\` state 1`] = `
 Object {
-  "prefix": "Finished",
+  "prefix": "Failed",
   "timeValue": 2016-10-05T04:57:47.000Z,
 }
 `;
@@ -35,7 +35,7 @@ Object {
 
 exports[`buildStatus returns correct build status for the \`passed\` state 1`] = `
 Object {
-  "prefix": "Finished",
+  "prefix": "Passed",
   "timeValue": 2016-10-05T04:57:47.000Z,
 }
 `;
