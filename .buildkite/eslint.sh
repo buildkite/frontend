@@ -2,6 +2,6 @@
 set -euo pipefail
 
 echo "+++ :eslint: Running eslint"
-npm run lint --silent
+yarn run lint
 
 echo "👌 Looks good to me!"
