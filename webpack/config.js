@@ -158,8 +158,8 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.mdt$/i,
-        loader: 'babel-loader!mdtemplate-loader'
+        test: /\.mdx$/i,
+        loader: 'babel-loader!markdown-component-loader'
       },
       {
         test: /\.(woff)$/i,

@@ -1881,6 +1881,11 @@
         }
       }
     },
+    "entities": {
+      "version": "1.1.1",
+      "from": "entities@>=1.1.1 <1.2.0",
+      "resolved": "https://registry.npmjs.org/entities/-/entities-1.1.1.tgz"
+    },
     "err-code": {
       "version": "1.1.1",
       "from": "err-code@>=1.0.0 <2.0.0",
@@ -2382,6 +2387,11 @@
       "version": "0.3.0",
       "from": "fresh@0.3.0",
       "resolved": "https://registry.npmjs.org/fresh/-/fresh-0.3.0.tgz"
+    },
+    "front-matter": {
+      "version": "2.1.0",
+      "from": "front-matter@>=2.1.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/front-matter/-/front-matter-2.1.0.tgz"
     },
     "fs-exists-sync": {
       "version": "0.1.0",
@@ -3256,6 +3266,11 @@
       "version": "2.3.1",
       "from": "hawk@>=2.3.0 <2.4.0",
       "resolved": "https://registry.npmjs.org/hawk/-/hawk-2.3.1.tgz"
+    },
+    "highlight.js": {
+      "version": "9.7.0",
+      "from": "highlight.js@>=9.6.0 <10.0.0",
+      "resolved": "https://registry.npmjs.org/highlight.js/-/highlight.js-9.7.0.tgz"
     },
     "history": {
       "version": "2.1.2",
@@ -4290,6 +4305,11 @@
         }
       }
     },
+    "linkify-it": {
+      "version": "2.0.2",
+      "from": "linkify-it@>=2.0.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/linkify-it/-/linkify-it-2.0.2.tgz"
+    },
     "load-json-file": {
       "version": "1.1.0",
       "from": "load-json-file@>=1.0.0 <2.0.0",
@@ -4621,6 +4641,28 @@
       "from": "map-obj@>=1.0.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/map-obj/-/map-obj-1.0.1.tgz"
     },
+    "markdown-component-loader": {
+      "version": "0.0.3",
+      "from": "markdown-component-loader@0.0.3",
+      "resolved": "https://registry.npmjs.org/markdown-component-loader/-/markdown-component-loader-0.0.3.tgz",
+      "dependencies": {
+        "sha.js": {
+          "version": "2.4.5",
+          "from": "sha.js@>=2.4.5 <3.0.0",
+          "resolved": "https://registry.npmjs.org/sha.js/-/sha.js-2.4.5.tgz"
+        }
+      }
+    },
+    "markdown-it": {
+      "version": "7.0.1",
+      "from": "markdown-it@>=7.0.1 <8.0.0",
+      "resolved": "https://registry.npmjs.org/markdown-it/-/markdown-it-7.0.1.tgz"
+    },
+    "markdown-it-regexp": {
+      "version": "0.4.0",
+      "from": "markdown-it-regexp@>=0.4.0 <0.5.0",
+      "resolved": "https://registry.npmjs.org/markdown-it-regexp/-/markdown-it-regexp-0.4.0.tgz"
+    },
     "marked": {
       "version": "0.3.6",
       "from": "marked@>=0.3.6 <0.4.0",
@@ -4642,6 +4684,11 @@
       "version": "1.2.14",
       "from": "math-expression-evaluator@>=1.2.14 <2.0.0",
       "resolved": "https://registry.npmjs.org/math-expression-evaluator/-/math-expression-evaluator-1.2.14.tgz"
+    },
+    "mdurl": {
+      "version": "1.0.1",
+      "from": "mdurl@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/mdurl/-/mdurl-1.0.1.tgz"
     },
     "media-typer": {
       "version": "0.3.0",
@@ -6290,11 +6337,6 @@
       "from": "setprototypeof@1.0.1",
       "resolved": "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.0.1.tgz"
     },
-    "sha.js": {
-      "version": "2.2.6",
-      "from": "sha.js@2.2.6",
-      "resolved": "https://registry.npmjs.org/sha.js/-/sha.js-2.2.6.tgz"
-    },
     "shebang-regex": {
       "version": "1.0.0",
       "from": "shebang-regex@>=1.0.0 <2.0.0",
@@ -6808,6 +6850,11 @@
       "version": "0.7.10",
       "from": "ua-parser-js@>=0.7.9 <0.8.0",
       "resolved": "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.10.tgz"
+    },
+    "uc.micro": {
+      "version": "1.0.3",
+      "from": "uc.micro@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/uc.micro/-/uc.micro-1.0.3.tgz"
     },
     "uglify-js": {
       "version": "2.7.0",

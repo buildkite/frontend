@@ -8,7 +8,7 @@ import AgentRow from './Row';
 import Panel from '../shared/Panel';
 import PageWithContainer from '../shared/PageWithContainer';
 import RevealButton from '../shared/RevealButton';
-import MarkdownTemplateTest from '../docs/test.mdt';
+import MacOSInstallInstructions from '../docs/macos.mdx';
 import 'highlight.js/styles/github.css';
 
 const AGENT_LIST_REFRESH_INTERVAL = 10 * 1000;
@@ -51,6 +51,19 @@ class AgentIndex extends React.Component {
     let pageContent = (
       <Panel>
         <Panel.Header>Agents</Panel.Header>
+        <MacOSInstallInstructions
+          className="px3"
+          token={agentTokens.length && agentTokens[0].node.token}
+          elementProps={{
+            'a': {
+              className: 'blue hover-navy text-decoration-none hover-underline'
+            },
+            'pre': {
+              className: 'overflow-hidden',
+              style: { whiteSpace: 'normal' }
+            }
+          }}
+        />
         {this.renderAgentList(this.props.organization.agents)}
       </Panel>
     );
@@ -94,7 +107,6 @@ class AgentIndex extends React.Component {
     return (
       <DocumentTitle title={`Agents · ${this.props.organization.name}`}>
         <PageWithContainer>
-          <MarkdownTemplateTest foo="Hello there!!!" />
           {pageContent}
         </PageWithContainer>
       </DocumentTitle>
