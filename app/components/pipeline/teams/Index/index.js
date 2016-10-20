@@ -15,6 +15,7 @@ import FlashesStore from '../../../../stores/FlashesStore';
 import TeamPipelineCreateMutation from '../../../../mutations/TeamPipelineCreate';
 
 import Row from "./row";
+import Suggestion from "./suggestion";
 
 class Index extends React.Component {
   static propTypes = {
@@ -96,7 +97,7 @@ class Index extends React.Component {
     // Either render the sugggestions, or show a "not found" error
     if (suggestions.length > 0) {
       return suggestions.map((team) => {
-        return [<div key={team.id}>{team.name}</div>, team];
+        return [ <Suggestion key={team.id} team={team} />, team ];
       });
     } else if (search !== "") {
       return [
@@ -155,6 +156,7 @@ export default Relay.createContainer(Index, {
               node {
                 id
                 name
+                description
                 ${TeamPipelineCreateMutation.getFragment('team')}
               }
             }
