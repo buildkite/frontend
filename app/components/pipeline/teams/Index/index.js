@@ -52,14 +52,14 @@ class Index extends React.Component {
               />
             </Panel.Section>
 
-            {this.renderScheduleRows()}
+            {this.renderRows()}
           </Panel>
         </PageWithContainer>
       </DocumentTitle>
     );
   }
 
-  renderScheduleRows() {
+  renderRows() {
     if (this.props.pipeline.teams.edges.length > 0) {
       return this.props.pipeline.teams.edges.map((edge) => {
         return (
@@ -69,7 +69,7 @@ class Index extends React.Component {
     } else {
       return (
         <Panel.Row>
-          <div className="dark-gray py2 center"><Emojify text="This pipeline doesn't have any teams yet :eyes:" /></div>
+          <div className="dark-gray py2 center"><Emojify text="This Pipeline has not been added to any teams yet" /></div>
         </Panel.Row>
       );
     }
