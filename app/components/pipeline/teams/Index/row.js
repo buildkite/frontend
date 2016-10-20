@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import { Link } from 'react-router';
 
 import Panel from '../../../shared/Panel';
 import Emojify from '../../../shared/Emojify';
@@ -40,13 +41,27 @@ class Row extends React.Component {
   render() {
     return (
       <Panel.Row>
-        <div className="flex-auto">
-          <div className="m0 semi-bold"><Emojify text={this.props.teamPipeline.team.name} /></div>
-          {this.renderDescription()}
+        <div className="flex">
+          <div className="flex items-center" style={{width: "20em"}}>
+            <div>
+              <div className="m0 semi-bold">
+                <Link to={`/organizations/${this.props.teamPipeline.team.organization.slug}/teams/${this.props.teamPipeline.team.slug}`} className="blue hover-navy text-decoration-none hover-underline">
+                  <Emojify text={this.props.teamPipeline.team.name} />
+                </Link>
+              </div>
+
+              {this.renderDescription()}
+            </div>
+          </div>
+
+          <div className="flex flex-auto items-center">
+            <div className="regular dark-gray">{this.props.teamPipeline.team.pipelines.count} Pipelines, {this.props.teamPipeline.team.members.count} Members</div>
+          </div>
+
+          <Panel.RowActions>
+            {this.renderActions()}
+          </Panel.RowActions>
         </div>
-        <Panel.RowActions>
-          {this.renderActions()}
-        </Panel.RowActions>
       </Panel.Row>
     );
   }
@@ -54,7 +69,7 @@ class Row extends React.Component {
   renderDescription() {
     if (this.props.teamPipeline.team.description) {
       return (
-        <div className="regular dark-gray mt1"><Emojify text={this.props.teamPipeline.team.description} /></div>
+        <div className="regular dark-gray"><Emojify text={this.props.teamPipeline.team.description} /></div>
       );
     }
   }
@@ -144,6 +159,16 @@ export default Relay.createContainer(Row, {
         team {
           name
           description
+          slug
+          organization {
+            slug
+          }
+          members {
+            count
+          }
+          pipelines {
+            count
+          }
         }
         permissions {
           teamPipelineUpdate {
