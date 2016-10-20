@@ -10,6 +10,8 @@ import PageWithContainer from '../../../shared/PageWithContainer';
 import Emojify from '../../../shared/Emojify';
 import FormAutoCompleteField from '../../../shared/FormAutoCompleteField';
 
+import FlashesStore from '../../../../stores/FlashesStore';
+
 import TeamPipelineCreateMutation from '../../../../mutations/TeamPipelineCreate';
 
 import Row from "./row";
@@ -63,7 +65,7 @@ class Index extends React.Component {
     if (this.props.pipeline.teams.edges.length > 0) {
       return this.props.pipeline.teams.edges.map((edge) => {
         return (
-          <Row key={edge.node.id} teamPipeline={edge.node} />
+          <Row key={edge.node.id} teamPipeline={edge.node} organization={this.props.pipeline.organization} />
         );
       });
     } else {
@@ -108,18 +110,31 @@ class Index extends React.Component {
   }
 
   handleTeamSearch = (text) => {
+    // As a user types into the autocompletor field, perform a teams search
     this.props.relay.setVariables({ search: text });
   };
 
   handleTeamSelect = (team) => {
+    // Reset the autocompletor and re-focus it
     this._autoCompletor.clear();
     this.props.relay.setVariables({ search: "" });
     this._autoCompletor.focus();
 
-    Relay.Store.commitUpdate(new TeamPipelineCreateMutation({
+    // Create our mutation that will add the pipeline to the team
+    const mutation = new TeamPipelineCreateMutation({
       team: team,
       pipeline: this.props.pipeline
-    }), { onFailure: (transaction) => alert(transaction.getError()) });
+    });
+
+    Relay.Store.commitUpdate(mutation, {
+      onFailure: (transaction) => {
+        // Show the error as a flash
+        FlashesStore.flash(FlashesStore.ERROR, transaction.getError())
+
+        // Reload the entire list to reflect any changes from the server
+        this.props.relay.forceFetch()
+      }
+    });
   };
 }
 
@@ -134,6 +149,7 @@ export default Relay.createContainer(Index, {
         ${TeamPipelineCreateMutation.getFragment('pipeline')}
         name
         organization {
+          ${Row.getFragment("organization")}
           teams(search: $search, first: 10) {
             edges {
               node {

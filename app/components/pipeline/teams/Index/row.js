@@ -20,7 +20,7 @@ class Row extends React.Component {
     teamPipeline: React.PropTypes.shape({
       team: React.PropTypes.shape({
         name: React.PropTypes.string.isRequired,
-        description: React.PropTypes.string.isRequired
+        description: React.PropTypes.string
       }).isRequired,
       permissions: React.PropTypes.shape({
         teamPipelineUpdate: React.PropTypes.shape({
@@ -45,7 +45,7 @@ class Row extends React.Component {
           <div className="flex items-center" style={{width: "20em"}}>
             <div>
               <div className="m0 semi-bold">
-                <Link to={`/organizations/${this.props.teamPipeline.team.organization.slug}/teams/${this.props.teamPipeline.team.slug}`} className="blue hover-navy text-decoration-none hover-underline">
+                <Link to={`/organizations/${this.props.organization.slug}/teams/${this.props.teamPipeline.team.slug}`} className="blue hover-navy text-decoration-none hover-underline">
                   <Emojify text={this.props.teamPipeline.team.name} />
                 </Link>
               </div>
@@ -54,9 +54,7 @@ class Row extends React.Component {
             </div>
           </div>
 
-          <div className="flex flex-auto items-center">
-            <div className="regular dark-gray">{this.props.teamPipeline.team.pipelines.count} Pipelines, {this.props.teamPipeline.team.members.count} Members</div>
-          </div>
+          {this.renderAssociations()}
 
           <Panel.RowActions>
             {this.renderActions()}
@@ -74,11 +72,25 @@ class Row extends React.Component {
     }
   }
 
-  renderActions() {
-    const transactions = this.props.relay.getPendingTransactions(this.props.teamPipeline);
-    const transaction = transactions ? transactions[0] : null;
+  renderAssociations() {
+    // Don't show the associations if the record is still being created (since
+    // the optimistic response from the mutation won't have this data)
+    if(this.isCreating()) {
+      return (
+        <div className="flex flex-auto"></div>
+      );
+    } else {
+      return (
+        <div className="flex flex-auto items-center">
+          <div className="regular dark-gray">{this.props.teamPipeline.team.pipelines.count} Pipelines, {this.props.teamPipeline.team.members.count} Members</div>
+        </div>
+      );
+    }
+  }
 
-    if (transaction) {
+  renderActions() {
+    // Don't render any actions until the record has been created
+    if (this.isCreating()) {
       return (
         <Spinner width={18} height={18} color={false}/>
       );
@@ -105,6 +117,14 @@ class Row extends React.Component {
         }
       );
     }
+  }
+
+  // Returns true/false depending on whether or not this team pipeline record
+  // is currently being created.
+  isCreating() {
+    const transactions = this.props.relay.getPendingTransactions(this.props.teamPipeline);
+
+    return transactions ? transactions[0] : false;
   }
 
   handleAccessLevelChange = (accessLevel) => {
@@ -151,6 +171,11 @@ class Row extends React.Component {
 
 export default Relay.createContainer(Row, {
   fragments: {
+    organization: () => Relay.QL`
+      fragment on Organization {
+        slug
+      }
+    `,
     teamPipeline: () => Relay.QL`
       fragment on TeamPipeline {
         ${TeamPipelineDeleteMutation.getFragment('teamPipeline')}
@@ -160,9 +185,6 @@ export default Relay.createContainer(Row, {
           name
           description
           slug
-          organization {
-            slug
-          }
           members {
             count
           }
