@@ -131,6 +131,7 @@ window["initializeReactRouter"] = function() {
   const PipelineScheduleNew = require("./components/pipeline/schedules/New").default;
   const PipelineScheduleShow = require("./components/pipeline/schedules/Show").default;
   const PipelineScheduleEdit = require("./components/pipeline/schedules/Edit").default;
+  const PipelineTeamIndex = require("./components/pipeline/teams/Index").default;
 
   const AgentQuery = require("./queries/Agent");
   const BuildQuery = require("./queries/Build");
@@ -204,6 +205,10 @@ window["initializeReactRouter"] = function() {
           <Route path="new" component={PipelineScheduleNew} queries={{ pipeline: PipelineQuery.query }} prepareParams={PipelineQuery.prepareParams} render={renderSectionLoading} />
           <Route path=":schedule" component={PipelineScheduleShow} queries={{ pipelineSchedule: PipelineScheduleQuery.query }} prepareParams={PipelineScheduleQuery.prepareParams} render={renderSectionLoading} />
           <Route path=":schedule/edit" component={PipelineScheduleEdit} queries={{ pipelineSchedule: PipelineScheduleQuery.query }} prepareParams={PipelineScheduleQuery.prepareParams} render={renderSectionLoading} />
+        </Route>
+
+        <Route path="/:organization/:pipeline/settings/teams">
+          <IndexRoute component={PipelineTeamIndex} queries={{ pipeline: PipelineQuery.query }} prepareParams={PipelineQuery.prepareParams} render={renderSectionLoading} />
         </Route>
       </Route>
     </Router>

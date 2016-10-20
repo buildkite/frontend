@@ -13,6 +13,9 @@ class TeamPipelineCreate extends Relay.Mutation {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
         id
+        teams {
+          count
+        }
       }
     `
   }
@@ -28,7 +31,12 @@ class TeamPipelineCreate extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on TeamPipelineCreatePayload {
-        teamPipelineEdge,
+        teamPipelineEdge
+        pipeline {
+          teams {
+            count
+          }
+        }
         team {
           pipelines {
             count
@@ -42,7 +50,13 @@ class TeamPipelineCreate extends Relay.Mutation {
     return {
       teamPipelineEdge: {
         node: {
-          pipeline: this.props.pipeline
+          pipeline: this.props.pipeline,
+          team: this.props.team
+        }
+      },
+      pipeline: {
+        teams: {
+          count: this.props.pipeline.teams.count + 1
         }
       },
       team: {
@@ -60,9 +74,14 @@ class TeamPipelineCreate extends Relay.Mutation {
       parentID: this.props.team.id,
       connectionName: 'pipelines',
       edgeName: 'teamPipelineEdge',
-      rangeBehaviors: {
-        '': 'prepend'
-      }
+      rangeBehaviors: () => 'prepend'
+    }, {
+      type: 'RANGE_ADD',
+      parentName: 'pipeline',
+      parentID: this.props.pipeline.id,
+      connectionName: 'teams',
+      edgeName: 'teamPipelineEdge',
+      rangeBehaviors: () => 'append'
     }];
   }
 
