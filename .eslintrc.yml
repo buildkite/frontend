@@ -2,6 +2,8 @@ parser: babel-eslint
 
 extends:
   - eslint:recommended
+  - plugin:import/react
+  - plugin:import/recommended
   - plugin:react/recommended
 
 globals:
@@ -14,6 +16,7 @@ env:
   browser: true
 
 plugins:
+  - import
   - react
 
 ecmaFeatures:
@@ -104,6 +107,9 @@ rules:
   strict: error
   unicode-bom: error
 
+  import/extensions: error
+  import/unambiguous: off
+
   react/display-name:
     - error
     - ignoreTranspilerName: false
@@ -170,7 +176,6 @@ rules:
   react/prefer-stateless-function: off
   react/prop-types: error
   react/react-in-jsx-scope: error
-  react/require-extension: error
   react/self-closing-comp: warn
   react/sort-comp: off
   react/style-prop-object: warn

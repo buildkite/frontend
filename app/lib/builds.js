@@ -52,9 +52,14 @@ export function buildStatus(build) {
       prefix: 'Scheduled',
       timeValue: createdAt
     };
-  } else if (state === 'failed' || state === 'passed') {
+  } else if (state === 'failed') {
     return {
-      prefix: 'Finished',
+      prefix: 'Failed',
+      timeValue: finishedAt
+    };
+  } else if (state === 'passed') {
+    return {
+      prefix: 'Passed',
       timeValue: finishedAt
     };
   } else if (state === 'blocked') {

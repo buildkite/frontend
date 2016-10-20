@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
-import Bugsnag from 'bugsnag-js';
 
 require("./css/main.css");
 
@@ -14,12 +13,12 @@ if (window._standalone) {
 }
 
 // Setup Bugsnag for JS error tracking
-if (window._bugsnag) {
-  Bugsnag.apiKey = window._bugsnag.apiKey;
-  Bugsnag.appVersion = window._bugsnag.appVersion;
-  Bugsnag.user = window._bugsnag.user;
-  Bugsnag.releaseStage = window._bugsnag.releaseStage;
-  Bugsnag.notifyReleaseStages = window._bugsnag.notifyReleaseStages;
+if (window.Bugsnag && window._bugsnag) {
+  window.Bugsnag.apiKey = window._bugsnag.apiKey;
+  window.Bugsnag.appVersion = window._bugsnag.appVersion;
+  window.Bugsnag.user = window._bugsnag.user;
+  window.Bugsnag.releaseStage = window._bugsnag.releaseStage;
+  window.Bugsnag.notifyReleaseStages = window._bugsnag.notifyReleaseStages;
 }
 
 // Allows old sprockets and inline-javascript to access webpack modules
@@ -42,6 +41,7 @@ window["Webpack"] = {
     "components/shared/Duration": require("./components/shared/Duration").default,
     "components/shared/Emojify": require("./components/shared/Emojify").default,
     "components/shared/FormMarkdownEditorField": require("./components/shared/FormMarkdownEditorField").default,
+    "components/shared/FormRadioGroup": require("./components/shared/FormRadioGroup").default,
     "components/shared/FormTextarea": require("./components/shared/FormTextarea").default,
     "components/shared/FormTextField": require("./components/shared/FormTextField").default,
     "components/shared/FriendlyTime": require("./components/shared/FriendlyTime").default,
