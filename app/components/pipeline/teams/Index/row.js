@@ -20,7 +20,14 @@ class Row extends React.Component {
     teamPipeline: React.PropTypes.shape({
       team: React.PropTypes.shape({
         name: React.PropTypes.string.isRequired,
-        description: React.PropTypes.string
+        slug: React.PropTypes.string.isRequired,
+        description: React.PropTypes.string,
+        members: React.PropTypes.shape({
+          count: React.PropTypes.number
+        }),
+        pipelines: React.PropTypes.shape({
+          count: React.PropTypes.number
+        })
       }).isRequired,
       permissions: React.PropTypes.shape({
         teamPipelineUpdate: React.PropTypes.shape({
@@ -30,7 +37,11 @@ class Row extends React.Component {
           allowed: React.PropTypes.bool.isRequired
         }).isRequired
       })
-    }).isRequired
+    }).isRequired,
+    organization: React.PropTypes.shape({
+      slug: React.PropTypes.string.isRequired
+    }).isRequired,
+    relay: React.PropTypes.object.isRequired
   };
 
   state = {
@@ -42,7 +53,7 @@ class Row extends React.Component {
     return (
       <Panel.Row>
         <div className="flex">
-          <div className="flex items-center" style={{width: "20em"}}>
+          <div className="flex items-center" style={{ width: "20em" }}>
             <div>
               <div className="m0 semi-bold">
                 <Link to={`/organizations/${this.props.organization.slug}/teams/${this.props.teamPipeline.team.slug}`} className="blue hover-navy text-decoration-none hover-underline">
@@ -75,9 +86,9 @@ class Row extends React.Component {
   renderAssociations() {
     // Don't show the associations if the record is still being created (since
     // the optimistic response from the mutation won't have this data)
-    if(this.isCreating()) {
+    if (this.isCreating()) {
       return (
-        <div className="flex flex-auto"></div>
+        <div className="flex flex-auto" />
       );
     } else {
       return (
@@ -112,7 +123,7 @@ class Row extends React.Component {
               outline={true}
               className="ml3"
               onClick={this.handleRemove}
-              >Remove</Button>
+            >Remove</Button>
           )
         }
       );
@@ -130,7 +141,7 @@ class Row extends React.Component {
   handleAccessLevelChange = (accessLevel) => {
     this.setState({ savingNewAccessLevel: accessLevel });
 
-    let mutation = new TeamPipelineUpdateMutation({
+    const mutation = new TeamPipelineUpdateMutation({
       teamPipeline: this.props.teamPipeline,
       accessLevel: accessLevel
     });
@@ -153,7 +164,7 @@ class Row extends React.Component {
   handleRemove = () => {
     this.setState({ removing: true });
 
-    let mutation = new TeamPipelineDeleteMutation({
+    const mutation = new TeamPipelineDeleteMutation({
       teamPipeline: this.props.teamPipeline
     });
 

@@ -4,8 +4,6 @@ import DocumentTitle from 'react-document-title';
 
 import Panel from '../../../shared/Panel';
 import PageHeader from '../../../shared/PageHeader';
-import Button from '../../../shared/Button';
-import permissions from '../../../../lib/permissions';
 import PageWithContainer from '../../../shared/PageWithContainer';
 import Emojify from '../../../shared/Emojify';
 import FormAutoCompleteField from '../../../shared/FormAutoCompleteField';
@@ -21,6 +19,10 @@ class Index extends React.Component {
   static propTypes = {
     pipeline: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
+      organization: React.PropTypes.shape({
+        slug: React.PropTypes.string.isRequired,
+        teams: React.PropTypes.array
+      }),
       teams: React.PropTypes.shape({
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
@@ -31,10 +33,7 @@ class Index extends React.Component {
         )
       }).isRequired
     }).isRequired,
-    params: React.PropTypes.shape({
-      organization: React.PropTypes.string.isRequired,
-      pipeline: React.PropTypes.string.isRequired
-    }).isRequired
+    relay: React.PropTypes.object.isRequired
   };
 
   render() {
@@ -97,7 +96,7 @@ class Index extends React.Component {
     // Either render the sugggestions, or show a "not found" error
     if (suggestions.length > 0) {
       return suggestions.map((team) => {
-        return [ <Suggestion key={team.id} team={team} />, team ];
+        return [<Suggestion key={team.id} team={team} />, team];
       });
     } else if (search !== "") {
       return [
@@ -130,10 +129,10 @@ class Index extends React.Component {
     Relay.Store.commitUpdate(mutation, {
       onFailure: (transaction) => {
         // Show the error as a flash
-        FlashesStore.flash(FlashesStore.ERROR, transaction.getError())
+        FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
 
         // Reload the entire list to reflect any changes from the server
-        this.props.relay.forceFetch()
+        this.props.relay.forceFetch();
       }
     });
   };
