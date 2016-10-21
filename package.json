@@ -68,6 +68,7 @@
     "es6-error": "^3.1.0",
     "escape-html": "^1.0.3",
     "eventemitter3": "^1.2.0",
+    "global": "^4.3.1",
     "graphql": "^0.6.2",
     "graphql-relay": "^0.4.3",
     "moment": "^2.15.0",

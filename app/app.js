@@ -59,6 +59,7 @@ window["Webpack"] = {
     "lib/jobCommandOneliner": require("./lib/jobCommandOneliner").default,
     "lib/jobs": require("./lib/jobs"),
     "lib/Logger": require("./lib/Logger").default,
+    "lib/number": require("./lib/number"),
     "lib/RelayPreloader": require("./lib/RelayPreloader").default,
     "queries/Agent": require("./queries/Agent"),
     "queries/Build": require("./queries/Build"),

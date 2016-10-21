@@ -2,6 +2,8 @@ import React from 'react';
 
 import PusherStore from '../../stores/PusherStore';
 
+import { formatNumber } from '../../lib/number';
+
 class AgentsCount extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
@@ -48,7 +50,7 @@ class AgentsCount extends React.Component {
 
   render() {
     return (
-      <span>{this.state.agentCount}</span>
+      <span>{formatNumber(this.state.agentCount)}</span>
     );
   }
 }
