@@ -1,4 +1,4 @@
-/* global describe, it, expect */
+/* global describe, beforeEach, afterEach, jest, it, expect */
 
 const perverseReverse = (str) => str.split('').reverse().join('');
 
@@ -20,7 +20,7 @@ describe(`formatNumber`, function() {
       numberFormat = {
         format: jest.fn((number) => {
           // This is a naïve implementation of number formatting for EN locales
-          let numberSplit = (number).toString(10).split('.');
+          const numberSplit = (number).toString(10).split('.');
 
           return perverseReverse(
             numberSplit.shift()
