@@ -11,7 +11,9 @@ export default class Bar extends React.Component {
     color: React.PropTypes.string.isRequired,
     hoverColor: React.PropTypes.string.isRequired,
     duration: React.PropTypes.number,
-    maximumDuration: React.PropTypes.number,
+    graph: React.PropTypes.shape({
+      maximumDuration: React.PropTypes.number
+    }).isRequired,
     left: React.PropTypes.number.isRequired,
     build: React.PropTypes.object,
     showFullGraph: React.PropTypes.bool.isRequired
@@ -40,7 +42,7 @@ export default class Bar extends React.Component {
   calculateSizes() {
     // Calcualte what percentage this bar is in relation to the longest
     // running build
-    let height = (this.props.duration / this.props.maximumDuration);
+    let height = (this.props.duration / this.props.graph.maximumDuration);
     let transform = 'none';
 
     // See if the height is less than our minimum. If it is, set a hard pixel

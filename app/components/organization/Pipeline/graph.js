@@ -85,7 +85,13 @@ class Graph extends React.Component {
 
   renderBars() {
     const bars = [];
-    let maximumDuration = 1; // 1 to avoid a `0/0` when we calculate percentages
+
+    // `maximumDuration` is wrapped in an object so it's passed by
+    // reference, which means all bars get the final, correct value
+    // despite the generating loop only occuring once
+    const graphProps = {
+      maximumDuration: 1 // starts as 1 to avoid a `0/0` when we calculate percentages
+    };
 
     for (let buildIndex = 0; buildIndex < MAXIMUM_NUMBER_OF_BUILDS; buildIndex++) {
       const index = MAXIMUM_NUMBER_OF_BUILDS - buildIndex - 1;
@@ -95,8 +101,8 @@ class Graph extends React.Component {
         const { from, to } = buildTime(buildEdge.node);
         const duration = moment(to).diff(moment(from));
 
-        if (duration > maximumDuration) {
-          maximumDuration = duration;
+        if (duration > graphProps.maximumDuration) {
+          graphProps.maximumDuration = duration;
         }
 
         bars[index] = (
@@ -109,7 +115,7 @@ class Graph extends React.Component {
             build={buildEdge.node}
             left={index * BAR_WIDTH_WITH_SEPERATOR}
             width={BAR_WIDTH_WITH_SEPERATOR}
-            maximumDuration={maximumDuration}
+            graph={graphProps}
             showFullGraph={this.state.showFullGraph}
           />
         );
@@ -122,7 +128,7 @@ class Graph extends React.Component {
             duration={0}
             left={index * BAR_WIDTH_WITH_SEPERATOR}
             width={BAR_WIDTH_WITH_SEPERATOR}
-            maximumDuration={maximumDuration}
+            graph={graphProps}
             showFullGraph={this.state.showFullGraph}
           />
         );
