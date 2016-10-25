@@ -3,9 +3,16 @@ import EventEmitter from 'eventemitter3';
 class FlashesStore extends EventEmitter {
   constructor() {
     super(...arguments);
+    this.preloaded = [];
     this.ERROR = "error";
     this.SUCCESS = "success";
     this.INFO = "info";
+  }
+
+  preload(flashes) {
+    for (let flash of flashes) {
+      this.preloaded.push({id: (new Date()).valueOf(), ...flash});
+    }
   }
 
   flash(type, message) {
