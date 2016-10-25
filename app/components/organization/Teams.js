@@ -14,7 +14,7 @@ class Teams extends React.Component {
   };
 
   render() {
-    if(this.props.organization.teams.edges.length > 0) {
+    if (this.props.organization.teams.edges.length > 0) {
       return this.renderDropdown();
     } else {
       return null;
