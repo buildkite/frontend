@@ -10,8 +10,8 @@ class FlashesStore extends EventEmitter {
   }
 
   preload(flashes) {
-    for (let flash of flashes) {
-      this.preloaded.push({id: (new Date()).valueOf(), ...flash});
+    for (const flash of flashes) {
+      this.preloaded.push({ id: (new Date()).valueOf(), ...flash });
     }
   }
 

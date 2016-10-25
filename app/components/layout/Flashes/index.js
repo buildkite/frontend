@@ -11,7 +11,7 @@ class Flashes extends React.Component {
 
   componentWillMount() {
     if (FlashesStore.preloaded) {
-      this.setState({flashes: FlashesStore.preloaded});
+      this.setState({ flashes: FlashesStore.preloaded });
     }
   }
 
