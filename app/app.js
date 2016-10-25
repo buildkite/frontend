@@ -68,6 +68,7 @@ window["Webpack"] = {
     "queries/PipelineSchedule": require("./queries/PipelineSchedule"),
     "queries/Team": require("./queries/Team"),
     "queries/Viewer": require("./queries/Viewer"),
+    "stores/FlashesStore": require("./stores/FlashesStore").default,
     "stores/PusherStore": require("./stores/PusherStore").default
   },
 
