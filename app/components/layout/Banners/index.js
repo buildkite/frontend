@@ -8,21 +8,21 @@ class Banners extends React.Component {
   };
 
   render() {
-    let nodes = [];
-    if(window._banners) {
-      for(const id of window._banners) {
-        if(!this.state.hidden[id]) {
+    const nodes = [];
+    if (window._banners) {
+      for (const id of window._banners) {
+        if (!this.state.hidden[id]) {
           nodes.push(<PipelinesBanner id={id} key={id} onHideClick={this.handleBannerHide} />);
         }
       }
     }
 
-    if(nodes.length) {
+    if (nodes.length) {
       return (
-        <div style={{marginTop: -15}} className="mb4">
+        <div style={{ marginTop: -15 }} className="mb4">
           {nodes}
         </div>
-      )
+      );
     } else {
       return null;
     }
@@ -30,7 +30,7 @@ class Banners extends React.Component {
 
   handleBannerHide = (id) => {
     // Remove it from the UI right away
-    let hidden = this.state.hidden;
+    const hidden = this.state.hidden;
     hidden[id] = true;
     this.setState({ hidden: hidden });
 
@@ -44,7 +44,7 @@ class Banners extends React.Component {
         'X-CSRF-Token': window._csrf.token
       },
       body: JSON.stringify({ banner: id })
-    })
+    });
   };
 }
 
