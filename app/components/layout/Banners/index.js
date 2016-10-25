@@ -19,7 +19,7 @@ class Banners extends React.Component {
 
     if(nodes.length) {
       return (
-        <div className="container mb4">
+        <div style={{marginTop: -15}} className="mb4">
           {nodes}
         </div>
       )

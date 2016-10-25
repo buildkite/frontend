@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import Emojify from '../../shared/Emojify';
+
 class PipelinesBanner extends React.Component {
   static propTypes = {
     id: React.PropTypes.string.isRequired,
@@ -9,14 +11,19 @@ class PipelinesBanner extends React.Component {
 
   render() {
     return (
-      <div>
-        Tell me more!
-        <button className="btn px4 py3" onClick={this.handleCloseClick}>Close</button>
+      <div style={{backgroundColor: "#f0fdc1"}}>
+        <div className="container flex items-center">
+          <div className="flex-auto mr4 py1" style={{color: "#72683b"}}>
+            Welcome to the new pipelines page <Emojify text=":sparkles:"/>.
+            Read the <a href="/docs/basics/pipelines#pipelines-page-walkthrough" className="lime text-decoration-none hover-underline">documentation</a> to find out all about it!
+          </div>
+          <button className="btn px0 py4 lime text-decoration-none hover-underline" onClick={this.handleDismissClick}>Dismiss</button>
+        </div>
       </div>
     );
   }
 
-  handleCloseClick = () => {
+  handleDismissClick = () => {
     this.props.onHideClick(this.props.id);
   };
 }
