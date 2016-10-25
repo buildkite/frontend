@@ -14,8 +14,9 @@ class Flash extends React.Component {
   };
 
   render() {
-    const classes = classNames("py2 px3 rounded flex items-center mb2", {
-      "bg-red white": FlashesStore.ERROR
+    const classes = classNames("py2 px3 rounded flex items-center mb2 bg-gray", {
+      "bg-red white": this.props.flash.type == FlashesStore.ERROR,
+      "bg-green white": this.props.flash.type == FlashesStore.SUCCESS,
     });
 
     return (

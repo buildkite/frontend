@@ -4,6 +4,8 @@ class FlashesStore extends EventEmitter {
   constructor() {
     super(...arguments);
     this.ERROR = "error";
+    this.SUCCESS = "success";
+    this.INFO = "info";
   }
 
   flash(type, message) {
