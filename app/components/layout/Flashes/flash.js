@@ -22,7 +22,7 @@ class Flash extends React.Component {
     return (
       <div key={this.props.flash.id} className={classes}>
         <div className="flex-auto" data-flash-message={true}>{this.props.flash.message}</div>
-        <button onClick={this.handleCloseClick} className="btn pl0 pr0" data-flash-close={true}>Close</button>
+        <button onClick={this.handleCloseClick} className="btn px2 mxn2" data-flash-close={true}>Close</button>
       </div>
     );
   }
