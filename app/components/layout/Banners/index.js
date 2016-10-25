@@ -29,10 +29,22 @@ class Banners extends React.Component {
   }
 
   handleBannerHide = (id) => {
+    // Remove it from the UI right away
     let hidden = this.state.hidden;
     hidden[id] = true;
-
     this.setState({ hidden: hidden });
+
+    // Also send a request to the server to remove it
+    fetch("/user/banners", {
+      credentials: 'same-origin',
+      method: 'put',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': window._csrf.token
+      },
+      body: JSON.stringify({ banner: id })
+    })
   };
 }
 
