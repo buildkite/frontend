@@ -12,11 +12,12 @@ class PipelinesBanner extends React.Component {
     return (
       <div style={{ backgroundColor: "#f0fdc1" }}>
         <div className="container flex items-center">
-          <div className="flex-auto mr4 py1" style={{ color: "#72683b" }}>
-            Welcome to the new pipelines page <Emojify text=":sparkles:"/>.
-            Read the <a href="/docs/basics/pipelines#pipelines-page-walkthrough" className="lime text-decoration-none hover-underline">documentation</a> to find out all about it!
+          <div className="flex-auto mr4 py1" style={{ color: "#254329" }}>
+            Welcome to the new pipelines page <Emojify text=":sparkles:"/>
+            {' '}
+            Read the <a href="/docs/basics/pipelines#pipelines-page-walkthrough" className="lime text-decoration-none hover-underline semi-bold">documentation</a> to find out all about it!
           </div>
-          <button className="btn px0 py4 lime text-decoration-none hover-underline" onClick={this.handleDismissClick}>Dismiss</button>
+          <button className="btn px4 mxn4 py4 lime text-decoration-none hover-underline" onClick={this.handleDismissClick}>Dismiss</button>
         </div>
       </div>
     );
