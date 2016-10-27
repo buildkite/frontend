@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 
-import Panel from '../shared/Panel';
+import Panel from '../../shared/Panel';
 
 class AgentRow extends React.Component {
   static propTypes = {

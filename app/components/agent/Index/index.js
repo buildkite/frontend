@@ -3,12 +3,12 @@ import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 import classNames from 'classnames';
 
-import AgentRow from './Row';
+import AgentRow from './row';
 
-import Panel from '../shared/Panel';
-import PageWithContainer from '../shared/PageWithContainer';
-import RevealButton from '../shared/RevealButton';
-import Button from '../shared/Button';
+import Panel from '../../shared/Panel';
+import PageWithContainer from '../../shared/PageWithContainer';
+import RevealButton from '../../shared/RevealButton';
+import Button from '../../shared/Button';
 
 const AGENT_LIST_REFRESH_INTERVAL = 10 * 1000;
 const PAGE_SIZE = 20;
