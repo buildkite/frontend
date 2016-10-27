@@ -4,10 +4,10 @@ import DocumentTitle from 'react-document-title';
 import classNames from 'classnames';
 
 import AgentRow from './row';
+import AgentTokens from './agentTokens';
 
 import Panel from '../../shared/Panel';
 import PageWithContainer from '../../shared/PageWithContainer';
-import RevealButton from '../../shared/RevealButton';
 import Button from '../../shared/Button';
 
 const AGENT_LIST_REFRESH_INTERVAL = 10 * 1000;
@@ -28,9 +28,6 @@ class AgentIndex extends React.Component {
         agentTokenView: React.PropTypes.shape({
           allowed: React.PropTypes.bool.isRequired
         }).isRequired
-      }).isRequired,
-      agentTokens: React.PropTypes.shape({
-        edges: React.PropTypes.array.isRequired
       }).isRequired
     }).isRequired,
     relay: React.PropTypes.object.isRequired
@@ -50,7 +47,6 @@ class AgentIndex extends React.Component {
 
   render() {
     const tokenViewAllowed = this.props.organization.permissions.agentTokenView.allowed;
-    const agentTokens = this.props.organization.agentTokens.edges;
 
     let loadMoreButton;
     if (this.props.organization.agents.pageInfo.hasNextPage) {
@@ -70,37 +66,14 @@ class AgentIndex extends React.Component {
       </Panel>
     );
 
-    if (tokenViewAllowed && agentTokens.length) {
+    if (tokenViewAllowed) {
       pageContent = (
         <div className="clearfix mxn3">
           <div className="sm-col sm-col-8 px3">
             {pageContent}
           </div>
           <div className="sm-col sm-col-4 px3">
-            <Panel>
-              <Panel.Header>Agent Token</Panel.Header>
-              <Panel.Row>
-                <p className={classNames("black", { [agentTokens.length === 1 ? 'mt0' : 'm0']: true })}>Your Buildkite agent token is used to configure and start new Buildkite agents.</p>
-                {agentTokens.length === 1 &&
-                  <RevealButton caption="Reveal Agent Token">
-                    <code className="red monospace" style={{ wordWrap: "break-word" }}>{agentTokens[0].node.token}</code>
-                  </RevealButton>
-                }
-              </Panel.Row>
-              {agentTokens.length > 1 &&
-                <Panel.Row>
-                  {agentTokens.map((token, index, array) => (
-                    <div key={index}>
-                      <small className="dark-gray mb1 block">{token.node.description}</small>
-                      <RevealButton caption="Reveal Agent Token">
-                        <code className="red monospace" style={{ wordWrap: "break-word" }}>{token.node.token}</code>
-                      </RevealButton>
-                      {index !== array.length - 1 && <hr className="bg-gray mx-auto max-width-1 border-none height-0 my3" style={{ height: 1 }} />}
-                    </div>
-                  ))}
-                </Panel.Row>
-              }
-            </Panel>
+            <AgentTokens organization={this.props.organization} />
           </div>
         </div>
       );
@@ -138,6 +111,7 @@ export default Relay.createContainer(AgentIndex, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+        ${AgentTokens.getFragment('organization')}
         name
         permissions {
           agentTokenView {
@@ -154,14 +128,6 @@ export default Relay.createContainer(AgentIndex, {
           }
           pageInfo {
             hasNextPage
-          }
-        }
-        agentTokens(first: 500, revoked:false) {
-          edges {
-            node {
-              description
-              token
-            }
           }
         }
       }
