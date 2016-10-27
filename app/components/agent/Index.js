@@ -8,14 +8,20 @@ import AgentRow from './Row';
 import Panel from '../shared/Panel';
 import PageWithContainer from '../shared/PageWithContainer';
 import RevealButton from '../shared/RevealButton';
+import Button from '../shared/Button';
 
 const AGENT_LIST_REFRESH_INTERVAL = 10 * 1000;
+const PAGE_SIZE = 20;
 
 class AgentIndex extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       agents: React.PropTypes.shape({
+        pageInfo: React.PropTypes.shape({
+          hasNextPage: React.PropTypes.bool.isRequired
+        }).isRequired,
+        count: React.PropTypes.integer.isRequired,
         edges: React.PropTypes.array.isRequired
       }).isRequired,
       permissions: React.PropTypes.shape({
@@ -46,10 +52,21 @@ class AgentIndex extends React.Component {
     const tokenViewAllowed = this.props.organization.permissions.agentTokenView.allowed;
     const agentTokens = this.props.organization.agentTokens.edges;
 
+    let loadMoreButton;
+    if (this.props.organization.agents.pageInfo.hasNextPage) {
+      loadMoreButton =
+        <Button outline={true} theme={"default"} onClick={this.handleLoadMoreAgentsClick}>Load {PAGE_SIZE} more agents...</Button>;
+    } else {
+      loadMoreButton = <small className="dark-gray">No more to load</small>;
+    }
+
     let pageContent = (
       <Panel>
-        <Panel.Header>Agents</Panel.Header>
+        <Panel.Header>Agents (Showing {this.props.organization.agents.edges.length} of {this.props.organization.agents.count})</Panel.Header>
         {this.renderAgentList(this.props.organization.agents)}
+        <Panel.Footer>
+          {loadMoreButton}
+        </Panel.Footer>
       </Panel>
     );
 
@@ -105,9 +122,19 @@ class AgentIndex extends React.Component {
       return <Panel.Section className="dark-gray">No agents connected</Panel.Section>;
     }
   }
+
+  handleLoadMoreAgentsClick = () => {
+    this.props.relay.setVariables({
+      pageSize: this.props.relay.variables.pageSize + PAGE_SIZE
+    });
+  };
 }
 
 export default Relay.createContainer(AgentIndex, {
+  initialVariables: {
+    pageSize: PAGE_SIZE
+  },
+
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
@@ -117,15 +144,19 @@ export default Relay.createContainer(AgentIndex, {
             allowed
           }
         }
-        agents(first:500) {
+        agents(first: $pageSize) {
+          count
           edges {
             node {
               id
               ${AgentRow.getFragment('agent')}
             }
           }
+          pageInfo {
+            hasNextPage
+          }
         }
-        agentTokens(first:500, revoked:false) {
+        agentTokens(first: 500, revoked:false) {
           edges {
             node {
               description
