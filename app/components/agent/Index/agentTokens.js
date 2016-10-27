@@ -64,16 +64,13 @@ export default Relay.createContainer(AgentTokens, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
-        agentTokens(first: 500, revoked: false) @include(if: $isMounted) {
+        agentTokens(first: 50, revoked: false) @include(if: $isMounted) {
           edges {
             node {
               id
               description
               token
             }
-          }
-          pageInfo {
-            hasNextPage
           }
         }
       }
