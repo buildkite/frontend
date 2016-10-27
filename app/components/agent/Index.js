@@ -18,6 +18,10 @@ class AgentIndex extends React.Component {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       agents: React.PropTypes.shape({
+        pageInfo: React.PropTypes.shape({
+          hasNextPage: React.PropTypes.bool.isRequired
+        }).isRequired,
+        count: React.PropTypes.integer.isRequired,
         edges: React.PropTypes.array.isRequired
       }).isRequired,
       permissions: React.PropTypes.shape({
@@ -49,11 +53,11 @@ class AgentIndex extends React.Component {
     const agentTokens = this.props.organization.agentTokens.edges;
 
     let loadMoreButton;
-    if(this.props.organization.agents.pageInfo.hasNextPage) {
+    if (this.props.organization.agents.pageInfo.hasNextPage) {
       loadMoreButton =
-        <Button outline={true} theme={"default"} onClick={this.onLoadMoreAgentsClick}>Load {PAGE_SIZE} more agents...</Button>;
+        <Button outline={true} theme={"default"} onClick={this.handleLoadMoreAgentsClick}>Load {PAGE_SIZE} more agents...</Button>;
     } else {
-      loadMoreButton = <small className="dark-gray">No more to load</small>
+      loadMoreButton = <small className="dark-gray">No more to load</small>;
     }
 
     let pageContent = (
@@ -119,7 +123,7 @@ class AgentIndex extends React.Component {
     }
   }
 
-  onLoadMoreAgentsClick = () => {
+  handleLoadMoreAgentsClick = () => {
     this.props.relay.setVariables({
       pageSize: this.props.relay.variables.pageSize + PAGE_SIZE
     });
