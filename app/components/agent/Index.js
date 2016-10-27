@@ -21,7 +21,7 @@ class AgentIndex extends React.Component {
         pageInfo: React.PropTypes.shape({
           hasNextPage: React.PropTypes.bool.isRequired
         }).isRequired,
-        count: React.PropTypes.integer.isRequired,
+        count: React.PropTypes.number.isRequired,
         edges: React.PropTypes.array.isRequired
       }).isRequired,
       permissions: React.PropTypes.shape({
