@@ -1,0 +1,10 @@
+exports[`Emojify renders as expected 1`] = `
+<span
+  className="test-class-name"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "This text should be reflected in the title attribute and text content, as well as in the call to lib/Emoji!",
+    }
+  }
+  title="This text should be reflected in the title attribute and text content, as well as in the call to lib/Emoji!" />
+`;
