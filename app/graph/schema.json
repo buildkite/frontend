@@ -1350,11 +1350,31 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "after",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "last",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "before",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -1509,11 +1529,31 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "after",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "last",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "before",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -1546,7 +1586,7 @@
                     "name": "PipelineOrders",
                     "ofType": null
                   },
-                  "defaultValue": "\"PIPELINE_ORDER_CREATED_AT\""
+                  "defaultValue": "\"PIPELINE_ORDER_RECENTLY_CREATED\""
                 }
               ],
               "type": {
@@ -6100,8 +6140,14 @@
               "deprecationReason": null
             },
             {
-              "name": "PIPELINE_ORDER_CREATED_AT",
-              "description": "Order by when the pipelines were created, from oldest to newest",
+              "name": "PIPELINE_ORDER_RECENTLY_CREATED",
+              "description": "Order by the most recently created pipelines first",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "PIPELINE_ORDER_RELEVANCE",
+              "description": "Order by relevance when searching for pipelines",
               "isDeprecated": false,
               "deprecationReason": null
             }
@@ -11667,8 +11713,8 @@
       ],
       "directives": [
         {
-          "name": "skip",
-          "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
+          "name": "include",
+          "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
           "locations": [
             "FIELD",
             "FRAGMENT_SPREAD",
@@ -11677,7 +11723,7 @@
           "args": [
             {
               "name": "if",
-              "description": "Skipped when true.",
+              "description": "Included when true.",
               "type": {
                 "kind": "NON_NULL",
                 "name": "Non-Null",
@@ -11692,8 +11738,8 @@
           ]
         },
         {
-          "name": "include",
-          "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
+          "name": "skip",
+          "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
           "locations": [
             "FIELD",
             "FRAGMENT_SPREAD",
@@ -11702,7 +11748,7 @@
           "args": [
             {
               "name": "if",
-              "description": "Included when true.",
+              "description": "Skipped when true.",
               "type": {
                 "kind": "NON_NULL",
                 "name": "Non-Null",
