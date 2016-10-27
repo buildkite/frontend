@@ -257,7 +257,11 @@ class Navigation extends React.Component {
           <div className="flex flex-stretch" style={{ height: 45 }}>
             <span className="flex relative border-right border-gray items-center">
               <NavigationButton href="/" className="px3 hover-faded-children" style={{ paddingLeft: 0 }}>
-                <img src={require('./logo.svg')} style={{ width: 27, height: 18, marginTop: 7.5, marginBottom: 4.5 }} />
+                <img
+                  src={require('./logo.svg')}
+                  alt="Buildkite"
+                  style={{ width: 27, height: 18, marginTop: 7.5, marginBottom: 4.5 }}
+                />
               </NavigationButton>
               <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -8 }} viewer={this.props.viewer} />
             </span>
