@@ -14,6 +14,7 @@ class Agents extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
       agents: React.PropTypes.shape({
+        count: React.PropTypes.number.isRequired,
         pageInfo: React.PropTypes.shape({
           hasNextPage: React.PropTypes.bool.isRequired
         }).isRequired,
@@ -43,21 +44,21 @@ class Agents extends React.Component {
         {this.renderRows()}
         {this.renderLoadMoreButton()}
       </Panel>
-    )
+    );
   }
 
   renderHeaderInformation() {
-    if(this.props.organization.agents) {
+    if (this.props.organization.agents) {
       return (
         <span>(Showing {this.props.organization.agents.edges.length} of {this.props.organization.agents.count})</span>
-      )
+      );
     }
   }
 
   renderRows() {
-    let agents = this.props.organization.agents;
+    const agents = this.props.organization.agents;
 
-    if(agents) {
+    if (agents) {
       if (agents.edges.length > 0) {
         return agents.edges.map((edge) => <AgentRow key={edge.node.id} agent={edge.node} />);
       } else {
@@ -68,12 +69,12 @@ class Agents extends React.Component {
         <Panel.Section className="center">
           <Spinner />
         </Panel.Section>
-      )
+      );
     }
   }
 
   renderLoadMoreButton() {
-    if(this.props.organization.agents) {
+    if (this.props.organization.agents) {
       if (this.props.organization.agents.pageInfo.hasNextPage) {
         return (
           <Panel.Footer>

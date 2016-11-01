@@ -16,8 +16,7 @@ class AgentIndex extends React.Component {
           allowed: React.PropTypes.bool.isRequired
         }).isRequired
       }).isRequired
-    }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    }).isRequired
   };
 
   render() {
@@ -47,7 +46,7 @@ class AgentIndex extends React.Component {
     } else {
       return (
         <Agents organization={this.props.organization} />
-      )
+      );
     }
   }
 }

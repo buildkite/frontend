@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import classNames from 'classnames';
 
 import Panel from '../../shared/Panel';
 import Spinner from '../../shared/Spinner';
@@ -33,14 +32,14 @@ class AgentTokens extends React.Component {
   }
 
   renderBody() {
-    if(this.props.organization.agentTokens) {
+    if (this.props.organization.agentTokens) {
       return this.props.organization.agentTokens.edges.map((edge) => this.renderRow(edge.node));
     } else {
       return (
         <Panel.Section className="center">
           <Spinner />
         </Panel.Section>
-      )
+      );
     }
   }
 
@@ -52,7 +51,7 @@ class AgentTokens extends React.Component {
           <code className="red monospace" style={{ wordWrap: "break-word" }}>{token.token}</code>
         </RevealButton>
       </Panel.Row>
-    )
+    );
   }
 }
 
