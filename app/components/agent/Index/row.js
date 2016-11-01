@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import Panel from '../../shared/Panel';
 import JobLink from '../../shared/JobLink';
+import { getColourForConnectionState, getLabelForConnectionState } from '../shared';
 
 class AgentRow extends React.Component {
   static propTypes = {
@@ -24,22 +25,27 @@ class AgentRow extends React.Component {
   };
 
   render() {
-    const iconClassName = classNames('circle', {
-      'bg-lime': this.props.agent.connectionState === 'connected',
-      'bg-gray': this.props.agent.connectionState === 'disconnected' || this.props.agent.connectionState === 'never_connected',
-      'bg-orange': this.props.agent.connectionState !== 'connected' && this.props.agent.connectionState !== 'disconnected' && this.props.agent.connectionState !== 'never_connected'
-    });
+    const { agent } = this.props;
+
+    const iconClassName = classNames(
+      'circle',
+      getColourForConnectionState(agent.connectionState, 'bg-')
+    );
 
     let metaDataContent = 'No metadata';
-    if (this.props.agent.metaData.length > 0) {
-      metaDataContent = this.props.agent.metaData.sort().join(' ');
+    if (agent.metaData.length > 0) {
+      metaDataContent = agent.metaData.sort().join(' ');
     }
 
     return (
       <Panel.Row>
         <div className="flex">
           <div className="pr3 pt1">
-            <div className={iconClassName} style={{ width: 12, height: 12 }} />
+            <div
+              className={iconClassName}
+              title={getLabelForConnectionState(agent.connectionState)}
+              style={{ width: 12, height: 12 }}
+            />
           </div>
           <div className="flex flex-auto flex-column">
             <div className="flex flex-auto">
@@ -60,7 +66,7 @@ class AgentRow extends React.Component {
               </div>
             </div>
             {
-              this.props.agent.job
+              agent.job
                 && (
                   <small
                     className="block mt1 pt1 border border-gray"
@@ -70,7 +76,7 @@ class AgentRow extends React.Component {
                       borderBottom: 'none'
                     }}
                   >
-                    Running <JobLink job={this.props.agent.job} />
+                    Running <JobLink job={agent.job} />
                   </small>
                 )
             }

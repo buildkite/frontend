@@ -10,19 +10,11 @@ import JobLink from '../shared/JobLink';
 import PageWithContainer from '../shared/PageWithContainer';
 import Panel from '../shared/Panel';
 import permissions from '../../lib/permissions';
+import { getColourForConnectionState, getLabelForConnectionState } from './shared';
 
 import AgentStopMutation from '../../mutations/AgentStop';
 
 const AGENT_REFRESH_INTERVAL = 5 * 1000;
-
-const CONNECTION_STATE_LABELS = {
-  'connected': 'Connected',
-  'disconnected': 'Disconnected',
-  'never_connected': 'Never Connected',
-  'lost': 'Lost Connection',
-  'stopped': 'Stopped',
-  'stopping': 'Stopping…'
-};
 
 class AgentShow extends React.Component {
   static propTypes = {
@@ -169,11 +161,7 @@ class AgentShow extends React.Component {
   render() {
     const agent = this.props.agent;
 
-    const connectionStateClassName = classNames({
-      'lime': agent.connectionState === 'connected',
-      'gray': agent.connectionState === 'disconnected' || agent.connectionState === 'never_connected',
-      'orange': agent.connectionState !== 'connected' && agent.connectionState !== 'disconnected' && this.props.agent.connectionState !== 'never_connected'
-    });
+    const connectionStateClassName = getColourForConnectionState(agent.connectionState);
 
     let metaDataContent = 'None';
     if (agent.metaData && agent.metaData.length) {
@@ -191,7 +179,7 @@ class AgentShow extends React.Component {
                 Status
               </div>
               <div className="sm-col sm-col-9 p2">
-                <strong className={connectionStateClassName}>{CONNECTION_STATE_LABELS[agent.connectionState]}</strong><br/>
+                <strong className={connectionStateClassName}>{getLabelForConnectionState(agent.connectionState)}</strong><br/>
                 <small className="dark-gray">
                   <ul className="list-reset m0">
                     {this.renderExtras(agent)}
