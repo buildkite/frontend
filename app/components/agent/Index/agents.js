@@ -78,7 +78,7 @@ class Agents extends React.Component {
       if (this.props.organization.agents.pageInfo.hasNextPage) {
         return (
           <Panel.Footer>
-            <Button outline={true} theme={"default"} onClick={this.handleLoadMoreAgentsClick}>Load {PAGE_SIZE} more agents...</Button>
+            <Button outline={true} theme={"default"} onClick={this.handleLoadMoreAgentsClick}>Load {PAGE_SIZE} more agents…</Button>
           </Panel.Footer>
         );
       } else {
