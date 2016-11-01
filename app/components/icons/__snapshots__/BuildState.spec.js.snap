@@ -578,7 +578,7 @@ exports[`BuildState BuildState.Small renders correctly for build state \`schedul
 </svg>
 `;
 
-exports[`BuildState BuildState.Xsmall renders correctly for build state \`blocked\` 1`] = `
+exports[`BuildState BuildState.XSmall renders correctly for build state \`blocked\` 1`] = `
 <svg
   className={undefined}
   height={13}
@@ -615,7 +615,7 @@ exports[`BuildState BuildState.Xsmall renders correctly for build state \`blocke
 </svg>
 `;
 
-exports[`BuildState BuildState.Xsmall renders correctly for build state \`canceled\` 1`] = `
+exports[`BuildState BuildState.XSmall renders correctly for build state \`canceled\` 1`] = `
 <svg
   className={undefined}
   height={13}
@@ -653,7 +653,7 @@ exports[`BuildState BuildState.Xsmall renders correctly for build state \`cancel
 </svg>
 `;
 
-exports[`BuildState BuildState.Xsmall renders correctly for build state \`failed\` 1`] = `
+exports[`BuildState BuildState.XSmall renders correctly for build state \`failed\` 1`] = `
 <svg
   className={undefined}
   height={13}
@@ -691,7 +691,7 @@ exports[`BuildState BuildState.Xsmall renders correctly for build state \`failed
 </svg>
 `;
 
-exports[`BuildState BuildState.Xsmall renders correctly for build state \`passed\` 1`] = `
+exports[`BuildState BuildState.XSmall renders correctly for build state \`passed\` 1`] = `
 <svg
   className={undefined}
   height={13}
@@ -725,7 +725,7 @@ exports[`BuildState BuildState.Xsmall renders correctly for build state \`passed
 </svg>
 `;
 
-exports[`BuildState BuildState.Xsmall renders correctly for build state \`pending\` 1`] = `
+exports[`BuildState BuildState.XSmall renders correctly for build state \`pending\` 1`] = `
 <svg
   className={undefined}
   height={13}
@@ -758,7 +758,7 @@ exports[`BuildState BuildState.Xsmall renders correctly for build state \`pendin
 </svg>
 `;
 
-exports[`BuildState BuildState.Xsmall renders correctly for build state \`running\` 1`] = `
+exports[`BuildState BuildState.XSmall renders correctly for build state \`running\` 1`] = `
 <svg
   className={undefined}
   height={13}
@@ -813,7 +813,7 @@ exports[`BuildState BuildState.Xsmall renders correctly for build state \`runnin
 </svg>
 `;
 
-exports[`BuildState BuildState.Xsmall renders correctly for build state \`scheduled\` 1`] = `
+exports[`BuildState BuildState.XSmall renders correctly for build state \`scheduled\` 1`] = `
 <svg
   className={undefined}
   height={13}
@@ -905,6 +905,6 @@ exports[`BuildState stateless Components are accessible 1`] = `
 Array [
   "Regular",
   "Small",
-  "Xsmall",
+  "XSmall",
 ]
 `;

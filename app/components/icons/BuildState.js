@@ -3,15 +3,15 @@ import shallowCompare from 'react-addons-shallow-compare';
 import { v4 as uuid } from 'uuid';
 
 const SIZE_DEFINITIONS = {
-  regular: {
+  Regular: {
     strokeWidth: 2,
     size: 32
   },
-  small: {
+  Small: {
     strokeWidth: 3,
     size: 20
   },
-  xsmall: {
+  XSmall: {
     strokeWidth: 4,
     size: 13
   }
@@ -30,8 +30,9 @@ const STATE_COLORS = {
 class BuildState extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
-    size: React.PropTypes.oneOf(Object.keys(SIZE_DEFINITIONS)).isRequired,
+    size: React.PropTypes.number.isRequired,
     state: React.PropTypes.oneOf(Object.keys(STATE_COLORS)).isRequired,
+    strokeWidth: React.PropTypes.number.isRequired,
     style: React.PropTypes.object
   };
 
@@ -50,19 +51,17 @@ class BuildState extends React.Component {
   }
 
   render() {
-    const sizeDefinition = SIZE_DEFINITIONS[this.props.size] || {};
-    const strokeWidth = sizeDefinition.strokeWidth || 2;
-    const size = sizeDefinition.size || 32;
+    const { className, size, strokeWidth, style } = this.props;
 
     const outerCircleId = `BuildState_${this.state.uuid}_circle`;
     const strokeClipPathId = `BuildState_${this.state.uuid}_strokeClipPath`;
 
-    const { defs, content } = this.renderPaths(strokeWidth);
+    const { defs, content } = this.renderPaths();
 
     return (
       <svg
-        className={this.props.className}
-        style={this.props.style}
+        className={className}
+        style={style}
         width={size}
         height={size}
         viewBox="0 0 32 32"
@@ -91,11 +90,11 @@ class BuildState extends React.Component {
     );
   }
 
-  renderPaths(strokeWidth) {
+  renderPaths() {
     const applyStroke = {
       fill: 'none',
       stroke: STATE_COLORS[this.props.state],
-      strokeWidth
+      strokeWidth: this.props.strokeWidth
     };
 
     const maskId = `BuildState_${this.state.uuid}_mask`;
@@ -162,12 +161,10 @@ class BuildState extends React.Component {
 const exported = {};
 
 Object.keys(SIZE_DEFINITIONS).forEach((size) => {
-  const componentName = size.charAt(0).toUpperCase() + size.slice(1);
+  const component = (props) => <BuildState {...props} {...SIZE_DEFINITIONS[size]} />;
+  component.displayName = `BuildState.${size}`;
 
-  const component = (props) => <BuildState {...props} size={size} />;
-  component.displayName = `BuildState.${componentName}`;
-
-  exported[componentName] = component;
+  exported[size] = component;
 });
 
 export default exported;
