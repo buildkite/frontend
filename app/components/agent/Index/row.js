@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 
+import BuildState from '../../icons/BuildState';
 import Panel from '../../shared/Panel';
 import JobLink from '../../shared/JobLink';
 import { getColourForConnectionState, getLabelForConnectionState } from '../shared';
@@ -13,7 +14,9 @@ class AgentRow extends React.Component {
       id: React.PropTypes.string.isRequired,
       connectionState: React.PropTypes.string.isRequired,
       hostname: React.PropTypes.string.isRequired,
-      job: React.PropTypes.object,
+      job: React.PropTypes.shape({
+        state: React.PropTypes.string
+      }),
       metaData: React.PropTypes.array.isRequired,
       name: React.PropTypes.string.isRequired,
       organization: React.PropTypes.shape({
@@ -40,12 +43,20 @@ class AgentRow extends React.Component {
     return (
       <Panel.Row>
         <div className="flex">
-          <div className="pr3 pt1">
-            <div
-              className={iconClassName}
-              title={getLabelForConnectionState(agent.connectionState)}
-              style={{ width: 12, height: 12 }}
-            />
+          <div
+            className="pr3 pt1"
+            title={getLabelForConnectionState(agent.connectionState)}
+          >
+            {
+              agent.job
+                ? <BuildState.XSmall state={agent.job.state} style={{ display: 'block' }} />
+                : (
+                  <div
+                    className={iconClassName}
+                    style={{ width: 13, height: 13 }}
+                  />
+                )
+            }
           </div>
           <div className="flex flex-auto flex-column">
             <div className="flex flex-auto">
@@ -53,16 +64,16 @@ class AgentRow extends React.Component {
                 <div>
                   <Link
                     className="blue hover-navy text-decoration-none hover-underline"
-                    to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}`}
+                    to={`/organizations/${agent.organization.slug}/agents/${agent.uuid}`}
                   >
-                    {this.props.agent.name}
+                    {agent.name}
                   </Link>
                 </div>
                 <small className="dark-gray">{metaDataContent}</small>
               </div>
               <div className="right-align">
-                <div className="black">v{this.props.agent.version}</div>
-                <small className="dark-gray">{this.props.agent.hostname}</small>
+                <div className="black">v{agent.version}</div>
+                <small className="dark-gray">{agent.hostname}</small>
               </div>
             </div>
             {
@@ -100,6 +111,9 @@ export default Relay.createContainer(AgentRow, {
           slug
         }
         job {
+          ...on JobTypeCommand {
+            state
+          }
           ${JobLink.getFragment('job')}
         }
         uuid
