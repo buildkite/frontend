@@ -5737,6 +5737,10 @@ react-transform-hmr@^1.0.3, react-transform-hmr@^1.0.4:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
+react-type-snob@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/react-type-snob/-/react-type-snob-0.0.2.tgz#5c1c44fbda40f89b71c46730c74a291f0d7fbb36"
+
 react@^15.3.2:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.3.2.tgz#a7bccd2fee8af126b0317e222c28d1d54528d09e"
