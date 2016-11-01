@@ -7,6 +7,7 @@ import Button from '../shared/Button';
 import Emojify from '../shared/Emojify';
 import FlashesStore from '../../stores/FlashesStore';
 import FriendlyTime from "../shared/FriendlyTime";
+import JobLink from '../shared/JobLink';
 import PageWithContainer from '../shared/PageWithContainer';
 import Panel from '../shared/Panel';
 import permissions from '../../lib/permissions';
@@ -95,12 +96,7 @@ class AgentShow extends React.Component {
     }
 
     if (agent.job) {
-      extras.push(this.renderExtraItem(
-        'Running',
-        <a href={agent.job.url} className="blue hover-navy text-decoration-none hover-underline">
-          {agent.job.build.pipeline.name} - Build #{agent.job.build.number} / <Emojify text={agent.job.label || agent.job.command} />
-        </a>
-      ));
+      extras.push(this.renderExtraItem('Running', <JobLink job={agent.job} />));
     }
 
     if (agent.connectedAt) {
@@ -109,22 +105,36 @@ class AgentShow extends React.Component {
         <span>
           <FriendlyTime value={agent.connectedAt} />
           {agent.pingedAt && agent.connectionState === 'connected' &&
-            <span> (last check-in was {<FriendlyTime value={agent.pingedAt} capitalized={false} />})</span>
+            <span> (last check-in was <FriendlyTime value={agent.pingedAt} capitalized={false} />)</span>
           }
         </span>
       ));
     }
 
     if (agent.connectionState === 'disconnected') {
-      extras.push(this.renderExtraItem('Disconnected', <FriendlyTime value={agent.disconnectedAt} />));
+      extras.push(this.renderExtraItem(
+        'Disconnected',
+        <FriendlyTime value={agent.disconnectedAt} />
+      ));
     } else if (agent.connectionState === 'lost') {
-      extras.push(this.renderExtraItem('Lost', <FriendlyTime value={agent.lostAt} />));
+      extras.push(this.renderExtraItem(
+        'Lost',
+        <FriendlyTime value={agent.lostAt} />
+      ));
     } else if (agent.connectionState === 'stopped' || agent.connectionState === 'stopping') {
-      extras.push(this.renderExtraItem('Stopped', <span><FriendlyTime value={agent.stoppedAt} /> by {agent.stoppedBy.name}</span>));
+      extras.push(this.renderExtraItem(
+        'Stopped',
+        <span>
+          <FriendlyTime value={agent.stoppedAt} /> by {agent.stoppedBy.name}
+        </span>
+      ));
 
       // Also show when the agent eventually disconnected
       if (agent.disconnectedAt) {
-        extras.push(this.renderExtraItem('Disconnected', <FriendlyTime value={agent.disconnectedAt} />));
+        extras.push(this.renderExtraItem(
+          'Disconnected',
+          <FriendlyTime value={agent.disconnectedAt} />
+        ));
       }
     }
 
@@ -197,7 +207,10 @@ class AgentShow extends React.Component {
               </div>
               <div className="left sm-col-9 p2">
                 <pre className="black bg-silver rounded border border-gray p1 m0 monospace">{metaDataContent}</pre>
-                <small className="dark-gray">You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue. See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/queues">Agent Queues Documentation</a> for more details.</small>
+                <small className="dark-gray">
+                  You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
+                  See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/queues">Agent Queues Documentation</a> for more details.
+                </small>
               </div>
             </Panel.Row>
 
@@ -220,8 +233,21 @@ class AgentShow extends React.Component {
           <Panel.Row key={idx}>
             <div className="sm-col sm-right-align sm-col-3 p2 xs-hide" />
             <div className="sm-col sm-col-9 p2">
-              <Button theme="default" outline={true} loading={this.state.stopping ? "Stopping…" : false} onClick={this.handleStopButtonClick}>Stop Agent</Button><br/>
-              <small className="dark-gray">Remotely stop this agent process. Any running build job will be canceled.</small>
+              <Button
+                theme="default"
+                outline={true}
+                loading={this.state.stopping ? "Stopping…" : false}
+                onClick={this.handleStopButtonClick}
+              >
+                Stop Agent
+              </Button>
+              <br />
+
+  
+             <small className="dark-gray">
+                Remotely stop this agent process.
+                Any running build job will be canceled.
+              </small>
             </div>
           </Panel.Row>
         )
@@ -242,17 +268,7 @@ export default Relay.createContainer(AgentShow, {
         id
         ipAddress
         job {
-          ...on JobTypeCommand {
-            label
-            command
-            url
-            build {
-              number
-              pipeline {
-                name
-              }
-            }
-          }
+          ${JobLink.getFragment('job')}
         }
         lostAt
         name
