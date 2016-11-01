@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import classNames from 'classnames';
 
+import Emojify from '../../shared/Emojify';
 import Panel from '../../shared/Panel';
 import Spinner from '../../shared/Spinner';
 import RevealButton from '../../shared/RevealButton';
@@ -46,7 +47,7 @@ class QuickStart extends React.Component {
 
   renderGuideButtons() {
     return (
-      <div className="center">
+      <div className="center" style={{ margin: -5 }}>
         {
           GUIDES.map((Guide, index) => (
             <a
@@ -61,7 +62,8 @@ class QuickStart extends React.Component {
               )}
               onClick={this.handleSelectedGuideChange.bind(this, index)}
             >
-              {Guide.name}
+              <Emojify className="block mt1" text={Guide.emoji} />
+              {Guide.title}
             </a>
           ))
         }
