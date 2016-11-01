@@ -54,7 +54,7 @@ class QuickStart extends React.Component {
               key={index}
               href="#"
               className={classNames(
-                'inline-block blue hover-navy text-decoration-none border rounded m1 px2 py1',
+                'inline-block blue hover-navy text-decoration-none border rounded m1 p1',
                 {
                   'border-white': index !== this.state.selectedGuide,
                   'border-gray': index === this.state.selectedGuide
@@ -62,7 +62,7 @@ class QuickStart extends React.Component {
               )}
               onClick={this.handleSelectedGuideChange.bind(this, index)}
             >
-              <Emojify className="block mt1" text={Guide.emoji} />
+              <Emojify className="block mt1" style={{ fontSize: '1.15em' }} text={Guide.emoji} />
               {Guide.title}
             </a>
           ))
