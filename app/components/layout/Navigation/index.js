@@ -159,7 +159,7 @@ class Navigation extends React.Component {
 
     return (
       <Dropdown align="center" width={250} className="flex" onToggle={this.handleBuildsDropdownToggle}>
-        <DropdownButton className={classNames({ "lime": this.state.showingBuildsDropdown })}>
+        <DropdownButton className={classNames("py0", { "lime": this.state.showingBuildsDropdown })}>
           {'My Builds '}
           <ReactCSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
             {badge}
@@ -215,8 +215,8 @@ class Navigation extends React.Component {
     if (organization) {
       return (
         <div className={classNames("flex", options.className)}>
-          <NavigationButton style={{ paddingLeft: paddingLeft }} href={`/${organization.slug}`} linkIf={Features.NewPipelineList}>Pipelines</NavigationButton>
-          <NavigationButton href={`/organizations/${organization.slug}/agents`} linkIf={Features.NewAgentList}>
+          <NavigationButton className="py0" style={{ paddingLeft: paddingLeft }} href={`/${organization.slug}`} linkIf={Features.NewPipelineList}>Pipelines</NavigationButton>
+          <NavigationButton className="py0" href={`/organizations/${organization.slug}/agents`} linkIf={Features.NewAgentList}>
             {'Agents'}
             <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
           </NavigationButton>
@@ -236,14 +236,14 @@ class Navigation extends React.Component {
     return permissions(organization.permissions).first(
       {
         only: "teamAdmin",
-        render: () => <NavigationButton href={`/organizations/${organization.slug}/teams`}>Settings</NavigationButton>
+        render: () => <NavigationButton className="py0" href={`/organizations/${organization.slug}/teams`}>Settings</NavigationButton>
       },
       {
         any: true,
         render: () => {
           return [
-            <NavigationButton key={1} href={`/organizations/${organization.slug}/users`}>Users</NavigationButton>,
-            <NavigationButton key={2} href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+            <NavigationButton key={1} className="py0" href={`/organizations/${organization.slug}/users`}>Users</NavigationButton>,
+            <NavigationButton key={2} className="py0" href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
           ];
         }
       }
@@ -268,7 +268,7 @@ class Navigation extends React.Component {
 
             <Dropdown align="left" width={250} className="flex" style={{ minWidth: "5em" }} onToggle={this.handleOrgDropdownToggle}>
               <DropdownButton
-                className={classNames({ "lime": this.state.showingOrgDropdown })}
+                className={classNames("py0", { "lime": this.state.showingOrgDropdown })}
                 style={{
                   backgroundImage: 'url(' + require('./nav-button-right-arrow.svg') + ')',
                   backgroundRepeat: 'no-repeat',
@@ -289,11 +289,11 @@ class Navigation extends React.Component {
             <span className="flex-auto" />
 
             {this.renderMyBuilds()}
-            <NavigationButton className="xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
-            <NavigationButton className="xs-hide sm-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
+            <NavigationButton className="py0 xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
+            <NavigationButton className="py0 xs-hide sm-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
 
             <Dropdown align="right" width={170} className="flex" onToggle={this.handleUserDropdownToggle}>
-              <DropdownButton className={classNames({ "lime": this.state.showingUserDropdown })}
+              <DropdownButton className={classNames("py0", { "lime": this.state.showingUserDropdown })}
                 style={{ paddingRight: 0 }}
               >
                 <UserAvatar user={this.props.viewer.user} className="flex-none flex items-center" style={{ width: 26, height: 26 }} />
