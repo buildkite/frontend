@@ -1,5 +1,5 @@
-export function getColourForConnectionState(connectionState, prefix='') {
-  switch(connectionState) {
+export function getColourForConnectionState(connectionState, prefix = '') {
+  switch (connectionState) {
     case 'connected':
       return `${prefix}lime`;
     case 'disconnected':
@@ -11,7 +11,7 @@ export function getColourForConnectionState(connectionState, prefix='') {
     case 'lost':
       return `${prefix}orange`;
   }
-};
+}
 
 const CONNECTION_STATE_LABELS = {
   'connected': 'Connected',
@@ -24,4 +24,4 @@ const CONNECTION_STATE_LABELS = {
 
 export function getLabelForConnectionState(connectionState) {
   return CONNECTION_STATE_LABELS[connectionState];
-};
+}

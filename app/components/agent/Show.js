@@ -1,7 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
-import classNames from 'classnames';
 
 import Button from '../shared/Button';
 import FlashesStore from '../../stores/FlashesStore';
@@ -179,7 +178,10 @@ class AgentShow extends React.Component {
                 Status
               </div>
               <div className="sm-col sm-col-9 p2">
-                <strong className={connectionStateClassName}>{getLabelForConnectionState(agent.connectionState)}</strong><br/>
+                <strong className={connectionStateClassName}>
+                  {getLabelForConnectionState(agent.connectionState)}
+                </strong>
+                <br />
                 <small className="dark-gray">
                   <ul className="list-reset m0">
                     {this.renderExtras(agent)}
