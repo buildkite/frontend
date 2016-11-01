@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 
+import Emojify from '../../shared/Emojify';
 import Panel from '../../shared/Panel';
 
 class AgentRow extends React.Component {
@@ -11,6 +12,7 @@ class AgentRow extends React.Component {
       id: React.PropTypes.string.isRequired,
       connectionState: React.PropTypes.string.isRequired,
       hostname: React.PropTypes.string.isRequired,
+      job: React.PropTypes.object,
       metaData: React.PropTypes.array.isRequired,
       name: React.PropTypes.string.isRequired,
       organization: React.PropTypes.shape({
@@ -42,6 +44,16 @@ class AgentRow extends React.Component {
           <div className="flex-auto">
             <div><Link className="blue hover-navy text-decoration-none hover-underline" to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}`}>{this.props.agent.name}</Link></div>
             <small className="dark-gray">{metaDataContent}</small>
+            {
+              this.props.agent.job
+                && (
+                  <div>
+                    <a href={this.props.agent.job.url} className="blue hover-navy text-decoration-none hover-underline">
+                      <small>{this.props.agent.job.build.pipeline.name} - Build #{this.props.agent.job.build.number} / <Emojify text={this.props.agent.job.label || this.props.agent.job.command} /></small>
+                    </a>
+                  </div>
+                )
+            }
           </div>
           <div className="right-align">
             <div className="black">v{this.props.agent.version}</div>
@@ -64,6 +76,19 @@ export default Relay.createContainer(AgentRow, {
         name
         organization {
           slug
+        }
+        job {
+          ...on JobTypeCommand {
+            label
+            command
+            url
+            build {
+              number
+              pipeline {
+                name
+              }
+            }
+          }
         }
         uuid
         version
