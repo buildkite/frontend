@@ -55,7 +55,7 @@ class AgentIndex extends React.Component {
     let loadMoreButton;
     if (this.props.organization.agents.pageInfo.hasNextPage) {
       loadMoreButton =
-        <Button outline={true} theme={"default"} onClick={this.handleLoadMoreAgentsClick}>Load {PAGE_SIZE} more agents...</Button>;
+        <Button outline={true} theme={"default"} onClick={this.handleLoadMoreAgentsClick}>Load {PAGE_SIZE} more agents…</Button>;
     } else {
       loadMoreButton = <small className="dark-gray">No more to load</small>;
     }
