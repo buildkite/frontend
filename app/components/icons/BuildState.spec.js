@@ -1,11 +1,9 @@
 /* global describe, it, expect, jest */
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
+import BuildState from './BuildState';
 
-const SIZES = [
-  'regular',
-  'small'
-];
+jest.mock('uuid', () => ({ v4: () => 'NORMALLY-UUID-GOES-HERE-BUTNEVERMIND' }));
 
 const BUILD_STATES = [
   'pending',
@@ -18,16 +16,20 @@ const BUILD_STATES = [
 ];
 
 describe('BuildState', () => {
-  jest.mock('uuid', () => ({ v4: () => 'NORMALLY-UUID-GOES-HERE-BUTNEVERMIND' }));
+  const componentList = Object.keys(BuildState);
 
-  const BuildState = require('./BuildState').default;
+  it('stateless Components are accessible', () => {
+    expect(componentList).toMatchSnapshot();
+  });
 
-  SIZES.forEach((size) => {
-    describe(`where size="${size}"`, () => {
+  componentList.forEach((componentName) => {
+    const BuildStateComponent = BuildState[componentName];
+
+    describe(`BuildState.${componentName}`, () => {
       BUILD_STATES.forEach((state) => {
         it(`renders correctly for build state \`${state}\``, () => {
           const component = ReactTestRenderer.create(
-            <BuildState state={state} size={size} />
+            <BuildStateComponent state={state} />
           );
 
           const tree = component.toJSON();
@@ -38,17 +40,9 @@ describe('BuildState', () => {
   });
 
   it(`passes through className`, () => {
+    const FirstBuildState = BuildState[componentList[0]];
     const component = ReactTestRenderer.create(
-      <BuildState state={BUILD_STATES[0]} size={SIZES[0]} className="some-weird-class-name" />
-    );
-
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-
-  it(`has default for \`size\``, () => {
-    const component = ReactTestRenderer.create(
-      <BuildState state={BUILD_STATES[0]} />
+      <FirstBuildState state={BUILD_STATES[0]} className="some-weird-class-name" />
     );
 
     const tree = component.toJSON();

@@ -10,6 +10,10 @@ const SIZE_DEFINITIONS = {
   small: {
     strokeWidth: 3,
     size: 20
+  },
+  xsmall: {
+    strokeWidth: 4,
+    size: 13
   }
 };
 
@@ -25,13 +29,10 @@ const STATE_COLORS = {
 
 class BuildState extends React.Component {
   static propTypes = {
-    state: React.PropTypes.oneOf(Object.keys(STATE_COLORS)).isRequired,
+    className: React.PropTypes.string,
     size: React.PropTypes.oneOf(Object.keys(SIZE_DEFINITIONS)).isRequired,
-    className: React.PropTypes.string
-  };
-
-  static defaultProps = {
-    size: 'regular'
+    state: React.PropTypes.oneOf(Object.keys(STATE_COLORS)).isRequired,
+    style: React.PropTypes.object
   };
 
   state = {
@@ -59,15 +60,32 @@ class BuildState extends React.Component {
     const { defs, content } = this.renderPaths(strokeWidth);
 
     return (
-      <svg width={size} height={size} viewBox="0 0 32 32" className={this.props.className}>
+      <svg
+        className={this.props.className}
+        style={this.props.style}
+        width={size}
+        height={size}
+        viewBox="0 0 32 32"
+      >
         <defs>
-          <circle id={outerCircleId} fill="none" cx="16" cy="16" r="15" stroke={STATE_COLORS[this.props.state]} strokeWidth={strokeWidth * 2} />
+          <circle
+            id={outerCircleId}
+            fill="none"
+            cx="16"
+            cy="16"
+            r="15"
+            stroke={STATE_COLORS[this.props.state]}
+            strokeWidth={strokeWidth * 2}
+          />
           <clipPath id={strokeClipPathId}>
             <use xlinkHref={`#${outerCircleId}`}/>
           </clipPath>
           {defs}
         </defs>
-        <use xlinkHref={`#${outerCircleId}`} clipPath={`url(#${strokeClipPathId})`} />
+        <use
+          xlinkHref={`#${outerCircleId}`}
+          clipPath={`url(#${strokeClipPathId})`}
+        />
         {content}
       </svg>
     );
@@ -115,7 +133,12 @@ class BuildState extends React.Component {
       case 'running':
         defs = (
           <mask id={maskId} x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
-            <polygon points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16" fill="#fff" style={{ transformOrigin: 'center' }} className="animation-spin" />
+            <polygon
+              className="animation-spin"
+              style={{ transformOrigin: 'center' }}
+              fill="#fff"
+              points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16"
+            />
           </mask>
         );
         content = (
@@ -136,4 +159,16 @@ class BuildState extends React.Component {
   }
 }
 
-export default BuildState;
+const exported = {};
+
+Object.keys(SIZE_DEFINITIONS).forEach((size) => {
+  const componentName = size.charAt(0).toUpperCase() + size.slice(1);
+
+  const component = (props) => <BuildState {...props} size={size} />;
+  component.displayName = `BuildState.${componentName}`;
+
+  exported[componentName] = component;
+});
+
+export default exported;
+
