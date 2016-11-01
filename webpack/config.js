@@ -110,7 +110,10 @@ if (IS_PRODUCTION) {
   // determenistic filename hashes
   plugins.push(new webpack.optimize.OccurenceOrderPlugin(true));
 
-  // You're basic, run-of-the-mill, JS uglifier
+  // Don't pack react-type-snob in production
+  plugins.push(new webpack.IgnorePlugin(/^react-type-snob$/));
+
+  // Your basic, run-of-the-mill, JS uglifier
   plugins.push(new webpack.optimize.UglifyJsPlugin({
     output: {
       comments: false

@@ -41,7 +41,7 @@ class APIAccessTokenCodeAuthorize extends React.Component {
   renderMissing() {
     return (
       <div className="py4">
-        <p>Sorry...we couldn't find that code. It may have expired!</p>
+        <p>Sorry, we couldn’t find that code. It may have expired!</p>
       </div>
     );
   }
