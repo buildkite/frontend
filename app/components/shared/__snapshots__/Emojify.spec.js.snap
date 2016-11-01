@@ -6,5 +6,6 @@ exports[`Emojify renders as expected 1`] = `
       "__html": "This text should be reflected in the title attribute and text content, as well as in the call to lib/Emoji!",
     }
   }
+  style={undefined}
   title="This text should be reflected in the title attribute and text content, as well as in the call to lib/Emoji!" />
 `;
