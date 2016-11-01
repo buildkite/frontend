@@ -6,6 +6,7 @@ import PageWithContainer from '../../shared/PageWithContainer';
 
 import Agents from './agents';
 import AgentTokens from './agentTokens';
+import QuickStart from './quickStart';
 
 class AgentIndex extends React.Component {
   static propTypes = {
@@ -36,6 +37,7 @@ class AgentIndex extends React.Component {
       return (
         <div className="clearfix mxn3">
           <div className="sm-col sm-col-8 px3">
+            <QuickStart organization={this.props.organization} />
             <Agents organization={this.props.organization} />
           </div>
           <div className="sm-col sm-col-4 px3">
@@ -55,6 +57,7 @@ export default Relay.createContainer(AgentIndex, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+        ${QuickStart.getFragment('organization')}
         ${AgentTokens.getFragment('organization')}
         ${Agents.getFragment('organization')}
         name

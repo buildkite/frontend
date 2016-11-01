@@ -162,7 +162,7 @@ module.exports = {
       },
       {
         test: /\.mdx$/i,
-        loader: 'babel-loader!markdown-component-loader'
+        loader: 'babel-loader!markdown-component-loader?passElementProps=true'
       },
       {
         test: /\.(woff)$/i,

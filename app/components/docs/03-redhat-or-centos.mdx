@@ -1,0 +1,39 @@
+The Buildkite Agent can be installed on Redhat, CentOS and Amazon Linux using our yum repository.
+
+Firstly, add our yum repository for your architecture (run `uname -m` to find your system’s arch).
+
+For 64-bit (x86_64):
+
+```shell
+sudo sh -c 'echo -e "[buildkite-agent]\nname = Buildkite Pty Ltd\nbaseurl = https://yum.buildkite.com/buildkite-agent/stable/x86_64/\nenabled=1\ngpgcheck=0\npriority=1" > /etc/yum.repos.d/buildkite-agent.repo'
+```
+
+For 32-bit (i386):
+
+```shell
+sudo sh -c 'echo -e "[buildkite-agent]\nname = Buildkite Pty Ltd\nbaseurl = https://yum.buildkite.com/buildkite-agent/stable/i386/\nenabled=1\ngpgcheck=0\npriority=1" > /etc/yum.repos.d/buildkite-agent.repo'
+```
+
+Then, install the agent:
+
+```shell
+sudo yum -y install buildkite-agent
+```
+
+Configure your agent token:
+
+```shell
+sudo sed -i "s/xxx/{{props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE'}}/g" /etc/buildkite-agent/buildkite-agent.cfg
+```
+
+And then start the agent, and tail the logs:
+
+```shell
+# For distributions with systemctl
+sudo systemctl enable buildkite-agent && sudo systemctl start buildkite-agent
+sudo tail -f /var/log/messages
+
+# For distributions without systemctl (such as Amazon Linux)
+sudo service buildkite-agent start
+sudo tail -f /var/log/buildkite-agent.log
+```
