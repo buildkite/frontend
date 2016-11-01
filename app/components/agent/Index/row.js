@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import Emojify from '../../shared/Emojify';
 import Panel from '../../shared/Panel';
+import JobLink from '../../shared/JobLink';
 
 class AgentRow extends React.Component {
   static propTypes = {
@@ -46,13 +47,7 @@ class AgentRow extends React.Component {
             <small className="dark-gray">{metaDataContent}</small>
             {
               this.props.agent.job
-                && (
-                  <div>
-                    <a href={this.props.agent.job.url} className="blue hover-navy text-decoration-none hover-underline">
-                      <small>{this.props.agent.job.build.pipeline.name} - Build #{this.props.agent.job.build.number} / <Emojify text={this.props.agent.job.label || this.props.agent.job.command} /></small>
-                    </a>
-                  </div>
-                )
+                && <div><small><JobLink job={this.props.agent.job} /></small></div>
             }
           </div>
           <div className="right-align">
@@ -78,17 +73,7 @@ export default Relay.createContainer(AgentRow, {
           slug
         }
         job {
-          ...on JobTypeCommand {
-            label
-            command
-            url
-            build {
-              number
-              pipeline {
-                name
-              }
-            }
-          }
+          ${JobLink.getFragment('job')}
         }
         uuid
         version
