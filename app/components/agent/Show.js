@@ -95,7 +95,12 @@ class AgentShow extends React.Component {
     }
 
     if (agent.job) {
-      extras.push(this.renderExtraItem('Running', <a href="agent.job.path">{agent.job.projectName} - Build {agent.job.buildNumber} / <Emojify>{agent.job.name || agent.job.command}</Emojify></a>));
+      extras.push(this.renderExtraItem(
+        'Running',
+        <a href={agent.job.url} className="blue hover-navy text-decoration-none hover-underline">
+          {agent.job.build.pipeline.name} - Build #{agent.job.build.number} / <Emojify text={agent.job.label || agent.job.command} />
+        </a>
+      ));
     }
 
     if (agent.connectedAt) {
@@ -236,7 +241,19 @@ export default Relay.createContainer(AgentShow, {
         hostname
         id
         ipAddress
-        job
+        job {
+          ...on JobTypeCommand {
+            label
+            command
+            url
+            build {
+              number
+              pipeline {
+                name
+              }
+            }
+          }
+        }
         lostAt
         name
         metaData
