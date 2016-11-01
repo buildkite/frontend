@@ -42,7 +42,14 @@ class AgentRow extends React.Component {
             <div className={iconClassName} style={{ width: 12, height: 12 }} />
           </div>
           <div className="flex-auto">
-            <div><Link className="blue hover-navy text-decoration-none hover-underline" to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}`}>{this.props.agent.name}</Link></div>
+            <div>
+              <Link
+                className="blue hover-navy text-decoration-none hover-underline"
+                to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}`}
+              >
+                {this.props.agent.name}
+              </Link>
+            </div>
             <small className="dark-gray">{metaDataContent}</small>
             {
               this.props.agent.job
