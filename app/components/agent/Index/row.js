@@ -41,24 +41,39 @@ class AgentRow extends React.Component {
           <div className="pr3 pt1">
             <div className={iconClassName} style={{ width: 12, height: 12 }} />
           </div>
-          <div className="flex-auto">
-            <div>
-              <Link
-                className="blue hover-navy text-decoration-none hover-underline"
-                to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}`}
-              >
-                {this.props.agent.name}
-              </Link>
+          <div className="flex flex-auto flex-column">
+            <div className="flex flex-auto">
+              <div className="flex-auto">
+                <div>
+                  <Link
+                    className="blue hover-navy text-decoration-none hover-underline"
+                    to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}`}
+                  >
+                    {this.props.agent.name}
+                  </Link>
+                </div>
+                <small className="dark-gray">{metaDataContent}</small>
+              </div>
+              <div className="right-align">
+                <div className="black">v{this.props.agent.version}</div>
+                <small className="dark-gray">{this.props.agent.hostname}</small>
+              </div>
             </div>
-            <small className="dark-gray">{metaDataContent}</small>
             {
               this.props.agent.job
-                && <div><small><JobLink job={this.props.agent.job} /></small></div>
+                && (
+                  <small
+                    className="block mt1 pt1 border border-gray"
+                    style={{
+                      borderLeft: 'none',
+                      borderRight: 'none',
+                      borderBottom: 'none'
+                    }}
+                  >
+                    Running <JobLink job={this.props.agent.job} />
+                  </small>
+                )
             }
-          </div>
-          <div className="right-align">
-            <div className="black">v{this.props.agent.version}</div>
-            <small className="dark-gray">{this.props.agent.hostname}</small>
           </div>
         </div>
       </Panel.Row>
