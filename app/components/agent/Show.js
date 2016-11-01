@@ -4,7 +4,6 @@ import DocumentTitle from 'react-document-title';
 import classNames from 'classnames';
 
 import Button from '../shared/Button';
-import Emojify from '../shared/Emojify';
 import FlashesStore from '../../stores/FlashesStore';
 import FriendlyTime from "../shared/FriendlyTime";
 import JobLink from '../shared/JobLink';
@@ -242,9 +241,7 @@ class AgentShow extends React.Component {
                 Stop Agent
               </Button>
               <br />
-
-  
-             <small className="dark-gray">
+              <small className="dark-gray">
                 Remotely stop this agent process.
                 Any running build job will be canceled.
               </small>

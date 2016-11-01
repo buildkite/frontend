@@ -3,7 +3,6 @@ import Relay from 'react-relay';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 
-import Emojify from '../../shared/Emojify';
 import Panel from '../../shared/Panel';
 import JobLink from '../../shared/JobLink';
 
