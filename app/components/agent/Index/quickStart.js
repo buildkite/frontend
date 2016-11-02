@@ -4,8 +4,6 @@ import classNames from 'classnames';
 
 import Emojify from '../../shared/Emojify';
 import Panel from '../../shared/Panel';
-import Spinner from '../../shared/Spinner';
-import RevealButton from '../../shared/RevealButton';
 
 import 'highlight.js/styles/github.css';
 
@@ -60,9 +58,13 @@ class QuickStart extends React.Component {
                   'border-gray': index === this.state.selectedGuide
                 }
               )}
-              onClick={this.handleSelectedGuideChange.bind(this, index)}
+              onClick={this.handleSelectedGuideChange.bind(this, index)} // eslint-disable-line react/jsx-no-bind
             >
-              <Emojify className="block mt1" style={{ fontSize: '1.15em' }} text={Guide.emoji || `:${Guide.title.toLowerCase()}:`} />
+              <Emojify
+                className="block mt1"
+                style={{ fontSize: '1.15em' }}
+                text={Guide.emoji || `:${Guide.title.toLowerCase()}:`}
+              />
               {Guide.title}
             </a>
           ))
@@ -84,10 +86,10 @@ class QuickStart extends React.Component {
             borderBottom: 'none'
           }}
           elementProps={{
-            a: {
+            'a': {
               className: 'blue hover-navy text-decoration-none hover-underline'
             },
-            pre: {
+            'pre': {
               className: 'border border-gray rounded bg-silver overflow-auto p2 monospace'
             }
           }}
