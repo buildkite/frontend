@@ -4432,9 +4432,9 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-markdown-component-loader:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/markdown-component-loader/-/markdown-component-loader-0.0.5.tgz#5033cc6bfa23c925458077602ca73c915136ea4b"
+markdown-component-loader@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/markdown-component-loader/-/markdown-component-loader-0.0.6.tgz#c22f98b95b26ade0b6b51db804c03545858d8f43"
   dependencies:
     doc-chomp "1.1.0"
     front-matter "^2.1.0"
