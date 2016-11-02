@@ -17,7 +17,13 @@ const GUIDES = ((guideRequire) =>
 class QuickStart extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
+      id: React.PropTypes.number.isRequired,
+      name: React.PropTypes.string.isRequired,
+      slug: React.PropTypes.string.isRequired,
       agentTokens: React.PropTypes.shape({
+        edges: React.PropTypes.array.isRequired
+      }),
+      awsTokens: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
       })
     }).isRequired,
@@ -75,6 +81,7 @@ class QuickStart extends React.Component {
 
   renderGuide() {
     const GuideToRender = GUIDES[this.state.selectedGuide];
+    const { id, name, slug, agentTokens: { edges: agentTokens } = {}, awsTokens: { edges: awsTokens } = {} } = this.props.organization;
 
     if (GuideToRender) {
       return (
@@ -97,10 +104,12 @@ class QuickStart extends React.Component {
             }
           }}
           token={
-            this.props.organization.agentTokens
-              && this.props.organization.agentTokens.edges.length
-              && this.props.organization.agentTokens.edges[0].node.token
+            agentTokens
+              && agentTokens.edges.length
+              && agentTokens.edges[0].node.token
           }
+          awsTokens={awsTokens.map((edge) => edge.node.token)}
+          organization={{ id, name, slug }}
         />
       );
     }
@@ -127,11 +136,19 @@ export default Relay.createContainer(QuickStart, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+        id
+        name
+        slug
+        awsTokens:agentTokens(first: 5, revoked: false) @include(if: $isMounted) {
+          edges {
+            node {
+              token
+            }
+          }
+        }
         agentTokens(first: 1, revoked: false) @include(if: $isMounted) {
           edges {
             node {
-              id
-              description
               token
             }
           }
