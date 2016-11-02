@@ -4,13 +4,13 @@ emoji: ':linux:'
 ---
 Run the following script ([view the source](https://raw.githubusercontent.com/buildkite/agent/master/install.sh)), which will download and install the correct binary for your system and architecture:
 
-```shell
+```bash
 TOKEN="{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}" bash -c "`curl -sL https://raw.githubusercontent.com/buildkite/agent/master/install.sh`"
 ```
 
 Then, start the agent:
 
-```shell
+```bash
 ~/.buildkite-agent/bin/buildkite-agent start
 ```
 

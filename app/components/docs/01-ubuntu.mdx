@@ -3,26 +3,26 @@ title: Ubuntu
 ---
 First, add our signed apt repository:
 
-```shell
+```bash
 sudo sh -c 'echo deb https://apt.buildkite.com/buildkite-agent stable main > /etc/apt/sources.list.d/buildkite-agent.list'
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 32A37959C2FA5C3C99EFBC32A79206696452D198
 ```
 
 Then install the agent:
 
-```shell
+```bash
 sudo apt-get update && sudo apt-get install -y buildkite-agent
 ```
 
 Then configure your agent token:
 
-```shell
+```bash
 sudo sed -i "s/xxx/{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}/g" /etc/buildkite-agent/buildkite-agent.cfg
 ```
 
 And then start the agent:
 
-```shell
+```bash
 # Ubuntu 15.04+ (systemd)
 sudo systemctl enable buildkite-agent && sudo systemctl start buildkite-agent
 
@@ -32,7 +32,7 @@ sudo service buildkite-agent start
 
 You can view the logs at:
 
-```shell
+```bash
 # Ubuntu 15.04+ (systemd)
 journalctl -f -u buildkite-agent
 

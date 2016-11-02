@@ -3,13 +3,13 @@ title: Docker
 ---
 Start an agent with the [offical image](https://hub.docker.com/r/buildkite/agent/) based on Alpine Linux:
 
-```shell
+```bash
 docker run -e BUILDKITE_AGENT_TOKEN="{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}" buildkite/agent
 ```
 
 A much larger Ubuntu-based image is also available:
 
-```shell
+```bash
 docker run -e BUILDKITE_AGENT_TOKEN="{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}" buildkite/agent:ubuntu
 ```
 
