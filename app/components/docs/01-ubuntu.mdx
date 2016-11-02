@@ -1,6 +1,5 @@
 ---
 title: Ubuntu
-emoji: ':ubuntu:'
 ---
 First, add our signed apt repository:
 
@@ -18,7 +17,7 @@ sudo apt-get update && sudo apt-get install -y buildkite-agent
 Then configure your agent token:
 
 ```shell
-sudo sed -i "s/xxx/{{props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE'}}/g" /etc/buildkite-agent/buildkite-agent.cfg
+sudo sed -i "s/xxx/{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}/g" /etc/buildkite-agent/buildkite-agent.cfg
 ```
 
 And then start the agent:
@@ -40,3 +39,5 @@ journalctl -f -u buildkite-agent
 # Older Ubuntu (upstart)
 tail -f /var/log/upstart/buildkite-agent.log
 ```
+
+<p class="rounded bg-silver p2">See the <a href="/docs/agent/ubuntu">Ubuntu agent docs</a> for more details. Supported Ubuntu versions: 13.10, 12.04, 14.04 and 15.04.</p>

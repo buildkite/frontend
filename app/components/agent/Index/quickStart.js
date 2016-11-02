@@ -62,7 +62,7 @@ class QuickStart extends React.Component {
               )}
               onClick={this.handleSelectedGuideChange.bind(this, index)}
             >
-              <Emojify className="block mt1" style={{ fontSize: '1.15em' }} text={Guide.emoji} />
+              <Emojify className="block mt1" style={{ fontSize: '1.15em' }} text={Guide.emoji || `:${Guide.title.toLowerCase()}:`} />
               {Guide.title}
             </a>
           ))

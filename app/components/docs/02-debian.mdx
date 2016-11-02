@@ -1,6 +1,5 @@
 ---
 title: Debian
-emoji: ':debian:'
 ---
 Firstly, ensure your list of packages is up to date:
 
@@ -30,7 +29,7 @@ sudo apt-get update && apt-get install -y buildkite-agent
 Then configure your agent token:
 
 ```shell
-sudo sed -i "s/xxx/{{props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE'}}/g" /etc/buildkite-agent/buildkite-agent.cfg
+sudo sed -i "s/xxx/{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}/g" /etc/buildkite-agent/buildkite-agent.cfg
 ```
 
 And then start the agent:
@@ -58,3 +57,5 @@ sudo tail -f /var/log/upstart/buildkite-agent.log
 # For Debian 7.x (using sysvinit)
 sudo tail -f /var/log/buildkite-agent.log
 ```
+
+<p class="rounded bg-silver p2">See the <a href="/docs/agent/debian">Debian agent docs</a> for more details. Supported Debian versions: 7.x and 8.x.</p>

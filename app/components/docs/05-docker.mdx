@@ -1,15 +1,16 @@
 ---
 title: Docker
-emoji: ':docker:'
 ---
 Start an agent with the [offical image](https://hub.docker.com/r/buildkite/agent/) based on Alpine Linux:
 
 ```shell
-docker run -e BUILDKITE_AGENT_TOKEN="{{props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE'}}" buildkite/agent
+docker run -e BUILDKITE_AGENT_TOKEN="{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}" buildkite/agent
 ```
 
 A much larger Ubuntu-based image is also available:
 
 ```shell
-docker run -e BUILDKITE_AGENT_TOKEN="{{props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE'}}" buildkite/agent:ubuntu
+docker run -e BUILDKITE_AGENT_TOKEN="{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}" buildkite/agent:ubuntu
 ```
+
+<p class="rounded bg-silver p2">Alternatively all our installers are capable of running your builds within isolated Docker containers. Simply install the relevant agent for your system and see our <a href="/docs/agent/docker">Docker docs</a> for more details.</p>

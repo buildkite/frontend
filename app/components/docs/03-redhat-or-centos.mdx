@@ -27,7 +27,7 @@ sudo yum -y install buildkite-agent
 Configure your agent token:
 
 ```shell
-sudo sed -i "s/xxx/{{props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE'}}/g" /etc/buildkite-agent/buildkite-agent.cfg
+sudo sed -i "s/xxx/{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}/g" /etc/buildkite-agent/buildkite-agent.cfg
 ```
 
 And then start the agent, and tail the logs:
@@ -41,3 +41,5 @@ sudo tail -f /var/log/messages
 sudo service buildkite-agent start
 sudo tail -f /var/log/buildkite-agent.log
 ```
+
+<p class="rounded bg-silver p2">See the <a href="/docs/agent/redhat">Redhat/Centos agent docs</a> for more details.</p>

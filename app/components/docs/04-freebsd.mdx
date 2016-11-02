@@ -1,6 +1,5 @@
 ---
 title: FreeBSD
-emoji: ':freebsd:'
 ---
 You first need to ensure that both `git` and `bash` are installed on your server:
 
@@ -22,7 +21,7 @@ bash
 Once they have been installed, you can run the following script ([view the source](https://raw.githubusercontent.com/buildkite/agent/master/install.sh)), which will download and install the correct binary for your system and architecture:
 
 ```shell
-TOKEN="{{props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE'}}" bash -c "`curl -sL https://raw.githubusercontent.com/buildkite/agent/master/install.sh`"
+TOKEN="{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}" bash -c "`curl -sL https://raw.githubusercontent.com/buildkite/agent/master/install.sh`"
 ```
 
 Then, start the agent:
@@ -30,3 +29,5 @@ Then, start the agent:
 ```shell
 ~/.buildkite-agent/bin/buildkite-agent start
 ```
+
+<p class="rounded bg-silver p2">See the <a href="/docs/agent/freebsd">FreeBSD agent docs</a> for more details.</p>

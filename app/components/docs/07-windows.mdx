@@ -1,8 +1,15 @@
 ---
 title: Windows
-emoji: ':windows:'
 ---
 1. Download the latest Windows beta from [Buildkite Agent releases on GitHub](https://github.com/buildkite/agent/releases)
 2. Extract the files to a directory of your choice
 3. Edit `buildkite-agent.cfg` and add your token
 4. Run `buildkite-agent start` from a command prompt
+
+<p class="rounded bg-silver p2">See the <a href="/docs/agent/windows">Windows agent docs</a> for more details.</p>
+
+When asked, enter your agent token:
+
+```markdown
+{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}
+```
