@@ -39,7 +39,7 @@ class OrganizationShow extends React.Component {
               {this.renderTeams()}
             </div>
 
-            <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{ width: 34, height: 34 }} href={`organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
+            <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{ width: 34, height: 34 }} href={`/organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
               <Icon icon="plus" title="New Pipeline"/>
             </Button>
           </div>
