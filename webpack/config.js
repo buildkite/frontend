@@ -82,6 +82,7 @@ var plugins = [
 ];
 
 var vendor_modules = [
+  "babel-polyfill",
   "classnames",
   "deepmerge",
   "es6-error",
