@@ -86,6 +86,9 @@ class QuickStart extends React.Component {
             borderBottom: 'none'
           }}
           elementProps={{
+            'code': {
+              style: { fontFamily: 'Monaco, Consolas, monospace', fontSize: '.9em' }
+            },
             'a': {
               className: 'blue hover-navy text-decoration-none hover-underline'
             },
