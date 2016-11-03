@@ -96,7 +96,11 @@ class QuickStart extends React.Component {
               className: 'border border-gray rounded bg-silver overflow-auto p2 monospace'
             }
           }}
-          token={this.props.organization.agentTokens.edges[0].node.token}
+          token={
+            this.props.organization.agentTokens
+              && this.props.organization.agentTokens.edges.length
+              && this.props.organization.agentTokens.edges[0].node.token
+          }
         />
       );
     }

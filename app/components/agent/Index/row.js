@@ -27,13 +27,58 @@ class AgentRow extends React.Component {
     })
   };
 
-  render() {
+  renderState() {
     const { agent } = this.props;
 
     const iconClassName = classNames(
       'circle',
       getColourForConnectionState(agent.connectionState, 'bg-')
     );
+
+    let agentIcon = (
+      <div
+        className={iconClassName}
+        style={{ width: 13, height: 13 }}
+      />
+    );
+
+    if (agent.job) {
+      agentIcon = (
+        <BuildState.XSmall state={agent.job.state} style={{ display: 'block' }} />
+      );
+    }
+
+    return (
+      <div
+        className="pr3 pt1"
+        title={getLabelForConnectionState(agent.connectionState)}
+      >
+        {agentIcon}
+      </div>
+    );
+  }
+
+  renderJob() {
+    const { agent } = this.props;
+
+    if (agent.job) {
+      return (
+        <small
+          className="block mt1 pt1 border border-gray"
+          style={{
+            borderLeft: 'none',
+            borderRight: 'none',
+            borderBottom: 'none'
+          }}
+        >
+          Running <JobLink job={agent.job} />
+        </small>
+      );
+    }
+  }
+
+  render() {
+    const { agent } = this.props;
 
     let metaDataContent = 'No metadata';
     if (agent.metaData.length > 0) {
@@ -43,21 +88,7 @@ class AgentRow extends React.Component {
     return (
       <Panel.Row>
         <div className="flex">
-          <div
-            className="pr3 pt1"
-            title={getLabelForConnectionState(agent.connectionState)}
-          >
-            {
-              agent.job
-                ? <BuildState.XSmall state={agent.job.state} style={{ display: 'block' }} />
-                : (
-                  <div
-                    className={iconClassName}
-                    style={{ width: 13, height: 13 }}
-                  />
-                )
-            }
-          </div>
+          {this.renderState()}
           <div className="flex flex-auto flex-column">
             <div className="flex flex-auto">
               <div className="flex-auto">
@@ -76,21 +107,7 @@ class AgentRow extends React.Component {
                 <small className="dark-gray">{agent.hostname}</small>
               </div>
             </div>
-            {
-              agent.job
-                && (
-                  <small
-                    className="block mt1 pt1 border border-gray"
-                    style={{
-                      borderLeft: 'none',
-                      borderRight: 'none',
-                      borderBottom: 'none'
-                    }}
-                  >
-                    Running <JobLink job={agent.job} />
-                  </small>
-                )
-            }
+            {this.renderJob()}
           </div>
         </div>
       </Panel.Row>
