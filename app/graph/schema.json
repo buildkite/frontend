@@ -1862,6 +1862,24 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "commit",
+                  "description": null,
+                  "type": {
+                    "kind": "LIST",
+                    "name": "List",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": "Non-Null",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "metaData",
                   "description": null,
                   "type": {
