@@ -105,7 +105,7 @@ class QuickStart extends React.Component {
   render() {
     return (
       <Panel className="mb3">
-        <Panel.Header><center>Agent Quick Start Guides</center></Panel.Header>
+        <Panel.Header className="center">Agent Quick Start Guides</Panel.Header>
         <Panel.Section>
           {this.renderGuideButtons()}
           {this.renderGuide()}
