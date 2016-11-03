@@ -1,7 +1,8 @@
 ---
-imports:
-  awsLaunchStackButtonImage: '../../images/aws-launch-stack-button.svg'
 title: AWS
+imports:
+  awsLaunchStackButtonImage: ../../images/aws-launch-stack-button.svg
+  AWSParameterTable: ./09-aws-parameter-table
 ---
 ## Install the Agent on your own AWS instance
 
@@ -15,8 +16,6 @@ The [Elastic CI Stack for AWS](https://github.com/buildkite/elastic-ci-stack-for
 
 Use the following stack parameters when launching the stack:
 
-| **BuildkiteAgentToken** | <code>{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}</code> |
-| **BuildkiteOrgSlug** | <code>{{ props.organization.slug || 'INSERT-YOUR-ACCOUNT-SLUG-HERE' }}</code> |
-| **BuildkiteApiAccessToken** | {{ props.awsTokens.map((token, index) => <code key={index}>{ token }</code>) }} {{ <a href={`/user/api-access-tokens/new?account_ids%5B%5D=${ props.organization.id }&account_scope=some&description=Elastic+CI+Stack+%28${ encodeURIComponent(props.organization.name) }%29&return_to=%2Forganizations%2F${ encodeURIComponent(props.organization.slug) }%2Fagents%23setup-aws&scopes%5B%5D=read_agents&scopes%5B%5D=read_builds&scopes%5B%5D=read_pipelines&template=elastic_ci_aws`}>{`Create an${ props.awsTokens.length ? 'other' : '' } API Access Token`}</a> }} |
+{{ <AWSParameterTable {...props} /> }}
 
 <p class="rounded bg-silver p2">We recommend following AWS best practice by setting up a separate development AWS account and using role switching and consolidated billing. See the AWS tutorial on <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">access delegation across AWS accounts</a>, and <a href="https://github.com/buildkite/elastic-ci-stack-for-aws">Elastic CI Stack repository on GitHub</a> for full documentation.</p>
