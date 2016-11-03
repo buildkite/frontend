@@ -17,7 +17,8 @@ class AgentIndex extends React.Component {
           allowed: React.PropTypes.bool.isRequired
         }).isRequired
       }).isRequired
-    }).isRequired
+    }).isRequired,
+    viewer: React.PropTypes.object.isRequired
   };
 
   render() {
@@ -31,23 +32,25 @@ class AgentIndex extends React.Component {
   }
 
   renderContent() {
+    const { organization, viewer } = this.props;
+
     // Switches between showing just the agents, or the agents along with
     // registration tokens.
-    if (this.props.organization.permissions.agentTokenView.allowed) {
+    if (organization.permissions.agentTokenView.allowed) {
       return (
         <div className="clearfix mxn3">
           <div className="sm-col sm-col-8 px3">
-            <QuickStart organization={this.props.organization} />
-            <Agents organization={this.props.organization} />
+            <QuickStart organization={organization} viewer={viewer} />
+            <Agents organization={organization} />
           </div>
           <div className="sm-col sm-col-4 px3">
-            <AgentTokens organization={this.props.organization} />
+            <AgentTokens organization={organization} />
           </div>
         </div>
       );
     } else {
       return (
-        <Agents organization={this.props.organization} />
+        <Agents organization={organization} />
       );
     }
   }
@@ -55,6 +58,11 @@ class AgentIndex extends React.Component {
 
 export default Relay.createContainer(AgentIndex, {
   fragments: {
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        ${QuickStart.getFragment('viewer')}
+      }
+    `,
     organization: () => Relay.QL`
       fragment on Organization {
         ${QuickStart.getFragment('organization')}

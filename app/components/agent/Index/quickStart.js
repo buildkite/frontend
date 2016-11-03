@@ -17,16 +17,18 @@ const GUIDES = ((guideRequire) =>
 class QuickStart extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
-      id: React.PropTypes.number.isRequired,
+      id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
       agentTokens: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
-      }),
-      awsTokens: React.PropTypes.shape({
-        edges: React.PropTypes.array.isRequired
       })
     }).isRequired,
+    viewer: React.PropTypes.shape({
+      apiAccessTokens: React.PropTypes.shape({
+        edges: React.PropTypes.array.isRequired
+      })
+    }),
     relay: React.PropTypes.object.isRequired
   };
 
@@ -81,7 +83,8 @@ class QuickStart extends React.Component {
 
   renderGuide() {
     const GuideToRender = GUIDES[this.state.selectedGuide];
-    const { id, name, slug, agentTokens: { edges: agentTokens } = {}, awsTokens: { edges: awsTokens } = {} } = this.props.organization;
+    const { id, name, slug, agentTokens: { edges: agentTokens } = {} } = this.props.organization;
+    const { apiAccessTokens: { edges: apiAccessTokens } = {} } = this.props.viewer;
 
     if (GuideToRender) {
       return (
@@ -105,10 +108,10 @@ class QuickStart extends React.Component {
           }}
           token={
             agentTokens
-              && agentTokens.edges.length
-              && agentTokens.edges[0].node.token
+              && agentTokens.length
+              && agentTokens[0].node.token
           }
-          awsTokens={awsTokens.map((edge) => edge.node.token)}
+          apiAccessTokens={apiAccessTokens ? apiAccessTokens.map((edge) => edge.node) : []}
           organization={{ id, name, slug }}
         />
       );
@@ -134,18 +137,24 @@ export default Relay.createContainer(QuickStart, {
   },
 
   fragments: {
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        apiAccessTokens(first: 10, template: [ ELASTIC_CI_AWS ]) @include(if: $isMounted) {
+          edges {
+            node {
+              description
+              uuid
+              token
+            }
+          }
+        }
+      }
+    `,
     organization: () => Relay.QL`
       fragment on Organization {
         id
         name
         slug
-        awsTokens:agentTokens(first: 5, revoked: false) @include(if: $isMounted) {
-          edges {
-            node {
-              token
-            }
-          }
-        }
         agentTokens(first: 1, revoked: false) @include(if: $isMounted) {
           edges {
             node {
