@@ -162,6 +162,10 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.mdx$/i,
+        loader: 'babel-loader!markdown-component-loader?passElementProps=true'
+      },
+      {
         test: /\.(woff)$/i,
         loader: 'url-loader?limit=8192'
       },

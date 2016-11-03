@@ -1,0 +1,61 @@
+---
+title: Debian
+---
+Firstly, ensure your list of packages is up to date:
+
+```bash
+sudo apt-get update
+```
+
+Next, ensure you have the `apt-transport-https` and `sudo` package installed:
+
+```bash
+sudo apt-get install -y apt-transport-https sudo
+```
+
+Now you can add our signed apt repository:
+
+```bash
+sudo sh -c 'echo deb https://apt.buildkite.com/buildkite-agent stable main > /etc/apt/sources.list.d/buildkite-agent.list'
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 32A37959C2FA5C3C99EFBC32A79206696452D198
+```
+
+Then install the agent:
+
+```bash
+sudo apt-get update && apt-get install -y buildkite-agent
+```
+
+Then configure your agent token:
+
+```bash
+sudo sed -i "s/xxx/{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}/g" /etc/buildkite-agent/buildkite-agent.cfg
+```
+
+And then start the agent:
+
+```bash
+# For Debian 8.x (systemd)
+sudo systemctl enable buildkite-agent && systemctl start buildkite-agent
+
+# For Debian 7.x (using upstart)
+sudo service buildkite-agent start
+
+# For Debian 7.x (using sysvinit)
+sudo /etc/init.d/buildkite-agent start
+```
+
+You can view the logs at:
+
+```bash
+# For Debian 8.x (systemd)
+sudo journalctl -f -u buildkite-agent
+
+# For Debian 7.x (using upstart)
+sudo tail -f /var/log/upstart/buildkite-agent.log
+
+# For Debian 7.x (using sysvinit)
+sudo tail -f /var/log/buildkite-agent.log
+```
+
+<p class="rounded bg-silver p2">See the <a href="/docs/agent/debian">Debian agent docs</a> for more details. Supported Debian versions: 7.x and 8.x.</p>

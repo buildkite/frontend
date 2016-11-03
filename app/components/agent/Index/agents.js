@@ -4,6 +4,7 @@ import Relay from 'react-relay';
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
 import Spinner from '../../shared/Spinner';
+import { formatNumber } from '../../../lib/number';
 
 import AgentRow from './row';
 
@@ -48,9 +49,9 @@ class Agents extends React.Component {
   }
 
   renderHeaderInformation() {
-    if (this.props.organization.agents) {
+    if (this.props.organization.agents && this.props.organization.agents.edges.length < this.props.organization.agents.count) {
       return (
-        <span>(Showing {this.props.organization.agents.edges.length} of {this.props.organization.agents.count})</span>
+        <span>(Showing {formatNumber(this.props.organization.agents.edges.length)} of {formatNumber(this.props.organization.agents.count)})</span>
       );
     }
   }
@@ -79,12 +80,6 @@ class Agents extends React.Component {
         return (
           <Panel.Footer>
             <Button outline={true} theme={"default"} onClick={this.handleLoadMoreAgentsClick}>Load {PAGE_SIZE} more agents…</Button>
-          </Panel.Footer>
-        );
-      } else {
-        return (
-          <Panel.Footer>
-            <small className="dark-gray">No more to load</small>
           </Panel.Footer>
         );
       }

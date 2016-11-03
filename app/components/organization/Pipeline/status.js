@@ -38,13 +38,13 @@ class Status extends React.Component {
           onMouseOver={this.handleMouseOver}
           onMouseOut={this.handleMouseOut}
         >
-          <span className="block line-height-1"><BuildState state={build.state} /></span>
+          <span className="block line-height-1"><BuildState.Regular state={build.state} /></span>
           <BuildTooltip build={build} visible={this.state.hover} left={-8} top={44} />
         </a>
       );
     } else {
       return (
-        <BuildState state="pending" />
+        <BuildState.Regular state="pending" />
       );
     }
   }

@@ -1,0 +1,14 @@
+---
+title: macOS
+emoji: ':finder:'
+---
+If you have [Homebrew](http://brew.sh/) installed you can use our [Buildkite formula repository](https://github.com/buildkite/homebrew-buildkite) to install the agent:
+
+```bash
+brew tap buildkite/buildkite
+brew install --token='{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}' buildkite-agent
+```
+
+If you don't use Homebrew you should follow the [Linux](/docs/agent/linux) install instructions.
+
+<p class="rounded bg-silver p2">See the <a href="/docs/agent/osx">macOS agent docs</a> for more details.</p>

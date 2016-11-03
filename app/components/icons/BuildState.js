@@ -3,13 +3,17 @@ import shallowCompare from 'react-addons-shallow-compare';
 import { v4 as uuid } from 'uuid';
 
 const SIZE_DEFINITIONS = {
-  regular: {
+  Regular: {
     strokeWidth: 2,
     size: 32
   },
-  small: {
+  Small: {
     strokeWidth: 3,
     size: 20
+  },
+  XSmall: {
+    strokeWidth: 4,
+    size: 13
   }
 };
 
@@ -25,13 +29,11 @@ const STATE_COLORS = {
 
 class BuildState extends React.Component {
   static propTypes = {
+    className: React.PropTypes.string,
+    size: React.PropTypes.number.isRequired,
     state: React.PropTypes.oneOf(Object.keys(STATE_COLORS)).isRequired,
-    size: React.PropTypes.oneOf(Object.keys(SIZE_DEFINITIONS)).isRequired,
-    className: React.PropTypes.string
-  };
-
-  static defaultProps = {
-    size: 'regular'
+    strokeWidth: React.PropTypes.number.isRequired,
+    style: React.PropTypes.object
   };
 
   state = {
@@ -49,35 +51,50 @@ class BuildState extends React.Component {
   }
 
   render() {
-    const sizeDefinition = SIZE_DEFINITIONS[this.props.size] || {};
-    const strokeWidth = sizeDefinition.strokeWidth || 2;
-    const size = sizeDefinition.size || 32;
+    const { className, size, strokeWidth, style } = this.props;
 
     const outerCircleId = `BuildState_${this.state.uuid}_circle`;
     const strokeClipPathId = `BuildState_${this.state.uuid}_strokeClipPath`;
 
-    const { defs, content } = this.renderPaths(strokeWidth);
+    const { defs, content } = this.renderPaths();
 
     return (
-      <svg width={size} height={size} viewBox="0 0 32 32" className={this.props.className}>
+      <svg
+        className={className}
+        style={style}
+        width={size}
+        height={size}
+        viewBox="0 0 32 32"
+      >
         <defs>
-          <circle id={outerCircleId} fill="none" cx="16" cy="16" r="15" stroke={STATE_COLORS[this.props.state]} strokeWidth={strokeWidth * 2} />
+          <circle
+            id={outerCircleId}
+            fill="none"
+            cx="16"
+            cy="16"
+            r="15"
+            stroke={STATE_COLORS[this.props.state]}
+            strokeWidth={strokeWidth * 2}
+          />
           <clipPath id={strokeClipPathId}>
             <use xlinkHref={`#${outerCircleId}`}/>
           </clipPath>
           {defs}
         </defs>
-        <use xlinkHref={`#${outerCircleId}`} clipPath={`url(#${strokeClipPathId})`} />
+        <use
+          xlinkHref={`#${outerCircleId}`}
+          clipPath={`url(#${strokeClipPathId})`}
+        />
         {content}
       </svg>
     );
   }
 
-  renderPaths(strokeWidth) {
+  renderPaths() {
     const applyStroke = {
       fill: 'none',
       stroke: STATE_COLORS[this.props.state],
-      strokeWidth
+      strokeWidth: this.props.strokeWidth
     };
 
     const maskId = `BuildState_${this.state.uuid}_mask`;
@@ -115,7 +132,12 @@ class BuildState extends React.Component {
       case 'running':
         defs = (
           <mask id={maskId} x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
-            <polygon points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16" fill="#fff" style={{ transformOrigin: 'center' }} className="animation-spin" />
+            <polygon
+              className="animation-spin"
+              style={{ transformOrigin: 'center' }}
+              fill="#fff"
+              points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16"
+            />
           </mask>
         );
         content = (
@@ -136,4 +158,14 @@ class BuildState extends React.Component {
   }
 }
 
-export default BuildState;
+const exported = {};
+
+Object.keys(SIZE_DEFINITIONS).forEach((size) => {
+  const component = (props) => <BuildState {...props} {...SIZE_DEFINITIONS[size]} />;
+  component.displayName = `BuildState.${size}`;
+
+  exported[size] = component;
+});
+
+export default exported;
+
