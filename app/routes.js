@@ -77,7 +77,7 @@ export default (
 
       <Route path="organizations/:organization">
         <Route path="agents">
-          <IndexRoute component={AgentIndex} queries={{ viewer: ViewerQuery.query, organization: OrganizationQuery.query }} />
+          <IndexRoute component={AgentIndex} queries={{ organization: OrganizationQuery.query }} />
           <Route path=":agent" component={AgentShow} queries={{ agent: AgentQuery.query }} prepareParams={AgentQuery.prepareParams} />
         </Route>
         <Route path="teams" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>

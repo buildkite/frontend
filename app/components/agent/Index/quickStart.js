@@ -20,15 +20,13 @@ class QuickStart extends React.Component {
       id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
+      apiAccessTokens: React.PropTypes.shape({
+        edges: React.PropTypes.array.isRequired
+      }),
       agentTokens: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
       })
     }).isRequired,
-    viewer: React.PropTypes.shape({
-      apiAccessTokens: React.PropTypes.shape({
-        edges: React.PropTypes.array.isRequired
-      })
-    }),
     relay: React.PropTypes.object.isRequired
   };
 
@@ -83,8 +81,7 @@ class QuickStart extends React.Component {
 
   renderGuide() {
     const GuideToRender = GUIDES[this.state.selectedGuide];
-    const { id, name, slug, agentTokens: { edges: agentTokens } = {} } = this.props.organization;
-    const { apiAccessTokens: { edges: apiAccessTokens } = {} } = this.props.viewer;
+    const { id, name, slug, agentTokens: { edges: agentTokens } = {}, apiAccessTokens: { edges: apiAccessTokens } = {} } = this.props.organization;
 
     if (GuideToRender) {
       return (
@@ -137,8 +134,11 @@ export default Relay.createContainer(QuickStart, {
   },
 
   fragments: {
-    viewer: () => Relay.QL`
-      fragment on Viewer {
+    organization: () => Relay.QL`
+      fragment on Organization {
+        id
+        name
+        slug
         apiAccessTokens(first: 10, template: [ ELASTIC_CI_AWS ]) @include(if: $isMounted) {
           edges {
             node {
@@ -148,13 +148,6 @@ export default Relay.createContainer(QuickStart, {
             }
           }
         }
-      }
-    `,
-    organization: () => Relay.QL`
-      fragment on Organization {
-        id
-        name
-        slug
         agentTokens(first: 1, revoked: false) @include(if: $isMounted) {
           edges {
             node {
