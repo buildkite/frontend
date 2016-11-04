@@ -1,3 +1,9 @@
 .monospace {
   font-family: var(--font-family-mono);
 }
+
+.tabular-numerals {
+  /* Enables OpenType tabular numerals */
+  font-feature-settings: "tnum"; /* not the "correct" property, but it works in IE10+ */
+  font-variant-numeric: tabular-nums;
+}

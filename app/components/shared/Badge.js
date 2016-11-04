@@ -8,10 +8,15 @@ class Badge extends React.Component {
   };
 
   render() {
+    const { children, className } = this.props;
+
+    const badgeClassName = classNames(
+      "inline-block bg-black white rounded ml1 small p1 line-height-1 tabular-numerals",
+      className
+    );
+
     return (
-      <span className={classNames("inline-block bg-black white rounded ml1 small p1 line-height-1", this.props.className)}>
-        {this.props.children}
-      </span>
+      <span className={badgeClassName}>{children}</span>
     );
   }
 }
