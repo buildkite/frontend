@@ -37,7 +37,10 @@ class QuickStart extends React.Component {
   };
 
   componentDidMount() {
-    this.props.relay.setVariables({ isMounted: true });
+    this.props.relay.setVariables({
+      isMounted: true,
+      organizationId: this.props.organization.slug
+    });
   }
 
   handleSelectedGuideChange(selectedGuide, evt) {
@@ -133,13 +136,18 @@ class QuickStart extends React.Component {
 
 export default Relay.createContainer(QuickStart, {
   initialVariables: {
-    isMounted: false
+    isMounted: false,
+    organizationId: null
   },
 
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
-        apiAccessTokens(first: 10, template: [ ELASTIC_CI_AWS ]) @include(if: $isMounted) {
+        apiAccessTokens(
+          first: 10,
+          template: [ ELASTIC_CI_AWS ],
+          organizations: [ $organizationId ]
+        ) @include(if: $isMounted) {
           edges {
             node {
               description
