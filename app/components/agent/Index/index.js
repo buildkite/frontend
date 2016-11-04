@@ -17,7 +17,8 @@ class AgentIndex extends React.Component {
           allowed: React.PropTypes.bool.isRequired
         }).isRequired
       }).isRequired
-    }).isRequired
+    }).isRequired,
+    viewer: React.PropTypes.object.isRequired
   };
 
   render() {
@@ -39,7 +40,7 @@ class AgentIndex extends React.Component {
       return (
         <div className="clearfix mxn3">
           <div className="sm-col sm-col-8 px3">
-            <QuickStart organization={organization} />
+            <QuickStart organization={organization} viewer={viewer} />
             <Agents organization={organization} />
           </div>
           <div className="sm-col sm-col-4 px3">
@@ -57,6 +58,11 @@ class AgentIndex extends React.Component {
 
 export default Relay.createContainer(AgentIndex, {
   fragments: {
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        ${QuickStart.getFragment('viewer')}
+      }
+    `,
     organization: () => Relay.QL`
       fragment on Organization {
         ${QuickStart.getFragment('organization')}
