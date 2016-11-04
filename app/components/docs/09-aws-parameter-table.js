@@ -18,21 +18,39 @@ const newTokenForOrgLink = (props) => {
     'template': 'elastic_ci_aws'
   };
 
-  return `/user/api-access-tokens/new?${stringify(query)}`
+  return `/user/api-access-tokens/new?${stringify(query)}`;
 };
 
-const AWSTableRow = (props) => (
-  <tr>
-    <th className="p1 left-align align-top border-bottom border-gray">
-      <strong>{props.title}</strong>
-    </th>
-    <td className="p1 left-align align-top border-bottom border-gray">
-      {props.children}
-    </td>
-  </tr>
-);
+AWSTableRow.propTypes = {
+  title: React.PropTypes.node.isRequired,
+  children: React.PropTypes.node.isRequired
+};
 
-export default function AWSParameterTable(props) {
+function AWSTableRow(props) {
+  return (
+    <tr>
+      <th className="p1 left-align align-top border-bottom border-gray">
+        <strong>{props.title}</strong>
+      </th>
+      <td className="p1 left-align align-top border-bottom border-gray">
+        {props.children}
+      </td>
+    </tr>
+  );
+};
+
+AWSParameterTable.propTypes = {
+  token: React.PropTypes.string.isRequired,
+  apiAccessTokens: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      token: React.PropTypes.string.isRequired,
+      uuid: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string.isRequired
+    })
+  ).isRequired
+};
+
+function AWSParameterTable(props) {
   return (
     <table className="border-top border-gray">
       <tbody>
@@ -71,4 +89,6 @@ export default function AWSParameterTable(props) {
       </tbody>
     </table>
   );
-}
+};
+
+export default AWSParameterTable; 
