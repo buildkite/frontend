@@ -346,7 +346,7 @@
           "fields": [
             {
               "name": "apiAccessTokens",
-              "description": "Returns the user's API access tokens.",
+              "description": "Returns the user's API access tokens. These are currently private and cannot be accessed via the public GraphQL API",
               "args": [
                 {
                   "name": "first",
@@ -370,21 +370,17 @@
                 },
                 {
                   "name": "template",
-                  "description": null,
+                  "description": "Filter tokens by their template",
                   "type": {
-                    "kind": "NON_NULL",
-                    "name": "Non-Null",
+                    "kind": "LIST",
+                    "name": "List",
                     "ofType": {
-                      "kind": "LIST",
-                      "name": "List",
+                      "kind": "NON_NULL",
+                      "name": "Non-Null",
                       "ofType": {
-                        "kind": "NON_NULL",
-                        "name": "Non-Null",
-                        "ofType": {
-                          "kind": "ENUM",
-                          "name": "APIAccessTokenTemplates",
-                          "ofType": null
-                        }
+                        "kind": "ENUM",
+                        "name": "APIAccessTokenTemplates",
+                        "ofType": null
                       }
                     }
                   },
@@ -392,21 +388,17 @@
                 },
                 {
                   "name": "organizations",
-                  "description": null,
+                  "description": "Filter tokens by organizations they provide access to. Organizations are specified by their slug",
                   "type": {
-                    "kind": "NON_NULL",
-                    "name": "Non-Null",
+                    "kind": "LIST",
+                    "name": "List",
                     "ofType": {
-                      "kind": "LIST",
-                      "name": "List",
+                      "kind": "NON_NULL",
+                      "name": "Non-Null",
                       "ofType": {
-                        "kind": "NON_NULL",
-                        "name": "Non-Null",
-                        "ofType": {
-                          "kind": "SCALAR",
-                          "name": "ID",
-                          "ofType": null
-                        }
+                        "kind": "SCALAR",
+                        "name": "ID",
+                        "ofType": null
                       }
                     }
                   },
@@ -8055,7 +8047,7 @@
         {
           "kind": "OBJECT",
           "name": "APIAccessToken",
-          "description": "API access tokens for authentication with the Buildkite API. Only API Access Tokens with the template `API_ACCESS_TOKEN_TEMPLATE_ELASTIC_CI_AWS` may currently be requested",
+          "description": "API access tokens for authentication with the Buildkite API",
           "fields": [
             {
               "name": "accessedAt",
@@ -8110,13 +8102,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -8160,13 +8148,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": "Non-Null",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -8182,7 +8166,7 @@
                 "name": "Non-Null",
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "ID",
+                  "name": "String",
                   "ofType": null
                 }
               },
@@ -8214,7 +8198,7 @@
                 "name": "Non-Null",
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "ID",
                   "ofType": null
                 }
               },

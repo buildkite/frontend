@@ -145,7 +145,7 @@ export default Relay.createContainer(QuickStart, {
       fragment on Viewer {
         apiAccessTokens(
           first: 10,
-          template: [ ELASTIC_CI_AWS ],
+          template: [ API_ACCESS_TOKEN_TEMPLATE_ELASTIC_CI_AWS ],
           organizations: [ $organizationId ]
         ) @include(if: $isMounted) {
           edges {
