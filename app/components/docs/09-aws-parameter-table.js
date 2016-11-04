@@ -37,10 +37,13 @@ function AWSTableRow(props) {
       </td>
     </tr>
   );
-};
+}
 
 AWSParameterTable.propTypes = {
-  token: React.PropTypes.string.isRequired,
+  token: React.PropTypes.string,
+  organization: React.PropTypes.shape({
+    slug: React.PropTypes.string
+  }).isRequired,
   apiAccessTokens: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       token: React.PropTypes.string.isRequired,
@@ -89,6 +92,6 @@ function AWSParameterTable(props) {
       </tbody>
     </table>
   );
-};
+}
 
-export default AWSParameterTable; 
+export default AWSParameterTable;
