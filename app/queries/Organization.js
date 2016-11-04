@@ -5,5 +5,3 @@ export const query = () => Relay.QL`
     organization(slug: $organization)
   }
 `;
-
-export default { query };

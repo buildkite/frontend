@@ -22,14 +22,14 @@ import PipelineScheduleShow from './components/pipeline/schedules/Show';
 import PipelineScheduleEdit from './components/pipeline/schedules/Edit';
 import PipelineTeamIndex from './components/pipeline/teams/Index';
 
-import AgentQuery from './queries/Agent';
-import BuildQuery from './queries/Build';
-import OrganizationQuery from './queries/Organization';
-import PipelineQuery from './queries/Pipeline';
-import PipelineScheduleQuery from './queries/PipelineSchedule';
-import TeamQuery from './queries/Team';
-import ViewerQuery from './queries/Viewer';
-import APIAccessTokenCodeQuery from './queries/APIAccessTokenCode';
+import * as AgentQuery from './queries/Agent';
+import * as BuildQuery from './queries/Build';
+import * as OrganizationQuery from './queries/Organization';
+import * as PipelineQuery from './queries/Pipeline';
+import * as PipelineScheduleQuery from './queries/PipelineSchedule';
+import * as TeamQuery from './queries/Team';
+import * as ViewerQuery from './queries/Viewer';
+import * as APIAccessTokenCodeQuery from './queries/APIAccessTokenCode';
 
 const renderSectionLoading = (route) => {
   if (!route.props) {
