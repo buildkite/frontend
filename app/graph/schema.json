@@ -8055,7 +8055,7 @@
         {
           "kind": "OBJECT",
           "name": "APIAccessToken",
-          "description": "API access tokens for authentication with the Buildkite API. Only API Access Tokens with the template `ELASTIC_CI_AWS` may currently be requested",
+          "description": "API access tokens for authentication with the Buildkite API. Only API Access Tokens with the template `API_ACCESS_TOKEN_TEMPLATE_ELASTIC_CI_AWS` may currently be requested",
           "fields": [
             {
               "name": "accessedAt",
@@ -8313,7 +8313,7 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "ELASTIC_CI_AWS",
+              "name": "API_ACCESS_TOKEN_TEMPLATE_ELASTIC_CI_AWS",
               "description": "API Access Token for AWS Elastic CI",
               "isDeprecated": false,
               "deprecationReason": null
