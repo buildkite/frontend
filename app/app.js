@@ -36,6 +36,7 @@ window["Webpack"] = {
     "eventemitter3": require("eventemitter3"),
     "autosize": require("autosize"),
 
+    "components/icons/BuildState": require("./components/icons/BuildState").default,
     "components/layout/Navigation": require("./components/layout/Navigation").default,
     "components/layout/Footer": require("./components/layout/Footer").default,
     "components/shared/BuildStatusDescription": require("./components/shared/BuildStatusDescription").default,
