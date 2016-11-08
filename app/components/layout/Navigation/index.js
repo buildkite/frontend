@@ -119,7 +119,7 @@ class Navigation extends React.Component {
   renderTopOrganizationMenu() {
     if (this.props.organization) {
       return (
-        <span className="flex xs-hide">
+        <span className="flex xs-hide sm-hide md-hide">
           {this.renderOrganizationMenu()}
         </span>
       );
@@ -129,7 +129,7 @@ class Navigation extends React.Component {
   renderBottomOrganizationMenu() {
     if (this.props.organization) {
       return (
-        <div className="border-top border-gray sm-hide md-hide lg-hide">
+        <div className="border-top border-gray lg-hide">
           <div className="container flex flex-stretch" style={{ height: 45 }}>
             {this.renderOrganizationMenu({ paddingLeft: 0 })}
           </div>
@@ -161,9 +161,11 @@ class Navigation extends React.Component {
       <Dropdown align="center" width={250} className="flex" onToggle={this.handleBuildsDropdownToggle}>
         <DropdownButton className={classNames("py0", { "lime": this.state.showingBuildsDropdown })}>
           {'My Builds '}
-          <ReactCSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
-            {badge}
-          </ReactCSSTransitionGroup>
+          <div className="xs-hide">
+            <ReactCSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
+              {badge}
+            </ReactCSSTransitionGroup>
+          </div>
           <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
         </DropdownButton>
         <BuildsDropdown viewer={this.props.viewer} />
@@ -276,7 +278,7 @@ class Navigation extends React.Component {
                   paddingRight: 20
                 }}
               >
-                <span className="truncate" style={{ maxWidth: "10em" }}>
+                <span className="truncate" style={{ maxWidth: "7em" }}>
                   {this.props.organization ? this.props.organization.name : 'Organizations'}
                 </span>
                 <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
@@ -297,7 +299,7 @@ class Navigation extends React.Component {
                 style={{ paddingRight: 0 }}
               >
                 <UserAvatar user={this.props.viewer.user} className="flex-none flex items-center" style={{ width: 26, height: 26 }} />
-                <span className="flex items-center xs-hide ml1"><span className="truncate" style={{ maxWidth: "9em" }} data-current-user-name={true}>{this.props.viewer.user.name}</span></span>
+                <span className="flex items-center xs-hide sm-flex ml1"><span className="truncate" style={{ maxWidth: "8em" }} data-current-user-name={true}>{this.props.viewer.user.name}</span></span>
                 <span className="flex items-center">
                   <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
                 </span>
