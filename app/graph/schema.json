@@ -1378,6 +1378,24 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "metaData",
+                  "description": "Filter the agents to those only having the matching meta data",
+                  "type": {
+                    "kind": "LIST",
+                    "name": "List",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": "Non-Null",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
