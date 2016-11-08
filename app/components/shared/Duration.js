@@ -72,7 +72,7 @@ class Duration extends React.Component {
 
   render() {
     return (
-      <span>{this.state.value}</span>
+      <span className="tabular-numerals">{this.state.value}</span>
     );
   }
 }
