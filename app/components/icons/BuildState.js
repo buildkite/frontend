@@ -21,6 +21,7 @@ const STATE_COLORS = {
   pending: '#cdcccc',
   scheduled: '#bbbbbb',
   running: '#fdba12',
+  started: '#fdba12',  // same as 'running' - deprecated build state served up by JSON API and React presenters
   passed: '#90c73e',
   blocked: '#90c73e',
   failed: '#F83F23',
@@ -130,6 +131,7 @@ class BuildState extends React.Component {
 
       case 'scheduled':
       case 'running':
+      case 'started': // same as 'running' - deprecated build state served up by JSON API and React presenters
         defs = (
           <mask id={maskId} x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
             <polygon
