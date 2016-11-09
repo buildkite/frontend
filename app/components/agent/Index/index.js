@@ -6,7 +6,7 @@ import PageWithContainer from '../../shared/PageWithContainer';
 
 import Agents from './agents';
 import AgentTokens from './agentTokens';
-import QuickStart from './quickStart';
+import QuickStart from './quick-start';
 
 class AgentIndex extends React.Component {
   static propTypes = {
