@@ -4,8 +4,8 @@ import { stringify } from 'query-string';
 const newTokenForOrgLink = (props) => {
   // Note: `[]` is appended to array items as Ruby and 'query-string' deal with arrays differently
   const query = {
-    'account_ids[]': [
-      props.organization.id
+    'account_uuids[]': [
+      props.organization.uuid
     ],
     'account_scope': 'some',
     'description': `Elastic CI Stack (${ props.organization.name })`,
@@ -42,7 +42,9 @@ function AWSTableRow(props) {
 AWSParameterTable.propTypes = {
   token: React.PropTypes.string,
   organization: React.PropTypes.shape({
-    slug: React.PropTypes.string
+    name: React.PropTypes.string,
+    slug: React.PropTypes.string,
+    uuid: React.PropTypes.string
   }).isRequired,
   apiAccessTokens: React.PropTypes.arrayOf(
     React.PropTypes.shape({

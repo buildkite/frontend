@@ -21,9 +21,9 @@ const GUIDES = ((guideRequire) =>
 class QuickStart extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
+      uuid: React.PropTypes.string.isRequired,
       agentTokens: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
       })
@@ -43,7 +43,7 @@ class QuickStart extends React.Component {
   componentDidMount() {
     this.props.relay.setVariables({
       isMounted: true,
-      organizationId: this.props.organization.slug
+      organizationSlug: this.props.organization.slug
     });
   }
 
@@ -90,7 +90,7 @@ class QuickStart extends React.Component {
 
   renderGuide() {
     const GuideToRender = GUIDES[this.state.selectedGuide];
-    const { id, name, slug, agentTokens: { edges: agentTokens } = {} } = this.props.organization;
+    const { name, slug, uuid, agentTokens: { edges: agentTokens } = {} } = this.props.organization;
     const { apiAccessTokens: { edges: apiAccessTokens } = {} } = this.props.viewer;
 
     if (GuideToRender) {
@@ -119,7 +119,7 @@ class QuickStart extends React.Component {
               && agentTokens[0].node.token
           }
           apiAccessTokens={apiAccessTokens ? apiAccessTokens.map((edge) => edge.node) : []}
-          organization={{ id, name, slug }}
+          organization={{ name, slug, uuid }}
         />
       );
     }
@@ -141,7 +141,7 @@ class QuickStart extends React.Component {
 export default Relay.createContainer(QuickStart, {
   initialVariables: {
     isMounted: false,
-    organizationId: null
+    organizationSlug: null
   },
 
   fragments: {
@@ -150,7 +150,7 @@ export default Relay.createContainer(QuickStart, {
         apiAccessTokens(
           first: 10,
           template: [ API_ACCESS_TOKEN_TEMPLATE_ELASTIC_CI_AWS ],
-          organizations: [ $organizationId ]
+          organizations: [ $organizationSlug ]
         ) @include(if: $isMounted) {
           edges {
             node {
@@ -164,9 +164,9 @@ export default Relay.createContainer(QuickStart, {
     `,
     organization: () => Relay.QL`
       fragment on Organization {
-        id
         name
         slug
+        uuid
         agentTokens(first: 1, revoked: false) @include(if: $isMounted) {
           edges {
             node {
