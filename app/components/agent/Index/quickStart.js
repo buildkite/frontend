@@ -7,12 +7,16 @@ import Panel from '../../shared/Panel';
 
 import 'highlight.js/styles/atom-one-light.css';
 
-// Grab all the guide documents (*.mdx) from the file system (at ../../docs)
+// Grab guides from the file system (at ../../docs)
 const GUIDES = ((guideRequire) =>
   guideRequire.keys().map((guidePath) =>
     guideRequire(guidePath).default
   )
-)(require.context('../../docs', true, /\.mdx$/));
+)(require.context(
+  '../../docs',
+  true,
+  /^\.\/[^\/]+(?:\/index)?\.[^\/]*$/ // matches any file in ../../docs, or any index file in a subdirectory of ../../docs
+));
 
 class QuickStart extends React.Component {
   static propTypes = {
