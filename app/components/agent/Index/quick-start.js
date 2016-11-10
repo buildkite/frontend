@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
+import shallowCompare from 'react-addons-shallow-compare';
 import classNames from 'classnames';
 
 import Emojify from '../../shared/Emojify';
@@ -46,6 +47,10 @@ class QuickStart extends React.Component {
       isMounted: true,
       organizationSlug: this.props.organization.slug
     });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   getSlugFromHash() {
