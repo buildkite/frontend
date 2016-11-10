@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import { Link } from 'react-router';
 import classNames from 'classnames';
 
 import Emojify from '../../shared/Emojify';
@@ -18,8 +19,12 @@ const GUIDES = ((guideRequire) =>
   /^\.\/[^\/]+(?:\/index)?\.[^\/]*$/ // matches any file in ../../docs, or any index file in a subdirectory of ../../docs
 ));
 
+const getEmojiForGuide = ({ emoji, title }) => emoji || `:${title.toLowerCase()}:`;
+const getSlugForGuide = ({ slug, title }) => slug || encodeURIComponent(title.toLowerCase());
+
 class QuickStart extends React.Component {
   static propTypes = {
+    hash: React.PropTypes.string,
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
@@ -36,10 +41,6 @@ class QuickStart extends React.Component {
     relay: React.PropTypes.object.isRequired
   };
 
-  state = {
-    selectedGuide: null
-  };
-
   componentDidMount() {
     this.props.relay.setVariables({
       isMounted: true,
@@ -47,49 +48,69 @@ class QuickStart extends React.Component {
     });
   }
 
-  handleSelectedGuideChange(selectedGuide, evt) {
-    evt.preventDefault();
-    const newState = { selectedGuide: null };
-
-    if (selectedGuide !== this.state.selectedGuide) {
-      newState.selectedGuide = selectedGuide;
+  getSlugFromHash() {
+    if (this.props.hash.length < 2) {
+      return null;
     }
 
-    this.setState(newState);
+    return this.props.hash.split('#setup-').pop() || null;
   }
 
-  renderGuideButtons() {
+  getIndexOfGuide() {
+    const slugToFind = this.getSlugFromHash();
+
+    if (!slugToFind) {
+      return null;
+    }
+
+    const index = GUIDES.findIndex(
+      (Guide) => getSlugForGuide(Guide) === slugToFind
+    );
+
+    if (index === -1) {
+      return null;
+    }
+
+    return index;
+  }
+
+  renderGuideButtons(selectedGuideIndex) {
+    const baseUri = `/organizations/${this.props.organization.slug}/agents`;
+
     return (
       <div className="center" style={{ margin: -5 }}>
         {
           GUIDES.map((Guide, index) => (
-            <a
+            <Link
               key={index}
-              href="#"
+              to={
+                index === selectedGuideIndex
+                  ? baseUri // use base route URI for selected guide so we can close it
+                  : `${baseUri}#setup-${getSlugForGuide(Guide)}`
+              }
               className={classNames(
                 'inline-block blue hover-navy text-decoration-none border rounded m1 p1',
                 {
-                  'border-white': index !== this.state.selectedGuide,
-                  'border-gray': index === this.state.selectedGuide
+                  'border-white': index !== selectedGuideIndex,
+                  'border-gray': index === selectedGuideIndex
                 }
               )}
-              onClick={this.handleSelectedGuideChange.bind(this, index)} // eslint-disable-line react/jsx-no-bind
             >
               <Emojify
                 className="block mt1"
                 style={{ fontSize: '1.15em' }}
-                text={Guide.emoji || `:${Guide.title.toLowerCase()}:`}
+                text={getEmojiForGuide(Guide)}
               />
               {Guide.title}
-            </a>
+            </Link>
           ))
         }
       </div>
     );
   }
 
-  renderGuide() {
-    const GuideToRender = GUIDES[this.state.selectedGuide];
+  renderGuide(selectedGuideIndex) {
+    const GuideToRender = GUIDES[selectedGuideIndex];
     const { name, slug, uuid, agentTokens: { edges: agentTokens } = {} } = this.props.organization;
     const { apiAccessTokens: { edges: apiAccessTokens } = {} } = this.props.viewer;
 
@@ -126,12 +147,14 @@ class QuickStart extends React.Component {
   }
 
   render() {
+    const selectedGuideIndex = this.getIndexOfGuide();
+
     return (
       <Panel className="mb3">
         <Panel.Header className="center">Agent Quick Start Guides</Panel.Header>
         <Panel.Section>
-          {this.renderGuideButtons()}
-          {this.renderGuide()}
+          {this.renderGuideButtons(selectedGuideIndex)}
+          {this.renderGuide(selectedGuideIndex)}
         </Panel.Section>
       </Panel>
     );

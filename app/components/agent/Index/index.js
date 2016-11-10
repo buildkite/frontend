@@ -10,6 +10,9 @@ import QuickStart from './quick-start';
 
 class AgentIndex extends React.Component {
   static propTypes = {
+    location: React.PropTypes.shape({
+      hash: React.PropTypes.string
+    }).isRequired,
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       permissions: React.PropTypes.shape({
@@ -32,7 +35,7 @@ class AgentIndex extends React.Component {
   }
 
   renderContent() {
-    const { organization, viewer } = this.props;
+    const { organization, viewer, location: { hash } } = this.props;
 
     // Switches between showing just the agents, or the agents along with
     // registration tokens.
@@ -40,7 +43,7 @@ class AgentIndex extends React.Component {
       return (
         <div className="clearfix mxn3">
           <div className="sm-col sm-col-8 px3">
-            <QuickStart organization={organization} viewer={viewer} />
+            <QuickStart organization={organization} viewer={viewer} hash={hash} />
             <Agents organization={organization} />
           </div>
           <div className="sm-col sm-col-4 px3">
