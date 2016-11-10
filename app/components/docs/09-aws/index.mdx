@@ -1,0 +1,21 @@
+---
+title: AWS
+imports:
+  awsLaunchStackButtonImage: ../../../images/aws-launch-stack-button.svg
+  AWSParameterTable: ./parameter-table
+---
+## Install the Agent on your own AWS instance
+
+To run the agent on your own AWS instances use whichever installer matches your instance type. For Amazon Linux use the RH/CentOS installer.
+
+## Use our pre-built Elastic CI Stack for AWS
+
+The [Elastic CI Stack for AWS](https://github.com/buildkite/elastic-ci-stack-for-aws) is a pre–built CloudFormtion template that gives you an autoscaling agent cluster including Docker, S3 and CloudWatch integration. [Read the documentation](https://github.com/buildkite/elastic-ci-stack-for-aws) on GitHub, and launch it using the details below:
+
+<a href="https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=buildkite&templateURL=https://s3.amazonaws.com/buildkite-aws-stack/aws-stack.json" target="_blank"><img src={awsLaunchStackButtonImage} alt="Launch Buildkite Elastic CI Stack" width="144" height="27"/></a>
+
+Use the following stack parameters when launching the stack:
+
+{{ <AWSParameterTable {...props} /> }}
+
+<p class="rounded bg-silver p2">We recommend following AWS best practice by setting up a separate development AWS account and using role switching and consolidated billing. See the AWS tutorial on <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">access delegation across AWS accounts</a>, and <a href="https://github.com/buildkite/elastic-ci-stack-for-aws">Elastic CI Stack repository on GitHub</a> for full documentation.</p>
