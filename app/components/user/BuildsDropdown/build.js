@@ -36,7 +36,7 @@ class BuildsDropdownBuild extends React.Component {
         <a href={this.props.build.url} className="flex text-decoration-none dark-gray hover-lime mb2" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
           <div className="pr2 center">
             <BuildState.Small className="block" state={this.props.build.state} />
-            <small><Duration.Micro className="dark-gray" {...buildTime(this.props.build)} /></small>
+            <small><Duration.Micro className="dark-gray" {...buildTime(this.props.build)} tabularNumerals={false} /></small>
           </div>
           <div className="flex-auto line-height-2">
             <span className="block line-height-3 overflow-hidden overflow-ellipsis">
