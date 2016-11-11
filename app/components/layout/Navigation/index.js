@@ -18,6 +18,7 @@ import CachedStateWrapper from '../../../lib/CachedStateWrapper';
 
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
+import SupportDialog from './support-dialog';
 
 class Navigation extends React.Component {
   static propTypes = {
@@ -85,7 +86,8 @@ class Navigation extends React.Component {
     runningBuildsCount: this.props.viewer.runningBuilds ? this.props.viewer.runningBuilds.count : 0,
     showingOrgDropdown: false,
     showingBuildsDropdown: false,
-    showingUserDropdown: false
+    showingUserDropdown: false,
+    showingSupportDialog: false
   };
 
   handlePusherWebsocketEvent = (payload) => {
@@ -105,6 +107,16 @@ class Navigation extends React.Component {
 
   handleUserDropdownToggle = (visible) => {
     this.setState({ showingUserDropdown: visible });
+  };
+
+  handleSupportClick = (evt) => {
+    evt.preventDefault();
+
+    this.setState({ showingSupportDialog: true });
+  };
+
+  handleSupportCloseClick = () => {
+    this.setState({ showingSupportDialog: false });
   };
 
   handleLogoutClick = (evt) => {
@@ -134,6 +146,14 @@ class Navigation extends React.Component {
             {this.renderOrganizationMenu({ paddingLeft: 0 })}
           </div>
         </div>
+      );
+    }
+  }
+
+  renderSupportDialog() {
+    if(this.state.showingSupportDialog) {
+      return (
+        <SupportDialog onClose={this.handleSupportCloseClick} />
       );
     }
   }
@@ -292,7 +312,9 @@ class Navigation extends React.Component {
 
             {this.renderMyBuilds()}
             <NavigationButton className="py0 xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
-            <NavigationButton className="py0 xs-hide sm-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
+            <NavigationButton className="py0 xs-hide sm-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
+
+            {this.renderSupportDialog()}
 
             <Dropdown align="right" width={170} className="flex" onToggle={this.handleUserDropdownToggle}>
               <DropdownButton className={classNames("py0", { "lime": this.state.showingUserDropdown })}
