@@ -2,7 +2,7 @@ import Relay from 'react-relay';
 import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
 const QUERIES = {
-  "organization_show/organization": Relay.QL`
+  "organization/show": Relay.QL`
     query PipelinesList($organization: ID!, $team: ID) {
       organization(slug: $organization) {
         id
@@ -142,7 +142,7 @@ const QUERIES = {
       }
     }
   `,
-  "settings_navigation/organization": Relay.QL`
+  "organization/settings_navigation": Relay.QL`
     query GetOrganization($organization: ID!) {
       organization(slug: $organization) {
         id
