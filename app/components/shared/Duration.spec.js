@@ -37,6 +37,17 @@ describe('Duration', () => {
         });
       });
 
+      describe('tabularNumerals', () => {
+        it('can be disabled', () => {
+          const component = ReactTestRenderer.create(
+            <DurationComponent tabularNumerals={false} from="2016-05-07T09:00:00.000Z" to="2016-05-07T09:00:00.000Z" updateFrequency={0} />
+          );
+
+          const tree = component.toJSON();
+          expect(tree).toMatchSnapshot();
+        });
+      });
+
       xdescribe('updateFrequency', () => {
         // TODO: Need to be able to instrument updating and interactions
         it('sets an interval if supplied with a frequency greater than zero', () => {
