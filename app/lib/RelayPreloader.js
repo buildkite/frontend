@@ -179,6 +179,21 @@ const QUERIES = {
         }
       }
     }
+  `,
+  "agents/organization": Relay.QL`
+    query GetOrganization($organization: ID!) {
+      organization(slug: $organization) {
+        id
+        name
+        slug
+        uuid
+        permissions {
+          agentTokenView {
+            allowed
+          }
+        }
+      }
+    }
   `
 };
 
