@@ -27,7 +27,8 @@ class Agents extends React.Component {
   };
 
   state = {
-    searching: null
+    loading: false,
+    searching: false
   };
 
   componentDidMount() {
@@ -50,7 +51,12 @@ class Agents extends React.Component {
           <div className="flex items-center">
             <div className="flex-auto py2 px3">Agents</div>
             <div className="mr3">
-              <Search className="input py1 px2" placeholder="Search" style={{ fontSize: 12, lineHeight: 1.1, height: 30, width: 160 }} onSearch={this.handleSearch} />
+              <Search
+                className="input py1 px2"
+                placeholder="Filter"
+                style={{ fontSize: 12, lineHeight: 1.1, height: 30, width: 160 }}
+                onSearch={this.handleSearch}
+              />
             </div>
           </div>
         </div>
@@ -62,66 +68,102 @@ class Agents extends React.Component {
   }
 
   renderSearchResults() {
-    if (this.props.organization.agents && this.props.relay.variables.search) {
+    const { organization, relay } = this.props;
+
+    if (organization.agents && relay.variables.search) {
       return (
         <div className="bg-silver semi-bold py2 px3">
-          <small className="dark-gray">{formatNumber(this.props.organization.agents.count)} matching agents</small>
+          <small className="dark-gray">
+            {formatNumber(organization.agents.count)} matching agents
+          </small>
         </div>
       );
     }
   }
 
   renderRows() {
-    const agents = this.props.organization.agents;
+    const { organization } = this.props;
 
-    if (!agents || this.state.searching) {
+    if (!organization.agents || this.state.searching) {
       return (
         <Panel.Section className="center">
           <Spinner />
         </Panel.Section>
       );
-    } else {
-      if (agents.edges.length > 0) {
-        return agents.edges.map((edge) => <AgentRow key={edge.node.id} agent={edge.node} />);
-      } else {
-        return <Panel.Section className="dark-gray">No agents connected</Panel.Section>;
-      }
     }
+
+    if (organization.agents.edges.length > 0) {
+      return organization.agents.edges.map((edge) => <AgentRow key={edge.node.id} agent={edge.node} />);
+    }
+
+    return (
+      <Panel.Section className="dark-gray">
+        No agents connected
+      </Panel.Section>
+    );
   }
 
   renderLoadMoreButton() {
-    if (this.props.organization.agents) {
-      if (this.props.organization.agents.pageInfo.hasNextPage) {
-        return (
-          <Panel.Footer>
-            <Button outline={true} theme={"default"} onClick={this.handleLoadMoreAgentsClick}>Load {PAGE_SIZE} more agents…</Button>
-          </Panel.Footer>
-        );
-      }
+    const { organization } = this.props;
+
+    if (!organization.agents || !organization.agents.pageInfo.hasNextPage) {
+      return;
     }
+
+    let footerContent = (
+      <Button
+        outline={true}
+        theme="default"
+        onClick={this.handleLoadMoreAgentsClick}
+      >
+        Load more agents…
+      </Button>
+    );
+
+    if (this.state.loading) {
+      footerContent = <Spinner style={{ margin: 8 }} />;
+    }
+
+    return (
+      <Panel.Footer className="center">
+        {footerContent}
+      </Panel.Footer>
+    );
   }
 
   handleSearch = (query) => {
     this.setState({ searching: true });
 
-    let search;
-    if (query === "") {
-      search = null;
-    } else {
-      search = query.split(" ");
+    let search = null;
+    if (query) {
+      search = query.split(/\s+/g);
     }
 
-    this.props.relay.forceFetch({ search: search }, (readyState) => {
-      if (readyState.done) {
-        this.setState({ searching: null });
+    this.props.relay.forceFetch(
+      {
+        search: search
+      },
+      (readyState) => {
+        if (readyState.done) {
+          this.setState({ searching: false });
+        }
       }
-    });
+    );
   };
 
   handleLoadMoreAgentsClick = () => {
-    this.props.relay.setVariables({
-      pageSize: this.props.relay.variables.pageSize + PAGE_SIZE
-    });
+    this.setState({ loading: true });
+
+    this.props.relay.setVariables(
+      {
+        pageSize: this.props.relay.variables.pageSize + PAGE_SIZE
+      },
+      (readyState) => {
+        if (readyState.done) {
+          this.setState({ loading: false });
+        }
+      }
+    );
   };
 }
 
