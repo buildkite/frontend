@@ -67,7 +67,7 @@ class BuildsDropdownIndex extends React.Component {
   renderSpinner() {
     return (
       <div className="px3 py2 center">
-        <Spinner/>
+        <Spinner />
       </div>
     );
   }

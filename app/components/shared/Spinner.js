@@ -4,8 +4,7 @@ import classNames from "classnames";
 
 class Spinner extends React.Component {
   static propTypes = {
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
+    size: React.PropTypes.number,
     className: React.PropTypes.string,
     style: React.PropTypes.object,
     color: React.PropTypes.bool,
@@ -13,8 +12,7 @@ class Spinner extends React.Component {
   };
 
   static defaultProps = {
-    width: 20,
-    height: 20,
+    size: 20,
     color: true,
     fadeIn: true
   };
@@ -22,8 +20,8 @@ class Spinner extends React.Component {
   render() {
     const style = update(this.props.style || {}, {
       verticalAlign: { $set: "middle" },
-      width: { $set: this.props.width },
-      height: { $set: this.props.height }
+      width: { $set: this.props.size },
+      height: { $set: this.props.size }
     });
 
     // We use two separate SVGs layered on top of one another, with one
@@ -32,10 +30,10 @@ class Spinner extends React.Component {
     return (
       <div className={classNames("inline-block relative", this.props.className, { "animation-fade-in": this.props.fadeIn })} style={style}>
         <div className="absolute top-0 left-0">
-          <svg viewBox="0 0 20 20" width="20px" height="20px" className="absolute top-0 left-0" style={{ width: this.props.width, height: this.props.height }}>
+          <svg viewBox="0 0 20 20" width="20px" height="20px" className="absolute top-0 left-0" style={{ width: this.props.size, height: this.props.size }}>
             <circle className="stroke-gray" fill="transparent" strokeMiterlimit="10" strokeWidth="3" cx="10" cy="10" r="7"/>
           </svg>
-          <svg viewBox="0 0 20 20" width="20px" height="20px" className="absolute top-0 left-0 animation-spin" style={{ width: this.props.width, height: this.props.height }}>
+          <svg viewBox="0 0 20 20" width="20px" height="20px" className="absolute top-0 left-0 animation-spin" style={{ width: this.props.size, height: this.props.size }}>
             <defs>
               <clipPath id="spinner-clip-path">
                 <rect fill="none" x="10" y="-10" width="20" height="20"/>

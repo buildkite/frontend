@@ -97,7 +97,7 @@ class FormAutoCompleteField extends React.Component {
   renderIcon() {
     if (this.state.searching) {
       return (
-        <Spinner width={15} height={15} color={false}/>
+        <Spinner size={15} color={false}/>
       );
     } else {
       return (
