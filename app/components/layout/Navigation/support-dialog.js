@@ -34,7 +34,7 @@ class SupportDialog extends React.Component {
           <Button href="mailto:support@buildkite.com" theme="default" outline={true}>Email support@buildkite.com</Button>
         </div>
       </Dialog>
-    )
+    );
   }
 }
 

@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import classNames from 'classnames';
 
-import Button from './Button';
 import Icon from './Icon';
 
 class Dialog extends React.Component {
   static propTypes = {
     isOpen: React.PropTypes.bool,
-    onRequestClose: React.PropTypes.func
+    onRequestClose: React.PropTypes.func,
+    children: React.PropTypes.node
   };
 
   state = {
@@ -26,14 +25,14 @@ class Dialog extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Opening the dialog
-    if(!this.props.isOpen && nextProps.isOpen) {
+    if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({ rendered: true }, () => {
         this.setState({ visible: true });
       });
     }
 
     // Closing the dialog
-    if(this.props.isOpen && !nextProps.isOpen) {
+    if (this.props.isOpen && !nextProps.isOpen) {
       this.setState({ visible: false }, () => {
         // Give the animation some time to finish, then remove the dialog from
         // the DOM
@@ -45,7 +44,7 @@ class Dialog extends React.Component {
   }
 
   render() {
-    if(this.state.rendered) {
+    if (this.state.rendered) {
       return (
         <span className="block fixed flex items-center justify-center" style={{ top: 0, left: 0, bottom: 0, right: 0, zIndex: 1000 }}>
           <ReactCSSTransitionGroup transitionName="transition-popup" transitionEnterTimeout={150} transitionLeaveTimeout={150}>
@@ -63,7 +62,7 @@ class Dialog extends React.Component {
   }
 
   renderBackdrop() {
-    if(this.state.visible) {
+    if (this.state.visible) {
       return (
         <div className="absolute bg-white" style={{ top: 0, left: 0, bottom: 0, right: 0, opacity: 0.9, zIndex: 1001 }} />
       );
@@ -71,7 +70,7 @@ class Dialog extends React.Component {
   }
 
   renderDialog() {
-    if(this.state.visible) {
+    if (this.state.visible) {
       return  (
         <div className="background bg-white transition-popup rounded-2 shadow center relative mx4" style={{ padding: "50px 10px", width: 500, zIndex: 1002 }}>
           <button className="btn absolute circle shadow bg-white bold flex items-center border border-white p0" style={{ top: -10, right: -10, width: 30, height: 30 }} onClick={this.handleCloseClick}>
@@ -80,7 +79,7 @@ class Dialog extends React.Component {
 
           {this.props.children}
         </div>
-      )
+      );
     }
   }
 
