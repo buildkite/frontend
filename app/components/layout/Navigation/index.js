@@ -109,19 +109,17 @@ class Navigation extends React.Component {
     this.setState({ showingUserDropdown: visible });
   };
 
-  handleSupportClick = (evt) => {
-    evt.preventDefault();
-
-    this.setState({ showingSupportDialog: true });
-  };
-
-  handleSupportCloseClick = () => {
-    this.setState({ showingSupportDialog: false });
-  };
-
   handleLogoutClick = (evt) => {
     evt.preventDefault();
     this.logoutFormNode.submit();
+  };
+
+  handleSupportClick = () => {
+    this.setState({ showingSupportDialog: true });
+  };
+
+  handleSupportDialogClose = () => {
+    this.setState({ showingSupportDialog: false });
   };
 
   shouldComponentUpdate = (nextProps, nextState) => {
@@ -146,14 +144,6 @@ class Navigation extends React.Component {
             {this.renderOrganizationMenu({ paddingLeft: 0 })}
           </div>
         </div>
-      );
-    }
-  }
-
-  renderSupportDialog() {
-    if (this.state.showingSupportDialog) {
-      return (
-        <SupportDialog onClose={this.handleSupportCloseClick} />
       );
     }
   }
@@ -314,8 +304,6 @@ class Navigation extends React.Component {
             <NavigationButton className="py0 xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
             <NavigationButton className="py0 xs-hide sm-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
 
-            {this.renderSupportDialog()}
-
             <Dropdown align="right" width={170} className="flex" onToggle={this.handleUserDropdownToggle}>
               <DropdownButton className={classNames("py0", { "lime": this.state.showingUserDropdown })}
                 style={{ paddingRight: 0 }}
@@ -331,7 +319,7 @@ class Navigation extends React.Component {
 
               <div className="md-hide lg-hide">
                 <NavigationButton className="md-hide lg-hide" href={`/docs`}>Documentation</NavigationButton>
-                <NavigationButton className="md-hide lg-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
+                <NavigationButton className="md-hide lg-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
               </div>
 
               <form action="/logout" method="post" ref={(logoutFormNode) => this.logoutFormNode = logoutFormNode}>
@@ -345,6 +333,8 @@ class Navigation extends React.Component {
         </div>
 
         {this.renderBottomOrganizationMenu()}
+
+        <SupportDialog isOpen={this.state.showingSupportDialog} onRequestClose={this.handleSupportDialogClose} />
       </div>
     );
   }
