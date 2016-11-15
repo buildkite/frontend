@@ -170,10 +170,17 @@ module.exports = {
         loader: 'url-loader?limit=8192'
       },
       {
-        test: /\.(png|svg|jpg|gif)$/i,
+        test: /\.(svg)$/i,
         loaders: [
           'url-loader?limit=8192',
           'image-webpack?optimizationLevel=7&interlaced=false'
+        ]
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [
+          'file?hash=sha512&digest=hex&name=[hash].[ext]',
+          'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
         ]
       }
     ]
