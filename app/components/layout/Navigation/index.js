@@ -151,7 +151,7 @@ class Navigation extends React.Component {
   }
 
   renderSupportDialog() {
-    if(this.state.showingSupportDialog) {
+    if (this.state.showingSupportDialog) {
       return (
         <SupportDialog onClose={this.handleSupportCloseClick} />
       );
