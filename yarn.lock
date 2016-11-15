@@ -1937,7 +1937,7 @@ diff@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.0.1.tgz#a52d90cc08956994be00877bff97110062582c35"
 
-doc-chomp@1.1.0:
+doc-chomp@^1.1.0, doc-chomp@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/doc-chomp/-/doc-chomp-1.1.0.tgz#8ef2b784366a0a5c048de0e241dca4ca1e135ce6"
   dependencies:
@@ -5656,17 +5656,17 @@ qs@6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.2.0.tgz#3b7848c03c2dece69a9522b0fae8c4126d745f3b"
 
-query-string@^3.0.0:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/query-string/-/query-string-3.0.3.tgz#ae2e14b4d05071d4e9b9eb4873c35b0dcd42e638"
-  dependencies:
-    strict-uri-encode "^1.0.0"
-
-query-string@^4.1.0:
+query-string, query-string@^4.1.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.2.3.tgz#9f27273d207a25a8ee4c7b8c74dcd45d556db822"
   dependencies:
     object-assign "^4.1.0"
+    strict-uri-encode "^1.0.0"
+
+query-string@^3.0.0:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-3.0.3.tgz#ae2e14b4d05071d4e9b9eb4873c35b0dcd42e638"
+  dependencies:
     strict-uri-encode "^1.0.0"
 
 querystring-es3@~0.2.0:
@@ -5802,9 +5802,11 @@ react-transform-hmr@^1.0.3, react-transform-hmr@^1.0.4:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react-type-snob@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/react-type-snob/-/react-type-snob-0.0.2.tgz#5c1c44fbda40f89b71c46730c74a291f0d7fbb36"
+react-type-snob:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/react-type-snob/-/react-type-snob-0.0.3.tgz#1879af860fb6351cb98a1a0f5d07d02670e54e9a"
+  dependencies:
+    doc-chomp "^1.1.0"
 
 react@^15.3.2:
   version "15.3.2"

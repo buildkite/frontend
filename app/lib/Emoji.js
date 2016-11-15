@@ -69,7 +69,10 @@ class Emoji {
 
   _image(catalogue, emoji) {
     // Emoji catalogue hosts have a normalized host that always end with a "/"
-    return `<img class="emoji" title="${emoji.name}" alt="${emoji.unicode || emoji.name}" src="${catalogue.host}${emoji.image}" draggable="false" />`;
+    const emojiUrl = `${catalogue.host}${emoji.image}`;
+    const emojiCanonicalRepresentation = emoji.unicode || `:${emoji.name}:`;
+
+    return `<img class="emoji" title="${emoji.name}" alt="${emojiCanonicalRepresentation}" src="${emojiUrl}" draggable="false" />`;
   }
 }
 

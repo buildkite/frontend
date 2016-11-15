@@ -43,7 +43,7 @@ class BuildTooltip extends React.Component {
             <Media align="top">
               <Media.Image className="mr2 center" style={{ width: 30 }} >
                 <UserAvatar user={this.props.build.createdBy} className="block fit" />
-                <small className="dark-gray"><Duration.Micro {...buildTime(this.props.build)} /></small>
+                <small className="dark-gray"><Duration.Micro {...buildTime(this.props.build)} tabularNumerals={false} /></small>
               </Media.Image>
               <Media.Description className="flex-auto line-height-2">
                 <span className="block line-height-3 overflow-hidden overflow-ellipsis">

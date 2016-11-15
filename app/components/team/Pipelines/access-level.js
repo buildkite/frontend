@@ -88,7 +88,7 @@ class AccessLevel extends React.Component {
     if (this.props.saving === accessLevel) {
       return (
         <div style={{ width: width }}>
-          <Spinner className="fit absolute" width={16} height={16} style={{ marginTop: 3 }} color={false} />
+          <Spinner className="fit absolute" size={16} style={{ marginTop: 3 }} color={false} />
         </div>
       );
     } else if (this.props.teamPipeline.accessLevel === accessLevel) {

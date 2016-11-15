@@ -14,12 +14,14 @@ class Duration extends React.Component {
       React.PropTypes.number,
       React.PropTypes.instanceOf(Date)
     ]),
+    tabularNumerals: React.PropTypes.bool.isRequired,
     format: React.PropTypes.oneOf(getDurationString.formats),
     updateFrequency: React.PropTypes.number
   };
 
   static defaultProps = {
-    updateFrequency: 1000
+    updateFrequency: 1000,
+    tabularNumerals: true
   };
 
   state = {
@@ -71,8 +73,17 @@ class Duration extends React.Component {
   }
 
   render() {
+    const { state: { value }, props: { tabularNumerals } } = this;
+    const spanProps = {};
+
+    if (tabularNumerals) {
+      spanProps.className = 'tabular-numerals';
+    }
+
     return (
-      <span>{this.state.value}</span>
+      <span {...spanProps}>
+        {value}
+      </span>
     );
   }
 }

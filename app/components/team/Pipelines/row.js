@@ -50,7 +50,7 @@ class Row extends React.Component {
 
     if (transaction) {
       return (
-        <Spinner width={18} height={18} color={false}/>
+        <Spinner size={18} color={false}/>
       );
     } else {
       return permissions(this.props.teamPipeline.permissions).collect(

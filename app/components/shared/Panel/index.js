@@ -1,13 +1,10 @@
 import React from "react";
 import classNames from "classnames";
 
-import Header from "./header";
 import IntroWithButton from "./intro-with-button";
 import Row from "./row";
 import RowActions from "./row-actions";
 import RowLink from "./row-link";
-import Section from "./section";
-import Footer from "./footer";
 
 class Panel extends React.Component {
   static propTypes = {
@@ -37,12 +34,33 @@ class Panel extends React.Component {
   }
 }
 
-Panel.Header = Header;
 Panel.IntroWithButton = IntroWithButton;
-Panel.RowLink = RowLink;
 Panel.Row = Row;
 Panel.RowActions = RowActions;
-Panel.Section = Section;
-Panel.Footer = Footer;
+Panel.RowLink = RowLink;
+
+const SIMPLE_COMPONENTS = {
+  Header: 'bg-silver py2 px3 semi-bold',
+  Footer: 'py2 px3',
+  Section: 'm3'
+};
+
+Object.keys(SIMPLE_COMPONENTS).forEach((componentName) => {
+  const defaultStyle = SIMPLE_COMPONENTS[componentName];
+
+  const Component = (props) => (
+    <div className={classNames(defaultStyle, props.className)}>
+      {props.children}
+    </div>
+  );
+
+  Component.displayName = `Panel.${componentName}`;
+  Component.propTypes = {
+    children: React.PropTypes.node.isRequired,
+    className: React.PropTypes.string
+  };
+
+  Panel[componentName] = Component;
+});
 
 export default Panel;
