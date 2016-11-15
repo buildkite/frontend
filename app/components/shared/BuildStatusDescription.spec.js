@@ -6,7 +6,7 @@ import ReactTestRenderer from 'react-test-renderer';
 
 describe('BuildStatusDescription', () => {
   it(`calls through to \`friendlyRelativeTime\` and \`buildStatus\``, () => {
-    MockDate.set(moment.parseZone("2016-10-09T24:21:50+1100"));
+    MockDate.set(moment.parseZone("2016-10-10T00:21:50+1100"));
 
     const BUILD_STATUS_FIXTURE = {
       prefix: 'tested',
