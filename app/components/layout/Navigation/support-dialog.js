@@ -1,5 +1,6 @@
 import React from 'react';
 import shuffle from 'shuffle-array';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Dialog from '../../shared/Dialog';
 import Button from '../../shared/Button';
@@ -20,6 +21,10 @@ class SupportDialog extends React.Component {
     isOpen: React.PropTypes.bool,
     onRequestClose: React.PropTypes.func
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     return (
