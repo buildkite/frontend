@@ -32,7 +32,9 @@ class SupportDialog extends React.Component {
   render() {
     return (
       <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose}>
-        <h1 className="bold mt0 mb4"><Emojify text="We’re here to help :wave:"/></h1>
+        <h1 className="bold mt0 mb4">
+          <Emojify text="We’re here to help :wave::skin-tone-3:" />
+        </h1>
         <div
           className="mb4"
           style={{
