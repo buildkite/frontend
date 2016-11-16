@@ -72,7 +72,10 @@ class Dialog extends React.Component {
   renderDialog() {
     if (this.state.visible) {
       return  (
-        <div className="background bg-white transition-popup rounded-2 shadow center relative mx4" style={{ padding: "50px 10px", width: 500, zIndex: 1002 }}>
+        <div
+          className="background bg-white transition-popup rounded-2 shadow center relative mx4"
+          style={{ padding: "50px 10px", width: 500, zIndex: 1002, maxWidth: '90vw' }}
+        >
           <button className="btn absolute circle shadow bg-white bold flex items-center border border-white p0" style={{ top: -10, right: -10, width: 30, height: 30 }} onClick={this.handleCloseClick}>
             <Icon icon="close" title="Close" className="mx-auto"/>
           </button>
