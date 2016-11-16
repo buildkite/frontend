@@ -2,13 +2,13 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import Emojify from '../../shared/Emojify';
+import Duration from '../../shared/Duration';
 
 import PusherStore from '../../../stores/PusherStore';
 import BuildState from '../../icons/BuildState';
-import Duration from "../../shared/Duration";
 
-import { buildTime } from '../../../lib/builds';
-import { shortMessage, shortCommit } from '../../../lib/commits';
+import { buildStatus } from '../../../lib/builds';
+import { shortMessage } from '../../../lib/commits';
 
 class BuildsDropdownBuild extends React.Component {
   static propTypes = {
@@ -36,13 +36,12 @@ class BuildsDropdownBuild extends React.Component {
         <a href={this.props.build.url} className="flex text-decoration-none dark-gray hover-lime mb2" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
           <div className="pr2 center">
             <BuildState.Small className="block" state={this.props.build.state} />
-            <small><Duration.Micro className="dark-gray" {...buildTime(this.props.build)} tabularNumerals={false} /></small>
           </div>
-          <div className="flex-auto line-height-2">
+          <div className="flex-auto">
             <span className="block line-height-3 overflow-hidden overflow-ellipsis">
-              <Emojify className={messageClassName} text={shortMessage(this.props.build.message)} /> {shortCommit(this.props.build.commit)}
+              <Emojify className={messageClassName} text={shortMessage(this.props.build.message)} /> in <span className={messageClassName}>{this.props.build.pipeline.name}</span>
             </span>
-            <small className="block">{this.props.build.organization.name} / {this.props.build.pipeline.name}</small>
+            <span className="block"><Duration.Full from={buildStatus(this.props.build).timeValue} overrides={{ length: 1 }} tabularNumerals={false} /> ago</span>
           </div>
         </a>
       </div>
@@ -71,17 +70,13 @@ export default Relay.createContainer(BuildsDropdownBuild, {
         id
         message
         state
-        startedAt
+        createdAt
+        canceledAt
         finishedAt
         url
         commit
-        organization {
-          name
-          slug
-        }
         pipeline {
           name
-          slug
         }
       }
     `
