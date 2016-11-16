@@ -1,74 +1,146 @@
 exports[`getDurationString correctly handles \`full\` dates 1`] = `"0 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates 2`] = `"5 seconds"`;
+exports[`getDurationString correctly handles \`full\` dates 2`] = `"0 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates 3`] = `"15 minutes, 7 seconds"`;
+exports[`getDurationString correctly handles \`full\` dates 3`] = `"5 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates 4`] = `"1 hour, 45 minutes, 16 seconds"`;
+exports[`getDurationString correctly handles \`full\` dates 4`] = `"5 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates 5`] = `"4 hours, 59 minutes, 3 seconds"`;
+exports[`getDurationString correctly handles \`full\` dates 5`] = `"15 minutes, 7 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates 6`] = `"1 day, 7 hours, 3 minutes"`;
+exports[`getDurationString correctly handles \`full\` dates 6`] = `"15 minutes, 7 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates 7`] = `"1 week, 13 days, 16 hours"`;
+exports[`getDurationString correctly handles \`full\` dates 7`] = `"1 hour, 45 minutes, 16 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates 8`] = `"9 weeks, 2 days, 20 hours"`;
+exports[`getDurationString correctly handles \`full\` dates 8`] = `"1 hour, 45 minutes, 16 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates 9`] = `"0 seconds"`;
+exports[`getDurationString correctly handles \`full\` dates 9`] = `"4 hours, 59 minutes, 3 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates 10`] = `"0 seconds"`;
+exports[`getDurationString correctly handles \`full\` dates 10`] = `"4 hours, 59 minutes, 3 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates 11`] = `"0 seconds"`;
+exports[`getDurationString correctly handles \`full\` dates 11`] = `"1 day, 7 hours, 3 minutes"`;
 
-exports[`getDurationString correctly handles \`full\` dates 12`] = `"0 seconds"`;
+exports[`getDurationString correctly handles \`full\` dates 12`] = `"1 day, 7 hours, 3 minutes, 21 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 13`] = `"1 week, 13 days, 16 hours"`;
+
+exports[`getDurationString correctly handles \`full\` dates 14`] = `"1 week, 13 days, 16 hours, 22 minutes, 12 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 15`] = `"9 weeks, 2 days, 20 hours"`;
+
+exports[`getDurationString correctly handles \`full\` dates 16`] = `"9 weeks, 2 days, 19 hours, 34 minutes, 17 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 17`] = `"0 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 18`] = `"0 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 19`] = `"0 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 20`] = `"0 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 21`] = `"0 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 22`] = `"0 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 23`] = `"0 seconds"`;
+
+exports[`getDurationString correctly handles \`full\` dates 24`] = `"0 seconds"`;
 
 exports[`getDurationString correctly handles \`micro\` dates 1`] = `"0s"`;
 
-exports[`getDurationString correctly handles \`micro\` dates 2`] = `"5s"`;
+exports[`getDurationString correctly handles \`micro\` dates 2`] = `"0s"`;
 
-exports[`getDurationString correctly handles \`micro\` dates 3`] = `"15m"`;
+exports[`getDurationString correctly handles \`micro\` dates 3`] = `"5s"`;
 
-exports[`getDurationString correctly handles \`micro\` dates 4`] = `"2h"`;
+exports[`getDurationString correctly handles \`micro\` dates 4`] = `"5s"`;
 
-exports[`getDurationString correctly handles \`micro\` dates 5`] = `"5h"`;
+exports[`getDurationString correctly handles \`micro\` dates 5`] = `"15m"`;
 
-exports[`getDurationString correctly handles \`micro\` dates 6`] = `"1d"`;
+exports[`getDurationString correctly handles \`micro\` dates 6`] = `"15m 7s"`;
 
-exports[`getDurationString correctly handles \`micro\` dates 7`] = `"3w"`;
+exports[`getDurationString correctly handles \`micro\` dates 7`] = `"2h"`;
 
-exports[`getDurationString correctly handles \`micro\` dates 8`] = `"9w"`;
+exports[`getDurationString correctly handles \`micro\` dates 8`] = `"1h 45m 16s"`;
 
-exports[`getDurationString correctly handles \`micro\` dates 9`] = `"0s"`;
+exports[`getDurationString correctly handles \`micro\` dates 9`] = `"5h"`;
 
-exports[`getDurationString correctly handles \`micro\` dates 10`] = `"0s"`;
+exports[`getDurationString correctly handles \`micro\` dates 10`] = `"4h 59m 3s"`;
 
-exports[`getDurationString correctly handles \`micro\` dates 11`] = `"0s"`;
+exports[`getDurationString correctly handles \`micro\` dates 11`] = `"1d"`;
 
-exports[`getDurationString correctly handles \`micro\` dates 12`] = `"0s"`;
+exports[`getDurationString correctly handles \`micro\` dates 12`] = `"1d 7h 3m 21s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 13`] = `"3w"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 14`] = `"1w 13d 16h 22m 12s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 15`] = `"9w"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 16`] = `"9w 2d 19h 34m 17s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 17`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 18`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 19`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 20`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 21`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 22`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 23`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`micro\` dates 24`] = `"0s"`;
 
 exports[`getDurationString correctly handles \`short\` dates 1`] = `"0s"`;
 
-exports[`getDurationString correctly handles \`short\` dates 2`] = `"5s"`;
+exports[`getDurationString correctly handles \`short\` dates 2`] = `"0s"`;
 
-exports[`getDurationString correctly handles \`short\` dates 3`] = `"15m 7s"`;
+exports[`getDurationString correctly handles \`short\` dates 3`] = `"5s"`;
 
-exports[`getDurationString correctly handles \`short\` dates 4`] = `"1h 45m"`;
+exports[`getDurationString correctly handles \`short\` dates 4`] = `"5s"`;
 
-exports[`getDurationString correctly handles \`short\` dates 5`] = `"4h 59m"`;
+exports[`getDurationString correctly handles \`short\` dates 5`] = `"15m 7s"`;
 
-exports[`getDurationString correctly handles \`short\` dates 6`] = `"1d 7h"`;
+exports[`getDurationString correctly handles \`short\` dates 6`] = `"15m 7s"`;
 
-exports[`getDurationString correctly handles \`short\` dates 7`] = `"1w 14d"`;
+exports[`getDurationString correctly handles \`short\` dates 7`] = `"1h 45m"`;
 
-exports[`getDurationString correctly handles \`short\` dates 8`] = `"9w 3d"`;
+exports[`getDurationString correctly handles \`short\` dates 8`] = `"1h 45m 16s"`;
 
-exports[`getDurationString correctly handles \`short\` dates 9`] = `"0s"`;
+exports[`getDurationString correctly handles \`short\` dates 9`] = `"4h 59m"`;
 
-exports[`getDurationString correctly handles \`short\` dates 10`] = `"0s"`;
+exports[`getDurationString correctly handles \`short\` dates 10`] = `"4h 59m 3s"`;
 
-exports[`getDurationString correctly handles \`short\` dates 11`] = `"0s"`;
+exports[`getDurationString correctly handles \`short\` dates 11`] = `"1d 7h"`;
 
-exports[`getDurationString correctly handles \`short\` dates 12`] = `"0s"`;
+exports[`getDurationString correctly handles \`short\` dates 12`] = `"1d 7h 3m 21s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 13`] = `"1w 14d"`;
+
+exports[`getDurationString correctly handles \`short\` dates 14`] = `"1w 13d 16h 22m 12s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 15`] = `"9w 3d"`;
+
+exports[`getDurationString correctly handles \`short\` dates 16`] = `"9w 2d 19h 34m 17s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 17`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 18`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 19`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 20`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 21`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 22`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 23`] = `"0s"`;
+
+exports[`getDurationString correctly handles \`short\` dates 24`] = `"0s"`;
 
 exports[`getDurationString defaults to full dates 1`] = `"5 seconds"`;
 

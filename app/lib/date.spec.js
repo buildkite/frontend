@@ -33,6 +33,7 @@ describe('getDurationString', () => {
     it(`correctly handles \`${format}\` dates`, () => {
       DATE_FIXTURES.forEach(({ from, to }) => {
         expect(getDurationString(from, to, format)).toMatchSnapshot();
+        expect(getDurationString(from, to, format, { length: 5 })).toMatchSnapshot();
       });
     });
   });

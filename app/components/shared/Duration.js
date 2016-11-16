@@ -1,5 +1,6 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
+import classNames from 'classnames';
 import { getDurationString } from '../../lib/date';
 
 class Duration extends React.Component {
@@ -14,8 +15,10 @@ class Duration extends React.Component {
       React.PropTypes.number,
       React.PropTypes.instanceOf(Date)
     ]),
+    className: React.PropTypes.string,
     tabularNumerals: React.PropTypes.bool.isRequired,
     format: React.PropTypes.oneOf(getDurationString.formats),
+    overrides: React.PropTypes.object,
     updateFrequency: React.PropTypes.number
   };
 
@@ -29,8 +32,10 @@ class Duration extends React.Component {
   };
 
   updateTime() {
+    const { from, to, format, overrides } = this.props;
+
     this.setState({
-      value: getDurationString(this.props.from, this.props.to, this.props.format)
+      value: getDurationString(from, to, format, overrides)
     });
   }
 
@@ -56,7 +61,7 @@ class Duration extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { from, to, format, updateFrequency } = nextProps;
+    const { from, to, format, overrides, updateFrequency } = nextProps;
 
     if (updateFrequency !== this.props.updateFrequency) {
       this.maybeClearInterval();
@@ -64,7 +69,7 @@ class Duration extends React.Component {
     }
 
     this.setState({
-      value: getDurationString(from, to, format)
+      value: getDurationString(from, to, format, overrides)
     });
   }
 
@@ -73,15 +78,14 @@ class Duration extends React.Component {
   }
 
   render() {
-    const { state: { value }, props: { tabularNumerals } } = this;
-    const spanProps = {};
-
-    if (tabularNumerals) {
-      spanProps.className = 'tabular-numerals';
-    }
+    const { state: { value }, props: { className, tabularNumerals } } = this;
+    const spanClassName = classNames(
+      className,
+      { 'tabular-numerals': tabularNumerals }
+    );
 
     return (
-      <span {...spanProps}>
+      <span className={spanClassName}>
         {value}
       </span>
     );
