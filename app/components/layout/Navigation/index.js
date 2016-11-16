@@ -115,6 +115,11 @@ class Navigation extends React.Component {
   };
 
   handleSupportClick = () => {
+    // close the support dropdown if it's open
+    if (this.state.showingUserDropdown) {
+      this.userDropdown.handleDocumentClick();
+    }
+
     this.setState({ showingSupportDialog: true });
   };
 
@@ -140,7 +145,7 @@ class Navigation extends React.Component {
     if (this.props.organization) {
       return (
         <div className="border-top border-gray lg-hide">
-          <div className="container flex flex-stretch" style={{ height: 45 }}>
+          <div className="container flex flex-stretch" style={{ height: 45, overflowX: 'scroll' }}>
             {this.renderOrganizationMenu({ paddingLeft: 0 })}
           </div>
         </div>
@@ -304,7 +309,7 @@ class Navigation extends React.Component {
             <NavigationButton className="py0 xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
             <NavigationButton className="py0 xs-hide sm-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
 
-            <Dropdown align="right" width={170} className="flex" onToggle={this.handleUserDropdownToggle}>
+            <Dropdown align="right" width={170} className="flex" ref={(userDropdown) => this.userDropdown = userDropdown} onToggle={this.handleUserDropdownToggle}>
               <DropdownButton className={classNames("py0", { "lime": this.state.showingUserDropdown })}
                 style={{ paddingRight: 0 }}
               >
