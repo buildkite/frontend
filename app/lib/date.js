@@ -29,10 +29,12 @@ const DATE_FORMATS = {
   }
 };
 
-export function getDurationString(from, to = moment(), format = 'full') {
+export function getDurationString(from, to = moment(), format = 'full', overrides = { }) {
   if (getDurationString.formats.indexOf(format) === -1) {
     throw new Error(`getDurationString: Unknown format \`${format}\`.`);
   }
+
+  const configuration = Object.assign({}, DATE_FORMATS[format], overrides);
 
   const duration = moment.duration(moment(to).diff(from));
 
@@ -59,7 +61,7 @@ export function getDurationString(from, to = moment(), format = 'full') {
   });
 
   // only keep the most significant digits
-  const displayedTimes = times.slice(0, DATE_FORMATS[format].length);
+  const displayedTimes = times.slice(0, configuration.length);
 
   if (displayedTimes.length < times.length) {
     // let's round the last item using the next item we'd have shown
@@ -74,7 +76,7 @@ export function getDurationString(from, to = moment(), format = 'full') {
     );
   }
 
-  return displayedTimes.map(DATE_FORMATS[format].render).join(DATE_FORMATS[format].commas ? ', ' : ' ');
+  return displayedTimes.map(configuration.render).join(configuration.commas ? ', ' : ' ');
 }
 
 getDurationString.formats = Object.keys(DATE_FORMATS);
