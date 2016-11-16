@@ -13,4 +13,4 @@ echo "--- :webpack: Building webpack assets for production"
 yarn run build-production
 
 echo "--- :javascript: Checking valid JS"
-node --check dist/* && echo "👍 Javascript looks valid!"
+node --check dist/*.js && echo "👍 Javascript looks valid!"

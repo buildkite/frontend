@@ -65,3 +65,23 @@
   transform: scale(1);
   transition: transform 120ms ease-out-back .5s;
 }
+
+/* transition opacity */
+
+.transition-opacity-enter {
+  opacity: 0;
+}
+
+.transition-opacity-enter.transition-opacity-enter-active {
+  opacity: 1;
+  transition: opacity 90ms ease-out-back, transform 100ms ease-out-back;
+}
+
+.transition-opacity-leave {
+  opacity: 1;
+}
+
+.transition-opacity-leave.transition-opacity-leave-active {
+  opacity: 0;
+  transition: opacity 90ms ease-in-back, transform 100ms ease-in-back;
+}

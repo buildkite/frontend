@@ -18,6 +18,7 @@ import CachedStateWrapper from '../../../lib/CachedStateWrapper';
 
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
+import SupportDialog from './support-dialog';
 
 class Navigation extends React.Component {
   static propTypes = {
@@ -85,7 +86,8 @@ class Navigation extends React.Component {
     runningBuildsCount: this.props.viewer.runningBuilds ? this.props.viewer.runningBuilds.count : 0,
     showingOrgDropdown: false,
     showingBuildsDropdown: false,
-    showingUserDropdown: false
+    showingUserDropdown: false,
+    showingSupportDialog: false
   };
 
   handlePusherWebsocketEvent = (payload) => {
@@ -112,6 +114,19 @@ class Navigation extends React.Component {
     this.logoutFormNode.submit();
   };
 
+  handleSupportClick = () => {
+    // close the support dropdown if it's open
+    if (this.state.showingUserDropdown) {
+      this.userDropdown.setShowing(false);
+    }
+
+    this.setState({ showingSupportDialog: true });
+  };
+
+  handleSupportDialogClose = () => {
+    this.setState({ showingSupportDialog: false });
+  };
+
   shouldComponentUpdate = (nextProps, nextState) => {
     return shallowCompare(this, nextProps, nextState);
   };
@@ -130,7 +145,7 @@ class Navigation extends React.Component {
     if (this.props.organization) {
       return (
         <div className="border-top border-gray lg-hide">
-          <div className="container flex flex-stretch" style={{ height: 45 }}>
+          <div className="container flex flex-stretch" style={{ height: 45, overflowX: 'scroll' }}>
             {this.renderOrganizationMenu({ paddingLeft: 0 })}
           </div>
         </div>
@@ -292,9 +307,9 @@ class Navigation extends React.Component {
 
             {this.renderMyBuilds()}
             <NavigationButton className="py0 xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
-            <NavigationButton className="py0 xs-hide sm-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
+            <NavigationButton className="py0 xs-hide sm-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
 
-            <Dropdown align="right" width={170} className="flex" onToggle={this.handleUserDropdownToggle}>
+            <Dropdown align="right" width={170} className="flex" ref={(userDropdown) => this.userDropdown = userDropdown} onToggle={this.handleUserDropdownToggle}>
               <DropdownButton className={classNames("py0", { "lime": this.state.showingUserDropdown })}
                 style={{ paddingRight: 0 }}
               >
@@ -309,7 +324,7 @@ class Navigation extends React.Component {
 
               <div className="md-hide lg-hide">
                 <NavigationButton className="md-hide lg-hide" href={`/docs`}>Documentation</NavigationButton>
-                <NavigationButton className="md-hide lg-hide" href="mailto:support@buildkite.com">Support</NavigationButton>
+                <NavigationButton className="md-hide lg-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
               </div>
 
               <form action="/logout" method="post" ref={(logoutFormNode) => this.logoutFormNode = logoutFormNode}>
@@ -323,6 +338,8 @@ class Navigation extends React.Component {
         </div>
 
         {this.renderBottomOrganizationMenu()}
+
+        <SupportDialog isOpen={this.state.showingSupportDialog} onRequestClose={this.handleSupportDialogClose} />
       </div>
     );
   }

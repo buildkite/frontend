@@ -51,6 +51,8 @@ const pathNodes = (icon) => {
       return require("./search").default;
     case 'menu':
       return require("./menu").default;
+    case 'close':
+      return require("./close").default;
     default:
       Logger.error(`[Icon] No icon defined for "${icon}"`);
       return require("./placeholder").default;
