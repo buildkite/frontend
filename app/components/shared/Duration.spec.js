@@ -48,6 +48,17 @@ describe('Duration', () => {
         });
       });
 
+      describe('overrides', () => {
+        it('allow overriding format behaviours', () => {
+          const component = ReactTestRenderer.create(
+            <DurationComponent overrides={{ length: 6 }} from="1991-05-07T09:00:00.000Z" to="2016-11-16T16:29:00.000Z" updateFrequency={0} />
+          );
+
+          const tree = component.toJSON();
+          expect(tree).toMatchSnapshot();
+        });
+      });
+
       xdescribe('updateFrequency', () => {
         // TODO: Need to be able to instrument updating and interactions
         it('sets an interval if supplied with a frequency greater than zero', () => {
