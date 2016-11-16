@@ -117,7 +117,7 @@ class Navigation extends React.Component {
   handleSupportClick = () => {
     // close the support dropdown if it's open
     if (this.state.showingUserDropdown) {
-      this.userDropdown.handleDocumentClick();
+      this.userDropdown.setShowing(false);
     }
 
     this.setState({ showingSupportDialog: true });
