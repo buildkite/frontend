@@ -6,8 +6,8 @@ import Dialog from '../../shared/Dialog';
 import Button from '../../shared/Button';
 import Emojify from '../../shared/Emojify';
 
-const IMAGE_PADDING_HORIZONTAL = 2.5;
-const IMAGE_PADDING_VERTICAL = 7.5;
+const IMAGE_PADDING_HORIZONTAL = 6;
+const IMAGE_PADDING_VERTICAL = 9;
 
 const PEOPLE = [
   { image: "keithpitt", name: "Keith Pitt" },
@@ -52,6 +52,7 @@ class SupportDialog extends React.Component {
               title={person.name}
               className="circle border border-white"
               style={{
+                borderWidth: 2,
                 marginTop: -IMAGE_PADDING_VERTICAL,
                 marginBottom: -IMAGE_PADDING_VERTICAL,
                 marginLeft: -IMAGE_PADDING_HORIZONTAL,
@@ -60,7 +61,10 @@ class SupportDialog extends React.Component {
             />)
           )}
         </div>
-        <div className="mx-auto mb4 pt1 px3">If you have a question, problem, or just need a hand send us an email and we’ll help you out!</div>
+
+        <div className="mx-auto mb4 pt1 px3 sm-col-9">
+          If you have a question, problem, or just need a hand send us an email and we’ll help you out!
+        </div>
 
         <div className="pt1">
           <Button href="mailto:support@buildkite.com" theme="default" outline={true}>Email support@buildkite.com</Button>
