@@ -1,6 +1,7 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import moment from 'moment';
+import { minute } from 'metrick/duration';
 import friendlyRelativeTime from '../../lib/friendlyRelativeTime';
 
 class FriendlyTime extends React.Component {
@@ -12,7 +13,7 @@ class FriendlyTime extends React.Component {
   };
 
   static defaultProps = {
-    updateFrequency: 60000,
+    updateFrequency: 1::minute,
     capitalized: true,
     seconds: false
   };

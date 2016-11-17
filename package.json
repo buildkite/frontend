@@ -72,6 +72,7 @@
     "graphql": "^0.7.2",
     "graphql-relay": "^0.4.3",
     "markdown-component-loader": "^0.0.6",
+    "metrick": "^0.1.0",
     "moment": "^2.15.0",
     "object-assign": "^4.1.0",
     "pusher-js": "^3.2.1",
