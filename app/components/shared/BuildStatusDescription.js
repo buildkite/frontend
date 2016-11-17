@@ -1,7 +1,7 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import moment from 'moment';
-import { seconds } from 'metrick/duration';
+import { minute } from 'metrick/duration';
 import friendlyRelativeTime from '../../lib/friendlyRelativeTime';
 import { buildStatus } from '../../lib/builds';
 
@@ -12,7 +12,7 @@ class BuildStatusDescription extends React.Component {
   };
 
   static defaultProps = {
-    updateFrequency: 60::seconds
+    updateFrequency: 1::minute
   };
 
   state = {
