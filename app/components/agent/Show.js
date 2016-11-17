@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
+import { seconds } from 'metrick/duration';
 
 import Button from '../shared/Button';
 import FlashesStore from '../../stores/FlashesStore';
@@ -12,8 +13,6 @@ import permissions from '../../lib/permissions';
 import { getColourForConnectionState, getLabelForConnectionState } from './shared';
 
 import AgentStopMutation from '../../mutations/AgentStop';
-
-const AGENT_REFRESH_INTERVAL = 5 * 1000;
 
 class AgentShow extends React.Component {
   static propTypes = {
@@ -35,7 +34,7 @@ class AgentShow extends React.Component {
   };
 
   componentDidMount() {
-    this._agentRefreshInterval = setInterval(this.fetchUpdatedData, AGENT_REFRESH_INTERVAL);
+    this._agentRefreshInterval = setInterval(this.fetchUpdatedData, 5::seconds);
   }
 
   componentWillUnmount() {

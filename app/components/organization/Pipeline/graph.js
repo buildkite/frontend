@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import moment from 'moment';
 import classNames from 'classnames';
+import { second } from 'metrick/duration';
 
 import Bar from './bar';
 import BuildTooltip from './build-tooltip';
@@ -180,7 +181,7 @@ class Graph extends React.Component {
       } else {
         this._interval = setInterval(() => {
           this.forceUpdate();
-        }, 1000);
+        }, 1::second);
       }
     } else {
       // Clear the interval now that nothing is running

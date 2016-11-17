@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import { seconds } from 'metrick/duration';
 
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
@@ -9,7 +10,6 @@ import { formatNumber } from '../../../lib/number';
 import AgentRow from './row';
 import Search from './search';
 
-const AGENT_LIST_REFRESH_INTERVAL = 10 * 1000;
 const PAGE_SIZE = 100;
 
 class Agents extends React.Component {
@@ -33,7 +33,7 @@ class Agents extends React.Component {
   };
 
   componentDidMount() {
-    this._agentListRefreshInterval = setInterval(this.fetchUpdatedData, AGENT_LIST_REFRESH_INTERVAL);
+    this._agentListRefreshInterval = setInterval(this.fetchUpdatedData, 10::seconds);
     this.props.relay.setVariables({ isMounted: true });
   }
 

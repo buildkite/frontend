@@ -1,6 +1,7 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import classNames from 'classnames';
+import { second } from 'metrick/duration';
 import { getDurationString } from '../../lib/date';
 
 class Duration extends React.Component {
@@ -23,7 +24,7 @@ class Duration extends React.Component {
   };
 
   static defaultProps = {
-    updateFrequency: 1000,
+    updateFrequency: 1::second,
     tabularNumerals: true
   };
 
