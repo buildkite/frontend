@@ -14,10 +14,10 @@ describe('BuildStatusDescription', () => {
     };
 
     const fauxGetDateString = jest.fn(() => 'at an absolute point');
-    const fauxgetRelativeDateString = jest.fn(() => 'at some point');
+    const fauxGetRelativeDateString = jest.fn(() => 'at some point');
     const fauxBuildStatusDescription = jest.fn(() => BUILD_STATUS_FIXTURE);
 
-    jest.mock('../../lib/date', () => ({ getDateString: fauxGetDateString, getRelativeDateString: fauxgetRelativeDateString }));
+    jest.mock('../../lib/date', () => ({ getDateString: fauxGetDateString, getRelativeDateString: fauxGetRelativeDateString }));
     jest.mock('../../lib/builds', () => ({ buildStatus: fauxBuildStatusDescription }));
 
     const BuildStatusDescription = require('./BuildStatusDescription').default;
@@ -35,8 +35,10 @@ describe('BuildStatusDescription', () => {
 
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
-    expect(fauxgetRelativeDateString).toHaveBeenCalledTimes(2);
-    expect(fauxgetRelativeDateString).toHaveBeenCalledWith(BUILD_STATUS_FIXTURE.timeValue);
+    expect(fauxGetDateString).toHaveBeenCalledTimes(1);
+    expect(fauxGetDateString).toHaveBeenCalledWith(BUILD_STATUS_FIXTURE.timeValue);
+    expect(fauxGetRelativeDateString).toHaveBeenCalledTimes(2);
+    expect(fauxGetRelativeDateString).toHaveBeenCalledWith(BUILD_STATUS_FIXTURE.timeValue);
     expect(fauxBuildStatusDescription).toHaveBeenCalledTimes(1);
     expect(fauxBuildStatusDescription).toHaveBeenCalledWith(build);
     MockDate.reset();
