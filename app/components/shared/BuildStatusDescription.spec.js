@@ -13,10 +13,11 @@ describe('BuildStatusDescription', () => {
       timeValue: moment.parseZone("2016-10-09T23:58:05+1100")
     };
 
+    const fauxGetDateString = jest.fn(() => 'at an absolute point');
     const fauxFriendlyRelativeTime = jest.fn(() => 'at some point');
     const fauxBuildStatusDescription = jest.fn(() => BUILD_STATUS_FIXTURE);
 
-    jest.mock('../../lib/date', () => ({ friendlyRelativeTime: fauxFriendlyRelativeTime }));
+    jest.mock('../../lib/date', () => ({ getDateString: fauxGetDateString, friendlyRelativeTime: fauxFriendlyRelativeTime }));
     jest.mock('../../lib/builds', () => ({ buildStatus: fauxBuildStatusDescription }));
 
     const BuildStatusDescription = require('./BuildStatusDescription').default;
