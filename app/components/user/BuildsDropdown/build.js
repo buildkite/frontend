@@ -9,6 +9,7 @@ import BuildState from '../../icons/BuildState';
 
 import { buildStatus } from '../../../lib/builds';
 import { shortMessage } from '../../../lib/commits';
+import { getDateString } from '../../../lib/date';
 
 class BuildsDropdownBuild extends React.Component {
   static propTypes = {
@@ -30,6 +31,7 @@ class BuildsDropdownBuild extends React.Component {
 
   render() {
     const messageClassName = `semi-bold ${this.state.hover ? 'lime' : 'black'}`;
+    const buildTime = buildStatus(this.props.build).timeValue;
 
     return (
       <div>
@@ -41,7 +43,7 @@ class BuildsDropdownBuild extends React.Component {
             <span className="block line-height-3 overflow-hidden overflow-ellipsis">
               <Emojify className={messageClassName} text={shortMessage(this.props.build.message)} /> in <span className={messageClassName}>{this.props.build.pipeline.name}</span>
             </span>
-            <span className="block"><Duration.Full from={buildStatus(this.props.build).timeValue} overrides={{ length: 1 }} tabularNumerals={false} /> ago</span>
+            <span className="block" title={getDateString(buildTime)}><Duration.Full from={buildTime} overrides={{ length: 1 }} tabularNumerals={false} /> ago</span>
           </div>
         </a>
       </div>
