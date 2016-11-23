@@ -10,7 +10,7 @@ import PageWithContainer from '../../../shared/PageWithContainer';
 import Emojify from '../../../shared/Emojify';
 
 import permissions from '../../../../lib/permissions';
-import { friendlyRelativeTime } from '../../../../lib/date';
+import { getRelativeDateString } from '../../../../lib/date';
 
 import Build from './build';
 
@@ -95,7 +95,7 @@ class Show extends React.Component {
             <Panel.Header>Recent Builds</Panel.Header>
             <Panel.Row>
               <div className="dark-gray py2 center">
-                <Emojify text={`:timer_clock: Next build scheduled for ${friendlyRelativeTime(this.props.pipelineSchedule.nextBuildAt)}…`} />
+                <Emojify text={`:timer_clock: Next build scheduled for ${getRelativeDateString(this.props.pipelineSchedule.nextBuildAt)}…`} />
               </div>
             </Panel.Row>
             {this.props.pipelineSchedule.builds.edges.map((edge) => <Build key={edge.node.id} build={edge.node} />)}

@@ -1,7 +1,7 @@
 /* global describe, it, expect */
 import moment from 'moment';
 import MockDate from 'mockdate';
-import { getDateString, getDurationString, friendlyRelativeTime } from './date';
+import { getDateString, getDurationString, getRelativeDateString } from './date';
 
 const BOOL_FIXTURES = [
   undefined,
@@ -37,20 +37,20 @@ const runDateFixtureSpecs = (method, ...args) => (() => {
     });
 });
 
-describe('friendlyRelativeTime', () => {
+describe('getRelativeDateString', () => {
   BOOL_FIXTURES.forEach((seconds) => {
     BOOL_FIXTURES.forEach((capitalized) => {
       BOOL_FIXTURES.forEach((inPast) => {
         const options = { seconds, capitalized, inPast };
         describe(
           `when supplied with options=\`${JSON.stringify(options)}\``,
-          runDateFixtureSpecs(friendlyRelativeTime, options)
+          runDateFixtureSpecs(getRelativeDateString, options)
         );
       });
     });
   });
 
-  describe(`when supplied with options=\`undefined\``, runDateFixtureSpecs(friendlyRelativeTime, ));
+  describe(`when supplied with options=\`undefined\``, runDateFixtureSpecs(getRelativeDateString));
 });
 
 describe('getDateString', () => {

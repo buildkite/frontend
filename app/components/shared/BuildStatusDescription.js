@@ -1,7 +1,7 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import { minute } from 'metrick/duration';
-import { getDateString, friendlyRelativeTime } from '../../lib/date';
+import { getDateString, getRelativeDateString } from '../../lib/date';
 import { buildStatus } from '../../lib/builds';
 
 class BuildStatusDescription extends React.Component {
@@ -66,7 +66,7 @@ class BuildStatusDescription extends React.Component {
   render() {
     return (
       <span>
-        {this.state.prefix} <time dateTime={this.state.timeValue} title={this.state.localTimeString}>{friendlyRelativeTime(this.state.timeValue)}</time>
+        {this.state.prefix} <time dateTime={this.state.timeValue} title={this.state.localTimeString}>{getRelativeDateString(this.state.timeValue)}</time>
       </span>
     );
   }

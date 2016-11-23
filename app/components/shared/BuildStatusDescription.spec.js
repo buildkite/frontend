@@ -5,7 +5,7 @@ import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 
 describe('BuildStatusDescription', () => {
-  it(`calls through to \`friendlyRelativeTime\` and \`buildStatus\``, () => {
+  it(`calls through to \`getRelativeDateString\` and \`buildStatus\``, () => {
     MockDate.set(moment.parseZone("2016-10-10T00:21:50+1100"));
 
     const BUILD_STATUS_FIXTURE = {
@@ -14,10 +14,10 @@ describe('BuildStatusDescription', () => {
     };
 
     const fauxGetDateString = jest.fn(() => 'at an absolute point');
-    const fauxFriendlyRelativeTime = jest.fn(() => 'at some point');
+    const fauxgetRelativeDateString = jest.fn(() => 'at some point');
     const fauxBuildStatusDescription = jest.fn(() => BUILD_STATUS_FIXTURE);
 
-    jest.mock('../../lib/date', () => ({ getDateString: fauxGetDateString, friendlyRelativeTime: fauxFriendlyRelativeTime }));
+    jest.mock('../../lib/date', () => ({ getDateString: fauxGetDateString, getRelativeDateString: fauxgetRelativeDateString }));
     jest.mock('../../lib/builds', () => ({ buildStatus: fauxBuildStatusDescription }));
 
     const BuildStatusDescription = require('./BuildStatusDescription').default;
@@ -35,8 +35,8 @@ describe('BuildStatusDescription', () => {
 
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
-    expect(fauxFriendlyRelativeTime).toHaveBeenCalledTimes(2);
-    expect(fauxFriendlyRelativeTime).toHaveBeenCalledWith(BUILD_STATUS_FIXTURE.timeValue);
+    expect(fauxgetRelativeDateString).toHaveBeenCalledTimes(2);
+    expect(fauxgetRelativeDateString).toHaveBeenCalledWith(BUILD_STATUS_FIXTURE.timeValue);
     expect(fauxBuildStatusDescription).toHaveBeenCalledTimes(1);
     expect(fauxBuildStatusDescription).toHaveBeenCalledWith(build);
     MockDate.reset();
