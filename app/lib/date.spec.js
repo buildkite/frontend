@@ -1,9 +1,67 @@
 /* global describe, it, expect */
 import moment from 'moment';
 import MockDate from 'mockdate';
-import { getDurationString, friendlyRelativeTime } from './date';
+import { getDateString, getDurationString, friendlyRelativeTime } from './date';
 
-const DATE_FIXTURES = [
+const BOOL_FIXTURES = [
+  undefined,
+  true,
+  false
+];
+
+const runDateFixtureSpecs = (method, ...args) => (() => {
+  [
+    "2016-05-07T09:00:00.000+10:00",
+    "2016-05-07T16:45:16.000+10:00",
+    "2016-05-07T20:59:03.000+10:00",
+    "2016-05-08T16:03:21.000+10:00",
+    "2016-05-10T18:11:05.000+12:00",
+    "2016-05-14T18:11:05.000+10:00",
+    "2016-05-21T01:22:12.000-14:00",
+    "2016-07-10T04:34:17.000+08:00",
+    "2018-01-01T04:34:17.000-07:00"
+  ]
+    .map((date) => moment.parseZone(date))
+    .forEach((date, index, list) => {
+      it(`renders a correct time in the past or present (now: ${date.format()}, date: ${list[0].format()})`, () => {
+        MockDate.set(date);
+        expect(method(list[0], ...args)).toMatchSnapshot();
+        MockDate.reset();
+      });
+
+      it(`renders a correct time in the future (now: ${list[0].format()}, date: ${date.format()})`, () => {
+        MockDate.set(list[0]);
+        expect(method(date, ...args)).toMatchSnapshot();
+        MockDate.reset();
+      });
+    });
+});
+
+describe('friendlyRelativeTime', () => {
+  BOOL_FIXTURES.forEach((seconds) => {
+    BOOL_FIXTURES.forEach((capitalized) => {
+      BOOL_FIXTURES.forEach((inPast) => {
+        const options = { seconds, capitalized, inPast };
+        describe(
+          `when supplied with options=\`${JSON.stringify(options)}\``,
+          runDateFixtureSpecs(friendlyRelativeTime, options)
+        );
+      });
+    });
+  });
+
+  describe(`when supplied with options=\`undefined\``, runDateFixtureSpecs(friendlyRelativeTime, ));
+});
+
+describe('getDateString', () => {
+  BOOL_FIXTURES.forEach((withSeconds) => {
+    describe(`when supplied with withSeconds=${withSeconds}`, () => {
+      runDateFixtureSpecs(getDateString, withSeconds);
+    });
+  });
+});
+
+const DURATION_FIXTURES = [
   { from: "2016-05-07T09:00:00.000+10:00", to: "2016-05-07T09:00:00.000+10:00" },
   { from: "2016-05-07T09:00:00.000+10:00", to: "2016-05-07T09:00:05.000+10:00" },
   { from: "2016-05-07T09:00:00.000+10:00", to: "2016-05-07T09:15:07.000+10:00" },
@@ -16,12 +74,6 @@ const DATE_FIXTURES = [
   { from: undefined, to: "2016-10-06T08:10:25.000+10:00" },
   { from: undefined, to: "2016-10-06T08:09:55.000+10:00" },
   { from: undefined, to: "2016-10-06T08:09:25.000+10:00" }
-];
-
-const BOOL_FIXTURES = [
-  undefined,
-  true,
-  false
 ];
 
 describe('getDurationString', () => {
@@ -38,7 +90,7 @@ describe('getDurationString', () => {
 
   getDurationString.formats.map((format) => {
     it(`correctly handles \`${format}\` dates`, () => {
-      DATE_FIXTURES.forEach(({ from, to }) => {
+      DURATION_FIXTURES.forEach(({ from, to }) => {
         expect(getDurationString(from, to, format)).toMatchSnapshot();
         expect(getDurationString(from, to, format, { length: 5 })).toMatchSnapshot();
       });
@@ -57,48 +109,3 @@ describe('getDurationString', () => {
     expect(() => getDurationString("2016-10-05T03:40:02.000+10:00", "2016-10-05T03:40:02.000+10:00", "not-a-date-format")).toThrowErrorMatchingSnapshot();
   });
 });
-
-const runDateFixtureSpecs = (options) => (() => {
-  [
-    "2016-05-07T09:00:00.000+10:00",
-    "2016-05-07T16:45:16.000+10:00",
-    "2016-05-07T20:59:03.000+10:00",
-    "2016-05-08T16:03:21.000+10:00",
-    "2016-05-10T18:11:05.000+12:00",
-    "2016-05-14T18:11:05.000+10:00",
-    "2016-05-21T01:22:12.000-14:00",
-    "2016-07-10T04:34:17.000+08:00",
-    "2018-01-01T04:34:17.000-07:00"
-  ]
-    .map((date) => moment.parseZone(date))
-    .forEach((date, index, list) => {
-      it(`renders a correct time in the past or present (now: ${date.format()}, date: ${list[0].format()})`, () => {
-        MockDate.set(date);
-        expect(friendlyRelativeTime(list[0], options)).toMatchSnapshot();
-        MockDate.reset();
-      });
-
-      it(`renders a correct time in the future (now: ${list[0].format()}, date: ${date.format()})`, () => {
-        MockDate.set(list[0]);
-        expect(friendlyRelativeTime(date, options)).toMatchSnapshot();
-        MockDate.reset();
-      });
-    });
-});
-
-describe('friendlyRelativeTime', () => {
-  BOOL_FIXTURES.forEach((seconds) => {
-    BOOL_FIXTURES.forEach((capitalized) => {
-      BOOL_FIXTURES.forEach((inPast) => {
-        const options = { seconds, capitalized, inPast };
-        describe(
-          `when supplied with options=\`${JSON.stringify(options)}\``,
-          runDateFixtureSpecs(options)
-        );
-      });
-    });
-  });
-
-  describe(`when supplied with options=\`undefined\``, runDateFixtureSpecs());
-});
-

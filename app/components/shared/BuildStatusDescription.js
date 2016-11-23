@@ -1,8 +1,7 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
-import moment from 'moment';
 import { minute } from 'metrick/duration';
-import { friendlyRelativeTime } from '../../lib/date';
+import { getDateString, friendlyRelativeTime } from '../../lib/date';
 import { buildStatus } from '../../lib/builds';
 
 class BuildStatusDescription extends React.Component {
@@ -23,7 +22,7 @@ class BuildStatusDescription extends React.Component {
     const status = buildStatus(build);
 
     this.setState({
-      localTimeString: moment(status.timeValue).format('LLLL'),
+      localTimeString: getDateString(status.timeValue),
       ...status
     });
   }
