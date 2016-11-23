@@ -1,8 +1,7 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
-import moment from 'moment';
 import { minute } from 'metrick/duration';
-import friendlyRelativeTime from '../../lib/friendlyRelativeTime';
+import { getDateString, getRelativeDateString } from '../../lib/date';
 
 class FriendlyTime extends React.Component {
   static propTypes = {
@@ -26,7 +25,7 @@ class FriendlyTime extends React.Component {
     const { value, capitalized, seconds } = this.props;
 
     this.setState({
-      value: friendlyRelativeTime(value, { capitalized, seconds })
+      value: getRelativeDateString(value, { capitalized, seconds })
     });
   }
 
@@ -60,7 +59,7 @@ class FriendlyTime extends React.Component {
     }
 
     this.setState({
-      value: friendlyRelativeTime(value, { capitalized, seconds })
+      value: getRelativeDateString(value, { capitalized, seconds })
     });
   }
 
@@ -69,10 +68,8 @@ class FriendlyTime extends React.Component {
   }
 
   render() {
-    const localTimeString = moment(this.props.value).format('LLLL');
-
     return (
-      <time dateTime={this.props.value} title={localTimeString}>
+      <time dateTime={this.props.value} title={getDateString(this.props.value)}>
         {this.state.value}
       </time>
     );
