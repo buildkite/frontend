@@ -2,7 +2,7 @@ import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import moment from 'moment';
 import { minute } from 'metrick/duration';
-import friendlyRelativeTime from '../../lib/friendlyRelativeTime';
+import { friendlyRelativeTime } from '../../lib/date';
 
 class FriendlyTime extends React.Component {
   static propTypes = {

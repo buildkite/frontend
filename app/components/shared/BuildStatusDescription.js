@@ -2,7 +2,7 @@ import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import moment from 'moment';
 import { minute } from 'metrick/duration';
-import friendlyRelativeTime from '../../lib/friendlyRelativeTime';
+import { friendlyRelativeTime } from '../../lib/date';
 import { buildStatus } from '../../lib/builds';
 
 class BuildStatusDescription extends React.Component {

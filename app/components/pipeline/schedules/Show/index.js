@@ -10,7 +10,7 @@ import PageWithContainer from '../../../shared/PageWithContainer';
 import Emojify from '../../../shared/Emojify';
 
 import permissions from '../../../../lib/permissions';
-import friendlyRelativeTime from '../../../../lib/friendlyRelativeTime';
+import { friendlyRelativeTime } from '../../../../lib/date';
 
 import Build from './build';
 

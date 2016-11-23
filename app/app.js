@@ -58,7 +58,6 @@ window["Webpack"] = {
     "lib/commits": require("./lib/commits"),
     "lib/date": require("./lib/date"),
     "lib/Emoji": require("./lib/Emoji").default,
-    "lib/friendlyRelativeTime": require("./lib/friendlyRelativeTime").default,
     "lib/jobCommandOneliner": require("./lib/jobCommandOneliner").default,
     "lib/jobs": require("./lib/jobs"),
     "lib/Logger": require("./lib/Logger").default,

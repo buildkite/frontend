@@ -16,7 +16,7 @@ describe('BuildStatusDescription', () => {
     const fauxFriendlyRelativeTime = jest.fn(() => 'at some point');
     const fauxBuildStatusDescription = jest.fn(() => BUILD_STATUS_FIXTURE);
 
-    jest.mock('../../lib/friendlyRelativeTime', () => fauxFriendlyRelativeTime);
+    jest.mock('../../lib/date', () => ({ friendlyRelativeTime: fauxFriendlyRelativeTime }));
     jest.mock('../../lib/builds', () => ({ buildStatus: fauxBuildStatusDescription }));
 
     const BuildStatusDescription = require('./BuildStatusDescription').default;
