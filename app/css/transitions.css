@@ -20,7 +20,7 @@
 .transition-popup-enter.transition-popup-enter-active {
   opacity: 1;
   transform: scaleX(1) scaleY(1);
-  transition: opacity 90ms ease-out-back, transform 100ms ease-out-back;
+  transition: opacity 90ms ease-out-back, transform 120ms ease-out-back;
 }
 
 .transition-popup-leave {
@@ -31,7 +31,7 @@
 .transition-popup-leave.transition-popup-leave-active {
   opacity: 0;
   transform: scaleX(.8) scaleY(.5);
-  transition: opacity 90ms ease-in-back, transform 100ms ease-in-back;
+  transition: opacity 90ms ease-in-back, transform 120ms ease-in-back;
 }
 
 /* transition-appear-pop */
@@ -84,4 +84,29 @@
 .transition-opacity-leave.transition-opacity-leave-active {
   opacity: 0;
   transition: opacity 90ms ease-in-back, transform 100ms ease-in-back;
+}
+
+
+/* transition slide-up */
+
+.transition-slide-up-enter {
+  opacity: 0;
+  transform: translateY(15px);
+}
+
+.transition-slide-up-enter.transition-slide-up-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 75ms linear, transform 300ms ease-out-back;
+}
+
+.transition-slide-up-leave {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.transition-slide-up-leave.transition-slide-up-leave-active {
+  opacity: 0;
+  transform: translateY(-15px);
+  transition: opacity 200ms linear, transform 500ms ease-in-back;
 }

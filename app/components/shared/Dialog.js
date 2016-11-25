@@ -47,13 +47,10 @@ class Dialog extends React.Component {
     if (this.state.rendered) {
       return (
         <span className="block fixed flex items-center justify-center" style={{ top: 0, left: 0, bottom: 0, right: 0, zIndex: 1000 }}>
-          <ReactCSSTransitionGroup transitionName="transition-popup" transitionEnterTimeout={150} transitionLeaveTimeout={150}>
+          <ReactCSSTransitionGroup transitionName="transition-slide-up" transitionEnterTimeout={150} transitionLeaveTimeout={300}>
             {this.renderDialog()}
           </ReactCSSTransitionGroup>
-
-          <ReactCSSTransitionGroup transitionName="transition-opacity" transitionEnterTimeout={150} transitionLeaveTimeout={150}>
-            {this.renderBackdrop()}
-          </ReactCSSTransitionGroup>
+          {this.renderBackdrop()}
         </span>
       );
     } else {
@@ -73,11 +70,11 @@ class Dialog extends React.Component {
     if (this.state.visible) {
       return  (
         <div
-          className="background bg-white transition-popup rounded-2 shadow center relative mx4"
+          className="background bg-white transition-popup rounded-3 shadow-subtle center relative mx4"
           style={{ padding: "50px 10px", width: 500, zIndex: 1002, maxWidth: '90vw' }}
         >
-          <button className="btn absolute circle shadow bg-white bold flex items-center border border-white p0" style={{ top: -10, right: -10, width: 30, height: 30 }} onClick={this.handleCloseClick}>
-            <Icon icon="close" title="Close" className="mx-auto"/>
+          <button className="btn absolute circle shadow-subtle bg-white bold flex items-center border border-white p0" style={{ top: -15, right: -15, width: 30, height: 30 }} onClick={this.handleCloseClick}>
+            <Icon className="mx-auto" icon="close" title="Close" />
           </button>
 
           {this.props.children}
