@@ -10,11 +10,11 @@ const IMAGE_PADDING_HORIZONTAL = 6;
 const IMAGE_PADDING_VERTICAL = 9;
 
 const PEOPLE = [
-  { image: "keithpitt", name: "Keith Pitt" },
-  { image: "harriet", name: "Harriet Lawrence" },
-  { image: "ticky", name: "Jessica Stokes" },
-  { image: "sj26", name: "Sam Cochran" },
-  { image: "toolmantim", name: "Tim Lucas" }
+  { image: "keithpitt", name: "Keith Pitt", bgColor: "rgb(216,138,139)" },
+  { image: "harriet", name: "Harriet Lawrence", bgColor: "rgb(206,153,117)" },
+  { image: "ticky", name: "Jessica Stokes", bgColor: "rgb(236,188,217)" },
+  { image: "sj26", name: "Sam Cochran", bgColor: "rgb(179,166,187)" },
+  { image: "toolmantim", name: "Tim Lucas", bgColor: "rgb(129,188,228)" }
 ];
 
 class SupportDialog extends React.Component {
@@ -54,6 +54,7 @@ class SupportDialog extends React.Component {
               title={person.name}
               className="circle border border-white"
               style={{
+                backgroundColor: person.bgColor,
                 borderWidth: 2,
                 marginTop: -IMAGE_PADDING_VERTICAL,
                 marginBottom: -IMAGE_PADDING_VERTICAL,
