@@ -1,4 +1,5 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import shuffle from 'shuffle-array';
 import styled, { keyframes } from 'styled-components';
 
@@ -54,6 +55,10 @@ class SupportDialog extends React.Component {
     isOpen: React.PropTypes.bool,
     onRequestClose: React.PropTypes.func
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     return (

@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import shallowCompare from 'react-addons-shallow-compare';
 import styled from 'styled-components';
 
 import Emojify from '../../shared/Emojify';
@@ -37,6 +38,10 @@ class BuildsDropdownBuild extends React.Component {
       this.props.relay.forceFetch();
     }
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     const buildTime = buildStatus(this.props.build).timeValue;

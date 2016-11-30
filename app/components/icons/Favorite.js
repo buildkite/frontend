@@ -1,4 +1,5 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import styled from 'styled-components';
 
 const starColor = "#f8cc1c";
@@ -22,6 +23,10 @@ class Favorite extends React.Component {
   static propTypes = {
     favorite: React.PropTypes.bool.isRequired
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     return (
