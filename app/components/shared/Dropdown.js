@@ -1,4 +1,5 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import styled from 'styled-components';
 
@@ -35,15 +36,16 @@ const Popup = styled.div`
   @media ${MOBILE_BREAKPOINT} {
     width: ${(props) => `${props.width}px`};
     left: ${
-      (props) => (
-        props.align === 'left'
-          ? '3px'
-          : (
-            props.align === 'center'
-              ? `calc(50% - ${props.width / 2}px)`
-              : 'auto'
-          )
-      )
+      (props) => {
+        switch (props.align) {
+          case 'left':
+            return '3px';
+          case 'center':
+            return `calc(50% - ${props.width / 2}px)`;
+          default:
+            return 'auto';
+        }
+      }
     };
     right: ${
       (props) => (
@@ -112,6 +114,10 @@ class Dropdown extends React.Component {
   state = {
     showing: false
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   componentDidMount() {
     document.documentElement.addEventListener('click', this.handleDocumentClick, false);
