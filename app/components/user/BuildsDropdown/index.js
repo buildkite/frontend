@@ -7,7 +7,7 @@ import Spinner from '../../shared/Spinner';
 
 import Build from './build';
 
-class BuildsDropdownIndex extends React.Component {
+class BuildsDropdown extends React.Component {
   static propTypes = {
     viewer: React.PropTypes.object,
     relay: React.PropTypes.object.isRequired
@@ -83,7 +83,7 @@ class BuildsDropdownIndex extends React.Component {
   };
 }
 
-export default Relay.createContainer(BuildsDropdownIndex, {
+export default Relay.createContainer(BuildsDropdown, {
   initialVariables: {
     isMounted: false
   },

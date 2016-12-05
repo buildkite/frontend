@@ -1,6 +1,99 @@
 import React from 'react';
-import classNames from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import styled from 'styled-components';
+
+const MOBILE_BREAKPOINT = '(min-width: 768px)'; // same as --breakpoint-sm-md
+
+const Wrapper = styled.span`
+  @media ${MOBILE_BREAKPOINT} {
+    position: relative;
+  }
+`;
+
+const Popup = styled.div`
+  top: 35px;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  transform-origin: ${
+    (props) => {
+      switch(props.align) {
+        case 'left':
+          return '7.5% -15px';
+        case 'right':
+          return '92.5% -15px';
+        default:
+        case 'center':
+          return '42.5% -15px';
+      }
+    }
+  };
+  max-height: 80vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  @media ${MOBILE_BREAKPOINT} {
+    width: ${(props) => `${props.width}px`};
+    left: ${
+      (props) => (
+        props.align === 'left'
+          ? '3px'
+          : (
+            props.align === 'center'
+              ? `calc(50% - ${props.width / 2}px)`
+              : 'auto'
+          )
+      )
+    };
+    right: ${
+      (props) => (
+        props.align === 'right'
+          ? '3px'
+          : 'auto'
+      )
+    };
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      width: 32px;
+      height: 20px;
+      z-index: 3;
+      background-image: url(${require('../../images/up-pointing-white-nib.svg')});
+
+      left: ${
+        (props) => (
+          props.align === 'left'
+            ? '10px'
+            : (
+              props.align === 'center'
+                ? '50%'
+                : 'auto'
+            )
+        )
+      };
+      right: ${
+        (props) => (
+          props.align === 'right'
+            ? '10px'
+            : 'auto'
+        )
+      };
+      margin-left: ${
+        (props) => (
+          props.align === 'center'
+            ? `${-16 + props.nibOffset}px`
+            : '0'
+        )
+      };
+    }
+  }
+`;
+
+Popup.defaultProps = {
+  className: "absolute mt1 bg-white rounded-2 shadow border border-gray block py1 transition-popup"
+};
 
 class Dropdown extends React.Component {
   static propTypes = {
@@ -30,82 +123,10 @@ class Dropdown extends React.Component {
     document.documentElement.removeEventListener('keydown', this.handleDocumentKeyDown);
   }
 
-  render() {
-    return (
-      <span ref={(rootNode) => this.rootNode = rootNode} className={classNames("relative", this.props.className)}>
-        {this.props.children[0]}
-        <ReactCSSTransitionGroup transitionName="transition-popup" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
-          {this.renderPopupNode()}
-        </ReactCSSTransitionGroup>
-      </span>
-    );
-  }
-
-  renderPopupNode() {
-    if (this.state.showing) {
-      const classes = classNames("absolute mt1 bg-white rounded-2 shadow border border-gray block py1 transition-popup", {
-        "transition-popup-t": this.props.align === "center",
-        "transition-popup-tl": this.props.align === "left",
-        "transition-popup-tr": this.props.align === "right"
-      });
-
-      return (
-        <div ref={(popupNode) => this.popupNode = popupNode} className={classes} style={this.popupPositionStyles()}>
-          <img src={require('../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" className="pointer-events-none" style={this.nibPositionStyles()} />
-          {this.popupItems()}
-        </div>
-      );
-    }
-  }
-
-  popupPositionStyles() {
-    const styles = {
-      top: 35,
-      width: this.props.width,
-      zIndex: 3
-    };
-
-    if (this.props.align === 'right') {
-      styles.right = 3;
-    } else if (this.props.align === 'left') {
-      styles.left = 3;
-    } else if (this.props.align === 'center') {
-      const center = styles.width / 2;
-      styles.left = `calc(50% - ${center}px)`;
-    }
-
-    return styles;
-  }
-
-  nibPositionStyles() {
-    const styles = {
-      position: 'absolute',
-      top: -20,
-      width: 32,
-      zIndex: 3
-    };
-
-    if (this.props.align === 'right') {
-      styles.right = 10;
-    } else if (this.props.align === 'left') {
-      styles.left = 10;
-    } else if (this.props.align === 'center') {
-      styles.left = '50%';
-      styles.marginLeft = (styles.width / 2) * -1 + this.props.nibOffset;
-    }
-
-    return styles;
-  }
-
-  popupItems() {
-    // Flatten all arrays of arrays
-    return [].concat.apply([], this.props.children.slice(1));
-  }
-
   handleDocumentClick = (event) => {
     const target = event.target;
 
-    const clickWasInComponent = this.rootNode.contains(target);
+    const clickWasInComponent = this.wrapperNode.contains(target);
 
     // We don't have a ref to the popup button, so to detect a click on the
     // button we detect that it "wasn't" in the popup node, leaving only the
@@ -132,6 +153,39 @@ class Dropdown extends React.Component {
     if (this.props.onToggle) {
       this.props.onToggle(this.state.showing);
     }
+  }
+
+  render() {
+    const [firstChild, ...children] = React.Children.toArray(this.props.children);
+
+    return (
+      <Wrapper
+        align={this.props.align}
+        nibOffset={this.props.nibOffset}
+        width={this.props.width}
+        innerRef={(wrapperNode) => this.wrapperNode = wrapperNode}
+        className={this.props.className}
+      >
+        {firstChild}
+        <ReactCSSTransitionGroup
+          transitionName="transition-popup"
+          transitionEnterTimeout={200}
+          transitionLeaveTimeout={200}
+        >
+          {
+            this.state.showing &&
+              <Popup
+                align={this.props.align}
+                nibOffset={this.props.nibOffset}
+                width={this.props.width}
+                innerRef={(popupNode) => this.popupNode = popupNode}
+              >
+                {children}
+              </Popup>
+          }
+        </ReactCSSTransitionGroup>
+      </Wrapper>
+    );
   }
 }
 

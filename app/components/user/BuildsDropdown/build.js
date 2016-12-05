@@ -19,6 +19,10 @@ const BuildLink = styled.a`
   }
 `;
 
+BuildLink.defaultProps = {
+  className: "flex text-decoration-none dark-gray hover-lime mb2"
+};
+
 class BuildsDropdownBuild extends React.Component {
   static propTypes = {
     build: React.PropTypes.object,
@@ -48,7 +52,7 @@ class BuildsDropdownBuild extends React.Component {
     const buildTimeAbsolute = getDateString(buildTime);
 
     return (
-      <BuildLink href={this.props.build.url} className="flex text-decoration-none dark-gray hover-lime mb2">
+      <BuildLink href={this.props.build.url}>
         <div className="pr2 center">
           <BuildState.Small
             className="block"
