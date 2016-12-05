@@ -17,7 +17,7 @@ const Popup = styled.div`
   right: 0;
   transform-origin: ${
     (props) => {
-      switch(props.align) {
+      switch (props.align) {
         case 'left':
           return '7.5% -15px';
         case 'right':
