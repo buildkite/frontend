@@ -43,6 +43,7 @@ const Popup = styled.div`
           case 'center':
             return `calc(50% - ${props.width / 2}px)`;
           default:
+          case 'right':
             return 'auto';
         }
       }
