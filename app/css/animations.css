@@ -97,24 +97,6 @@
   animation: animation-spin 2.1s infinite linear;
 }
 
-@keyframes animation-wave {
-  from {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(-15deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-.animation-wave {
-  will-change: transform;
-  animation: animation-wave .3s 100ms 3 linear alternate;
-  transform-origin: 70% 75%;
-}
-
 /* Allow CSS animations to be disabled (used in integration tests) */
 .animation-disable * {
   transition-duration: 0s !important;

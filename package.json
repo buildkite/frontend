@@ -90,6 +90,7 @@
     "react-router-relay": "^0.13.5",
     "react-type-snob": "^0.0.3",
     "shuffle-array": "^1.0.0",
+    "styled-components": "^1.1.2",
     "uuid": "^2.0.2",
     "whatwg-fetch": "^1.0.0"
   },
