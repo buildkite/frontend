@@ -51,7 +51,7 @@ const DialogContainer = styled.span`
 
 DialogContainer.defaultProps = {
   className: 'block fixed flex items-center justify-center'
-}
+};
 
 class Dialog extends React.Component {
   static propTypes = {
