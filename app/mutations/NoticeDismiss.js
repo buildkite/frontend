@@ -30,7 +30,8 @@ class NoticeDismiss extends Relay.Mutation {
   getOptimisticResponse() {
     return {
       notice: {
-        dismissedAt: new Date()
+        id: this.props.notice.id,
+        dismissedAt: (new Date()).toString()
       }
     };
   }
