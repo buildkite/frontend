@@ -5,7 +5,6 @@ import DocumentTitle from 'react-document-title';
 import Navigation from './layout/Navigation';
 import Footer from './layout/Footer';
 import Flashes from './layout/Flashes';
-import Banners from './layout/Banners';
 
 class Main extends React.Component {
   static propTypes = {
@@ -20,7 +19,6 @@ class Main extends React.Component {
         <div>
           <Navigation organization={this.props.organization} viewer={this.props.viewer} />
           <Flashes />
-          <Banners />
           {this.props.children}
           <Footer viewer={this.props.viewer} />
         </div>

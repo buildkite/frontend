@@ -8,6 +8,7 @@ import Icon from '../shared/Icon';
 
 import Pipelines from './Pipelines';
 import Teams from './Teams';
+import NewPipelinesPageNotice from './NewPipelinesPageNotice';
 
 class OrganizationShow extends React.Component {
   static propTypes = {
@@ -16,6 +17,7 @@ class OrganizationShow extends React.Component {
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired
     }).isRequired,
+    viewer: React.PropTypes.object.isRequired,
     relay: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
     team: React.PropTypes.string
@@ -32,20 +34,24 @@ class OrganizationShow extends React.Component {
   render() {
     return (
       <DocumentTitle title={`${this.props.organization.name}`}>
-        <PageWithContainer>
-          <div className="flex mb2 items-start">
-            <div className="mr-auto flex items-start">
-              <h1 className="h1 p0 m0 mr4 regular line-height-1 inline-block">Pipelines</h1>
-              {this.renderTeams()}
+        <div>
+          <NewPipelinesPageNotice viewer={this.props.viewer} />
+
+          <PageWithContainer>
+            <div className="flex mb2 items-start">
+              <div className="mr-auto flex items-start">
+                <h1 className="h1 p0 m0 mr4 regular line-height-1 inline-block">Pipelines</h1>
+                {this.renderTeams()}
+              </div>
+
+              <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{ width: 34, height: 34 }} href={`/organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
+                <Icon icon="plus" title="New Pipeline"/>
+              </Button>
             </div>
 
-            <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{ width: 34, height: 34 }} href={`/organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
-              <Icon icon="plus" title="New Pipeline"/>
-            </Button>
-          </div>
-
-          <Pipelines organization={this.props.organization} team={this.props.location.query.team || null} />
-        </PageWithContainer>
+            <Pipelines organization={this.props.organization} team={this.props.location.query.team || null} />
+          </PageWithContainer>
+        </div>
       </DocumentTitle>
     );
   }
@@ -76,6 +82,12 @@ export default Relay.createContainer(OrganizationShow, {
   },
 
   fragments: {
+    viewer: (variables) => Relay.QL`
+      fragment on Viewer {
+        ${NewPipelinesPageNotice.getFragment('viewer')}
+      }
+    `,
+
     organization: (variables) => Relay.QL`
       fragment on Organization {
         ${Teams.getFragment('organization').if(variables.isMounted)}
