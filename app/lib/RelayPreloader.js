@@ -2,6 +2,16 @@ import Relay from 'react-relay';
 import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
 const QUERIES = {
+  "organization_show/viewer": Relay.QL`
+    query PipelinesListViewer {
+      viewer {
+        notice(namespace: NOTICE_NAMESPACE_FEATURE, scope: "pipelines-page-1-0") {
+          id
+          dismissedAt
+        }
+      }
+    }
+  `,
   "organization_show/organization": Relay.QL`
     query PipelinesList($organization: ID!, $team: ID) {
       organization(slug: $organization) {
