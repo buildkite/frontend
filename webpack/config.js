@@ -183,7 +183,7 @@ module.exports = {
 
   postcss: function(webpack) {
     return [
-      require("postcss-import")({ addDependencyTo: webpack }),
+      require("postcss-import")(),
       // require("postcss-url")(),
       require("postcss-cssnext")({ features: { rem: false } }),
       require('postcss-easings')(),
