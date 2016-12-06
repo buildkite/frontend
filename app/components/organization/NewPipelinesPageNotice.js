@@ -45,7 +45,7 @@ class NewPipelinesPageNotice extends React.Component {
 
 export default Relay.createContainer(NewPipelinesPageNotice, {
   fragments: {
-    viewer: (variables) => Relay.QL`
+    viewer: () => Relay.QL`
       fragment on Viewer {
         notice(namespace: NOTICE_NAMESPACE_FEATURE, scope: "pipelines-page-1-0") {
           ${NoticeDismissMutation.getFragment('notice')}

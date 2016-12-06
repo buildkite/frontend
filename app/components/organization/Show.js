@@ -82,7 +82,7 @@ export default Relay.createContainer(OrganizationShow, {
   },
 
   fragments: {
-    viewer: (variables) => Relay.QL`
+    viewer: () => Relay.QL`
       fragment on Viewer {
         ${NewPipelinesPageNotice.getFragment('viewer')}
       }
