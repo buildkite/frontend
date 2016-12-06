@@ -181,7 +181,7 @@ module.exports = {
 
   plugins: plugins,
 
-  postcss: function(webpack) {
+  postcss: function() {
     return [
       require("postcss-import")(),
       // require("postcss-url")(),
