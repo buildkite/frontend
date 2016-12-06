@@ -14,7 +14,7 @@ class NewPipelinesPageNotice extends React.Component {
   };
 
   render() {
-    if(this.props.viewer.notice.dismissedAt) {
+    if (this.props.viewer.notice.dismissedAt) {
       return null;
     } else {
       return (
