@@ -2,7 +2,7 @@ import React from 'react';
 
 import Panel from '../../shared/Panel';
 
-export default function AgentInstallation (props) {
+export default function AgentInstallation() {
   return (
     <Panel className="mb3">
       <Panel.Header>
@@ -13,4 +13,4 @@ export default function AgentInstallation (props) {
       </Panel.Section>
     </Panel>
   );
-};
+}
