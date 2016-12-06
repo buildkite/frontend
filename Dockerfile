@@ -1,6 +1,6 @@
 FROM node:6
 
-ENV YARN_VERSION=0.16.0
+ENV YARN_VERSION=0.17.10
 
 # Base deps
 
