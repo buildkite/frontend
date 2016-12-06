@@ -3,8 +3,8 @@ import shallowCompare from 'react-addons-shallow-compare';
 import shuffle from 'shuffle-array';
 import styled, { keyframes } from 'styled-components';
 
-import Dialog from '../../shared/Dialog';
 import Button from '../../shared/Button';
+import Dialog from '../../shared/Dialog';
 import Emojify from '../../shared/Emojify';
 
 const IMAGE_PADDING_HORIZONTAL = 6;

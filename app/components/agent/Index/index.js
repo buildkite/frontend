@@ -51,7 +51,7 @@ class AgentIndex extends React.Component {
               viewer={viewer}
               location={location}
             />
-            <Installation />
+            <Installation organization={organization} />
             <AgentTokens
               title="Your agent token"
               organization={organization}
@@ -92,9 +92,10 @@ export default Relay.createContainer(AgentIndex, {
     `,
     organization: () => Relay.QL`
       fragment on Organization {
-        ${QuickStart.getFragment('organization')}
-        ${AgentTokens.getFragment('organization')}
         ${Agents.getFragment('organization')}
+        ${AgentTokens.getFragment('organization')}
+        ${Installation.getFragment('organization')}
+        ${QuickStart.getFragment('organization')}
         name
         permissions {
           agentTokenView {

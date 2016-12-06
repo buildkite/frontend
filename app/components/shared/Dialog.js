@@ -5,10 +5,17 @@ import Icon from './Icon';
 
 class Dialog extends React.Component {
   static propTypes = {
+    children: React.PropTypes.node,
+    closeable: React.PropTypes.bool,
     isOpen: React.PropTypes.bool,
-    onRequestClose: React.PropTypes.func,
-    children: React.PropTypes.node
+    onRequestClose: React.PropTypes.func
   };
+
+  static defaultProps = {
+    closeable: true,
+    isOpen: false,
+    onRequestClose() {}
+  }
 
   state = {
     rendered: false,
@@ -66,6 +73,22 @@ class Dialog extends React.Component {
     }
   }
 
+  renderCloseButton() {
+    if (!this.props.closeable) {
+      return;
+    }
+
+    return (
+      <button
+        className="btn absolute circle shadow-subtle bg-white bold flex items-center border border-white p0"
+        style={{ top: -15, right: -15, width: 30, height: 30 }}
+        onClick={this.handleCloseClick}
+      >
+        <Icon className="mx-auto" icon="close" title="Close" />
+      </button>
+    );
+  }
+
   renderDialog() {
     if (this.state.visible) {
       return  (
@@ -73,10 +96,7 @@ class Dialog extends React.Component {
           className="background bg-white transition-popup rounded-3 shadow-subtle center relative mx4"
           style={{ padding: "50px 10px", width: 500, zIndex: 1002, maxWidth: '90vw' }}
         >
-          <button className="btn absolute circle shadow-subtle bg-white bold flex items-center border border-white p0" style={{ top: -15, right: -15, width: 30, height: 30 }} onClick={this.handleCloseClick}>
-            <Icon className="mx-auto" icon="close" title="Close" />
-          </button>
-
+          {this.renderCloseButton()}
           {this.props.children}
         </div>
       );
