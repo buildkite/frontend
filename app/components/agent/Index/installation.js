@@ -77,7 +77,7 @@ class AgentInstallation extends React.Component {
       </Panel>
     );
   }
-};
+}
 
 export default Relay.createContainer(AgentInstallation, {
   fragments: {
