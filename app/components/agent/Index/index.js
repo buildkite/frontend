@@ -5,13 +5,14 @@ import DocumentTitle from 'react-document-title';
 import PageWithContainer from '../../shared/PageWithContainer';
 
 import Agents from './agents';
-import AgentTokens from './agentTokens';
+import AgentTokens from './agent-tokens';
+import Installation from './installation';
 import QuickStart from './quick-start';
 
 class AgentIndex extends React.Component {
   static propTypes = {
     location: React.PropTypes.shape({
-      hash: React.PropTypes.string
+      query: React.PropTypes.object
     }).isRequired,
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -35,15 +36,38 @@ class AgentIndex extends React.Component {
   }
 
   renderContent() {
-    const { organization, viewer, location: { hash } } = this.props;
+    const { organization, viewer, location, location: { query } } = this.props;
 
     // Switches between showing just the agents, or the agents along with
     // registration tokens.
     if (organization.permissions.agentTokenView.allowed) {
+      if (query.setup === 'true') {
+        return (
+          <div className="clearfix mxn3">
+            <QuickStart
+              title="Select the environment to set up your first agent"
+              center={false}
+              organization={organization}
+              viewer={viewer}
+              location={location}
+            />
+            <Installation />
+            <AgentTokens
+              title="Your agent token"
+              organization={organization}
+            />
+          </div>
+        );
+      }
+
       return (
         <div className="clearfix mxn3">
           <div className="sm-col sm-col-8 px3">
-            <QuickStart organization={organization} viewer={viewer} hash={hash} />
+            <QuickStart
+              organization={organization}
+              viewer={viewer}
+              location={location}
+            />
             <Agents organization={organization} />
           </div>
           <div className="sm-col sm-col-4 px3">
