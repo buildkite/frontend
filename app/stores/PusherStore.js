@@ -16,7 +16,7 @@ class PusherStore extends EventEmitter {
   listen(channel) {
     Logger.info("[PusherStore] Listening to channel `" + channel + "`");
 
-    this.pusher.subscribe(channel).bind_all((event, payload) => {
+    this.pusher.subscribe(channel).bind_global((event, payload) => {
       Logger.info("[PusherStore]", event, payload);
 
       this.emit(event, payload);
