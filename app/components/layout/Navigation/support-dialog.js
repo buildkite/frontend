@@ -63,7 +63,8 @@ class SupportDialog extends React.Component {
   render() {
     return (
       <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose}>
-        <h1 className="bold mt0 mt2 mb4">
+        {/* fyi the h1 class here is only necessary so this doesn't break on Bootstrap pages */}
+        <h1 className="bold h1 mt0 mt2 mb4">
           <WavingEmoji className="inline-block" text=":wave::skin-tone-3:" />
           {' '}
           We’re here to help!
@@ -81,7 +82,7 @@ class SupportDialog extends React.Component {
           )}
         </Mugshots>
 
-        <div className="mx-auto mb2 pt1 px3 sm-col-10 semi-bold h5">
+        <div className="mx-auto mb2 pt1 px3 sm-col-10 semi-bold line-height-4 h5">
           If you have a question, problem, or just need a hand send us an email and we’ll help you out.
         </div>
 
