@@ -31,13 +31,11 @@ class Dropdown extends React.Component {
     children: React.PropTypes.node.isRequired,
     width: React.PropTypes.number.isRequired,
     className: React.PropTypes.string,
-    align: React.PropTypes.string,
     onToggle: React.PropTypes.func,
     nibOffset: React.PropTypes.number
   };
 
   static defaultProps = {
-    align: 'center',
     nibOffset: 0,
     width: 250
   };
@@ -156,21 +154,13 @@ class Dropdown extends React.Component {
   }
 
   renderNib() {
-    const nibStyles = {};
-
-    if (this.props.align === 'right') {
-      nibStyles.right = 10;
-    } else if (this.props.align === 'left') {
-      nibStyles.left = 10;
-    } else if (this.props.align === 'center') {
-      nibStyles.left = '50%';
-      nibStyles.marginLeft = -(NIB_WIDTH / 2) - this.state.offsetX + this.props.nibOffset;
-    }
-
     return (
       <Nib
         src={require('../../images/up-pointing-white-nib.svg')}
-        style={nibStyles}
+        style={{
+          left: '50%',
+          marginLeft: -(NIB_WIDTH / 2) - this.state.offsetX + this.props.nibOffset
+        }}
         alt=""
       />
     );
@@ -190,17 +180,6 @@ class Dropdown extends React.Component {
       width: this.state.width,
       zIndex: 3
     };
-
-    if (this.props.align === 'left') {
-      popupStyles.left = 3;
-      popupStyles.transformOrigin = '7.5% -15px';
-    }
-
-    if (this.props.align === 'right') {
-      popupStyles.right = 3;
-      delete popupStyles.left;
-      popupStyles.transformOrigin = '92.5% -15px';
-    }
 
     return (
       <div
