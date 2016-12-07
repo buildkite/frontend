@@ -1,101 +1,29 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import classNames from 'classnames';
 import styled from 'styled-components';
 
-const MOBILE_BREAKPOINT = '(min-width: 768px)'; // same as --breakpoint-sm-md
+const NIB_WIDTH = 32;
 
-const Wrapper = styled.span`
-  @media ${MOBILE_BREAKPOINT} {
-    position: relative;
-  }
-`;
+// margin (in pixels) to maintain around automatically-positioned dropdowns
+const SCREEN_MARGIN = 10;
 
-const Popup = styled.div`
-  top: 35px;
-  z-index: 3;
-  left: 0;
-  right: 0;
-  transform-origin: ${
-    (props) => {
-      switch (props.align) {
-        case 'left':
-          return '7.5% -15px';
-        case 'right':
-          return '92.5% -15px';
-        default:
-        case 'center':
-          return '42.5% -15px';
-      }
-    }
-  };
+const ScrollZone = styled.div`
   max-height: 80vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-
-  @media ${MOBILE_BREAKPOINT} {
-    width: ${(props) => `${props.width}px`};
-    left: ${
-      (props) => {
-        switch (props.align) {
-          case 'left':
-            return '3px';
-          case 'center':
-            return `calc(50% - ${props.width / 2}px)`;
-          default:
-          case 'right':
-            return 'auto';
-        }
-      }
-    };
-    right: ${
-      (props) => (
-        props.align === 'right'
-          ? '3px'
-          : 'auto'
-      )
-    };
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: -20px;
-      width: 32px;
-      height: 20px;
-      z-index: 3;
-      background-image: url(${require('../../images/up-pointing-white-nib.svg')});
-
-      left: ${
-        (props) => (
-          props.align === 'left'
-            ? '10px'
-            : (
-              props.align === 'center'
-                ? '50%'
-                : 'auto'
-            )
-        )
-      };
-      right: ${
-        (props) => (
-          props.align === 'right'
-            ? '10px'
-            : 'auto'
-        )
-      };
-      margin-left: ${
-        (props) => (
-          props.align === 'center'
-            ? `${-16 + props.nibOffset}px`
-            : '0'
-        )
-      };
-    }
-  }
 `;
 
-Popup.defaultProps = {
-  className: "absolute mt1 bg-white rounded-2 shadow border border-gray block py1 transition-popup"
+const Nib = styled.img`
+  top: -20px;
+  width: ${NIB_WIDTH}px;
+  height: 20px;
+  z-index: 3;
+`;
+
+Nib.defaultProps = {
+  className: 'absolute pointer-events-none'
 };
 
 class Dropdown extends React.Component {
@@ -109,25 +37,94 @@ class Dropdown extends React.Component {
   };
 
   static defaultProps = {
-    nibOffset: 0
+    align: 'center',
+    nibOffset: 0,
+    width: 250
   };
 
   state = {
-    showing: false
+    showing: false,
+    offsetX: 0,
+    offsetY: 35,
+    width: 250
   };
 
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   }
 
+  handleWindowResize = () => {
+    if (this.props.align === 'center') {
+      return;
+    }
+
+    // when hidden, we wait for the resize to be finished!
+    // to do so, we clear timeouts on each event until we get
+    // a good delay between them.
+    const optimizeForHidden = !this.state.showing;
+
+    // when hidden, we wait 2.5 times as long between
+    // recalculations, which usually means a user is
+    // done resizing by the time we do recalculate
+    const debounceTimeout = (
+      optimizeForHidden
+        ? 250
+        : 100
+    );
+
+    if (optimizeForHidden && this._resizeDebounceTimeout) {
+      this._resizeDebounceTimeout = clearTimeout(this._resizeDebounceTimeout);
+    }
+
+    if (!this._resizeDebounceTimeout) {
+      this._resizeDebounceTimeout = setTimeout(this.handleDebouncedWindowResize, debounceTimeout);
+    }
+  };
+
+  handleDebouncedWindowResize = () => {
+    this._resizeDebounceTimeout = clearTimeout(this._resizeDebounceTimeout);
+    this.calculateViewportOffsets();
+  };
+
+  calculateViewportOffsets = () => {
+    const windowWidth = window.innerWidth;
+    const { left: wrapperLeft, width: wrapperWidth, height: wrapperHeight } = this.wrapperNode.getBoundingClientRect();
+
+    const wrapperCenter = wrapperLeft + (wrapperWidth / 2);
+
+    // automatically shrink the dropdown to fit the screen if the screen is too small
+    // this shouldn't be needed often, but seems worth keeping just in case!
+    const width = Math.min(this.props.width, windowWidth - (SCREEN_MARGIN * 2));
+
+    // if `leftOffset` is < 0, we need to shift the popup to the right
+    const leftOffset = wrapperCenter - (width / 2);
+
+    // if `rightOffset` is > 0, we need to shift the popup to the left
+    const rightOffset = wrapperCenter + (width / 2) - windowWidth;
+
+    // calculate the overall offset required to stay on-screen
+    const offsetX = Math.abs(Math.min(leftOffset - SCREEN_MARGIN, 0)) - Math.abs(Math.max(rightOffset + SCREEN_MARGIN, 0));
+    const offsetY = wrapperHeight - 10;
+
+    this.setState({
+      offsetX,
+      offsetY,
+      width
+    });
+  };
+
   componentDidMount() {
     document.documentElement.addEventListener('click', this.handleDocumentClick, false);
     document.documentElement.addEventListener('keydown', this.handleDocumentKeyDown, false);
+    window.addEventListener('resize', this.handleWindowResize, false);
+    this.calculateViewportOffsets();
   }
 
   componentWillUnmount() {
     document.documentElement.removeEventListener('click', this.handleDocumentClick);
     document.documentElement.removeEventListener('keydown', this.handleDocumentKeyDown);
+    window.removeEventListener('resize', this.handlewindowResize);
+    this._resizeDebounceTimeout = clearTimeout(this._resizeDebounceTimeout); // just in case
   }
 
   handleDocumentClick = (event) => {
@@ -162,16 +159,73 @@ class Dropdown extends React.Component {
     }
   }
 
-  render() {
-    const [firstChild, ...children] = React.Children.toArray(this.props.children);
+  renderNib() {
+    const nibStyles = {};
+
+    if (this.props.align === 'right') {
+      nibStyles.right = 10;
+    } else if (this.props.align === 'left') {
+      nibStyles.left = 10;
+    } else if (this.props.align === 'center') {
+      nibStyles.left = '50%';
+      nibStyles.marginLeft = -(NIB_WIDTH / 2) - this.state.offsetX + this.props.nibOffset;
+    }
 
     return (
-      <Wrapper
-        align={this.props.align}
-        nibOffset={this.props.nibOffset}
-        width={this.props.width}
-        innerRef={(wrapperNode) => this.wrapperNode = wrapperNode}
-        className={this.props.className}
+      <Nib
+        src={require('../../images/up-pointing-white-nib.svg')}
+        style={nibStyles}
+        alt=""
+      />
+    );
+  }
+
+  renderPopup(children) {
+    if (!this.state.showing) {
+      return;
+    }
+
+    const offset = (this.state.width / 2) - this.state.offsetX;
+
+    const popupStyles = {
+      left: `calc(50% - ${offset}px)`,
+      top: this.state.offsetY,
+      transformOrigin: `${offset + this.props.nibOffset}px -15px`,
+      width: this.state.width,
+      zIndex: 3
+    };
+
+    if (this.props.align === 'left') {
+      popupStyles.left = 3;
+      popupStyles.transformOrigin = '7.5% -15px';
+    }
+
+    if (this.props.align === 'right') {
+      popupStyles.right = 3;
+      delete popupStyles.left;
+      popupStyles.transformOrigin = '92.5% -15px';
+    }
+
+    return (
+      <div
+        className="absolute mt1 bg-white rounded-2 shadow border border-gray block py1 transition-popup"
+        style={popupStyles}
+        ref={(popupNode) => this.popupNode = popupNode}
+      >
+        {this.renderNib()}
+        <ScrollZone>{children}</ScrollZone>
+      </div>
+    );
+  }
+
+  render() {
+    const [firstChild, ...children] = React.Children.toArray(this.props.children);
+    const wrapperClassName = classNames('relative', this.props.className);
+
+    return (
+      <span
+        ref={(wrapperNode) => this.wrapperNode = wrapperNode}
+        className={wrapperClassName}
       >
         {firstChild}
         <ReactCSSTransitionGroup
@@ -179,19 +233,9 @@ class Dropdown extends React.Component {
           transitionEnterTimeout={200}
           transitionLeaveTimeout={200}
         >
-          {
-            this.state.showing &&
-              <Popup
-                align={this.props.align}
-                nibOffset={this.props.nibOffset}
-                width={this.props.width}
-                innerRef={(popupNode) => this.popupNode = popupNode}
-              >
-                {children}
-              </Popup>
-          }
+          {this.renderPopup(children)}
         </ReactCSSTransitionGroup>
-      </Wrapper>
+      </span>
     );
   }
 }
