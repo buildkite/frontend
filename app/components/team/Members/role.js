@@ -1,4 +1,5 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Spinner from '../../shared/Spinner';
 import Chooser from '../../shared/Chooser';
@@ -15,6 +16,10 @@ class MemberRole extends React.Component {
     onRoleChange: React.PropTypes.func.isRequired,
     savingNewRole: React.PropTypes.string
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     const label = this.props.teamMember.admin ? "Team Admin" : "Member";

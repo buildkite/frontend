@@ -1,4 +1,5 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Spinner from '../../shared/Spinner';
 import Chooser from '../../shared/Chooser';
@@ -19,6 +20,10 @@ class AccessLevel extends React.Component {
     onAccessLevelChange: React.PropTypes.func.isRequired,
     saving: React.PropTypes.string
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     let label;
