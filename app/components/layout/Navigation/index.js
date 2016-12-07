@@ -283,7 +283,7 @@ class Navigation extends React.Component {
               <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -8 }} viewer={this.props.viewer} />
             </span>
 
-            <Dropdown align="left" width={250} className="flex" style={{ minWidth: "5em" }} onToggle={this.handleOrgDropdownToggle}>
+            <Dropdown width={250} className="flex" style={{ minWidth: "5em" }} onToggle={this.handleOrgDropdownToggle}>
               <DropdownButton
                 className={classNames("py0", { "lime": this.state.showingOrgDropdown })}
                 style={{
@@ -309,7 +309,7 @@ class Navigation extends React.Component {
             <NavigationButton className="py0 xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
             <NavigationButton className="py0 xs-hide sm-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
 
-            <Dropdown align="right" width={170} className="flex" ref={(userDropdown) => this.userDropdown = userDropdown} onToggle={this.handleUserDropdownToggle}>
+            <Dropdown width={170} className="flex" ref={(userDropdown) => this.userDropdown = userDropdown} onToggle={this.handleUserDropdownToggle}>
               <DropdownButton className={classNames("py0", { "lime": this.state.showingUserDropdown })}
                 style={{ paddingRight: 0 }}
               >
