@@ -54,10 +54,6 @@ class Dropdown extends React.Component {
   }
 
   handleWindowResize = () => {
-    if (this.props.align === 'center') {
-      return;
-    }
-
     // when hidden, we wait for the resize to be finished!
     // to do so, we clear timeouts on each event until we get
     // a good delay between them.
