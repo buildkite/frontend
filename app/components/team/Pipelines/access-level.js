@@ -42,7 +42,7 @@ class AccessLevel extends React.Component {
     }
 
     return (
-      <Dropdown align="center" width={270} nibOffset={nibOffset}>
+      <Dropdown width={270} nibOffset={nibOffset}>
         <div style={{ width: 90 }} className="right-align">
           <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
         </div>

@@ -22,7 +22,7 @@ class MemberRole extends React.Component {
     const nib = this.props.teamMember.admin ? 3 : 15;
 
     return (
-      <Dropdown align="center" width={270} nibOffset={nib}>
+      <Dropdown width={270} nibOffset={nib}>
         <div style={{ width: 87 }} className="right-align">
           <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
         </div>
