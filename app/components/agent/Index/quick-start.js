@@ -25,7 +25,12 @@ const getSlugForGuide = ({ slug, title }) => slug || encodeURIComponent(title.to
 
 class QuickStart extends React.Component {
   static propTypes = {
-    hash: React.PropTypes.string,
+    center: React.PropTypes.bool.isRequired,
+    location: React.PropTypes.shape({
+      hash: React.PropTypes.string.isRequired,
+      pathname: React.PropTypes.string.isRequired,
+      search: React.PropTypes.string.isRequired
+    }).isRequired,
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
@@ -34,13 +39,19 @@ class QuickStart extends React.Component {
         edges: React.PropTypes.array.isRequired
       })
     }).isRequired,
+    relay: React.PropTypes.object.isRequired,
+    title: React.PropTypes.string.isRequired,
     viewer: React.PropTypes.shape({
       apiAccessTokens: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
       })
-    }),
-    relay: React.PropTypes.object.isRequired
+    })
   };
+
+  static defaultProps = {
+    center: true,
+    title: 'Agent Quick Start Guides'
+  }
 
   componentDidMount() {
     this.props.relay.setVariables({
@@ -54,11 +65,13 @@ class QuickStart extends React.Component {
   }
 
   getSlugFromHash() {
-    if (this.props.hash.length < 2) {
+    const { location: { hash } } = this.props;
+
+    if (hash.length < 2) {
       return null;
     }
 
-    return this.props.hash.split('#setup-').pop() || null;
+    return hash.split('#setup-').pop() || null;
   }
 
   getIndexOfGuide() {
@@ -80,7 +93,7 @@ class QuickStart extends React.Component {
   }
 
   renderGuideButtons(selectedGuideIndex) {
-    const baseUri = `/organizations/${this.props.organization.slug}/agents`;
+    const baseUri = `${this.props.location.pathname}${this.props.location.search}`;
 
     return (
       <div className="center" style={{ margin: -5 }}>
@@ -153,10 +166,13 @@ class QuickStart extends React.Component {
 
   render() {
     const selectedGuideIndex = this.getIndexOfGuide();
+    const headerClassName = classNames({ center: this.props.center });
 
     return (
       <Panel className="mb3">
-        <Panel.Header className="center">Agent Quick Start Guides</Panel.Header>
+        <Panel.Header className={headerClassName}>
+          {this.props.title}
+        </Panel.Header>
         <Panel.Section>
           {this.renderGuideButtons(selectedGuideIndex)}
           {this.renderGuide(selectedGuideIndex)}

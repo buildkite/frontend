@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { seconds } from 'metrick/duration';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
@@ -44,6 +45,10 @@ class Agents extends React.Component {
   fetchUpdatedData = () => {
     this.props.relay.forceFetch(true);
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     // grab (potentially) filtered agent list here, as we need it in several places

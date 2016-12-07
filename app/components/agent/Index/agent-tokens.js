@@ -12,7 +12,12 @@ class AgentTokens extends React.Component {
         edges: React.PropTypes.array.isRequired
       })
     }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    relay: React.PropTypes.object.isRequired,
+    title: React.PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    title: 'Agent Token'
   };
 
   componentDidMount() {
@@ -21,8 +26,10 @@ class AgentTokens extends React.Component {
 
   render() {
     return (
-      <Panel>
-        <Panel.Header>Agent Token</Panel.Header>
+      <Panel className="mb3">
+        <Panel.Header>
+          {this.props.title}
+        </Panel.Header>
         <Panel.Section>
           <span>Your Buildkite agent token is used to configure and start new Buildkite agents.</span>
         </Panel.Section>
@@ -46,9 +53,13 @@ class AgentTokens extends React.Component {
   renderRow(token) {
     return (
       <Panel.Row key={token.id}>
-        <small className="dark-gray mb1 block">{token.description}</small>
+        <small className="dark-gray mb1 block">
+          {token.description}
+        </small>
         <RevealButton caption="Reveal Agent Token">
-          <code className="red monospace" style={{ wordWrap: "break-word" }}>{token.token}</code>
+          <code className="red monospace" style={{ wordWrap: "break-word" }}>
+            {token.token}
+          </code>
         </RevealButton>
       </Panel.Row>
     );
