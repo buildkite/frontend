@@ -1,4 +1,5 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Spinner from '../../shared/Spinner';
 import Chooser from '../../shared/Chooser';
@@ -19,6 +20,10 @@ class AccessLevel extends React.Component {
     onAccessLevelChange: React.PropTypes.func.isRequired,
     saving: React.PropTypes.string
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     let label;
@@ -42,7 +47,7 @@ class AccessLevel extends React.Component {
     }
 
     return (
-      <Dropdown align="center" width={270} nibOffset={nibOffset}>
+      <Dropdown width={270} nibOffset={nibOffset}>
         <div style={{ width: 90 }} className="right-align">
           <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
         </div>

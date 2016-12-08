@@ -1,4 +1,5 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Spinner from '../../shared/Spinner';
 import Chooser from '../../shared/Chooser';
@@ -16,13 +17,17 @@ class MemberRole extends React.Component {
     savingNewRole: React.PropTypes.string
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     const label = this.props.teamMember.admin ? "Team Admin" : "Member";
     const role = this.props.teamMember.admin ? "admin" : "member";
     const nib = this.props.teamMember.admin ? 3 : 15;
 
     return (
-      <Dropdown align="center" width={270} nibOffset={nib}>
+      <Dropdown width={270} nibOffset={nib}>
         <div style={{ width: 87 }} className="right-align">
           <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
         </div>

@@ -1,17 +1,5 @@
 /* popup */
 
-.transition-popup-t {
-  transform-origin: 42.5% -15px;
-}
-
-.transition-popup-tl {
-  transform-origin: 7.5% -15px;
-}
-
-.transition-popup-tr {
-  transform-origin: 92.5% -15px;
-}
-
 .transition-popup-enter {
   opacity: 0;
   transform: scaleX(.8) scaleY(.5);

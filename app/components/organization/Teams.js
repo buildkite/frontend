@@ -23,10 +23,14 @@ class Teams extends React.Component {
 
   renderDropdown() {
     return (
-      <Dropdown align="center" width={300} ref={(dropdownNode) => this.dropdownNode = dropdownNode}>
-        <button className="h4 p0 m0 light dark-gray inline-block btn" style={{ marginTop: 3, fontSize: 16 }}>
+      <Dropdown width={300} ref={(dropdownNode) => this.dropdownNode = dropdownNode}>
+        <button className="h4 px0 py1 m0 light dark-gray inline-block btn" style={{ fontSize: 16 }}>
           <div className="flex">
-            <span className="flex items-center"><span className="truncate">{this.renderLabel()}</span></span>
+            <span className="flex items-center">
+              <span className="truncate">
+                {this.renderLabel()}
+              </span>
+            </span>
             <span className="flex items-center">
               <Icon icon="down-triangle" style={{ width: 8, height: 8, marginLeft: '.5em' }} />
             </span>
@@ -35,7 +39,7 @@ class Teams extends React.Component {
 
         <Chooser selected={null} onSelect={this.handleDropdownSelect}>
           {this.renderOptions()}
-          <Chooser.Option value={""} className="btn block hover-bg-silver">
+          <Chooser.Option value="" className="btn block hover-bg-silver">
             <div>All teams</div>
           </Chooser.Option>
         </Chooser>
