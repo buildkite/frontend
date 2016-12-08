@@ -22,7 +22,7 @@ class UnblockPromptRequiredFieldNotice extends React.Component {
         <div className="border border-blue blue rounded mb4" style={{width: 408}}>
           <div className="p3">
             <div>
-              <div className="center bold mb3"><Emojify text=":construction:" /> Beta Note from the Buildkite Team</div>
+              <div className="bold mb3"><Emojify text=":construction:" /> Beta Note from the Buildkite Team</div>
               <div>We’ve changed all fields to be required by default. If you need to make a field optional again, simply add <code>required: false</code> to your pipeline.yml. See the <a href="/docs/agent/cli-pipeline#click-to-unblock-steps" className="underline">updated documentation</a> for more info.</div>
             </div>
             <div className="center mt4">
