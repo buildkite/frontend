@@ -52,6 +52,7 @@ window["Webpack"] = {
     "components/organization/AgentsCount": require("./components/organization/AgentsCount").default,
     "components/organization/SettingsMenu": require("./components/organization/SettingsMenu").default,
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
+    "components/user/BuildCountsBreakdown": require("./components/user/BuildCountsBreakdown").default,
     "components/PipelinesWelcome": require("./components/organization/Welcome").default,
     "components/pipeline/Teams": require("./components/pipeline/Teams").default,
     "components/build/UnblockPromptRequiredFieldNotice": require("./components/build/UnblockPromptRequiredFieldNotice").default,
