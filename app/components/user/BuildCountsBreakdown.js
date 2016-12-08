@@ -33,7 +33,7 @@ class BuildCountsBreakdown extends React.Component {
   render() {
     return (
       <div className="flex">
-        <div className="rounded-left border-left border-top border-bottom border-gray flex items-center" style={{lineHeight: "1.8"}}>
+        <div className="rounded-left border-left border-top border-bottom border-gray flex items-center" style={{ lineHeight: "1.8" }}>
           <a href="/builds" className="py1 px3 dark-gray hover-black">{this.state.buildsCount} Builds</a>
         </div>
         <div className="border-left border-top border-bottom border-gray flex items-center">
@@ -47,9 +47,11 @@ class BuildCountsBreakdown extends React.Component {
   }
 
   _onStoreChange(payload) {
-    this.setState({ buildsCount: payload.buildsCount,
-                    scheduledBuildsCount: payload.scheduledBuildsCount,
-                    runningBuildsCount: payload.runningBuildsCount });
+    this.setState({
+      buildsCount: payload.buildsCount,
+      scheduledBuildsCount: payload.scheduledBuildsCount,
+      runningBuildsCount: payload.runningBuildsCount
+    });
   }
 }
 
