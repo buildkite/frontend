@@ -54,6 +54,7 @@ window["Webpack"] = {
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
     "components/PipelinesWelcome": require("./components/organization/Welcome").default,
     "components/pipeline/Teams": require("./components/pipeline/Teams").default,
+    "components/build/UnblockPromptRequiredFieldNotice": require("./components/build/UnblockPromptRequiredFieldNotice").default,
     "lib/builds": require("./lib/builds"),
     "lib/commits": require("./lib/commits"),
     "lib/date": require("./lib/date"),
