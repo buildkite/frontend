@@ -1,5 +1,8 @@
 import React from 'react';
+
 import PusherStore from '../../stores/PusherStore';
+
+import { formatNumber } from '../../lib/number';
 
 class BuildCountsBreakdown extends React.Component {
   static propTypes = {
@@ -34,13 +37,13 @@ class BuildCountsBreakdown extends React.Component {
     return (
       <div className="flex">
         <div className="rounded-left border-left border-top border-bottom border-gray flex items-center" style={{ lineHeight: "1.8" }}>
-          <a href="/builds" className="py1 px3 dark-gray hover-black">{this.state.buildsCount} Builds</a>
+          <a href="/builds" className="py1 px3 dark-gray hover-black">{formatNumber(this.state.buildsCount)} Builds</a>
         </div>
         <div className="border-left border-top border-bottom border-gray flex items-center">
-          <a href="/builds?state=running" className="py1 px3 dark-gray hover-black">{this.state.runningBuildsCount} Running</a>
+          <a href="/builds?state=running" className="py1 px3 dark-gray hover-black">{formatNumber(this.state.runningBuildsCount)} Running</a>
         </div>
         <div className="rounded-right border border-gray flex items-center">
-          <a href="/builds?state=scheduled" className="py1 px3 dark-gray hover-black">{this.state.scheduledBuildsCount} Scheduled</a>
+          <a href="/builds?state=scheduled" className="py1 px3 dark-gray hover-black">{formatNumber(this.state.scheduledBuildsCount)} Scheduled</a>
         </div>
       </div>
     );
