@@ -19,8 +19,8 @@ class UnblockPromptRequiredFieldNotice extends React.Component {
       return null;
     } else {
       return (
-        <div className="modal-body" style={{ paddingBottom: 0 }}>
-          <div className="border border-blue blue rounded" style={{ width: 417 }}>
+        <div className="modal-body flex" style={{ paddingBottom: 0 }}>
+          <div className="border border-blue blue rounded flex-auto">
             <div className="p3">
               <div>
                 <div className="bold mb3"><Emojify text=":construction:" /> Beta Note from the Buildkite Team</div>
