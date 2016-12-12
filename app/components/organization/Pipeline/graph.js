@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import { second } from 'metrick/duration';
 
 import Bar from './bar';
-import BuildTooltip from './build-tooltip';
 
 import { buildTime } from '../../../lib/builds';
 
@@ -208,7 +207,7 @@ export default Relay.createContainer(Graph, {
               finishedAt
               canceledAt
               scheduledAt
-              ${BuildTooltip.getFragment('build')}
+              ${Bar.getFragment('build')}
             }
           }
         }
