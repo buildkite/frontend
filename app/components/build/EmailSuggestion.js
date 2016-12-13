@@ -11,12 +11,18 @@ class EmailSuggestion extends React.Component {
     }).isRequired
   };
 
+  didReceiveProps(newProps) {
+    if(!newProps.viewer.emails.include?(newProps.build.createdBy.email)) {
+      this.props.relay.setVariables({isShowingNotice: true, email: newProps.build.createdBy.email})
+    }
+  }
+
   render() {
-    console.log(this.props.viewer)
-    console.log(this.props.build)
-    return (
-      <div>hello</div>
-    )
+    if(this.props.notice && !this.props.notice.dismissedAt) {
+      return (
+        <div>Add me please</div>
+      )
+    }
   }
 
   handleDismissClick = () => {
@@ -31,13 +37,18 @@ class EmailSuggestion extends React.Component {
 }
 
 export default Relay.createContainer(EmailSuggestion, {
+  initialVariables: {
+    email: null,
+    isShowingNotice: false
+  },
+
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
         emails {
           address
         }
-        notice(namespace: NOTICE_NAMESPACE_FEATURE, scope: "blah") {
+        notice(namespace: NOTICE_NAMESPACE_FEATURE, scope: $email) @include($if: $isShowingNotice) {
           ${NoticeDismissMutation.getFragment('notice')}
           dismissedAt
         }
