@@ -2,6 +2,19 @@ import Relay from 'react-relay';
 import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
 const QUERIES = {
+  "builds_show/viewer": Relay.QL`
+    query BuildsShowViewer {
+      viewer {
+        emails(first: 50) {
+          edges {
+            node {
+              address
+            }
+          }
+        }
+      }
+    }
+  `,
   "organization_show/viewer": Relay.QL`
     query PipelinesListViewer {
       viewer {
