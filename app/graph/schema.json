@@ -589,49 +589,6 @@
               "deprecationReason": null
             },
             {
-              "name": "emails",
-              "description": "Emails associated with the current user",
-              "args": [
-                {
-                  "name": "first",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "last",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "verified",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Boolean",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "EmailConnection",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "notice",
               "description": null,
               "args": [
@@ -7888,181 +7845,6 @@
         },
         {
           "kind": "OBJECT",
-          "name": "EmailConnection",
-          "description": null,
-          "fields": [
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "edges",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "EmailEdge",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pageInfo",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "PageInfo",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "EmailEdge",
-          "description": null,
-          "fields": [
-            {
-              "name": "cursor",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "node",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Email",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "Email",
-          "description": "An email address",
-          "fields": [
-            {
-              "name": "address",
-              "description": "The email address",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "primary",
-              "description": "Whether the email address is the user's primary address",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "verified",
-              "description": "Whether the email address has been verified by the user",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
           "name": "OrganizationConnection",
           "description": null,
           "fields": [
@@ -9285,33 +9067,6 @@
               "deprecationReason": null
             },
             {
-              "name": "emailCreate",
-              "description": "Create an email for the current user",
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "EmailCreateInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "EmailCreatePayload",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "noticeDismiss",
               "description": "Dismisses a notice from the Buildkite UI. This mutation is idempotent so if you dismiss the same notice multiple times, it will return the original `dismissedAt` time",
               "args": [
@@ -9753,11 +9508,25 @@
         },
         {
           "kind": "OBJECT",
-          "name": "APIAccessTokenCodeAuthorizeMutationPayload",
-          "description": "Autogenerated return type of APIAccessTokenCodeAuthorizeMutation",
+          "name": "AgentDeletePayload",
+          "description": "Autogenerated return type of AgentDelete",
           "fields": [
             {
-              "name": "apiAccessTokenCode",
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "deletedAgentID",
               "description": null,
               "args": [
 
@@ -9768,6 +9537,90 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Organization",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "AgentDeleteInput",
+          "description": "Autogenerated input type of AgentDelete",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AgentStopPayload",
+          "description": "Autogenerated return type of AgentStop",
+          "fields": [
+            {
+              "name": "agent",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Agent",
                   "ofType": null
                 }
               },
@@ -9798,8 +9651,8 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "APIAccessTokenCodeAuthorizeMutationInput",
-          "description": "Autogenerated input type of APIAccessTokenCodeAuthorizeMutation",
+          "name": "AgentStopInput",
+          "description": "Autogenerated input type of AgentStop",
           "fields": null,
           "inputFields": [
             {
@@ -9819,10 +9672,132 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "APIAccessTokenCode",
+                  "kind": "SCALAR",
+                  "name": "ID",
                   "ofType": null
                 }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "graceful",
+              "description": "If this agent should finish the current job before stopping",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AgentTokenCreatePayload",
+          "description": "Autogenerated return type of AgentTokenCreate",
+          "fields": [
+            {
+              "name": "agentTokenEdge",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "AgentTokenEdge",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Organization",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "AgentTokenCreateInput",
+          "description": "Autogenerated input type of AgentTokenCreate",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "organizationID",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "description",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             }
@@ -9915,6 +9890,86 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "APIAccessTokenCodeAuthorizeMutationPayload",
+          "description": "Autogenerated return type of APIAccessTokenCodeAuthorizeMutation",
+          "fields": [
+            {
+              "name": "apiAccessTokenCode",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "APIAccessTokenCode",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "APIAccessTokenCodeAuthorizeMutationInput",
+          "description": "Autogenerated input type of APIAccessTokenCodeAuthorizeMutation",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
                   "ofType": null
                 }
               },
@@ -10107,382 +10162,6 @@
         },
         {
           "kind": "OBJECT",
-          "name": "EmailCreatePayload",
-          "description": "Autogenerated return type of EmailCreate",
-          "fields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "emailEdge",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "EmailEdge",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "EmailCreateInput",
-          "description": "Autogenerated input type of EmailCreate",
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "admin",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "AgentTokenCreatePayload",
-          "description": "Autogenerated return type of AgentTokenCreate",
-          "fields": [
-            {
-              "name": "agentTokenEdge",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "AgentTokenEdge",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Organization",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "AgentTokenCreateInput",
-          "description": "Autogenerated input type of AgentTokenCreate",
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "organizationID",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "description",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "AgentDeletePayload",
-          "description": "Autogenerated return type of AgentDelete",
-          "fields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "deletedAgentID",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Organization",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "AgentDeleteInput",
-          "description": "Autogenerated input type of AgentDelete",
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "pipelineID",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "OrganizationMemberUpdatePayload",
-          "description": "Autogenerated return type of OrganizationMemberUpdate",
-          "fields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organizationMember",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "OrganizationMember",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "OrganizationMemberUpdateInput",
-          "description": "Autogenerated input type of OrganizationMemberUpdate",
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
           "name": "OrganizationMemberDeletePayload",
           "description": "Autogenerated return type of OrganizationMemberDelete",
           "fields": [
@@ -10577,27 +10256,9 @@
         },
         {
           "kind": "OBJECT",
-          "name": "AgentStopPayload",
-          "description": "Autogenerated return type of AgentStop",
+          "name": "OrganizationMemberUpdatePayload",
+          "description": "Autogenerated return type of OrganizationMemberUpdate",
           "fields": [
-            {
-              "name": "agent",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Agent",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "clientMutationId",
               "description": "A unique identifier for the client performing the mutation.",
@@ -10607,6 +10268,20 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organizationMember",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "OrganizationMember",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -10622,8 +10297,8 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "AgentStopInput",
-          "description": "Autogenerated input type of AgentStop",
+          "name": "OrganizationMemberUpdateInput",
+          "description": "Autogenerated input type of OrganizationMemberUpdate",
           "fields": null,
           "inputFields": [
             {
@@ -10651,488 +10326,14 @@
               "defaultValue": null
             },
             {
-              "name": "graceful",
-              "description": "If this agent should finish the current job before stopping",
+              "name": "admin",
+              "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "PipelineScheduleUpdatePayload",
-          "description": "Autogenerated return type of PipelineScheduleUpdate",
-          "fields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pipelineSchedule",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "PipelineSchedule",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "PipelineScheduleUpdateInput",
-          "description": "Autogenerated input type of PipelineScheduleUpdate",
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "label",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "cronline",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "TeamDeletePayload",
-          "description": "Autogenerated return type of TeamDelete",
-          "fields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "deletedTeamID",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Organization",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "TeamDeleteInput",
-          "description": "Autogenerated input type of TeamDelete",
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "enabled",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "TeamUpdatePayload",
-          "description": "Autogenerated return type of TeamUpdate",
-          "fields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "team",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Team",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "TeamUpdateInput",
-          "description": "Autogenerated input type of TeamUpdate",
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "organizationID",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "name",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "description",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "TeamCreatePayload",
-          "description": "Autogenerated return type of TeamCreate",
-          "fields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "organization",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Organization",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "teamEdge",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "TeamEdge",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "TeamCreateInput",
-          "description": "Autogenerated input type of TeamCreate",
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "clientMutationId",
-              "description": "A unique identifier for the client performing the mutation.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "name",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "description",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "message",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "commit",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "branch",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "env",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
                   "ofType": null
                 }
               },
@@ -11225,6 +10426,164 @@
                   "name": "Boolean",
                   "ofType": null
                 }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "PipelineScheduleCreatePayload",
+          "description": "Autogenerated return type of PipelineScheduleCreate",
+          "fields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pipeline",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Pipeline",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pipelineScheduleEdge",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "PipelineScheduleEdge",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "PipelineScheduleCreateInput",
+          "description": "Autogenerated input type of PipelineScheduleCreate",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "pipelineID",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "cronline",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "label",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "message",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "commit",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "branch",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "env",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             }
@@ -11329,8 +10688,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "PipelineScheduleCreatePayload",
-          "description": "Autogenerated return type of PipelineScheduleCreate",
+          "name": "PipelineScheduleUpdatePayload",
+          "description": "Autogenerated return type of PipelineScheduleUpdate",
           "fields": [
             {
               "name": "clientMutationId",
@@ -11347,7 +10706,7 @@
               "deprecationReason": null
             },
             {
-              "name": "pipeline",
+              "name": "pipelineSchedule",
               "description": null,
               "args": [
 
@@ -11357,25 +10716,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Pipeline",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pipelineScheduleEdge",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "PipelineScheduleEdge",
+                  "name": "PipelineSchedule",
                   "ofType": null
                 }
               },
@@ -11392,8 +10733,8 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "PipelineScheduleCreateInput",
-          "description": "Autogenerated input type of PipelineScheduleCreate",
+          "name": "PipelineScheduleUpdateInput",
+          "description": "Autogenerated input type of PipelineScheduleUpdate",
           "fields": null,
           "inputFields": [
             {
@@ -11421,7 +10762,7 @@
               "defaultValue": null
             },
             {
-              "name": "cronline",
+              "name": "label",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -11431,7 +10772,7 @@
               "defaultValue": null
             },
             {
-              "name": "label",
+              "name": "cronline",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -11472,6 +10813,340 @@
             },
             {
               "name": "env",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "enabled",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "TeamCreatePayload",
+          "description": "Autogenerated return type of TeamCreate",
+          "fields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Organization",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "teamEdge",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "TeamEdge",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "TeamCreateInput",
+          "description": "Autogenerated input type of TeamCreate",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "organizationID",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "description",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "TeamDeletePayload",
+          "description": "Autogenerated return type of TeamDelete",
+          "fields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "deletedTeamID",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Organization",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "TeamDeleteInput",
+          "description": "Autogenerated input type of TeamDelete",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "TeamUpdatePayload",
+          "description": "Autogenerated return type of TeamUpdate",
+          "fields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "team",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Team",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "TeamUpdateInput",
+          "description": "Autogenerated input type of TeamUpdate",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "description",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -11759,14 +11434,14 @@
               "defaultValue": null
             },
             {
-              "name": "address",
+              "name": "id",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "ID",
                   "ofType": null
                 }
               },
