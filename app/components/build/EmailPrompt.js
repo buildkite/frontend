@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
+import Spinner from '../shared/Spinner';
 
 import FlashesStore from '../../stores/FlashesStore';
 
@@ -23,10 +24,14 @@ class EmailPrompt extends React.Component {
     }).isRequired
   };
 
+  state = {
+    isAddingEmail: false
+  };
+
   isCurrentUsersEmail(email) {
     const userEmails = this.props.viewer.emails.edges;
 
-    return userEmails.any(
+    return userEmails.some(
       ({ node: { address: userEmail } }) => (
         userEmail.toLowerCase() === email.toLowerCase()
       )
@@ -51,15 +56,25 @@ class EmailPrompt extends React.Component {
   handleDismissClick = () => {
     const mutation = new NoticeDismissMutation({ notice: this.props.viewer.notice });
 
-    Relay.Store.commitUpdate(mutation, { onFailure: this.handleNoticeDismissMutationFailure });
+    Relay.Store.commitUpdate(mutation, { onFailure: this.handleMutationFailure });
   };
 
-  handleNoticeDismissMutationFailure = (transaction) => {
+  handleMutationFailure = (transaction) => {
+    this.setState({ isAddingEmail: false });
+
     FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
   };
 
   handleAddEmailClick = () => {
-    // TODO: follow me, set me free / trust me and we will escape from the city
+    this.setState({ isAddingEmail: true });
+
+    const mutation = new EmailCreateMutation({ address: this.props.build.createdBy.email });
+
+    Relay.Store.commitUpdate(mutation, { onSuccess: this.handleEmailAddedSuccess, onFailure: this.handleMutationFailure });
+  };
+
+  handleEmailAddedSuccess = (transaction) => {
+    this.setState({ isAddingEmail: false });
   };
 
   render() {
@@ -67,17 +82,42 @@ class EmailPrompt extends React.Component {
     const { email = "error@example.ca" } = this.props.build.createdBy;
     const notice = this.props.viewer.notice;
 
-    // // if the build has no email (this shouldn't happen???)
-    // if (!email) {
-    //   return null;
-    // }
+    // if the build has no email (this shouldn't happen???)
+    if (!email) {
+      return null;
+    }
 
-    // // if the user has seen the notice and has been dismissed
-    // if (notice.dismissedAt) {
-    //   return null;
-    // }
+    // if the user has seen the notice and has been dismissed
+    if (notice && notice.dismissedAt) {
+      return null;
+    }
 
-    let content = (
+    if (this.state.isAddingEmail) {
+      return (
+        <div className="center">
+          <Spinner />
+          <p className="h5">
+            Adding Email…
+          </p>
+        </div>
+      );
+    }
+
+    if (this.isCurrentUsersEmail(email)) {
+      return (
+        <div className="center">
+          <p className="h4">
+            Verify your email
+          </p>
+          <p className="my2">
+            We've sent a verification link to {email}. Click the link to add the email to your account.
+          </p>
+          {/* TODO: "Resend Verification Email" */}
+        </div>
+      );
+    }
+
+    return (
       <div className="center">
         <p className="h4">
           Unknown email address
@@ -103,8 +143,6 @@ class EmailPrompt extends React.Component {
         </Button>
       </div>
     );
-
-    return content;
   }
 }
 
@@ -126,7 +164,6 @@ export default Relay.createContainer(EmailPrompt, {
     `,
     viewer: () => Relay.QL`
       fragment on Viewer {
-        ${EmailCreateMutation.getFragment('viewer')}
         emails(first: 50) {
           edges {
             node {

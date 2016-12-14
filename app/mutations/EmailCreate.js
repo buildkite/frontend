@@ -12,33 +12,13 @@ class EmailCreate extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on EmailCreatePayload {
-        emailEdge,
-        viewer {
-          emails {
-            count
-          }
-        }
+        emailEdge
       }
     `;
   }
 
   getConfigs() {
     return [{
-      type: 'REQUIRED_CHILDREN',
-      children: [
-        Relay.QL`
-          fragment on EmailCreatePayload {
-            emailEdge {
-              node {
-                address
-                primary
-                verified
-              }
-            }
-          }
-        `
-      ]
-    }, {
       type: 'RANGE_ADD',
       parentName: 'viewer',
       connectionName: 'emails',
