@@ -88,15 +88,17 @@ class EmailPrompt extends React.Component {
   };
 
   render() {
-    const { email = "error@example.ca" } = this.props.build.createdBy;
+    const { email } = this.props.build.createdBy;
     const notice = this.props.viewer.notice;
 
-    // if the build has no email (this shouldn't happen???)
+    // There won't be an email address if this build was created by a
+    // registered user or if this build just has no owner (perhaps it was
+    // created by Buildkite)
     if (!email) {
       return null;
     }
 
-    // if the user has seen the notice and has been dismissed
+    // If the user has seen the notice and has been dismissed
     if (notice && notice.dismissedAt) {
       return null;
     }
