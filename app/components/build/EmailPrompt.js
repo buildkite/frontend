@@ -64,7 +64,7 @@ class EmailPrompt extends React.Component {
   }
 
   handleDismissClick = () => {
-    const mutation = new NoticeDismissMutation({ notice: this.props.viewer.notice });
+    const mutation = new NoticeDismissMutation({ viewer: this.props.viewer, notice: this.props.viewer.notice });
 
     Relay.Store.commitUpdate(mutation, { onFailure: this.handleMutationFailure });
   };

@@ -1,6 +1,14 @@
 import Relay from 'react-relay';
 
 class EmailCreate extends Relay.Mutation {
+  static fragments = {
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        id
+      }
+    `
+  }
+
   getMutation() {
     return Relay.QL`
       mutation {
@@ -20,6 +28,20 @@ class EmailCreate extends Relay.Mutation {
         }
       }
     `;
+  }
+
+  getOptimisticResponse() {
+    return {
+      emailEdge: {
+        node: {
+          id: (new Date()).toString(),
+          address: this.props.address,
+          primary: false,
+          verified: false
+        }
+      },
+      viewer: this.props.viewer
+    };
   }
 
   getConfigs() {
