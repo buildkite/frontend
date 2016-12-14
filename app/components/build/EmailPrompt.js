@@ -18,10 +18,20 @@ class EmailPrompt extends React.Component {
       })
     }).isRequired,
     viewer: React.PropTypes.shape({
+      emails: React.PropTypes.shape({
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.shape({
+              address: React.PropTypes.string
+            })
+          })
+        )
+      }).isRequired,
       notice: React.PropTypes.shape({
         dismissedAt: React.PropTypes.string
       })
-    }).isRequired
+    }).isRequired,
+    relay: React.PropTypes.object
   };
 
   state = {
@@ -73,12 +83,11 @@ class EmailPrompt extends React.Component {
     Relay.Store.commitUpdate(mutation, { onSuccess: this.handleEmailAddedSuccess, onFailure: this.handleMutationFailure });
   };
 
-  handleEmailAddedSuccess = (transaction) => {
+  handleEmailAddedSuccess = () => {
     this.setState({ isAddingEmail: false });
   };
 
   render() {
-    const emails = this.props.viewer.emails.edges;
     const { email = "error@example.ca" } = this.props.build.createdBy;
     const notice = this.props.viewer.notice;
 
