@@ -13,6 +13,11 @@ class EmailCreate extends Relay.Mutation {
     return Relay.QL`
       fragment on EmailCreatePayload {
         emailEdge
+        viewer {
+          emails {
+            count
+          }
+        }
       }
     `;
   }
