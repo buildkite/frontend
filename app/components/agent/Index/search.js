@@ -30,7 +30,8 @@ class Search extends React.Component {
   };
 
   handleEntryTimeout = () => {
-    if (this.props.onSearch) {
+    if (this._value != this.input.value && this.props.onSearch) {
+      this._value = this.input.value;
       this.props.onSearch(this.input.value);
     }
   };
