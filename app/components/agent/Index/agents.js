@@ -226,14 +226,9 @@ class Agents extends React.Component {
   handleRemoteSearch = (query) => {
     this.setState({ localSearchQuery: null, searchingRemotely: true });
 
-    let search = null;
-    if (query) {
-      search = query.split(/\s+/g);
-    }
-
     this.props.relay.forceFetch(
       {
-        search: search
+        search: query
       },
       (readyState) => {
         if (readyState.done) {
@@ -269,7 +264,7 @@ export default Relay.createContainer(Agents, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
-        agents(first: $pageSize, metaData: $search) @include(if: $isMounted) {
+        agents(first: $pageSize, search: $search) @include(if: $isMounted) {
           count
           edges {
             node {
