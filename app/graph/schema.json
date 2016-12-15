@@ -1533,6 +1533,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "search",
+                  "description": "Search agents for the given query terms case insensitively across name and meta data",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "metaData",
                   "description": "Filter the agents to those only having the matching meta data",
                   "type": {
@@ -1731,7 +1741,7 @@
                 },
                 {
                   "name": "search",
-                  "description": "Pipelines are ordered by most relevant in alphabetical order When searching for a pipeline. The `order` argument is ignored",
+                  "description": "Search pipelines named like the given query case insensitively",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -11692,6 +11702,24 @@
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "EmailEdge",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "viewer",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Viewer",
                   "ofType": null
                 }
               },
