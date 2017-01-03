@@ -26,15 +26,15 @@ if (window.Bugsnag && window._bugsnag) {
 // Allows old sprockets and inline-javascript to access webpack modules
 window["Webpack"] = {
   modules: {
+    "autosize": require("autosize"),
+    "classnames": require("classnames"),
+    "eventemitter3": require("eventemitter3"),
+    "moment": require("moment"),
+    "object-assign": require("object-assign"),
     "react": require("react"),
     "react-dom": require("react-dom"),
     "react-relay": require("react-relay"),
     "react-addons-pure-render-mixin": require("react-addons-pure-render-mixin"),
-    "classnames": require("classnames"),
-    "moment": require("moment"),
-    "object-assign": require("object-assign"),
-    "eventemitter3": require("eventemitter3"),
-    "autosize": require("autosize"),
 
     "components/icons/BuildState": require("./components/icons/BuildState").default,
     "components/layout/Navigation": require("./components/layout/Navigation").default,
