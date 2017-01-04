@@ -145,7 +145,7 @@ class Navigation extends React.Component {
     if (this.props.organization) {
       return (
         <div className="border-top border-gray lg-hide">
-          <div className="container flex flex-stretch" style={{ height: 45, overflowX: 'scroll' }}>
+          <div className="container flex flex-stretch" style={{ height: 45, overflowX: 'auto' }}>
             {this.renderOrganizationMenu({ paddingLeft: 0 })}
           </div>
         </div>
