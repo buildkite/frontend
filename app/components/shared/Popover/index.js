@@ -35,7 +35,7 @@ export default class Popover extends React.Component {
   static defaultProps = {
     nibOffset: 0,
     offsetX: 0,
-    offsetY: 35,
+    offsetY: 45,
     style: {},
     innerRef() {},
     width: 250

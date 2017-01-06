@@ -25,7 +25,7 @@ export default (requestedWidth = 250, offsetNode) => {
 
   // calculate the overall offset required to stay on-screen
   const offsetX = combineAxisOffsets(leftOffset, rightOffset);
-  const offsetY = offsetNodeHeight - 10;
+  const offsetY = offsetNodeHeight;
 
   return {
     offsetX,

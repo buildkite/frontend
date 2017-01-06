@@ -20,7 +20,7 @@ export default class AnchoredPopover extends React.Component {
 
   state = {
     offsetX: 0,
-    offsetY: 35,
+    offsetY: 45,
     showing: false,
     width: 250
   };
