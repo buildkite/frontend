@@ -1,6 +1,5 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
 
 import Popover from '.';
@@ -11,7 +10,6 @@ export default class AnchoredPopover extends React.Component {
     children: React.PropTypes.node.isRequired,
     width: React.PropTypes.number.isRequired,
     className: React.PropTypes.string,
-    onToggle: React.PropTypes.func,
     nibOffset: React.PropTypes.number.isRequired
   };
 
