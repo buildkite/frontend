@@ -8,13 +8,17 @@ import calculateViewportOffsets from './calculate-viewport-offsets';
 export default class AnchoredPopover extends React.Component {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
-    width: React.PropTypes.number.isRequired,
     className: React.PropTypes.string,
-    nibOffset: React.PropTypes.number.isRequired
+    nibOffset: React.PropTypes.number.isRequired,
+    position: React.PropTypes.oneOf(['relative', 'absolute']).isRequired,
+    style: React.PropTypes.object,
+    width: React.PropTypes.number.isRequired
   };
 
   static defaultProps = {
     nibOffset: 0,
+    position: 'relative',
+    style: {},
     width: 250
   };
 
@@ -106,13 +110,16 @@ export default class AnchoredPopover extends React.Component {
   }
 
   render() {
+    const { className, position, style } = this.props;
+
     const [firstChild, ...children] = React.Children.toArray(this.props.children);
-    const wrapperClassName = classNames('relative', this.props.className);
+    const wrapperClassName = classNames(position, className);
 
     return (
       <span
         ref={(wrapperNode) => this.wrapperNode = wrapperNode}
         className={wrapperClassName}
+        style={style}
         onMouseOver={this.handleMouseOver}
         onMouseOut={this.handleMouseOut}
       >
