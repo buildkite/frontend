@@ -12,7 +12,7 @@ import FlashesStore from '../../stores/FlashesStore';
 import EmailCreateMutation from '../../mutations/EmailCreate';
 import NoticeDismissMutation from '../../mutations/NoticeDismiss';
 
-class EmailPrompt extends React.Component {
+class AvatarWithEmailPrompt extends React.Component {
   static propTypes = {
     build: React.PropTypes.shape({
       createdBy: React.PropTypes.shape({
@@ -186,7 +186,7 @@ class EmailPrompt extends React.Component {
   }
 }
 
-export default Relay.createContainer(EmailPrompt, {
+export default Relay.createContainer(AvatarWithEmailPrompt, {
   initialVariables: {
     emailForPrompt: null,
     isTryingToPrompt: false
