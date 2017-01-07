@@ -116,7 +116,7 @@ export default class AnchoredPopover extends React.Component {
     const [firstChild, ...children] = React.Children.toArray(this.props.children);
     const wrapperClassName = classNames(position, className);
 
-    let eventProps = {};
+    const eventProps = {};
 
     if (!alwaysShow) {
       eventProps.onMouseOver = this.handleMouseOver;

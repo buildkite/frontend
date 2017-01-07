@@ -173,7 +173,7 @@ class AvatarWithEmailPrompt extends React.Component {
     if (content) {
       return (
         <AnchoredPopover
-          alwaysShow
+          alwaysShow={true}
           width={400}
         >
           {avatar}
