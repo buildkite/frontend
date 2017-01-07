@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-class UserAvatar extends React.Component {
+export default class UserAvatar extends React.Component {
   static propTypes = {
     user: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -24,5 +24,3 @@ class UserAvatar extends React.Component {
     );
   }
 }
-
-export default UserAvatar;

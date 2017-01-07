@@ -2,8 +2,10 @@ import React from 'react';
 import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 
+import AnchoredPopover from '../shared/Popover/anchored';
 import Button from '../shared/Button';
 import Spinner from '../shared/Spinner';
+import UserAvatar from '../shared/UserAvatar';
 
 import FlashesStore from '../../stores/FlashesStore';
 
@@ -87,7 +89,7 @@ class EmailPrompt extends React.Component {
     this.setState({ isAddingEmail: false });
   };
 
-  render() {
+  renderContent() {
     const { email } = this.props.build.createdBy;
     const notice = this.props.viewer.notice;
 
@@ -105,7 +107,7 @@ class EmailPrompt extends React.Component {
 
     if (this.state.isAddingEmail) {
       return (
-        <div className="center">
+        <div className="center px3 py2">
           <Spinner />
           <p className="h5">
             Adding Email…
@@ -116,8 +118,8 @@ class EmailPrompt extends React.Component {
 
     if (this.isCurrentUsersEmail(email)) {
       return (
-        <div className="center">
-          <p className="h4">
+        <div className="center px3 py2">
+          <p className="h4 mt0">
             Verify your email
           </p>
           <p className="my2">
@@ -129,8 +131,8 @@ class EmailPrompt extends React.Component {
     }
 
     return (
-      <div className="center">
-        <p className="h4">
+      <div className="center px3 py2">
+        <p className="h4 mt0">
           Unknown email address
         </p>
         <p className="my2">
@@ -155,6 +157,33 @@ class EmailPrompt extends React.Component {
       </div>
     );
   }
+
+  render() {
+    const { build } = this.props;
+
+    const avatar = (
+      <UserAvatar
+        user={build.createdBy}
+        style={{ width: 32, height: 32 }}
+      />
+    );
+
+    const content = this.renderContent();
+
+    if (content) {
+      return (
+        <AnchoredPopover
+          alwaysShow
+          width={400}
+        >
+          {avatar}
+          {content}
+        </AnchoredPopover>
+      );
+    }
+
+    return avatar;
+  }
 }
 
 export default Relay.createContainer(EmailPrompt, {
@@ -169,6 +198,16 @@ export default Relay.createContainer(EmailPrompt, {
         createdBy {
           ...on UnregisteredUser {
             email
+            name
+            avatar {
+              url
+            }
+          }
+          ...on User {
+            name
+            avatar {
+              url
+            }
           }
         }
       }

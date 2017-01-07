@@ -7,6 +7,7 @@ import calculateViewportOffsets from './calculate-viewport-offsets';
 
 export default class AnchoredPopover extends React.Component {
   static propTypes = {
+    alwaysShow: React.PropTypes.bool,
     children: React.PropTypes.node.isRequired,
     className: React.PropTypes.string,
     nibOffset: React.PropTypes.number.isRequired,
@@ -37,7 +38,7 @@ export default class AnchoredPopover extends React.Component {
     // when hidden, we wait for the resize to be finished!
     // to do so, we clear timeouts on each event until we get
     // a good delay between them.
-    const optimizeForHidden = !this.state.showing;
+    const optimizeForHidden = !this.state.showing && !this.props.alwaysShow;
 
     // when hidden, we wait 2.5 times as long between
     // recalculations, which usually means a user is
@@ -89,7 +90,7 @@ export default class AnchoredPopover extends React.Component {
   };
 
   renderPopover(children) {
-    if (!this.state.showing) {
+    if (!this.state.showing && !this.props.alwaysShow) {
       return;
     }
 
@@ -110,18 +111,24 @@ export default class AnchoredPopover extends React.Component {
   }
 
   render() {
-    const { className, position, style } = this.props;
+    const { alwaysShow, className, position, style } = this.props;
 
     const [firstChild, ...children] = React.Children.toArray(this.props.children);
     const wrapperClassName = classNames(position, className);
+
+    let eventProps = {};
+
+    if (!alwaysShow) {
+      eventProps.onMouseOver = this.handleMouseOver;
+      eventProps.onMouseOut = this.handleMouseOut;
+    }
 
     return (
       <span
         ref={(wrapperNode) => this.wrapperNode = wrapperNode}
         className={wrapperClassName}
         style={style}
-        onMouseOver={this.handleMouseOver}
-        onMouseOut={this.handleMouseOut}
+        {...eventProps}
       >
         {firstChild}
         {this.renderPopover(children)}
