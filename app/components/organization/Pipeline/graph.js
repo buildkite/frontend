@@ -126,6 +126,7 @@ class Graph extends React.Component {
             color={PENDING_COLOR}
             hoverColor={PENDING_COLOR_HOVER}
             duration={0}
+            build={null}
             left={index * BAR_WIDTH_WITH_SEPERATOR}
             width={BAR_WIDTH_WITH_SEPERATOR}
             graph={graphProps}
