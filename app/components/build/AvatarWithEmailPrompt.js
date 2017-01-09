@@ -105,14 +105,32 @@ class AvatarWithEmailPrompt extends React.Component {
   };
 
   renderContent() {
-    const { email } = this.props.build.createdBy;
-    const notice = this.props.viewer.notice;
+    const {
+      build: {
+        createdBy: {
+          email
+        }
+      },
+      relay: {
+        variables: {
+          isTryingToPrompt
+        }
+      },
+      viewer: {
+        notice
+      }
+    } = this.props;
     const wrapperClassName = 'center px3 py2';
 
     // There won't be an email address if this build was created by a
     // registered user or if this build just has no owner (perhaps it was
     // created by Buildkite)
     if (!email) {
+      return null;
+    }
+
+    // If we haven't decided to send a query for this yet, don't show anything!
+    if (!isTryingToPrompt) {
       return null;
     }
 
@@ -160,6 +178,7 @@ class AvatarWithEmailPrompt extends React.Component {
       );
     }
 
+    // Otherwise, we've got an unknown (to Buildkite) email address on our hands!
     return (
       <div className={wrapperClassName}>
         <p className="h5 mt0">
