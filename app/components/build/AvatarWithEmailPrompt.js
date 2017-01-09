@@ -141,9 +141,15 @@ class AvatarWithEmailPrompt extends React.Component {
 
     if (this.state.isAddingEmail) {
       return (
-        <div className={wrapperClassName}>
+        <div
+          className={wrapperClassName}
+          style={{
+            paddingTop: 76,
+            paddingBottom: 77
+          }}
+        >
           <Spinner />
-          <p className="h5">
+          <p className="h5 mb0">
             Adding Email…
           </p>
         </div>
