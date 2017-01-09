@@ -80,7 +80,7 @@ class AvatarWithEmailPrompt extends React.Component {
   handleAddEmailClick = () => {
     this.setState({ isAddingEmail: true });
 
-    const mutation = new EmailCreateMutation({ address: this.props.build.createdBy.email });
+    const mutation = new EmailCreateMutation({ address: this.props.build.createdBy.email, viewer: this.props.viewer });
 
     Relay.Store.commitUpdate(mutation, { onSuccess: this.handleEmailAddedSuccess, onFailure: this.handleMutationFailure });
   };
@@ -214,6 +214,7 @@ export default Relay.createContainer(AvatarWithEmailPrompt, {
     `,
     viewer: () => Relay.QL`
       fragment on Viewer {
+        ${EmailCreateMutation.getFragment('viewer')}
         emails(first: 50) {
           edges {
             node {

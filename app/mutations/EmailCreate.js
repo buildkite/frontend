@@ -48,6 +48,7 @@ class EmailCreate extends Relay.Mutation {
     return [{
       type: 'RANGE_ADD',
       parentName: 'viewer',
+      parentID: this.props.viewer.id,
       connectionName: 'emails',
       edgeName: 'emailEdge',
       rangeBehaviors: {
