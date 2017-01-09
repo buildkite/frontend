@@ -24,7 +24,8 @@ class AvatarWithEmailPrompt extends React.Component {
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
             node: React.PropTypes.shape({
-              address: React.PropTypes.string
+              address: React.PropTypes.string,
+              verified: React.PropTypes.bool
             })
           })
         )
@@ -40,14 +41,28 @@ class AvatarWithEmailPrompt extends React.Component {
     isAddingEmail: false
   };
 
-  isCurrentUsersEmail(email) {
+  getUserEmailInformation(email) {
     const userEmails = this.props.viewer.emails.edges;
 
-    return userEmails.some(
+    let isCurrentUsers = false;
+    let isVerified = false;
+
+    const foundEmail = userEmails.find(
       ({ node: { address: userEmail } }) => (
         userEmail.toLowerCase() === email.toLowerCase()
       )
     );
+
+    if (foundEmail) {
+      isCurrentUsers = true;
+      isVerified = foundEmail.verified;
+    }
+
+    return { isCurrentUsers, isVerified };
+  }
+
+  isCurrentUsersEmail(email) {
+    return this.getUserEmailInformation(email).isCurrentUsers;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -92,6 +107,7 @@ class AvatarWithEmailPrompt extends React.Component {
   renderContent() {
     const { email } = this.props.build.createdBy;
     const notice = this.props.viewer.notice;
+    const wrapperClassName = 'center px3 py2';
 
     // There won't be an email address if this build was created by a
     // registered user or if this build just has no owner (perhaps it was
@@ -107,7 +123,7 @@ class AvatarWithEmailPrompt extends React.Component {
 
     if (this.state.isAddingEmail) {
       return (
-        <div className="center px3 py2">
+        <div className={wrapperClassName}>
           <Spinner />
           <p className="h5">
             Adding Email…
@@ -116,23 +132,37 @@ class AvatarWithEmailPrompt extends React.Component {
       );
     }
 
-    if (this.isCurrentUsersEmail(email)) {
+    const emailInfo = this.getUserEmailInformation(email);
+
+    if (emailInfo.isCurrentUsers) {
+      if (emailInfo.isVerified) {
+        return null;
+      }
+
       return (
-        <div className="center px3 py2">
-          <p className="h4 mt0">
+        <div className={wrapperClassName}>
+          <p className="h5 mt0">
             Verify your email
           </p>
           <p className="my2">
-            We've sent a verification link to {email}. Click the link to add the email to your account.
+            We’ve sent a verification link to {email}. Click the link to add the email to your account.
           </p>
-          {/* TODO: "Resend Verification Email" */}
+          <Button
+            className="block mt2"
+            theme="default"
+            outline={true}
+            style={{ width: '100%' }}
+            onClick={this.handleResendVerificationClick}
+          >
+            Resend Verification Email
+          </Button>
         </div>
       );
     }
 
     return (
-      <div className="center px3 py2">
-        <p className="h4 mt0">
+      <div className={wrapperClassName}>
+        <p className="h5 mt0">
           Unknown email address
         </p>
         <p className="my2">
@@ -219,6 +249,7 @@ export default Relay.createContainer(AvatarWithEmailPrompt, {
           edges {
             node {
               address
+              verified
             }
           }
         }
