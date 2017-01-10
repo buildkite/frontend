@@ -252,7 +252,7 @@ class RelayPreloader {
     // Get the concrete query
     const concrete = QUERIES[id];
     if (!concrete) {
-      throw "No concrete query defined for `" + id + "`";
+      throw new Error(`No concrete query defined for \`${id}\``);
     }
 
     // Create a Relay-readable GraphQL query with the variables loaded in
