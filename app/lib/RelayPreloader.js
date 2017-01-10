@@ -2,13 +2,38 @@ import Relay from 'react-relay';
 import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
 const QUERIES = {
+  "builds_show/build": Relay.QL`
+    query BuildsShowBuild($build: ID!) {
+      build(slug: $build) {
+        id
+        createdBy {
+          __typename
+          ...on UnregisteredUser {
+            email
+            name
+            avatar {
+              url
+            }
+          }
+          ...on User {
+            name
+            avatar {
+              url
+            }
+          }
+        }
+      }
+    }
+  `,
   "builds_show/viewer": Relay.QL`
     query BuildsShowViewer {
       viewer {
         emails(first: 50) {
           edges {
             node {
+              id
               address
+              verified
             }
           }
         }

@@ -25,6 +25,7 @@ class AvatarWithEmailPrompt extends React.Component {
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
             node: React.PropTypes.shape({
+              id: React.PropTypes.string,
               address: React.PropTypes.string,
               verified: React.PropTypes.bool
             })
