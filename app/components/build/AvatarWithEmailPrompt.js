@@ -57,8 +57,9 @@ class AvatarWithEmailPrompt extends React.Component {
     }
   }
 
-  isCurrentUsersEmail(email) {
-    return !!this.getUserEmail(email);
+  isCurrentUsersValidatedEmail(email) {
+    const userEmail = this.getUserEmail(email);
+    return userEmail && userEmail.verified;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -68,7 +69,7 @@ class AvatarWithEmailPrompt extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { createdBy } = nextProps.build;
 
-    if (createdBy && createdBy.email && !this.isCurrentUsersEmail(createdBy.email)) {
+    if (createdBy && createdBy.email && !this.isCurrentUsersValidatedEmail(createdBy.email)) {
       this.props.relay.setVariables({
         isTryingToPrompt: true,
         emailForPrompt: createdBy.email.toLowerCase()
