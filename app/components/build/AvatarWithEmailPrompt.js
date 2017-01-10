@@ -10,6 +10,7 @@ import UserAvatar from '../shared/UserAvatar';
 import FlashesStore from '../../stores/FlashesStore';
 
 import EmailCreateMutation from '../../mutations/EmailCreate';
+import EmailResendVerificationMutation from '../../mutations/EmailResendVerification';
 import NoticeDismissMutation from '../../mutations/NoticeDismiss';
 
 class AvatarWithEmailPrompt extends React.Component {
@@ -41,28 +42,22 @@ class AvatarWithEmailPrompt extends React.Component {
     isAddingEmail: false
   };
 
-  getUserEmailInformation(email) {
+  getUserEmail(email) {
     const userEmails = this.props.viewer.emails.edges;
 
-    let isCurrentUsers = false;
-    let isVerified = false;
-
-    const foundEmail = userEmails.find(
+    const userEmail = userEmails.find(
       ({ node: { address: userEmail } }) => (
         userEmail.toLowerCase() === email.toLowerCase()
       )
     );
 
-    if (foundEmail) {
-      isCurrentUsers = true;
-      isVerified = foundEmail.verified;
+    if (userEmail) {
+      return userEmail.node;
     }
-
-    return { isCurrentUsers, isVerified };
   }
 
   isCurrentUsersEmail(email) {
-    return this.getUserEmailInformation(email).isCurrentUsers;
+    return !!this.getUserEmail(email);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -98,6 +93,12 @@ class AvatarWithEmailPrompt extends React.Component {
     const mutation = new EmailCreateMutation({ address: this.props.build.createdBy.email, viewer: this.props.viewer });
 
     Relay.Store.commitUpdate(mutation, { onSuccess: this.handleEmailAddedSuccess, onFailure: this.handleMutationFailure });
+  };
+
+  handleResendVerificationClick = () => {
+    const mutation = new EmailResendVerificationMutation({ email: this.getUserEmail(this.props.build.createdBy.email) });
+
+    Relay.Store.commitUpdate(mutation, { onFailure: this.handleMutationFailure });
   };
 
   handleEmailAddedSuccess = () => {
@@ -156,10 +157,10 @@ class AvatarWithEmailPrompt extends React.Component {
       );
     }
 
-    const emailInfo = this.getUserEmailInformation(email);
+    const userEmail = this.getUserEmail(email);
 
-    if (emailInfo.isCurrentUsers) {
-      if (emailInfo.isVerified) {
+    if (userEmail) {
+      if (userEmail.verified) {
         return null;
       }
 
@@ -273,6 +274,7 @@ export default Relay.createContainer(AvatarWithEmailPrompt, {
         emails(first: 50) {
           edges {
             node {
+              id
               address
               verified
             }
