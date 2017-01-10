@@ -1,8 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 
-import Image from "./image";
-import Description from "./description";
+import classed from "./ClassedComponent";
 
 class Media extends React.Component {
   static propTypes = {
@@ -22,7 +21,15 @@ class Media extends React.Component {
   }
 }
 
-Media.Image = Image;
-Media.Description = Description;
+const SIMPLE_COMPONENTS = {
+  Image: 'flex-no-shrink',
+  Description: ''
+};
+
+Object.keys(SIMPLE_COMPONENTS).forEach((componentName) => {
+  const Component = classed('div', SIMPLE_COMPONENTS[componentName]);
+  Component.displayName = `Media.${componentName} (née \`${Component.displayName}\`)`;
+  Media[componentName] = Component;
+});
 
 export default Media;
