@@ -3,10 +3,10 @@
 const perverseReverse = (str) => str.split('').reverse().join('');
 
 describe(`formatNumber`, function() {
-  let window;
+  let mockWindow;
 
   beforeEach(() => {
-    jest.mock('global/window', () => window);
+    jest.mock('global/window', () => mockWindow);
   });
 
   afterEach(() => {
@@ -32,7 +32,7 @@ describe(`formatNumber`, function() {
         })
       };
 
-      window = {
+      mockWindow = {
         Intl: {
           NumberFormat: jest.fn(() => numberFormat)
         }
@@ -46,14 +46,14 @@ describe(`formatNumber`, function() {
 
     it('calls out to `Intl.NumberFormat` and `format`', () => {
       expect(require('./number').formatNumber(1234567890.5432)).toBe('1,234,567,890.543');
-      expect(window.Intl.NumberFormat).toHaveBeenCalled();
+      expect(mockWindow.Intl.NumberFormat).toHaveBeenCalled();
       expect(numberFormat.format).toHaveBeenCalledWith(1234567890.5432);
     });
   });
 
   describe('when the Intl API is *not* available', () => {
     beforeEach(() => {
-      window = {};
+      mockWindow = {};
     });
 
     it('returns a valid, formatted number', () => {
