@@ -172,7 +172,7 @@ class AvatarWithEmailPrompt extends React.Component {
         >
           <Spinner />
           <p className="h5 mb0">
-            {isSendingVerification ? 'Resending verification email…' : 'Adding Email…'}
+            {isSendingVerification ? 'Resending verification email…' : `Adding ${email}…`}
           </p>
         </div>
       );
@@ -189,10 +189,10 @@ class AvatarWithEmailPrompt extends React.Component {
         return (
           <div className={wrapperClassName}>
             <p className="h5 mt0">
-              Verify your email
+              Verification Needed
             </p>
             <p className="my2">
-              We’ve sent a verification link to {email}. Click the link to add the email to your account.
+              Click the link we’ve just emailed to {email} to finish adding this email to your account.
             </p>
             <Button
               className="block mt2"
@@ -210,10 +210,10 @@ class AvatarWithEmailPrompt extends React.Component {
       return (
         <div className={wrapperClassName}>
           <p className="h5 mt0">
-            Email awaiting verification
+            Verification Needed
           </p>
           <p className="my2">
-            We’ve sent a verification link to {email}. Click the link to add the email to your account.<br />
+            We’ve emailed a link to {email} to add this email to your account.<br />
             If it hasn’t arrived, you can resend it from here!
           </p>
           <Button
@@ -232,11 +232,8 @@ class AvatarWithEmailPrompt extends React.Component {
     // Otherwise, we've got an unknown (to Buildkite) email address on our hands!
     return (
       <div className={wrapperClassName}>
-        <p className="h5 mt0">
-          Unknown email address
-        </p>
-        <p className="my2">
-          If {email} is your email address, add it to your account to have builds appear in My Builds, customize your email settings, and more. <a className="semi-bold lime hover-lime text-decoration-none hover-underline" href="/docs/account/email">Learn more</a>
+        <p className="mb2 mt0">
+          Do you own this email address? If so, add it to your Buildkite account to take ownership of this build.
         </p>
         <Button
           className="block my2"
