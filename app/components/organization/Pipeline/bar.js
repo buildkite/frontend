@@ -1,11 +1,13 @@
 import React from 'react';
+import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import BuildTooltip from './build-tooltip';
+import AnchoredPopover from '../../shared/Popover/anchored';
 
 import { BAR_HEIGHT_MINIMUM, BAR_WIDTH, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT } from './constants';
 
-export default class Bar extends React.Component {
+class Bar extends React.Component {
   static propTypes = {
     href: React.PropTypes.string,
     color: React.PropTypes.string.isRequired,
@@ -67,27 +69,32 @@ export default class Bar extends React.Component {
 
     if (this.props.href) {
       return (
-        <a href={this.props.href}
-          className="border-box inline-block absolute color-inherit"
-          style={{ height: "100%", left: this.props.left, width: BAR_WIDTH_WITH_SEPERATOR, bottom: 0 }}
-          onMouseOver={this.handleMouseOver}
-          onMouseOut={this.handleMouseOut}
-        >
-          <div
-            style={{
-              height,
-              width: BAR_WIDTH,
-              left: 0,
-              bottom: 0,
-              backgroundColor,
-              transform,
-              transformOrigin: 'bottom',
-              transition: 'transform 200ms ease-in-out'
-            }}
-            className="border-box inline-block absolute animation-height"
+        <AnchoredPopover position="absolute" style={{ height: '100%', left: this.props.left, bottom: 0 }}>
+          <a href={this.props.href}
+            className="border-box inline-block color-inherit"
+            style={{ height: '100%', width: BAR_WIDTH_WITH_SEPERATOR }}
+            onMouseOver={this.handleMouseOver}
+            onMouseOut={this.handleMouseOut}
+          >
+            <div
+              className="border-box inline-block absolute animation-height"
+              style={{
+                height,
+                width: BAR_WIDTH,
+                left: 0,
+                bottom: 0,
+                backgroundColor,
+                transform,
+                transformOrigin: 'bottom',
+                transition: 'transform 200ms ease-in-out'
+              }}
+            />
+          </a>
+          <BuildTooltip
+            build={this.props.build}
+            visible={this.state.hover}
           />
-          <BuildTooltip build={this.props.build} visible={this.state.hover} left={-20} top={47} />
-        </a>
+        </AnchoredPopover>
       );
     } else {
       return (
@@ -105,3 +112,13 @@ export default class Bar extends React.Component {
     }
   }
 }
+
+export default Relay.createContainer(Bar, {
+  fragments: {
+    build: () => Relay.QL`
+      fragment on Build {
+        ${BuildTooltip.getFragment('build')}
+      }
+    `
+  }
+});

@@ -1,28 +1,31 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
 
-import Popover, { calculateViewportOffsets } from './Popover';
+import Popover from '.';
+import calculateViewportOffsets from './calculate-viewport-offsets';
 
-export default class Dropdown extends React.Component {
+export default class AnchoredPopover extends React.Component {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
-    width: React.PropTypes.number.isRequired,
     className: React.PropTypes.string,
-    onToggle: React.PropTypes.func,
-    nibOffset: React.PropTypes.number
+    nibOffset: React.PropTypes.number.isRequired,
+    position: React.PropTypes.oneOf(['relative', 'absolute']).isRequired,
+    style: React.PropTypes.object,
+    width: React.PropTypes.number.isRequired
   };
 
   static defaultProps = {
     nibOffset: 0,
+    position: 'relative',
+    style: {},
     width: 250
   };
 
   state = {
-    showing: false,
     offsetX: 0,
-    offsetY: 35,
+    offsetY: 45,
+    showing: false,
     width: 250
   };
 
@@ -60,54 +63,30 @@ export default class Dropdown extends React.Component {
   };
 
   componentDidMount() {
-    document.documentElement.addEventListener('click', this.handleDocumentClick, false);
-    document.documentElement.addEventListener('keydown', this.handleDocumentKeyDown, false);
     window.addEventListener('resize', this.handleWindowResize, false);
     this.calculateViewportOffsets();
   }
 
   componentWillUnmount() {
-    document.documentElement.removeEventListener('click', this.handleDocumentClick);
-    document.documentElement.removeEventListener('keydown', this.handleDocumentKeyDown);
     window.removeEventListener('resize', this.handlewindowResize);
     this._resizeDebounceTimeout = clearTimeout(this._resizeDebounceTimeout); // just in case
   }
 
   calculateViewportOffsets = () => {
     this.setState(calculateViewportOffsets(this.props.width, this.wrapperNode));
-  }
+  };
 
-  handleDocumentClick = (event) => {
-    const target = event.target;
-
-    const clickWasInComponent = this.wrapperNode.contains(target);
-
-    // We don't have a ref to the popup button, so to detect a click on the
-    // button we detect that it "wasn't" in the popup node, leaving only the
-    // button that it could have been in
-    const buttonWasClicked = clickWasInComponent && (!this.popupNode || !this.popupNode.contains(target));
-
-    if (buttonWasClicked) {
-      this.setShowing(!this.state.showing);
-    } else if (this.state.showing && !clickWasInComponent) {
-      this.setShowing(false);
+  handleMouseOver = (evt) => {
+    if (this.wrapperNode.firstElementChild.contains(evt.target)) {
+      this.setState({ showing: true });
     }
   };
 
-  handleDocumentKeyDown = (event) => {
-    // Handle the escape key
-    if (this.state.showing && event.keyCode === 27) {
-      this.setShowing(false);
+  handleMouseOut = (evt) => {
+    if (this.wrapperNode.firstElementChild.contains(evt.target)) {
+      this.setState({ showing: false });
     }
   };
-
-  setShowing(showing) {
-    this.setState({ showing: showing });
-
-    if (this.props.onToggle) {
-      this.props.onToggle(this.state.showing);
-    }
-  }
 
   renderPopover(children) {
     if (!this.state.showing) {
@@ -131,22 +110,21 @@ export default class Dropdown extends React.Component {
   }
 
   render() {
+    const { className, position, style } = this.props;
+
     const [firstChild, ...children] = React.Children.toArray(this.props.children);
-    const wrapperClassName = classNames('relative', this.props.className);
+    const wrapperClassName = classNames(position, className);
 
     return (
       <span
         ref={(wrapperNode) => this.wrapperNode = wrapperNode}
         className={wrapperClassName}
+        style={style}
+        onMouseOver={this.handleMouseOver}
+        onMouseOut={this.handleMouseOut}
       >
         {firstChild}
-        <ReactCSSTransitionGroup
-          transitionName="transition-popup"
-          transitionEnterTimeout={200}
-          transitionLeaveTimeout={200}
-        >
-          {this.renderPopover(children)}
-        </ReactCSSTransitionGroup>
+        {this.renderPopover(children)}
       </span>
     );
   }

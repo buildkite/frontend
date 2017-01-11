@@ -2,20 +2,17 @@ import React from 'react';
 import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import BuildStatusDescription from "../../shared/BuildStatusDescription";
+import BuildStatusDescription from '../../shared/BuildStatusDescription';
+import Duration from '../../shared/Duration';
 import Emojify from '../../shared/Emojify';
-import UserAvatar from "../../shared/UserAvatar";
-import Media from "../../shared/Media";
-import Duration from "../../shared/Duration";
+import Media from '../../shared/Media';
+import UserAvatar from '../../shared/UserAvatar';
 
 import { buildTime } from '../../../lib/builds';
 import { shortMessage, shortCommit } from '../../../lib/commits';
 
 class BuildTooltip extends React.Component {
   static propTypes = {
-    visible: React.PropTypes.bool.isRequired,
-    top: React.PropTypes.number.isRequired,
-    left: React.PropTypes.number.isRequired,
     build: React.PropTypes.shape({
       commit: React.PropTypes.string,
       createdBy: React.PropTypes.shape({
@@ -35,29 +32,24 @@ class BuildTooltip extends React.Component {
   }
 
   render() {
-    if (this.props.visible) {
-      return (
-        <div style={{ fontSize: 13 }}>
-          <div className="bg-white rounded-2 shadow border border-gray p2 block absolute pointer-events-none z2" style={{ left: this.props.left, top: this.props.top, width: 260 }}>
-            <img src={require('../../../images/up-pointing-white-nib.svg')} width={32} height={20} alt="" className="absolute pointer-events-none" style={{ top: -20, left: 7 }} />
-            <Media align="top">
-              <Media.Image className="mr2 center" style={{ width: 30 }} >
-                <UserAvatar user={this.props.build.createdBy} className="block fit" />
-                <small className="dark-gray"><Duration.Micro {...buildTime(this.props.build)} tabularNumerals={false} /></small>
-              </Media.Image>
-              <Media.Description className="flex-auto line-height-2">
-                <span className="block line-height-3 overflow-hidden overflow-ellipsis">
-                  <Emojify className="semi-bold" text={shortMessage(this.props.build.message)} /> <span className="dark-gray">{shortCommit(this.props.build.commit)}</span>
-                </span>
-                <small className="dark-gray"><BuildStatusDescription build={this.props.build} updateFrequency={0} /></small>
-              </Media.Description>
-            </Media>
-          </div>
-        </div>
-      );
-    } else {
-      return <div />;
-    }
+    return (
+      <Media align="top" className="mx2 my1">
+        <Media.Image className="mr2 center" style={{ width: 30 }} >
+          <UserAvatar user={this.props.build.createdBy} className="block fit" />
+          <small className="dark-gray">
+            <Duration.Micro {...buildTime(this.props.build)} tabularNumerals={false} />
+          </small>
+        </Media.Image>
+        <Media.Description className="flex-auto line-height-2">
+          <span className="block line-height-3 overflow-hidden overflow-ellipsis">
+            <Emojify className="semi-bold" text={shortMessage(this.props.build.message)} /> <span className="dark-gray">{shortCommit(this.props.build.commit)}</span>
+          </span>
+          <small className="dark-gray">
+            <BuildStatusDescription build={this.props.build} updateFrequency={0} />
+          </small>
+        </Media.Description>
+      </Media>
+    );
   }
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 
+import AnchoredPopover from '../../shared/Popover/anchored';
 import BuildState from '../../icons/BuildState';
 
 import BuildTooltip from './build-tooltip';
@@ -33,14 +34,16 @@ class Status extends React.Component {
       const build = buildEdge.node;
 
       return (
-        <a href={build.url}
-          className="color-inherit relative"
-          onMouseOver={this.handleMouseOver}
-          onMouseOut={this.handleMouseOut}
-        >
-          <span className="block line-height-1"><BuildState.Regular state={build.state} /></span>
+        <AnchoredPopover>
+          <a href={build.url}
+            className="color-inherit relative"
+            onMouseOver={this.handleMouseOver}
+            onMouseOut={this.handleMouseOut}
+          >
+            <span className="block line-height-1"><BuildState.Regular state={build.state} /></span>
+          </a>
           <BuildTooltip build={build} visible={this.state.hover} left={-8} top={44} />
-        </a>
+        </AnchoredPopover>
       );
     } else {
       return (
