@@ -5449,9 +5449,9 @@ postcss-replace-overflow-wrap@^1.0.0:
   dependencies:
     postcss "^5.0.16"
 
-postcss-reporter@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/postcss-reporter/-/postcss-reporter-2.0.0.tgz#d25e74ba7fce911e2aa72ec1ae592fade6ec3671"
+postcss-reporter@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-reporter/-/postcss-reporter-3.0.0.tgz#09ea0f37a444c5693878606e09b018ebeff7cf8f"
   dependencies:
     chalk "^1.0.0"
     lodash "^4.1.0"

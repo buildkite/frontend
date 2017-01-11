@@ -51,7 +51,7 @@
     "postcss-easings": "^0.3.0",
     "postcss-import": "^9.0.0",
     "postcss-loader": "^1.1.1",
-    "postcss-reporter": "^2.0.0",
+    "postcss-reporter": "^3.0.0",
     "react-test-renderer": "^15.3.2",
     "react-transform-hmr": "^1.0.4",
     "style-loader": "^0.13.1",
