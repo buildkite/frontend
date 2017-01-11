@@ -166,8 +166,8 @@ class AvatarWithEmailPrompt extends React.Component {
         <div
           className={wrapperClassName}
           style={{
-            paddingTop: 76,
-            paddingBottom: 77
+            paddingTop: 54,
+            paddingBottom: 54
           }}
         >
           <Spinner />
