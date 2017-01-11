@@ -40,7 +40,10 @@ class AvatarWithEmailPrompt extends React.Component {
   };
 
   state = {
-    isAddingEmail: false
+    isAddingEmail: false,
+    isSendingVerification: false,
+    hasSentSomething: false,
+    hasBeenDismissed: false
   };
 
   getUserEmail(email) {
@@ -98,14 +101,24 @@ class AvatarWithEmailPrompt extends React.Component {
   };
 
   handleResendVerificationClick = () => {
+    this.setState({ isSendingVerification: true });
+
     const mutation = new EmailResendVerificationMutation({ email: this.getUserEmail(this.props.build.createdBy.email) });
 
-    Relay.Store.commitUpdate(mutation, { onFailure: this.handleMutationFailure });
+    Relay.Store.commitUpdate(mutation, { onSuccess: this.handleVerificationResentSuccess, onFailure: this.handleMutationFailure });
   };
 
   handleEmailAddedSuccess = () => {
-    this.setState({ isAddingEmail: false });
+    this.setState({ isAddingEmail: false, hasSentSomething: true });
   };
+
+  handleVerificationResentSuccess = () => {
+    this.setState({ isSendingVerification: false, hasSentSomething: true });
+  };
+
+  handleLocalDismissClick = () => {
+    this.setState({ hasBeenDismissed: true });
+  }
 
   renderContent() {
     const {
@@ -123,6 +136,7 @@ class AvatarWithEmailPrompt extends React.Component {
         notice
       }
     } = this.props;
+    const { isAddingEmail, isSendingVerification, hasBeenDismissed, hasSentSomething } = this.state;
     const wrapperClassName = 'center px3 py2';
 
     // There won't be an email address if this build was created by a
@@ -142,7 +156,12 @@ class AvatarWithEmailPrompt extends React.Component {
       return null;
     }
 
-    if (this.state.isAddingEmail) {
+    // If the user has dismissed this notice instance
+    if (hasBeenDismissed) {
+      return null;
+    }
+
+    if (isAddingEmail || isSendingVerification) {
       return (
         <div
           className={wrapperClassName}
@@ -153,7 +172,7 @@ class AvatarWithEmailPrompt extends React.Component {
         >
           <Spinner />
           <p className="h5 mb0">
-            Adding Email…
+            {isSendingVerification ? 'Resending verification email…' : 'Adding Email…'}
           </p>
         </div>
       );
@@ -166,13 +185,36 @@ class AvatarWithEmailPrompt extends React.Component {
         return null;
       }
 
+      if (hasSentSomething) {
+        return (
+          <div className={wrapperClassName}>
+            <p className="h5 mt0">
+              Verify your email
+            </p>
+            <p className="my2">
+              We’ve sent a verification link to {email}. Click the link to add the email to your account.
+            </p>
+            <Button
+              className="block mt2"
+              theme="default"
+              outline={true}
+              style={{ width: '100%' }}
+              onClick={this.handleLocalDismissClick}
+            >
+              Dismiss
+            </Button>
+          </div>
+        );
+      }
+
       return (
         <div className={wrapperClassName}>
           <p className="h5 mt0">
-            Verify your email
+            Email awaiting verification
           </p>
           <p className="my2">
-            We’ve sent a verification link to {email}. Click the link to add the email to your account.
+            We’ve sent a verification link to {email}. Click the link to add the email to your account.<br />
+            If it hasn’t arrived, you can resend it from here!
           </p>
           <Button
             className="block mt2"
