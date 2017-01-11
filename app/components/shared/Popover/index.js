@@ -10,16 +10,14 @@ const ScrollZone = styled.div`
   -webkit-overflow-scrolling: touch;
 `;
 
-const Nib = styled.img`
+const Nib = styled.img.attrs({
+  className: 'absolute pointer-events-none'
+})`
   top: -20px;
   width: ${NIB_WIDTH}px;
   height: 20px;
   z-index: 3;
 `;
-
-Nib.defaultProps = {
-  className: 'absolute pointer-events-none'
-};
 
 export default class Popover extends React.PureComponent {
   static propTypes = {

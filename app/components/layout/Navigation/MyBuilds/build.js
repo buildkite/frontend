@@ -13,15 +13,13 @@ import { buildStatus } from '../../../../lib/builds';
 import { shortMessage } from '../../../../lib/commits';
 import { getDateString } from '../../../../lib/date';
 
-const BuildLink = styled.a`
+const BuildLink = styled.a.attrs({
+  className: 'flex text-decoration-none dark-gray hover-lime mb2'
+})`
   &:hover .build-link-message {
     color: inherit;
   }
 `;
-
-BuildLink.defaultProps = {
-  className: "flex text-decoration-none dark-gray hover-lime mb2"
-};
 
 class BuildsDropdownBuild extends React.PureComponent {
   static propTypes = {
