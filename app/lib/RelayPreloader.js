@@ -10,16 +10,9 @@ const QUERIES = {
           __typename
           ...on UnregisteredUser {
             email
-            name
-            avatar {
-              url
-            }
           }
           ...on User {
             name
-            avatar {
-              url
-            }
           }
         }
       }

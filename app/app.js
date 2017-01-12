@@ -37,7 +37,7 @@ window["Webpack"] = {
     "react-relay": require("react-relay"),
     "react-addons-pure-render-mixin": require("react-addons-pure-render-mixin"),
 
-    "components/build/AvatarWithEmailPrompt": require("./components/build/AvatarWithEmailPrompt").default,
+    "components/build/EmailPrompt": require("./components/build/EmailPrompt").default,
     "components/icons/BuildState": require("./components/icons/BuildState").default,
     "components/layout/Footer": require("./components/layout/Footer").default,
     "components/layout/Navigation": require("./components/layout/Navigation").default,

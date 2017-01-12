@@ -1,11 +1,12 @@
 import React from 'react';
 import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
+import styled from 'styled-components';
 
-import AnchoredPopover from '../shared/Popover/anchored';
+import Dropdown from '../shared/Dropdown';
+import Icon from '../shared/Icon';
 import Media from '../shared/Media';
 import Spinner from '../shared/Spinner';
-import UserAvatar from '../shared/UserAvatar';
 
 import FlashesStore from '../../stores/FlashesStore';
 
@@ -13,7 +14,17 @@ import EmailCreateMutation from '../../mutations/EmailCreate';
 import EmailResendVerificationMutation from '../../mutations/EmailResendVerification';
 import NoticeDismissMutation from '../../mutations/NoticeDismiss';
 
-class AvatarWithEmailPrompt extends React.Component {
+const PromptIcon = styled(Icon)`
+  width: 1em;
+  height: 1em;
+  color: #d9534f;
+`;
+
+PromptIcon.defaultProps = {
+  icon: 'circle'
+};
+
+class EmailPrompt extends React.Component {
   static propTypes = {
     build: React.PropTypes.shape({
       createdBy: React.PropTypes.shape({
@@ -240,13 +251,6 @@ class AvatarWithEmailPrompt extends React.Component {
     const { build } = this.props;
     const loading = this.isLoading();
 
-    const avatar = (
-      <UserAvatar
-        user={build.createdBy}
-        style={{ width: 32, height: 32 }}
-      />
-    );
-
     const { message, buttons } = this.getMessages(loading);
     let buttonContent;
 
@@ -271,11 +275,13 @@ class AvatarWithEmailPrompt extends React.Component {
 
     if (message) {
       return (
-        <AnchoredPopover
-          alwaysShow={true}
+        <Dropdown
           width={400}
         >
-          {avatar}
+          <PromptIcon
+            className="cursor-pointer"
+            title="Is this your email address?"
+          />
           <Media align="top" className="mx4 my3">
             <Media.Image className="mr2 center" style={{ marginTop: 2 }}>
               <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
@@ -291,15 +297,15 @@ class AvatarWithEmailPrompt extends React.Component {
             </Media.Description>
           </Media>
           {buttonContent}
-        </AnchoredPopover>
+        </Dropdown>
       );
     }
 
-    return avatar;
+    return null;
   }
 }
 
-export default Relay.createContainer(AvatarWithEmailPrompt, {
+export default Relay.createContainer(EmailPrompt, {
   initialVariables: {
     emailForPrompt: null,
     isTryingToPrompt: false
@@ -311,16 +317,9 @@ export default Relay.createContainer(AvatarWithEmailPrompt, {
         createdBy {
           ...on UnregisteredUser {
             email
-            name
-            avatar {
-              url
-            }
           }
           ...on User {
             name
-            avatar {
-              url
-            }
           }
         }
       }
