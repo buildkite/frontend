@@ -257,7 +257,7 @@ class AvatarWithEmailPrompt extends React.Component {
             {loading && <Spinner />}
           </Media.Image>
           <Media.Description
-            className="flex"
+            className="flex flex-auto"
             style={{
               marginLeft: -5,
               marginRight: -5
