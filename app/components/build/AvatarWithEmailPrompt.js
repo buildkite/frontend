@@ -13,6 +13,16 @@ import EmailCreateMutation from '../../mutations/EmailCreate';
 import EmailResendVerificationMutation from '../../mutations/EmailResendVerification';
 import NoticeDismissMutation from '../../mutations/NoticeDismiss';
 
+const ICON = (
+  <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
+    <g transform="translate(-1, -1)" stroke-width="2" stroke="#7EAF25">
+      <ellipse cx="15" cy="15" rx="15" ry="15" />
+      <rect x="7" y="9" width="16" height="12" rx="2" />
+      <polyline points="7 9 15 15 23 9.00146484" />
+    </g>
+  </svg>
+);
+
 class AvatarWithEmailPrompt extends React.Component {
   static propTypes = {
     build: React.PropTypes.shape({
@@ -41,6 +51,7 @@ class AvatarWithEmailPrompt extends React.Component {
 
   state = {
     isAddingEmail: false,
+    isDismissing: false,
     isSendingVerification: false,
     hasSentSomething: false,
     hasBeenDismissed: false
@@ -80,16 +91,18 @@ class AvatarWithEmailPrompt extends React.Component {
     }
   }
 
-  handleDismissClick = () => {
-    const mutation = new NoticeDismissMutation({ viewer: this.props.viewer, notice: this.props.viewer.notice });
-
-    Relay.Store.commitUpdate(mutation, { onFailure: this.handleMutationFailure });
-  };
-
   handleMutationFailure = (transaction) => {
-    this.setState({ isAddingEmail: false });
+    this.setState({ isAddingEmail: false, isDismissing: false, isSendingVerification: false });
 
     FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
+  };
+
+  handleDismissClick = () => {
+    this.setState({ isDismissing: true });
+
+    const mutation = new NoticeDismissMutation({ viewer: this.props.viewer, notice: this.props.viewer.notice });
+
+    Relay.Store.commitUpdate(mutation, { onSuccess: this.handleDismissedSucess, onFailure: this.handleMutationFailure });
   };
 
   handleAddEmailClick = () => {
@@ -108,6 +121,10 @@ class AvatarWithEmailPrompt extends React.Component {
     Relay.Store.commitUpdate(mutation, { onSuccess: this.handleVerificationResentSuccess, onFailure: this.handleMutationFailure });
   };
 
+  handleDismissedSucess = () => {
+    this.setState({ isDismissing: false });
+  };
+
   handleEmailAddedSuccess = () => {
     this.setState({ isAddingEmail: false, hasSentSomething: true });
   };
@@ -120,7 +137,7 @@ class AvatarWithEmailPrompt extends React.Component {
     this.setState({ hasBeenDismissed: true });
   }
 
-  renderContent() {
+  getMessages(loading) {
     const {
       build: {
         createdBy: {
@@ -136,127 +153,112 @@ class AvatarWithEmailPrompt extends React.Component {
         notice
       }
     } = this.props;
-    const { isAddingEmail, isSendingVerification, hasBeenDismissed, hasSentSomething } = this.state;
-    const wrapperClassName = 'center px3 py2';
+    const { isAddingEmail, isDismissing, isSendingVerification, hasBeenDismissed, hasSentSomething } = this.state;
 
     // There won't be an email address if this build was created by a
     // registered user or if this build just has no owner (perhaps it was
     // created by Buildkite)
     if (!email) {
-      return null;
+      return {};
     }
 
     // If we haven't decided to send a query for this yet, don't show anything!
     if (!isTryingToPrompt) {
-      return null;
+      return {};
     }
 
     // If the user has seen the notice and has been dismissed
     if (notice && notice.dismissedAt) {
-      return null;
+      return {};
     }
 
     // If the user has dismissed this notice instance
     if (hasBeenDismissed) {
-      return null;
+      return {};
     }
 
-    if (isAddingEmail || isSendingVerification) {
-      return (
-        <div
-          className={wrapperClassName}
-          style={{
-            paddingTop: 54,
-            paddingBottom: 54
-          }}
-        >
-          <Spinner />
-          <p className="h5 mb0">
-            {isSendingVerification ? 'Resending verification email…' : `Adding ${email}…`}
-          </p>
-        </div>
-      );
-    }
+    let message;
+    let buttons;
 
     const userEmail = this.getUserEmail(email);
 
     if (userEmail) {
       if (userEmail.verified) {
-        return null;
+        return {};
       }
+
+      message = (
+        <span>
+          Almost done! <strong>Click the verification link</strong> we’ve sent to {email} to finish adding this email to your account.
+        </span>
+      );
 
       if (hasSentSomething) {
-        return (
-          <div className={wrapperClassName}>
-            <p className="h5 mt0">
-              Verification Needed
-            </p>
-            <p className="my2">
-              Click the link we’ve just emailed to {email} to finish adding this email to your account.
-            </p>
-            <Button
-              className="block mt2"
-              theme="default"
-              outline={true}
-              style={{ width: '100%' }}
-              onClick={this.handleLocalDismissClick}
-            >
-              Dismiss
-            </Button>
-          </div>
-        );
-      }
-
-      return (
-        <div className={wrapperClassName}>
-          <p className="h5 mt0">
-            Verification Needed
-          </p>
-          <p className="my2">
-            We’ve emailed a link to {email} to add this email to your account.<br />
-            If it hasn’t arrived, you can resend it from here!
-          </p>
+        buttons = (
           <Button
             className="block mt2"
             theme="default"
             outline={true}
             style={{ width: '100%' }}
-            onClick={this.handleResendVerificationClick}
+            onClick={this.handleLocalDismissClick}
+            disabled={loading}
           >
-            Resend Verification Email
+            Dismiss
           </Button>
-        </div>
-      );
-    }
+        );
+      }
 
-    // Otherwise, we've got an unknown (to Buildkite) email address on our hands!
-    return (
-      <div className={wrapperClassName}>
-        <p className="mb2 mt0">
-          Do you own this email address? If so, add it to your Buildkite account to take ownership of this build.
-        </p>
+      buttons = (
         <Button
+          className="block mt2"
+          theme="default"
+          outline={true}
+          style={{ width: '100%' }}
+          onClick={this.handleResendVerificationClick}
+          disabled={loading}
+        >
+          Resend Verification Email
+        </Button>
+      )
+    } else {
+      // Otherwise, we've got an unknown (to Buildkite) email address on our hands!
+      message = 'Own this email address? If so, add it to your account to take ownership of this build.';
+      buttons = [
+        <Button
+          key="add-email"
           className="block my2"
           style={{ width: '100%' }}
           onClick={this.handleAddEmailClick}
+          disabled={loading}
         >
-          Add {email}
-        </Button>
+          Add This Email Address
+        </Button>,
         <Button
+          key="dismiss-email"
           className="block"
           theme="default"
           outline={true}
           style={{ width: '100%' }}
           onClick={this.handleDismissClick}
+          disabled={loading}
         >
           Dismiss
         </Button>
-      </div>
-    );
+      ];
+    }
+
+    return { message, buttons, loading };
   }
+
+  isLoading = () => (
+    this.state.isAddingEmail || this.state.isDismissing || this.state.isSendingVerification
+  );
 
   render() {
     const { build } = this.props;
+    const loading = this.isLoading();
+
+    const wrapperClassName = 'px3 py2';
 
     const avatar = (
       <UserAvatar
@@ -265,16 +267,21 @@ class AvatarWithEmailPrompt extends React.Component {
       />
     );
 
-    const content = this.renderContent();
+    const { message, buttons } = this.getMessages(loading);
 
-    if (content) {
+    if (message) {
       return (
         <AnchoredPopover
           alwaysShow={true}
           width={400}
         >
           {avatar}
-          {content}
+          <div className={wrapperClassName}>
+            <p className="mb2 mt0">
+              {message}
+            </p>
+            {buttons}
+          </div>
         </AnchoredPopover>
       );
     }
