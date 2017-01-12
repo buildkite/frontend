@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import AnchoredPopover from '../shared/Popover/anchored';
-import Button from '../shared/Button';
+import Media from '../shared/Media';
 import Spinner from '../shared/Spinner';
 import UserAvatar from '../shared/UserAvatar';
 
@@ -12,16 +12,6 @@ import FlashesStore from '../../stores/FlashesStore';
 import EmailCreateMutation from '../../mutations/EmailCreate';
 import EmailResendVerificationMutation from '../../mutations/EmailResendVerification';
 import NoticeDismissMutation from '../../mutations/NoticeDismiss';
-
-const ICON = (
-  <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
-    <g transform="translate(-1, -1)" stroke-width="2" stroke="#7EAF25">
-      <ellipse cx="15" cy="15" rx="15" ry="15" />
-      <rect x="7" y="9" width="16" height="12" rx="2" />
-      <polyline points="7 9 15 15 23 9.00146484" />
-    </g>
-  </svg>
-);
 
 class AvatarWithEmailPrompt extends React.Component {
   static propTypes = {
@@ -153,7 +143,7 @@ class AvatarWithEmailPrompt extends React.Component {
         notice
       }
     } = this.props;
-    const { isAddingEmail, isDismissing, isSendingVerification, hasBeenDismissed, hasSentSomething } = this.state;
+    const { hasBeenDismissed, hasSentSomething } = this.state;
 
     // There won't be an email address if this build was created by a
     // registered user or if this build just has no owner (perhaps it was
@@ -192,58 +182,50 @@ class AvatarWithEmailPrompt extends React.Component {
           Almost done! <strong>Click the verification link</strong> we’ve sent to {email} to finish adding this email to your account.
         </span>
       );
-
-      if (hasSentSomething) {
-        buttons = (
-          <Button
-            className="block mt2"
-            theme="default"
-            outline={true}
-            style={{ width: '100%' }}
-            onClick={this.handleLocalDismissClick}
-            disabled={loading}
-          >
-            Dismiss
-          </Button>
-        );
-      }
-
-      buttons = (
-        <Button
-          className="block mt2"
-          theme="default"
-          outline={true}
-          style={{ width: '100%' }}
-          onClick={this.handleResendVerificationClick}
+      buttons = [
+        <button
+          key="dismiss-verification"
+          className="btn btn-outline border-gray flex-auto mx1"
+          onClick={this.handleLocalDismissClick}
           disabled={loading}
         >
-          Resend Verification Email
-        </Button>
-      )
+          Dismiss
+        </button>
+      ];
+
+      // This is only true on subsequent page loads
+      if (!hasSentSomething) {
+        buttons.unshift(
+          <button
+            key="resend-verification"
+            className="btn btn-primary flex-auto mx1"
+            onClick={this.handleResendVerificationClick}
+            disabled={loading}
+          >
+            Resend Verification Email
+          </button>
+        );
+      }
     } else {
       // Otherwise, we've got an unknown (to Buildkite) email address on our hands!
       message = 'Own this email address? If so, add it to your account to take ownership of this build.';
       buttons = [
-        <Button
+        <button
           key="add-email"
-          className="block my2"
-          style={{ width: '100%' }}
+          className="btn btn-primary flex-auto mx1"
           onClick={this.handleAddEmailClick}
           disabled={loading}
         >
           Add This Email Address
-        </Button>,
-        <Button
+        </button>,
+        <button
           key="dismiss-email"
-          className="block"
-          theme="default"
-          outline={true}
-          style={{ width: '100%' }}
+          className="btn btn-outline border-gray flex-auto mx1"
           onClick={this.handleDismissClick}
           disabled={loading}
         >
           Dismiss
-        </Button>
+        </button>
       ];
     }
 
@@ -258,8 +240,6 @@ class AvatarWithEmailPrompt extends React.Component {
     const { build } = this.props;
     const loading = this.isLoading();
 
-    const wrapperClassName = 'px3 py2';
-
     const avatar = (
       <UserAvatar
         user={build.createdBy}
@@ -268,6 +248,21 @@ class AvatarWithEmailPrompt extends React.Component {
     );
 
     const { message, buttons } = this.getMessages(loading);
+    let buttonContent;
+
+    if (buttons) {
+      buttonContent = (
+        <div
+          className="flex mt1"
+          style={{
+            marginLeft: -5,
+            marginRight: -5
+          }}
+        >
+          {buttons}
+        </div>
+      );
+    }
 
     if (message) {
       return (
@@ -276,12 +271,23 @@ class AvatarWithEmailPrompt extends React.Component {
           width={400}
         >
           {avatar}
-          <div className={wrapperClassName}>
-            <p className="mb2 mt0">
+          <Media align="top" className="mx4 my3">
+            <Media.Image className="mr2 center">
+              <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
+                <g transform="translate(1, 1)" fill="none" strokeWidth="2" stroke="#7EAF25">
+                  <ellipse cx="15" cy="15" rx="15" ry="15" />
+                  <rect x="7" y="9" width="16" height="12" rx="2" />
+                  <polyline points="7 9 15 15 23 9.00146484" />
+                </g>
+              </svg>
+              <br/>
+              {loading && <Spinner />}
+            </Media.Image>
+            <Media.Description>
               {message}
-            </p>
-            {buttons}
-          </div>
+              {buttonContent}
+            </Media.Description>
+          </Media>
         </AnchoredPopover>
       );
     }
