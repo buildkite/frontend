@@ -177,11 +177,6 @@ class AvatarWithEmailPrompt extends React.Component {
         return {};
       }
 
-      message = (
-        <span>
-          Almost done! <strong>Click the verification link</strong> we’ve sent to {email} to finish adding this email to your account.
-        </span>
-      );
       buttons = [
         <button
           key="dismiss-verification"
@@ -193,8 +188,14 @@ class AvatarWithEmailPrompt extends React.Component {
         </button>
       ];
 
-      // This is only true on subsequent page loads
-      if (!hasSentSomething) {
+      if (hasSentSomething) {
+        message = (
+          <span>
+            Almost done! <strong>Click the verification link</strong> we’ve sent to {email} to finish adding this email to your account.
+          </span>
+        );
+      } else {
+        message = 'Verify this email to finish adding it to your account and take ownership of this build.'
         buttons.unshift(
           <button
             key="resend-verification"
