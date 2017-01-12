@@ -252,15 +252,20 @@ class AvatarWithEmailPrompt extends React.Component {
 
     if (buttons) {
       buttonContent = (
-        <div
-          className="flex mt1"
-          style={{
-            marginLeft: -5,
-            marginRight: -5
-          }}
-        >
-          {buttons}
-        </div>
+        <Media className="mx4 mt2 my3" style={{ marginTop: -5 }}>
+          <Media.Image className="mr2 center" style={{ width: 32 }}>
+            {loading && <Spinner />}
+          </Media.Image>
+          <Media.Description
+            className="flex"
+            style={{
+              marginLeft: -5,
+              marginRight: -5
+            }}
+          >
+            {buttons}
+          </Media.Description>
+        </Media>
       );
     }
 
@@ -280,14 +285,12 @@ class AvatarWithEmailPrompt extends React.Component {
                   <polyline points="7 9 15 15 23 9.00146484" />
                 </g>
               </svg>
-              <br/>
-              {loading && <Spinner />}
             </Media.Image>
             <Media.Description>
               {message}
-              {buttonContent}
             </Media.Description>
           </Media>
+          {buttonContent}
         </AnchoredPopover>
       );
     }
