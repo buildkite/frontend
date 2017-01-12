@@ -1,7 +1,7 @@
 /* global describe, it, expect, jest */
 import Emoji from './Emoji';
 
-function loadWebpackedEmojis(catalogue) {
+function mockLoadWebpackedEmojis(catalogue) {
   process.env.EMOJI_HOST = 'emoji-host.com';
 
   const loader = require('../../webpack/emoji-loader');
@@ -11,8 +11,8 @@ function loadWebpackedEmojis(catalogue) {
   return eval(loader.call(webpack, emojis)); // eslint-disable-line no-eval
 }
 
-jest.mock('../emojis/buildkite', () => loadWebpackedEmojis('buildkite'));
-jest.mock('../emojis/apple', () => loadWebpackedEmojis('apple'));
+jest.mock('../emojis/buildkite', () => mockLoadWebpackedEmojis('buildkite'));
+jest.mock('../emojis/apple', () => mockLoadWebpackedEmojis('apple'));
 
 describe('Emoji', () => {
   describe('parse', () => {

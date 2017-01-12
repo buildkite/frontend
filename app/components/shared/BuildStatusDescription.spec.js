@@ -13,12 +13,12 @@ describe('BuildStatusDescription', () => {
       timeValue: moment.parseZone("2016-10-09T23:58:05+1100")
     };
 
-    const fauxGetDateString = jest.fn(() => 'at an absolute point');
-    const fauxGetRelativeDateString = jest.fn(() => 'at some point');
-    const fauxBuildStatusDescription = jest.fn(() => BUILD_STATUS_FIXTURE);
+    const mockGetDateString = jest.fn(() => 'at an absolute point');
+    const mockGetRelativeDateString = jest.fn(() => 'at some point');
+    const mockBuildStatusDescription = jest.fn(() => BUILD_STATUS_FIXTURE);
 
-    jest.mock('../../lib/date', () => ({ getDateString: fauxGetDateString, getRelativeDateString: fauxGetRelativeDateString }));
-    jest.mock('../../lib/builds', () => ({ buildStatus: fauxBuildStatusDescription }));
+    jest.mock('../../lib/date', () => ({ getDateString: mockGetDateString, getRelativeDateString: mockGetRelativeDateString }));
+    jest.mock('../../lib/builds', () => ({ buildStatus: mockBuildStatusDescription }));
 
     const BuildStatusDescription = require('./BuildStatusDescription').default;
 
@@ -35,12 +35,12 @@ describe('BuildStatusDescription', () => {
 
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
-    expect(fauxGetDateString).toHaveBeenCalledTimes(1);
-    expect(fauxGetDateString).toHaveBeenCalledWith(BUILD_STATUS_FIXTURE.timeValue);
-    expect(fauxGetRelativeDateString).toHaveBeenCalledTimes(2);
-    expect(fauxGetRelativeDateString).toHaveBeenCalledWith(BUILD_STATUS_FIXTURE.timeValue);
-    expect(fauxBuildStatusDescription).toHaveBeenCalledTimes(1);
-    expect(fauxBuildStatusDescription).toHaveBeenCalledWith(build);
+    expect(mockGetDateString).toHaveBeenCalledTimes(1);
+    expect(mockGetDateString).toHaveBeenCalledWith(BUILD_STATUS_FIXTURE.timeValue);
+    expect(mockGetRelativeDateString).toHaveBeenCalledTimes(2);
+    expect(mockGetRelativeDateString).toHaveBeenCalledWith(BUILD_STATUS_FIXTURE.timeValue);
+    expect(mockBuildStatusDescription).toHaveBeenCalledTimes(1);
+    expect(mockBuildStatusDescription).toHaveBeenCalledWith(build);
     MockDate.reset();
   });
 });

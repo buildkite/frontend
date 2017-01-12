@@ -6,9 +6,9 @@ const FIXTURE_TEXT = "This text should be reflected in the title attribute and t
 
 describe('Emojify', () => {
   it('renders as expected', () => {
-    const parse = jest.fn((text) => text);
+    const mockParse = jest.fn((text) => text);
 
-    jest.mock('../../lib/Emoji', () => ({ parse }));
+    jest.mock('../../lib/Emoji', () => ({ parse: mockParse }));
 
     const { default: Emojify } = require('./Emojify');
 
@@ -22,6 +22,6 @@ describe('Emojify', () => {
 
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
-    expect(parse).toHaveBeenCalledWith(FIXTURE_TEXT);
+    expect(mockParse).toHaveBeenCalledWith(FIXTURE_TEXT);
   });
 });
