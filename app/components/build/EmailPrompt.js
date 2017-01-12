@@ -205,7 +205,7 @@ class EmailPrompt extends React.Component {
       ];
 
       if (!hasSentSomething) {
-        message = 'Verify this email to finish adding it to your account and take ownership of this build.'
+        message = 'Verify this email to finish adding it to your account and take ownership of this build.';
         buttons.unshift(
           <button
             key="resend-verification"
@@ -248,7 +248,6 @@ class EmailPrompt extends React.Component {
   );
 
   render() {
-    const { build } = this.props;
     const loading = this.isLoading();
 
     const { message, buttons } = this.getMessages(loading);
