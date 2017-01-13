@@ -155,7 +155,7 @@ class UserNameWithEmailPrompt extends React.Component {
         notice
       }
     } = this.props;
-    const { hasBeenDismissed, hasSentSomething } = this.state;
+    const { isAddingEmail, isSendingVerification, hasBeenDismissed, hasSentSomething } = this.state;
 
     // There won't be an email address if this build was created by a
     // registered user or if this build just has no owner (perhaps it was
@@ -184,7 +184,7 @@ class UserNameWithEmailPrompt extends React.Component {
 
     const userEmail = this.getUserEmail(email);
 
-    if (userEmail) {
+    if (!isAddingEmail && userEmail) {
       if (userEmail.verified) {
         return {};
       }
@@ -205,7 +205,7 @@ class UserNameWithEmailPrompt extends React.Component {
         </button>
       ];
 
-      if (!hasSentSomething) {
+      if (isSendingVerification || !hasSentSomething) {
         message = 'Verify this email to finish adding it to your account and take ownership of this build.';
         buttons.unshift(
           <button
