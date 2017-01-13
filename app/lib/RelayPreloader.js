@@ -13,6 +13,7 @@ const QUERIES = {
           }
           ...on User {
             name
+            email
           }
         }
       }

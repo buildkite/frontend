@@ -24,11 +24,12 @@ PromptIcon.defaultProps = {
   icon: 'circle'
 };
 
-class EmailPrompt extends React.Component {
+class UserNameWithEmailPrompt extends React.Component {
   static propTypes = {
     build: React.PropTypes.shape({
       createdBy: React.PropTypes.shape({
-        email: React.PropTypes.string
+        email: React.PropTypes.string,
+        name: React.PropTypes.string
       })
     }).isRequired,
     viewer: React.PropTypes.shape({
@@ -248,7 +249,10 @@ class EmailPrompt extends React.Component {
   );
 
   render() {
+    const { build: { createdBy: creator } } = this.props;
     const loading = this.isLoading();
+
+    const creatorIdentity = creator.name || creator.email;
 
     const { message, buttons } = this.getMessages(loading);
     let buttonContent;
@@ -274,37 +278,44 @@ class EmailPrompt extends React.Component {
 
     if (message) {
       return (
-        <Dropdown
-          width={400}
-        >
-          <PromptIcon
-            className="cursor-pointer"
-            title="Is this your email address?"
-          />
-          <Media align="top" className="mx4 my3">
-            <Media.Image className="mr2 center" style={{ marginTop: 2 }}>
-              <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
-                <g transform="translate(1, 1)" fill="none" strokeWidth="2" stroke="#7EAF25">
-                  <ellipse cx="15" cy="15" rx="15" ry="15" />
-                  <rect x="7" y="9" width="16" height="12" rx="2" />
-                  <polyline points="7 9 15 15 23 9.00146484" />
-                </g>
-              </svg>
-            </Media.Image>
-            <Media.Description>
-              {message}
-            </Media.Description>
-          </Media>
-          {buttonContent}
-        </Dropdown>
+        <div>
+          <Dropdown
+            width={400}
+          >
+            <PromptIcon
+              className="cursor-pointer"
+              title="Is this your email address?"
+            />
+            <Media align="top" className="mx4 my3">
+              <Media.Image className="mr2 center" style={{ marginTop: 2 }}>
+                <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
+                  <g transform="translate(1, 1)" fill="none" strokeWidth="2" stroke="#7EAF25">
+                    <ellipse cx="15" cy="15" rx="15" ry="15" />
+                    <rect x="7" y="9" width="16" height="12" rx="2" />
+                    <polyline points="7 9 15 15 23 9.00146484" />
+                  </g>
+                </svg>
+              </Media.Image>
+              <Media.Description>
+                {message}
+              </Media.Description>
+            </Media>
+            {buttonContent}
+          </Dropdown>
+          {` ${creatorIdentity}`}
+        </div>
       );
     }
 
-    return null;
+    return (
+      <div>
+        {creatorIdentity}
+      </div>
+    );
   }
 }
 
-export default Relay.createContainer(EmailPrompt, {
+export default Relay.createContainer(UserNameWithEmailPrompt, {
   initialVariables: {
     emailForPrompt: null,
     isTryingToPrompt: false
@@ -319,6 +330,7 @@ export default Relay.createContainer(EmailPrompt, {
           }
           ...on User {
             name
+            email
           }
         }
       }
