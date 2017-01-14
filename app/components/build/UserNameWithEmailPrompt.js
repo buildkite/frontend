@@ -190,9 +190,9 @@ class UserNameWithEmailPrompt extends React.Component {
       }
 
       message = (
-        <span>
+        <Media.Description>
           Almost done! <strong>Click the verification link</strong> we’ve sent to {email} to finish adding this email to your account.
-        </span>
+        </Media.Description>
       );
       buttons = [
         <button
@@ -206,7 +206,11 @@ class UserNameWithEmailPrompt extends React.Component {
       ];
 
       if (isSendingVerification || !hasSentSomething) {
-        message = 'Verify this email to finish adding it to your account and take ownership of this build.';
+        message = (
+          <Media.Description>
+            Verify this email to finish adding it to your account and take ownership of this build.
+          </Media.Description>
+        );
         buttons.unshift(
           <button
             key="resend-verification"
@@ -220,7 +224,11 @@ class UserNameWithEmailPrompt extends React.Component {
       }
     } else {
       // Otherwise, we've got an unknown (to Buildkite) email address on our hands!
-      message = 'Own this email address? If so, add it to your account to take ownership of this build.';
+      message = (
+        <Media.Description>
+          The email address for this build’s commit doesn’t match any of your organization’s user’s verified email addresses. If this is your email address, add it to your <a className="semi-bold lime hover-lime hover-underline" href="/user/emails">personal email settings</a> to take ownership of these builds.
+        </Media.Description>
+      );
       buttons = [
         <button
           key="add-email"
@@ -277,14 +285,14 @@ class UserNameWithEmailPrompt extends React.Component {
       return (
         <div>
           <Dropdown
-            width={400}
+            width={460}
           >
             <PromptIcon
               className="cursor-pointer"
               title="Is this your email address?"
             />
             <Media align="top" className="mx4 my3">
-              <Media.Image className="mr2 center" style={{ marginTop: 2 }}>
+              <Media.Image className="mr2 center">
                 <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
                   <g transform="translate(1, 1)" fill="none" strokeWidth="2" stroke="#7EAF25">
                     <ellipse cx="15" cy="15" rx="15" ry="15" />
@@ -293,9 +301,7 @@ class UserNameWithEmailPrompt extends React.Component {
                   </g>
                 </svg>
               </Media.Image>
-              <Media.Description>
-                {message}
-              </Media.Description>
+              {message}
             </Media>
             {buttonContent}
           </Dropdown>
