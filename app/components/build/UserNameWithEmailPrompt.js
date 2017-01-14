@@ -197,7 +197,7 @@ class UserNameWithEmailPrompt extends React.Component {
       buttons = [
         <button
           key="dismiss-verification"
-          className="btn btn-outline border-gray flex-auto mx1"
+          className="btn btn-outline border-gray flex-auto m1"
           onClick={this.handleLocalDismissClick}
           disabled={loading}
         >
@@ -210,7 +210,7 @@ class UserNameWithEmailPrompt extends React.Component {
         buttons.unshift(
           <button
             key="resend-verification"
-            className="btn btn-primary flex-auto mx1"
+            className="btn btn-primary flex-auto m1"
             onClick={this.handleResendVerificationClick}
             disabled={loading}
           >
@@ -224,19 +224,19 @@ class UserNameWithEmailPrompt extends React.Component {
       buttons = [
         <button
           key="add-email"
-          className="btn btn-primary flex-auto mx1"
+          className="btn btn-primary flex-auto m1"
           onClick={this.handleAddEmailClick}
           disabled={loading}
         >
-          Add This Email Address
+          Add Email Address
         </button>,
         <button
           key="dismiss-email"
-          className="btn btn-outline border-gray flex-auto mx1"
+          className="btn btn-outline border-gray flex-auto m1"
           onClick={this.handleDismissClick}
           disabled={loading}
         >
-          Dismiss
+          Not My Email Address
         </button>
       ];
     }
@@ -264,11 +264,8 @@ class UserNameWithEmailPrompt extends React.Component {
             {loading && <Spinner />}
           </Media.Image>
           <Media.Description
-            className="flex flex-auto"
-            style={{
-              marginLeft: -5,
-              marginRight: -5
-            }}
+            className="flex flex-auto flex-wrap"
+            style={{ margin: -5 }}
           >
             {buttons}
           </Media.Description>
