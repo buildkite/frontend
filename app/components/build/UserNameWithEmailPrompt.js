@@ -4,7 +4,6 @@ import shallowCompare from 'react-addons-shallow-compare';
 import styled from 'styled-components';
 
 import Dropdown from '../shared/Dropdown';
-import Icon from '../shared/Icon';
 import Media from '../shared/Media';
 import Spinner from '../shared/Spinner';
 
@@ -13,16 +12,6 @@ import FlashesStore from '../../stores/FlashesStore';
 import EmailCreateMutation from '../../mutations/EmailCreate';
 import EmailResendVerificationMutation from '../../mutations/EmailResendVerification';
 import NoticeDismissMutation from '../../mutations/NoticeDismiss';
-
-const PromptIcon = styled(Icon)`
-  width: 1em;
-  height: 1em;
-  color: #d9534f;
-`;
-
-PromptIcon.defaultProps = {
-  icon: 'circle'
-};
 
 class UserNameWithEmailPrompt extends React.Component {
   static propTypes = {
@@ -287,10 +276,56 @@ class UserNameWithEmailPrompt extends React.Component {
           <Dropdown
             width={460}
           >
-            <PromptIcon
-              className="cursor-pointer"
-              title="Is this your email address?"
-            />
+            <span>
+              <svg
+                className="cursor-pointer"
+                style={{
+                  color: '#7eaf25',
+                  width: '1.25em',
+                  height: '1.25em',
+                  margin: '-.175em',
+                  verticalAlign: '-.15em'
+                }}
+              >
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="25%"
+                  stroke="currentColor"
+                  strokeWidth="7%"
+                  fill="none"
+                />
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="25%"
+                  stroke="currentColor"
+                  strokeWidth="7%"
+                  fill="none"
+                >
+                  <animate
+                    attributeName="r"
+                    begin="2s"
+                    dur="1.5s"
+                    repeatCount="indefinite"
+                    values="25%;25%;45%"
+                  />
+                  <animate
+                    attributeName="opacity"
+                    begin="2s"
+                    dur="1.5s"
+                    repeatCount="indefinite"
+                    values="0;1;.6;.6;0"
+                  />
+                </circle>
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="15%"
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
             <Media align="top" className="mx4 my3">
               <Media.Image className="mr2 center">
                 <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
