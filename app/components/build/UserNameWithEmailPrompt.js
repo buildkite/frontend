@@ -68,10 +68,10 @@ class UserNameWithEmailPrompt extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
-  }
+  } 
 
-  componentWillReceiveProps(nextProps) {
-    const { createdBy } = nextProps.build;
+  componentDidMount() {
+    const { createdBy } = this.props.build;
 
     if (createdBy && createdBy.email && !this.isCurrentUsersValidatedEmail(createdBy.email)) {
       this.props.relay.setVariables({
