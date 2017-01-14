@@ -2,7 +2,7 @@ import Relay from 'react-relay';
 import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
 const QUERIES = {
-  "builds_show/build": Relay.QL`
+  "build_header/build": Relay.QL`
     query BuildsShowBuild($build: ID!) {
       build(slug: $build) {
         id
@@ -19,7 +19,7 @@ const QUERIES = {
       }
     }
   `,
-  "builds_show/viewer": Relay.QL`
+  "build_header/viewer": Relay.QL`
     query BuildsShowViewer {
       viewer {
         emails(first: 50) {
