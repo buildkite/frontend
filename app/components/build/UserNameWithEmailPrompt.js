@@ -214,7 +214,8 @@ class UserNameWithEmailPrompt extends React.Component {
       // Otherwise, we've got an unknown (to Buildkite) email address on our hands!
       message = (
         <Media.Description>
-          The email address for this build’s commit doesn’t match any of your organization’s user’s verified email addresses. If this is your email address, add it to your <a className="semi-bold lime hover-lime hover-underline" href="/user/emails">personal email settings</a> to take ownership of these builds.
+          <h1 className="h5 m0 mb1 bold">{this.props.build.createdBy.email}</h1>
+          <p className="m0">This build author’s email address couldn’t be matched to a Buildkite user. If this address belongs to you, add it to your account below to take ownership of these builds.</p>
         </Media.Description>
       );
       buttons = [
@@ -338,6 +339,10 @@ class UserNameWithEmailPrompt extends React.Component {
               {message}
             </Media>
             {buttonContent}
+            <Media className="mx4 my3">
+              <Media.Image className="mr2 center" style={{ width: 32 }} />
+              <Media.Description className="dark-gray mt0"><a className="semi-bold lime hover-lime hover-underline" href="/user/emails">Personal email settings</a></Media.Description>
+            </Media>
           </Dropdown>
           {` ${creatorIdentity}`}
         </div>
