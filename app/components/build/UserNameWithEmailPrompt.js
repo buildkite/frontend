@@ -182,32 +182,12 @@ class UserNameWithEmailPrompt extends React.Component {
           Almost done! <strong>Click the verification link</strong> we’ve sent to {email} to finish adding this email to your account.
         </Media.Description>
       );
-      buttons = [
-        <button
-          key="dismiss-verification"
-          className="btn btn-outline border-gray flex-auto m1"
-          onClick={this.handleLocalDismissClick}
-          disabled={loading}
-        >
-          Dismiss
-        </button>
-      ];
 
       if (isSendingVerification || !hasSentSomething) {
         message = (
           <Media.Description>
             Verify this email to finish adding it to your account and take ownership of this build.
           </Media.Description>
-        );
-        buttons.unshift(
-          <button
-            key="resend-verification"
-            className="btn btn-primary flex-auto m1"
-            onClick={this.handleResendVerificationClick}
-            disabled={loading}
-          >
-            Resend Verification Email
-          </button>
         );
       }
     } else {
