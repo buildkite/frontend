@@ -58,7 +58,7 @@ class BuildsDropdown extends React.Component {
   renderSetupInstructions() {
     return (
       <div className="px3 py2">
-        <div className="mb3 dark-gray">To have your builds shown here, make sure to add and verify your commit email address (e.g. <code className="border border-gray black" style={{ padding: '.1em .3em' }}>git config user.email</code>) to your list of email addresses.</div>
+        <div className="mb2">To have your builds shown here, make sure to add and verify your commit email address (e.g. <code className="border border-gray dark-gray" style={{ padding: '.1em .3em' }}>git config user.email</code>) to your list of email addresses.</div>
         <Button href="/user/emails" theme="default" outline={true} className="center" style={{ width: "100%" }}>Update Email Addresses</Button>
       </div>
     );
