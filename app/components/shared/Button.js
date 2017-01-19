@@ -14,7 +14,7 @@ const OUTLINE_THEMES = {
   primary: "btn-outline border-blue blue",
   success: "btn-outline border-lime lime",
   warning: "btn-outline border-orange orange",
-  default: "btn-outline border-gray",
+  default: "btn-outline border-gray hover-black",
   error: "btn-outline border-red red"
 };
 
