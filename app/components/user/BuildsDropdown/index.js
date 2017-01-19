@@ -58,8 +58,8 @@ class BuildsDropdown extends React.Component {
   renderSetupInstructions() {
     return (
       <div className="px3 py2">
-        <div className="mb3">It looks like you haven’t created any builds yet. If you have created builds check that you’ve added all your git commit email addresses in your personal settings.</div>
-        <Button href="/user/emails" theme="default" outline={true} className="center" style={{ width: "100%" }}>Update Email Settings</Button>
+        <div className="mb3 dark-gray">Created builds but they’re not showing up here? Make sure you’ve added your commit email (e.g. <code className="border border-gray black" style={{ padding: '.1em .3em' }}>git config user.email</code>) to your list of verified email addresses.</div>
+        <Button href="/user/emails" theme="primary" className="center" style={{ width: "100%" }}>Update Email Addresses</Button>
       </div>
     );
   }
