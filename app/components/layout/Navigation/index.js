@@ -173,7 +173,7 @@ class Navigation extends React.Component {
     }
 
     return (
-      <Dropdown width={300} className="flex" onToggle={this.handleBuildsDropdownToggle}>
+      <Dropdown width={320} className="flex" onToggle={this.handleBuildsDropdownToggle}>
         <DropdownButton className={classNames("py0", { "lime": this.state.showingBuildsDropdown })}>
           {'My Builds '}
           <div className="xs-hide">
