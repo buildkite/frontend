@@ -47,14 +47,15 @@ class MyBuilds extends React.Component {
   componentDidMount() {
     PusherStore.on("user_stats:change", this.handlePusherWebsocketEvent);
 
-    // Now that "My Builds" has been mounted on the page, we should force a
-    // refetch of the latest `scheduledBuilds` and `runningBuilds` counts from
-    // GraphQL.
-    this.props.relay.forceFetch({ isMounted: true });
+    // Once Pusher connects, we'll trigger a force refresh of the build numbers
+    // (since we know at that point, we'll get updates from Pusher if they
+    // change)
+    PusherStore.on("connected", this.handlePusherConnected);
   }
 
   componentWillUnmount() {
     PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent);
+    PusherStore.off("connected", this.handlePusherConnected);
   }
 
   // As we get new values for scheduledBuildsCount and runningBuildsCount from
@@ -150,6 +151,13 @@ class MyBuilds extends React.Component {
     this.setState({ isDropdownVisible: visible });
   };
 
+  handlePusherConnected = () => {
+    // Now that "My Builds" has been mounted on the page and Pusher has
+    // connected, we should force a refetch of the latest `scheduledBuilds` and
+    // `runningBuilds` counts from GraphQL.
+    this.props.relay.forceFetch({ includeBuildCounts: true });
+  };
+
   // When we recieve a Pusher event, check to see if the build counts have
   // changed (meaning a new build has probably started or finished). In that
   // case, we'll perform a full refersh of the My Builds data (including new
@@ -174,7 +182,7 @@ const CachedMyBuilds = CachedStateWrapper(MyBuilds, { validLength: 1::hour })
 
 export default Relay.createContainer(CachedMyBuilds, {
   initialVariables: {
-    isMounted: false,
+    includeBuildCounts: false,
     includeBuilds: false
   },
 
@@ -191,10 +199,10 @@ export default Relay.createContainer(CachedMyBuilds, {
             }
           }
         }
-        runningBuilds: builds(state: BUILD_STATE_RUNNING) @include(if: $isMounted) {
+        runningBuilds: builds(state: BUILD_STATE_RUNNING) @include(if: $includeBuildCounts) {
           count
         }
-        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) @include(if: $isMounted) {
+        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) @include(if: $includeBuildCounts) {
           count
         }
       }
