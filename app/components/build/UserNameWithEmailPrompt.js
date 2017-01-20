@@ -348,6 +348,7 @@ export default Relay.createContainer(UserNameWithEmailPrompt, {
       fragment on Build {
         createdBy {
           ...on UnregisteredUser {
+            name
             email
           }
           ...on User {
