@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
-import { hour } from 'metrick/duration';
+import { hour, seconds } from 'metrick/duration';
 
 import PusherStore from '../../../../stores/PusherStore';
 import Button from '../../../shared/Button';
@@ -47,10 +47,15 @@ class MyBuilds extends React.Component {
   componentDidMount() {
     PusherStore.on("user_stats:change", this.handlePusherWebsocketEvent);
 
-    // Once Pusher connects, we'll trigger a force refresh of the build numbers
-    // (since we know at that point, we'll get updates from Pusher if they
-    // change)
+    // Now that "My Builds" has been mounted on the page and Pusher has
+    // connected, we should force a refetch of the latest `scheduledBuilds` and
+    // `runningBuilds` counts from GraphQL.
     PusherStore.on("connected", this.handlePusherConnected);
+
+    // If pusher doesn't connect in 3 seconds, just force the callback
+    // manually.  This can happen if Pusher is being a bit weird, or when
+    // Pusher isn't connected at all (like in the case of automated tests)
+    setTimeout(this.handlePusherConnected, 3::seconds);
   }
 
   componentWillUnmount() {
@@ -159,10 +164,9 @@ class MyBuilds extends React.Component {
   };
 
   handlePusherConnected = () => {
-    // Now that "My Builds" has been mounted on the page and Pusher has
-    // connected, we should force a refetch of the latest `scheduledBuilds` and
-    // `runningBuilds` counts from GraphQL.
-    this.props.relay.forceFetch({ includeBuildCounts: true });
+    if (!this.props.relay.variables.includeBuildCounts) {
+      this.props.relay.forceFetch({ includeBuildCounts: true });
+    }
   };
 
   // If the user is hovering over the "My Builds" button, be sneaky and start
