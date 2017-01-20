@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
+import { hour } from 'metrick/duration';
 
 import PusherStore from '../../../../stores/PusherStore';
 import Button from '../../../shared/Button';
@@ -160,7 +161,7 @@ class BuildsDropdown extends React.Component {
 export default Relay.createContainer(
   CachedStateWrapper(
     BuildsDropdown,
-    { validLength: 60 * 60 * 1000 /* 1 hour */ }
+    { validLength: 1::hour }
   ),
   {
     initialVariables: {
