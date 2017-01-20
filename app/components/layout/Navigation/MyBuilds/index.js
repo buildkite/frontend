@@ -151,7 +151,7 @@ class MyBuilds extends React.Component {
     // If `includeBuilds` hasn't been set to `true` yet (perhaps the mouseEnter
     // event never got triggered because we're on a mobile device) trigger a
     // load of the builds as the dropdown opens.
-    if(!this.props.relay.variables.includeBuilds) {
+    if (!this.props.relay.variables.includeBuilds) {
       this.props.relay.forceFetch({ includeBuilds: true });
     }
 
@@ -168,7 +168,7 @@ class MyBuilds extends React.Component {
   // If the user is hovering over the "My Builds" button, be sneaky and start
   // loading the build data in the background.
   handleButtonMouseEnter = () => {
-    if(!this.props.relay.variables.includeBuilds) {
+    if (!this.props.relay.variables.includeBuilds) {
       this.props.relay.forceFetch({ includeBuilds: true });
     }
   };
@@ -182,10 +182,10 @@ class MyBuilds extends React.Component {
   // then the builds would update a few moments later when the GraphQL query
   // finishes, which would be a bit weird.
   handlePusherWebsocketEvent = (payload) => {
-    const scheduledBuildsCountChanged = this.state.scheduledBuildsCount != payload.scheduledBuildsCount;
-    const runningBuildsCountChanged = this.state.runningBuildsCount != payload.runningBuildsCount;
+    const scheduledBuildsCountChanged = this.state.scheduledBuildsCount !== payload.scheduledBuildsCount;
+    const runningBuildsCountChanged = this.state.runningBuildsCount !== payload.runningBuildsCount;
 
-    if(scheduledBuildsCountChanged || runningBuildsCountChanged) {
+    if (scheduledBuildsCountChanged || runningBuildsCountChanged) {
       this.props.relay.forceFetch();
     }
   };
@@ -193,7 +193,7 @@ class MyBuilds extends React.Component {
 
 // Wrap the MyBuilds in a CachedStateWrapper so we get access to methods
 // like `setCachedState`
-const CachedMyBuilds = CachedStateWrapper(MyBuilds, { validLength: 1::hour })
+const CachedMyBuilds = CachedStateWrapper(MyBuilds, { validLength: 1::hour });
 
 export default Relay.createContainer(CachedMyBuilds, {
   initialVariables: {
