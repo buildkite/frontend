@@ -3,15 +3,15 @@ import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 import styled from 'styled-components';
 
-import Emojify from '../../shared/Emojify';
-import Duration from '../../shared/Duration';
+import Emojify from '../../../shared/Emojify';
+import Duration from '../../../shared/Duration';
 
-import PusherStore from '../../../stores/PusherStore';
-import BuildState from '../../icons/BuildState';
+import PusherStore from '../../../../stores/PusherStore';
+import BuildState from '../../../icons/BuildState';
 
-import { buildStatus } from '../../../lib/builds';
-import { shortMessage } from '../../../lib/commits';
-import { getDateString } from '../../../lib/date';
+import { buildStatus } from '../../../../lib/builds';
+import { shortMessage } from '../../../../lib/commits';
+import { getDateString } from '../../../../lib/date';
 
 const BuildLink = styled.a`
   &:hover .build-link-message {

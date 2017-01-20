@@ -10,7 +10,6 @@ import Badge from '../../shared/Badge';
 import Icon from '../../shared/Icon';
 import SectionLoader from '../../shared/SectionLoader';
 import AgentsCount from '../../organization/AgentsCount';
-import BuildsDropdown from '../../user/BuildsDropdown';
 import NewChangelogsBadge from '../../user/NewChangelogsBadge';
 import permissions from '../../../lib/permissions';
 import PusherStore from '../../../stores/PusherStore';
@@ -19,6 +18,7 @@ import CachedStateWrapper from '../../../lib/CachedStateWrapper';
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
 import SupportDialog from './support-dialog';
+import MyBuilds from './MyBuilds';
 
 class Navigation extends React.Component {
   static propTypes = {
@@ -183,7 +183,7 @@ class Navigation extends React.Component {
           </div>
           <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
         </DropdownButton>
-        <BuildsDropdown viewer={this.props.viewer} />
+        <MyBuilds viewer={this.props.viewer} />
       </Dropdown>
     );
   }
@@ -385,7 +385,7 @@ export default Relay.createContainer(
       `,
       viewer: () => Relay.QL`
         fragment on Viewer {
-          ${BuildsDropdown.getFragment('viewer')}
+          ${MyBuilds.getFragment('viewer')}
           user {
             name
             avatar {

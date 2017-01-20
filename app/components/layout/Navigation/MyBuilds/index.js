@@ -1,9 +1,9 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-import PusherStore from '../../../stores/PusherStore';
-import Button from '../../shared/Button';
-import Spinner from '../../shared/Spinner';
+import PusherStore from '../../../../stores/PusherStore';
+import Button from '../../../shared/Button';
+import Spinner from '../../../shared/Spinner';
 
 import Build from './build';
 
