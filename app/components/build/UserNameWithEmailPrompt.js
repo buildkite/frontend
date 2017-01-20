@@ -195,7 +195,7 @@ class UserNameWithEmailPrompt extends React.Component {
       message = (
         <Media.Description>
           <h1 className="h5 m0 mb1 bold">{this.props.build.createdBy.email}</h1>
-          <p className="m0">This build author’s email address couldn’t be matched to a Buildkite user. If this address belongs to you, add it to your account below to take ownership of these builds.</p>
+          <p className="m0">This build’s email could not be matched to any users in the organization. If this email address belongs to you, add it to your list of verified email addresses.</p>
         </Media.Description>
       );
       buttons = [
@@ -236,7 +236,7 @@ class UserNameWithEmailPrompt extends React.Component {
 
     if (buttons) {
       buttonContent = (
-        <Media className="mx4 mt2 my3" style={{ marginTop: -5 }}>
+        <Media className="mx4 mt2 my3">
           <Media.Image className="mr2 center" style={{ width: 32 }}>
             {loading && <Spinner />}
           </Media.Image>
@@ -254,7 +254,7 @@ class UserNameWithEmailPrompt extends React.Component {
       return (
         <div>
           <Dropdown
-            width={460}
+            width={440}
           >
             <span>
               <svg
@@ -306,8 +306,8 @@ class UserNameWithEmailPrompt extends React.Component {
                 />
               </svg>
             </span>
-            <Media align="top" className="mx4 my3">
-              <Media.Image className="mr2 center">
+            <Media align="top" className="mx4 mt3">
+              <Media.Image className="mr2 center" style={{ marginTop: 2 }}>
                 <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
                   <g transform="translate(1, 1)" fill="none" strokeWidth="2" stroke="#7EAF25">
                     <ellipse cx="15" cy="15" rx="15" ry="15" />
@@ -316,12 +316,12 @@ class UserNameWithEmailPrompt extends React.Component {
                   </g>
                 </svg>
               </Media.Image>
-              {message}
+              <span className="line-height-3">{message}</span>
             </Media>
             {buttonContent}
-            <Media className="mx4 my3">
+            <Media className="mx4 mt1 mb3">
               <Media.Image className="mr2 center" style={{ width: 32 }} />
-              <Media.Description className="dark-gray mt0"><a className="semi-bold lime hover-lime hover-underline" href="/user/emails">Personal email settings</a></Media.Description>
+              <Media.Description className="dark-gray mt0 dark-gray m0 h7">Manage your emails in your <a className="semi-bold lime hover-lime hover-underline" href="/user/emails">Personal Email Settings</a></Media.Description>
             </Media>
           </Dropdown>
           {` ${creatorIdentity}`}
