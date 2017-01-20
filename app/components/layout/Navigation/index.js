@@ -11,7 +11,6 @@ import SectionLoader from '../../shared/SectionLoader';
 import AgentsCount from '../../organization/AgentsCount';
 import NewChangelogsBadge from '../../user/NewChangelogsBadge';
 import permissions from '../../../lib/permissions';
-import PusherStore from '../../../stores/PusherStore';
 
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
@@ -98,7 +97,7 @@ class Navigation extends React.Component {
 
     return (
       <MyBuilds viewer={this.props.viewer} />
-    )
+    );
   }
 
   renderOrganizationsList() {
