@@ -15,19 +15,20 @@ import CachedStateWrapper from '../../../../lib/CachedStateWrapper';
 import Build from './build';
 import DropdownButton from './../dropdown-button';
 
-class BuildsDropdown extends React.Component {
+class MyBuilds extends React.Component {
   static propTypes = {
     viewer: React.PropTypes.object,
     relay: React.PropTypes.object.isRequired
   }
 
   state = {
-    fetching: true,
-    showing: false,
+    isDropdownVisible: false,
     scheduledBuildsCount: this.props.viewer.scheduledBuilds ? this.props.viewer.scheduledBuilds.count : 0,
     runningBuildsCount: this.props.viewer.runningBuilds ? this.props.viewer.runningBuilds.count : 0
   }
 
+  // When the MyBuilds mounts, we should see if we've got any cached
+  // builds numbers so we can show something right away.
   componentWillMount() {
     const initialState = {};
     const cachedState = this.getCachedState();
@@ -40,54 +41,42 @@ class BuildsDropdown extends React.Component {
       initialState.runningBuildsCount = cachedState.runningBuildsCount || 0;
     }
 
-    if (Object.keys(initialState).length) {
-      this.setState(initialState);
-    }
+    this.setState(initialState);
   }
 
   componentDidMount() {
     PusherStore.on("user_stats:change", this.handlePusherWebsocketEvent);
 
-    this.props.relay.forceFetch({ isMounted: true }, (readyState) => {
-      // Now that we've got the data, turn off the spinner
-      if (readyState.done) {
-        this.setState({ fetching: false });
-      }
-    });
+    // Now that "My Builds" has been mounted on the page, we should force a
+    // refetch of the latest `scheduledBuilds` and `runningBuilds` counts from
+    // GraphQL.
+    this.props.relay.forceFetch({ isMounted: true });
   }
 
   componentWillUnmount() {
     PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent);
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  // As we get new values for scheduledBuildsCount and runningBuildsCount from
+  // Relay + GraphQL, we'll be sure to update the cached state with the latest
+  // values so when the page re-loads, we can show the latest numbers.
+  componentWillReceiveProps(nextProps) {
     if (nextProps.viewer.scheduledBuilds || nextProps.viewer.runningBuilds) {
       this.setCachedState({
         scheduledBuildsCount: nextProps.viewer.scheduledBuilds.count,
         runningBuildsCount: nextProps.viewer.runningBuilds.count
       });
     }
-  };
+  }
 
   render() {
-    const buildsCount = this.state.runningBuildsCount + this.state.scheduledBuildsCount;
-    let badge;
-
-    if (buildsCount) {
-      badge = (
-        <Badge className={classNames("hover-lime-child", { "bg-lime": this.state.showingDropdown })}>
-          {buildsCount}
-        </Badge>
-      );
-    }
-
     return (
-      <Dropdown width={320} className="flex" onToggle={this.handleBuildsDropdownToggle}>
-        <DropdownButton className={classNames("py0", { "lime": this.state.showingDropdown })}>
+      <Dropdown width={320} className="flex" onToggle={this.handleDropdownToggle}>
+        <DropdownButton className={classNames("py0", { "lime": this.state.isDropdownVisible })}>
           {'My Builds '}
           <div className="xs-hide">
             <ReactCSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
-              {badge}
+              {this.renderBadge()}
             </ReactCSSTransitionGroup>
           </div>
           <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
@@ -98,10 +87,29 @@ class BuildsDropdown extends React.Component {
     );
   }
 
+  renderBadge() {
+    const buildsCount = this.state.runningBuildsCount + this.state.scheduledBuildsCount;
+
+    // Only render the badge if we've actually got a number to show
+    if (buildsCount) {
+      return (
+        <Badge className={classNames("hover-lime-child", { "bg-lime": this.state.isDropdownVisible })}>
+          {buildsCount}
+        </Badge>
+      );
+    }
+  }
+
   renderDropdown() {
-    if (this.state.fetching) {
+    // If `builds` here is null, that means that Relay hasn't fetched the data
+    // for it yet. It will become an Array once it's loaded.
+    if (!this.props.viewer.user.builds) {
       return this.renderSpinner();
-    } else if (this.props.viewer.user.builds.edges.length > 0) {
+    }
+
+    // Once we've got an array of builds, we either show what we have, or the
+    // setup instructions.
+    if (this.props.viewer.user.builds.edges.length > 0) {
       return this.renderBuilds();
     } else {
       return this.renderSetupInstructions();
@@ -138,41 +146,43 @@ class BuildsDropdown extends React.Component {
     );
   }
 
-  handleBuildsDropdownToggle = (visible) => {
-    this.setState({ showingDropdown: visible });
+  handleDropdownToggle = (visible) => {
+    this.setState({ isDropdownVisible: visible });
   };
 
+  // When we recieve a Pusher event, check to see if the build counts have
+  // changed (meaning a new build has probably started or finished). In that
+  // case, we'll perform a full refersh of the My Builds data (including new
+  // numbers for the nav and the builds themselves).
+  //
+  // We don't use the data from the payload otherwise the UI would update, and
+  // then the builds would update a few moments later when the GraphQL query
+  // finishes, which would be a bit weird.
   handlePusherWebsocketEvent = (payload) => {
-    // Only do a relay update of the builds count changes
-    if (this._buildsCount !== payload.buildsCount) {
+    const scheduledBuildsCountChanged = this.state.scheduledBuildsCount != payload.scheduledBuildsCount;
+    const runningBuildsCountChanged = this.state.runningBuildsCount != payload.runningBuildsCount;
+
+    if(scheduledBuildsCountChanged || runningBuildsCountChanged) {
       this.props.relay.forceFetch();
     }
-
-    // Save the new builds count
-    this._buildsCount = payload.buildsCount;
-
-    this.setCachedState({
-      scheduledBuildsCount: payload.scheduledBuildsCount,
-      runningBuildsCount: payload.runningBuildsCount
-    });
   };
 }
 
-export default Relay.createContainer(
-  CachedStateWrapper(
-    BuildsDropdown,
-    { validLength: 1::hour }
-  ),
-  {
-    initialVariables: {
-      isMounted: false
-    },
+// Wrap the MyBuilds in a CachedStateWrapper so we get access to methods
+// like `setCachedState`
+const CachedMyBuilds = CachedStateWrapper(MyBuilds, { validLength: 1::hour })
 
-    fragments: {
-      viewer: () => Relay.QL`
+export default Relay.createContainer(CachedMyBuilds, {
+  initialVariables: {
+    isMounted: false,
+    includeBuilds: false
+  },
+
+  fragments: {
+    viewer: () => Relay.QL`
       fragment on Viewer {
         user {
-          builds(first: 5) @include(if: $isMounted) {
+          builds(first: 5) @include(if: $includeBuilds) {
             edges {
               node {
                 id
@@ -189,6 +199,5 @@ export default Relay.createContainer(
         }
       }
     `
-    }
   }
-);
+});
