@@ -73,7 +73,7 @@ class MyBuilds extends React.Component {
   render() {
     return (
       <Dropdown width={320} className="flex" onToggle={this.handleDropdownToggle}>
-        <DropdownButton className={classNames("py0", { "lime": this.state.isDropdownVisible })}>
+        <DropdownButton className={classNames("py0", { "lime": this.state.isDropdownVisible })} onMouseEnter={this.handleButtonMouseEnter}>
           {'My Builds '}
           <div className="xs-hide">
             <ReactCSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
@@ -148,6 +148,13 @@ class MyBuilds extends React.Component {
   }
 
   handleDropdownToggle = (visible) => {
+    // If `includeBuilds` hasn't been set to `true` yet (perhaps the mouseEnter
+    // event never got triggered because we're on a mobile device) trigger a
+    // load of the builds as the dropdown opens.
+    if(!this.props.relay.variables.includeBuilds) {
+      this.props.relay.forceFetch({ includeBuilds: true });
+    }
+
     this.setState({ isDropdownVisible: visible });
   };
 
@@ -156,6 +163,14 @@ class MyBuilds extends React.Component {
     // connected, we should force a refetch of the latest `scheduledBuilds` and
     // `runningBuilds` counts from GraphQL.
     this.props.relay.forceFetch({ includeBuildCounts: true });
+  };
+
+  // If the user is hovering over the "My Builds" button, be sneaky and start
+  // loading the build data in the background.
+  handleButtonMouseEnter = () => {
+    if(!this.props.relay.variables.includeBuilds) {
+      this.props.relay.forceFetch({ includeBuilds: true });
+    }
   };
 
   // When we recieve a Pusher event, check to see if the build counts have
@@ -182,8 +197,8 @@ const CachedMyBuilds = CachedStateWrapper(MyBuilds, { validLength: 1::hour })
 
 export default Relay.createContainer(CachedMyBuilds, {
   initialVariables: {
-    includeBuildCounts: false,
-    includeBuilds: false
+    includeBuilds: false,
+    includeBuildCounts: false
   },
 
   fragments: {
