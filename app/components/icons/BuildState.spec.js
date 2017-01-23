@@ -12,7 +12,9 @@ const BUILD_STATES = [
   'passed',
   'blocked',
   'failed',
-  'canceled'
+  'canceled',
+  'skipped',
+  'not_run'
 ];
 
 describe('BuildState', () => {
