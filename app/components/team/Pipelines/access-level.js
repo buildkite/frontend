@@ -1,7 +1,6 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import Spinner from '../../shared/Spinner';
 import Chooser from '../../shared/Chooser';
 import Dropdown from '../../shared/Dropdown';
 
@@ -25,84 +24,48 @@ class AccessLevel extends React.Component {
   }
 
   render() {
-    let label;
-    let nibOffset;
-
-    switch (this.props.teamPipeline.accessLevel) {
-      case MANAGE_BUILD_AND_READ:
-        label = "Full Access";
-        nibOffset = 10;
-        break;
-
-      case BUILD_AND_READ:
-        label = "Build & Read";
-        nibOffset = 3;
-        break;
-
-      case READ_ONLY:
-        label = "Read Only";
-        nibOffset = 13;
-        break;
-    }
+    const saving = this.props.saving;
+    const selected = this.props.teamPipeline.accessLevel;
 
     return (
-      <Dropdown width={270} nibOffset={nibOffset}>
-        <div style={{ width: 90 }} className="right-align">
-          <div className="underline-dotted cursor-pointer inline-block regular">{label}</div>
-        </div>
+      <Dropdown width={270}>
+        <div className="underline-dotted cursor-pointer inline-block regular">{this.label(selected)}</div>
 
-        <Chooser selected={this.props.teamPipeline.accessLevel} onSelect={this.props.onAccessLevelChange}>
-          <Chooser.Option value={MANAGE_BUILD_AND_READ} className="btn block hover-bg-silver">
-            <div className="flex items-top">
-              <div className="flex-none">{this.renderIcon(MANAGE_BUILD_AND_READ)}</div>
-              <div>
-                <span className="semi-bold block">Full Access</span>
-                <small className="regular dark-gray">Members can edit pipeline settings, view builds and create builds</small>
-              </div>
-            </div>
-          </Chooser.Option>
-
-          <Chooser.Option value={BUILD_AND_READ} className="btn block hover-bg-silver">
-            <div className="flex items-top">
-              <div className="flex-none">{this.renderIcon(BUILD_AND_READ)}</div>
-              <div>
-                <span className="semi-bold block">Build &amp; Read</span>
-                <small className="regular dark-gray">Members can view builds and create builds</small>
-              </div>
-            </div>
-          </Chooser.Option>
-
-          <Chooser.Option value={READ_ONLY} className="btn block hover-bg-silver">
-            <div className="flex items-top">
-              <div className="flex-none">{this.renderIcon(READ_ONLY)}</div>
-              <div>
-                <span className="semi-bold block">Read Only</span>
-                <small className="regular dark-gray">Members can only view builds</small>
-              </div>
-            </div>
-          </Chooser.Option>
+        <Chooser selected={selected} onSelect={this.props.onAccessLevelChange}>
+          <Chooser.SelectOption
+            value={MANAGE_BUILD_AND_READ}
+            saving={saving === MANAGE_BUILD_AND_READ}
+            selected={selected === MANAGE_BUILD_AND_READ}
+            label={this.label(MANAGE_BUILD_AND_READ)}
+            description="Members can edit pipeline settings, view builds and create builds"
+          />
+          <Chooser.SelectOption
+            value={BUILD_AND_READ}
+            saving={saving === BUILD_AND_READ}
+            selected={selected === BUILD_AND_READ}
+            label={this.label(BUILD_AND_READ)}
+            description="Members can view builds and create builds"
+          />
+          <Chooser.SelectOption
+            value={READ_ONLY}
+            label={this.label(READ_ONLY)}
+            saving={saving === READ_ONLY}
+            selected={selected === READ_ONLY}
+            description="Members can only view builds"
+          />
         </Chooser>
       </Dropdown>
     );
   }
 
-  renderIcon(accessLevel) {
-    const width = 25;
-
-    if (this.props.saving === accessLevel) {
-      return (
-        <div style={{ width: width }}>
-          <Spinner className="fit absolute" size={16} style={{ marginTop: 3 }} color={false} />
-        </div>
-      );
-    } else if (this.props.teamPipeline.accessLevel === accessLevel) {
-      return (
-        <div className="green" style={{ fontSize: 16, width: width }}>✔</div>
-      );
-    } else {
-      return (
-        <div className="gray" style={{ fontSize: 16, width: width }}>✔</div>
-      );
+  label(value) {
+    switch (value) {
+      case MANAGE_BUILD_AND_READ:
+        return "Full Access";
+      case BUILD_AND_READ:
+        return "Build & Read";
+      case READ_ONLY:
+        return "Read Only";
     }
   }
 }

@@ -1,6 +1,7 @@
 import React from "react";
 
 import Option from "./option";
+import SelectOption from "./select-option";
 
 class Chooser extends React.Component {
   static propTypes = {
@@ -43,5 +44,6 @@ class Chooser extends React.Component {
 }
 
 Chooser.Option = Option;
+Chooser.SelectOption = SelectOption;
 
 export default Chooser;
