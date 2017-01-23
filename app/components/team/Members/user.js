@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import Media from "../../shared/Media";
 import UserAvatar from "../../shared/UserAvatar";
 
 class User extends React.Component {
@@ -31,15 +30,15 @@ class User extends React.Component {
     });
 
     return (
-      <Media>
-        <Media.Image className="icon-mr" style={{ width: 39, height: 39 }} >
+      <div className="flex">
+        <div className="flex-none icon-mr" style={{ width: 39, height: 39 }} >
           <UserAvatar user={this.props.user} className="fit" />
-        </Media.Image>
-        <Media.Description>
+        </div>
+        <div>
           <strong className="semi-bold block">{this.props.user.name}</strong>
           <small className={emailTextClass}>{this.props.user.email}</small>
-        </Media.Description>
-      </Media>
+        </div>
+      </div>
     );
   }
 }
