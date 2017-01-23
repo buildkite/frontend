@@ -3,7 +3,6 @@ import shallowCompare from 'react-addons-shallow-compare';
 
 import Spinner from '../../shared/Spinner';
 import Chooser from '../../shared/Chooser';
-import Media from '../../shared/Media';
 import Dropdown from '../../shared/Dropdown';
 
 class MemberRole extends React.Component {
@@ -34,23 +33,23 @@ class MemberRole extends React.Component {
 
         <Chooser selected={role} onSelect={this.props.onRoleChange}>
           <Chooser.Option value="admin" className="btn block hover-bg-silver">
-            <Media align="top">
-              <Media.Image>{this.renderIcon(role, "admin")}</Media.Image>
-              <Media.Description>
+            <div className="flex items-top">
+              <div className="flex-none">{this.renderIcon(role, "admin")}</div>
+              <div>
                 <span className="semi-bold block">Team Admin</span>
                 <small className="regular dark-gray">Manage members and pipelines with unrestricted access</small>
-              </Media.Description>
-            </Media>
+              </div>
+            </div>
           </Chooser.Option>
 
           <Chooser.Option value="member" className="btn block hover-bg-silver">
-            <Media align="top">
-              <Media.Image>{this.renderIcon(role, "member")}</Media.Image>
-              <Media.Description>
+            <div className="flex items-top">
+              <div className="flex-none">{this.renderIcon(role, "member")}</div>
+              <div>
                 <span className="semi-bold block">Member</span>
                 <small className="regular dark-gray">Create and access pipelines based on each pipeline’s permissions</small>
-              </Media.Description>
-            </Media>
+              </div>
+            </div>
           </Chooser.Option>
         </Chooser>
       </Dropdown>
