@@ -20,6 +20,10 @@ const SCHEDULED_COLOR = "#BBB";
 const SCHEDULED_COLOR_HOVER = "#888";
 const PENDING_COLOR = "#DDD";
 const PENDING_COLOR_HOVER = "#DDD";
+const SKIPPED_COLOR = "#83B0E4";
+const SKIPPED_COLOR_HOVER = "#3769A2";
+const NOT_RUN_COLOR = "#83B0E4";
+const NOT_RUN_COLOR_HOVER = "#3769A2";
 
 class Graph extends React.Component {
   static propTypes = {
@@ -146,6 +150,10 @@ class Graph extends React.Component {
       return RUNNING_COLOR;
     } else if (build.state === "passed" || build.state === "blocked") {
       return PASSED_COLOR;
+    } else if (build.state === "skipped") {
+      return SKIPPED_COLOR;
+    } else if (build.state === "not_run") {
+      return NOT_RUN_COLOR;
     } else {
       return FAILED_COLOR;
     }
@@ -158,6 +166,10 @@ class Graph extends React.Component {
       return RUNNING_COLOR_HOVER;
     } else if (build.state === "passed" || build.state === "blocked") {
       return PASSED_COLOR_HOVER;
+    } else if (build.state === "skipped") {
+      return SKIPPED_COLOR_HOVER;
+    } else if (build.state === "not_run") {
+      return NOT_RUN_COLOR_HOVER;
     } else {
       return FAILED_COLOR_HOVER;
     }
