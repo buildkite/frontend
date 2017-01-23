@@ -24,7 +24,8 @@ const STATE_COLORS = {
   passed: '#90c73e',
   blocked: '#90c73e',
   failed: '#F83F23',
-  canceled: '#F83F23'
+  canceled: '#F83F23',
+  canceling: '#F83F23'
 };
 
 class BuildState extends React.Component {
@@ -130,6 +131,7 @@ class BuildState extends React.Component {
 
       case 'scheduled':
       case 'running':
+      case 'canceling':
         defs = (
           <mask id={maskId} x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
             <polygon
