@@ -22,8 +22,8 @@ const PENDING_COLOR = "#DDD";
 const PENDING_COLOR_HOVER = "#DDD";
 const SKIPPED_COLOR = "#83B0E4";
 const SKIPPED_COLOR_HOVER = "#3769A2";
-const NOT_RUN_COLOR = "#83B0E4";
-const NOT_RUN_COLOR_HOVER = "#3769A2";
+const NOT_RUN_COLOR = SKIPPED_COLOR;
+const NOT_RUN_COLOR_HOVER = SKIPPED_COLOR_HOVER;
 
 class Graph extends React.Component {
   static propTypes = {
