@@ -73,10 +73,21 @@ class UserNameWithEmailPrompt extends React.Component {
     const { createdBy } = this.props.build;
 
     if (createdBy && createdBy.email && !this.isCurrentUsersValidatedEmail(createdBy.email)) {
-      this.props.relay.setVariables({
-        isTryingToPrompt: true,
-        emailForPrompt: createdBy.email.toLowerCase()
-      });
+      this.props.relay.setVariables(
+        {
+          isTryingToPrompt: true,
+          emailForPrompt: createdBy.email.toLowerCase()
+        },
+        (readyState) => {
+          if (readyState.done) {
+            setTimeout(() => {
+              if (this._dropdown) {
+                this._dropdown.setShowing(true);
+              }
+            }, 0);
+          }
+        }
+      );
     }
   }
 
@@ -254,6 +265,7 @@ class UserNameWithEmailPrompt extends React.Component {
         <div>
           <Dropdown
             width={440}
+            ref={(dropdown) => this._dropdown = dropdown}
           >
             <span>
               <svg
