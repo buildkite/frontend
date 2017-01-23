@@ -3,7 +3,6 @@ import shallowCompare from 'react-addons-shallow-compare';
 
 import Spinner from '../../shared/Spinner';
 import Chooser from '../../shared/Chooser';
-import Media from '../../shared/Media';
 import Dropdown from '../../shared/Dropdown';
 
 const MANAGE_BUILD_AND_READ = "PIPELINE_ACCESS_LEVEL_MANAGE_BUILD_AND_READ";
@@ -54,33 +53,33 @@ class AccessLevel extends React.Component {
 
         <Chooser selected={this.props.teamPipeline.accessLevel} onSelect={this.props.onAccessLevelChange}>
           <Chooser.Option value={MANAGE_BUILD_AND_READ} className="btn block hover-bg-silver">
-            <Media align="top">
-              <Media.Image>{this.renderIcon(MANAGE_BUILD_AND_READ)}</Media.Image>
-              <Media.Description>
+            <div className="flex items-top">
+              <div className="flex-none">{this.renderIcon(MANAGE_BUILD_AND_READ)}</div>
+              <div>
                 <span className="semi-bold block">Full Access</span>
                 <small className="regular dark-gray">Members can edit pipeline settings, view builds and create builds</small>
-              </Media.Description>
-            </Media>
+              </div>
+            </div>
           </Chooser.Option>
 
           <Chooser.Option value={BUILD_AND_READ} className="btn block hover-bg-silver">
-            <Media align="top">
-              <Media.Image>{this.renderIcon(BUILD_AND_READ)}</Media.Image>
-              <Media.Description>
+            <div className="flex items-top">
+              <div className="flex-none">{this.renderIcon(BUILD_AND_READ)}</div>
+              <div>
                 <span className="semi-bold block">Build &amp; Read</span>
                 <small className="regular dark-gray">Members can view builds and create builds</small>
-              </Media.Description>
-            </Media>
+              </div>
+            </div>
           </Chooser.Option>
 
           <Chooser.Option value={READ_ONLY} className="btn block hover-bg-silver">
-            <Media align="top">
-              <Media.Image>{this.renderIcon(READ_ONLY)}</Media.Image>
-              <Media.Description>
+            <div className="flex items-top">
+              <div className="flex-none">{this.renderIcon(READ_ONLY)}</div>
+              <div>
                 <span className="semi-bold block">Read Only</span>
                 <small className="regular dark-gray">Members can only view builds</small>
-              </Media.Description>
-            </Media>
+              </div>
+            </div>
           </Chooser.Option>
         </Chooser>
       </Dropdown>
