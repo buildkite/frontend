@@ -24,7 +24,10 @@ const STATE_COLORS = {
   passed: '#90c73e',
   blocked: '#90c73e',
   failed: '#F83F23',
-  canceled: '#F83F23'
+  canceled: '#F83F23',
+  canceling: '#F83F23',
+  skipped: '#83B0E4',
+  not_run: '#83B0E4'
 };
 
 class BuildState extends React.Component {
@@ -130,6 +133,7 @@ class BuildState extends React.Component {
 
       case 'scheduled':
       case 'running':
+      case 'canceling':
         defs = (
           <mask id={maskId} x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
             <polygon
@@ -148,6 +152,8 @@ class BuildState extends React.Component {
         break;
 
       case 'pending':
+      case 'skipped':
+      case 'not_run':
         content = (
           <path d="M11,16H21" fill="none" {...applyStroke} />
         );

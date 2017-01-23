@@ -111,6 +111,39 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`faile
 </svg>
 `;
 
+exports[`BuildState BuildState.Regular renders correctly for build state \`not_run\` 1`] = `
+<svg
+  className={undefined}
+  height={32}
+  style={undefined}
+  viewBox="0 0 32 32"
+  width={32}>
+  <defs>
+    <circle
+      cx="16"
+      cy="16"
+      fill="none"
+      id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle"
+      r="15"
+      stroke="#83B0E4"
+      strokeWidth={4} />
+    <clipPath
+      id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath">
+      <use
+        xlinkHref="#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle" />
+    </clipPath>
+  </defs>
+  <use
+    clipPath="url(#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath)"
+    xlinkHref="#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle" />
+  <path
+    d="M11,16H21"
+    fill="none"
+    stroke="#83B0E4"
+    strokeWidth={2} />
+</svg>
+`;
+
 exports[`BuildState BuildState.Regular renders correctly for build state \`passed\` 1`] = `
 <svg
   className={undefined}
@@ -288,6 +321,39 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`sched
 </svg>
 `;
 
+exports[`BuildState BuildState.Regular renders correctly for build state \`skipped\` 1`] = `
+<svg
+  className={undefined}
+  height={32}
+  style={undefined}
+  viewBox="0 0 32 32"
+  width={32}>
+  <defs>
+    <circle
+      cx="16"
+      cy="16"
+      fill="none"
+      id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle"
+      r="15"
+      stroke="#83B0E4"
+      strokeWidth={4} />
+    <clipPath
+      id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath">
+      <use
+        xlinkHref="#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle" />
+    </clipPath>
+  </defs>
+  <use
+    clipPath="url(#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath)"
+    xlinkHref="#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle" />
+  <path
+    d="M11,16H21"
+    fill="none"
+    stroke="#83B0E4"
+    strokeWidth={2} />
+</svg>
+`;
+
 exports[`BuildState BuildState.Small renders correctly for build state \`blocked\` 1`] = `
 <svg
   className={undefined}
@@ -398,6 +464,39 @@ exports[`BuildState BuildState.Small renders correctly for build state \`failed\
     <path
       d="M11.3997245,0.600275489 L0.600275489,11.3997245" />
   </g>
+</svg>
+`;
+
+exports[`BuildState BuildState.Small renders correctly for build state \`not_run\` 1`] = `
+<svg
+  className={undefined}
+  height={20}
+  style={undefined}
+  viewBox="0 0 32 32"
+  width={20}>
+  <defs>
+    <circle
+      cx="16"
+      cy="16"
+      fill="none"
+      id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle"
+      r="15"
+      stroke="#83B0E4"
+      strokeWidth={6} />
+    <clipPath
+      id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath">
+      <use
+        xlinkHref="#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle" />
+    </clipPath>
+  </defs>
+  <use
+    clipPath="url(#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath)"
+    xlinkHref="#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle" />
+  <path
+    d="M11,16H21"
+    fill="none"
+    stroke="#83B0E4"
+    strokeWidth={3} />
 </svg>
 `;
 
@@ -578,6 +677,39 @@ exports[`BuildState BuildState.Small renders correctly for build state \`schedul
 </svg>
 `;
 
+exports[`BuildState BuildState.Small renders correctly for build state \`skipped\` 1`] = `
+<svg
+  className={undefined}
+  height={20}
+  style={undefined}
+  viewBox="0 0 32 32"
+  width={20}>
+  <defs>
+    <circle
+      cx="16"
+      cy="16"
+      fill="none"
+      id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle"
+      r="15"
+      stroke="#83B0E4"
+      strokeWidth={6} />
+    <clipPath
+      id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath">
+      <use
+        xlinkHref="#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle" />
+    </clipPath>
+  </defs>
+  <use
+    clipPath="url(#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath)"
+    xlinkHref="#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle" />
+  <path
+    d="M11,16H21"
+    fill="none"
+    stroke="#83B0E4"
+    strokeWidth={3} />
+</svg>
+`;
+
 exports[`BuildState BuildState.XSmall renders correctly for build state \`blocked\` 1`] = `
 <svg
   className={undefined}
@@ -688,6 +820,39 @@ exports[`BuildState BuildState.XSmall renders correctly for build state \`failed
     <path
       d="M11.3997245,0.600275489 L0.600275489,11.3997245" />
   </g>
+</svg>
+`;
+
+exports[`BuildState BuildState.XSmall renders correctly for build state \`not_run\` 1`] = `
+<svg
+  className={undefined}
+  height={13}
+  style={undefined}
+  viewBox="0 0 32 32"
+  width={13}>
+  <defs>
+    <circle
+      cx="16"
+      cy="16"
+      fill="none"
+      id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle"
+      r="15"
+      stroke="#83B0E4"
+      strokeWidth={8} />
+    <clipPath
+      id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath">
+      <use
+        xlinkHref="#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle" />
+    </clipPath>
+  </defs>
+  <use
+    clipPath="url(#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath)"
+    xlinkHref="#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle" />
+  <path
+    d="M11,16H21"
+    fill="none"
+    stroke="#83B0E4"
+    strokeWidth={4} />
 </svg>
 `;
 
@@ -865,6 +1030,39 @@ exports[`BuildState BuildState.XSmall renders correctly for build state \`schedu
       stroke="#bbbbbb"
       strokeWidth={4} />
   </g>
+</svg>
+`;
+
+exports[`BuildState BuildState.XSmall renders correctly for build state \`skipped\` 1`] = `
+<svg
+  className={undefined}
+  height={13}
+  style={undefined}
+  viewBox="0 0 32 32"
+  width={13}>
+  <defs>
+    <circle
+      cx="16"
+      cy="16"
+      fill="none"
+      id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle"
+      r="15"
+      stroke="#83B0E4"
+      strokeWidth={8} />
+    <clipPath
+      id="BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath">
+      <use
+        xlinkHref="#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle" />
+    </clipPath>
+  </defs>
+  <use
+    clipPath="url(#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_strokeClipPath)"
+    xlinkHref="#BuildState_NORMALLY-UUID-GOES-HERE-BUTNEVERMIND_circle" />
+  <path
+    d="M11,16H21"
+    fill="none"
+    stroke="#83B0E4"
+    strokeWidth={4} />
 </svg>
 `;
 
