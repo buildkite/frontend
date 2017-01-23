@@ -25,7 +25,9 @@ const STATE_COLORS = {
   blocked: '#90c73e',
   failed: '#F83F23',
   canceled: '#F83F23',
-  canceling: '#F83F23'
+  canceling: '#F83F23',
+  skipped: '#83B0E4',
+  not_run: '#83B0E4'
 };
 
 class BuildState extends React.Component {
@@ -150,6 +152,8 @@ class BuildState extends React.Component {
         break;
 
       case 'pending':
+      case 'skipped':
+      case 'not_run':
         content = (
           <path d="M11,16H21" fill="none" {...applyStroke} />
         );
