@@ -3,7 +3,6 @@ import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import Dropdown from '../shared/Dropdown';
-import Media from '../shared/Media';
 import Spinner from '../shared/Spinner';
 
 import FlashesStore from '../../stores/FlashesStore';
@@ -178,25 +177,25 @@ class UserNameWithEmailPrompt extends React.Component {
       }
 
       message = (
-        <Media.Description>
+        <div>
           Almost done! <strong>Click the verification link</strong> we’ve sent to {email} to finish adding this email to your account.
-        </Media.Description>
+        </div>
       );
 
       if (isSendingVerification || !hasSentSomething) {
         message = (
-          <Media.Description>
+          <div>
             Verify this email to finish adding it to your account and take ownership of this build.
-          </Media.Description>
+          </div>
         );
       }
     } else {
       // Otherwise, we've got an unknown (to Buildkite) email address on our hands!
       message = (
-        <Media.Description>
+        <div>
           <h1 className="h5 m0 mb1 bold">{this.props.build.createdBy.email}</h1>
           <p className="m0">This build’s email could not be matched to any users in the organization. If this email address belongs to you, add it to your list of verified email addresses.</p>
-        </Media.Description>
+        </div>
       );
       buttons = [
         <button
@@ -236,17 +235,17 @@ class UserNameWithEmailPrompt extends React.Component {
 
     if (buttons) {
       buttonContent = (
-        <Media className="mx4 mt2 my3">
-          <Media.Image className="mr2 center" style={{ width: 32 }}>
+        <div className="mx4 mt2 my3">
+          <div className="no-flex mr2 center" style={{ width: 32 }}>
             {loading && <Spinner />}
-          </Media.Image>
-          <Media.Description
+          </div>
+          <div
             className="flex flex-auto flex-wrap"
             style={{ margin: -5 }}
           >
             {buttons}
-          </Media.Description>
-        </Media>
+          </div>
+        </div>
       );
     }
 
@@ -306,8 +305,8 @@ class UserNameWithEmailPrompt extends React.Component {
                 />
               </svg>
             </span>
-            <Media align="top" className="mx4 mt3">
-              <Media.Image className="mr2 center" style={{ marginTop: 2 }}>
+            <div className="flex items-top mx4 mt3">
+              <div className="no-flex mr2 center" style={{ marginTop: 2 }}>
                 <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
                   <g transform="translate(1, 1)" fill="none" strokeWidth="2" stroke="#7EAF25">
                     <ellipse cx="15" cy="15" rx="15" ry="15" />
@@ -315,14 +314,14 @@ class UserNameWithEmailPrompt extends React.Component {
                     <polyline points="7 9 15 15 23 9.00146484" />
                   </g>
                 </svg>
-              </Media.Image>
+              </div>
               <span className="line-height-3">{message}</span>
-            </Media>
+            </div>
             {buttonContent}
-            <Media className="mx4 mt1 mb3">
-              <Media.Image className="mr2 center" style={{ width: 32 }} />
-              <Media.Description className="dark-gray mt0 dark-gray m0 h7">Manage your emails in your <a className="semi-bold lime hover-lime hover-underline" href="/user/emails">Personal Email Settings</a></Media.Description>
-            </Media>
+            <div className="mx4 mt1 mb3">
+              <div className="no-flex mr2 center" style={{ width: 32 }} />
+              <div className="dark-gray mt0 dark-gray m0 h7">Manage your emails in your <a className="semi-bold lime hover-lime hover-underline" href="/user/emails">Personal Email Settings</a></div>
+            </div>
           </Dropdown>
           {` ${creatorIdentity}`}
         </div>
