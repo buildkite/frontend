@@ -5,7 +5,6 @@ import shallowCompare from 'react-addons-shallow-compare';
 import BuildStatusDescription from '../../shared/BuildStatusDescription';
 import Duration from '../../shared/Duration';
 import Emojify from '../../shared/Emojify';
-import Media from '../../shared/Media';
 import UserAvatar from '../../shared/UserAvatar';
 
 import { buildTime } from '../../../lib/builds';
@@ -33,22 +32,22 @@ class BuildTooltip extends React.Component {
 
   render() {
     return (
-      <Media align="top" className="mx2 my1">
-        <Media.Image className="mr2 center" style={{ width: 30 }} >
-          <UserAvatar user={this.props.build.createdBy} className="block fit" />
+      <div className="flex items-top mx2 my1">
+        <div className="no-flex mr2 center">
+          <UserAvatar user={this.props.build.createdBy} className="block" style={{ width: 30, height: 30 }} />
           <small className="dark-gray">
             <Duration.Micro {...buildTime(this.props.build)} tabularNumerals={false} />
           </small>
-        </Media.Image>
-        <Media.Description className="flex-auto line-height-2">
+        </div>
+        <div className="flex-auto line-height-2">
           <span className="block line-height-3 overflow-hidden overflow-ellipsis">
             <Emojify className="semi-bold" text={shortMessage(this.props.build.message)} /> <span className="dark-gray">{shortCommit(this.props.build.commit)}</span>
           </span>
           <small className="dark-gray">
             <BuildStatusDescription build={this.props.build} updateFrequency={0} />
           </small>
-        </Media.Description>
-      </Media>
+        </div>
+      </div>
     );
   }
 }
