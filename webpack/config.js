@@ -51,6 +51,7 @@ var plugins = [
     minChunks: 2
   }),
 
+
   // After Webpack compilation, spit out a 'manifest.json' file with a mapping
   // of file name, to compiled name.
   new AssetsPlugin({
@@ -159,6 +160,7 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
+              ident: 'postcss',
               plugins: function() {
                 return [
                   require("postcss-import")(),
