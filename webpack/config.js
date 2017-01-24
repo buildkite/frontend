@@ -154,27 +154,38 @@ module.exports = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/i,
-        loader: "style-loader!css-loader!postcss-loader"
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader'
+        ]
       },
       {
         test: /\.js$/i,
-        loader: 'babel',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: [
+          'babel'
+        ]
       },
       {
         test: /\.mdx$/i,
-        loader: 'babel-loader!markdown-component-loader?passElementProps=true'
+        use: [
+          'babel-loader',
+          'markdown-component-loader?passElementProps=true'
+        ]
       },
       {
         test: /\.(woff)$/i,
-        loader: 'url-loader?limit=8192'
+        use: [
+          'url-loader?limit=8192'
+        ]
       },
       {
         test: /\.(png|svg|jpg|gif)$/i,
-        loaders: [
+        use: [
           'url-loader?limit=8192',
           'image-webpack?optimizationLevel=7&interlaced=false'
         ]
