@@ -176,7 +176,7 @@ module.exports = {
         test: /\.js$/i,
         exclude: /node_modules/,
         use: [
-          'babel'
+          'babel-loader'
         ]
       },
       {
@@ -196,7 +196,7 @@ module.exports = {
         test: /\.(png|svg|jpg|gif)$/i,
         use: [
           { loader: 'url-loader', options: { limit: 8192 } },
-          { loader: 'image-webpack', options: { optimizationLevel: 7, interlaced: false } }
+          { loader: 'image-webpack-loader', options: { optimizationLevel: 7, interlaced: false } }
         ]
       }
     ]
