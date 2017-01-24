@@ -154,8 +154,8 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          'style-loader',
-          'css-loader',
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
           {
             loader: 'postcss-loader',
             options: {
@@ -176,13 +176,13 @@ module.exports = {
         test: /\.js$/i,
         exclude: /node_modules/,
         use: [
-          'babel-loader'
+          { loader: 'babel-loader' }
         ]
       },
       {
         test: /\.mdx$/i,
         use: [
-          'babel-loader',
+          { loader: 'babel-loader' },
           { loader: 'markdown-component-loader', options: { passElementProps: true } }
         ]
       },
