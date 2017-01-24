@@ -170,20 +170,20 @@ module.exports = {
         test: /\.mdx$/i,
         use: [
           'babel-loader',
-          'markdown-component-loader?passElementProps=true'
+          'markdown-component-loader?' + JSON.stringify({ passElementProps: true })
         ]
       },
       {
         test: /\.(woff)$/i,
         use: [
-          'url-loader?limit=8192'
+          'url-loader?' + JSON.stringify({ limit: 8192 })
         ]
       },
       {
         test: /\.(png|svg|jpg|gif)$/i,
         use: [
-          'url-loader?limit=8192',
-          'image-webpack?optimizationLevel=7&interlaced=false'
+          'url-loader?' + JSON.stringify({ limit: 8192 }),
+          'image-webpack?' + JSON.stringify({ optimizationLevel: 7, interlaced: false })
         ]
       }
     ]
