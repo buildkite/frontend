@@ -110,10 +110,6 @@ var vendor_modules = [
 
 // If we're building for production, minify the JS
 if (IS_PRODUCTION) {
-  // Need this plugin to ensure consistent module ordering so we can have
-  // determenistic filename hashes
-  plugins.push(new webpack.optimize.OccurenceOrderPlugin(true));
-
   // Don't pack react-type-snob in production
   plugins.push(new webpack.IgnorePlugin(/^react-type-snob$/));
 
