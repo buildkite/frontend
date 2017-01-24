@@ -3149,9 +3149,9 @@ html-encoding-sniffer@^1.0.1:
     inherits "^2.0.1"
     readable-stream "^2.0.2"
 
-"htmltojsx@git+https://github.com/reactjs/react-magic.git#e63dabeefb87d4ce1e74ac2ddb73b0164c344219":
+"htmltojsx@https://github.com/reactjs/react-magic#e63dabeefb87d4ce1e74ac2ddb73b0164c344219":
   version "0.2.6-dev"
-  resolved "git+https://github.com/reactjs/react-magic.git#e63dabeefb87d4ce1e74ac2ddb73b0164c344219"
+  resolved "https://github.com/reactjs/react-magic#e63dabeefb87d4ce1e74ac2ddb73b0164c344219"
   dependencies:
     jsdom-no-contextify "~3.1.0"
     react "~0.14.6"
@@ -7045,7 +7045,7 @@ webpack-dev-server@^1.16.1:
     supports-color "^3.1.1"
     webpack-dev-middleware "^1.4.0"
 
-webpack@^1.13.2:
+webpack@^1.14.0:
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-1.14.0.tgz#54f1ffb92051a328a5b2057d6ae33c289462c823"
   dependencies:
