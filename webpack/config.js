@@ -156,7 +156,20 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader',
-          'postcss-loader'
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: function() {
+                return [
+                  require("postcss-import")(),
+                  require("postcss-cssnext")({ features: { rem: false } }),
+                  require('postcss-easings')(),
+                  require("postcss-browser-reporter")(),
+                  require("postcss-reporter")()
+                ];
+              }
+            }
+          }
         ]
       },
       {
@@ -170,39 +183,24 @@ module.exports = {
         test: /\.mdx$/i,
         use: [
           'babel-loader',
-          'markdown-component-loader?' + JSON.stringify({ passElementProps: true })
+          { loader: 'markdown-component-loader', options: { passElementProps: true } }
         ]
       },
       {
         test: /\.(woff)$/i,
         use: [
-          'url-loader?' + JSON.stringify({ limit: 8192 })
+          { loader: 'url-loader', options: { limit: 8192 } }
         ]
       },
       {
         test: /\.(png|svg|jpg|gif)$/i,
         use: [
-          'url-loader?' + JSON.stringify({ limit: 8192 }),
-          'image-webpack?' + JSON.stringify({ optimizationLevel: 7, interlaced: false })
+          { loader: 'url-loader', options: { limit: 8192 } },
+          { loader: 'image-webpack', options: { optimizationLevel: 7, interlaced: false } }
         ]
       }
     ]
   },
 
-  plugins: plugins,
-
-  postcss: function() {
-    return [
-      require("postcss-import")(),
-      // require("postcss-url")(),
-      require("postcss-cssnext")({ features: { rem: false } }),
-      require('postcss-easings')(),
-      // add your "plugins" here
-      // ...
-      // and if you want to compress,
-      // just use css-loader option that already use cssnano under the hood
-      require("postcss-browser-reporter")(),
-      require("postcss-reporter")()
-    ];
-  }
+  plugins: plugins
 };
