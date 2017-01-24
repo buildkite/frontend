@@ -41,7 +41,7 @@ var devTool = IS_PRODUCTION ? "source-map" : "cheap-module-eval-source-map";
 
 var plugins = [
   // Only add the 'whatwg-fetch' plugin if the browser doesn't support it
-  new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
+  new webpack.ProvidePlugin({ 'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch' }),
 
   // Split emojis, vendor javascript up. The loader JS doesn't have any modules
   // inside it, but since it's the last one, that's where Webpack will dump all
