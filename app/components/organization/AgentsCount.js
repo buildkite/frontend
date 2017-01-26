@@ -28,12 +28,10 @@ class AgentsCount extends React.Component {
   };
 
   componentDidMount() {
-    console.debug('AgentsCount didMount');
     PusherStore.on('organization_stats:change', this.handlePusherWebsocketEvent);
   }
 
   componentWillUnmount() {
-    console.debug('AgentsCount willUnmount');
     PusherStore.off('organization_stats:change', this.handlePusherWebsocketEvent);
   }
 
