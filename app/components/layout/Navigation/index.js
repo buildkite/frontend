@@ -265,12 +265,10 @@ export default Relay.createContainer(Navigation, {
   fragments: {
     organization: () => Relay.QL`
         fragment on Organization {
+          ${AgentsCount.getFragment('organization')}
           name
           id
           slug
-          agents {
-            count
-          }
           permissions {
             organizationUpdate {
               allowed
