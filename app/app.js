@@ -50,7 +50,6 @@ window["Webpack"] = {
     "components/shared/FormTextField": require("./components/shared/FormTextField").default,
     "components/shared/FriendlyTime": require("./components/shared/FriendlyTime").default,
     "components/shared/Icon": require("./components/shared/Icon").default,
-    "components/organization/AgentsCount": require("./components/organization/AgentsCount").default,
     "components/organization/SettingsMenu": require("./components/organization/SettingsMenu").default,
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
     "components/user/BuildCountsBreakdown": require("./components/user/BuildCountsBreakdown").default,
