@@ -1,10 +1,17 @@
 import React from 'react';
 import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
+import throttle from 'throttleit';
+import { seconds } from 'metrick/duration';
 
 import PusherStore from '../../stores/PusherStore';
 
 import { formatNumber } from '../../lib/number';
+
+// We need a `requestUpdate` queue above the React component level so
+// AgentsCount components will only perform one `forceFetch` in any
+// given time window. I wish this was cleaner, kid, I really do.
+const requestUpdate = throttle((callback) => callback(), 3::seconds);
 
 class AgentsCount extends React.Component {
   static propTypes = {
@@ -21,18 +28,24 @@ class AgentsCount extends React.Component {
   };
 
   componentDidMount() {
-    PusherStore.on("organization_stats:change", this.handlePusherWebsocketEvent);
+    console.debug('AgentsCount didMount');
+    PusherStore.on('organization_stats:change', this.handlePusherWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off("organization_stats:change", this.handlePusherWebsocketEvent);
+    console.debug('AgentsCount willUnmount');
+    PusherStore.off('organization_stats:change', this.handlePusherWebsocketEvent);
   }
 
   // Like in MyBuilds, we don't take the Pusher data for granted - we instead
   // take it as a cue to update the data store backing the component.
-  handlePusherWebsocketEvent = (payload) => {
-    if (this.state.agentCount !== payload.agentsConnectedCount) {
-      this.props.relay.forceFetch();
+  handlePusherWebsocketEvent = ({ agentsConnectedCount }) => {
+    // We need a "global" last agents connected count so we only ask it to update
+    // once per changed count. This prevents calls from multiple AgentsCount
+    // components triggering repeated forceFetch calls for one Pusher event
+    if (AgentsCount.lastAgentsConnectedCount !== agentsConnectedCount) {
+      AgentsCount.lastAgentsConnectedCount = agentsConnectedCount;
+      requestUpdate(() => this.props.relay.forceFetch());
     }
   };
 
