@@ -94,8 +94,8 @@ export default class AnchoredPopover extends React.Component {
       return;
     }
 
-    const { nibOffsetX } = this.props;
     const { width, offsetX, offsetY } = this.state;
+    const { nibOffsetX } = this.props;
 
     return (
       <Popover
