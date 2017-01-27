@@ -144,38 +144,24 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
   }
 
   getMessages(loading) {
-    const {
-      build: {
-        createdBy: {
-          email
-        }
-      },
-      relay: {
-        variables: {
-          isTryingToPrompt
-        }
-      }
-    } = this.props;
-    const { isAddingEmail, isSendingVerification, hasSentSomething } = this.state;
-
     // There won't be an email address if this build was created by a
     // registered user or if this build just has no owner (perhaps it was
     // created by Buildkite)
-    if (!email) {
+    if (!this.props.build.createdBy.email) {
       return {};
     }
 
     // If we haven't decided to send a query for this yet, don't show anything!
-    if (!isTryingToPrompt) {
+    if (!this.props.relay.variables.isTryingToPrompt) {
       return {};
     }
 
     let message;
     let buttons;
 
-    const userEmail = this.getUserEmail(email);
+    const userEmail = this.getUserEmail(this.props.build.createdBy.email);
 
-    if (!isAddingEmail && userEmail) {
+    if (!this.state.isAddingEmail && userEmail) {
       if (userEmail.verified) {
         return {};
       }
@@ -183,16 +169,16 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
       message = (
         <div>
           <h1 className="h5 m0 mb1 bold">Email verification needed</h1>
-          <p>We’ve sent a verification email to <strong className="semi-bold">{email}</strong>. Click the link in that email to finish adding it to your account.</p>
+          <p>We’ve sent a verification email to <strong className="semi-bold">{this.props.build.createdBy.email}</strong>. Click the link in that email to finish adding it to your account.</p>
           <p className="dark-gray mt0 dark-gray m0 h7">You can resend the verification email or remove this email address in your <a className="semi-bold lime hover-lime hover-underline" href="/user/emails">Personal Email Settings</a></p>
         </div>
       );
 
-      if (isSendingVerification || !hasSentSomething) {
+      if (this.state.isSendingVerification || !this.state.hasSentSomething) {
         message = (
           <div>
             <h1 className="h5 m0 mb1 bold">Email verification needed</h1>
-            <p>Please click the link in the verification email we sent to <strong className="semi-bold">{email}</strong>.</p>
+            <p>Please click the link in the verification email we sent to <strong className="semi-bold">{this.props.build.createdBy.email}</strong>.</p>
             <p className="dark-gray mt0 dark-gray m0 h7">You can resend the verification email or remove this email address in your <a className="semi-bold lime hover-lime hover-underline" href="/user/emails">Personal Email Settings</a></p>
           </div>
         );
