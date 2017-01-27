@@ -259,6 +259,7 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
           <Dropdown
             width={440}
             ref={(dropdown) => this._dropdown = dropdown}
+            offsetY={8}
           >
             <UserAvatar user={this.props.build.createdBy} style={{ width: 32, height: 32 }} className="cursor-pointer" />
             <div className="flex items-top mx4 mt3 mb2">
