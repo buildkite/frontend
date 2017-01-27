@@ -11,12 +11,12 @@ export default class Dropdown extends React.Component {
     width: React.PropTypes.number.isRequired,
     className: React.PropTypes.string,
     onToggle: React.PropTypes.func,
-    nibOffset: React.PropTypes.number,
+    nibOffsetX: React.PropTypes.number,
     offsetY: React.PropTypes.number
   };
 
   static defaultProps = {
-    nibOffset: 0,
+    nibOffsetX: 0,
     width: 250
   };
 
@@ -115,14 +115,14 @@ export default class Dropdown extends React.Component {
       return;
     }
 
-    const { nibOffset } = this.props;
+    const { nibOffsetX } = this.props;
     const { width, offsetX, offsetY } = this.state;
 
     return (
       <Popover
-        nibOffset={nibOffset}
         offsetX={offsetX}
         offsetY={offsetY + this.props.offsetY}
+        nibOffsetX={nibOffsetX}
         innerRef={(popupNode) => this.popupNode = popupNode}
         width={width}
       >
