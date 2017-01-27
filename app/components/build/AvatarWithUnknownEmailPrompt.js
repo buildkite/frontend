@@ -10,7 +10,6 @@ import UserAvatar from '../shared/UserAvatar';
 import FlashesStore from '../../stores/FlashesStore';
 
 import EmailCreateMutation from '../../mutations/EmailCreate';
-import EmailResendVerificationMutation from '../../mutations/EmailResendVerification';
 import NoticeDismissMutation from '../../mutations/NoticeDismiss';
 
 class AvatarWithUnknownEmailPrompt extends React.Component {
@@ -43,7 +42,6 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
   state = {
     isAddingEmail: false,
     isDismissing: false,
-    isSendingVerification: false,
     hasSentSomething: false,
     hasBeenDismissed: false
   };
@@ -96,7 +94,7 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
   }
 
   handleMutationFailure = (transaction) => {
-    this.setState({ isAddingEmail: false, isDismissing: false, isSendingVerification: false });
+    this.setState({ isAddingEmail: false, isDismissing: false });
 
     FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
   };
@@ -119,24 +117,12 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
     Relay.Store.commitUpdate(mutation, { onSuccess: this.handleEmailAddedSuccess, onFailure: this.handleMutationFailure });
   };
 
-  handleResendVerificationClick = () => {
-    this.setState({ isSendingVerification: true });
-
-    const mutation = new EmailResendVerificationMutation({ email: this.getUserEmail(this.props.build.createdBy.email) });
-
-    Relay.Store.commitUpdate(mutation, { onSuccess: this.handleVerificationResentSuccess, onFailure: this.handleMutationFailure });
-  };
-
   handleDismissedSucess = () => {
     this.setState({ isDismissing: false });
   };
 
   handleEmailAddedSuccess = () => {
     this.setState({ isAddingEmail: false, hasSentSomething: true });
-  };
-
-  handleVerificationResentSuccess = () => {
-    this.setState({ isSendingVerification: false, hasSentSomething: true });
   };
 
   handleLocalDismissClick = () => {
@@ -173,16 +159,6 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
           <p className="dark-gray mt0 dark-gray m0 h7">You can resend the verification email or remove this email address in your <a className="semi-bold lime hover-lime hover-underline" href="/user/emails">Personal Email Settings</a></p>
         </div>
       );
-
-      if (this.state.isSendingVerification || !this.state.hasSentSomething) {
-        message = (
-          <div>
-            <h1 className="h5 m0 mb1 bold">Email verification needed</h1>
-            <p>Please click the link in the verification email we sent to <strong className="semi-bold">{this.props.build.createdBy.email}</strong>.</p>
-            <p className="dark-gray mt0 dark-gray m0 h7">You can resend the verification email or remove this email address in your <a className="semi-bold lime hover-lime hover-underline" href="/user/emails">Personal Email Settings</a></p>
-          </div>
-        );
-      }
     } else {
       // Otherwise, we've got an unknown (to Buildkite) email address on our hands!
       message = (
@@ -215,7 +191,7 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
   }
 
   isLoading = () => (
-    this.state.isAddingEmail || this.state.isDismissing || this.state.isSendingVerification
+    this.state.isAddingEmail || this.state.isDismissing
   );
 
   render() {
