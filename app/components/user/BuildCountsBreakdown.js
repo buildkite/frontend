@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import PusherStore from '../../stores/PusherStore';
 
@@ -33,17 +34,29 @@ class BuildCountsBreakdown extends React.Component {
     PusherStore.off("user_stats:change", this._onStoreChange.bind(this));
   }
 
+  renderLink(label, state, count) {
+    let url = state ? `/builds?state=${state}` : "/builds";
+    let classes = classNames("py1 px3 hover-black hover-bg-silver text-decoration-none", {
+      "dark-gray": (count == 0),
+      "black": (count > 0),
+    });
+
+    return (
+      <a href={url} className={classes} style={{ lineHeight: "1.8" }}>{formatNumber(count)} {label}</a>
+    )
+  }
+
   render() {
     return (
       <div className="flex">
-        <div className="rounded-left border-left border-top border-bottom border-gray flex items-center" style={{ lineHeight: "1.8" }}>
-          <a href="/builds" className="py1 px3 dark-gray hover-black">{formatNumber(this.state.buildsCount)} Builds</a>
+        <div className="rounded-left border-left border-top border-bottom border-gray flex items-center">
+          {this.renderLink("Builds", null, this.state.buildsCount)}
         </div>
         <div className="border-left border-top border-bottom border-gray flex items-center">
-          <a href="/builds?state=running" className="py1 px3 dark-gray hover-black">{formatNumber(this.state.runningBuildsCount)} Running</a>
+          {this.renderLink("Running", "running", this.state.runningBuildsCount)}
         </div>
         <div className="rounded-right border border-gray flex items-center">
-          <a href="/builds?state=scheduled" className="py1 px3 dark-gray hover-black">{formatNumber(this.state.scheduledBuildsCount)} Scheduled</a>
+          {this.renderLink("Scheduled", "scheduled", this.state.scheduledBuildsCount)}
         </div>
       </div>
     );
