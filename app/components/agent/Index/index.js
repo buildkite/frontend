@@ -6,7 +6,7 @@ import PageWithContainer from '../../shared/PageWithContainer';
 
 import Agents from './agents';
 import AgentTokens from './agent-tokens';
-import Installation from './installation';
+import AgentInstallation from './installation';
 import QuickStart from './quick-start';
 
 class AgentIndex extends React.Component {
@@ -51,7 +51,7 @@ class AgentIndex extends React.Component {
               viewer={viewer}
               location={location}
             />
-            <Installation organization={organization} />
+            <AgentInstallation organization={organization} />
             <AgentTokens
               title="Your agent token"
               organization={organization}
@@ -94,7 +94,7 @@ export default Relay.createContainer(AgentIndex, {
       fragment on Organization {
         ${Agents.getFragment('organization')}
         ${AgentTokens.getFragment('organization')}
-        ${Installation.getFragment('organization')}
+        ${AgentInstallation.getFragment('organization')}
         ${QuickStart.getFragment('organization')}
         name
         permissions {

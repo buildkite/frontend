@@ -199,6 +199,14 @@ const QUERIES = {
         name
         slug
         uuid
+        agents(last: 1) {
+          count
+          edges {
+            node {
+              name
+            }
+          }
+        }
         permissions {
           agentTokenView {
             allowed
