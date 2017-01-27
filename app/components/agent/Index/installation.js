@@ -24,6 +24,7 @@ class AgentInstallation extends React.Component {
   };
 
   componentDidMount() {
+    this.props.relay.setVariables({ isMounted: true });
     this._agentRefreshInterval = setInterval(this.fetchUpdatedData, 5::seconds);
   }
 
@@ -80,11 +81,15 @@ class AgentInstallation extends React.Component {
 }
 
 export default Relay.createContainer(AgentInstallation, {
+  initialVariables: {
+    isMounted: false
+  },
+
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
         slug
-        agents(last: 1) {
+        agents(last: 1) @include(if: $isMounted) {
           count
           edges {
             node {
