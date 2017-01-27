@@ -82,7 +82,9 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
         (readyState) => {
           if (readyState.done) {
             setTimeout(() => {
-              if (this._dropdown) {
+              const { dismissedAt } = this.props.viewer.notice;
+
+              if (this._dropdown && !dismissedAt) {
                 this._dropdown.setShowing(true);
               }
             }, 0);
@@ -104,6 +106,8 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
     const mutation = new NoticeDismissMutation({ viewer: this.props.viewer, notice: this.props.viewer.notice });
 
     Relay.Store.commitUpdate(mutation, { onSuccess: this.handleDismissedSucess, onFailure: this.handleMutationFailure });
+
+    this._dropdown.setShowing(false);
   };
 
   handleAddEmailClick = () => {
@@ -149,12 +153,9 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
         variables: {
           isTryingToPrompt
         }
-      },
-      viewer: {
-        notice
       }
     } = this.props;
-    const { isAddingEmail, isSendingVerification, hasBeenDismissed, hasSentSomething } = this.state;
+    const { isAddingEmail, isSendingVerification, hasSentSomething } = this.state;
 
     // There won't be an email address if this build was created by a
     // registered user or if this build just has no owner (perhaps it was
@@ -165,16 +166,6 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
 
     // If we haven't decided to send a query for this yet, don't show anything!
     if (!isTryingToPrompt) {
-      return {};
-    }
-
-    // If the user has seen the notice and has been dismissed
-    if (notice && notice.dismissedAt) {
-      return {};
-    }
-
-    // If the user has dismissed this notice instance
-    if (hasBeenDismissed) {
       return {};
     }
 
