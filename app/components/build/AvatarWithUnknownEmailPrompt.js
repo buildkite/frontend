@@ -1,0 +1,297 @@
+import React from 'react';
+import Relay from 'react-relay';
+import shallowCompare from 'react-addons-shallow-compare';
+
+import Dropdown from '../shared/Dropdown';
+import Icon from '../shared/Icon';
+import Spinner from '../shared/Spinner';
+import UserAvatar from '../shared/UserAvatar';
+
+import FlashesStore from '../../stores/FlashesStore';
+
+import EmailCreateMutation from '../../mutations/EmailCreate';
+import NoticeDismissMutation from '../../mutations/NoticeDismiss';
+
+class AvatarWithUnknownEmailPrompt extends React.Component {
+  static propTypes = {
+    build: React.PropTypes.shape({
+      createdBy: React.PropTypes.shape({
+        email: React.PropTypes.string,
+        name: React.PropTypes.string
+      })
+    }).isRequired,
+    viewer: React.PropTypes.shape({
+      emails: React.PropTypes.shape({
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.shape({
+              id: React.PropTypes.string,
+              address: React.PropTypes.string,
+              verified: React.PropTypes.bool
+            })
+          })
+        )
+      }).isRequired,
+      notice: React.PropTypes.shape({
+        dismissedAt: React.PropTypes.string
+      })
+    }).isRequired,
+    relay: React.PropTypes.object
+  };
+
+  state = {
+    isAddingEmail: false,
+    isDismissing: false,
+    hasSentSomething: false,
+    hasBeenDismissed: false
+  };
+
+  getUserEmail(email) {
+    const userEmails = this.props.viewer.emails.edges;
+
+    const userEmail = userEmails.find(
+      ({ node: { address: userEmail } }) => (
+        userEmail.toLowerCase() === email.toLowerCase()
+      )
+    );
+
+    if (userEmail) {
+      return userEmail.node;
+    }
+  }
+
+  isCurrentUsersValidatedEmail(email) {
+    const userEmail = this.getUserEmail(email);
+    return userEmail && userEmail.verified;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
+  componentDidMount() {
+    const { createdBy } = this.props.build;
+
+    if (createdBy && createdBy.email && !this.isCurrentUsersValidatedEmail(createdBy.email)) {
+      this.props.relay.setVariables(
+        {
+          isTryingToPrompt: true,
+          emailForPrompt: createdBy.email.toLowerCase()
+        },
+        (readyState) => {
+          if (readyState.done) {
+            setTimeout(() => {
+              const { dismissedAt } = this.props.viewer.notice;
+
+              if (this._dropdown && !dismissedAt) {
+                this._dropdown.setShowing(true);
+              }
+            }, 0);
+          }
+        }
+      );
+    }
+  }
+
+  handleMutationFailure = (transaction) => {
+    this.setState({ isAddingEmail: false, isDismissing: false });
+
+    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
+  };
+
+  handleDismissClick = () => {
+    this.setState({ isDismissing: true });
+
+    const mutation = new NoticeDismissMutation({ viewer: this.props.viewer, notice: this.props.viewer.notice });
+
+    Relay.Store.commitUpdate(mutation, { onSuccess: this.handleDismissedSucess, onFailure: this.handleMutationFailure });
+
+    this._dropdown.setShowing(false);
+  };
+
+  handleAddEmailClick = () => {
+    this.setState({ isAddingEmail: true });
+
+    const mutation = new EmailCreateMutation({ address: this.props.build.createdBy.email, viewer: this.props.viewer });
+
+    Relay.Store.commitUpdate(mutation, { onSuccess: this.handleEmailAddedSuccess, onFailure: this.handleMutationFailure });
+  };
+
+  handleDismissedSucess = () => {
+    this.setState({ isDismissing: false });
+  };
+
+  handleEmailAddedSuccess = () => {
+    this.setState({ isAddingEmail: false, hasSentSomething: true });
+  };
+
+  handleLocalDismissClick = () => {
+    this.setState({ hasBeenDismissed: true });
+  }
+
+  getMessages(loading) {
+    // There won't be an email address if this build was created by a
+    // registered user or if this build just has no owner (perhaps it was
+    // created by Buildkite)
+    if (!this.props.build.createdBy.email) {
+      return {};
+    }
+
+    // If we haven't decided to send a query for this yet, don't show anything!
+    if (!this.props.relay.variables.isTryingToPrompt) {
+      return {};
+    }
+
+    let message;
+    let buttons;
+
+    const userEmail = this.getUserEmail(this.props.build.createdBy.email);
+
+    if (!this.state.isAddingEmail && userEmail) {
+      if (userEmail.verified) {
+        return {};
+      }
+
+      message = (
+        <div>
+          <h1 className="h5 m0 mb1 bold">Email verification needed</h1>
+          <p>We’ve sent a verification email to <strong className="semi-bold">{this.props.build.createdBy.email}</strong>. Click the link in that email to finish adding it to your account.</p>
+          <p className="dark-gray mt0 dark-gray m0 h7">You can resend the verification email or remove this email address in your <a className="semi-bold lime hover-lime hover-underline" href="/user/emails">Personal Email Settings</a></p>
+        </div>
+      );
+    } else {
+      // Otherwise, we've got an unknown (to Buildkite) email address on our hands!
+      message = (
+        <div>
+          <h1 className="h5 m0 mb1 bold">Unknown build commit email</h1>
+          <p className="m0">The email <strong className="semi-bold">{this.props.build.createdBy.email}</strong> could not be matched to any users in your organization. If this email address belongs to you, add it to your personal list of email addresses.</p>
+        </div>
+      );
+      buttons = [
+        <button
+          key="add-email"
+          className="btn btn-primary flex-auto m1"
+          onClick={this.handleAddEmailClick}
+          disabled={loading}
+        >
+          Add Email Address
+        </button>,
+        <button
+          key="dismiss-email"
+          className="btn btn-outline border-gray flex-auto m1"
+          onClick={this.handleDismissClick}
+          disabled={loading}
+        >
+          Not My Email Address
+        </button>
+      ];
+    }
+
+    return { message, buttons, loading };
+  }
+
+  isLoading = () => (
+    this.state.isAddingEmail || this.state.isDismissing
+  );
+
+  render() {
+    const loading = this.isLoading();
+
+    const { message, buttons } = this.getMessages(loading);
+    let buttonContent;
+
+    if (buttons) {
+      buttonContent = (
+        <div className="mx4 mt2 my3 flex items-center">
+          <div className="no-flex mr2 center" style={{ width: 32 }}>
+            {loading && <Spinner />}
+          </div>
+          <div
+            className="flex flex-auto flex-wrap"
+            style={{ margin: -5 }}
+          >
+            {buttons}
+          </div>
+        </div>
+      );
+    }
+
+    if (message) {
+      return (
+        <div>
+          <Dropdown
+            width={440}
+            ref={(dropdown) => this._dropdown = dropdown}
+            offsetY={8}
+          >
+            <UserAvatar user={this.props.build.createdBy} style={{ width: 32, height: 32 }} className="cursor-pointer" />
+            <div className="flex items-top mx4 mt3 mb2">
+              <div className="no-flex mr2 center lime" style={{ marginTop: 2 }}>
+                <Icon icon="unknown-user" title="Unknown build email" style={{ width: 32, height: 32 }} />
+              </div>
+              <span className="line-height-3">{message}</span>
+            </div>
+            {buttonContent}
+          </Dropdown>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <UserAvatar
+          user={this.props.build.createdBy}
+          style={{ width: 32, height: 32, border: '1px solid #ccc', background: 'white' }}
+        />
+      </div>
+    );
+  }
+}
+
+export default Relay.createContainer(AvatarWithUnknownEmailPrompt, {
+  initialVariables: {
+    emailForPrompt: null,
+    isTryingToPrompt: false
+  },
+
+  fragments: {
+    build: () => Relay.QL`
+      fragment on Build {
+        createdBy {
+          ...on UnregisteredUser {
+            name
+            email
+            avatar {
+              url
+            }
+          }
+          ...on User {
+            name
+            email
+            avatar {
+              url
+            }
+          }
+        }
+      }
+    `,
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        ${EmailCreateMutation.getFragment('viewer')}
+        emails(first: 50) {
+          edges {
+            node {
+              id
+              address
+              verified
+            }
+          }
+        }
+        notice(namespace: NOTICE_NAMESPACE_EMAIL_SUGGESTION, scope: $emailForPrompt) @include(if: $isTryingToPrompt) {
+          ${NoticeDismissMutation.getFragment('notice')}
+          dismissedAt
+        }
+      }
+    `
+  }
+});

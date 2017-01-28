@@ -24,7 +24,7 @@ Nib.defaultProps = {
 export default class Popover extends React.Component {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
-    nibOffset: React.PropTypes.number.isRequired,
+    nibOffsetX: React.PropTypes.number.isRequired,
     offsetX: React.PropTypes.number.isRequired,
     offsetY: React.PropTypes.number.isRequired,
     style: React.PropTypes.object.isRequired,
@@ -33,7 +33,7 @@ export default class Popover extends React.Component {
   };
 
   static defaultProps = {
-    nibOffset: 0,
+    nibOffsetX: 0,
     offsetX: 0,
     offsetY: 45,
     style: {},
@@ -46,14 +46,14 @@ export default class Popover extends React.Component {
   }
 
   render() {
-    const { children, innerRef, nibOffset, offsetX, offsetY: top, style, width } = this.props;
+    const { children, innerRef, nibOffsetX, offsetX, offsetY: top, style, width } = this.props;
 
     const offset = (width / 2) - offsetX;
 
     const popoverStyles = {
       left: `calc(50% - ${offset}px)`,
       top,
-      transformOrigin: `${offset + nibOffset}px -15px`,
+      transformOrigin: `${offset + nibOffsetX}px -15px`,
       width,
       zIndex: 3
     };
@@ -68,7 +68,7 @@ export default class Popover extends React.Component {
           src={require('../../../images/up-pointing-white-nib.svg')}
           style={{
             left: '50%',
-            marginLeft: -(NIB_WIDTH / 2) - offsetX + nibOffset
+            marginLeft: -(NIB_WIDTH / 2) - offsetX + nibOffsetX
           }}
           alt=""
         />

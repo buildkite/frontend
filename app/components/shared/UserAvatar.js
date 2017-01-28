@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-class UserAvatar extends React.Component {
+export default class UserAvatar extends React.Component {
   static propTypes = {
     user: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -16,7 +16,7 @@ class UserAvatar extends React.Component {
   render() {
     return (
       <img src={this.props.user.avatar.url}
-        className={classNames("circle", this.props.className)}
+        className={classNames("circle border border-gray bg-white", this.props.className)}
         alt={this.props.user.name}
         title={this.props.user.name}
         style={this.props.style}
@@ -24,5 +24,3 @@ class UserAvatar extends React.Component {
     );
   }
 }
-
-export default UserAvatar;
