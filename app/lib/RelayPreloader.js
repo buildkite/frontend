@@ -9,11 +9,19 @@ const QUERIES = {
         createdBy {
           __typename
           ...on UnregisteredUser {
-            email
-          }
-          ...on User {
             name
             email
+            avatar {
+              url
+            }
+          }
+          ...on User {
+            id
+            name
+            email
+            avatar {
+              url
+            }
           }
         }
       }
