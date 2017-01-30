@@ -72,7 +72,7 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
   componentDidMount() {
     const { createdBy } = this.props.build;
 
-    if (createdBy && createdBy.email && createdBy.__typename == "UnregisteredUser" && !this.isCurrentUsersValidatedEmail(createdBy.email)) {
+    if (createdBy && createdBy.email && createdBy.__typename === "UnregisteredUser" && !this.isCurrentUsersValidatedEmail(createdBy.email)) {
       this.props.relay.setVariables(
         {
           isTryingToPrompt: true,
