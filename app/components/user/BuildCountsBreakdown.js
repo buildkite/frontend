@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import PusherStore from '../../stores/PusherStore';
 import StateSwitcher from '../build/StateSwitcher';

@@ -4,17 +4,25 @@ import classNames from 'classnames';
 import { formatNumber } from '../../lib/number';
 
 class StateSwitcher extends React.Component {
+  static propTypes = {
+    buildsCount: React.PropTypes.number,
+    runningBuildsCount: React.PropTypes.number,
+    scheduledBuildsCount: React.PropTypes.number,
+    state: React.PropTypes.string,
+    path: React.PropTypes.string
+  };
+
   renderLink(label, state, count) {
-    let url = state ? `${this.props.path}?state=${state}` : this.props.path;
-    let active = this.props.state == state;
-    let classes = classNames("py1 px3 hover-black hover-bg-silver text-decoration-none", {
+    const url = state ? `${this.props.path}?state=${state}` : this.props.path;
+    const active = this.props.state === state;
+    const classes = classNames("py1 px3 hover-black hover-bg-silver text-decoration-none", {
       "dark-gray": !active,
-      "black":  active
+      "black": active
     });
 
     return (
       <a href={url} className={classes} style={{ lineHeight: "1.8" }}>{formatNumber(count)} {label}</a>
-    )
+    );
   }
 
   render() {
