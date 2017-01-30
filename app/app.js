@@ -47,6 +47,7 @@ window["Webpack"] = {
     "components/pipeline/Teams": require("./components/pipeline/Teams").default,
     "components/PipelinesWelcome": require("./components/organization/Welcome").default,
     "components/shared/BuildStatusDescription": require("./components/shared/BuildStatusDescription").default,
+    "components/shared/Button": require("./components/shared/Button").default,
     "components/shared/CollapsableFormField": require("./components/shared/CollapsableFormField").default,
     "components/shared/Duration": require("./components/shared/Duration").default,
     "components/shared/Emojify": require("./components/shared/Emojify").default,
