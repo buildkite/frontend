@@ -2,6 +2,38 @@ import Relay from 'react-relay';
 import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
 const QUERIES = {
+  "build_header/build": Relay.QL`
+    query BuildsShowBuild($build: ID!) {
+      build(slug: $build) {
+        id
+        createdBy {
+          __typename
+          ...on UnregisteredUser {
+            email
+          }
+          ...on User {
+            name
+            email
+          }
+        }
+      }
+    }
+  `,
+  "build_header/viewer": Relay.QL`
+    query BuildsShowViewer {
+      viewer {
+        emails(first: 50) {
+          edges {
+            node {
+              id
+              address
+              verified
+            }
+          }
+        }
+      }
+    }
+  `,
   "organization_show/viewer": Relay.QL`
     query PipelinesListViewer {
       viewer {
@@ -214,7 +246,7 @@ class RelayPreloader {
     // Get the concrete query
     const concrete = QUERIES[id];
     if (!concrete) {
-      throw "No concrete query defined for `" + id + "`";
+      throw new Error(`No concrete query defined for \`${id}\``);
     }
 
     // Create a Relay-readable GraphQL query with the variables loaded in

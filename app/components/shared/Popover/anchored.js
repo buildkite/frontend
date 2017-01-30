@@ -9,14 +9,14 @@ export default class AnchoredPopover extends React.Component {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
     className: React.PropTypes.string,
-    nibOffset: React.PropTypes.number.isRequired,
+    nibOffsetX: React.PropTypes.number.isRequired,
     position: React.PropTypes.oneOf(['relative', 'absolute']).isRequired,
     style: React.PropTypes.object,
     width: React.PropTypes.number.isRequired
   };
 
   static defaultProps = {
-    nibOffset: 0,
+    nibOffsetX: 0,
     position: 'relative',
     style: {},
     width: 250
@@ -93,14 +93,14 @@ export default class AnchoredPopover extends React.Component {
       return;
     }
 
-    const { nibOffset } = this.props;
     const { width, offsetX, offsetY } = this.state;
+    const { nibOffsetX } = this.props;
 
     return (
       <Popover
-        nibOffset={nibOffset}
         offsetX={offsetX}
         offsetY={offsetY}
+        nibOffsetX={nibOffsetX}
         innerRef={(popupNode) => this.popupNode = popupNode}
         width={width}
       >

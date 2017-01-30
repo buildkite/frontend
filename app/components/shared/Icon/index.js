@@ -53,37 +53,37 @@ const pathNodes = (icon) => {
       return require("./menu").default;
     case 'close':
       return require("./close").default;
+    case 'unknown-user':
+      return require("./unknown-user").default;
     default:
       Logger.error(`[Icon] No icon defined for "${icon}"`);
       return require("./placeholder").default;
   }
 };
 
-class Icon extends React.Component {
-  static propTypes = {
-    icon: React.PropTypes.string.isRequired,
-    title: React.PropTypes.string,
-    className: React.PropTypes.string,
-    style: React.PropTypes.object
-  };
+function Icon(props) {
+  const style = update(props.style || {}, {
+    fill: {
+      $set: "currentColor"
+    },
+    verticalAlign: {
+      $set: "middle"
+    }
+  });
 
-  render() {
-    const style = update(this.props.style || {}, {
-      fill: {
-        $set: "currentColor"
-      },
-      verticalAlign: {
-        $set: "middle"
-      }
-    });
-
-    return (
-      <svg viewBox="0 0 20 20" width="20px" height="20px" className={this.props.className} style={style}>
-        {titleNode(this.props.title)}
-        {pathNodes(this.props.icon)}
-      </svg>
-    );
-  }
+  return (
+    <svg viewBox="0 0 20 20" width="20px" height="20px" className={props.className} style={style}>
+      {titleNode(props.title)}
+      {pathNodes(props.icon)}
+    </svg>
+  );
 }
+
+Icon.propTypes = {
+  icon: React.PropTypes.string.isRequired,
+  title: React.PropTypes.string,
+  className: React.PropTypes.string,
+  style: React.PropTypes.object
+};
 
 export default Icon;

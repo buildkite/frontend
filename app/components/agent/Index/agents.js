@@ -2,11 +2,14 @@ import React from 'react';
 import Relay from 'react-relay';
 import { seconds } from 'metrick/duration';
 import shallowCompare from 'react-addons-shallow-compare';
+import throttle from 'throttleit';
 
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
 import Spinner from '../../shared/Spinner';
 import { formatNumber } from '../../../lib/number';
+
+import PusherStore from '../../../stores/PusherStore';
 
 import AgentRow from './row';
 import Search from './search';
@@ -34,17 +37,44 @@ class Agents extends React.Component {
   };
 
   componentDidMount() {
-    this._agentListRefreshInterval = setInterval(this.fetchUpdatedData, 10::seconds);
-    this.props.relay.setVariables({ isMounted: true });
+    this.props.relay.setVariables(
+      {
+        isMounted: true
+      },
+      (readyState) => {
+        if (readyState.done) {
+          PusherStore.on('organization_stats:change', this.fetchUpdatedData);
+          this.startTimeout();
+        }
+      }
+    );
   }
 
   componentWillUnmount() {
-    clearInterval(this._agentListRefreshInterval);
+    PusherStore.off('organization_stats:change', this.fetchUpdatedData);
+    clearTimeout(this._agentListRefreshTimeout);
   }
 
-  fetchUpdatedData = () => {
-    this.props.relay.forceFetch(true);
+  startTimeout = () => {
+    this._agentListRefreshTimeout = setTimeout(
+      this.fetchUpdatedData,
+      15::seconds
+    );
   };
+
+  fetchUpdatedData = throttle(
+    () => {
+      this.props.relay.forceFetch(
+        true,
+        (readyState) => {
+          if (readyState.done) {
+            this.startTimeout();
+          }
+        }
+      );
+    },
+    5::seconds
+  );
 
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
