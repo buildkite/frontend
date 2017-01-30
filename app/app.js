@@ -38,6 +38,7 @@ window["Webpack"] = {
     "react-addons-pure-render-mixin": require("react-addons-pure-render-mixin"),
 
     "components/build/AvatarWithUnknownEmailPrompt": require("./components/build/AvatarWithUnknownEmailPrompt").default,
+    "components/build/StateSwitcher": require("./components/build/StateSwitcher").default,
     "components/icons/BuildState": require("./components/icons/BuildState").default,
     "components/layout/Footer": require("./components/layout/Footer").default,
     "components/layout/Navigation": require("./components/layout/Navigation").default,

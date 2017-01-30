@@ -37,6 +37,7 @@ class BuildCountsBreakdown extends React.Component {
   render() {
     return (
       <StateSwitcher
+        path="/builds"
         state={this.props.state}
         buildsCount={this.state.buildsCount}
         runningBuildsCount={this.state.runningBuildsCount}
