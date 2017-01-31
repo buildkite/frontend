@@ -88,13 +88,6 @@ class Navigation extends React.Component {
   }
 
   renderMyBuilds() {
-    // We're using Features.NewNav to feature flag here, because we enabled it
-    // for some people but switched the whole nav on for everyone, and it was
-    // easier just to use the same feature flag
-    if (!Features.NewNav) {
-      return null;
-    }
-
     return (
       <MyBuilds viewer={this.props.viewer} />
     );
