@@ -93,42 +93,6 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
     }
   }
 
-  handleMutationFailure = (transaction) => {
-    this.setState({ isAddingEmail: false, isDismissing: false });
-
-    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
-  };
-
-  handleDismissClick = () => {
-    this.setState({ isDismissing: true });
-
-    const mutation = new NoticeDismissMutation({ viewer: this.props.viewer, notice: this.props.viewer.notice });
-
-    Relay.Store.commitUpdate(mutation, { onSuccess: this.handleDismissedSucess, onFailure: this.handleMutationFailure });
-
-    this._dropdown.setShowing(false);
-  };
-
-  handleAddEmailClick = () => {
-    this.setState({ isAddingEmail: true });
-
-    const mutation = new EmailCreateMutation({ address: this.props.build.createdBy.email, viewer: this.props.viewer });
-
-    Relay.Store.commitUpdate(mutation, { onSuccess: this.handleEmailAddedSuccess, onFailure: this.handleMutationFailure });
-  };
-
-  handleDismissedSucess = () => {
-    this.setState({ isDismissing: false });
-  };
-
-  handleEmailAddedSuccess = () => {
-    this.setState({ isAddingEmail: false, hasSentSomething: true });
-  };
-
-  handleLocalDismissClick = () => {
-    this.setState({ hasBeenDismissed: true });
-  }
-
   getMessages(loading) {
     // There won't be an email address if this build was created by a
     // registered user or if this build just has no owner (perhaps it was
@@ -245,6 +209,42 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
         />
       </div>
     );
+  }
+
+  handleMutationFailure = (transaction) => {
+    this.setState({ isAddingEmail: false, isDismissing: false });
+
+    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
+  };
+
+  handleDismissClick = () => {
+    this.setState({ isDismissing: true });
+
+    const mutation = new NoticeDismissMutation({ viewer: this.props.viewer, notice: this.props.viewer.notice });
+
+    Relay.Store.commitUpdate(mutation, { onSuccess: this.handleDismissedSucess, onFailure: this.handleMutationFailure });
+
+    this._dropdown.setShowing(false);
+  };
+
+  handleAddEmailClick = () => {
+    this.setState({ isAddingEmail: true });
+
+    const mutation = new EmailCreateMutation({ address: this.props.build.createdBy.email, viewer: this.props.viewer });
+
+    Relay.Store.commitUpdate(mutation, { onSuccess: this.handleEmailAddedSuccess, onFailure: this.handleMutationFailure });
+  };
+
+  handleDismissedSucess = () => {
+    this.setState({ isDismissing: false });
+  };
+
+  handleEmailAddedSuccess = () => {
+    this.setState({ isAddingEmail: false, hasSentSomething: true });
+  };
+
+  handleLocalDismissClick = () => {
+    this.setState({ hasBeenDismissed: true });
   }
 }
 
