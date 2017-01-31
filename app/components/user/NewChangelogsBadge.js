@@ -9,6 +9,7 @@ import PusherStore from '../../stores/PusherStore';
 class NewChangelogsBadge extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
+    relay: React.PropTypes.object.isRequired,
     style: React.PropTypes.object,
     viewer: React.PropTypes.shape({
       unreadChangelogs: React.PropTypes.shape({
@@ -25,7 +26,7 @@ class NewChangelogsBadge extends React.Component {
     PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent);
   }
 
-  handlePusherWebsocketEvent = (payload) => {
+  handlePusherWebsocketEvent = () => {
     this.props.relay.forceFetch();
   };
 
