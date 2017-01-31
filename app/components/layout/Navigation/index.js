@@ -24,7 +24,6 @@ class Navigation extends React.Component {
     relay: React.PropTypes.object.isRequired
   };
 
-
   componentDidMount() {
     this.props.relay.setVariables({ isMounted: true });
   }
@@ -185,7 +184,15 @@ class Navigation extends React.Component {
                   style={{ width: 27, height: 18, marginTop: 7.5, marginBottom: 4.5 }}
                 />
               </NavigationButton>
-              <NewChangelogsBadge className="mr2 relative" style={{ top: -5, marginLeft: -8 }} viewer={this.props.viewer} />
+              <NewChangelogsBadge
+                className="mr2 relative"
+                style={{
+                  top: -5,
+                  marginLeft: -8
+                }}
+                viewer={this.props.viewer}
+                isMounted={this.props.relay.variables.isMounted}
+              />
             </span>
 
             <Dropdown width={250} className="flex" style={{ minWidth: "5em" }} onToggle={this.handleOrgDropdownToggle}>
@@ -281,9 +288,10 @@ export default Relay.createContainer(Navigation, {
           }
         }
       `,
-    viewer: () => Relay.QL`
+    viewer: (variables) => Relay.QL`
         fragment on Viewer {
           ${MyBuilds.getFragment('viewer')}
+          ${NewChangelogsBadge.getFragment('viewer', variables)}
           user {
             name
             avatar {
@@ -297,9 +305,6 @@ export default Relay.createContainer(Navigation, {
                 name
               }
             }
-          }
-          unreadChangelogs: changelogs(read: false) @include(if: $isMounted) {
-            count
           }
         }
       `
