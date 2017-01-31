@@ -46,7 +46,9 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
     hasBeenDismissed: false
   };
 
-  getUserEmail(email) {
+  // Given an email address, try and return the associated UserEmail GraphQL
+  // node
+  findUserEmailNode(email) {
     const userEmails = this.props.viewer.emails.edges;
 
     const userEmail = userEmails.find(
@@ -60,9 +62,18 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
     }
   }
 
+  // Given an email address, returns true/false depending on whether or not the
+  // current user owns that email and it's been verified
   isCurrentUsersValidatedEmail(email) {
-    const userEmail = this.getUserEmail(email);
+    const userEmail = this.findUserEmailNode(email);
+
     return userEmail && userEmail.verified;
+  }
+
+  // Determines if this paticular build should prompt the current user to add
+  // it's associated email to their user account
+  isUnregisteredWithEmail(createdBy) {
+    return (createdBy && createdBy.email && createdBy.__typename === "UnregisteredUser");
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -70,9 +81,17 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
   }
 
   componentDidMount() {
-    const { createdBy } = this.props.build;
+    const createdBy = this.props.build.createdBy;
 
-    if (createdBy && createdBy.email && createdBy.__typename === "UnregisteredUser" && !this.isCurrentUsersValidatedEmail(createdBy.email)) {
+    // Before showing the prompt, we should first check to see if we even
+    // should. The first check `isUnregisteredWithEmail` makes sure that the
+    // associated user on this build is not a Buildkite user and has an email
+    // we can link to.
+    //
+    // The second check makes sure that the user hasn't already added and
+    // verified the email, but is waiting for Buildkite's backend to link the
+    // user to the build.
+    if (this.isUnregisteredWithEmail(createdBy) && !this.isCurrentUsersValidatedEmail(createdBy.email)) {
       this.props.relay.setVariables(
         {
           isTryingToPrompt: true,
@@ -94,13 +113,6 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
   }
 
   getMessages(loading) {
-    // There won't be an email address if this build was created by a
-    // registered user or if this build just has no owner (perhaps it was
-    // created by Buildkite)
-    if (!this.props.build.createdBy.email) {
-      return {};
-    }
-
     // If we haven't decided to send a query for this yet, don't show anything!
     if (!this.props.relay.variables.isTryingToPrompt) {
       return {};
@@ -109,7 +121,7 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
     let message;
     let buttons;
 
-    const userEmail = this.getUserEmail(this.props.build.createdBy.email);
+    const userEmail = this.findUserEmailNode(this.props.build.createdBy.email);
 
     if (!this.state.isAddingEmail && userEmail) {
       if (userEmail.verified) {
