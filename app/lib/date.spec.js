@@ -70,6 +70,7 @@ const DURATION_FIXTURES = [
   { from: "2016-05-07T09:00:00.000+10:00", to: "2016-05-08T16:03:21.000+10:00" },
   { from: "2016-05-07T09:00:00.000+10:00", to: "2016-05-21T01:22:12.000+10:00" },
   { from: "2016-05-07T09:00:00.000+10:00", to: "2016-07-10T04:34:17.000+10:00" },
+  { from: "2017-01-17T08:57:30.994-08:00", to: "2017-02-01T17:28:11.712-08:00" },
   { from: undefined, to: undefined },
   { from: undefined, to: "2016-10-06T08:10:25.000+10:00" },
   { from: undefined, to: "2016-10-06T08:09:55.000+10:00" },
@@ -89,10 +90,17 @@ describe('getDurationString', () => {
   });
 
   getDurationString.formats.map((format) => {
-    it(`correctly handles \`${format}\` dates`, () => {
+    describe(`correctly handles \`${format}\` dates`, () => {
       DURATION_FIXTURES.forEach(({ from, to }) => {
-        expect(getDurationString(from, to, format)).toMatchSnapshot();
-        expect(getDurationString(from, to, format, { length: 5 })).toMatchSnapshot();
+        describe(`when given \`${from}\` and \`${to}\``, () => {
+          it(`and no format override`, () => {
+            expect(getDurationString(from, to, format)).toMatchSnapshot();
+          });
+
+          it(`and a length of 5 in a format override`, () => {
+            expect(getDurationString(from, to, format, { length: 5 })).toMatchSnapshot();
+          });
+        });
       });
     });
   });
