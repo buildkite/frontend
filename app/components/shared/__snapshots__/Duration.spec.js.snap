@@ -1,7 +1,7 @@
 exports[`Duration Duration.Full overrides allow overriding format behaviours 1`] = `
 <span
   className="tabular-numerals">
-  1332 weeks, 11 days, 7 hours, 29 minutes, 0 seconds
+  1330 weeks, 11 days, 7 hours, 29 minutes, 0 seconds
 </span>
 `;
 
@@ -50,14 +50,14 @@ exports[`Duration Duration.Full renders as expected 6`] = `
 exports[`Duration Duration.Full renders as expected 7`] = `
 <span
   className="tabular-numerals">
-  1 week, 13 days, 16 hours
+  13 days, 16 hours, 22 minutes
 </span>
 `;
 
 exports[`Duration Duration.Full renders as expected 8`] = `
 <span
   className="tabular-numerals">
-  9 weeks, 2 days, 20 hours
+  8 weeks, 2 days, 20 hours
 </span>
 `;
 
@@ -71,7 +71,7 @@ exports[`Duration Duration.Full tabularNumerals can be disabled 1`] = `
 exports[`Duration Duration.Micro overrides allow overriding format behaviours 1`] = `
 <span
   className="tabular-numerals">
-  1332w 11d 7h 29m 0s
+  1330w 11d 7h 29m 0s
 </span>
 `;
 
@@ -120,7 +120,7 @@ exports[`Duration Duration.Micro renders as expected 6`] = `
 exports[`Duration Duration.Micro renders as expected 7`] = `
 <span
   className="tabular-numerals">
-  3w
+  2w
 </span>
 `;
 
@@ -141,7 +141,7 @@ exports[`Duration Duration.Micro tabularNumerals can be disabled 1`] = `
 exports[`Duration Duration.Short overrides allow overriding format behaviours 1`] = `
 <span
   className="tabular-numerals">
-  1332w 11d 7h 29m 0s
+  1330w 11d 7h 29m 0s
 </span>
 `;
 
@@ -190,14 +190,14 @@ exports[`Duration Duration.Short renders as expected 6`] = `
 exports[`Duration Duration.Short renders as expected 7`] = `
 <span
   className="tabular-numerals">
-  1w 14d
+  13d 16h
 </span>
 `;
 
 exports[`Duration Duration.Short renders as expected 8`] = `
 <span
   className="tabular-numerals">
-  9w 3d
+  8w 3d
 </span>
 `;
 
