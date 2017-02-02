@@ -66,7 +66,7 @@ export default Relay.createContainer(Status, {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
         id
-        builds(first: 1, branch: "%default", state: [ BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_BLOCKED ]) {
+        builds(first: 1, branch: "%default", state: [ BUILD_STATE_RUNNING, BUILD_STATE_CANCELING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_BLOCKED ]) {
           edges {
             node {
               state
