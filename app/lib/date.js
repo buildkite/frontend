@@ -156,6 +156,8 @@ export function getDurationString(from, to = moment(), format = 'full', override
           .as(lastTime.label)
       );
     }
+  } else {
+    times[0].amount = Math.round(times[0].amount);
   }
 
   return times
