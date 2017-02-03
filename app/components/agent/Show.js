@@ -64,7 +64,7 @@ class AgentShow extends React.Component {
 
   renderExtraItem(title, content) {
     return (
-      <li key={title} style={{marginTop: 3}}>
+      <li key={title} style={{ marginTop: 3 }}>
         <strong className="dark-gray">{title}:</strong> {content}
       </li>
     );
@@ -248,7 +248,7 @@ class AgentShow extends React.Component {
           Meta Data
         </div>
         <div className="left sm-col-9 p2">
-          <pre className="black bg-silver rounded border border-gray py1 px2 m0 mb1 monospace" style={{fontSize: 13}}>{metaDataContent}</pre>
+          <pre className="black bg-silver rounded border border-gray py1 px2 m0 mb1 monospace" style={{ fontSize: 13 }}>{metaDataContent}</pre>
           <small className="dark-gray">
             You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
             See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/queues">Agent Queues Documentation</a> for more details.
