@@ -42,7 +42,10 @@ class AgentShow extends React.Component {
     // Only bother setting up the delayed load and refresher if we've got an
     // actual agent to play with.
     if (this.props.agent && this.props.agent.id) {
-      this._agentRefreshInterval = setInterval(this.fetchUpdatedData, 5::seconds);
+      // This will cause a full refresh of the data every 3 seconds. This seems
+      // very low, but chances are people aren't really looking at this page
+      // for long periods of time.
+      this._agentRefreshInterval = setInterval(this.fetchUpdatedData, 3::seconds);
 
       // Once the agent's show page has mounted in DOM, switch `isMounted` to
       // true which will trigger a load of all the additional information we need
