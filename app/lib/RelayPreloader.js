@@ -232,8 +232,8 @@ const QUERIES = {
       }
     }
   `,
-  "agents/organization": Relay.QL`
-    query GetOrganization($organization: ID!) {
+  "agents/index": Relay.QL`
+    query AgentIndex($organization: ID!) {
       organization(slug: $organization) {
         id
         name
@@ -243,6 +243,19 @@ const QUERIES = {
           agentTokenView {
             allowed
           }
+        }
+      }
+    }
+  `,
+  "agents/show": Relay.QL`
+    query AgentShow($slug: ID!) {
+      agent(slug: $slug) {
+        id
+        name
+        organization {
+          id
+          name
+          slug
         }
       }
     }

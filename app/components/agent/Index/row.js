@@ -102,7 +102,7 @@ class AgentRow extends React.Component {
                 </div>
                 <small className="dark-gray">{metaDataContent}</small>
               </div>
-              <div className="right-align">
+              <div className="flex-none right-align">
                 <div className="black">v{agent.version}</div>
                 <small className="dark-gray">{agent.hostname}</small>
               </div>
