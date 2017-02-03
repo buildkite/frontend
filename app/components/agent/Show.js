@@ -52,9 +52,7 @@ class AgentShow extends React.Component {
   }
 
   componentWillUnmount() {
-    if(this._agentRefreshInterval) {
-      clearInterval(this._agentRefreshInterval);
-    }
+    clearInterval(this._agentRefreshInterval);
   }
 
   fetchUpdatedData = () => {
