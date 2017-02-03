@@ -25,6 +25,10 @@ class AgentShow extends React.Component {
         agentStop: React.PropTypes.shape({
           allowed: React.PropTypes.bool
         })
+      }),
+      organization: React.PropTypes.shape({
+        name: React.PropTypes.string,
+        slug: React.PropTypes.string
       })
     }),
     relay: React.PropTypes.object.isRequired
@@ -37,7 +41,7 @@ class AgentShow extends React.Component {
   componentDidMount() {
     // Only bother setting up the delayed load and refresher if we've got an
     // actual agent to play with.
-    if(this.props.agent && this.props.agent.id) {
+    if (this.props.agent && this.props.agent.id) {
       this._agentRefreshInterval = setInterval(this.fetchUpdatedData, 5::seconds);
 
       // Once the agent's show page has mounted in DOM, switch `isMounted` to
@@ -172,7 +176,7 @@ class AgentShow extends React.Component {
     // If we don't have an agent object, or we do but it doesn't have an id
     // (perhaps Relay gave us an object but it's empty) then we can safely
     // assume that it's a 404.
-    if(!this.props.agent || !this.props.agent.id) {
+    if (!this.props.agent || !this.props.agent.id) {
       return (
         <DocumentTitle title={`Agents / No Agent Found`}>
           <PageWithContainer>
