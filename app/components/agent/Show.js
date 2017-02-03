@@ -19,7 +19,7 @@ class AgentShow extends React.Component {
   static propTypes = {
     agent: React.PropTypes.shape({
       id: React.PropTypes.string,
-      name: React.PropTypes.string.isRequired,
+      name: React.PropTypes.string,
       connectionState: React.PropTypes.string,
       permissions: React.PropTypes.shape({
         agentStop: React.PropTypes.shape({
@@ -35,16 +35,22 @@ class AgentShow extends React.Component {
   };
 
   componentDidMount() {
-    this._agentRefreshInterval = setInterval(this.fetchUpdatedData, 5::seconds);
+    // Only bother setting up the delayed load and refresher if we've got an
+    // actual agent to play with.
+    if(this.props.agent && this.props.agent.id) {
+      this._agentRefreshInterval = setInterval(this.fetchUpdatedData, 5::seconds);
 
-    // Once the agent's show page has mounted in DOM, switch `isMounted` to
-    // true which will trigger a load of all the additional information we need
-    // to show this page.
-    this.props.relay.setVariables({ isMounted: true });
+      // Once the agent's show page has mounted in DOM, switch `isMounted` to
+      // true which will trigger a load of all the additional information we need
+      // to show this page.
+      this.props.relay.setVariables({ isMounted: true });
+    }
   }
 
   componentWillUnmount() {
-    clearInterval(this._agentRefreshInterval);
+    if(this._agentRefreshInterval) {
+      clearInterval(this._agentRefreshInterval);
+    }
   }
 
   fetchUpdatedData = () => {
@@ -163,6 +169,19 @@ class AgentShow extends React.Component {
   };
 
   render() {
+    // If we don't have an agent object, or we do but it doesn't have an id
+    // (perhaps Relay gave us an object but it's empty) then we can safely
+    // assume that it's a 404.
+    if(!this.props.agent || !this.props.agent.id) {
+      return (
+        <DocumentTitle title={`Agents / No Agent Found`}>
+          <PageWithContainer>
+            <p>No agent could be found!</p>
+          </PageWithContainer>
+        </DocumentTitle>
+      );
+    }
+
     let contents;
     if (this.props.relay.variables.isMounted) {
       contents = this.renderContents();
@@ -282,6 +301,7 @@ export default Relay.createContainer(AgentShow, {
     agent: () => Relay.QL`
       fragment on Agent {
         ${AgentStopMutation.getFragment('agent')}
+        id
         name
         organization {
           name
