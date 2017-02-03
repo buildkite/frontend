@@ -64,8 +64,8 @@ class AgentShow extends React.Component {
 
   renderExtraItem(title, content) {
     return (
-      <li key={title}>
-        <strong className="black">{title}:</strong> {content}
+      <li key={title} style={{marginTop: 3}}>
+        <strong className="dark-gray">{title}:</strong> {content}
       </li>
     );
   }
@@ -197,7 +197,7 @@ class AgentShow extends React.Component {
     return (
       <DocumentTitle title={`Agents / ${this.props.agent.name} · ${this.props.agent.organization.name}`}>
         <PageWithContainer>
-          <Panel>
+          <Panel className="sm-col-10 mx-auto">
             <Panel.Header>{this.props.agent.name}</Panel.Header>
             {contents}
           </Panel>
@@ -227,7 +227,7 @@ class AgentShow extends React.Component {
 
     return [
       <Panel.Row key="info">
-        <div className="sm-col sm-right-align sm-col-3 p2">
+        <div className="sm-col sm-right-align sm-col-3 p2 bold">
           Status
         </div>
         <div className="sm-col sm-col-9 p2">
@@ -244,11 +244,11 @@ class AgentShow extends React.Component {
       </Panel.Row>,
 
       <Panel.Row key="meta-data">
-        <div className="sm-col sm-right-align sm-col-3 p2">
+        <div className="sm-col sm-right-align sm-col-3 p2 bold">
           Meta Data
         </div>
         <div className="left sm-col-9 p2">
-          <pre className="black bg-silver rounded border border-gray p1 m0 monospace">{metaDataContent}</pre>
+          <pre className="black bg-silver rounded border border-gray py1 px2 m0 mb1 monospace" style={{fontSize: 13}}>{metaDataContent}</pre>
           <small className="dark-gray">
             You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
             See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/queues">Agent Queues Documentation</a> for more details.
@@ -277,6 +277,7 @@ class AgentShow extends React.Component {
                 outline={true}
                 loading={this.state.stopping ? "Stopping…" : false}
                 onClick={this.handleStopButtonClick}
+                className="mb1"
               >
                 Stop Agent
               </Button>
