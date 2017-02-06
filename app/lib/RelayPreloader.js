@@ -248,7 +248,7 @@ const QUERIES = {
     }
   `,
   "agents/show": Relay.QL`
-    query AgentShow($slug: ID!) {
+    query($slug: ID!) {
       agent(slug: $slug) {
         id
         name
@@ -257,6 +257,49 @@ const QUERIES = {
           name
           slug
         }
+        connectedAt
+        connectionState
+        disconnectedAt
+        hostname
+        id
+        ipAddress
+        job {
+          __typename
+          ... on JobTypeCommand {
+            id
+            label
+            command
+            url
+            build {
+              number
+              pipeline {
+                name
+                id
+              }
+              id
+            }
+          }
+        }
+        lostAt
+        metaData
+        operatingSystem
+        permissions {
+          agentStop {
+            allowed
+            code
+            message
+          }
+        }
+        pid
+        pingedAt
+        stoppedAt
+        stoppedBy {
+          name
+          id
+        }
+        userAgent
+        uuid
+        version
       }
     }
   `

@@ -46,11 +46,6 @@ class AgentShow extends React.Component {
       // very low, but chances are people aren't really looking at this page
       // for long periods of time.
       this._agentRefreshInterval = setInterval(this.fetchUpdatedData, 3::seconds);
-
-      // Once the agent's show page has mounted in DOM, switch `isMounted` to
-      // true which will trigger a load of all the additional information we need
-      // to show this page.
-      this.props.relay.setVariables({ isMounted: true });
     }
   }
 
@@ -187,36 +182,6 @@ class AgentShow extends React.Component {
       );
     }
 
-    let contents;
-    if (this.props.relay.variables.isMounted) {
-      contents = this.renderContents();
-    } else {
-      contents = this.renderSpinner();
-    }
-
-    return (
-      <DocumentTitle title={`Agents / ${this.props.agent.name} · ${this.props.agent.organization.name}`}>
-        <PageWithContainer>
-          <Panel className="sm-col-10 mx-auto">
-            <Panel.Header>{this.props.agent.name}</Panel.Header>
-            {contents}
-          </Panel>
-        </PageWithContainer>
-      </DocumentTitle>
-    );
-  }
-
-  renderSpinner() {
-    return (
-      <Panel.Row>
-        <div className="px3 py2 center">
-          <Spinner />
-        </div>
-      </Panel.Row>
-    );
-  }
-
-  renderContents() {
     const agent = this.props.agent;
     const connectionStateClassName = getColourForConnectionState(agent.connectionState);
 
@@ -225,39 +190,46 @@ class AgentShow extends React.Component {
       metaDataContent = agent.metaData.sort().join('\n');
     }
 
-    return [
-      <Panel.Row key="info">
-        <div className="sm-col sm-right-align sm-col-3 p2 bold">
-          Status
-        </div>
-        <div className="sm-col sm-col-9 p2">
-          <strong className={connectionStateClassName}>
-            {getLabelForConnectionState(agent.connectionState)}
-          </strong>
-          <br />
-          <small className="dark-gray">
-            <ul className="list-reset m0">
-              {this.renderExtras(agent)}
-            </ul>
-          </small>
-        </div>
-      </Panel.Row>,
+    return (
+      <DocumentTitle title={`Agents / ${this.props.agent.name} · ${this.props.agent.organization.name}`}>
+        <PageWithContainer>
+          <Panel className="sm-col-10 mx-auto">
+            <Panel.Header>{this.props.agent.name}</Panel.Header>
+            <Panel.Row key="info">
+              <div className="sm-col sm-right-align sm-col-3 p2 bold">
+                Status
+              </div>
+              <div className="sm-col sm-col-9 p2">
+                <strong className={connectionStateClassName}>
+                  {getLabelForConnectionState(agent.connectionState)}
+                </strong>
+                <br />
+                <small className="dark-gray">
+                  <ul className="list-reset m0">
+                    {this.renderExtras(agent)}
+                  </ul>
+                </small>
+              </div>
+            </Panel.Row>
 
-      <Panel.Row key="meta-data">
-        <div className="sm-col sm-right-align sm-col-3 p2 bold">
-          Meta Data
-        </div>
-        <div className="left sm-col-9 p2">
-          <pre className="black bg-silver rounded border border-gray py1 px2 m0 mb1 monospace" style={{ fontSize: 13 }}>{metaDataContent}</pre>
-          <small className="dark-gray">
-            You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
-            See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/queues">Agent Queues Documentation</a> for more details.
-          </small>
-        </div>
-      </Panel.Row>,
+            <Panel.Row key="meta-data">
+              <div className="sm-col sm-right-align sm-col-3 p2 bold">
+                Meta Data
+              </div>
+              <div className="left sm-col-9 p2">
+                <pre className="black bg-silver rounded border border-gray py1 px2 m0 mb1 monospace" style={{ fontSize: 13 }}>{metaDataContent}</pre>
+                <small className="dark-gray">
+                  You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
+                  See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/queues">Agent Queues Documentation</a> for more details.
+                </small>
+              </div>
+            </Panel.Row>
 
-      this.renderStopRow()
-    ];
+            {this.renderStopRow()}
+          </Panel>
+        </PageWithContainer>
+      </DocumentTitle>
+    );
   }
 
   renderStopRow() {
@@ -294,15 +266,7 @@ class AgentShow extends React.Component {
   }
 }
 
-// The $isMounted gear here is a little crappy. It should be nicer, but looks
-// like there's a bug in grpahql-ruby at the moment:
-// https://github.com/rmosolgo/graphql-ruby/issues/518
-
 export default Relay.createContainer(AgentShow, {
-  initialVariables: {
-    isMounted: false
-  },
-
   fragments: {
     agent: () => Relay.QL`
       fragment on Agent {
@@ -313,34 +277,34 @@ export default Relay.createContainer(AgentShow, {
           name
           slug
         }
-        connectedAt @include(if: $isMounted)
-        connectionState @include(if: $isMounted)
-        disconnectedAt @include(if: $isMounted)
-        hostname @include(if: $isMounted)
-        id @include(if: $isMounted)
-        ipAddress @include(if: $isMounted)
-        job @include(if: $isMounted) {
+        connectedAt
+        connectionState
+        disconnectedAt
+        hostname
+        id
+        ipAddress
+        job {
           ${JobLink.getFragment('job')}
         }
-        lostAt @include(if: $isMounted)
-        metaData @include(if: $isMounted)
-        operatingSystem @include(if: $isMounted)
-        permissions @include(if: $isMounted) {
+        lostAt
+        metaData
+        operatingSystem
+        permissions {
           agentStop {
             allowed
             code
             message
           }
         }
-        pid @include(if: $isMounted)
-        pingedAt @include(if: $isMounted)
-        stoppedAt @include(if: $isMounted)
-        stoppedBy @include(if: $isMounted) {
+        pid
+        pingedAt
+        stoppedAt
+        stoppedBy {
           name
         }
-        userAgent @include(if: $isMounted)
-        uuid @include(if: $isMounted)
-        version @include(if: $isMounted)
+        userAgent
+        uuid
+        version
       }
     `
   }
