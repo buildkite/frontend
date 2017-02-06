@@ -4050,13 +4050,13 @@
             },
             {
               "name": "operatingSystem",
-              "description": "The ID of the operating system this agent is running on",
+              "description": "The operating system the agent is running on",
               "args": [
 
               ],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "OBJECT",
+                "name": "OperatingSystem",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4214,6 +4214,37 @@
               "name": "Node",
               "ofType": null
             }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "OperatingSystem",
+          "description": "A operating system that an agent can run on",
+          "fields": [
+            {
+              "name": "name",
+              "description": "The name of the operating system",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
           ],
           "enumValues": null,
           "possibleTypes": null
