@@ -93,10 +93,12 @@ export function getDurationString(from, to = moment(), format = 'full', override
     let amount;
 
     if (times.length === 0) {
-      // the first one needs to take into account all larger units
-      amount = Math.floor(duration.as(label));
+      // the first one needs to take into account all larger units,
+      // otherwise we'd  end up with results not taking into account
+      // units larger than the largest unit in `TIME_SPANS`
+      amount = duration.as(label);
     } else {
-      // the rest work fine as Moment defines them
+      // further time spans do not require the above consideration
       amount = duration.get(label);
     }
 
@@ -104,28 +106,69 @@ export function getDurationString(from, to = moment(), format = 'full', override
     amount = Math.max(amount, 0);
 
     // the last label is always supplied, even if it's 0
-    if (amount > 0 || index === labels.length - 1) {
+    if (Math.floor(amount) > 0 || index === labels.length - 1) {
       times.push({ amount, label });
     }
   });
 
-  // only keep the most significant digits
-  const displayedTimes = times.slice(0, configuration.length);
+  // if we have more than one time span, we need to do some processing, because
+  //  a) the first time span will _include_ some smaller time spans
+  //  b) we'll need to include discarded time spans in the last time span
+  // otherwise, if we only have a single time span, we can rely on the value
+  // returned as the first index by `Moment#as`
+  if (times.length > 1) {
+    const firstTime = times[0];
 
-  if (displayedTimes.length < times.length) {
-    // let's round the last item using the next item we'd have shown
-    const lastTime = displayedTimes[displayedTimes.length - 1];
-    const nextTime = times[displayedTimes.length];
+    if (configuration.length > 1) {
+      // if we're accepting more than one time span, we need to subtract the
+      // second most significant span from the most significant time span, then
+      // floor it, as the most significant span include smaller time spans.
 
-    lastTime.amount = Math.round(
-      moment
-        .duration(lastTime.amount, lastTime.label)
-        .add(nextTime.amount, nextTime.label)
-        .as(lastTime.label)
-    );
+      const secondTime = times[1];
+
+      firstTime.amount = Math.floor(
+        moment
+          .duration(firstTime.amount, firstTime.label)
+          .subtract(secondTime.amount, secondTime.label)
+          .as(firstTime.label)
+      );
+    } else {
+      // otherwise, we simply round the first time span
+      firstTime.amount = Math.round(firstTime.amount);
+    }
+
+    // if the first time span is now zero, we can ignore it, and the next time
+    // span does not require the same processing it did
+    if (firstTime.amount < 1) {
+      times.shift();
+    }
+
+    // if we still have data we're discarding, let's add the first discarded
+    // item to the last shown item and round the result
+    if (configuration.length < times.length && configuration.length > 1) {
+      const lastTime = times[configuration.length - 1];
+      const nextTime = times[configuration.length];
+
+      lastTime.amount = Math.round(
+        moment
+          .duration(lastTime.amount, lastTime.label)
+          .add(nextTime.amount, nextTime.label)
+          .as(lastTime.label)
+      );
+    }
+  } else {
+    times[0].amount = Math.round(times[0].amount);
   }
 
-  return displayedTimes.map(configuration.render).join(configuration.commas ? ', ' : ' ');
+  return times
+    // only keep the most significant digits
+    .slice(0, configuration.length)
+    .map(configuration.render)
+    .join(
+      configuration.commas
+        ? ', '
+        : ' '
+    );
 }
 
 getDurationString.formats = Object.keys(DATE_FORMATS);

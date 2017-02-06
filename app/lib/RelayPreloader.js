@@ -9,11 +9,19 @@ const QUERIES = {
         createdBy {
           __typename
           ...on UnregisteredUser {
-            email
-          }
-          ...on User {
             name
             email
+            avatar {
+              url
+            }
+          }
+          ...on User {
+            id
+            name
+            email
+            avatar {
+              url
+            }
           }
         }
       }
@@ -96,7 +104,7 @@ const QUERIES = {
                   hasPreviousPage
                 }
               }
-              builds(first: 1, branch: "%default", state: [ BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_BLOCKED ]) {
+              builds(first: 1, branch: "%default", state: [ BUILD_STATE_RUNNING, BUILD_STATE_CANCELING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_BLOCKED ]) {
                 edges {
                   node {
                     id
@@ -224,8 +232,8 @@ const QUERIES = {
       }
     }
   `,
-  "agents/organization": Relay.QL`
-    query GetOrganization($organization: ID!) {
+  "agents/index": Relay.QL`
+    query AgentIndex($organization: ID!) {
       organization(slug: $organization) {
         id
         name
@@ -235,6 +243,19 @@ const QUERIES = {
           agentTokenView {
             allowed
           }
+        }
+      }
+    }
+  `,
+  "agents/show": Relay.QL`
+    query AgentShow($slug: ID!) {
+      agent(slug: $slug) {
+        id
+        name
+        organization {
+          id
+          name
+          slug
         }
       }
     }

@@ -42,9 +42,11 @@ class AgentRow extends React.Component {
       />
     );
 
+    // If we've got a job, we'll steal the "running" icon from the build state
+    // to show that the agent is doing something.
     if (agent.job) {
       agentIcon = (
-        <BuildState.XSmall state={agent.job.state} style={{ display: 'block' }} />
+        <BuildState.XSmall state={"running"} style={{ display: 'block' }} />
       );
     }
 
@@ -102,7 +104,7 @@ class AgentRow extends React.Component {
                 </div>
                 <small className="dark-gray">{metaDataContent}</small>
               </div>
-              <div className="right-align">
+              <div className="flex-none right-align">
                 <div className="black">v{agent.version}</div>
                 <small className="dark-gray">{agent.hostname}</small>
               </div>

@@ -42,6 +42,7 @@ window["Webpack"] = {
     "components/icons/BuildState": require("./components/icons/BuildState").default,
     "components/layout/Footer": require("./components/layout/Footer").default,
     "components/layout/Navigation": require("./components/layout/Navigation").default,
+    "components/layout/Flashes": require("./components/layout/Flashes").default,
     "components/organization/AgentsCount": require("./components/organization/AgentsCount").default,
     "components/organization/SettingsMenu": require("./components/organization/SettingsMenu").default,
     "components/pipeline/Teams": require("./components/pipeline/Teams").default,
