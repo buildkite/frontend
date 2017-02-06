@@ -282,7 +282,9 @@ const QUERIES = {
         }
         lostAt
         metaData
-        operatingSystem
+        operatingSystem {
+          name
+        }
         permissions {
           agentStop {
             allowed
