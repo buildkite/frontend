@@ -88,7 +88,7 @@ class AgentShow extends React.Component {
     }
 
     if (agent.operatingSystem) {
-      extras.push(this.renderExtraItem('OS', agent.operatingSystem));
+      extras.push(this.renderExtraItem('OS', agent.operatingSystem.name));
     }
 
     if (agent.priority) {
@@ -287,7 +287,9 @@ export default Relay.createContainer(AgentShow, {
         }
         lostAt
         metaData
-        operatingSystem
+        operatingSystem {
+          name
+        }
         permissions {
           agentStop {
             allowed
