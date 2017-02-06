@@ -21,7 +21,8 @@ class Navigation extends React.Component {
   static propTypes = {
     organization: React.PropTypes.object,
     viewer: React.PropTypes.object,
-    relay: React.PropTypes.object.isRequired
+    relay: React.PropTypes.object.isRequired,
+    assumed: React.PropTypes.bool
   };
 
   componentDidMount() {
@@ -173,7 +174,11 @@ class Navigation extends React.Component {
 
   render() {
     return (
-      <div className="border-bottom border-gray bg-silver" style={{ fontSize: 13, marginBottom: 25 }} data-tag={true}>
+      <div
+        className={classNames("border-bottom border-gray bg-silver", { "bg-warning-stripes": this.props.assumed })}
+        style={{ fontSize: 13, marginBottom: 25 }}
+        data-tag={true}
+      >
         <div className="container">
           <div className="flex flex-stretch" style={{ height: 45 }}>
             <span className="flex relative border-right border-gray items-center">
@@ -242,7 +247,9 @@ class Navigation extends React.Component {
               <form action="/logout" method="post" ref={(logoutFormNode) => this.logoutFormNode = logoutFormNode}>
                 <input type="hidden" name="_method" value={"delete"} />
                 <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
-                <NavigationButton href="#" onClick={this.handleLogoutClick}>Logout</NavigationButton>
+                <NavigationButton href="#" onClick={this.handleLogoutClick}>
+                  {this.props.assumed ? 'Unassume User' : 'Logout'}
+                </NavigationButton>
               </form>
             </Dropdown>
           </div>
