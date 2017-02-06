@@ -9,7 +9,6 @@ import FriendlyTime from "../shared/FriendlyTime";
 import JobLink from '../shared/JobLink';
 import PageWithContainer from '../shared/PageWithContainer';
 import Panel from '../shared/Panel';
-import Spinner from '../shared/Spinner';
 import permissions from '../../lib/permissions';
 import { getColourForConnectionState, getLabelForConnectionState } from './shared';
 
