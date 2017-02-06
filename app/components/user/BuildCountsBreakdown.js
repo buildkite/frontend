@@ -1,8 +1,7 @@
 import React from 'react';
 
 import PusherStore from '../../stores/PusherStore';
-
-import { formatNumber } from '../../lib/number';
+import StateSwitcher from '../build/StateSwitcher';
 
 class BuildCountsBreakdown extends React.Component {
   static propTypes = {
@@ -16,7 +15,8 @@ class BuildCountsBreakdown extends React.Component {
       runningBuilds: React.PropTypes.shape({
         count: React.PropTypes.number.isRequired
       })
-    })
+    }),
+    state: React.PropTypes.string
   };
 
   state = {
@@ -35,17 +35,13 @@ class BuildCountsBreakdown extends React.Component {
 
   render() {
     return (
-      <div className="flex">
-        <div className="rounded-left border-left border-top border-bottom border-gray flex items-center" style={{ lineHeight: "1.8" }}>
-          <a href="/builds" className="py1 px3 dark-gray hover-black">{formatNumber(this.state.buildsCount)} Builds</a>
-        </div>
-        <div className="border-left border-top border-bottom border-gray flex items-center">
-          <a href="/builds?state=running" className="py1 px3 dark-gray hover-black">{formatNumber(this.state.runningBuildsCount)} Running</a>
-        </div>
-        <div className="rounded-right border border-gray flex items-center">
-          <a href="/builds?state=scheduled" className="py1 px3 dark-gray hover-black">{formatNumber(this.state.scheduledBuildsCount)} Scheduled</a>
-        </div>
-      </div>
+      <StateSwitcher
+        path="/builds"
+        state={this.props.state}
+        buildsCount={this.state.buildsCount}
+        runningBuildsCount={this.state.runningBuildsCount}
+        scheduledBuildsCount={this.state.scheduledBuildsCount}
+      />
     );
   }
 

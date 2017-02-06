@@ -38,6 +38,7 @@ window["Webpack"] = {
     "react-addons-pure-render-mixin": require("react-addons-pure-render-mixin"),
 
     "components/build/AvatarWithUnknownEmailPrompt": require("./components/build/AvatarWithUnknownEmailPrompt").default,
+    "components/build/StateSwitcher": require("./components/build/StateSwitcher").default,
     "components/icons/BuildState": require("./components/icons/BuildState").default,
     "components/layout/Footer": require("./components/layout/Footer").default,
     "components/layout/Navigation": require("./components/layout/Navigation").default,
@@ -47,6 +48,7 @@ window["Webpack"] = {
     "components/pipeline/Teams": require("./components/pipeline/Teams").default,
     "components/PipelinesWelcome": require("./components/organization/Welcome").default,
     "components/shared/BuildStatusDescription": require("./components/shared/BuildStatusDescription").default,
+    "components/shared/Button": require("./components/shared/Button").default,
     "components/shared/CollapsableFormField": require("./components/shared/CollapsableFormField").default,
     "components/shared/Duration": require("./components/shared/Duration").default,
     "components/shared/Emojify": require("./components/shared/Emojify").default,
