@@ -32,7 +32,7 @@ class Navigation extends React.Component {
     showingOrgDropdown: false,
     showingUserDropdown: false,
     showingSupportDialog: false,
-    assumed: window['_adminIsAssumingUser']
+    warning: window['_navigation'] && window['_navigation']['warning']
   };
 
   handleOrgDropdownToggle = (visible) => {
@@ -175,7 +175,7 @@ class Navigation extends React.Component {
   render() {
     return (
       <div
-        className={classNames("border-bottom border-gray bg-silver", { "bg-warning-stripes": this.state.assumed })}
+        className={classNames("border-bottom border-gray bg-silver", { "bg-warning-stripes": this.state.warning })}
         style={{ fontSize: 13, marginBottom: 25 }}
         data-tag={true}
       >
@@ -248,7 +248,7 @@ class Navigation extends React.Component {
                 <input type="hidden" name="_method" value={"delete"} />
                 <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
                 <NavigationButton href="#" onClick={this.handleLogoutClick}>
-                  {this.state.assumed ? 'Unassume User' : 'Logout'}
+                  {this.state.warning ? 'Unassume User' : 'Logout'}
                 </NavigationButton>
               </form>
             </Dropdown>
