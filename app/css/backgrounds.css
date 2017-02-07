@@ -1,0 +1,9 @@
+.bg-warning-stripes {
+  background: repeating-linear-gradient(
+    -55deg,
+    #FFF1D9,
+    #FFF1D9 10px,
+    #FFFFEB 10px,
+    #FFFFEB 20px
+  );
+}
