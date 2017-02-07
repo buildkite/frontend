@@ -19,13 +19,3 @@
 .bg-fuchsia { background-color: var(--fuchsia) }
 .bg-purple  { background-color: var(--purple) }
 .bg-maroon  { background-color: var(--maroon) }
-
-.bg-warning-stripes {
-  background: repeating-linear-gradient(
-    -55deg,
-    #FFF1D9,
-    #FFF1D9 10px,
-    #FFFFEB 10px,
-    #FFFFEB 20px
-  );
-}
