@@ -21,8 +21,7 @@ class Navigation extends React.Component {
   static propTypes = {
     organization: React.PropTypes.object,
     viewer: React.PropTypes.object,
-    relay: React.PropTypes.object.isRequired,
-    assumed: React.PropTypes.bool
+    relay: React.PropTypes.object.isRequired
   };
 
   componentDidMount() {
@@ -32,7 +31,8 @@ class Navigation extends React.Component {
   state = {
     showingOrgDropdown: false,
     showingUserDropdown: false,
-    showingSupportDialog: false
+    showingSupportDialog: false,
+    assumed: window['_adminIsAssumingUser']
   };
 
   handleOrgDropdownToggle = (visible) => {
@@ -175,7 +175,7 @@ class Navigation extends React.Component {
   render() {
     return (
       <div
-        className={classNames("border-bottom border-gray bg-silver", { "bg-warning-stripes": this.props.assumed })}
+        className={classNames("border-bottom border-gray bg-silver", { "bg-warning-stripes": this.state.assumed })}
         style={{ fontSize: 13, marginBottom: 25 }}
         data-tag={true}
       >
@@ -248,7 +248,7 @@ class Navigation extends React.Component {
                 <input type="hidden" name="_method" value={"delete"} />
                 <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
                 <NavigationButton href="#" onClick={this.handleLogoutClick}>
-                  {this.props.assumed ? 'Unassume User' : 'Logout'}
+                  {this.state.assumed ? 'Unassume User' : 'Logout'}
                 </NavigationButton>
               </form>
             </Dropdown>
