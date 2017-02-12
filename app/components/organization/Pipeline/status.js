@@ -39,6 +39,7 @@ class Status extends React.Component {
             className="color-inherit relative"
             onMouseOver={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}
+            width={300}
           >
             <span className="block line-height-1"><BuildState.Regular state={build.state} /></span>
           </a>
