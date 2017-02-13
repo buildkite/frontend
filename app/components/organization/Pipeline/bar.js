@@ -69,7 +69,11 @@ class Bar extends React.Component {
 
     if (this.props.href) {
       return (
-        <AnchoredPopover position="absolute" style={{ height: '100%', left: this.props.left, bottom: 0 }}>
+        <AnchoredPopover
+          position="absolute"
+          style={{ height: '100%', left: this.props.left, bottom: 0 }}
+          width={300}
+        >
           <a href={this.props.href}
             className="border-box inline-block color-inherit"
             style={{ height: '100%', width: BAR_WIDTH_WITH_SEPERATOR }}
