@@ -17,7 +17,8 @@ class FormTextField extends React.Component {
     spellCheck: React.PropTypes.bool,
     onChange: React.PropTypes.func,
     collapsable: React.PropTypes.bool,
-    errors: React.PropTypes.array
+    errors: React.PropTypes.array,
+    required: React.PropTypes.bool
   };
 
   static defaultProps = {
@@ -93,6 +94,7 @@ class FormTextField extends React.Component {
         placeholder={this.props.placeholder}
         spellCheck={this.props.spellCheck}
         onChange={this.props.onChange}
+        required={this.props.required}
         ref={(input) => this.input = input}
       />
     );
