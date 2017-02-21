@@ -5,11 +5,17 @@ import Emojify from '../shared/Emojify';
 import Button from '../shared/Button';
 import Icon from '../shared/Icon';
 
+import CreateBuildDialog from './CreateBuildDialog';
+
 import permissions from '../../lib/permissions';
 
 class Header extends React.Component {
   static propTypes = {
     pipeline: React.PropTypes.object.isRequired
+  };
+
+  state = {
+    showingCreateBuildDialog: false
   };
 
   render() {
@@ -26,6 +32,7 @@ class Header extends React.Component {
         <div className="flex items-start">
           {this.renderButtons()}
         </div>
+        <CreateBuildDialog isOpen={this.state.showingCreateBuildDialog} onRequestClose={this.handleSupportDialogClose} pipeline={this.props.pipeline} />
       </div>
     );
   }
@@ -40,7 +47,7 @@ class Header extends React.Component {
             onClick={this.handleBuildCreateClick}
             outline={true}
             theme="default"
-            className="ml2 flex items-center">New Build</Button>
+            className="ml2 flex items-center">Create Build</Button>
         )
       },
       {
@@ -71,6 +78,11 @@ class Header extends React.Component {
   }
 
   handleBuildCreateClick = () => {
+    this.setState({ showingCreateBuildDialog: true });
+  }
+
+  handleSupportDialogClose = () => {
+    this.setState({ showingCreateBuildDialog: false });
   }
 }
 
@@ -78,6 +90,7 @@ export default Relay.createContainer(Header, {
   fragments: {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
+        ${CreateBuildDialog.getFragment('pipeline')}
         name
         repository
         description
