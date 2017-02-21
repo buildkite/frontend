@@ -31,14 +31,13 @@ DialogBackdrop.defaultProps = {
 };
 
 const DialogBox = styled.div`
-  padding: 50px 10px;
-  width: 500px;
+  width: ${(props) => props.width}px;
   zIndex: 1002;
   maxWidth: 90vw;
 `;
 
 DialogBox.defaultProps = {
-  className: 'background bg-white transition-popup rounded-3 shadow-subtle center relative mx4'
+  className: 'background bg-white transition-popup rounded-3 shadow-subtle relative mx4'
 };
 
 const DialogContainer = styled.span`
@@ -58,7 +57,8 @@ class Dialog extends React.Component {
     children: React.PropTypes.node,
     closeable: React.PropTypes.bool,
     isOpen: React.PropTypes.bool,
-    onRequestClose: React.PropTypes.func
+    onRequestClose: React.PropTypes.func,
+    width: React.PropTypes.number
   };
 
   static defaultProps = {
@@ -154,7 +154,7 @@ class Dialog extends React.Component {
     }
 
     return (
-      <DialogBox>
+      <DialogBox width={this.props.width || 500}>
         {this.renderCloseButton()}
         {this.props.children}
       </DialogBox>
