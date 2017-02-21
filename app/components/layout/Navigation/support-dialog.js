@@ -63,31 +63,33 @@ class SupportDialog extends React.Component {
   render() {
     return (
       <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose}>
-        {/* fyi the h1 class here is only necessary so this doesn't break on Bootstrap pages */}
-        <h1 className="bold h1 mt0 mt2 mb4">
-          <WavingEmoji className="inline-block" text=":wave::skin-tone-3:" />
-          {' '}
-          We’re here to help!
-        </h1>
-        <Mugshots className="mb2">
-          {shuffle(PEOPLE).map(({ name, image, backgroundColor }) => (
-            <Mugshot
-              key={name}
-              className="circle border border-white"
-              src={require(`../../../images/people/${image}-small.jpg`)}
-              alt={name}
-              title={name}
-              backgroundColor={backgroundColor}
-            />)
-          )}
-        </Mugshots>
+        <div className="center" style={{padding: "50px 10px"}}>
+          {/* fyi the h1 class here is only necessary so this doesn't break on Bootstrap pages */}
+          <h1 className="bold h1 mt0 mt2 mb4">
+            <WavingEmoji className="inline-block" text=":wave::skin-tone-3:" />
+            {' '}
+            We’re here to help!
+          </h1>
+          <Mugshots className="mb2">
+            {shuffle(PEOPLE).map(({ name, image, backgroundColor }) => (
+              <Mugshot
+                key={name}
+                className="circle border border-white"
+                src={require(`../../../images/people/${image}-small.jpg`)}
+                alt={name}
+                title={name}
+                backgroundColor={backgroundColor}
+              />)
+            )}
+          </Mugshots>
 
-        <div className="mx-auto mb2 pt1 px3 sm-col-10 semi-bold line-height-4 h5">
-          If you have a question, problem, or just need a hand send us an email and we’ll help you out.
-        </div>
+          <div className="mx-auto mb2 pt1 px3 sm-col-10 semi-bold line-height-4 h5">
+            If you have a question, problem, or just need a hand send us an email and we’ll help you out.
+          </div>
 
-        <div className="pt1">
-          <Button className="h5 bold" href="mailto:support@buildkite.com" theme="default" outline={true}>Email support@buildkite.com</Button>
+          <div className="pt1">
+            <Button className="h5 bold" href="mailto:support@buildkite.com" theme="default" outline={true}>Email support@buildkite.com</Button>
+          </div>
         </div>
       </Dialog>
     );
