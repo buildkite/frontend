@@ -2,13 +2,13 @@ exports[`getColourForConnectionState for connection state \`connected\` returns 
 
 exports[`getColourForConnectionState for connection state \`connected\` returns the expected colour with no prefix 1`] = `"lime"`;
 
-exports[`getColourForConnectionState for connection state \`disconnected\` returns the expected colour with a prefix 1`] = `"bg-black"`;
+exports[`getColourForConnectionState for connection state \`disconnected\` returns the expected colour with a prefix 1`] = `"bg-gray"`;
 
-exports[`getColourForConnectionState for connection state \`disconnected\` returns the expected colour with no prefix 1`] = `"black"`;
+exports[`getColourForConnectionState for connection state \`disconnected\` returns the expected colour with no prefix 1`] = `"gray"`;
 
-exports[`getColourForConnectionState for connection state \`lost\` returns the expected colour with a prefix 1`] = `"bg-orange"`;
+exports[`getColourForConnectionState for connection state \`lost\` returns the expected colour with a prefix 1`] = `"bg-gray"`;
 
-exports[`getColourForConnectionState for connection state \`lost\` returns the expected colour with no prefix 1`] = `"orange"`;
+exports[`getColourForConnectionState for connection state \`lost\` returns the expected colour with no prefix 1`] = `"gray"`;
 
 exports[`getColourForConnectionState for connection state \`never_connected\` returns the expected colour with a prefix 1`] = `"bg-gray"`;
 
@@ -18,9 +18,9 @@ exports[`getColourForConnectionState for connection state \`stopped\` returns th
 
 exports[`getColourForConnectionState for connection state \`stopped\` returns the expected colour with no prefix 1`] = `"gray"`;
 
-exports[`getColourForConnectionState for connection state \`stopping\` returns the expected colour with a prefix 1`] = `"bg-gray"`;
+exports[`getColourForConnectionState for connection state \`stopping\` returns the expected colour with a prefix 1`] = `"bg-orange"`;
 
-exports[`getColourForConnectionState for connection state \`stopping\` returns the expected colour with no prefix 1`] = `"gray"`;
+exports[`getColourForConnectionState for connection state \`stopping\` returns the expected colour with no prefix 1`] = `"orange"`;
 
 exports[`getLabelForConnectionState for connection state \`connected\` returns the expected label 1`] = `"Connected"`;
 
