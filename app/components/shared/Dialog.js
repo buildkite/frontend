@@ -11,6 +11,10 @@ const CloseButton = styled.button`
   right: ${-BUTTON_SIZE / 2}px;
   width: ${BUTTON_SIZE}px;
   height: ${BUTTON_SIZE}px;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 CloseButton.defaultProps = {
