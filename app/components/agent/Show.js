@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
+import StateIcon from './state-icon';
 import Button from '../shared/Button';
 import FlashesStore from '../../stores/FlashesStore';
 import FriendlyTime from "../shared/FriendlyTime";
@@ -10,7 +11,7 @@ import JobLink from '../shared/JobLink';
 import PageWithContainer from '../shared/PageWithContainer';
 import Panel from '../shared/Panel';
 import permissions from '../../lib/permissions';
-import { getColourForConnectionState, getLabelForConnectionState } from './shared';
+import { getLabelForConnectionState } from './shared';
 
 import AgentStopMutation from '../../mutations/AgentStop';
 
@@ -58,14 +59,22 @@ class AgentShow extends React.Component {
 
   renderExtraItem(title, content) {
     return (
-      <li key={title} style={{ marginTop: 3 }}>
-        <strong className="dark-gray">{title}:</strong> {content}
-      </li>
+      <tr key={title} style={{ marginTop: 3 }} className="border-gray border-bottom">
+        <th className="h5 p2 semi-bold left-align align-top">{title}</th>
+        <td className="h5 p2">{content}</td>
+      </tr>
     );
   }
 
   renderExtras(agent) {
     const extras = [];
+
+    extras.push(this.renderExtraItem('State', (
+      <span>
+        <StateIcon agent={agent} className="pr2" />
+        {getLabelForConnectionState(agent.connectionState)}
+      </span>
+    )));
 
     if (agent.version) {
       extras.push(this.renderExtraItem('Version', agent.version));
@@ -129,14 +138,27 @@ class AgentShow extends React.Component {
         </span>
       ));
 
-      // Also show when the agent eventually disconnected
       if (agent.disconnectedAt) {
         extras.push(this.renderExtraItem(
           'Disconnected',
           <FriendlyTime value={agent.disconnectedAt} />
         ));
+      } else {
+        extras.push(this.renderExtraItem(
+          'Disconnected',
+          '-'
+        ));
       }
     }
+
+    let metaDataContent = 'None';
+    if (agent.metaData && agent.metaData.length) {
+      metaDataContent = agent.metaData.sort().join('\n');
+    }
+    extras.push(this.renderExtraItem(
+      'Meta-Data',
+      <pre className="black bg-silver rounded border border-gray py1 px2 m0 mb1 monospace" style={{ fontSize: 13 }}>{metaDataContent}</pre>
+    ));
 
     return extras;
   }
@@ -146,15 +168,19 @@ class AgentShow extends React.Component {
 
     this.setState({ stopping: true });
 
-    const mutation = new AgentStopMutation({
-      agent: this.props.agent,
-      graceful: false
-    });
+    // We add a delay in case it executes so quickly that the user can't
+    // understand what just flashed past their face.
+    setTimeout(() => {
+      const mutation = new AgentStopMutation({
+        agent: this.props.agent,
+        graceful: false
+      });
 
-    Relay.Store.commitUpdate(mutation, {
-      onSuccess: this.handleMutationSuccess,
-      onFailure: this.handleMutationError
-    });
+      Relay.Store.commitUpdate(mutation, {
+        onSuccess: this.handleMutationSuccess,
+        onFailure: this.handleMutationError
+      });
+    }, 1250);
   };
 
   handleMutationSuccess = () => {
@@ -182,46 +208,23 @@ class AgentShow extends React.Component {
     }
 
     const agent = this.props.agent;
-    const connectionStateClassName = getColourForConnectionState(agent.connectionState);
-
-    let metaDataContent = 'None';
-    if (agent.metaData && agent.metaData.length) {
-      metaDataContent = agent.metaData.sort().join('\n');
-    }
 
     return (
       <DocumentTitle title={`Agents / ${this.props.agent.name} · ${this.props.agent.organization.name}`}>
         <PageWithContainer>
-          <Panel className="sm-col-10 mx-auto">
+          <Panel className="sm-col-6 mx-auto">
             <Panel.Header>{this.props.agent.name}</Panel.Header>
-            <Panel.Row key="info">
-              <div className="sm-col sm-right-align sm-col-3 p2 bold">
-                Status
-              </div>
-              <div className="sm-col sm-col-9 p2">
-                <strong className={connectionStateClassName}>
-                  {getLabelForConnectionState(agent.connectionState)}
-                </strong>
-                <br />
-                <small className="dark-gray">
-                  <ul className="list-reset m0">
-                    {this.renderExtras(agent)}
-                  </ul>
-                </small>
-              </div>
-            </Panel.Row>
 
-            <Panel.Row key="meta-data">
-              <div className="sm-col sm-right-align sm-col-3 p2 bold">
-                Meta Data
-              </div>
-              <div className="left sm-col-9 p2">
-                <pre className="black bg-silver rounded border border-gray py1 px2 m0 mb1 monospace" style={{ fontSize: 13 }}>{metaDataContent}</pre>
-                <small className="dark-gray">
-                  You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
-                  See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/queues">Agent Queues Documentation</a> for more details.
-                </small>
-              </div>
+            <Panel.Row key="info">
+              <table className="col-12">
+                <tbody>
+                  {this.renderExtras(agent)}
+                </tbody>
+              </table>
+              <p>
+                You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
+                See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/queues">Agent Queues Documentation</a> for more details.
+              </p>
             </Panel.Row>
 
             {this.renderStopRow()}
@@ -241,23 +244,18 @@ class AgentShow extends React.Component {
         allowed: "agentStop",
         render: (idx) => (
           <Panel.Row key={idx}>
-            <div className="sm-col sm-right-align sm-col-3 p2 xs-hide" />
-            <div className="sm-col sm-col-9 p2">
-              <Button
-                theme="default"
-                outline={true}
-                loading={this.state.stopping ? "Stopping…" : false}
-                onClick={this.handleStopButtonClick}
-                className="mb1"
-              >
-                Stop Agent
-              </Button>
-              <br />
-              <small className="dark-gray">
-                Remotely stop this agent process.
-                Any running build job will be canceled.
-              </small>
-            </div>
+            <Button
+              theme="default"
+              outline={true}
+              loading={this.state.stopping ? "Stopping…" : false}
+              onClick={this.handleStopButtonClick}
+              className="mb1"
+            >
+              Stop Agent
+            </Button>
+            <span className="dark-gray pl3">
+              Any running build job will be canceled.
+            </span>
           </Panel.Row>
         )
       }
