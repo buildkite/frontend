@@ -253,13 +253,21 @@ class AgentShow extends React.Component {
             >
               Stop Agent
             </Button>
-            <span className="dark-gray pl3">
-              Any running build job will be canceled.
-            </span>
+            {this.renderStopWarningMessage()}
           </Panel.Row>
         )
       }
     );
+  }
+
+  renderStopWarningMessage() {
+    if (this.props.agent.job) {
+      return (
+        <span className="dark-gray pl3">
+          The running job will be canceled.
+        </span>
+      )
+    }
   }
 }
 
