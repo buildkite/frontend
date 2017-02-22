@@ -64,7 +64,7 @@ class AgentTokens extends React.Component {
   }
 
   renderDescription(token) {
-    if (this.props.organization.agentTokens.length > 1) {
+    if (this.props.organization.agentTokens.edges.length > 1) {
       return (
         <small className="dark-gray mb1 block">
           {token.description}
