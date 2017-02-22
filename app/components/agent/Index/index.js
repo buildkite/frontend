@@ -39,7 +39,7 @@ class AgentIndex extends React.Component {
     // Switches between showing just the agents, or the agents along with
     // registration tokens.
     if (this.props.organization.permissions.agentTokenView.allowed) {
-      if (this.props.location.query.setup == 'true') {
+      if (this.props.location.query.setup === 'true') {
         return (
           <div className="clearfix mxn3 md-col-9 lg-col-8 mx-auto">
             <QuickStart
