@@ -2,10 +2,10 @@ import EventEmitter from 'eventemitter3';
 
 const LOCALSTORAGE_PREFIX = 'SessionHashStore:';
 
-const keyWithPrefix = (key='') => `${LOCALSTORAGE_PREFIX}${key}`;
+const keyWithPrefix = (key = '') => `${LOCALSTORAGE_PREFIX}${key}`;
 const keySansPrefix = (prefixedKey) => {
   if (prefixedKey.indexOf(LOCALSTORAGE_PREFIX) !== 0) {
-    throw new Error('keySansPrefix called with invalid key')
+    throw new Error('keySansPrefix called with invalid key');
   }
   return prefixedKey.slice(LOCALSTORAGE_PREFIX.length);
 };
@@ -58,7 +58,7 @@ class SessionHashStore extends EventEmitter {
     Object.keys(localStorage)
       .filter((key) => key.indexOf(LOCALSTORAGE_PREFIX) === 0)
       .forEach((key) => {
-        localStorage.removeItem(key)
+        localStorage.removeItem(key);
 
         this.sendVirtualEvent(
           keySansPrefix(key),
