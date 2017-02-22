@@ -68,7 +68,7 @@ class AgentInstallation extends React.Component {
         <Panel.Section>
           See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/installation">agent installation documentation</a> for the full details of installing and configuring your Buildkite agents for any machine or architecture.
           <Dialog closeable={false} isOpen={this.state.isDialogOpen}>
-            <div className="center" style={{padding: "50px 10px"}}>
+            <div className="center" style={{ padding: "50px 10px" }}>
               <p className="mt0 h2">
                 <Emojify text=":tada:" /> You’ve successfully connected {agentName}!<br/>
                 You’re all ready to run builds!
