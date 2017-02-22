@@ -12,6 +12,8 @@ import AgentsCount from '../../organization/AgentsCount';
 import NewChangelogsBadge from '../../user/NewChangelogsBadge';
 import permissions from '../../../lib/permissions';
 
+import SessionHashStore from '../../../stores/SessionHashStore';
+
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
 import SupportDialog from './support-dialog';
@@ -26,13 +28,43 @@ class Navigation extends React.Component {
 
   componentDidMount() {
     this.props.relay.setVariables({ isMounted: true });
+    SessionHashStore.on('change', this.handleSessionDataChange);
+  }
+
+  componentWillMount() {
+    if (this.props.organization && this.props.organization.slug) {
+      this.setState({
+        lastDefaultTeam: SessionHashStore.get(`organization-default-team:${this.props.organization.slug}`)
+      });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.organization && nextProps.organization.slug && nextProps.organization.slug !== this.props.organization.slug) {
+      this.setState({
+        lastDefaultTeam: SessionHashStore.get(`organization-default-team:${nextProps.organization.slug}`)
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    SessionHashStore.off('change', this.handleSessionDataChange);
   }
 
   state = {
     showingOrgDropdown: false,
     showingUserDropdown: false,
     showingSupportDialog: false,
-    warning: window['_navigation'] && window['_navigation']['warning']
+    warning: window['_navigation'] && window['_navigation']['warning'],
+    lastDefaultTeam: null
+  };
+
+  handleSessionDataChange = ({ key, newValue }) => {
+    if (key === `organization-default-team:${this.props.organization.slug}`) {
+      this.setState({
+        lastDefaultTeam: newValue
+      });
+    }
   };
 
   handleOrgDropdownToggle = (visible) => {
@@ -130,6 +162,16 @@ class Navigation extends React.Component {
     }
   }
 
+  getOrganizationPipelinesUrl(organization) {
+    let link = `/${organization.slug}`;
+
+    if (this.state.lastDefaultTeam) {
+      link = `${link}?team=${this.state.lastDefaultTeam}`;
+    }
+
+    return link;
+  }
+
   renderOrganizationMenu(options = {}) {
     const organization = this.props.organization;
     const paddingLeft = typeof options.paddingLeft === "number" ? options.paddingLeft : 15;
@@ -137,7 +179,7 @@ class Navigation extends React.Component {
     if (organization) {
       return (
         <div className={classNames("flex", options.className)}>
-          <NavigationButton className="py0" style={{ paddingLeft: paddingLeft }} href={`/${organization.slug}`} linkIf={Features.NewPipelineList}>Pipelines</NavigationButton>
+          <NavigationButton className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={Features.NewPipelineList}>Pipelines</NavigationButton>
           <NavigationButton className="py0" href={`/organizations/${organization.slug}/agents`} linkIf={Features.NewAgentList}>
             {'Agents'}
             <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
