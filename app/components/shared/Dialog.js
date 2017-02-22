@@ -63,7 +63,8 @@ class Dialog extends React.Component {
 
   static defaultProps = {
     closeable: true,
-    isOpen: false
+    isOpen: false,
+    width: 500
   };
 
   constructor(initialProps) {
@@ -154,7 +155,7 @@ class Dialog extends React.Component {
     }
 
     return (
-      <DialogBox width={this.props.width || 500}>
+      <DialogBox width={this.props.width}>
         {this.renderCloseButton()}
         {this.props.children}
       </DialogBox>
