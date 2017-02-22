@@ -18,7 +18,7 @@ const CloseButton = styled.button`
 `;
 
 CloseButton.defaultProps = {
-  className: 'absolute circle shadow-subtle bg-white bold flex items-center cursor-pointer border border-white p0'
+  className: 'absolute circle shadow-subtle bg-white bold flex items-center cursor-pointer border border-white p0 hover-lime focus-lime'
 };
 
 const DialogBackdrop = styled.div`
