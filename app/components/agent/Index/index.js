@@ -43,7 +43,7 @@ class AgentIndex extends React.Component {
     if (organization.permissions.agentTokenView.allowed) {
       if (query.setup === 'true') {
         return (
-          <div className="clearfix mxn3">
+          <div className="clearfix mxn3 md-col-9 lg-col-8 mx-auto">
             <QuickStart
               title="Select the environment to set up your first agent"
               center={false}
