@@ -104,6 +104,7 @@ class Agents extends React.Component {
                 placeholder="Filter"
                 style={{ fontSize: 12, lineHeight: 1.1, height: 30, width: 160 }}
                 onSearch={this.handleSearch}
+                delayed={this.useRemoteSearch}
               />
             </div>
           </div>
@@ -217,17 +218,23 @@ class Agents extends React.Component {
     );
   }
 
+  get useLocalSearch() {
+    // If we've loaded the agents, and there's no more pages of data, then we can do a local search
+    return this.props.organization.agents &&
+      this.props.organization.agents.edges.length > 0 &&
+      !this.props.organization.agents.pageInfo.hasNextPage;
+  }
+
+  get useRemoteSearch() {
+    return !this.useLocalSearch;
+  }
+
   handleSearch = (query) => {
-    const { organization } = this.props;
-
-    // if we have the full set of agents locally, do our searching here
-    if (organization.agents && organization.agents.edges.length > 0 && !organization.agents.pageInfo.hasNextPage) {
+    if (this.useLocalSearch) {
       return this.handleLocalSearch(query);
+    } else {
+      return this.handleRemoteSearch(query);
     }
-
-    // if we haven't loaded anything yet, last retrieved a total of 0 agents,
-    // or have more agents than are displayed, do the searching on the server
-    return this.handleRemoteSearch(query);
   };
 
   handleLocalSearch = (query) => {

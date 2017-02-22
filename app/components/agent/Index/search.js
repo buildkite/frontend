@@ -5,7 +5,12 @@ class Search extends React.Component {
     className: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     style: React.PropTypes.object,
-    onSearch: React.PropTypes.func
+    onSearch: React.PropTypes.func,
+    delayed: React.PropTypes.bool
+  };
+
+  state = {
+    onSearchTimeout: this.props.delayed ? 250 : 1
   };
 
   render() {
@@ -26,7 +31,7 @@ class Search extends React.Component {
       clearTimeout(this._timeout);
     }
 
-    this._timeout = setTimeout(this.handleEntryTimeout, 500);
+    this._timeout = setTimeout(this.handleEntryTimeout, this.state.onSearchTimeout);
   };
 
   handleEntryTimeout = () => {
