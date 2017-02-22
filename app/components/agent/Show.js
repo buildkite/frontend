@@ -156,7 +156,7 @@ class AgentShow extends React.Component {
       metaDataContent = agent.metaData.sort().join('\n');
     }
     extras.push(this.renderExtraItem(
-      'Meta-Data',
+      'Meta-data',
       <pre className="black bg-silver rounded border border-gray py1 px2 m0 mb1 monospace" style={{ fontSize: 13 }}>{metaDataContent}</pre>
     ));
 
