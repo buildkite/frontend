@@ -34,7 +34,7 @@ class Navigation extends React.Component {
   componentWillMount() {
     if (this.props.organization && this.props.organization.slug) {
       this.setState({
-        lastDefaultTeam: SessionHashStore.get(`organization-default-team:${this.props.organization.slug}`)
+        lastDefaultTeam: SessionHashStore.get(`organization-default-team:${this.props.organization.id}`)
       });
     }
   }
@@ -42,7 +42,7 @@ class Navigation extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.organization && nextProps.organization.slug && nextProps.organization.slug !== this.props.organization.slug) {
       this.setState({
-        lastDefaultTeam: SessionHashStore.get(`organization-default-team:${nextProps.organization.slug}`)
+        lastDefaultTeam: SessionHashStore.get(`organization-default-team:${nextProps.organization.id}`)
       });
     }
   }
@@ -60,7 +60,7 @@ class Navigation extends React.Component {
   };
 
   handleSessionDataChange = ({ key, newValue }) => {
-    if (key === `organization-default-team:${this.props.organization.slug}`) {
+    if (key === `organization-default-team:${this.props.organization.id}`) {
       this.setState({
         lastDefaultTeam: newValue
       });

@@ -11,6 +11,7 @@ import Welcome from './Welcome';
 class OrganizationPipelines extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
       pipelines: React.PropTypes.shape({
         edges: React.PropTypes.arrayOf(
@@ -44,7 +45,7 @@ class OrganizationPipelines extends React.Component {
       }
     });
 
-    this.maybeUpdateDefaultTeam(this.props.organization.slug, this.props.team);
+    this.maybeUpdateDefaultTeam(this.props.organization.id, this.props.team);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,7 +64,7 @@ class OrganizationPipelines extends React.Component {
       });
     }
 
-    this.maybeUpdateDefaultTeam(nextProps.organization.slug, nextProps.team);
+    this.maybeUpdateDefaultTeam(nextProps.organization.id, nextProps.team);
   }
 
   maybeUpdateDefaultTeam(organization, team) {
@@ -142,6 +143,7 @@ export default Relay.createContainer(OrganizationPipelines, {
   fragments: {
     organization: (variables) => Relay.QL`
       fragment on Organization {
+        id
         slug
         pipelines(first: 500, team: $teamSearch, order: PIPELINE_ORDER_NAME) @include(if: $isMounted) {
           edges {
