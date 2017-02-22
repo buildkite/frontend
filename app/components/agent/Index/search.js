@@ -1,5 +1,5 @@
 import React from 'react';
-import throttleit from 'throttleit';
+import throttle from 'throttleit';
 
 class Search extends React.Component {
   static propTypes = {
@@ -13,8 +13,11 @@ class Search extends React.Component {
   constructor(props) {
     super();
 
-    const delay = props.delayed ? 250 : 1;
-    this.handleKeyUpThrottled = throttleit(() => { this.handleKeyUp(); }, delay);
+    if (props.delayed) {
+      this.handleKeyUpThrottled = throttle(() => { this.handleKeyUp(); }, 250);
+    } else {
+      this.handleKeyUpThrottled = this.handleKeyUp;
+    }
   }
 
   render() {
