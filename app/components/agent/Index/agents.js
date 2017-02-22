@@ -174,11 +174,13 @@ class Agents extends React.Component {
       return relevantAgents.map(({ node: agent }) => <AgentRow key={agent.id} agent={agent} />);
     }
 
-    return (
-      <Panel.Section className="dark-gray">
-        No agents {isContextFiltered ? 'found' : 'connected'}
-      </Panel.Section>
-    );
+    if (!isContextFiltered) {
+      return (
+        <Panel.Section className="dark-gray">
+          No agents {isContextFiltered ? 'found' : 'connected'}
+        </Panel.Section>
+      );
+    }
   }
 
   renderFooter() {
