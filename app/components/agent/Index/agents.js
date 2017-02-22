@@ -98,7 +98,8 @@ class Agents extends React.Component {
         <div className="bg-silver semi-bold">
           <div className="flex items-center">
             <div className="flex-auto py2 px3">Agents</div>
-            <div className="mr3">
+            <div className="flex items-center mr3">
+              {this.renderSearchSpinner()}
               <Search
                 className="input py1 px2"
                 placeholder="Filter"
@@ -114,6 +115,14 @@ class Agents extends React.Component {
         {this.renderFooter()}
       </Panel>
     );
+  }
+
+  renderSearchSpinner() {
+    if (this.state.searchingRemotely) {
+      return (
+        <Spinner className="mr2" />
+      );
+    }
   }
 
   getRelevantAgents() {
@@ -145,7 +154,7 @@ class Agents extends React.Component {
     const { organization: { agents }, relay: { variables: { search: remoteSearchQuery } } } = this.props;
     const { searchingRemotely, localSearchQuery } = this.state;
 
-    if ((localSearchQuery && relevantAgents) || remoteSearchQuery && agents && !searchingRemotely) {
+    if ((localSearchQuery && relevantAgents) || remoteSearchQuery && agents) {
       return (
         <div className="bg-silver semi-bold py2 px3">
           <small className="dark-gray">
@@ -158,26 +167,22 @@ class Agents extends React.Component {
 
   renderAgentList(relevantAgents) {
     const { relay: { variables: { search: remoteSearchQuery } } } = this.props;
-    const { searchingRemotely, localSearchQuery } = this.state;
+    const { localSearchQuery } = this.state;
 
     const isContextFiltered = !!(remoteSearchQuery || localSearchQuery);
 
-    if (!relevantAgents || searchingRemotely) {
+    if (!relevantAgents) {
       return (
         <Panel.Section className="center">
           <Spinner />
         </Panel.Section>
       );
-    }
-
-    if (relevantAgents.length > 0) {
+    } else if (relevantAgents.length > 0) {
       return relevantAgents.map(({ node: agent }) => <AgentRow key={agent.id} agent={agent} />);
-    }
-
-    if (!isContextFiltered) {
+    } else if (!isContextFiltered) {
       return (
         <Panel.Section className="dark-gray">
-          No agents {isContextFiltered ? 'found' : 'connected'}
+          No agents connected
         </Panel.Section>
       );
     }
@@ -187,8 +192,8 @@ class Agents extends React.Component {
     const { organization } = this.props;
     const { loading, searchingRemotely, localSearchQuery } = this.state;
 
-    // don't show any footer if we're searching locally, or awaiting results
-    if (localSearchQuery || searchingRemotely) {
+    // don't show any footer if we're searching locally
+    if (localSearchQuery) {
       return;
     }
 
