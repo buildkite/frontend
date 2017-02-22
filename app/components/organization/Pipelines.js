@@ -3,6 +3,8 @@ import Relay from 'react-relay';
 
 import SectionLoader from '../shared/SectionLoader';
 
+import SessionHashStore from '../../stores/SessionHashStore';
+
 import Pipeline from './Pipeline';
 import Welcome from './Welcome';
 
@@ -41,6 +43,8 @@ class OrganizationPipelines extends React.Component {
         }, 0);
       }
     });
+
+    this.maybeUpdateDefaultTeam(this.props.organization.slug, this.props.team);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,6 +61,20 @@ class OrganizationPipelines extends React.Component {
           }
         });
       });
+    }
+
+    this.maybeUpdateDefaultTeam(nextProps.organization.slug, nextProps.team);
+  }
+
+  maybeUpdateDefaultTeam(organization, team) {
+    const orgDefaultTeamKey = `organization-default-team:${organization}`;
+
+    if (team !== SessionHashStore.get(orgDefaultTeamKey)) {
+      if (team) {
+        SessionHashStore.set(orgDefaultTeamKey, team);
+      } else {
+        SessionHashStore.remove(orgDefaultTeamKey);
+      }
     }
   }
 
