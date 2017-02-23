@@ -53,6 +53,7 @@ class AgentIndex extends React.Component {
             <AgentTokens
               title="Your agent token"
               organization={this.props.organization}
+              setupMode={true}
             />
           </div>
         );
