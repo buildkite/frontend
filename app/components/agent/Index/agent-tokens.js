@@ -53,9 +53,7 @@ class AgentTokens extends React.Component {
   renderRow(token) {
     return (
       <Panel.Row key={token.id}>
-        <small className="dark-gray mb1 block">
-          {token.description}
-        </small>
+        {this.renderDescription(token)}
         <RevealButton caption="Reveal Agent Token">
           <code className="red monospace" style={{ wordWrap: "break-word" }}>
             {token.token}
@@ -63,6 +61,16 @@ class AgentTokens extends React.Component {
         </RevealButton>
       </Panel.Row>
     );
+  }
+
+  renderDescription(token) {
+    if (this.props.organization.agentTokens.edges.length > 1) {
+      return (
+        <small className="dark-gray mb1 block">
+          {token.description}
+        </small>
+      );
+    }
   }
 }
 

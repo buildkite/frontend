@@ -36,25 +36,23 @@ class AgentIndex extends React.Component {
   }
 
   renderContent() {
-    const { organization, viewer, location, location: { query } } = this.props;
-
     // Switches between showing just the agents, or the agents along with
     // registration tokens.
-    if (organization.permissions.agentTokenView.allowed) {
-      if (query.setup === 'true') {
+    if (this.props.organization.permissions.agentTokenView.allowed) {
+      if (this.props.location.query.setup === 'true') {
         return (
-          <div className="clearfix mxn3">
+          <div className="clearfix mxn3 md-col-9 lg-col-8 mx-auto">
             <QuickStart
               title="Select the environment to set up your first agent"
               center={false}
-              organization={organization}
-              viewer={viewer}
-              location={location}
+              organization={this.props.organization}
+              viewer={this.props.viewer}
+              location={this.props.location}
             />
-            <AgentInstallation organization={organization} />
+            <AgentInstallation organization={this.props.organization} />
             <AgentTokens
               title="Your agent token"
-              organization={organization}
+              organization={this.props.organization}
             />
           </div>
         );
@@ -64,20 +62,20 @@ class AgentIndex extends React.Component {
         <div className="clearfix mxn3">
           <div className="sm-col sm-col-8 px3">
             <QuickStart
-              organization={organization}
-              viewer={viewer}
-              location={location}
+              organization={this.props.organization}
+              viewer={this.props.viewer}
+              location={this.props.location}
             />
-            <Agents organization={organization} />
+            <Agents organization={this.props.organization} />
           </div>
           <div className="sm-col sm-col-4 px3">
-            <AgentTokens organization={organization} />
+            <AgentTokens organization={this.props.organization} />
           </div>
         </div>
       );
     } else {
       return (
-        <Agents organization={organization} />
+        <Agents organization={this.props.organization} />
       );
     }
   }
