@@ -17,6 +17,9 @@ class Search extends React.Component {
         placeholder={this.props.placeholder}
         style={this.props.style}
         onKeyUp={this.handleKeyUp}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
       />
     );
   }
