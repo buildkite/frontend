@@ -65,12 +65,12 @@ class AgentInstallation extends React.Component {
         <Panel.Section>
           See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/installation">agent installation documentation</a> for the full details of installing and configuring your Buildkite agents for any machine or architecture.
           <Dialog isOpen={this.state.isDialogOpen} onRequestClose={this.handleFirstAgentDialogClose} width={350}>
-            <div className="center p4" style={{ paddingTop: 50, paddingBottom: 50 }}>
+            <div className="center p4" style={{ paddingTop: 45, paddingBottom: 50 }}>
               <p className="m0 mb2">
                 <Emojify text=":raised_hands:" style={{ fontSize: 32 }} />
               </p>
-              <p className="m0 h4 bold mb4" style={{ paddingLeft: '1.5em', paddingRight: '1.5em' }}>
-                You’ve connected your first Buildkite Agent
+              <p className="m0 h4 bold mb2" style={{ paddingLeft: '1.5em', paddingRight: '1.5em' }}>
+                You’ve connected your first Buildkite Agent!
               </p>
               <Button outline={true} theme="default" link={`/${organization.slug}`} className="mt2">Manage Your Pipelines</Button>
             </div>
