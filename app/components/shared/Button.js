@@ -55,9 +55,7 @@ class Button extends React.Component {
     let children = this.props.children;
     if (this.props.loading) {
       children = (
-        <span>
-          <i className="fa fa-spinner fa-spin icon-mr" />{this.props.loading}
-        </span>
+        <span>{this.props.loading}</span>
       );
     }
 
