@@ -589,6 +589,113 @@
               "deprecationReason": null
             },
             {
+              "name": "jobs",
+              "description": null,
+              "args": [
+                {
+                  "name": "first",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "after",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "last",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "before",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "type",
+                  "description": null,
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "JobTypes",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "state",
+                  "description": null,
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "JobStates",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "agentQueryRules",
+                  "description": null,
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "JobConnection",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "notice",
               "description": null,
               "args": [
@@ -1637,6 +1744,113 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "OrganizationInvitationConnection",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "jobs",
+              "description": null,
+              "args": [
+                {
+                  "name": "first",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "after",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "last",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "before",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "type",
+                  "description": null,
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "JobTypes",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "state",
+                  "description": null,
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "JobStates",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "agentQueryRules",
+                  "description": null,
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "JobConnection",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3274,12 +3488,12 @@
             },
             {
               "kind": "OBJECT",
-              "name": "JobTypeCommand",
+              "name": "JobTypeBlock",
               "ofType": null
             },
             {
               "kind": "OBJECT",
-              "name": "JobTypeManual",
+              "name": "JobTypeCommand",
               "ofType": null
             },
             {
@@ -3473,7 +3687,7 @@
             },
             {
               "kind": "OBJECT",
-              "name": "JobTypeManual",
+              "name": "JobTypeBlock",
               "ofType": null
             },
             {
@@ -4665,7 +4879,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "JobTypeManual",
+          "name": "JobTypeBlock",
           "description": "A type of job that requires a user to unblock it before proceeding in a build pipeline",
           "fields": [
             {
@@ -6485,6 +6699,160 @@
 
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "JobTypes",
+          "description": "All the possible types of jobs that can exist",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "JOB_TYPE_COMMAND",
+              "description": "A job that runs a command on an agent",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_TYPE_WAIT",
+              "description": "A job that waits for all previous jobs to finish",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_TYPE_BLOCK",
+              "description": "A job that blocks a pipeline from progressing until it's manually unblocked",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_TYPE_TRIGGER",
+              "description": "A job that triggers another build on a pipeline",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "JobStates",
+          "description": "All the possible states a job can be in",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "JOB_STATE_PENDING",
+              "description": "The build was skipped",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_WAITING",
+              "description": "The build has yet to start running jobs",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_WAITING_FAILED",
+              "description": "The build is currently running jobs",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_BLOCKED",
+              "description": "The build passed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_BLOCKED_FAILED",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_UNBLOCKED",
+              "description": "The build passed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_UNBLOCKED_FAILED",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_SCHEDULED",
+              "description": "The build passed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_ASSIGNED",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_ACCEPTED",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_RUNNING",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_FINISHED",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_CANCELING",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_CANCELED",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_TIMING_OUT",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_TIMED_OUT",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_SKIPPED",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JOB_STATE_BROKEN",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -9092,6 +9460,33 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "EmailResendVerificationPayload",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "jobTypeCommandUpdate",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "JobTypeCommandUpdateInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "JobTypeCommandUpdatePayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -11967,6 +12362,110 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "JobTypeCommandUpdatePayload",
+          "description": "Autogenerated return type of JobTypeCommandUpdate",
+          "fields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "jobTypeCommand",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "JobTypeCommand",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "JobTypeCommandUpdateInput",
+          "description": "Autogenerated input type of JobTypeCommandUpdate",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "label",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "agentQueryRules",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
                   "ofType": null
                 }
               },

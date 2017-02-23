@@ -113,7 +113,7 @@ class FormTextarea extends React.Component {
 
     return (
       <textarea
-        className={classNames("form-control", this.props.className)}
+        className={classNames("input", this.props.className)}
         name={this.props.name}
         type="text"
         defaultValue={this.props.value}

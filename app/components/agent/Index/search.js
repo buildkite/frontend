@@ -17,19 +17,14 @@ class Search extends React.Component {
         placeholder={this.props.placeholder}
         style={this.props.style}
         onKeyUp={this.handleKeyUp}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
       />
     );
   }
 
   handleKeyUp = () => {
-    if (this._timeout) {
-      clearTimeout(this._timeout);
-    }
-
-    this._timeout = setTimeout(this.handleEntryTimeout, 500);
-  };
-
-  handleEntryTimeout = () => {
     if (this._value !== this.input.value && this.props.onSearch) {
       this._value = this.input.value;
       this.props.onSearch(this.input.value);
