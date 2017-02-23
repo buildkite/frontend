@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import { formatNumber } from '../../lib/number';
 
@@ -12,16 +13,29 @@ class StateSwitcher extends React.Component {
     path: React.PropTypes.string
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   renderLink(label, state, count) {
     const url = state ? `${this.props.path}?state=${state}` : this.props.path;
     const active = this.props.state === state;
-    const classes = classNames("py1 px3 hover-black hover-bg-silver text-decoration-none", {
+    const classes = classNames("hover-black hover-bg-silver text-decoration-none", {
       "dark-gray": !active,
       "black": active
     });
 
     return (
-      <a href={url} className={classes} style={{ lineHeight: "1.8" }}>{formatNumber(count)} {label}</a>
+      <a
+        href={url}
+        className={classes}
+        style={{
+          lineHeight: 1.2,
+          padding: '.75em 1em'
+        }}
+      >
+        {formatNumber(count)} {label}
+      </a>
     );
   }
 
