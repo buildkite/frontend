@@ -1,4 +1,5 @@
 import EventEmitter from 'eventemitter3';
+import 'whatwg-fetch';
 
 const LOCALSTORAGE_PREFIX = 'SessionHashStore:';
 
@@ -9,6 +10,21 @@ const keySansPrefix = (prefixedKey) => {
   }
   return prefixedKey.slice(LOCALSTORAGE_PREFIX.length);
 };
+
+const HTTP = (method, url, body) => (
+  fetch(
+    url,
+    {
+      method,
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': window._csrf.token
+      },
+      body
+    }
+  )
+);
 
 class SessionHashStore extends EventEmitter {
   constructor() {
@@ -41,6 +57,7 @@ class SessionHashStore extends EventEmitter {
     );
 
     localStorage.setItem(prefixedKey, value);
+    HTTP('POST', '/_session/store', JSON.stringify({ [key]: value }));
   }
 
   remove(key) {
@@ -53,6 +70,7 @@ class SessionHashStore extends EventEmitter {
     );
 
     localStorage.removeItem(prefixedKey);
+    HTTP('DELETE', '/_session/store', JSON.stringify([key]));
   }
 
   clear() {
