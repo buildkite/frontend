@@ -21,6 +21,7 @@ class AgentShow extends React.Component {
       id: React.PropTypes.string,
       name: React.PropTypes.string,
       connectionState: React.PropTypes.string,
+      job: React.PropTypes.object,
       permissions: React.PropTypes.shape({
         agentStop: React.PropTypes.shape({
           allowed: React.PropTypes.bool
@@ -266,7 +267,7 @@ class AgentShow extends React.Component {
         <span className="dark-gray pl3">
           The running job will be canceled.
         </span>
-      )
+      );
     }
   }
 }
