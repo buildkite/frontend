@@ -3,7 +3,6 @@ import Relay from 'react-relay';
 
 import Emojify from '../shared/Emojify';
 import Button from '../shared/Button';
-import Icon from '../shared/Icon';
 
 import CreateBuildDialog from './CreateBuildDialog';
 import BuildStateSwitcher from '../build/StateSwitcher';
@@ -37,7 +36,8 @@ class Header extends React.Component {
             runningBuildsCount={this.props.pipeline.runningBuilds.count}
             scheduledBuildsCount={this.props.pipeline.scheduledBuilds.count}
             state={this.props.buildState}
-            path={`/${this.props.pipeline.organization.slug}/${this.props.pipeline.slug}/builds`} />
+            path={`/${this.props.pipeline.organization.slug}/${this.props.pipeline.slug}/builds`}
+          />
 
           {this.renderButtons()}
         </div>
@@ -56,7 +56,8 @@ class Header extends React.Component {
             onClick={this.handleBuildCreateClick}
             outline={true}
             theme="default"
-            className="ml2 flex items-center">Create Build</Button>
+            className="ml2 flex items-center"
+          >Create Build</Button>
         )
       },
       {
@@ -67,19 +68,20 @@ class Header extends React.Component {
             href={`${this.props.pipeline.url}/settings`}
             outline={true}
             theme="default"
-            className="ml2 flex items-center">Settings</Button>
+            className="ml2 flex items-center"
+          >Settings</Button>
         )
       }
     );
   }
 
   renderDescription() {
-    if(this.props.pipeline.description) {
+    if (this.props.pipeline.description) {
       return (
         <Emojify text={this.props.pipeline.description} />
       );
     } else {
-      let repository = this.props.pipeline.repository;
+      const repository = this.props.pipeline.repository;
       return (
         <a className="color-inherit hover-color-inherit" href={repository}>{repository}</a>
       );
