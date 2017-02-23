@@ -151,7 +151,9 @@ export default Relay.createContainer(Pipelines, {
               node {
                 id
                 name
-                repository
+                repository {
+                  url
+                }
                 ${TeamPipelineCreateMutation.getFragment('pipeline')}
               }
             }
@@ -172,7 +174,9 @@ export default Relay.createContainer(Pipelines, {
               pipeline {
                 id
                 name
-                repository
+                repository {
+                  url
+                }
               }
               permissions {
                 teamPipelineUpdate {

@@ -2486,18 +2486,14 @@
             },
             {
               "name": "repository",
-              "description": "The repository for the pipeline",
+              "description": "The repository for this pipeline",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "Repository",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2630,6 +2626,37 @@
               "name": "Node",
               "ofType": null
             }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "Repository",
+          "description": "A repository associated with a pipeline",
+          "fields": [
+            {
+              "name": "url",
+              "description": "The URL for this repository",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
           ],
           "enumValues": null,
           "possibleTypes": null
