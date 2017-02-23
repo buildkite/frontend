@@ -4,12 +4,12 @@ import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
 import Dialog from '../shared/Dialog';
-import Emojify from '../shared/Emojify';
 import FormTextField from '../shared/FormTextField';
 import FormTextarea from '../shared/FormTextarea';
 
 class CreateBuildDialog extends React.Component {
   static propTypes = {
+    pipeline: React.PropTypes.object.isRequired,
     isOpen: React.PropTypes.bool,
     onRequestClose: React.PropTypes.func
   };
@@ -24,7 +24,7 @@ class CreateBuildDialog extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(!prevProps.isOpen && this.props.isOpen) {
+    if (!prevProps.isOpen && this.props.isOpen) {
       // Focus the build message input box if the dialog was just opened. This
       // is a total hack since when this component transitions from `isOpen
       // (false => true)` the buildMessageTextField doesn't actually exist yet.
@@ -32,15 +32,10 @@ class CreateBuildDialog extends React.Component {
       // So we'll do this hacky thing here, let this component render, then
       // focus the text field if we've got it.
       setTimeout(() => {
-        if(this.buildMessageTextField) {
+        if (this.buildMessageTextField) {
           this.buildMessageTextField.focus();
         }
       }, 0);
-    }
-
-    // If we've closed the dialog reset the `showingMoreOptions` state
-    if(prevProps.isOpen && !this.props.isOpen) {
-      this.setState({ showingMoreOptions: false });
     }
   }
 
@@ -51,7 +46,8 @@ class CreateBuildDialog extends React.Component {
           action={`/organizations/${this.props.pipeline.organization.slug}/pipelines/${this.props.pipeline.slug}/builds`}
           acceptCharset=""
           method="POST"
-          ref={(form) => this.form = form}>
+          ref={(form) => this.form = form}
+        >
 
           <input type="hidden" name="utf8" value="✓" />
           <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
@@ -67,21 +63,24 @@ class CreateBuildDialog extends React.Component {
               label="Message"
               placeholder="Description of this build"
               required={true}
-              ref={(buildMessageTextField) => this.buildMessageTextField = buildMessageTextField} />
+              ref={(buildMessageTextField) => this.buildMessageTextField = buildMessageTextField}
+            />
 
             <FormTextField
               name="build[commit]"
               label="Commit"
               placeholder="HEAD"
               value="HEAD"
-              required={true} />
+              required={true}
+            />
 
             <FormTextField
               name="build[branch]"
               label="Branch"
               placeholder="master"
               value="master"
-              required={true} />
+              required={true}
+            />
 
             {this.renderMoreOptions()}
           </div>
@@ -95,26 +94,27 @@ class CreateBuildDialog extends React.Component {
   }
 
   renderMoreOptions() {
-    if(this.state.showingMoreOptions) {
+    if (this.state.showingMoreOptions) {
       return (
         <div>
           <FormTextarea
             name="build[env]"
             label="Environment Variables"
             help="Separate each environment variable with a new line. They must be in the format: FOO=bar"
-            rows={3} />
+            rows={3}
+          />
 
           <div style={{ paddingLeft: 18 }}>
             <input type="hidden" name="build[clean_checkout]" value="0" />
-            <label className="bold"><input name="build[clean_checkout]" type="checkbox" className="absolute" style={{marginLeft: -18}} value="1" />Clean checkout</label>
+            <label className="bold"><input name="build[clean_checkout]" type="checkbox" className="absolute" style={{ marginLeft: -18 }} value="1" />Clean checkout</label>
             <div className="mb0 p0 dark-gray">Performs a clean checkout by removing any existing repository files.</div>
           </div>
         </div>
-      )
+      );
     } else {
       return (
         <a href="#" onClick={this.handleToggleOptionsButtonClick} className="bold">Show more options…</a>
-      )
+      );
     }
   }
 
