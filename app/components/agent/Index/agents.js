@@ -128,30 +128,67 @@ class Agents extends React.Component {
     const { organization: { agents: { edges: agents } = { } } } = this.props;
     const { localSearchQuery } = this.state;
 
-    // return all agents if the search query is falsy
     if (!localSearchQuery) {
       return agents;
     }
 
-    // otherwise, filter by name and metaData
+    // Parse the search. We only want to do this once, outside of the agent
+    // loop, in case they have lots of agents
+    const queries = localSearchQuery.map((string) => {
+      return {
+        string: string.toLowerCase(),
+        metaDataKey: string.split('=')[0],
+        metaDataValue: string.split('=')[1] // may be undefined
+      };
+    });
+
+    const anyQueryMatchesName = (agent) => {
+      const lowercaseName = agent.name.toLowerCase();
+
+      return queries.some((query) => lowercaseName.indexOf(query.string) !== -1);
+    };
+
+    const anyQueryMatchesMetaData = (agent) => {
+      return agent.metaData.some((metaDataKeyValue) => {
+        const [key, value] = metaDataKeyValue.toLowerCase().split('=');
+
+        return queries.some((query) => {
+          // Simple string match
+          //
+          // 'mo' matches 'moo=true'
+          // 'tru' matches 'moo=true'
+          // 'bark' does not match 'moo=true'
+          if (!query.metaDataValue && key.indexOf(query.metaDataKey) !== -1 || value.indexOf(query.metaDataKey) !== -1) {
+            return true;
+          }
+
+          // Wildcard matching
+          //
+          // 'moo=*' matches 'moo=true'
+          // 'moo=*' doesn't match 'bark=true'
+          if (query.metaDataKey === key && query.metaDataValue === '*') {
+            return true;
+          }
+
+          // Key=Value matching
+          //
+          // 'moo=true' matches 'moo=true'
+          // 'moo=false' doesn't match 'moo=true'
+          if (query.metaDataKey === key && query.metaDataValue === value) {
+            return true;
+          }
+        });
+      });
+    };
+
     return agents.filter(({ node: agent }) => {
-      const foundInName = localSearchQuery.some((query) =>
-        agent.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
-      );
-
-      const foundInMetaData = agent.metaData.some((metaDataKeyValue) =>
-        localSearchQuery.some((query) =>
-          (query.indexOf('=') === -1 ? metaDataKeyValue.split('=').pop() : metaDataKeyValue).toLowerCase().indexOf(query.toLowerCase()) !== -1
-        )
-      );
-
-      return foundInName || foundInMetaData;
+      return anyQueryMatchesName(agent) || anyQueryMatchesMetaData(agent);
     });
   }
 
   renderSearchInfo(relevantAgents) {
     const { organization: { agents }, relay: { variables: { search: remoteSearchQuery } } } = this.props;
-    const { searchingRemotely, localSearchQuery } = this.state;
+    const { localSearchQuery } = this.state;
 
     if ((localSearchQuery && relevantAgents) || remoteSearchQuery && agents) {
       return (
@@ -189,7 +226,7 @@ class Agents extends React.Component {
 
   renderFooter() {
     const { organization } = this.props;
-    const { loading, searchingRemotely, localSearchQuery } = this.state;
+    const { loading, localSearchQuery } = this.state;
 
     // don't show any footer if we're searching locally
     if (localSearchQuery) {
