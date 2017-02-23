@@ -70,7 +70,7 @@ class AgentInstallation extends React.Component {
                 <Emojify text=":raised_hands:" style={{ fontSize: 32 }} />
               </p>
               <p className="m0 h4 bold mb4" style={{ paddingLeft: '1.5em', paddingRight: '1.5em' }}>
-                You just connected your first Buildkite Agent!
+                You’ve connected your first Buildkite Agent
               </p>
               <Button outline={true} theme="default" link={`/${organization.slug}`} className="mt2">Manage Your Pipelines</Button>
             </div>
