@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Emojify from '../shared/Emojify';
 
@@ -13,6 +14,10 @@ class NewPipelinesPageNotice extends React.Component {
     }).isRequired
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     if (this.props.viewer.notice.dismissedAt) {
       return null;
@@ -20,12 +25,12 @@ class NewPipelinesPageNotice extends React.Component {
       return (
         <div style={{ backgroundColor: "#f0fdc1", marginTop: -10 }} className="mb4">
           <div className="container flex items-center">
-            <div className="flex-auto mr4 py1" style={{ color: "#254329" }}>
+            <div className="flex-auto mr3 py1" style={{ color: "#254329" }}>
               Welcome to the new pipelines page <Emojify text=":sparkles:"/>
               {' '}
               Read the <a href="https://building.buildkite.com/new-in-buildkite-pipeline-metrics-b5e7bf187272" className="lime text-decoration-none hover-underline semi-bold">announcement</a> to find out all about it!
             </div>
-            <button className="btn px4 mxn4 py4 lime text-decoration-none hover-underline" onClick={this.handleDismissClick}>Dismiss</button>
+            <button className="btn py4 mnx3 px3 lime text-decoration-none hover-underline" onClick={this.handleDismissClick}>Dismiss</button>
           </div>
         </div>
       );
