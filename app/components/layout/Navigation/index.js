@@ -12,6 +12,8 @@ import AgentsCount from '../../organization/AgentsCount';
 import NewChangelogsBadge from '../../user/NewChangelogsBadge';
 import permissions from '../../../lib/permissions';
 
+import SessionHashStore from '../../../stores/SessionHashStore';
+
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
 import SupportDialog from './support-dialog';
@@ -26,13 +28,48 @@ class Navigation extends React.Component {
 
   componentDidMount() {
     this.props.relay.setVariables({ isMounted: true });
+    SessionHashStore.on('change', this.handleSessionDataChange);
+  }
+
+  componentWillMount() {
+    // When the page loads, we want to pull the last default team out of the SessionHashStore.
+    if (this.props.organization && this.props.organization.id) {
+      this.setState({
+        lastDefaultTeam: SessionHashStore.get(`organization-default-team:${this.props.organization.id}`)
+      });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // If we're moving between organizations, we need to pull out the new organization's default team setting,
+    // if it's available.
+    if (nextProps.organization && nextProps.organization.id && nextProps.organization.id !== this.props.organization.id) {
+      this.setState({
+        lastDefaultTeam: SessionHashStore.get(`organization-default-team:${nextProps.organization.id}`)
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    SessionHashStore.off('change', this.handleSessionDataChange);
   }
 
   state = {
     showingOrgDropdown: false,
     showingUserDropdown: false,
     showingSupportDialog: false,
-    warning: window['_navigation'] && window['_navigation']['warning']
+    warning: window['_navigation'] && window['_navigation']['warning'],
+    lastDefaultTeam: null
+  };
+
+  handleSessionDataChange = ({ key, newValue }) => {
+    // When the SessionHashStore gets a change, if the update was to the
+    // currently displayed team, update the state with the new value!
+    if (key === `organization-default-team:${this.props.organization.id}`) {
+      this.setState({
+        lastDefaultTeam: newValue
+      });
+    }
   };
 
   handleOrgDropdownToggle = (visible) => {
@@ -130,6 +167,17 @@ class Navigation extends React.Component {
     }
   }
 
+  getOrganizationPipelinesUrl(organization) {
+    let link = `/${organization.slug}`;
+
+    // Make the link default to the user's default team, if that data exists
+    if (this.state.lastDefaultTeam) {
+      link = `${link}?team=${this.state.lastDefaultTeam}`;
+    }
+
+    return link;
+  }
+
   renderOrganizationMenu(options = {}) {
     const organization = this.props.organization;
     const paddingLeft = typeof options.paddingLeft === "number" ? options.paddingLeft : 15;
@@ -137,7 +185,7 @@ class Navigation extends React.Component {
     if (organization) {
       return (
         <div className={classNames("flex", options.className)}>
-          <NavigationButton className="py0" style={{ paddingLeft: paddingLeft }} href={`/${organization.slug}`} linkIf={Features.NewPipelineList}>Pipelines</NavigationButton>
+          <NavigationButton className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={Features.NewPipelineList}>Pipelines</NavigationButton>
           <NavigationButton className="py0" href={`/organizations/${organization.slug}/agents`} linkIf={Features.NewAgentList}>
             {'Agents'}
             <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>

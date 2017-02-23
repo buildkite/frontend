@@ -19,6 +19,9 @@ const PAGE_SIZE = 100;
 class Agents extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
+      allAgents: React.PropTypes.shape({
+        count: React.PropTypes.number.isRequired
+      }),
       agents: React.PropTypes.shape({
         count: React.PropTypes.number.isRequired,
         pageInfo: React.PropTypes.shape({
@@ -33,6 +36,7 @@ class Agents extends React.Component {
   state = {
     loading: false,
     searchingRemotely: false,
+    searchingRemotelyIsSlow: false,
     localSearchQuery: null
   };
 
@@ -98,7 +102,8 @@ class Agents extends React.Component {
         <div className="bg-silver semi-bold">
           <div className="flex items-center">
             <div className="flex-auto py2 px3">Agents</div>
-            <div className="mr3">
+            <div className="flex items-center mr3">
+              {this.renderSearchSpinner()}
               <Search
                 className="input py1 px2"
                 placeholder="Filter"
@@ -115,36 +120,83 @@ class Agents extends React.Component {
     );
   }
 
+  renderSearchSpinner() {
+    if (this.state.searchingRemotelyIsSlow) {
+      return (
+        <Spinner className="mr2" />
+      );
+    }
+  }
+
   getRelevantAgents() {
     const { organization: { agents: { edges: agents } = { } } } = this.props;
     const { localSearchQuery } = this.state;
 
-    // return all agents if the search query is falsy
     if (!localSearchQuery) {
       return agents;
     }
 
-    // otherwise, filter by name and metaData
+    // Parse the search. We only want to do this once, outside of the agent
+    // loop, in case they have lots of agents
+    const queries = localSearchQuery.map((string) => {
+      return {
+        string: string.toLowerCase(),
+        metaDataKey: string.split('=')[0],
+        metaDataValue: string.split('=')[1] // may be undefined
+      };
+    });
+
+    const anyQueryMatchesName = (agent) => {
+      const lowercaseName = agent.name.toLowerCase();
+
+      return queries.some((query) => lowercaseName.indexOf(query.string) !== -1);
+    };
+
+    const anyQueryMatchesMetaData = (agent) => {
+      return agent.metaData.some((metaDataKeyValue) => {
+        const [key, value] = metaDataKeyValue.toLowerCase().split('=');
+
+        return queries.some((query) => {
+          // Simple string match
+          //
+          // 'mo' matches 'moo=true'
+          // 'tru' matches 'moo=true'
+          // 'bark' does not match 'moo=true'
+          if (!query.metaDataValue && key.indexOf(query.metaDataKey) !== -1 || value.indexOf(query.metaDataKey) !== -1) {
+            return true;
+          }
+
+          // Wildcard matching
+          //
+          // 'moo=*' matches 'moo=true'
+          // 'moo=*' doesn't match 'bark=true'
+          if (query.metaDataKey === key && query.metaDataValue === '*') {
+            return true;
+          }
+
+          // Key=Value matching
+          //
+          // 'moo=tr' matches 'moo=true'
+          // 'moo=true' matches 'moo=true'
+          // 'moo=rue' doesn't match 'moo=true'
+          // 'moo=false' doesn't match 'moo=true'
+          if (query.metaDataKey === key && value.indexOf(query.metaDataValue) === 0) {
+            return true;
+          }
+        });
+      });
+    };
+
     return agents.filter(({ node: agent }) => {
-      const foundInName = localSearchQuery.some((query) =>
-        agent.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
-      );
-
-      const foundInMetaData = agent.metaData.some((metaDataKeyValue) =>
-        localSearchQuery.some((query) =>
-          (query.indexOf('=') === -1 ? metaDataKeyValue.split('=').pop() : metaDataKeyValue).toLowerCase().indexOf(query.toLowerCase()) !== -1
-        )
-      );
-
-      return foundInName || foundInMetaData;
+      return anyQueryMatchesName(agent) || anyQueryMatchesMetaData(agent);
     });
   }
 
   renderSearchInfo(relevantAgents) {
     const { organization: { agents }, relay: { variables: { search: remoteSearchQuery } } } = this.props;
-    const { searchingRemotely, localSearchQuery } = this.state;
+    const { localSearchQuery } = this.state;
 
-    if ((localSearchQuery && relevantAgents) || remoteSearchQuery && agents && !searchingRemotely) {
+    if ((localSearchQuery && relevantAgents) || remoteSearchQuery && agents) {
       return (
         <div className="bg-silver semi-bold py2 px3">
           <small className="dark-gray">
@@ -157,35 +209,33 @@ class Agents extends React.Component {
 
   renderAgentList(relevantAgents) {
     const { relay: { variables: { search: remoteSearchQuery } } } = this.props;
-    const { searchingRemotely, localSearchQuery } = this.state;
+    const { localSearchQuery } = this.state;
 
     const isContextFiltered = !!(remoteSearchQuery || localSearchQuery);
 
-    if (!relevantAgents || searchingRemotely) {
+    if (!relevantAgents) {
       return (
         <Panel.Section className="center">
           <Spinner />
         </Panel.Section>
       );
-    }
-
-    if (relevantAgents.length > 0) {
+    } else if (relevantAgents.length > 0) {
       return relevantAgents.map(({ node: agent }) => <AgentRow key={agent.id} agent={agent} />);
+    } else if (!isContextFiltered) {
+      return (
+        <Panel.Section className="dark-gray">
+          No agents connected
+        </Panel.Section>
+      );
     }
-
-    return (
-      <Panel.Section className="dark-gray">
-        No agents {isContextFiltered ? 'found' : 'connected'}
-      </Panel.Section>
-    );
   }
 
   renderFooter() {
     const { organization } = this.props;
-    const { loading, searchingRemotely, localSearchQuery } = this.state;
+    const { loading, localSearchQuery } = this.state;
 
-    // don't show any footer if we're searching locally, or awaiting results
-    if (localSearchQuery || searchingRemotely) {
+    // don't show any footer if we're searching locally
+    if (localSearchQuery) {
       return;
     }
 
@@ -217,17 +267,21 @@ class Agents extends React.Component {
     );
   }
 
+  get useLocalSearch() {
+    return this.props.organization.agents &&
+      this.props.organization.allAgents.count <= PAGE_SIZE;
+  }
+
+  get useRemoteSearch() {
+    return !this.useLocalSearch;
+  }
+
   handleSearch = (query) => {
-    const { organization } = this.props;
-
-    // if we have the full set of agents locally, do our searching here
-    if (organization.agents && organization.agents.edges.length > 0 && !organization.agents.pageInfo.hasNextPage) {
+    if (this.useLocalSearch) {
       return this.handleLocalSearch(query);
+    } else {
+      return this.handleRemoteSearch(query);
     }
-
-    // if we haven't loaded anything yet, last retrieved a total of 0 agents,
-    // or have more agents than are displayed, do the searching on the server
-    return this.handleRemoteSearch(query);
   };
 
   handleLocalSearch = (query) => {
@@ -265,13 +319,27 @@ class Agents extends React.Component {
   handleRemoteSearch = (query) => {
     this.setState({ localSearchQuery: null, searchingRemotely: true });
 
+    if (this.remoteSearchIsSlowTimeout) {
+      clearTimeout(this.remoteSearchIsSlowTimeout);
+    }
+
+    this.remoteSearchIsSlowTimeout = setTimeout(() => {
+      this.setState({ searchingRemotelyIsSlow: true });
+    }, 1::seconds);
+
     this.props.relay.forceFetch(
       {
         search: query
       },
       (readyState) => {
         if (readyState.done) {
-          this.setState({ searchingRemotely: false });
+          if (this.remoteSearchIsSlowTimeout) {
+            clearTimeout(this.remoteSearchIsSlowTimeout);
+          }
+          this.setState({
+            searchingRemotely: false,
+            searchingRemotelyIsSlow: false
+          });
         }
       }
     );
@@ -303,6 +371,9 @@ export default Relay.createContainer(Agents, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+        allAgents: agents @include(if: $isMounted) {
+          count
+        }
         agents(first: $pageSize, search: $search) @include(if: $isMounted) {
           count
           edges {

@@ -11,10 +11,14 @@ const CloseButton = styled.button`
   right: ${-BUTTON_SIZE / 2}px;
   width: ${BUTTON_SIZE}px;
   height: ${BUTTON_SIZE}px;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 CloseButton.defaultProps = {
-  className: 'absolute circle shadow-subtle bg-white bold flex items-center cursor-pointer border border-white p0'
+  className: 'absolute circle shadow-subtle bg-white bold flex items-center cursor-pointer border border-white p0 hover-lime focus-lime'
 };
 
 const DialogBackdrop = styled.div`
@@ -31,14 +35,13 @@ DialogBackdrop.defaultProps = {
 };
 
 const DialogBox = styled.div`
-  padding: 50px 10px;
-  width: 500px;
+  width: ${(props) => props.width}px;
   zIndex: 1002;
   maxWidth: 90vw;
 `;
 
 DialogBox.defaultProps = {
-  className: 'background bg-white transition-popup rounded-3 shadow-subtle center relative mx4'
+  className: 'background bg-white transition-popup rounded-3 shadow-subtle relative mx4'
 };
 
 const DialogContainer = styled.span`
@@ -58,12 +61,14 @@ class Dialog extends React.Component {
     children: React.PropTypes.node,
     closeable: React.PropTypes.bool,
     isOpen: React.PropTypes.bool,
-    onRequestClose: React.PropTypes.func
+    onRequestClose: React.PropTypes.func,
+    width: React.PropTypes.number
   };
 
   static defaultProps = {
     closeable: true,
-    isOpen: false
+    isOpen: false,
+    width: 500
   };
 
   constructor(initialProps) {
@@ -154,7 +159,7 @@ class Dialog extends React.Component {
     }
 
     return (
-      <DialogBox>
+      <DialogBox width={this.props.width}>
         {this.renderCloseButton()}
         {this.props.children}
       </DialogBox>
