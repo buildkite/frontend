@@ -172,9 +172,11 @@ class Agents extends React.Component {
 
           // Key=Value matching
           //
+          // 'moo=tr' matches 'moo=true'
           // 'moo=true' matches 'moo=true'
+          // 'moo=rue' doesn't match 'moo=true'
           // 'moo=false' doesn't match 'moo=true'
-          if (query.metaDataKey === key && query.metaDataValue === value) {
+          if (query.metaDataKey === key && value.indexOf(query.metaDataValue) === 0) {
             return true;
           }
         });
