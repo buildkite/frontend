@@ -36,6 +36,7 @@ class Agents extends React.Component {
   state = {
     loading: false,
     searchingRemotely: false,
+    searchingRemotelyIsSlow: false,
     localSearchQuery: null
   };
 
@@ -120,7 +121,7 @@ class Agents extends React.Component {
   }
 
   renderSearchSpinner() {
-    if (this.state.searchingRemotely) {
+    if (this.state.searchingRemotelyIsSlow) {
       return (
         <Spinner className="mr2" />
       );
@@ -318,13 +319,27 @@ class Agents extends React.Component {
   handleRemoteSearch = (query) => {
     this.setState({ localSearchQuery: null, searchingRemotely: true });
 
+    if (this.remoteSearchIsSlowTimeout) {
+      clearTimeout(this.remoteSearchIsSlowTimeout);
+    }
+
+    this.remoteSearchIsSlowTimeout = setTimeout(() => {
+      this.setState({ searchingRemotelyIsSlow: true });
+    }, 1::seconds);
+
     this.props.relay.forceFetch(
       {
         search: query
       },
       (readyState) => {
         if (readyState.done) {
-          this.setState({ searchingRemotely: false });
+          if (this.remoteSearchIsSlowTimeout) {
+            clearTimeout(this.remoteSearchIsSlowTimeout);
+          }
+          this.setState({
+            searchingRemotely: false,
+            searchingRemotelyIsSlow: false
+          });
         }
       }
     );
