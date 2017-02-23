@@ -19,6 +19,9 @@ const PAGE_SIZE = 100;
 class Agents extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
+      allAgents: React.PropTypes.shape({
+        count: React.PropTypes.number.isRequired
+      }),
       agents: React.PropTypes.shape({
         count: React.PropTypes.number.isRequired,
         pageInfo: React.PropTypes.shape({
@@ -264,10 +267,8 @@ class Agents extends React.Component {
   }
 
   get useLocalSearch() {
-    // If we've loaded the agents, and there's no more pages of data, then we can do a local search
     return this.props.organization.agents &&
-      this.props.organization.agents.edges.length > 0 &&
-      !this.props.organization.agents.pageInfo.hasNextPage;
+      this.props.organization.allAgents.count <= PAGE_SIZE;
   }
 
   get useRemoteSearch() {
@@ -355,6 +356,9 @@ export default Relay.createContainer(Agents, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+        allAgents: agents @include(if: $isMounted) {
+          count
+        }
         agents(first: $pageSize, search: $search) @include(if: $isMounted) {
           count
           edges {
