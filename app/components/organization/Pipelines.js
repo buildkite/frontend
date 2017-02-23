@@ -45,6 +45,7 @@ class OrganizationPipelines extends React.Component {
       }
     });
 
+    // We might've started out with a new team, so let's see about updating the default!
     this.maybeUpdateDefaultTeam(this.props.organization.id, this.props.team);
   }
 
@@ -64,6 +65,9 @@ class OrganizationPipelines extends React.Component {
       });
     }
 
+    // Let's try updating the default team - we don't rely on the last team
+    // being different here because the store might've gotten out of sync,
+    // and we do out own check!
     this.maybeUpdateDefaultTeam(nextProps.organization.id, nextProps.team);
   }
 

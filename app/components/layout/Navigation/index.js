@@ -32,7 +32,8 @@ class Navigation extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.organization && this.props.organization.slug) {
+    // When the page loads, we want to pull the last default team out of the SessionHashStore.
+    if (this.props.organization && this.props.organization.id) {
       this.setState({
         lastDefaultTeam: SessionHashStore.get(`organization-default-team:${this.props.organization.id}`)
       });
@@ -40,7 +41,9 @@ class Navigation extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.organization && nextProps.organization.slug && nextProps.organization.slug !== this.props.organization.slug) {
+    // If we're moving between organizations, we need to pull out the new organization's default team setting,
+    // if it's available.
+    if (nextProps.organization && nextProps.organization.id && nextProps.organization.id !== this.props.organization.id) {
       this.setState({
         lastDefaultTeam: SessionHashStore.get(`organization-default-team:${nextProps.organization.id}`)
       });
@@ -60,6 +63,8 @@ class Navigation extends React.Component {
   };
 
   handleSessionDataChange = ({ key, newValue }) => {
+    // When the SessionHashStore gets a change, if the update was to the
+    // currently displayed team, update the state with the new value!
     if (key === `organization-default-team:${this.props.organization.id}`) {
       this.setState({
         lastDefaultTeam: newValue
@@ -165,6 +170,7 @@ class Navigation extends React.Component {
   getOrganizationPipelinesUrl(organization) {
     let link = `/${organization.slug}`;
 
+    // Make the link default to the user's default team, if that data exists
     if (this.state.lastDefaultTeam) {
       link = `${link}?team=${this.state.lastDefaultTeam}`;
     }

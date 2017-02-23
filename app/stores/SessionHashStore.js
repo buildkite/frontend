@@ -19,6 +19,8 @@ class SessionHashStore extends EventEmitter {
     window.addEventListener('storage', this.handleStorageEvent, false);
   }
 
+  // This takes a "real" storage event, detects if it's one of ours,
+  // and if so, emits a message with a consistent façade
   handleStorageEvent = ({ key: prefixedKey, oldValue, newValue }) => {
     if (prefixedKey.indexOf(keyWithPrefix()) === 0) {
       this.emitMessage(keySansPrefix(prefixedKey), oldValue, newValue);
@@ -60,6 +62,9 @@ class SessionHashStore extends EventEmitter {
       .forEach((key) => {
         localStorage.removeItem(key);
 
+        // We need an event per item, as we're mirroring the
+        // StorageEvent API and it doesn't handle multi-item
+        // events
         this.sendVirtualEvent(
           keySansPrefix(key),
           localStorage.getItem(key),
@@ -69,10 +74,15 @@ class SessionHashStore extends EventEmitter {
   }
 
   emitMessage(key, oldValue, newValue) {
+    // We detect if the value has meaningfully changed
+    // as sometimes we get multiple events for the same
+    // change. This smooths it out.
     if (oldValue === newValue) {
       return;
     }
 
+    // This should be the only place `emit` is called
+    // by SessionHashStore!
     this.emit(
       'change',
       {
