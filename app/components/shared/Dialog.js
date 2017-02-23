@@ -11,10 +11,14 @@ const CloseButton = styled.button`
   right: ${-BUTTON_SIZE / 2}px;
   width: ${BUTTON_SIZE}px;
   height: ${BUTTON_SIZE}px;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 CloseButton.defaultProps = {
-  className: 'absolute circle shadow-subtle bg-white bold flex items-center cursor-pointer border border-white p0'
+  className: 'absolute circle shadow-subtle bg-white bold flex items-center cursor-pointer border border-white p0 hover-lime focus-lime'
 };
 
 const DialogBackdrop = styled.div`
@@ -63,7 +67,8 @@ class Dialog extends React.Component {
 
   static defaultProps = {
     closeable: true,
-    isOpen: false
+    isOpen: false,
+    width: 500
   };
 
   constructor(initialProps) {
@@ -154,7 +159,7 @@ class Dialog extends React.Component {
     }
 
     return (
-      <DialogBox width={this.props.width || 500}>
+      <DialogBox width={this.props.width}>
         {this.renderCloseButton()}
         {this.props.children}
       </DialogBox>
