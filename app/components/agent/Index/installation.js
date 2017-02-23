@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import { seconds } from 'metrick/duration';
 import shallowCompare from 'react-addons-shallow-compare';
+import Confetti from 'react-confetti';
 
 import Button from '../../shared/Button';
 import Dialog from '../../shared/Dialog';
@@ -49,15 +50,11 @@ class AgentInstallation extends React.Component {
   render() {
     const { organization } = this.props;
 
-    let agentName = 'an agent';
-
-    if (organization.agents && organization.agents.edges.length) {
-      const newestAgent = organization.agents.edges.pop().node;
-      agentName = (
-        <strong>
-          <Emojify text={newestAgent.name} />
-        </strong>
-      );
+    // This page doesn't have a list of agents, so if they haven ANY agents
+    // connected then they shouldn't be looking here, with the exception of if
+    // it's the first time connected agent with the nice dialog
+    if (!this.state.isDialogOpen && organization.agents && organization.agents && organization.agents.count) {
+      window.location = window.location.toString().replace('?setup=true', '');
     }
 
     return (
@@ -67,18 +64,33 @@ class AgentInstallation extends React.Component {
         </Panel.Header>
         <Panel.Section>
           See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/installation">agent installation documentation</a> for the full details of installing and configuring your Buildkite agents for any machine or architecture.
-          <Dialog closeable={false} isOpen={this.state.isDialogOpen}>
-            <div className="center" style={{ padding: "50px 10px" }}>
-              <p className="mt0 h2">
-                <Emojify text=":tada:" /> You’ve successfully connected {agentName}!<br/>
-                You’re all ready to run builds!
+          <Dialog isOpen={this.state.isDialogOpen} onRequestClose={this.handleFirstAgentDialogClose} width={350}>
+            <div className="center p4" style={{ paddingTop: 50, paddingBottom: 50 }}>
+              <p className="m0 mb2">
+                <Emojify text=":raised_hands:" style={{ fontSize: 32 }} />
               </p>
-              <Button link={`/${organization.slug}`}>Take me to the dashboard</Button>
+              <p className="m0 h4 bold mb4" style={{ paddingLeft: '1.5em', paddingRight: '1.5em' }}>
+                You just connected your first Buildkite Agent!
+              </p>
+              <Button outline={true} theme="default" link={`/${organization.slug}`} className="mt2">Manage Your Pipelines</Button>
             </div>
           </Dialog>
         </Panel.Section>
+        {this.renderConfetti()}
       </Panel>
     );
+  }
+
+  renderConfetti() {
+    if (this.state.isDialogOpen) {
+      return (
+        <Confetti />
+      );
+    }
+  }
+
+  handleFirstAgentDialogClose = () => {
+    this.setState({ isDialogOpen: false });
   }
 }
 

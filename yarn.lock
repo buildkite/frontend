@@ -5712,6 +5712,10 @@ react-addons-update@^15.3.2:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
+react-confetti@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-confetti/-/react-confetti-1.1.2.tgz#571d9bbc490c061927c94c2cecc6313cd06c0b38"
+
 react-deep-force-update@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz#f911b5be1d2a6fe387507dd6e9a767aa2924b4c7"
