@@ -105,7 +105,6 @@ class Agents extends React.Component {
                 placeholder="Filter"
                 style={{ fontSize: 12, lineHeight: 1.1, height: 30, width: 160 }}
                 onSearch={this.handleSearch}
-                delayed={this.useRemoteSearch}
               />
             </div>
           </div>
