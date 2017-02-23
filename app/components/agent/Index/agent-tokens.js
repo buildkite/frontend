@@ -13,11 +13,13 @@ class AgentTokens extends React.Component {
       })
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
-    title: React.PropTypes.string.isRequired
+    title: React.PropTypes.string.isRequired,
+    setupMode: React.PropTypes.bool
   };
 
   static defaultProps = {
-    title: 'Agent Token'
+    title: 'Agent Token',
+    setupMode: false
   };
 
   componentDidMount() {
@@ -31,7 +33,8 @@ class AgentTokens extends React.Component {
           {this.props.title}
         </Panel.Header>
         <Panel.Section>
-          <span>Your Buildkite agent token is used to configure and start new Buildkite agents.</span>
+          <span>Your Buildkite agent token is used to configure and start new Buildkite agents. </span>
+          {!this.props.setupMode && <span>See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent">agent documentation</a> to learn more.</span>}
         </Panel.Section>
         {this.renderBody()}
       </Panel>
