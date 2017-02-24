@@ -1,7 +1,7 @@
 import EventEmitter from 'eventemitter3';
 import 'whatwg-fetch';
 
-const LOCALSTORAGE_PREFIX = 'SessionHashStore:';
+const LOCALSTORAGE_PREFIX = 'UserSessionStore:';
 
 const keyWithPrefix = (key = '') => `${LOCALSTORAGE_PREFIX}${key}`;
 const keySansPrefix = (prefixedKey) => {
@@ -26,7 +26,7 @@ const HTTP = (method, url, body) => (
   )
 );
 
-class SessionHashStore extends EventEmitter {
+class UserSessionStore extends EventEmitter {
   constructor() {
     super(...arguments);
 
@@ -74,7 +74,7 @@ class SessionHashStore extends EventEmitter {
   }
 
   clear() {
-    // clear SessionHashStore-managed localStorage items
+    // clear UserSessionStore-managed localStorage items
     Object.keys(localStorage)
       .filter((key) => key.indexOf(LOCALSTORAGE_PREFIX) === 0)
       .forEach((key) => {
@@ -100,7 +100,7 @@ class SessionHashStore extends EventEmitter {
     }
 
     // This should be the only place `emit` is called
-    // by SessionHashStore!
+    // by UserSessionStore!
     this.emit(
       'change',
       {
@@ -112,4 +112,4 @@ class SessionHashStore extends EventEmitter {
   }
 }
 
-export default new SessionHashStore();
+export default new UserSessionStore();

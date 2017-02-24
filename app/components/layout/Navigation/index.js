@@ -12,7 +12,7 @@ import AgentsCount from '../../organization/AgentsCount';
 import NewChangelogsBadge from '../../user/NewChangelogsBadge';
 import permissions from '../../../lib/permissions';
 
-import SessionHashStore from '../../../stores/SessionHashStore';
+import UserSessionStore from '../../../stores/UserSessionStore';
 
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
@@ -28,14 +28,14 @@ class Navigation extends React.Component {
 
   componentDidMount() {
     this.props.relay.setVariables({ isMounted: true });
-    SessionHashStore.on('change', this.handleSessionDataChange);
+    UserSessionStore.on('change', this.handleSessionDataChange);
   }
 
   componentWillMount() {
-    // When the page loads, we want to pull the last default team out of the SessionHashStore.
+    // When the page loads, we want to pull the last default team out of the UserSessionStore.
     if (this.props.organization && this.props.organization.id) {
       this.setState({
-        lastDefaultTeam: SessionHashStore.get(`organization-default-team:${this.props.organization.id}`)
+        lastDefaultTeam: UserSessionStore.get(`organization-default-team:${this.props.organization.id}`)
       });
     }
   }
@@ -45,13 +45,13 @@ class Navigation extends React.Component {
     // if it's available.
     if (nextProps.organization && nextProps.organization.id && nextProps.organization.id !== this.props.organization.id) {
       this.setState({
-        lastDefaultTeam: SessionHashStore.get(`organization-default-team:${nextProps.organization.id}`)
+        lastDefaultTeam: UserSessionStore.get(`organization-default-team:${nextProps.organization.id}`)
       });
     }
   }
 
   componentWillUnmount() {
-    SessionHashStore.off('change', this.handleSessionDataChange);
+    UserSessionStore.off('change', this.handleSessionDataChange);
   }
 
   state = {
@@ -63,7 +63,7 @@ class Navigation extends React.Component {
   };
 
   handleSessionDataChange = ({ key, newValue }) => {
-    // When the SessionHashStore gets a change, if the update was to the
+    // When the UserSessionStore gets a change, if the update was to the
     // currently displayed team, update the state with the new value!
     if (key === `organization-default-team:${this.props.organization.id}`) {
       this.setState({
