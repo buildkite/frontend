@@ -236,12 +236,23 @@ const QUERIES = {
     query AgentIndex($organization: ID!) {
       organization(slug: $organization) {
         id
-        name
-        slug
-        uuid
         permissions {
           agentTokenView {
             allowed
+          }
+        }
+        agentTokens(first:50, revoked:false) {
+          edges {
+            node {
+              id
+              description
+              token
+            }
+            cursor
+          },
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
           }
         }
       }
