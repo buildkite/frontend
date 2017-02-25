@@ -41,17 +41,20 @@ class Agents extends React.Component {
   };
 
   componentDidMount() {
-    this.props.relay.setVariables(
-      {
-        isMounted: true
-      },
-      (readyState) => {
-        if (readyState.done) {
-          PusherStore.on('organization_stats:change', this.fetchUpdatedData);
-          this.startTimeout();
-        }
+    // We've marked the data requirements for this compoent with `@include(if:
+    // $isMounted)` which allows us to defer the actual loading of the data
+    // until we're ready. This keeps the page speedy to load and we can load
+    // the Agents in after this component has mounted.
+    //
+    // We use `forceFetch` instead of `setVariables` because we want to re-grab
+    // the entire agent list when we come to/from the Agents page whether it's
+    // via react-router or the back/forward button in the browser.
+    this.props.relay.forceFetch({ isMounted: true }, (readyState) => {
+      if (readyState.done) {
+        PusherStore.on('organization_stats:change', this.fetchUpdatedData);
+        this.startTimeout();
       }
-    );
+    });
   }
 
   componentWillUnmount() {
