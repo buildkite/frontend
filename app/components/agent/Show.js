@@ -154,10 +154,10 @@ class AgentShow extends React.Component {
 
     let metaDataContent = 'None';
     if (agent.metaData && agent.metaData.length) {
-      metaDataContent = agent.metaData.sort().map((metaData) => {
+      metaDataContent = agent.metaData.sort().map((metaData, index) => {
         return (
-          <div className="mb1">{metaData}</div>
-        )
+          <div className="mb1" key={index}>{metaData}</div>
+        );
       });
     }
     extras.push(this.renderExtraItem(
