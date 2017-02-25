@@ -10,6 +10,11 @@ class AgentTokens extends React.Component {
     organization: React.PropTypes.shape({
       agentTokens: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
+      }),
+      permissions: React.PropTypes.shape({
+        agentTokenView: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired
       })
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
