@@ -66,7 +66,7 @@ function AWSParameterTable(props) {
         </AWSTableRow>
         <AWSTableRow title="BuildkiteOrgSlug">
           <code className="monospace" style={{ fontSize: '.85em' }}>
-            {props.organization.slug || 'INSERT-YOUR-ACCOUNT-SLUG-HERE'}
+            {props.organization.slug || 'INSERT-YOUR-ORGANIZATION-SLUG-HERE'}
           </code>
         </AWSTableRow>
         <AWSTableRow title="BuildkiteApiAccessToken">
