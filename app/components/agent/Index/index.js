@@ -15,70 +15,64 @@ class AgentIndex extends React.Component {
       query: React.PropTypes.object
     }).isRequired,
     organization: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      permissions: React.PropTypes.shape({
-        agentTokenView: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
-        }).isRequired
-      }).isRequired
+      name: React.PropTypes.string.isRequired
     }).isRequired,
     viewer: React.PropTypes.object.isRequired
   };
 
   render() {
+    let content;
+    if (this.props.location.query.setup === 'true') {
+      content = this.renderSetupPage();
+    } else {
+      content = this.renderNormalPage();
+    }
+
     return (
       <DocumentTitle title={`Agents · ${this.props.organization.name}`}>
         <PageWithContainer>
-          {this.renderContent()}
+          {content}
         </PageWithContainer>
       </DocumentTitle>
     );
   }
 
-  renderContent() {
-    // Switches between showing just the agents, or the agents along with
-    // registration tokens.
-    if (this.props.organization.permissions.agentTokenView.allowed) {
-      if (this.props.location.query.setup === 'true') {
-        return (
-          <div className="clearfix mxn3 md-col-9 lg-col-8 mx-auto">
-            <QuickStart
-              title="Select the environment to set up your first agent"
-              center={false}
-              organization={this.props.organization}
-              viewer={this.props.viewer}
-              location={this.props.location}
-            />
-            <AgentInstallation organization={this.props.organization} />
-            <AgentTokens
-              title="Your agent token"
-              organization={this.props.organization}
-              setupMode={true}
-            />
-          </div>
-        );
-      }
+  renderSetupPage() {
+    return (
+      <div className="clearfix mxn3 md-col-9 lg-col-8 mx-auto">
+        <QuickStart
+          title="Select the environment to set up your first agent"
+          center={false}
+          organization={this.props.organization}
+          viewer={this.props.viewer}
+          location={this.props.location}
+        />
+        <AgentInstallation organization={this.props.organization} />
+        <AgentTokens
+          title="Your agent token"
+          organization={this.props.organization}
+          setupMode={true}
+        />
+      </div>
+    );
+  }
 
-      return (
-        <div className="clearfix mxn3">
-          <div className="sm-col sm-col-8 px3">
-            <QuickStart
-              organization={this.props.organization}
-              viewer={this.props.viewer}
-              location={this.props.location}
-            />
-            <Agents organization={this.props.organization} />
-          </div>
-          <div className="sm-col sm-col-4 px3">
-            <AgentTokens organization={this.props.organization} />
-          </div>
+  renderNormalPage() {
+    return (
+      <div className="clearfix mxn3">
+        <div className="sm-col sm-col-8 px3">
+          <QuickStart
+            organization={this.props.organization}
+            viewer={this.props.viewer}
+            location={this.props.location}
+          />
+          <Agents organization={this.props.organization} />
         </div>
-      );
-    } else {
-      return (
-        <Agents organization={this.props.organization} />
-      );
-    }
+        <div className="sm-col sm-col-4 px3">
+          <AgentTokens organization={this.props.organization} />
+        </div>
+      </div>
+    );
   }
 }
 
@@ -96,11 +90,6 @@ export default Relay.createContainer(AgentIndex, {
         ${AgentInstallation.getFragment('organization')}
         ${QuickStart.getFragment('organization')}
         name
-        permissions {
-          agentTokenView {
-            allowed
-          }
-        }
       }
     `
   }

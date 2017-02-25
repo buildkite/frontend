@@ -34,7 +34,7 @@ class QuickStart extends React.Component {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
-      uuid: React.PropTypes.string.isRequired,
+      uuid: React.PropTypes.string,
       agentTokens: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
       })
@@ -132,6 +132,12 @@ class QuickStart extends React.Component {
     const { name, slug, uuid, agentTokens: { edges: agentTokens } = {} } = this.props.organization;
     const { apiAccessTokens: { edges: apiAccessTokens } = {} } = this.props.viewer;
 
+    // Only show the token in the parameter table if we've got access to one
+    let token;
+    if (agentTokens && agentTokens.length && agentTokens[0].node.token) {
+      token = agentTokens[0].node.token;
+    }
+
     if (GuideToRender) {
       return (
         <GuideToRender
@@ -155,11 +161,7 @@ class QuickStart extends React.Component {
               className: 'h5 semi-bold'
             }
           }}
-          token={
-            agentTokens
-              && agentTokens.length
-              && agentTokens[0].node.token
-          }
+          token={token}
           apiAccessTokens={apiAccessTokens ? apiAccessTokens.map((edge) => edge.node) : []}
           organization={{ name, slug, uuid }}
         />
@@ -213,7 +215,7 @@ export default Relay.createContainer(QuickStart, {
       fragment on Organization {
         name
         slug
-        uuid
+        uuid @include(if: $isMounted)
         agentTokens(first: 1, revoked: false) @include(if: $isMounted) {
           edges {
             node {
