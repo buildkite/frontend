@@ -61,7 +61,7 @@ class AgentShow extends React.Component {
   renderExtraItem(title, content) {
     return (
       <tr key={title} style={{ marginTop: 3 }} className="border-gray border-bottom">
-        <th className="h5 p2 semi-bold left-align align-top">{title}</th>
+        <th className="h5 p2 semi-bold left-align align-top" width={100}>{title}</th>
         <td className="h5 p2">{content}</td>
       </tr>
     );
@@ -154,11 +154,15 @@ class AgentShow extends React.Component {
 
     let metaDataContent = 'None';
     if (agent.metaData && agent.metaData.length) {
-      metaDataContent = agent.metaData.sort().join('\n');
+      metaDataContent = agent.metaData.sort().map((metaData) => {
+        return (
+          <div className="mb1">{metaData}</div>
+        )
+      });
     }
     extras.push(this.renderExtraItem(
       'Meta-data',
-      <pre className="black bg-silver rounded border border-gray py1 px2 m0 mb1 monospace" style={{ fontSize: 13 }}>{metaDataContent}</pre>
+      <pre className="black bg-silver rounded border border-gray pt1 px2 m0 mb1 monospace" style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{metaDataContent}</pre>
     ));
 
     return extras;
