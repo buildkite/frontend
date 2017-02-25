@@ -10,6 +10,11 @@ class AgentTokens extends React.Component {
     organization: React.PropTypes.shape({
       agentTokens: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
+      }),
+      permissions: React.PropTypes.shape({
+        agentTokenView: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired
       })
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
@@ -43,7 +48,15 @@ class AgentTokens extends React.Component {
 
   renderBody() {
     if (this.props.organization.agentTokens) {
-      return this.props.organization.agentTokens.edges.map((edge) => this.renderRow(edge.node));
+      if (this.props.organization.permissions.agentTokenView.allowed) {
+        return this.props.organization.agentTokens.edges.map((edge) => this.renderRow(edge.node));
+      } else {
+        return (
+          <Panel.Section>
+            <p className="dark-gray">You don’t have permission to see your organization’s Agent tokens.</p>
+          </Panel.Section>
+        );
+      }
     } else {
       return (
         <Panel.Section className="center">
@@ -85,6 +98,11 @@ export default Relay.createContainer(AgentTokens, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+        permissions @include(if: $isMounted) {
+          agentTokenView {
+            allowed
+          }
+        }
         agentTokens(first: 50, revoked: false) @include(if: $isMounted) {
           edges {
             node {
