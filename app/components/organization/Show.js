@@ -8,7 +8,6 @@ import Icon from '../shared/Icon';
 
 import Pipelines from './Pipelines';
 import Teams from './Teams';
-import NewPipelinesPageNotice from './NewPipelinesPageNotice';
 
 class OrganizationShow extends React.Component {
   static propTypes = {
@@ -17,7 +16,6 @@ class OrganizationShow extends React.Component {
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired
     }).isRequired,
-    viewer: React.PropTypes.object.isRequired,
     relay: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
     team: React.PropTypes.string
@@ -35,8 +33,6 @@ class OrganizationShow extends React.Component {
     return (
       <DocumentTitle title={`${this.props.organization.name}`}>
         <div>
-          <NewPipelinesPageNotice viewer={this.props.viewer} />
-
           <PageWithContainer>
             <div className="flex mb2 items-start">
               <div className="mr-auto flex items-start">
@@ -82,12 +78,6 @@ export default Relay.createContainer(OrganizationShow, {
   },
 
   fragments: {
-    viewer: () => Relay.QL`
-      fragment on Viewer {
-        ${NewPipelinesPageNotice.getFragment('viewer')}
-      }
-    `,
-
     organization: (variables) => Relay.QL`
       fragment on Organization {
         ${Teams.getFragment('organization').if(variables.isMounted)}
