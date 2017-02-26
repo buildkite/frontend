@@ -42,17 +42,6 @@ const QUERIES = {
       }
     }
   `,
-  "organization_show/viewer": Relay.QL`
-    query PipelinesListViewer {
-      viewer {
-        id
-        notice(namespace: NOTICE_NAMESPACE_FEATURE, scope: "pipelines-page-1-0") {
-          id
-          dismissedAt
-        }
-      }
-    }
-  `,
   "organization_show/organization": Relay.QL`
     query PipelinesList($organization: ID!, $team: ID) {
       organization(slug: $organization) {
