@@ -3,12 +3,11 @@ export function getColourForConnectionState(connectionState, prefix = '') {
     case 'connected':
       return `${prefix}lime`;
     case 'disconnected':
-      return `${prefix}black`;
     case 'stopped':
-    case 'stopping':
+    case 'lost':
     case 'never_connected':
       return `${prefix}gray`;
-    case 'lost':
+    case 'stopping':
       return `${prefix}orange`;
   }
 }

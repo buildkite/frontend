@@ -10,14 +10,21 @@ class AgentTokens extends React.Component {
     organization: React.PropTypes.shape({
       agentTokens: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
+      }),
+      permissions: React.PropTypes.shape({
+        agentTokenView: React.PropTypes.shape({
+          allowed: React.PropTypes.bool.isRequired
+        }).isRequired
       })
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
-    title: React.PropTypes.string.isRequired
+    title: React.PropTypes.string.isRequired,
+    setupMode: React.PropTypes.bool
   };
 
   static defaultProps = {
-    title: 'Agent Token'
+    title: 'Agent Token',
+    setupMode: false
   };
 
   componentDidMount() {
@@ -31,7 +38,8 @@ class AgentTokens extends React.Component {
           {this.props.title}
         </Panel.Header>
         <Panel.Section>
-          <span>Your Buildkite agent token is used to configure and start new Buildkite agents.</span>
+          <span>Your Buildkite agent token is used to configure and start new Buildkite agents. </span>
+          {!this.props.setupMode && <span>See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent">agent documentation</a> to learn more.</span>}
         </Panel.Section>
         {this.renderBody()}
       </Panel>
@@ -40,7 +48,15 @@ class AgentTokens extends React.Component {
 
   renderBody() {
     if (this.props.organization.agentTokens) {
-      return this.props.organization.agentTokens.edges.map((edge) => this.renderRow(edge.node));
+      if (this.props.organization.permissions.agentTokenView.allowed) {
+        return this.props.organization.agentTokens.edges.map((edge) => this.renderRow(edge.node));
+      } else {
+        return (
+          <Panel.Section>
+            <p className="dark-gray">You don’t have permission to see your organization’s Agent tokens.</p>
+          </Panel.Section>
+        );
+      }
     } else {
       return (
         <Panel.Section className="center">
@@ -53,9 +69,7 @@ class AgentTokens extends React.Component {
   renderRow(token) {
     return (
       <Panel.Row key={token.id}>
-        <small className="dark-gray mb1 block">
-          {token.description}
-        </small>
+        {this.renderDescription(token)}
         <RevealButton caption="Reveal Agent Token">
           <code className="red monospace" style={{ wordWrap: "break-word" }}>
             {token.token}
@@ -63,6 +77,16 @@ class AgentTokens extends React.Component {
         </RevealButton>
       </Panel.Row>
     );
+  }
+
+  renderDescription(token) {
+    if (this.props.organization.agentTokens.edges.length > 1) {
+      return (
+        <small className="dark-gray mb1 block">
+          {token.description}
+        </small>
+      );
+    }
   }
 }
 
@@ -74,6 +98,11 @@ export default Relay.createContainer(AgentTokens, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+        permissions @include(if: $isMounted) {
+          agentTokenView {
+            allowed
+          }
+        }
         agentTokens(first: 50, revoked: false) @include(if: $isMounted) {
           edges {
             node {

@@ -26,3 +26,7 @@ pre {
   margin: 0;
   padding: 0;
 }
+
+table {
+  border-collapse: collapse;
+}

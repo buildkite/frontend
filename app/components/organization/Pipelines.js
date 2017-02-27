@@ -3,12 +3,15 @@ import Relay from 'react-relay';
 
 import SectionLoader from '../shared/SectionLoader';
 
+import UserSessionStore from '../../stores/UserSessionStore';
+
 import Pipeline from './Pipeline';
 import Welcome from './Welcome';
 
 class OrganizationPipelines extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
+      id: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
       pipelines: React.PropTypes.shape({
         edges: React.PropTypes.arrayOf(
@@ -41,6 +44,9 @@ class OrganizationPipelines extends React.Component {
         }, 0);
       }
     });
+
+    // We might've started out with a new team, so let's see about updating the default!
+    this.maybeUpdateDefaultTeam(this.props.organization.id, this.props.team);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,6 +63,23 @@ class OrganizationPipelines extends React.Component {
           }
         });
       });
+    }
+
+    // Let's try updating the default team - we don't rely on the last team
+    // being different here because the store might've gotten out of sync,
+    // and we do out own check!
+    this.maybeUpdateDefaultTeam(nextProps.organization.id, nextProps.team);
+  }
+
+  maybeUpdateDefaultTeam(organization, team) {
+    const orgDefaultTeamKey = `organization-default-team:${organization}`;
+
+    if (team !== UserSessionStore.get(orgDefaultTeamKey)) {
+      if (team) {
+        UserSessionStore.set(orgDefaultTeamKey, team);
+      } else {
+        UserSessionStore.remove(orgDefaultTeamKey);
+      }
     }
   }
 
@@ -124,6 +147,7 @@ export default Relay.createContainer(OrganizationPipelines, {
   fragments: {
     organization: (variables) => Relay.QL`
       fragment on Organization {
+        id
         slug
         pipelines(first: 500, team: $teamSearch, order: PIPELINE_ORDER_NAME) @include(if: $isMounted) {
           edges {

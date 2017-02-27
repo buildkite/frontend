@@ -1,12 +1,10 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
-import classNames from 'classnames';
 
-import BuildState from '../../icons/BuildState';
+import StateIcon from '../state-icon';
 import Panel from '../../shared/Panel';
 import JobLink from '../../shared/JobLink';
-import { getColourForConnectionState, getLabelForConnectionState } from '../shared';
 
 class AgentRow extends React.Component {
   static propTypes = {
@@ -26,39 +24,6 @@ class AgentRow extends React.Component {
       version: React.PropTypes.string.isRequired
     })
   };
-
-  renderState() {
-    const { agent } = this.props;
-
-    const iconClassName = classNames(
-      'circle',
-      getColourForConnectionState(agent.connectionState, 'bg-')
-    );
-
-    let agentIcon = (
-      <div
-        className={iconClassName}
-        style={{ width: 13, height: 13 }}
-      />
-    );
-
-    // If we've got a job, we'll steal the "running" icon from the build state
-    // to show that the agent is doing something.
-    if (agent.job) {
-      agentIcon = (
-        <BuildState.XSmall state={"running"} style={{ display: 'block' }} />
-      );
-    }
-
-    return (
-      <div
-        className="pr3 pt1"
-        title={getLabelForConnectionState(agent.connectionState)}
-      >
-        {agentIcon}
-      </div>
-    );
-  }
 
   renderJob() {
     const { agent } = this.props;
@@ -90,7 +55,7 @@ class AgentRow extends React.Component {
     return (
       <Panel.Row>
         <div className="flex">
-          {this.renderState()}
+          <StateIcon agent={agent} className="pr3 pt1" />
           <div className="flex flex-auto flex-column">
             <div className="flex flex-auto">
               <div className="flex-auto">

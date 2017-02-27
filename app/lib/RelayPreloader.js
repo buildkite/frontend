@@ -42,17 +42,6 @@ const QUERIES = {
       }
     }
   `,
-  "organization_show/viewer": Relay.QL`
-    query PipelinesListViewer {
-      viewer {
-        id
-        notice(namespace: NOTICE_NAMESPACE_FEATURE, scope: "pipelines-page-1-0") {
-          id
-          dismissedAt
-        }
-      }
-    }
-  `,
   "organization_show/organization": Relay.QL`
     query PipelinesList($organization: ID!, $team: ID) {
       organization(slug: $organization) {
@@ -236,12 +225,23 @@ const QUERIES = {
     query AgentIndex($organization: ID!) {
       organization(slug: $organization) {
         id
-        name
-        slug
-        uuid
         permissions {
           agentTokenView {
             allowed
+          }
+        }
+        agentTokens(first:50, revoked:false) {
+          edges {
+            node {
+              id
+              description
+              token
+            }
+            cursor
+          },
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
           }
         }
       }

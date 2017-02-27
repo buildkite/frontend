@@ -57,7 +57,7 @@ AWSParameterTable.propTypes = {
 
 function AWSParameterTable(props) {
   return (
-    <table className="border-top border-gray">
+    <table className="border-top border-gray col-12">
       <tbody>
         <AWSTableRow title="BuildkiteAgentToken">
           <code className="monospace" style={{ fontSize: '.85em' }}>
@@ -66,7 +66,7 @@ function AWSParameterTable(props) {
         </AWSTableRow>
         <AWSTableRow title="BuildkiteOrgSlug">
           <code className="monospace" style={{ fontSize: '.85em' }}>
-            {props.organization.slug || 'INSERT-YOUR-ACCOUNT-SLUG-HERE'}
+            {props.organization.slug || 'INSERT-YOUR-ORGANIZATION-SLUG-HERE'}
           </code>
         </AWSTableRow>
         <AWSTableRow title="BuildkiteApiAccessToken">

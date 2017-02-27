@@ -27,7 +27,7 @@ const DialogBackdrop = styled.div`
   bottom: 0;
   right: 0;
   opacity: 0.9;
-  z-index: 1001;
+  z-index: 1002;
 `;
 
 DialogBackdrop.defaultProps = {
@@ -36,7 +36,7 @@ DialogBackdrop.defaultProps = {
 
 const DialogBox = styled.div`
   width: ${(props) => props.width}px;
-  zIndex: 1002;
+  zIndex: 1004;
   maxWidth: 90vw;
 `;
 

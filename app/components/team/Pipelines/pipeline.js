@@ -7,7 +7,9 @@ class Pipeline extends React.Component {
   static propTypes = {
     pipeline: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
-      repository: React.PropTypes.string
+      repository: React.PropTypes.shape({
+        url: React.PropTypes.string.isRequired
+      }).isRequired
     }).isRequired
   };
 
@@ -27,7 +29,7 @@ class Pipeline extends React.Component {
     return (
       <div>
         <strong className="semi-bold block">{this.props.pipeline.name}</strong>
-        <small className={repositoryTextClasses}>{this.props.pipeline.repository}</small>
+        <small className={repositoryTextClasses}>{this.props.pipeline.repository.url}</small>
       </div>
     );
   }
