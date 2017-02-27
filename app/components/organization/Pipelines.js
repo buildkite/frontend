@@ -27,6 +27,10 @@ class OrganizationPipelines extends React.Component {
     team: React.PropTypes.string
   };
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   state = {
     fetching: false
   }
@@ -35,13 +39,22 @@ class OrganizationPipelines extends React.Component {
     // After the `OrganizationPipelines` component has mounted, kick off a
     // Relay query to load in all the pipelines. `includeGraphData` is still
     // false at this point because we'll load in that data after this.
-    this.props.relay.setVariables({ isMounted: true, teamSearch: this.props.team }, (readyState) => {
-      if (readyState.done) {
+    this.props.relay.setVariables({ isMounted: true, teamSearch: this.props.team }, ({ done, error }) => {
+      if (done) {
         // Now kick off a full reload, which will grab the pipelines again, but
         // this time with all the graph data.
         setTimeout(() => {
           this.props.relay.forceFetch({ includeGraphData: true });
         }, 0);
+      } else if (error) {
+        // if we couldn't find that team in GraphQL, let's redirect to not requesting a team!
+        if (error.source.errors.some(({ message }) => message === 'No team found')) {
+          this.context.router.push(`/${this.props.organization.slug}`);
+          this.maybeUpdateDefaultTeam(this.props.organization.id, null);
+          // WARNING: We need to set isMounted here because it didn't get successfuly
+          // updated by the parent setVariables call!
+          this.props.relay.setVariables({ isMounted: true, teamSearch: null });
+        }
       }
     });
 
