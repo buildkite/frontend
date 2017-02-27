@@ -1,6 +1,7 @@
 import EventEmitter from 'eventemitter3';
+import 'whatwg-fetch';
 
-const LOCALSTORAGE_PREFIX = 'SessionHashStore:';
+const LOCALSTORAGE_PREFIX = 'UserSessionStore:';
 
 const keyWithPrefix = (key = '') => `${LOCALSTORAGE_PREFIX}${key}`;
 const keySansPrefix = (prefixedKey) => {
@@ -10,7 +11,22 @@ const keySansPrefix = (prefixedKey) => {
   return prefixedKey.slice(LOCALSTORAGE_PREFIX.length);
 };
 
-class SessionHashStore extends EventEmitter {
+const HTTP = (method, url, body) => (
+  fetch(
+    url,
+    {
+      method,
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': window._csrf.token
+      },
+      body
+    }
+  )
+);
+
+class UserSessionStore extends EventEmitter {
   constructor() {
     super(...arguments);
 
@@ -41,6 +57,7 @@ class SessionHashStore extends EventEmitter {
     );
 
     localStorage.setItem(prefixedKey, value);
+    HTTP('POST', '/_session/store', JSON.stringify({ [key]: value }));
   }
 
   remove(key) {
@@ -53,10 +70,11 @@ class SessionHashStore extends EventEmitter {
     );
 
     localStorage.removeItem(prefixedKey);
+    HTTP('DELETE', '/_session/store', JSON.stringify([key]));
   }
 
   clear() {
-    // clear SessionHashStore-managed localStorage items
+    // clear UserSessionStore-managed localStorage items
     Object.keys(localStorage)
       .filter((key) => key.indexOf(LOCALSTORAGE_PREFIX) === 0)
       .forEach((key) => {
@@ -82,7 +100,7 @@ class SessionHashStore extends EventEmitter {
     }
 
     // This should be the only place `emit` is called
-    // by SessionHashStore!
+    // by UserSessionStore!
     this.emit(
       'change',
       {
@@ -94,4 +112,4 @@ class SessionHashStore extends EventEmitter {
   }
 }
 
-export default new SessionHashStore();
+export default new UserSessionStore();

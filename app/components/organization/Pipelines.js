@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 
 import SectionLoader from '../shared/SectionLoader';
 
-import SessionHashStore from '../../stores/SessionHashStore';
+import UserSessionStore from '../../stores/UserSessionStore';
 
 import Pipeline from './Pipeline';
 import Welcome from './Welcome';
@@ -74,11 +74,11 @@ class OrganizationPipelines extends React.Component {
   maybeUpdateDefaultTeam(organization, team) {
     const orgDefaultTeamKey = `organization-default-team:${organization}`;
 
-    if (team !== SessionHashStore.get(orgDefaultTeamKey)) {
+    if (team !== UserSessionStore.get(orgDefaultTeamKey)) {
       if (team) {
-        SessionHashStore.set(orgDefaultTeamKey, team);
+        UserSessionStore.set(orgDefaultTeamKey, team);
       } else {
-        SessionHashStore.remove(orgDefaultTeamKey);
+        UserSessionStore.remove(orgDefaultTeamKey);
       }
     }
   }
