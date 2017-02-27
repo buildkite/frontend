@@ -46,7 +46,10 @@ var plugins = [
   // Split emojis, vendor javascript up. The loader JS doesn't have any modules
   // inside it, but since it's the last one, that's where Webpack will dump all
   // of it's bootstrapping JS. This file will change on every compilation.
-  new webpack.optimize.CommonsChunkPlugin({ names: ["emojis", "vendor", "loader"], chunks: ["emojis", "vendor", "loader"] }),
+  new webpack.optimize.CommonsChunkPlugin({
+    names: ["emojis", "vendor", "loader"],
+    minChunks: 2
+  }),
 
   // After Webpack compilation, spit out a 'manifest.json' file with a mapping
   // of file name, to compiled name.
