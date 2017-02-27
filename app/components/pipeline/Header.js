@@ -83,7 +83,7 @@ class Header extends React.Component {
     } else {
       const repository = this.props.pipeline.repository;
       return (
-        <a className="color-inherit hover-color-inherit" href={repository}>{repository}</a>
+        <a className="color-inherit hover-color-inherit" href={repository.url}>{repository.url}</a>
       );
     }
   }
@@ -103,7 +103,9 @@ export default Relay.createContainer(Header, {
       fragment on Pipeline {
         ${CreateBuildDialog.getFragment('pipeline')}
         name
-        repository
+        repository {
+          url
+        }
         description
         url
         slug
