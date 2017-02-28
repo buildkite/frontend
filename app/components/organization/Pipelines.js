@@ -57,7 +57,7 @@ class OrganizationPipelines extends React.Component {
           this.props.relay.setVariables({ isMounted: true, teamSearch: null }, (readyState) => {
             // flash error once we've got data so it behaves more like its backend counterpart!
             if (readyState.done) {
-              FlashesStore.flash(FlashesStore.ERROR, "The requested team couldn’t be found! Switched back to All teams.")
+              FlashesStore.flash(FlashesStore.ERROR, "The requested team couldn’t be found! Switched back to All teams.");
             }
           });
         }
