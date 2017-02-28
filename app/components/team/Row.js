@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Panel from '../shared/Panel';
 import UserAvatar from '../shared/UserAvatar';
@@ -31,6 +32,10 @@ class TeamRow extends React.Component {
       }).isRequired
     }).isRequired
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     return (

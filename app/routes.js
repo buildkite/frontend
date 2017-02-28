@@ -16,6 +16,7 @@ import TeamIndex from './components/team/Index';
 import TeamNew from './components/team/New';
 import TeamShow from './components/team/Show';
 import TeamEdit from './components/team/Edit';
+import MemberIndex from './components/member/Index';
 import PipelineSettingsSection from './components/pipeline/SettingsSection';
 import PipelineScheduleIndex from './components/pipeline/schedules/Index';
 import PipelineScheduleNew from './components/pipeline/schedules/New';
@@ -80,6 +81,9 @@ export default (
         <Route path="agents">
           <IndexRoute component={AgentIndex} queries={{ viewer: ViewerQuery.query, organization: OrganizationQuery.query }} render={renderSectionLoading} />
           <Route path=":agent" component={AgentShow} queries={{ agent: AgentQuery.query }} prepareParams={AgentQuery.prepareParams} render={renderSectionLoading} />
+        </Route>
+        <Route path="users" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
+          <IndexRoute component={MemberIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
         </Route>
         <Route path="teams" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
           <IndexRoute component={TeamIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />

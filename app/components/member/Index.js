@@ -1,0 +1,86 @@
+import React from 'react';
+import Relay from 'react-relay';
+import DocumentTitle from 'react-document-title';
+import shallowCompare from 'react-addons-shallow-compare';
+
+import Panel from '../shared/Panel';
+import Button from '../shared/Button';
+import permissions from '../../lib/permissions';
+
+import Row from './Row';
+
+class MemberIndex extends React.Component {
+  static propTypes = {
+    organization: React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired,
+      slug: React.PropTypes.string.isRequired,
+      permissions: React.PropTypes.object.isRequired,
+      members: React.PropTypes.shape({
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.object.isRequired
+          }).isRequired
+        ).isRequired
+      }).isRequired
+    }).isRequired
+  };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
+  render() {
+    return (
+      <DocumentTitle title={`Users · ${this.props.organization.name}`}>
+        <Panel>
+          <Panel.Header>Users</Panel.Header>
+          <Panel.IntroWithButton>
+            <span>Invite people to this organization so they can see and create builds, manage pipelines, and customize their notification preferences.</span>
+            {this.renderNewMemberButton()}
+          </Panel.IntroWithButton>
+          {this.props.organization.members.edges.map((edge) => (
+            <Row
+              key={edge.node.id}
+              organization={this.props.organization}
+              organizationMember={edge.node}
+            />
+          ))}
+        </Panel>
+      </DocumentTitle>
+    );
+  }
+
+  renderNewMemberButton() {
+    return permissions(this.props.organization.permissions).check(
+      {
+        allowed: "organizationInvitationCreate",
+        render: () => <Button href={`/organizations/${this.props.organization.slug}/users/new`} theme="success">Invite New Users</Button>
+      }
+    );
+  }
+}
+
+export default Relay.createContainer(MemberIndex, {
+  fragments: {
+    organization: () => Relay.QL`
+      fragment on Organization {
+        name
+        slug
+        ${Row.getFragment('organization')}
+        permissions {
+          organizationInvitationCreate {
+            allowed
+          }
+        }
+        members(first: 100) {
+          edges {
+            node {
+              id
+              ${Row.getFragment('organizationMember')}
+            }
+          }
+        }
+      }
+    `
+  }
+});
