@@ -56,6 +56,10 @@ class OrganizationPipelines extends React.Component {
           // updated by the parent setVariables call!
           this.props.relay.setVariables({ isMounted: true, teamSearch: null }, (readyState) => {
             // flash error once we've got data so it behaves more like its backend counterpart!
+            //
+            // NOTE: We check `aborted` as well as `done` because it *should* return `done` but
+            // it looks like if it's canceled during a query it'll return `aborted` but render
+            // the right data.
             if (readyState.aborted || readyState.done) {
               FlashesStore.flash(FlashesStore.ERROR, "The requested team couldn’t be found! Switched back to All teams.");
             }
