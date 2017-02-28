@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 
 import SectionLoader from '../shared/SectionLoader';
 
+import FlashesStore from '../../stores/FlashesStore';
 import UserSessionStore from '../../stores/UserSessionStore';
 
 import Pipeline from './Pipeline';
@@ -53,7 +54,12 @@ class OrganizationPipelines extends React.Component {
           this.maybeUpdateDefaultTeam(this.props.organization.id, null);
           // WARNING: We need to set isMounted here because it didn't get successfuly
           // updated by the parent setVariables call!
-          this.props.relay.setVariables({ isMounted: true, teamSearch: null });
+          this.props.relay.setVariables({ isMounted: true, teamSearch: null }, (readyState) => {
+            // flash error once we've got data so it behaves more like its backend counterpart!
+            if (readyState.done) {
+              FlashesStore.flash(FlashesStore.ERROR, "The requested team couldn’t be found! Switched back to All teams.")
+            }
+          });
         }
       }
     });
