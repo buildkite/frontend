@@ -153,7 +153,7 @@ const QUERIES = {
           organizationUpdate {
             allowed
           }
-          organizationMemberCreate {
+          organizationInvitationCreate {
             allowed
           }
           notificationServiceUpdate {
@@ -202,7 +202,7 @@ const QUERIES = {
           organizationUpdate {
             allowed
           }
-          organizationMemberCreate {
+          organizationInvitationCreate {
             allowed
           }
           notificationServiceUpdate {
