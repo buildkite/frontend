@@ -328,7 +328,7 @@ export default Relay.createContainer(Navigation, {
             organizationUpdate {
               allowed
             }
-            organizationMemberCreate {
+            organizationInvitationCreate {
               allowed
             }
             notificationServiceUpdate {
