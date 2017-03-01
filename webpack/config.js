@@ -198,7 +198,12 @@ module.exports = {
         test: /\.(png|svg|jpg|gif)$/i,
         use: [
           { loader: 'url-loader', options: { limit: 8192 } },
-          { loader: 'image-webpack-loader', options: { optimizationLevel: 7, interlaced: false } }
+          { loader: 'image-webpack-loader', options:
+            {
+              optipng: { optimizationLevel: 7 },
+              gifsicle: { interlaced: false }
+            }
+          }
         ]
       }
     ]
