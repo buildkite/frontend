@@ -2261,6 +2261,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "after",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "last",
                   "description": null,
                   "type": {
@@ -2269,6 +2279,44 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "before",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "state",
+                  "description": null,
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "OrganizationInvitationStates",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "order",
+                  "description": "Order the invitations",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "OrganizationInvitationOrders",
+                    "ofType": null
+                  },
+                  "defaultValue": "\"RECENTLY_CREATED\""
                 }
               ],
               "type": {
@@ -8242,8 +8290,36 @@
           "description": "A pending invitation to a user to join this organization",
           "fields": [
             {
+              "name": "acceptedAt",
+              "description": "The time when the invitation was accepted",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "acceptedBy",
+              "description": "The user that accepted this invite",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "admin",
-              "description": null,
+              "description": "Whether this user should be an organization admin when they accept the invite",
               "args": [
 
               ],
@@ -8289,7 +8365,7 @@
             },
             {
               "name": "email",
-              "description": null,
+              "description": "The email address of this invitation",
               "args": [
 
               ],
@@ -8301,6 +8377,20 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "expiredAt",
+              "description": "The time when the invitation was automatically expired",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -8322,6 +8412,98 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "permissions",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "OrganizationInvitationPermissions",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "revokedAt",
+              "description": "The time when this invitation was revoked",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "revokedBy",
+              "description": "The user that revoked this invitation",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": "The current state of the invitation",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "OrganizationInvitationStates",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID of the invitation",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -8333,6 +8515,105 @@
             }
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "OrganizationInvitationStates",
+          "description": "All the possible states that an organization invitation can be",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "PENDING",
+              "description": "The invitation is waiting for a user to accept it",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ACCEPTED",
+              "description": "The invitation was accepted by the person it was sent to",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "EXPIRED",
+              "description": "The invitation wasn't accepted and the link has expired",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "REVOKED",
+              "description": "The invitation was revoked and can no longer be accepted",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "OrganizationInvitationPermissions",
+          "description": "Permissions information about what actions the current user can do against this invitation",
+          "fields": [
+            {
+              "name": "organizationInvitationResend",
+              "description": "Whether the user can resend this invitation",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organizationInvitationRevoke",
+              "description": "Whether the user can revoke this invitation",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "OrganizationInvitationOrders",
+          "description": "The diferent orders you can sort organization invitations by",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "EMAIL",
+              "description": "Order by email address alphabetically",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "RECENTLY_CREATED",
+              "description": "Order by the most recently created invitations first",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -10118,6 +10399,60 @@
               "deprecationReason": null
             },
             {
+              "name": "organizationInvitationResend",
+              "description": "Resends an organization invitation",
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "OrganizationInvitationResendInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "OrganizationInvitationResendPayload",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organizationInvitationRevoke",
+              "description": "Revokes an organization invitation so it can no longer be accepted",
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "OrganizationInvitationRevokeInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "OrganizationInvitationRevokePayload",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "organizationMemberDelete",
               "description": null,
               "args": [
@@ -11486,6 +11821,166 @@
                 "kind": "SCALAR",
                 "name": "Boolean",
                 "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "OrganizationInvitationResendPayload",
+          "description": "Autogenerated return type of OrganizationInvitationResend",
+          "fields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organizationInvitation",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "OrganizationInvitation",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "OrganizationInvitationResendInput",
+          "description": "Autogenerated input type of OrganizationInvitationResend",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "OrganizationInvitationRevokePayload",
+          "description": "Autogenerated return type of OrganizationInvitationRevoke",
+          "fields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organizationInvitation",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "OrganizationInvitation",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "OrganizationInvitationRevokeInput",
+          "description": "Autogenerated input type of OrganizationInvitationRevoke",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
               },
               "defaultValue": null
             }
