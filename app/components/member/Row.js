@@ -33,7 +33,7 @@ class MemberRow extends React.Component {
 
   render() {
     return (
-      <Panel.RowLink key={this.props.organizationMember.uuid} href={`/organizations/${this.props.organization.slug}/users/${this.props.organizationMember.uuid}/edit`}>
+      <Panel.RowLink key={this.props.organizationMember.uuid} to={`/organizations/${this.props.organization.slug}/users/${this.props.organizationMember.uuid}/edit`}>
         <div className="flex flex-stretch items-center">
           <div className="flex flex-none mr2">
             <UserAvatar
