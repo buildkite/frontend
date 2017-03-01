@@ -63,7 +63,7 @@ const QUERIES = {
             hasPreviousPage
           }
         }
-        pipelines(first: 500, team: $team, order: PIPELINE_ORDER_NAME) {
+        pipelines(first: 500, team: $team, order: NAME) {
           edges {
             node {
               id

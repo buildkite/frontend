@@ -172,7 +172,7 @@ export default Relay.createContainer(OrganizationPipelines, {
       fragment on Organization {
         id
         slug
-        pipelines(first: 500, team: $teamSearch, order: PIPELINE_ORDER_NAME) @include(if: $isMounted) {
+        pipelines(first: 500, team: $teamSearch, order: NAME) @include(if: $isMounted) {
           edges {
             node {
               id

@@ -2638,7 +2638,7 @@
                     "name": "PipelineOrders",
                     "ofType": null
                   },
-                  "defaultValue": "\"PIPELINE_ORDER_RECENTLY_CREATED\""
+                  "defaultValue": "\"RECENTLY_CREATED\""
                 }
               ],
               "type": {
@@ -7249,19 +7249,19 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "PIPELINE_ORDER_NAME",
+              "name": "NAME",
               "description": "Order by name alphabetically",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "PIPELINE_ORDER_RECENTLY_CREATED",
+              "name": "RECENTLY_CREATED",
               "description": "Order by the most recently created pipelines first",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "PIPELINE_ORDER_RELEVANCE",
+              "name": "RELEVANCE",
               "description": "Order by relevance when searching for pipelines",
               "isDeprecated": false,
               "deprecationReason": null
