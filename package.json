@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "lint-and-fix": "eslint --fix .",
     "build": "NODE_ENV=development webpack --config webpack/config.js --progress --bail",
-    "build-production": "NODE_ENV=production webpack --config webpack/config.js --progress --bail --optimize-minimize"
+    "build-production": "NODE_ENV=production webpack --config webpack/config.js --progress --bail"
   },
   "devDependencies": {
     "assets-webpack-plugin": "^3.4.0",
