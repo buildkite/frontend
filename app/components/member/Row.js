@@ -5,7 +5,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 import Panel from '../shared/Panel';
 import UserAvatar from '../shared/UserAvatar';
 
-const avatarSize = 40;
+const AVATAR_SIZE = 40;
 
 class MemberRow extends React.Component {
   static propTypes = {
@@ -37,7 +37,7 @@ class MemberRow extends React.Component {
             <UserAvatar
               user={this.props.organizationMember.user}
               className="align-middle"
-              style={{ width: avatarSize, height: avatarSize }}
+              style={{ width: AVATAR_SIZE, height: AVATAR_SIZE }}
             />
           </div>
           <div className="flex-auto">
