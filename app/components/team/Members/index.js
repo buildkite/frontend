@@ -145,7 +145,7 @@ export default Relay.createContainer(Members, {
         ${TeamMemberCreateMutation.getFragment('team')}
 
         organization {
-          members(search: $search, first: 10) {
+          members(search: $search, first: 10, order: RELEVANCE) {
             edges {
               node {
                 user {
@@ -168,7 +168,7 @@ export default Relay.createContainer(Members, {
           }
         }
 
-        members(first: 100) {
+        members(first: 100, order: NAME) {
           edges {
             node {
               id

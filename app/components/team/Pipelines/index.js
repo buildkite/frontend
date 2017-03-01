@@ -166,7 +166,7 @@ export default Relay.createContainer(Pipelines, {
           }
         }
 
-        pipelines(first: 100) {
+        pipelines(first: 100, order: NAME) {
           edges {
             node {
               id
