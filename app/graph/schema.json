@@ -1999,6 +1999,46 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "after",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "last",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "before",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "order",
+                  "description": "Order the members returned",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "TeamMemberOrder",
+                    "ofType": null
+                  },
+                  "defaultValue": "\"RECENTLY_CREATED\""
                 }
               ],
               "type": {
@@ -2068,6 +2108,46 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "after",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "last",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "before",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "order",
+                  "description": "Order the pipelines returned",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "TeamPipelineOrder",
+                    "ofType": null
+                  },
+                  "defaultValue": "\"RECENTLY_CREATED\""
                 }
               ],
               "type": {
@@ -8853,6 +8933,52 @@
 
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "TeamPipelineOrder",
+          "description": "The diferent orders you can sort pipelines by",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "NAME",
+              "description": "Order by pipeline name alphabetically",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "RECENTLY_CREATED",
+              "description": "Order by the most recently added pipelines first",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "TeamMemberOrder",
+          "description": "The diferent orders you can sort members by",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "NAME",
+              "description": "Order by user name alphabetically",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "RECENTLY_CREATED",
+              "description": "Order by the most recently added members first",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
