@@ -777,6 +777,33 @@
               "deprecationReason": null
             },
             {
+              "name": "organizationMember",
+              "description": "Find an organization membership via it's slug",
+              "args": [
+                {
+                  "name": "slug",
+                  "description": "The UUID for the membership, prefixed by it's organization's slug i.e. `acme-inc/0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "OrganizationMember",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "pipeline",
               "description": "Find a pipeline by it's slug",
               "args": [
@@ -2449,6 +2476,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "after",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "last",
                   "description": null,
                   "type": {
@@ -2459,7 +2496,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "search",
+                  "name": "before",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -2467,6 +2504,26 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "search",
+                  "description": "Search members named like the given query case insensitively",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "order",
+                  "description": "Order the members",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "OrganizationMemberOrder",
+                    "ofType": null
+                  },
+                  "defaultValue": "\"RECENTLY_CREATED\""
                 }
               ],
               "type": {
@@ -8174,6 +8231,35 @@
 
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "OrganizationMemberOrder",
+          "description": "The diferent orders you can sort members by",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "NAME",
+              "description": "Order by name alphabetically",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "RECENTLY_CREATED",
+              "description": "Order by the most recently created members first",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "RELEVANCE",
+              "description": "Order by relevance when searching for members",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
