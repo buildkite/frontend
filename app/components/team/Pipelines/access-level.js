@@ -4,9 +4,9 @@ import shallowCompare from 'react-addons-shallow-compare';
 import Chooser from '../../shared/Chooser';
 import Dropdown from '../../shared/Dropdown';
 
-const MANAGE_BUILD_AND_READ = "PIPELINE_ACCESS_LEVEL_MANAGE_BUILD_AND_READ";
-const BUILD_AND_READ = "PIPELINE_ACCESS_LEVEL_BUILD_AND_READ";
-const READ_ONLY = "PIPELINE_ACCESS_LEVEL_READ_ONLY";
+const MANAGE_BUILD_AND_READ = "MANAGE_BUILD_AND_READ";
+const BUILD_AND_READ = "BUILD_AND_READ";
+const READ_ONLY = "READ_ONLY";
 
 class AccessLevel extends React.Component {
   static displayName = "Team.Pipelines.AccessLevel";

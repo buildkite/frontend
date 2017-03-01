@@ -6460,19 +6460,19 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "PIPELINE_ACCESS_LEVEL_MANAGE_BUILD_AND_READ",
+              "name": "MANAGE_BUILD_AND_READ",
               "description": "Allows edits, builds and reads",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "PIPELINE_ACCESS_LEVEL_BUILD_AND_READ",
+              "name": "BUILD_AND_READ",
               "description": "Allows builds and read only",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "PIPELINE_ACCESS_LEVEL_READ_ONLY",
+              "name": "READ_ONLY",
               "description": "Read only - no builds or edits",
               "isDeprecated": false,
               "deprecationReason": null
