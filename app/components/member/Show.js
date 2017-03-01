@@ -13,7 +13,6 @@ const AVATAR_SIZE = 50;
 
 class MemberShow extends React.Component {
   static propTypes = {
-    slug: React.PropTypes.string.isRequired,
     organizationMember: React.PropTypes.shape({
       uuid: React.PropTypes.string.isRequired,
       admin: React.PropTypes.bool.isRequired,
@@ -21,7 +20,7 @@ class MemberShow extends React.Component {
         name: React.PropTypes.string.isRequired,
         email: React.PropTypes.string.isRequired,
         avatar: React.PropTypes.shape({
-          url: React.PropTypes.string.isRequired,
+          url: React.PropTypes.string.isRequired
         }).isRequired
       }).isRequired
     })
@@ -58,7 +57,7 @@ class MemberShow extends React.Component {
 
 export default Relay.createContainer(MemberShow, {
   fragments: {
-    organizationMember: (variables) => Relay.QL`
+    organizationMember: () => Relay.QL`
       fragment on OrganizationMember {
         uuid
         admin
