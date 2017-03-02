@@ -192,7 +192,7 @@ const QUERIES = {
         members {
           count
         }
-        invitations {
+        invitations(state: PENDING) {
           count
         }
         teams {
