@@ -22,7 +22,8 @@ class TeamIndex extends React.Component {
         ).isRequired
       }),
       permissions: React.PropTypes.object.isRequired
-    }).isRequired
+    }).isRequired,
+    relay: React.PropTypes.object.isRequired
   };
 
   componentDidMount() {
@@ -45,7 +46,7 @@ class TeamIndex extends React.Component {
   }
 
   renderTeams() {
-    if(this.props.organization.teams) {
+    if (this.props.organization.teams) {
       return this.props.organization.teams.edges.map((edge) => {
         return (
           <Row key={edge.node.id} team={edge.node} />
