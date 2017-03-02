@@ -330,6 +330,9 @@ const QUERIES = {
         defaultBranch
         repository {
           url
+          provider {
+            url
+          }
         }
         organization {
           slug

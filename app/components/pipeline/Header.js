@@ -76,12 +76,17 @@ class Header extends React.Component {
   }
 
   renderDescription() {
+    const repository = this.props.pipeline.repository;
+
     if (this.props.pipeline.description) {
       return (
         <Emojify text={this.props.pipeline.description} />
       );
+    } else if (repository.provider.url) {
+      return (
+        <a className="color-inherit hover-color-inherit" href={repository.provider.url}>{repository.provider.url}</a>
+      );
     } else {
-      const repository = this.props.pipeline.repository;
       return (
         <a className="color-inherit hover-color-inherit" href={repository.url}>{repository.url}</a>
       );
@@ -105,6 +110,9 @@ export default Relay.createContainer(Header, {
         name
         repository {
           url
+          provider {
+            url
+          }
         }
         description
         url
