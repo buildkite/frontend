@@ -95,6 +95,7 @@ export default Relay.createContainer(MemberIndex, {
         invitations(first: 100, state: [PENDING]) {
           edges {
             node {
+              id
               ${InvitationRow.getFragment('organizationInvitation')}
             }
           }
