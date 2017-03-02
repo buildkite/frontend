@@ -3,8 +3,6 @@ import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
 import Panel from '../../../shared/Panel';
-import PageHeader from '../../../shared/PageHeader';
-import PageWithContainer from '../../../shared/PageWithContainer';
 import Emojify from '../../../shared/Emojify';
 import FormAutoCompleteField from '../../../shared/FormAutoCompleteField';
 
@@ -52,24 +50,20 @@ class Index extends React.Component {
   render() {
     return (
       <DocumentTitle title={`Teams · ${this.props.pipeline.name}`}>
-        <PageWithContainer>
-          <PageHeader>
-            <PageHeader.Title>Teams for {this.props.pipeline.name}</PageHeader.Title>
-          </PageHeader>
+        <Panel>
+          <Panel.Header>Teams</Panel.Header>
 
-          <Panel>
-            <Panel.Section>
-              <FormAutoCompleteField onSearch={this.handleTeamSearch}
-                onSelect={this.handleTeamSelect}
-                items={this.renderAutoCompleteSuggestions(this.props.relay.variables.search)}
-                placeholder="Add a team…"
-                ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-              />
-            </Panel.Section>
+          <Panel.Section>
+            <FormAutoCompleteField onSearch={this.handleTeamSearch}
+              onSelect={this.handleTeamSelect}
+              items={this.renderAutoCompleteSuggestions(this.props.relay.variables.search)}
+              placeholder="Add a team…"
+              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
+            />
+          </Panel.Section>
 
-            {this.renderRows()}
-          </Panel>
-        </PageWithContainer>
+          {this.renderRows()}
+        </Panel>
       </DocumentTitle>
     );
   }
