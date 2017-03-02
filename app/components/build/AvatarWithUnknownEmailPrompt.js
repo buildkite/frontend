@@ -300,7 +300,7 @@ export default Relay.createContainer(AvatarWithUnknownEmailPrompt, {
             }
           }
         }
-        notice(namespace: NOTICE_NAMESPACE_EMAIL_SUGGESTION, scope: $emailForPrompt) @include(if: $isTryingToPrompt) {
+        notice(namespace: EMAIL_SUGGESTION, scope: $emailForPrompt) @include(if: $isTryingToPrompt) {
           ${NoticeDismissMutation.getFragment('notice')}
           dismissedAt
         }
