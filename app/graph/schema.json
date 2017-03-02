@@ -7424,25 +7424,25 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "JOB_TYPE_COMMAND",
+              "name": "COMMAND",
               "description": "A job that runs a command on an agent",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "JOB_TYPE_WAIT",
+              "name": "WAIT",
               "description": "A job that waits for all previous jobs to finish",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "JOB_TYPE_BLOCK",
+              "name": "BLOCK",
               "description": "A job that blocks a pipeline from progressing until it's manually unblocked",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "JOB_TYPE_TRIGGER",
+              "name": "TRIGGER",
               "description": "A job that triggers another build on a pipeline",
               "isDeprecated": false,
               "deprecationReason": null
