@@ -1,17 +1,18 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-import Emojify from '../shared/Emojify';
-import Button from '../shared/Button';
+import Emojify from '../../shared/Emojify';
+import Button from '../../shared/Button';
 
-import CreateBuildDialog from './CreateBuildDialog';
-import BuildStateSwitcher from '../build/StateSwitcher';
+import CreateBuildDialog from '../CreateBuildDialog';
+import Builds from './builds';
 
-import permissions from '../../lib/permissions';
+import permissions from '../../../lib/permissions';
 
 class Header extends React.Component {
   static propTypes = {
     pipeline: React.PropTypes.object.isRequired,
+    relay: React.PropTypes.object.isRequired,
     buildState: React.PropTypes.string
   };
 
@@ -31,14 +32,7 @@ class Header extends React.Component {
           </div>
         </div>
         <div className="flex items-start">
-          <BuildStateSwitcher
-            buildsCount={this.props.pipeline.builds.count}
-            runningBuildsCount={this.props.pipeline.runningBuilds.count}
-            scheduledBuildsCount={this.props.pipeline.scheduledBuilds.count}
-            state={this.props.buildState}
-            path={`/${this.props.pipeline.organization.slug}/${this.props.pipeline.slug}/builds`}
-          />
-
+          <Builds pipeline={this.props.pipeline} buildState={this.props.buildState} />
           {this.renderButtons()}
         </div>
         <CreateBuildDialog isOpen={this.state.showingCreateBuildDialog} onRequestClose={this.handleSupportDialogClose} pipeline={this.props.pipeline} />
@@ -107,27 +101,16 @@ export default Relay.createContainer(Header, {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
         ${CreateBuildDialog.getFragment('pipeline')}
+        ${Builds.getFragment('pipeline')}
+        id
         name
+        url
+        description
         repository {
           url
           provider {
             url
           }
-        }
-        description
-        url
-        slug
-        organization {
-          slug
-        }
-        builds {
-          count
-        }
-        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
-          count
-        }
-        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
-          count
         }
         permissions {
           pipelineUpdate {
