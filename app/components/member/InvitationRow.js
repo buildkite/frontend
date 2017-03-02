@@ -6,6 +6,7 @@ import Button from '../shared/Button';
 import Panel from '../shared/Panel';
 
 import OrganizationInvitationResend from '../../mutations/OrganizationInvitationResend';
+import OrganizationInvitationRevoke from '../../mutations/OrganizationInvitationRevoke';
 
 class InvitationRow extends React.Component {
   static propTypes = {
@@ -30,7 +31,7 @@ class InvitationRow extends React.Component {
           </div>
           <div className="flex-none">
             <Button className="ml1" theme="default" outline={true} onClick={this.handleResendInvitationClick}>Resend Invitation</Button>
-            <Button className="ml1" theme="default" outline={true}>Revoke</Button>
+            <Button className="ml1" theme="default" outline={true} onClick={this.handleRevokeInvitationClick}>Revoke</Button>
           </div>
         </div>
       </Panel.Row>
@@ -63,6 +64,33 @@ class InvitationRow extends React.Component {
 
     alert(transaction.getError());
   }
+
+  handleRevokeInvitationClick = () => {
+    // Show the revoking indicator
+    this.setState({ revoking: true });
+
+    const mutation = new OrganizationInvitationRevoke({
+      organizationInvitation: this.props.organizationInvitation
+    });
+
+    // Run the mutation
+    Relay.Store.commitUpdate(mutation, {
+      onSuccess: this.handleResendInvitationMutationSuccess,
+      onFailure: this.handleResendInvitationMutationFailure
+    });
+  }
+
+  handleRevokeInvitationMutationSuccess = (response) => {
+    // TODO: something
+    console.log("👌🏼");
+  }
+
+  handleRevokeInvitationMutationFailure = (transaction) => {
+    // Hide the removing indicator
+    this.setState({ revoking: false });
+
+    alert(transaction.getError());
+  }
 }
 
 export default Relay.createContainer(InvitationRow, {
@@ -72,6 +100,7 @@ export default Relay.createContainer(InvitationRow, {
         uuid
         email
         ${OrganizationInvitationResend.getFragment('organizationInvitation')}
+        ${OrganizationInvitationRevoke.getFragment('organizationInvitation')}
       }
     `
   }
