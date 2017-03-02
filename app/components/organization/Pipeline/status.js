@@ -48,7 +48,7 @@ class Status extends React.Component {
       );
     } else {
       return (
-        <BuildState.Regular state="pending" />
+        <BuildState.Regular state="PENDING" />
       );
     }
   }
