@@ -304,6 +304,20 @@ const QUERIES = {
         version
       }
     }
+  `,
+  "teams/index": Relay.QL`
+    query($organization: ID!) {
+      organization(slug: $organization) {
+        id
+        name
+        slug
+        permissions {
+          teamCreate {
+            allowed
+          }
+        }
+      }
+    }
   `
 };
 
