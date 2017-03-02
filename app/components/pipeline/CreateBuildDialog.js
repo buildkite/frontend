@@ -53,7 +53,7 @@ class CreateBuildDialog extends React.Component {
           <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
 
           <div className="p4 border-bottom border-gray">
-            <h1 className="bold h1 mt0 mb1">Create Build</h1>
+            <h1 className="h1 mt0 mb1">Create Build</h1>
             <p className="p0 m0">Manually start a new build for a given branch and commit.</p>
           </div>
 
@@ -97,6 +97,8 @@ class CreateBuildDialog extends React.Component {
     if (this.state.showingMoreOptions) {
       return (
         <div>
+          <a href="#" onClick={this.handleToggleOptionsButtonClick} className="bold mb2 block">Show less options…</a>
+
           <FormTextarea
             name="build[env]"
             label="Environment Variables"
