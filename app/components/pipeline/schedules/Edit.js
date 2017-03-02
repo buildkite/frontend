@@ -8,7 +8,6 @@ import GraphQLErrors from '../../../constants/GraphQLErrors';
 import PageHeader from '../../shared/PageHeader';
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
-import PageWithContainer from '../../shared/PageWithContainer';
 
 import Form from "./Form";
 
@@ -43,33 +42,31 @@ class Edit extends React.Component {
   render() {
     return (
       <DocumentTitle title={`Update`}>
-        <PageWithContainer>
-          <form onSubmit={this.handleFormSubmit}>
-            <PageHeader>
-              <PageHeader.Title>Update Schedule</PageHeader.Title>
-            </PageHeader>
+        <form onSubmit={this.handleFormSubmit}>
+          <PageHeader>
+            <PageHeader.Title>Update Schedule</PageHeader.Title>
+          </PageHeader>
 
-            <Panel>
-              <Panel.Section>
-                <Form
-                  pipeline={this.props.pipelineSchedule.pipeline}
-                  errors={this.state.errors}
-                  cronline={this.props.pipelineSchedule.cronline}
-                  label={this.props.pipelineSchedule.label}
-                  commit={this.props.pipelineSchedule.commit}
-                  branch={this.props.pipelineSchedule.branch}
-                  message={this.props.pipelineSchedule.message}
-                  env={this.props.pipelineSchedule.env.join("\n")}
-                  ref={(form) => this.form = form}
-                />
-              </Panel.Section>
+          <Panel>
+            <Panel.Section>
+              <Form
+                pipeline={this.props.pipelineSchedule.pipeline}
+                errors={this.state.errors}
+                cronline={this.props.pipelineSchedule.cronline}
+                label={this.props.pipelineSchedule.label}
+                commit={this.props.pipelineSchedule.commit}
+                branch={this.props.pipelineSchedule.branch}
+                message={this.props.pipelineSchedule.message}
+                env={this.props.pipelineSchedule.env.join("\n")}
+                ref={(form) => this.form = form}
+              />
+            </Panel.Section>
 
-              <Panel.Footer>
-                <Button loading={this.state.saving ? "Saving schedule…" : false} theme="success">Save Schedule</Button>
-              </Panel.Footer>
-            </Panel>
-          </form>
-        </PageWithContainer>
+            <Panel.Footer>
+              <Button loading={this.state.saving ? "Saving schedule…" : false} theme="success">Save Schedule</Button>
+            </Panel.Footer>
+          </Panel>
+        </form>
       </DocumentTitle>
     );
   }
