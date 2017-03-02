@@ -13,7 +13,7 @@ export default function StateIcon(props) {
   // to show that the agent is doing something.
   if (props.agent.job) {
     icon = (
-      <BuildState.XSmall state={"running"} style={{ display: 'inline-block' }} />
+      <BuildState.XSmall state={"RUNNING"} style={{ display: 'inline-block' }} />
     );
   } else {
     icon = (

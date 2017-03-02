@@ -144,15 +144,15 @@ class Graph extends React.Component {
   }
 
   colorForBuild(build) {
-    if (build.state === "scheduled") {
+    if (build.state === "SCHEDULED") {
       return SCHEDULED_COLOR;
-    } else if (build.state === "running") {
+    } else if (build.state === "RUNNING") {
       return RUNNING_COLOR;
-    } else if (build.state === "passed" || build.state === "blocked") {
+    } else if (build.state === "PASSED" || build.state === "BLOCKED") {
       return PASSED_COLOR;
-    } else if (build.state === "skipped") {
+    } else if (build.state === "SKIPPED") {
       return SKIPPED_COLOR;
-    } else if (build.state === "not_run") {
+    } else if (build.state === "NOT_RUN") {
       return NOT_RUN_COLOR;
     } else {
       return FAILED_COLOR;
@@ -160,15 +160,15 @@ class Graph extends React.Component {
   }
 
   hoverColorForBuild(build) {
-    if (build.state === "scheduled") {
+    if (build.state === "SCHEDULED") {
       return SCHEDULED_COLOR_HOVER;
-    } else if (build.state === "running") {
+    } else if (build.state === "RUNNING") {
       return RUNNING_COLOR_HOVER;
-    } else if (build.state === "passed" || build.state === "blocked") {
+    } else if (build.state === "PASSED" || build.state === "BLOCKED") {
       return PASSED_COLOR_HOVER;
-    } else if (build.state === "skipped") {
+    } else if (build.state === "SKIPPED") {
       return SKIPPED_COLOR_HOVER;
-    } else if (build.state === "not_run") {
+    } else if (build.state === "NOT_RUN") {
       return NOT_RUN_COLOR_HOVER;
     } else {
       return FAILED_COLOR_HOVER;
@@ -179,7 +179,7 @@ class Graph extends React.Component {
     // See if there is a build running
     let running = false;
     for (const edge of buildEdges) {
-      if (edge.node.state === "running") {
+      if (edge.node.state === "RUNNING") {
         running = true;
         break;
       }

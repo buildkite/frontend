@@ -3,28 +3,28 @@ export function buildTime(build) {
   const buildTime = {};
 
   switch (state) {
-    case 'canceling':
-    case 'failed':
-    case 'passed':
-    case 'running':
-    case 'started':
-    case 'blocked':
-    case 'canceled':
+    case 'CANCELING':
+    case 'FAILED':
+    case 'PASSED':
+    case 'RUNNING':
+    case 'STARTED':
+    case 'BLOCKED':
+    case 'CANCELED':
       buildTime.from = startedAt || scheduledAt;
       break;
 
-    case 'scheduled':
+    case 'SCHEDULED':
       buildTime.from = scheduledAt;
       break;
   }
 
   switch (state) {
-    case 'failed':
-    case 'passed':
+    case 'FAILED':
+    case 'PASSED':
       buildTime.to = finishedAt;
       break;
 
-    case 'blocked':
+    case 'BLOCKED':
       if (!buildTime.from) {
         break;
       }
@@ -32,7 +32,7 @@ export function buildTime(build) {
       buildTime.to = finishedAt;
       break;
 
-    case 'canceled':
+    case 'CANCELED':
       if (!buildTime.from) {
         break;
       }
@@ -47,32 +47,32 @@ export function buildTime(build) {
 export function buildStatus(build) {
   const { state, createdAt, canceledAt, finishedAt } = build;
 
-  if (state === 'scheduled') {
+  if (state === 'SCHEDULED') {
     return {
       prefix: 'Scheduled',
       timeValue: createdAt
     };
-  } else if (state === 'failed') {
+  } else if (state === 'FAILED') {
     return {
       prefix: 'Failed',
       timeValue: finishedAt
     };
-  } else if (state === 'passed') {
+  } else if (state === 'PASSED') {
     return {
       prefix: 'Passed',
       timeValue: finishedAt
     };
-  } else if (state === 'blocked') {
+  } else if (state === 'BLOCKED') {
     return {
       prefix: 'Blocked',
       timeValue: finishedAt
     };
-  } else if (state === 'canceled' || state === 'canceling') {
+  } else if (state === 'CANCELED' || state === 'CANCELING') {
     return {
       prefix: 'Canceled',
       timeValue: canceledAt
     };
-  } else if (state === 'skipped') {
+  } else if (state === 'SKIPPED') {
     return {
       prefix: 'Skipped',
       timeValue: createdAt

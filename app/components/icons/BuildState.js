@@ -18,16 +18,16 @@ const SIZE_DEFINITIONS = {
 };
 
 const STATE_COLORS = {
-  pending: '#cdcccc',
-  scheduled: '#bbbbbb',
-  running: '#fdba12',
-  passed: '#90c73e',
-  blocked: '#90c73e',
-  failed: '#F83F23',
-  canceled: '#F83F23',
-  canceling: '#F83F23',
-  skipped: '#83B0E4',
-  not_run: '#83B0E4'
+  PENDING: '#cdcccc',
+  SCHEDULED: '#bbbbbb',
+  RUNNING: '#fdba12',
+  PASSED: '#90c73e',
+  BLOCKED: '#90c73e',
+  FAILED: '#F83F23',
+  CANCELED: '#F83F23',
+  CANCELING: '#F83F23',
+  SKIPPED: '#83B0E4',
+  NOT_RUN: '#83B0E4'
 };
 
 class BuildState extends React.Component {
@@ -106,8 +106,8 @@ class BuildState extends React.Component {
     let content;
 
     switch (this.props.state) {
-      case 'failed':
-      case 'canceled':
+      case 'FAILED':
+      case 'CANCELED':
         content = (
           <g transform="translate(10.000000, 10.000000)" {...applyStroke}>
             <path d="M0.600275489,0.600275489 L11.3997245,11.3997245" />
@@ -116,13 +116,13 @@ class BuildState extends React.Component {
         );
         break;
 
-      case 'passed':
+      case 'PASSED':
         content = (
           <polyline points="10 17.61 14.38 20.81 21 11.41" {...applyStroke} strokeMiterlimit="10" />
         );
         break;
 
-      case 'blocked':
+      case 'BLOCKED':
         content = (
           <g {...applyStroke}>
             <path d="M13,21V11" />
@@ -131,9 +131,9 @@ class BuildState extends React.Component {
         );
         break;
 
-      case 'scheduled':
-      case 'running':
-      case 'canceling':
+      case 'SCHEDULED':
+      case 'RUNNING':
+      case 'CANCELING':
         defs = (
           <mask id={maskId} x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
             <polygon
@@ -151,9 +151,9 @@ class BuildState extends React.Component {
         );
         break;
 
-      case 'pending':
-      case 'skipped':
-      case 'not_run':
+      case 'PENDING':
+      case 'SKIPPED':
+      case 'NOT_RUN':
         content = (
           <path d="M11,16H21" fill="none" {...applyStroke} />
         );
