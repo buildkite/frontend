@@ -218,10 +218,10 @@ export default Relay.createContainer(CachedMyBuilds, {
             }
           }
         }
-        runningBuilds: builds(state: BUILD_STATE_RUNNING) @include(if: $includeBuildCounts) {
+        runningBuilds: builds(state: RUNNING) @include(if: $includeBuildCounts) {
           count
         }
-        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) @include(if: $includeBuildCounts) {
+        scheduledBuilds: builds(state: SCHEDULED) @include(if: $includeBuildCounts) {
           count
         }
       }

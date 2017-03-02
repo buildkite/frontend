@@ -2099,8 +2099,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
+                  "kind": "ENUM",
+                  "name": "BuildStates",
                   "ofType": null
                 }
               },
@@ -2167,6 +2167,65 @@
             }
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "BuildStates",
+          "description": "All the possible states a build can be in",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "SKIPPED",
+              "description": "The build was skipped",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SCHEDULED",
+              "description": "The build has yet to start running jobs",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "RUNNING",
+              "description": "The build is currently running jobs",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "PASSED",
+              "description": "The build passed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "FAILED",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CANCELING",
+              "description": "The build is currently being canceled",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CANCELED",
+              "description": "The build was canceled",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "BLOCKED",
+              "description": "The build is blocked",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -3538,65 +3597,6 @@
           "inputFields": null,
           "interfaces": null,
           "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "BuildStates",
-          "description": "All the possible states a build can be in",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "BUILD_STATE_SKIPPED",
-              "description": "The build was skipped",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_SCHEDULED",
-              "description": "The build has yet to start running jobs",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_RUNNING",
-              "description": "The build is currently running jobs",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_PASSED",
-              "description": "The build passed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_FAILED",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_CANCELING",
-              "description": "The build is currently being canceled",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_CANCELED",
-              "description": "The build was canceled",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_BLOCKED",
-              "description": "The build is blocked",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
           "possibleTypes": null
         },
         {
