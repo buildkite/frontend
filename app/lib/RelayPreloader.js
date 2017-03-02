@@ -318,6 +318,49 @@ const QUERIES = {
         }
       }
     }
+  `,
+  "pipeline/header": Relay.QL`
+    query($pipeline: ID!) {
+      pipeline(slug: $pipeline) {
+        id
+        name
+        description
+        url
+        slug
+        defaultBranch
+        repository {
+          url
+          provider {
+            url
+          }
+        }
+        organization {
+          slug
+          id
+        }
+        builds {
+          count
+        }
+        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
+          count
+        }
+        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
+          count
+        }
+        permissions {
+          pipelineUpdate {
+            allowed
+            code
+            message
+          }
+          buildCreate {
+            allowed
+            code
+            message
+          }
+        }
+      }
+    }
   `
 };
 
