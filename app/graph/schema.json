@@ -9631,19 +9631,19 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "NOTICE_NAMESPACE_CHANGE",
+              "name": "CHANGE",
               "description": "A change to an existing feature",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "NOTICE_NAMESPACE_EMAIL_SUGGESTION",
+              "name": "EMAIL_SUGGESTION",
               "description": "The user has had an email suggested to them",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "NOTICE_NAMESPACE_FEATURE",
+              "name": "FEATURE",
               "description": "A new feature was added",
               "isDeprecated": false,
               "deprecationReason": null
@@ -10296,7 +10296,7 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "API_ACCESS_TOKEN_TEMPLATE_ELASTIC_CI_AWS",
+              "name": "ELASTIC_CI_AWS",
               "description": "API Access Token for AWS Elastic CI",
               "isDeprecated": false,
               "deprecationReason": null
