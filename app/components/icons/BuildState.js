@@ -20,7 +20,6 @@ const SIZE_DEFINITIONS = {
 };
 
 const STATE_COLORS = {
-  [BuildStates.PENDING]: '#cdcccc',
   [BuildStates.SCHEDULED]: '#bbbbbb',
   [BuildStates.RUNNING]: '#fdba12',
   [BuildStates.PASSED]: '#90c73e',
@@ -153,7 +152,6 @@ class BuildState extends React.Component {
         );
         break;
 
-      case BuildStates.PENDING:
       case BuildStates.SKIPPED:
       case BuildStates.NOT_RUN:
         content = (
