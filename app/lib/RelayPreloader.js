@@ -361,6 +361,25 @@ const QUERIES = {
         }
       }
     }
+  `,
+  "pipeline/settings": Relay.QL`
+    query($pipeline: ID!) {
+      pipeline(slug: $pipeline) {
+        id
+        repository {
+          provider {
+            name
+            __typename
+          }
+        }
+        teams {
+          count
+        }
+        schedules {
+          count
+        }
+      }
+    }
   `
 };
 

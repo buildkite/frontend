@@ -11,6 +11,7 @@ class Button extends React.Component {
     children: React.PropTypes.node.isRequired,
     badge: React.PropTypes.number,
     href: React.PropTypes.string,
+    active: React.PropTypes.bool,
     link: React.PropTypes.string
   };
 
@@ -30,8 +31,12 @@ class Button extends React.Component {
   }
 
   _isActive() {
-    // Use a super simple way of figuring out if the current href is active
-    return window.location.pathname.indexOf(this.props.link || this.props.href) === 0;
+    if (this.props.active !== undefined) {
+      return this.props.active;
+    } else {
+      // Use a super simple way of figuring out if the current href is active
+      return window.location.pathname.indexOf(this.props.link || this.props.href) === 0;
+    }
   }
 
   _renderBadge() {

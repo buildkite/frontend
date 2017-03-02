@@ -1,8 +1,12 @@
 import Relay from 'react-relay';
 
+// Note: Ensure whatever variable you use as the $slug is unique and doesn't
+// match any existing variables in any other queries otherwise React Relay
+// Router doesn't work very well.
+
 export const query = () => Relay.QL`
   query {
-    team(slug: $slug)
+    team(slug: $teamSlug)
   }
 `;
 
@@ -14,7 +18,7 @@ export const prepareParams = (params) => {
   // query to get the members.
   return {
     ...params,
-    slug: [params.organization, params.team].join("/"),
+    teamSlug: [params.organization, params.team].join("/"),
     isEveryoneTeam: params.team === "everyone"
   };
 };

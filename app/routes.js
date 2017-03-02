@@ -16,6 +16,7 @@ import TeamIndex from './components/team/Index';
 import TeamNew from './components/team/New';
 import TeamShow from './components/team/Show';
 import TeamEdit from './components/team/Edit';
+import PipelineSettingsSection from './components/pipeline/SettingsSection';
 import PipelineScheduleIndex from './components/pipeline/schedules/Index';
 import PipelineScheduleNew from './components/pipeline/schedules/New';
 import PipelineScheduleShow from './components/pipeline/schedules/Show';
@@ -88,15 +89,17 @@ export default (
         </Route>
       </Route>
 
-      <Route path="/:organization/:pipeline/settings/schedules">
-        <IndexRoute component={PipelineScheduleIndex} queries={{ pipeline: PipelineQuery.query }} prepareParams={PipelineQuery.prepareParams} render={renderSectionLoading} />
-        <Route path="new" component={PipelineScheduleNew} queries={{ pipeline: PipelineQuery.query }} prepareParams={PipelineQuery.prepareParams} render={renderSectionLoading} />
-        <Route path=":schedule" component={PipelineScheduleShow} queries={{ pipelineSchedule: PipelineScheduleQuery.query }} prepareParams={PipelineScheduleQuery.prepareParams} render={renderSectionLoading} />
-        <Route path=":schedule/edit" component={PipelineScheduleEdit} queries={{ pipelineSchedule: PipelineScheduleQuery.query }} prepareParams={PipelineScheduleQuery.prepareParams} render={renderSectionLoading} />
-      </Route>
+      <Route path=":organization/:pipeline/settings" component={PipelineSettingsSection} queries={{ pipeline: PipelineQuery.query }} prepareParams={PipelineQuery.prepareParams}>
+        <Route path="schedules">
+          <IndexRoute component={PipelineScheduleIndex} queries={{ pipeline: PipelineQuery.query }} prepareParams={PipelineQuery.prepareParams} render={renderSectionLoading} />
+          <Route path="new" component={PipelineScheduleNew} queries={{ pipeline: PipelineQuery.query }} prepareParams={PipelineQuery.prepareParams} render={renderSectionLoading} />
+          <Route path=":schedule" component={PipelineScheduleShow} queries={{ pipelineSchedule: PipelineScheduleQuery.query }} prepareParams={PipelineScheduleQuery.prepareParams} render={renderSectionLoading} />
+          <Route path=":schedule/edit" component={PipelineScheduleEdit} queries={{ pipelineSchedule: PipelineScheduleQuery.query }} prepareParams={PipelineScheduleQuery.prepareParams} render={renderSectionLoading} />
+        </Route>
 
-      <Route path="/:organization/:pipeline/settings/teams">
-        <IndexRoute component={PipelineTeamIndex} queries={{ pipeline: PipelineQuery.query }} prepareParams={PipelineQuery.prepareParams} render={renderSectionLoading} />
+        <Route path="teams">
+          <IndexRoute component={PipelineTeamIndex} queries={{ pipeline: PipelineQuery.query }} prepareParams={PipelineQuery.prepareParams} render={renderSectionLoading} />
+        </Route>
       </Route>
     </Route>
   </Router>

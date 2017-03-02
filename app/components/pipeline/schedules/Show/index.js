@@ -6,7 +6,6 @@ import PipelineScheduleDeleteMutation from '../../../../mutations/PipelineSchedu
 
 import PageHeader from '../../../shared/PageHeader';
 import Panel from '../../../shared/Panel';
-import PageWithContainer from '../../../shared/PageWithContainer';
 import Emojify from '../../../shared/Emojify';
 
 import permissions from '../../../../lib/permissions';
@@ -65,7 +64,7 @@ class Show extends React.Component {
   render() {
     return (
       <DocumentTitle title={this.props.pipelineSchedule.cronline}>
-        <PageWithContainer>
+        <div>
           <PageHeader>
             <PageHeader.Title>{this.props.pipelineSchedule.cronline}</PageHeader.Title>
             <PageHeader.Description><Emojify text={this.props.pipelineSchedule.label || "No label"} /></PageHeader.Description>
@@ -100,7 +99,7 @@ class Show extends React.Component {
             </Panel.Row>
             {this.props.pipelineSchedule.builds.edges.map((edge) => <Build key={edge.node.id} build={edge.node} />)}
           </Panel>
-        </PageWithContainer>
+        </div>
       </DocumentTitle>
     );
   }
