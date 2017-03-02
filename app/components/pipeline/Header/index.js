@@ -12,7 +12,6 @@ import permissions from '../../../lib/permissions';
 class Header extends React.Component {
   static propTypes = {
     pipeline: React.PropTypes.object.isRequired,
-    relay: React.PropTypes.object.isRequired,
     buildState: React.PropTypes.string
   };
 
