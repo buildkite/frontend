@@ -63,7 +63,7 @@ const QUERIES = {
             hasPreviousPage
           }
         }
-        pipelines(first: 500, team: $team, order: PIPELINE_ORDER_NAME) {
+        pipelines(first: 500, team: $team, order: NAME) {
           edges {
             node {
               id
@@ -153,7 +153,7 @@ const QUERIES = {
           organizationUpdate {
             allowed
           }
-          organizationMemberCreate {
+          organizationInvitationCreate {
             allowed
           }
           notificationServiceUpdate {
@@ -192,7 +192,7 @@ const QUERIES = {
         members {
           count
         }
-        invitations {
+        invitations(state: PENDING) {
           count
         }
         teams {
@@ -202,7 +202,7 @@ const QUERIES = {
           organizationUpdate {
             allowed
           }
-          organizationMemberCreate {
+          organizationInvitationCreate {
             allowed
           }
           notificationServiceUpdate {
@@ -302,6 +302,20 @@ const QUERIES = {
         userAgent
         uuid
         version
+      }
+    }
+  `,
+  "teams/index": Relay.QL`
+    query($organization: ID!) {
+      organization(slug: $organization) {
+        id
+        name
+        slug
+        permissions {
+          teamCreate {
+            allowed
+          }
+        }
       }
     }
   `

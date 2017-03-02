@@ -146,7 +146,7 @@ export default Relay.createContainer(Pipelines, {
         ${TeamPipelineCreateMutation.getFragment('team')}
 
         organization {
-          pipelines(search: $search, first: 10, order: PIPELINE_ORDER_RELEVANCE) {
+          pipelines(search: $search, first: 10, order: RELEVANCE) {
             edges {
               node {
                 id
@@ -166,7 +166,7 @@ export default Relay.createContainer(Pipelines, {
           }
         }
 
-        pipelines(first: 100) {
+        pipelines(first: 100, order: NAME) {
           edges {
             node {
               id
