@@ -60,7 +60,7 @@ class SettingsMenu extends React.Component {
         allowed: "pipelineUpdate",
         render: (idx) => (
           <Menu.Button key={idx} href={`${url}/repository`}>
-            <Icon icon="github" className="icon-mr"/>{this.props.pipeline.repository.provider.name}
+            <Icon icon={this.repositoryProviderIcon()} className="icon-mr"/>{this.props.pipeline.repository.provider.name}
           </Menu.Button>
         )
       },
@@ -91,6 +91,16 @@ class SettingsMenu extends React.Component {
     );
   }
 
+  repositoryProviderIcon() {
+    const provider =this.props.pipeline.repository.provider.__typename;
+
+    if (provider == "RepositoryProviderGithub") {
+      return "github";
+    } else {
+      return "blah";
+    }
+  }
+
   isPipelineButtonActive(url) {
     // We need to override the default `active` handling the Pipelines button
     // since by default, `Menu.Button` will show a button as active if part of
@@ -111,6 +121,7 @@ export default Relay.createContainer(SettingsMenu, {
         }
         repository {
           provider {
+            __typename
             name
           }
         }
