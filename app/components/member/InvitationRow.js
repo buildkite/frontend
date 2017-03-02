@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import shallowCompare from 'react-addons-shallow-compare';
 
+import Button from '../shared/Button';
 import Panel from '../shared/Panel';
 
 class InvitationRow extends React.Component {
@@ -24,6 +25,10 @@ class InvitationRow extends React.Component {
             <div className="m0">
               {this.props.organizationInvitation.email}
             </div>
+          </div>
+          <div className="flex-none">
+            <Button className="ml1" theme="default" outline={true}>Resend Invitation</Button>
+            <Button className="ml1" theme="default" outline={true}>Revoke</Button>
           </div>
         </div>
       </Panel.Row>
