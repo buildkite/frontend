@@ -26,7 +26,7 @@ export function buildTime(build) {
       buildTime.to = finishedAt;
       break;
 
-    case BuildState.sBLOCKED:
+    case BuildStates.BLOCKED:
       if (!buildTime.from) {
         break;
       }
