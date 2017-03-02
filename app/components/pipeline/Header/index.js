@@ -21,10 +21,10 @@ class Header extends React.Component {
 
   render() {
     return (
-      <div className="flex flex-wrap mb1">
+      <div className="flex flex-wrap mb2">
         <div className="flex-auto mb1">
           <h4 className="regular h4 line-height-2 m0">
-            <a className="color-inherit hover-color-inherit" href={this.props.pipeline.url}>{this.props.pipeline.name}</a>
+            <a className="color-inherit hover-color-inherit text-decoration-none hover-underline" href={this.props.pipeline.url}><Emojify text={this.props.pipeline.name} /></a>
           </h4>
           <div className="m0 truncate dark-gray" style={{ maxWidth: "25em", marginTop: 3 }}>
             {this.renderDescription()}
@@ -75,13 +75,11 @@ class Header extends React.Component {
       return (
         <Emojify text={this.props.pipeline.description} />
       );
-    } else if (repository.provider.url) {
-      return (
-        <a className="color-inherit hover-color-inherit" href={repository.provider.url}>{repository.provider.url}</a>
-      );
     } else {
+      const url = repository.provider.url ? repository.provider.url : repository.url;
+
       return (
-        <a className="color-inherit hover-color-inherit" href={repository.url}>{repository.url}</a>
+        <a className="color-inherit hover-color-inherit text-decoration-none hover-underline" href={url}>{url}</a>
       );
     }
   }
