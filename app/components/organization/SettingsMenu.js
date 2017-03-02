@@ -109,7 +109,7 @@ export default Relay.createContainer(SettingsMenu, {
         members {
           count
         }
-        invitations {
+        invitations(state: PENDING) {
           count
         }
         teams {
