@@ -2,6 +2,8 @@ import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import { v4 as uuid } from 'uuid';
 
+import BuildStates from '../../constants/BuildStates';
+
 const SIZE_DEFINITIONS = {
   Regular: {
     strokeWidth: 2,
@@ -18,16 +20,16 @@ const SIZE_DEFINITIONS = {
 };
 
 const STATE_COLORS = {
-  PENDING: '#cdcccc',
-  SCHEDULED: '#bbbbbb',
-  RUNNING: '#fdba12',
-  PASSED: '#90c73e',
-  BLOCKED: '#90c73e',
-  FAILED: '#F83F23',
-  CANCELED: '#F83F23',
-  CANCELING: '#F83F23',
-  SKIPPED: '#83B0E4',
-  NOT_RUN: '#83B0E4'
+  [BuildStates.PENDING]: '#cdcccc',
+  [BuildStates.SCHEDULED]: '#bbbbbb',
+  [BuildStates.RUNNING]: '#fdba12',
+  [BuildStates.PASSED]: '#90c73e',
+  [BuildStates.BLOCKED]: '#90c73e',
+  [BuildStates.FAILED]: '#F83F23',
+  [BuildStates.CANCELED]: '#F83F23',
+  [BuildStates.CANCELING]: '#F83F23',
+  [BuildStates.SKIPPED]: '#83B0E4',
+  [BuildStates.NOT_RUN]: '#83B0E4'
 };
 
 class BuildState extends React.Component {
@@ -106,8 +108,8 @@ class BuildState extends React.Component {
     let content;
 
     switch (this.props.state) {
-      case 'FAILED':
-      case 'CANCELED':
+      case BuildStates.FAILED:
+      case BuildStates.CANCELED:
         content = (
           <g transform="translate(10.000000, 10.000000)" {...applyStroke}>
             <path d="M0.600275489,0.600275489 L11.3997245,11.3997245" />
@@ -116,13 +118,13 @@ class BuildState extends React.Component {
         );
         break;
 
-      case 'PASSED':
+      case BuildStates.PASSED:
         content = (
           <polyline points="10 17.61 14.38 20.81 21 11.41" {...applyStroke} strokeMiterlimit="10" />
         );
         break;
 
-      case 'BLOCKED':
+      case BuildStates.BLOCKED:
         content = (
           <g {...applyStroke}>
             <path d="M13,21V11" />
@@ -131,9 +133,9 @@ class BuildState extends React.Component {
         );
         break;
 
-      case 'SCHEDULED':
-      case 'RUNNING':
-      case 'CANCELING':
+      case BuildStates.SCHEDULED:
+      case BuildStates.RUNNING:
+      case BuildStates.CANCELING:
         defs = (
           <mask id={maskId} x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
             <polygon
@@ -151,9 +153,9 @@ class BuildState extends React.Component {
         );
         break;
 
-      case 'PENDING':
-      case 'SKIPPED':
-      case 'NOT_RUN':
+      case BuildStates.PENDING:
+      case BuildStates.SKIPPED:
+      case BuildStates.NOT_RUN:
         content = (
           <path d="M11,16H21" fill="none" {...applyStroke} />
         );

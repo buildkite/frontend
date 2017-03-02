@@ -8,6 +8,8 @@ import Bar from './bar';
 
 import { buildTime } from '../../../lib/builds';
 
+import BuildStates from '../../../constants/BuildStates';
+
 import { MAXIMUM_NUMBER_OF_BUILDS, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT, GRAPH_WIDTH } from './constants';
 
 const PASSED_COLOR = "#B0DF21";
@@ -144,15 +146,15 @@ class Graph extends React.Component {
   }
 
   colorForBuild(build) {
-    if (build.state === "SCHEDULED") {
+    if (build.state === BuildStates.SCHEDULED) {
       return SCHEDULED_COLOR;
-    } else if (build.state === "RUNNING") {
+    } else if (build.state === BuildStates.RUNNING) {
       return RUNNING_COLOR;
-    } else if (build.state === "PASSED" || build.state === "BLOCKED") {
+    } else if (build.state === BuildStates.PASSED || build.state === BuildStates.BLOCKED) {
       return PASSED_COLOR;
-    } else if (build.state === "SKIPPED") {
+    } else if (build.state === BuildStates.SKIPPED) {
       return SKIPPED_COLOR;
-    } else if (build.state === "NOT_RUN") {
+    } else if (build.state === BuildStates.NOT_RUN) {
       return NOT_RUN_COLOR;
     } else {
       return FAILED_COLOR;
@@ -160,15 +162,15 @@ class Graph extends React.Component {
   }
 
   hoverColorForBuild(build) {
-    if (build.state === "SCHEDULED") {
+    if (build.state === BuildStates.SCHEDULED) {
       return SCHEDULED_COLOR_HOVER;
-    } else if (build.state === "RUNNING") {
+    } else if (build.state === BuildStates.RUNNING) {
       return RUNNING_COLOR_HOVER;
-    } else if (build.state === "PASSED" || build.state === "BLOCKED") {
+    } else if (build.state === BuildStates.PASSED || build.state === BuildStates.BLOCKED) {
       return PASSED_COLOR_HOVER;
-    } else if (build.state === "SKIPPED") {
+    } else if (build.state === BuildStates.SKIPPED) {
       return SKIPPED_COLOR_HOVER;
-    } else if (build.state === "NOT_RUN") {
+    } else if (build.state === BuildStates.NOT_RUN) {
       return NOT_RUN_COLOR_HOVER;
     } else {
       return FAILED_COLOR_HOVER;
@@ -179,7 +181,7 @@ class Graph extends React.Component {
     // See if there is a build running
     let running = false;
     for (const edge of buildEdges) {
-      if (edge.node.state === "RUNNING") {
+      if (edge.node.state === BuildStates.RUNNING) {
         running = true;
         break;
       }
