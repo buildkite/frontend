@@ -2,7 +2,6 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import Header from './Header';
-import PageWithMenu from '../shared/PageWithMenu';
 import SettingsMenu from './SettingsMenu';
 
 class SettingsSection extends React.Component {

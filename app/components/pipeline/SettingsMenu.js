@@ -67,7 +67,7 @@ class SettingsMenu extends React.Component {
       {
         allowed: "pipelineUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} href={`${url}/teams`} badge={this.props.pipeline.teams.count}>
+          <Menu.Button key={idx} link={`${url}/teams`} badge={this.props.pipeline.teams.count}>
             <Icon icon="teams" className="icon-mr"/>Teams
           </Menu.Button>
         )
@@ -75,7 +75,7 @@ class SettingsMenu extends React.Component {
       {
         allowed: "pipelineUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} href={`${url}/schedules`} badge={this.props.pipeline.schedules.count}>
+          <Menu.Button key={idx} link={`${url}/schedules`} badge={this.props.pipeline.schedules.count}>
             <Icon icon="schedules" className="icon-mr"/>Schedules
           </Menu.Button>
         )
