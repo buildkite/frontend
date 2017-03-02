@@ -2,7 +2,7 @@ import Relay from 'react-relay';
 
 export const query = () => Relay.QL`
   query {
-    team(slug: $slug)
+    team(slug: $teamSlug)
   }
 `;
 
@@ -14,7 +14,7 @@ export const prepareParams = (params) => {
   // query to get the members.
   return {
     ...params,
-    slug: [params.organization, params.team].join("/"),
+    teamSlug: [params.organization, params.team].join("/"),
     isEveryoneTeam: params.team === "everyone"
   };
 };

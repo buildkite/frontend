@@ -2,13 +2,13 @@ import Relay from 'react-relay';
 
 export const query = () => Relay.QL`
   query {
-    agent(slug: $slug)
+    agent(slug: $agentSlug)
   }
 `;
 
 export const prepareParams = (params) => {
   return {
     ...params,
-    slug: [params.organization, params.agent].join("/")
+    agentSlug: [params.organization, params.agent].join("/")
   };
 };
