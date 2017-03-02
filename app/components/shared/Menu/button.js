@@ -31,7 +31,7 @@ class Button extends React.Component {
   }
 
   _isActive() {
-    if(this.props.active != undefined) {
+    if (this.props.active !== undefined) {
       return this.props.active;
     } else {
       // Use a super simple way of figuring out if the current href is active
