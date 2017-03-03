@@ -16,11 +16,22 @@ class InvitationRow extends React.Component {
     }).isRequired
   };
 
+  state = {
+    resending: false,
+    revoking: false
+  };
+
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   }
 
   render() {
+    const { resending, revoking } = this.state;
+    const inProgress = resending || revoking;
+
+    const resendLabel = 'Resend Invitation';
+    const revokeLabel = 'Revoke';
+
     return (
       <Panel.Row key={this.props.organizationInvitation.uuid}>
         <div className="flex flex-stretch items-center">
@@ -30,8 +41,24 @@ class InvitationRow extends React.Component {
             </div>
           </div>
           <div className="flex-none">
-            <Button className="ml1" theme="default" outline={true} onClick={this.handleResendInvitationClick}>Resend Invitation</Button>
-            <Button className="ml1" theme="default" outline={true} onClick={this.handleRevokeInvitationClick}>Revoke</Button>
+            <Button
+              className="ml1"
+              theme="default"
+              outline={true}
+              loading={inProgress && (resending ? "Resending Invitation..." : resendLabel)}
+              onClick={this.handleResendInvitationClick}
+            >
+              {resendLabel}
+            </Button>
+            <Button
+              className="ml1"
+              theme="default"
+              outline={true}
+              loading={inProgress && (revoking ? "Revoking..." : revokeLabel)}
+              onClick={this.handleRevokeInvitationClick}
+            >
+              {revokeLabel}
+            </Button>
           </div>
         </div>
       </Panel.Row>
@@ -53,9 +80,8 @@ class InvitationRow extends React.Component {
     });
   }
 
-  handleResendInvitationMutationSuccess = (response) => {
-    // TODO: something
-    console.log("👌🏼");
+  handleResendInvitationMutationSuccess = () => {
+    this.setState({ resending: false });
   }
 
   handleResendInvitationMutationFailure = (transaction) => {
@@ -80,13 +106,12 @@ class InvitationRow extends React.Component {
     });
   }
 
-  handleRevokeInvitationMutationSuccess = (response) => {
-    // TODO: something
-    console.log("👌🏼");
+  handleRevokeInvitationMutationSuccess = () => {
+    this.setState({ revoking: false });
   }
 
   handleRevokeInvitationMutationFailure = (transaction) => {
-    // Hide the removing indicator
+    // Hide the revoking indicator
     this.setState({ revoking: false });
 
     alert(transaction.getError());
