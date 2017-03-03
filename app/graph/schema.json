@@ -6581,109 +6581,109 @@
           "enumValues": [
             {
               "name": "PENDING",
-              "description": "The build was skipped",
+              "description": "The job has just been created and doesn't have a state yet",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "WAITING",
-              "description": "The build has yet to start running jobs",
+              "description": "The job is waiting on a `wait` step to finish",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "WAITING_FAILED",
-              "description": "The build is currently running jobs",
+              "description": "The job was in a `WAITING` state when the build failed",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "BLOCKED",
-              "description": "The build passed",
+              "description": "The job is waiting on a `block` step to finish",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "BLOCKED_FAILED",
-              "description": "The build failed",
+              "description": "The job was in a `BLOCKED` state when the build failed",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "UNBLOCKED",
-              "description": "The build passed",
+              "description": "This `block` job has been manually unblocked",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "UNBLOCKED_FAILED",
-              "description": "The build failed",
+              "description": "This `block` job was in a `BLOCKED` state when the build failed",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "SCHEDULED",
-              "description": "The build passed",
+              "description": "The job is scheduled and waiting for an agent",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "ASSIGNED",
-              "description": "The build failed",
+              "description": "The job has been assigned to an agent, and it's waiting for it to accept",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "ACCEPTED",
-              "description": "The build failed",
+              "description": "The job was accepted by the agent, and now it's waiting to start running",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "RUNNING",
-              "description": "The build failed",
+              "description": "The job is runing",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "FINISHED",
-              "description": "The build failed",
+              "description": "The job has finished",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "CANCELING",
-              "description": "The build failed",
+              "description": "The job is currently canceling",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "CANCELED",
-              "description": "The build failed",
+              "description": "The job was canceled",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "TIMING_OUT",
-              "description": "The build failed",
+              "description": "The job is timiing out for taking too long",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "TIMED_OUT",
-              "description": "The build failed",
+              "description": "The job timed out",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "SKIPPED",
-              "description": "The build failed",
+              "description": "The job was skipped",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "BROKEN",
-              "description": "The build failed",
+              "description": "The jobs configuration means that it can't be run",
               "isDeprecated": false,
               "deprecationReason": null
             }
@@ -9610,8 +9610,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
+                  "kind": "ENUM",
+                  "name": "NoticeNamespaces",
                   "ofType": null
                 }
               },
@@ -10169,8 +10169,8 @@
 
               ],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "ENUM",
+                "name": "APIAccessTokenTemplates",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -10236,6 +10236,23 @@
             }
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "APIAccessTokenTemplates",
+          "description": "Templates an API Access Token can be based on",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "ELASTIC_CI_AWS",
+              "description": "API Access Token for AWS Elastic CI",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -10307,23 +10324,6 @@
             }
           ],
           "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "APIAccessTokenTemplates",
-          "description": "Templates an API Access Token can be based on",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "ELASTIC_CI_AWS",
-              "description": "API Access Token for AWS Elastic CI",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
           "possibleTypes": null
         },
         {
