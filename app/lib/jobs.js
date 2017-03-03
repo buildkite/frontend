@@ -1,3 +1,5 @@
+import JobStates from '../constants/JobStates';
+
 export function jobTime(job) {
   const { state, startedAt, finishedAt, canceledAt, timedOutAt } = job;
   const time = {};
@@ -10,17 +12,17 @@ export function jobTime(job) {
   time.from = startedAt;
 
   switch (state) {
-    case 'finished':
+    case JobStates.FINISHED:
       time.to = finishedAt;
       break;
 
-    case 'canceled':
-    case 'canceling':
+    case JobStates.CANCELED:
+    case JobStates.CANCELING:
       time.to = canceledAt;
       break;
 
-    case 'timed_out':
-    case 'timing_out':
+    case JobStates.TIMED_OUT:
+    case JobStates.TIMING_OUT:
       time.to = timedOutAt;
       break;
   }

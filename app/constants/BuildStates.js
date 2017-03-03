@@ -1,0 +1,13 @@
+const BuildStates = {
+  SKIPPED: "SKIPPED",
+  SCHEDULED: "SCHEDULED",
+  RUNNING: "RUNNING",
+  PASSED: "PASSED",
+  FAILED: "FAILED",
+  CANCELING: "CANCELING",
+  CANCELED: "CANCELED",
+  BLOCKED: "BLOCKED",
+  NOT_RUN: "NOT_RUN"
+};
+
+export default BuildStates;

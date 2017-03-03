@@ -1,30 +1,31 @@
+import BuildStates from '../constants/BuildStates';
+
 export function buildTime(build) {
   const { state, startedAt, canceledAt, finishedAt, scheduledAt } = build;
   const buildTime = {};
 
   switch (state) {
-    case 'canceling':
-    case 'failed':
-    case 'passed':
-    case 'running':
-    case 'started':
-    case 'blocked':
-    case 'canceled':
+    case BuildStates.CANCELING:
+    case BuildStates.FAILED:
+    case BuildStates.PASSED:
+    case BuildStates.RUNNING:
+    case BuildStates.BLOCKED:
+    case BuildStates.CANCELED:
       buildTime.from = startedAt || scheduledAt;
       break;
 
-    case 'scheduled':
+    case BuildStates.SCHEDULED:
       buildTime.from = scheduledAt;
       break;
   }
 
   switch (state) {
-    case 'failed':
-    case 'passed':
+    case BuildStates.FAILED:
+    case BuildStates.PASSED:
       buildTime.to = finishedAt;
       break;
 
-    case 'blocked':
+    case BuildStates.BLOCKED:
       if (!buildTime.from) {
         break;
       }
@@ -32,7 +33,7 @@ export function buildTime(build) {
       buildTime.to = finishedAt;
       break;
 
-    case 'canceled':
+    case BuildStates.CANCELED:
       if (!buildTime.from) {
         break;
       }
@@ -47,32 +48,32 @@ export function buildTime(build) {
 export function buildStatus(build) {
   const { state, createdAt, canceledAt, finishedAt } = build;
 
-  if (state === 'scheduled') {
+  if (state === BuildStates.SCHEDULED) {
     return {
       prefix: 'Scheduled',
       timeValue: createdAt
     };
-  } else if (state === 'failed') {
+  } else if (state === BuildStates.FAILED) {
     return {
       prefix: 'Failed',
       timeValue: finishedAt
     };
-  } else if (state === 'passed') {
+  } else if (state === BuildStates.PASSED) {
     return {
       prefix: 'Passed',
       timeValue: finishedAt
     };
-  } else if (state === 'blocked') {
+  } else if (state === BuildStates.BLOCKED) {
     return {
       prefix: 'Blocked',
       timeValue: finishedAt
     };
-  } else if (state === 'canceled' || state === 'canceling') {
+  } else if (state === BuildStates.CANCELED || state === BuildStates.CANCELING) {
     return {
       prefix: 'Canceled',
       timeValue: canceledAt
     };
-  } else if (state === 'skipped') {
+  } else if (state === BuildStates.SKIPPED) {
     return {
       prefix: 'Skipped',
       timeValue: createdAt

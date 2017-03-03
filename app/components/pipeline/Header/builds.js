@@ -51,10 +51,10 @@ export default Relay.createContainer(Builds, {
         builds {
           count
         }
-        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
+        scheduledBuilds: builds(state: SCHEDULED) {
           count
         }
-        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
+        runningBuilds: builds(state: RUNNING) {
           count
         }
       }

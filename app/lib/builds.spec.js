@@ -2,16 +2,16 @@
 import { buildTime, buildStatus } from './builds';
 
 const BUILD_STATES = [
-  'blocked',
-  'canceled',
-  'canceling',
-  'failed',
-  'not_run',
-  'passed',
-  'running',
-  'scheduled',
-  'skipped',
-  'started'
+  'BLOCKED',
+  'CANCELED',
+  'CANCELING',
+  'FAILED',
+  'NOT_RUN',
+  'PASSED',
+  'RUNNING',
+  'SCHEDULED',
+  'SKIPPED',
+  'RUNNING'
 ];
 
 describe('buildTime', () => {
@@ -32,7 +32,7 @@ describe('buildTime', () => {
         finishedAt: new Date(1475643467000)
       })).toMatchSnapshot();
 
-      if (['canceled', 'blocked'].indexOf(state) !== -1) {
+      if (['CANCELED', 'BLOCKED'].indexOf(state) !== -1) {
         expect(buildTime({
           state,
           canceledAt: new Date(1475643467000),

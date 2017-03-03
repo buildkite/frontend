@@ -2099,8 +2099,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
+                  "kind": "ENUM",
+                  "name": "BuildStates",
                   "ofType": null
                 }
               },
@@ -2167,6 +2167,71 @@
             }
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "BuildStates",
+          "description": "All the possible states a build can be in",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "SKIPPED",
+              "description": "The build was skipped",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SCHEDULED",
+              "description": "The build has yet to start running jobs",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "RUNNING",
+              "description": "The build is currently running jobs",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "PASSED",
+              "description": "The build passed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "FAILED",
+              "description": "The build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CANCELING",
+              "description": "The build is currently being canceled",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CANCELED",
+              "description": "The build was canceled",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "BLOCKED",
+              "description": "The build is blocked",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NOT_RUN",
+              "description": "The build wasn't run",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -3538,65 +3603,6 @@
           "inputFields": null,
           "interfaces": null,
           "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "BuildStates",
-          "description": "All the possible states a build can be in",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "BUILD_STATE_SKIPPED",
-              "description": "The build was skipped",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_SCHEDULED",
-              "description": "The build has yet to start running jobs",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_RUNNING",
-              "description": "The build is currently running jobs",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_PASSED",
-              "description": "The build passed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_FAILED",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_CANCELING",
-              "description": "The build is currently being canceled",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_CANCELED",
-              "description": "The build was canceled",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "BUILD_STATE_BLOCKED",
-              "description": "The build is blocked",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
           "possibleTypes": null
         },
         {
@@ -6506,9 +6512,13 @@
 
               ],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "JobStates",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -6559,6 +6569,125 @@
             }
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "JobStates",
+          "description": "All the possible states a job can be in",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "PENDING",
+              "description": "The job has just been created and doesn't have a state yet",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "WAITING",
+              "description": "The job is waiting on a `wait` step to finish",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "WAITING_FAILED",
+              "description": "The job was in a `WAITING` state when the build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "BLOCKED",
+              "description": "The job is waiting on a `block` step to finish",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "BLOCKED_FAILED",
+              "description": "The job was in a `BLOCKED` state when the build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "UNBLOCKED",
+              "description": "This `block` job has been manually unblocked",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "UNBLOCKED_FAILED",
+              "description": "This `block` job was in a `BLOCKED` state when the build failed",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SCHEDULED",
+              "description": "The job is scheduled and waiting for an agent",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ASSIGNED",
+              "description": "The job has been assigned to an agent, and it's waiting for it to accept",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ACCEPTED",
+              "description": "The job was accepted by the agent, and now it's waiting to start running",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "RUNNING",
+              "description": "The job is runing",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "FINISHED",
+              "description": "The job has finished",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CANCELING",
+              "description": "The job is currently canceling",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CANCELED",
+              "description": "The job was canceled",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "TIMING_OUT",
+              "description": "The job is timiing out for taking too long",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "TIMED_OUT",
+              "description": "The job timed out",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SKIPPED",
+              "description": "The job was skipped",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "BROKEN",
+              "description": "The jobs configuration means that it can't be run",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -6898,9 +7027,13 @@
 
               ],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "JobStates",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -7007,9 +7140,13 @@
 
               ],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "JobStates",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -7088,9 +7225,13 @@
 
               ],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "JobStates",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -7283,145 +7424,26 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "JOB_TYPE_COMMAND",
+              "name": "COMMAND",
               "description": "A job that runs a command on an agent",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "JOB_TYPE_WAIT",
+              "name": "WAIT",
               "description": "A job that waits for all previous jobs to finish",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "JOB_TYPE_BLOCK",
+              "name": "BLOCK",
               "description": "A job that blocks a pipeline from progressing until it's manually unblocked",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "JOB_TYPE_TRIGGER",
+              "name": "TRIGGER",
               "description": "A job that triggers another build on a pipeline",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "JobStates",
-          "description": "All the possible states a job can be in",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "JOB_STATE_PENDING",
-              "description": "The build was skipped",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_WAITING",
-              "description": "The build has yet to start running jobs",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_WAITING_FAILED",
-              "description": "The build is currently running jobs",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_BLOCKED",
-              "description": "The build passed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_BLOCKED_FAILED",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_UNBLOCKED",
-              "description": "The build passed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_UNBLOCKED_FAILED",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_SCHEDULED",
-              "description": "The build passed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_ASSIGNED",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_ACCEPTED",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_RUNNING",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_FINISHED",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_CANCELING",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_CANCELED",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_TIMING_OUT",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_TIMED_OUT",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_SKIPPED",
-              "description": "The build failed",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JOB_STATE_BROKEN",
-              "description": "The build failed",
               "isDeprecated": false,
               "deprecationReason": null
             }
@@ -9588,8 +9610,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
+                  "kind": "ENUM",
+                  "name": "NoticeNamespaces",
                   "ofType": null
                 }
               },
@@ -10147,8 +10169,8 @@
 
               ],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "ENUM",
+                "name": "APIAccessTokenTemplates",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -10214,6 +10236,23 @@
             }
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "APIAccessTokenTemplates",
+          "description": "Templates an API Access Token can be based on",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "ELASTIC_CI_AWS",
+              "description": "API Access Token for AWS Elastic CI",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -10285,23 +10324,6 @@
             }
           ],
           "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "APIAccessTokenTemplates",
-          "description": "Templates an API Access Token can be based on",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "ELASTIC_CI_AWS",
-              "description": "API Access Token for AWS Elastic CI",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
           "possibleTypes": null
         },
         {

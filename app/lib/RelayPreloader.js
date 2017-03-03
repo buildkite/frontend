@@ -93,7 +93,7 @@ const QUERIES = {
                   hasPreviousPage
                 }
               }
-              builds(first: 1, branch: "%default", state: [ BUILD_STATE_RUNNING, BUILD_STATE_CANCELING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_BLOCKED ]) {
+              builds(first: 1, branch: "%default", state: [ RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED ]) {
                 edges {
                   node {
                     id
@@ -341,10 +341,10 @@ const QUERIES = {
         builds {
           count
         }
-        scheduledBuilds: builds(state: BUILD_STATE_SCHEDULED) {
+        scheduledBuilds: builds(state: SCHEDULED) {
           count
         }
-        runningBuilds: builds(state: BUILD_STATE_RUNNING) {
+        runningBuilds: builds(state: RUNNING) {
           count
         }
         permissions {

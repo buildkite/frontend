@@ -2,24 +2,24 @@
 import { jobTime } from './jobs';
 
 const JOB_STATES = [
-  'pending',
-  'waiting',
-  'waiting_failed',
-  'blocked',
-  'blocked_failed',
-  'unblocked',
-  'unblocked_failed',
-  'scheduled',
-  'assigned',
-  'accepted',
-  'running',
-  'finished',
-  'canceling',
-  'canceled',
-  'timing_out',
-  'timed_out',
-  'skipped',
-  'broken'
+  'PENDING',
+  'WAITING',
+  'WAITING_FAILED',
+  'BLOCKED',
+  'BLOCKED_FAILED',
+  'UNBLOCKED',
+  'UNBLOCKED_FAILED',
+  'SCHEDULED',
+  'ASSIGNED',
+  'ACCEPTED',
+  'RUNNING',
+  'FINISHED',
+  'CANCELING',
+  'CANCELED',
+  'TIMING_OUT',
+  'TIMED_OUT',
+  'SKIPPED',
+  'BROKEN'
 ];
 
 describe('jobTime', () => {

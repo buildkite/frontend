@@ -8,6 +8,8 @@ import Bar from './bar';
 
 import { buildTime } from '../../../lib/builds';
 
+import BuildStates from '../../../constants/BuildStates';
+
 import { MAXIMUM_NUMBER_OF_BUILDS, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT, GRAPH_WIDTH } from './constants';
 
 const PASSED_COLOR = "#B0DF21";
@@ -144,15 +146,15 @@ class Graph extends React.Component {
   }
 
   colorForBuild(build) {
-    if (build.state === "scheduled") {
+    if (build.state === BuildStates.SCHEDULED) {
       return SCHEDULED_COLOR;
-    } else if (build.state === "running") {
+    } else if (build.state === BuildStates.RUNNING) {
       return RUNNING_COLOR;
-    } else if (build.state === "passed" || build.state === "blocked") {
+    } else if (build.state === BuildStates.PASSED || build.state === BuildStates.BLOCKED) {
       return PASSED_COLOR;
-    } else if (build.state === "skipped") {
+    } else if (build.state === BuildStates.SKIPPED) {
       return SKIPPED_COLOR;
-    } else if (build.state === "not_run") {
+    } else if (build.state === BuildStates.NOT_RUN) {
       return NOT_RUN_COLOR;
     } else {
       return FAILED_COLOR;
@@ -160,15 +162,15 @@ class Graph extends React.Component {
   }
 
   hoverColorForBuild(build) {
-    if (build.state === "scheduled") {
+    if (build.state === BuildStates.SCHEDULED) {
       return SCHEDULED_COLOR_HOVER;
-    } else if (build.state === "running") {
+    } else if (build.state === BuildStates.RUNNING) {
       return RUNNING_COLOR_HOVER;
-    } else if (build.state === "passed" || build.state === "blocked") {
+    } else if (build.state === BuildStates.PASSED || build.state === BuildStates.BLOCKED) {
       return PASSED_COLOR_HOVER;
-    } else if (build.state === "skipped") {
+    } else if (build.state === BuildStates.SKIPPED) {
       return SKIPPED_COLOR_HOVER;
-    } else if (build.state === "not_run") {
+    } else if (build.state === BuildStates.NOT_RUN) {
       return NOT_RUN_COLOR_HOVER;
     } else {
       return FAILED_COLOR_HOVER;
@@ -179,7 +181,7 @@ class Graph extends React.Component {
     // See if there is a build running
     let running = false;
     for (const edge of buildEdges) {
-      if (edge.node.state === "running") {
+      if (edge.node.state === BuildStates.RUNNING) {
         running = true;
         break;
       }
@@ -210,7 +212,7 @@ export default Relay.createContainer(Graph, {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
         id
-        builds(first: 30, branch: "%default", state: [ BUILD_STATE_SCHEDULED, BUILD_STATE_RUNNING, BUILD_STATE_PASSED, BUILD_STATE_FAILED, BUILD_STATE_CANCELED, BUILD_STATE_CANCELING, BUILD_STATE_BLOCKED ]) {
+        builds(first: 30, branch: "%default", state: [ SCHEDULED, RUNNING, PASSED, FAILED, CANCELED, CANCELING, BLOCKED ]) {
           edges {
             node {
               id

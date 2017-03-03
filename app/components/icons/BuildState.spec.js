@@ -6,15 +6,15 @@ import BuildState from './BuildState';
 jest.mock('uuid', () => ({ v4: () => 'NORMALLY-UUID-GOES-HERE-BUTNEVERMIND' }));
 
 const BUILD_STATES = [
-  'pending',
-  'scheduled',
-  'running',
-  'passed',
-  'blocked',
-  'failed',
-  'canceled',
-  'skipped',
-  'not_run'
+  null,
+  'SCHEDULED',
+  'RUNNING',
+  'PASSED',
+  'BLOCKED',
+  'FAILED',
+  'CANCELED',
+  'SKIPPED',
+  'NOT_RUN'
 ];
 
 describe('BuildState', () => {

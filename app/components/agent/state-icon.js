@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import BuildState from '../icons/BuildState';
 import { getColourForConnectionState, getLabelForConnectionState } from './shared';
 
+import BuildStates from '../../constants/BuildStates';
+
 export default function StateIcon(props) {
   const title = getLabelForConnectionState(props.agent.connectionState);
   const color = getColourForConnectionState(props.agent.connectionState, 'bg-');
@@ -13,7 +15,7 @@ export default function StateIcon(props) {
   // to show that the agent is doing something.
   if (props.agent.job) {
     icon = (
-      <BuildState.XSmall state={"running"} style={{ display: 'inline-block' }} />
+      <BuildState.XSmall state={BuildStates.RUNNING} style={{ display: 'inline-block' }} />
     );
   } else {
     icon = (
