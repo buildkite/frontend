@@ -11,7 +11,7 @@ const BUILD_STATES = [
   'RUNNING',
   'SCHEDULED',
   'SKIPPED',
-  'STARTED'
+  'RUNNING'
 ];
 
 describe('buildTime', () => {

@@ -47,6 +47,13 @@ Object {
 }
 `;
 
+exports[`buildStatus returns correct build status for the \`RUNNING\` state 2`] = `
+Object {
+  "prefix": "Created",
+  "timeValue": 2016-10-05T04:57:46.920Z,
+}
+`;
+
 exports[`buildStatus returns correct build status for the \`SCHEDULED\` state 1`] = `
 Object {
   "prefix": "Scheduled",
@@ -159,6 +166,18 @@ Object {
 `;
 
 exports[`buildTime returns correct time properties for the \`RUNNING\` state 2`] = `
+Object {
+  "from": 2016-10-05T05:14:26.920Z,
+}
+`;
+
+exports[`buildTime returns correct time properties for the \`RUNNING\` state 3`] = `
+Object {
+  "from": 2016-10-05T04:57:46.920Z,
+}
+`;
+
+exports[`buildTime returns correct time properties for the \`RUNNING\` state 4`] = `
 Object {
   "from": 2016-10-05T05:14:26.920Z,
 }
