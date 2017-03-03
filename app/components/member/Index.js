@@ -102,7 +102,7 @@ export default Relay.createContainer(MemberIndex, {
             allowed
           }
         }
-        invitations(first: 100, state: PENDING) {
+        invitations(first: 100, state: PENDING, order: RECENTLY_CREATED) {
           edges {
             node {
               id

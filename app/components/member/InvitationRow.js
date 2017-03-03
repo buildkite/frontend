@@ -4,6 +4,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
 import Panel from '../shared/Panel';
+import Emojify from '../shared/Emojify';
 
 import OrganizationInvitationResend from '../../mutations/OrganizationInvitationResend';
 import OrganizationInvitationRevoke from '../../mutations/OrganizationInvitationRevoke';
@@ -38,7 +39,9 @@ class InvitationRow extends React.Component {
           <div className="flex-auto">
             <div className="m0">
               {this.props.organizationInvitation.email}
+              {this.props.organizationInvitation.admin && <span className="dark-gray regular h6 ml1">Organization Administrator</span>}
             </div>
+            {this.renderTeamAssignments()}
           </div>
           <div className="flex-none">
             <Button
@@ -63,6 +66,25 @@ class InvitationRow extends React.Component {
         </div>
       </Panel.Row>
     );
+  }
+
+  renderTeamAssignments() {
+    let edges = this.props.organizationInvitation.teams.edges;
+
+    if(edges && edges.length) {
+      return this.props.organizationInvitation.teams.edges.map((edge) => {
+        return <div className="dark-gray mt1"><Emojify text={edge.node.team.name} /> as a {this.roleLabel(edge.node.role)}</div>;
+      });
+    }
+  }
+
+  roleLabel(value) {
+    switch (value) {
+      case "ADMIN":
+        return "Team Admin";
+      case "MEMBER":
+        return "Member";
+    }
   }
 
   handleResendInvitationClick = () => {
@@ -124,6 +146,18 @@ export default Relay.createContainer(InvitationRow, {
       fragment on OrganizationInvitation {
         uuid
         email
+        admin
+        teams(first: 100) {
+          edges {
+            node {
+              id
+              role
+              team {
+                name
+              }
+            }
+          }
+        }
         ${OrganizationInvitationResend.getFragment('organizationInvitation')}
         ${OrganizationInvitationRevoke.getFragment('organizationInvitation')}
       }
