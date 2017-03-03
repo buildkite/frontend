@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
@@ -14,17 +15,21 @@ class TeamIndex extends React.Component {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
+      permissions: React.PropTypes.object.isRequired,
       teams: React.PropTypes.shape({
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
             node: React.PropTypes.object.isRequired
           }).isRequired
         ).isRequired
-      }),
-      permissions: React.PropTypes.object.isRequired
+      })
     }).isRequired,
     relay: React.PropTypes.object.isRequired
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   componentDidMount() {
     this.props.relay.forceFetch({ isMounted: true });
@@ -65,7 +70,7 @@ class TeamIndex extends React.Component {
     return permissions(this.props.organization.permissions).check(
       {
         allowed: "teamCreate",
-        render: () => <Button link={`/organizations/${this.props.organization.slug}/teams/new`} theme={"default"} outline={true}>Create a Team</Button>
+        render: () => <Button link={`/organizations/${this.props.organization.slug}/teams/new`} theme="default" outline={true}>Create a Team</Button>
       }
     );
   }
