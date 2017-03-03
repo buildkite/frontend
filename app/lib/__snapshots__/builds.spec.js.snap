@@ -68,13 +68,6 @@ Object {
 }
 `;
 
-exports[`buildStatus returns correct build status for the \`STARTED\` state 1`] = `
-Object {
-  "prefix": "Created",
-  "timeValue": 2016-10-05T04:57:46.920Z,
-}
-`;
-
 exports[`buildTime returns correct time properties for the \`BLOCKED\` state 1`] = `
 Object {
   "from": 2016-10-05T04:57:46.920Z,
@@ -198,15 +191,3 @@ Object {
 exports[`buildTime returns correct time properties for the \`SKIPPED\` state 1`] = `Object {}`;
 
 exports[`buildTime returns correct time properties for the \`SKIPPED\` state 2`] = `Object {}`;
-
-exports[`buildTime returns correct time properties for the \`STARTED\` state 1`] = `
-Object {
-  "from": 2016-10-05T04:57:46.920Z,
-}
-`;
-
-exports[`buildTime returns correct time properties for the \`STARTED\` state 2`] = `
-Object {
-  "from": 2016-10-05T05:14:26.920Z,
-}
-`;
