@@ -9,7 +9,6 @@ export function buildTime(build) {
     case BuildStates.FAILED:
     case BuildStates.PASSED:
     case BuildStates.RUNNING:
-    case BuildStates.RUNNING:
     case BuildStates.BLOCKED:
     case BuildStates.CANCELED:
       buildTime.from = startedAt || scheduledAt;
