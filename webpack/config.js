@@ -1,6 +1,6 @@
-var path = require("path");
-var webpack = require("webpack");
-var AssetsPlugin = require('assets-webpack-plugin');
+const path = require("path");
+const webpack = require("webpack");
+const AssetsPlugin = require('assets-webpack-plugin');
 
 // Ensure a FRONTEND_HOST is setup since we embed it in the assets.json file
 if (!process.env.FRONTEND_HOST) {
@@ -17,7 +17,7 @@ if (process.env.FRONTEND_HOST.slice(-1) !== "/") {
   throw "FRONTEND_HOST must end with a /";
 }
 
-var IS_PRODUCTION = (process.env.NODE_ENV === "production");
+const IS_PRODUCTION = (process.env.NODE_ENV === "production");
 
 // Include a hash of the bundle in the name when we're building these files for
 // production so we can use non-expiring caches for them.
@@ -25,19 +25,12 @@ var IS_PRODUCTION = (process.env.NODE_ENV === "production");
 // Also, if we used hashes in development, we'd be forever filling up our dist
 // folder with every hashed version of files we've changed (webpack doesn't
 // clean up after itself)
-var filenameFormat;
-var chunkFilename;
-if (IS_PRODUCTION) {
-  filenameFormat = "[name]-[chunkhash].js";
-  chunkFilename = "[id]-[chunkhash].js";
-} else {
-  filenameFormat = "[name].js";
-  chunkFilename = "[id].js";
-}
+const filenameFormat = IS_PRODUCTION ? "[name]-[chunkhash].js" : "[name].js";
+const chunkFilename  = IS_PRODUCTION ? "[id]-[chunkhash].js"   : "[id].js";
 
 // Toggle between the devtool if on prod/dev since cheap-module-eval-source-map
 // is way faster for development.
-var devTool = IS_PRODUCTION ? "source-map" : "cheap-module-eval-source-map";
+const devTool = IS_PRODUCTION ? "source-map" : "cheap-module-eval-source-map";
 
 var plugins = [
   // Only add the 'whatwg-fetch' plugin if the browser doesn't support it
