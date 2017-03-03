@@ -55,6 +55,7 @@ class MemberIndex extends React.Component {
               />
             ))}
           </Panel>
+          {this.renderInvitations()}
         </div>
       </DocumentTitle>
     );
