@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const AssetsPlugin = require('assets-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 // Ensure a FRONTEND_HOST is setup since we embed it in the assets.json file
 if (!process.env.FRONTEND_HOST) {
@@ -75,7 +76,9 @@ var plugins = [
     'process.env': {
       'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }
-  })
+  }),
+
+  new ExtractTextPlugin("[name]-[contenthash].css")
 ];
 
 var vendor_modules = [
@@ -147,25 +150,28 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: function() {
-                return [
-                  require("postcss-import")(),
-                  require("postcss-cssnext")({ features: { rem: false } }),
-                  require('postcss-easings')(),
-                  require("postcss-browser-reporter")(),
-                  require("postcss-reporter")()
-                ];
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          filename: "[name]-[chunkhash].js",
+          use: [
+            { loader: 'css-loader' },
+            {
+              loader: 'postcss-loader',
+              options: {
+                ident: 'postcss',
+                plugins: function() {
+                  return [
+                    require("postcss-import")(),
+                    require("postcss-cssnext")({ features: { rem: false } }),
+                    require('postcss-easings')(),
+                    require("postcss-browser-reporter")(),
+                    require("postcss-reporter")()
+                  ];
+                }
               }
             }
-          }
-        ]
+          ]
+        })
       },
       {
         test: /\.js$/i,
