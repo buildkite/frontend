@@ -6,6 +6,7 @@ import BuildState from './BuildState';
 jest.mock('uuid', () => ({ v4: () => 'NORMALLY-UUID-GOES-HERE-BUTNEVERMIND' }));
 
 const BUILD_STATES = [
+  null,
   'SCHEDULED',
   'RUNNING',
   'PASSED',

@@ -20,6 +20,7 @@ const SIZE_DEFINITIONS = {
 };
 
 const STATE_COLORS = {
+  [null]: '#cdcccc',
   [BuildStates.SCHEDULED]: '#bbbbbb',
   [BuildStates.RUNNING]: '#fdba12',
   [BuildStates.PASSED]: '#90c73e',
@@ -35,7 +36,7 @@ class BuildState extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
     size: React.PropTypes.number.isRequired,
-    state: React.PropTypes.oneOf(Object.keys(STATE_COLORS)).isRequired,
+    state: React.PropTypes.oneOf(Object.keys(STATE_COLORS)),
     strokeWidth: React.PropTypes.number.isRequired,
     style: React.PropTypes.object
   };
@@ -152,6 +153,7 @@ class BuildState extends React.Component {
         );
         break;
 
+      case null:
       case BuildStates.SKIPPED:
       case BuildStates.NOT_RUN:
         content = (
