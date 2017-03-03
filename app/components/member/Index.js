@@ -55,16 +55,6 @@ class MemberIndex extends React.Component {
               />
             ))}
           </Panel>
-          <Panel>
-            <Panel.Header>Invitations</Panel.Header>
-            {this.props.organization.invitations.edges.map((edge) => (
-              <InvitationRow
-                key={edge.node.id}
-                organization={this.props.organization}
-                organizationInvitation={edge.node}
-              />
-            ))}
-          </Panel>
         </div>
       </DocumentTitle>
     );
@@ -76,6 +66,25 @@ class MemberIndex extends React.Component {
         allowed: "organizationInvitationCreate",
         render: () => <Button href={`/organizations/${this.props.organization.slug}/users/new`} theme="success">Invite New Users</Button>
       }
+    );
+  }
+
+  renderInvitations() {
+    if (!this.props.organization.invitations.edges) {
+      return;
+    }
+
+    return (
+      <Panel>
+        <Panel.Header>Invitations</Panel.Header>
+        {this.props.organization.invitations.edges.map((edge) => (
+          <InvitationRow
+            key={edge.node.id}
+            organization={this.props.organization}
+            organizationInvitation={edge.node}
+          />
+        ))}
+      </Panel>
     );
   }
 }
