@@ -22,7 +22,7 @@ class TeamIndex extends React.Component {
             node: React.PropTypes.object.isRequired
           }).isRequired
         ).isRequired
-      }),
+      })
     }).isRequired,
     relay: React.PropTypes.object.isRequired
   };
