@@ -97,7 +97,7 @@ class CreateBuildDialog extends React.Component {
     if (this.state.showingMoreOptions) {
       return (
         <div>
-          <a href="#" onClick={this.handleToggleOptionsButtonClick} className="bold mb2 block">Show less options…</a>
+          <a href="#" onClick={this.handleToggleOptionsButtonClick} className="bold mb2 block blue hover-navy text-decoration-none hover-underline">Show less options…</a>
 
           <FormTextarea
             name="build[env]"
@@ -115,7 +115,7 @@ class CreateBuildDialog extends React.Component {
       );
     } else {
       return (
-        <a href="#" onClick={this.handleToggleOptionsButtonClick} className="bold">Show more options…</a>
+        <a href="#" onClick={this.handleToggleOptionsButtonClick} className="bold blue hover-navy text-decoration-none hover-underline">Show more options…</a>
       );
     }
   }
