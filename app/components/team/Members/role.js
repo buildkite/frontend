@@ -4,12 +4,14 @@ import shallowCompare from 'react-addons-shallow-compare';
 import Chooser from '../../shared/Chooser';
 import Dropdown from '../../shared/Dropdown';
 
+import TeamMemberRoleConstants from '../../../constants/TeamMemberRoleConstants';
+
 class MemberRole extends React.Component {
   static displayName = "Team.Pipelines.Role";
 
   static propTypes = {
     teamMember: React.PropTypes.shape({
-      admin: React.PropTypes.bool.isRequired
+      role: React.PropTypes.string.isRequired
     }).isRequired,
     onRoleChange: React.PropTypes.func.isRequired,
     savingNewRole: React.PropTypes.string
@@ -21,25 +23,24 @@ class MemberRole extends React.Component {
 
   render() {
     const saving = this.props.savingNewRole;
-    const selected = this.props.teamMember.admin ? "admin" : "member";
 
     return (
       <Dropdown width={270}>
-        <div className="underline-dotted cursor-pointer inline-block regular">{this.label(selected)}</div>
+        <div className="underline-dotted cursor-pointer inline-block regular">{this.label(this.props.teamMember.role)}</div>
 
-        <Chooser selected={selected} onSelect={this.props.onRoleChange}>
+        <Chooser selected={this.props.teamMember.role} onSelect={this.props.onRoleChange}>
           <Chooser.SelectOption
-            value="admin"
-            saving={saving === "admin"}
-            selected={selected === "admin"}
-            label={this.label("admin")}
+            value={TeamMemberRoleConstants.ADMIN}
+            saving={saving === TeamMemberRoleConstants.ADMIN}
+            selected={this.props.teamMember.role === TeamMemberRoleConstants.ADMIN}
+            label={this.label(TeamMemberRoleConstants.ADMIN)}
             description="Manage members and pipelines with unrestricted access"
           />
           <Chooser.SelectOption
-            value="member"
-            saving={saving === "member"}
-            selected={selected === "member"}
-            label={this.label("member")}
+            value={TeamMemberRoleConstants.MEMBER}
+            saving={saving === TeamMemberRoleConstants.MEMBER}
+            selected={this.props.teamMember.role === TeamMemberRoleConstants.MEMBER}
+            label={this.label(TeamMemberRoleConstants.MEMBER)}
             description="Create and access pipelines based on each pipeline’s permissions"
           />
         </Chooser>
@@ -49,9 +50,9 @@ class MemberRole extends React.Component {
 
   label(value) {
     switch (value) {
-      case "admin":
+      case TeamMemberRoleConstants.ADMIN:
         return "Team Admin";
-      case "member":
+      case TeamMemberRoleConstants.MEMBER:
         return "Member";
     }
   }

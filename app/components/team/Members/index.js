@@ -129,7 +129,7 @@ class Members extends React.Component {
   handleRoleChange = (teamMember, role, callback) => {
     Relay.Store.commitUpdate(new TeamMemberUpdateMutation({
       teamMember: teamMember,
-      admin: (role === 'admin')
+      role: role,
     }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError()) });
   };
 }
@@ -172,7 +172,7 @@ export default Relay.createContainer(Members, {
           edges {
             node {
               id
-              admin
+              role
               user {
                 id
                 name

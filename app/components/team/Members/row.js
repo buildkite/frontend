@@ -16,7 +16,7 @@ class Row extends React.Component {
   static propTypes = {
     teamMember: React.PropTypes.shape({
       user: React.PropTypes.object.isRequired,
-      admin: React.PropTypes.bool.isRequired,
+      role: React.PropTypes.string.isRequired,
       permissions: React.PropTypes.shape({
         teamMemberUpdate: React.PropTypes.shape({
           allowed: React.PropTypes.bool.isRequired
@@ -39,7 +39,7 @@ class Row extends React.Component {
   render() {
     return (
       <Panel.Row>
-        <User user={this.props.teamMember.user} teamAdmin={this.props.teamMember.admin} />
+        <User user={this.props.teamMember.user} role={this.props.teamMember.role} />
         <Panel.RowActions>{this.renderActions()}</Panel.RowActions>
       </Panel.Row>
     );

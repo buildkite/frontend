@@ -14,7 +14,7 @@ import TeamDeleteMutation from '../../mutations/TeamDelete';
 
 class TeamShow extends React.Component {
   static propTypes = {
-    slug: React.PropTypes.string.isRequired,
+    teamSlug: React.PropTypes.string.isRequired,
     team: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       description: React.PropTypes.string,
@@ -121,7 +121,7 @@ class TeamShow extends React.Component {
     // the slug "org-name/this-slug-name" and it's old relay ID. So when we go
     // to request it again, Relay is like "oh, I know about this slug, but it
     // was deleted, so I'll just return nothing.
-    delete Relay.Store._storeData._cachedStore._rootCallMap.team[this.props.slug];
+    delete Relay.Store._storeData._cachedStore._rootCallMap.team[this.props.teamSlug];
 
     // Redirect back to the index page
     this.context.router.push(`/organizations/${response.teamDelete.organization.slug}/teams`);

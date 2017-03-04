@@ -21,7 +21,7 @@ class TeamMemberUpdate extends Relay.Mutation {
     return Relay.QL`
       fragment on TeamMemberUpdatePayload {
         teamMember {
-          admin
+          role
         }
       }
     `;
@@ -37,7 +37,7 @@ class TeamMemberUpdate extends Relay.Mutation {
   }
 
   getVariables() {
-    return { id: this.props.teamMember.id, admin: this.props.admin };
+    return { id: this.props.teamMember.id, role: this.props.role };
   }
 }
 

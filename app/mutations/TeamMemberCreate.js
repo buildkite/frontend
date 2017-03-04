@@ -1,5 +1,7 @@
 import Relay from 'react-relay';
 
+import TeamMemberRoleConstants from '../constants/TeamMemberRoleConstants';
+
 class TeamMemberCreate extends Relay.Mutation {
   static fragments = {
     team: () => Relay.QL`
@@ -43,7 +45,7 @@ class TeamMemberCreate extends Relay.Mutation {
       teamMemberEdge: {
         node: {
           user: this.props.user,
-          admin: false
+          role: TeamMemberRoleConstants.MEMBER
         }
       },
       team: {
