@@ -5,6 +5,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
+import Spinner from '../shared/Spinner';
 import permissions from '../../lib/permissions';
 
 import InvitationRow from './InvitationRow';
@@ -20,21 +21,27 @@ class MemberIndex extends React.Component {
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
             node: React.PropTypes.object.isRequired
-          }).isRequired
+          })
         ).isRequired
-      }).isRequired,
+      }),
       members: React.PropTypes.shape({
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
             node: React.PropTypes.object.isRequired
           }).isRequired
         ).isRequired
-      }).isRequired
+      })
     }).isRequired
   };
 
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
+  }
+
+  componentDidMount() {
+    // Use a `forceFetch` so every time the user comes back to this page we'll
+    // grab fresh data.
+    this.props.relay.forceFetch({ isMounted: true });
   }
 
   render() {
@@ -47,15 +54,13 @@ class MemberIndex extends React.Component {
               <span>Invite people to this organization so they can see and create builds, manage pipelines, and customize their notification preferences.</span>
               {this.renderNewMemberButton()}
             </Panel.IntroWithButton>
-            {this.props.organization.members.edges.map((edge) => (
-              <Row
-                key={edge.node.id}
-                organization={this.props.organization}
-                organizationMember={edge.node}
-              />
-            ))}
+            {this.renderUsers()}
           </Panel>
-          {this.renderInvitations()}
+
+          <Panel>
+            <Panel.Header>Invitations</Panel.Header>
+            {this.renderInvitations()}
+          </Panel>
         </div>
       </DocumentTitle>
     );
@@ -65,32 +70,65 @@ class MemberIndex extends React.Component {
     return permissions(this.props.organization.permissions).check(
       {
         allowed: "organizationInvitationCreate",
-        render: () => <Button href={`/organizations/${this.props.organization.slug}/users/new`} theme="success">Invite New Users</Button>
+        render: () => <Button href={`/organizations/${this.props.organization.slug}/users/new`} theme="default" outline={true}>Invite Users</Button>
       }
     );
   }
 
-  renderInvitations() {
-    if (!this.props.organization.invitations.edges) {
-      return;
-    }
+  renderUsers() {
+    if (!this.props.organization.members) {
 
-    return (
-      <Panel>
-        <Panel.Header>Invitations</Panel.Header>
-        {this.props.organization.invitations.edges.map((edge) => (
-          <InvitationRow
+    } else {
+      return this.props.organization.members.edges.map((edge) => {
+        return (
+          <Row
             key={edge.node.id}
             organization={this.props.organization}
-            organizationInvitation={edge.node}
+            organizationMember={edge.node}
           />
-        ))}
-      </Panel>
-    );
+        );
+      })
+    }
+  }
+
+  renderInvitations() {
+    const invitations = this.props.organization.invitations;
+
+    if (!invitations) {
+      return (
+        <Panel.Section className="center">
+          <Spinner />
+        </Panel.Section>
+      );
+    } else {
+      if(invitations.edges.length > 0) {
+        return (
+          invitations.edges.map((edge) => {
+            return (
+              <InvitationRow
+                key={edge.node.id}
+                organization={this.props.organization}
+                organizationInvitation={edge.node}
+              />
+            );
+          })
+        );
+      } else {
+        return (
+          <Panel.Section>
+            <div className="dark-gray">There are no pending invitations</div>
+          </Panel.Section>
+        );
+      }
+    }
   }
 }
 
 export default Relay.createContainer(MemberIndex, {
+  initialVariables: {
+    isMounted: false
+  },
+
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
@@ -102,7 +140,7 @@ export default Relay.createContainer(MemberIndex, {
             allowed
           }
         }
-        invitations(first: 100, state: PENDING) {
+        invitations(first: 100, state: PENDING) @include(if: $isMounted) {
           edges {
             node {
               id
@@ -110,7 +148,7 @@ export default Relay.createContainer(MemberIndex, {
             }
           }
         }
-        members(first: 100) {
+        members(first: 100) @include(if: $isMounted) {
           edges {
             node {
               id
