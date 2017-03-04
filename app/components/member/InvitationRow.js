@@ -10,6 +10,8 @@ import FlashesStore from '../../stores/FlashesStore';
 import OrganizationInvitationResend from '../../mutations/OrganizationInvitationResend';
 import OrganizationInvitationRevoke from '../../mutations/OrganizationInvitationRevoke';
 
+import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
+
 class InvitationRow extends React.Component {
   static propTypes = {
     organizationInvitation: React.PropTypes.shape({
@@ -40,6 +42,7 @@ class InvitationRow extends React.Component {
           <div className="flex-auto">
             <div className="m0">
               {this.props.organizationInvitation.email}
+              {this.props.organizationInvitation.role == OrganizationMemberRoleConstants.ADMIN && <span className="dark-gray regular h6 ml1">Administrator</span>}
             </div>
           </div>
           <div className="flex-none">
@@ -132,6 +135,7 @@ export default Relay.createContainer(InvitationRow, {
       fragment on OrganizationInvitation {
         uuid
         email
+        role
         ${OrganizationInvitationResend.getFragment('organizationInvitation')}
         ${OrganizationInvitationRevoke.getFragment('organizationInvitation')}
       }

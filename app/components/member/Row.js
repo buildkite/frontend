@@ -5,6 +5,8 @@ import shallowCompare from 'react-addons-shallow-compare';
 import Panel from '../shared/Panel';
 import UserAvatar from '../shared/UserAvatar';
 
+import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
+
 const AVATAR_SIZE = 40;
 
 class MemberRow extends React.Component {
@@ -14,7 +16,7 @@ class MemberRow extends React.Component {
     }).isRequired,
     organizationMember: React.PropTypes.shape({
       uuid: React.PropTypes.string.isRequired,
-      admin: React.PropTypes.bool.isRequired,
+      role: React.PropTypes.string.isRequired,
       user: React.PropTypes.shape({
         name: React.PropTypes.string.isRequired,
         email: React.PropTypes.string.isRequired,
@@ -43,7 +45,7 @@ class MemberRow extends React.Component {
           <div className="flex-auto">
             <div className="m0 semi-bold">
               {this.props.organizationMember.user.name}
-              {this.props.organizationMember.admin && <span className="dark-gray regular h6 ml1">Administrator</span>}
+              {this.props.organizationMember.role == OrganizationMemberRoleConstants.ADMIN && <span className="dark-gray regular h6 ml1">Administrator</span>}
             </div>
             <div className="h6 regular mt1">{this.props.organizationMember.user.email}</div>
           </div>
@@ -63,7 +65,7 @@ export default Relay.createContainer(MemberRow, {
     organizationMember: () => Relay.QL`
       fragment on OrganizationMember {
         uuid
-        admin
+        role
         user {
           name
           email
