@@ -4446,6 +4446,24 @@
               "deprecationReason": null
             },
             {
+              "name": "role",
+              "description": "The users role within the team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "TeamMemberRole",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "team",
               "description": "The team associated with this team member",
               "args": [
@@ -4501,6 +4519,29 @@
             }
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "TeamMemberRole",
+          "description": "The roles a user can be within a team",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "MEMBER",
+              "description": "The user is a regular member of the team",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ADMIN",
+              "description": "The user can manage pipelines and users within the team",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -8130,6 +8171,24 @@
               "deprecationReason": null
             },
             {
+              "name": "role",
+              "description": "The users role within the organization",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "OrganizationMemberRole",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "teams",
               "description": "Teams that this user is a part of within the organization",
               "args": [
@@ -8234,6 +8293,29 @@
             }
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "OrganizationMemberRole",
+          "description": "The roles a user can be within an organization",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "MEMBER",
+              "description": "The user is a regular member of the organization",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ADMIN",
+              "description": "Has full access to the entire organization",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -8600,6 +8682,24 @@
               "deprecationReason": null
             },
             {
+              "name": "role",
+              "description": "The role the user will have in the organization once they've accepted the invitation",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "OrganizationMemberRole",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "slug",
               "description": "The slug of the invitation that can be used to find an invitation in the query root",
               "args": [
@@ -8896,29 +8996,6 @@
 
           ],
           "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "TeamMemberRole",
-          "description": "The roles a user can be within a team",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "MEMBER",
-              "description": "The user is a regular member of the team",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "ADMIN",
-              "description": "The user can manage pipelines and users within the team",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
           "possibleTypes": null
         },
         {
@@ -12312,14 +12389,14 @@
               "defaultValue": null
             },
             {
-              "name": "admin",
+              "name": "role",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
+                  "kind": "ENUM",
+                  "name": "OrganizationMemberRole",
                   "ofType": null
                 }
               },
@@ -12442,11 +12519,11 @@
               "defaultValue": null
             },
             {
-              "name": "admin",
+              "name": "role",
               "description": null,
               "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
+                "kind": "ENUM",
+                "name": "OrganizationMemberRole",
                 "ofType": null
               },
               "defaultValue": null
@@ -13708,13 +13785,19 @@
               "name": "admin",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "role",
+              "description": null,
+              "type": {
+                "kind": "ENUM",
+                "name": "TeamMemberRole",
+                "ofType": null
               },
               "defaultValue": null
             }
