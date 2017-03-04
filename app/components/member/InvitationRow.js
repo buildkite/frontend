@@ -5,6 +5,8 @@ import shallowCompare from 'react-addons-shallow-compare';
 import Button from '../shared/Button';
 import Panel from '../shared/Panel';
 
+import FlashesStore from '../../stores/FlashesStore';
+
 import OrganizationInvitationResend from '../../mutations/OrganizationInvitationResend';
 import OrganizationInvitationRevoke from '../../mutations/OrganizationInvitationRevoke';
 
@@ -80,15 +82,18 @@ class InvitationRow extends React.Component {
     });
   }
 
-  handleResendInvitationMutationSuccess = () => {
+  handleResendInvitationMutationSuccess = (response) => {
     this.setState({ resending: false });
+
+    const email = response.organizationInvitationResend.organizationInvitation.email;
+    FlashesStore.flash(FlashesStore.SUCCESS, `An invitation email was resent to ${email}`);
   }
 
   handleResendInvitationMutationFailure = (transaction) => {
     // Hide the removing indicator
     this.setState({ resending: false });
 
-    alert(transaction.getError());
+    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
   }
 
   handleRevokeInvitationClick = () => {
@@ -101,20 +106,23 @@ class InvitationRow extends React.Component {
 
     // Run the mutation
     Relay.Store.commitUpdate(mutation, {
-      onSuccess: this.handleResendInvitationMutationSuccess,
-      onFailure: this.handleResendInvitationMutationFailure
+      onSuccess: this.handleRevokeInvitationMutationSuccess,
+      onFailure: this.handleRevokeInvitationMutationFailure
     });
   }
 
-  handleRevokeInvitationMutationSuccess = () => {
+  handleRevokeInvitationMutationSuccess = (response) => {
     this.setState({ revoking: false });
+
+    const email = response.organizationInvitationRevoke.organizationInvitation.email;
+    FlashesStore.flash(FlashesStore.SUCCESS, `The invitation to ${email} was revoked`);
   }
 
   handleRevokeInvitationMutationFailure = (transaction) => {
     // Hide the revoking indicator
     this.setState({ revoking: false });
 
-    alert(transaction.getError());
+    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
   }
 }
 

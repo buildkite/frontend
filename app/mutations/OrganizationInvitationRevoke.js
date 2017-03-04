@@ -28,6 +28,7 @@ export default class OrganizationInvitationRevoke extends Relay.Mutation {
           invitations
         }
         organizationInvitation {
+          email
           revokedAt
           revokedBy
           state

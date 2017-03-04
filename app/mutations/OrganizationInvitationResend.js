@@ -22,6 +22,7 @@ export default class OrganizationInvitationResend extends Relay.Mutation {
       fragment on OrganizationInvitationResendPayload {
         organizationInvitation {
           id
+          email
         }
       }
     `;
