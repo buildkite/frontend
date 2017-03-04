@@ -31,7 +31,8 @@ class MemberIndex extends React.Component {
           }).isRequired
         ).isRequired
       })
-    }).isRequired
+    }).isRequired,
+    relay: React.PropTypes.object.isRequired
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -77,7 +78,11 @@ class MemberIndex extends React.Component {
 
   renderUsers() {
     if (!this.props.organization.members) {
-
+      return (
+        <Panel.Section className="center">
+          <Spinner />
+        </Panel.Section>
+      );
     } else {
       return this.props.organization.members.edges.map((edge) => {
         return (
@@ -87,7 +92,7 @@ class MemberIndex extends React.Component {
             organizationMember={edge.node}
           />
         );
-      })
+      });
     }
   }
 
@@ -101,7 +106,7 @@ class MemberIndex extends React.Component {
         </Panel.Section>
       );
     } else {
-      if(invitations.edges.length > 0) {
+      if (invitations.edges.length > 0) {
         return (
           invitations.edges.map((edge) => {
             return (

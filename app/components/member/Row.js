@@ -45,7 +45,7 @@ class MemberRow extends React.Component {
           <div className="flex-auto">
             <div className="m0 semi-bold">
               {this.props.organizationMember.user.name}
-              {this.props.organizationMember.role == OrganizationMemberRoleConstants.ADMIN && <span className="dark-gray regular h6 ml1">Administrator</span>}
+              {this.props.organizationMember.role === OrganizationMemberRoleConstants.ADMIN && <span className="dark-gray regular h6 ml1">Administrator</span>}
             </div>
             <div className="h6 regular mt1">{this.props.organizationMember.user.email}</div>
           </div>

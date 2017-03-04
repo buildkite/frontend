@@ -16,7 +16,8 @@ class InvitationRow extends React.Component {
   static propTypes = {
     organizationInvitation: React.PropTypes.shape({
       uuid: React.PropTypes.string.isRequired,
-      email: React.PropTypes.string.isRequired
+      email: React.PropTypes.string.isRequired,
+      role: React.PropTypes.string.isRequired
     }).isRequired
   };
 
@@ -42,7 +43,7 @@ class InvitationRow extends React.Component {
           <div className="flex-auto">
             <div className="m0">
               {this.props.organizationInvitation.email}
-              {this.props.organizationInvitation.role == OrganizationMemberRoleConstants.ADMIN && <span className="dark-gray regular h6 ml1">Administrator</span>}
+              {this.props.organizationInvitation.role === OrganizationMemberRoleConstants.ADMIN && <span className="dark-gray regular h6 ml1">Administrator</span>}
             </div>
           </div>
           <div className="flex-none">

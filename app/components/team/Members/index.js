@@ -129,7 +129,7 @@ class Members extends React.Component {
   handleRoleChange = (teamMember, role, callback) => {
     Relay.Store.commitUpdate(new TeamMemberUpdateMutation({
       teamMember: teamMember,
-      role: role,
+      role: role
     }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError()) });
   };
 }
