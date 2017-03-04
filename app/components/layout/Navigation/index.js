@@ -185,8 +185,8 @@ class Navigation extends React.Component {
     if (organization) {
       return (
         <div className={classNames("flex", options.className)}>
-          <NavigationButton className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={Features.NewPipelineList}>Pipelines</NavigationButton>
-          <NavigationButton className="py0" href={`/organizations/${organization.slug}/agents`} linkIf={Features.NewAgentList}>
+          <NavigationButton className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={true}>Pipelines</NavigationButton>
+          <NavigationButton className="py0" href={`/organizations/${organization.slug}/agents`} linkIf={true}>
             {'Agents'}
             <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
           </NavigationButton>
