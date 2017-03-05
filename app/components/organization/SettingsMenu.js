@@ -12,13 +12,13 @@ class SettingsMenu extends React.Component {
       slug: React.PropTypes.string.isRequired,
       members: React.PropTypes.shape({
         count: React.PropTypes.number.isRequired
-      }).isRequired,
+      }),
       invitations: React.PropTypes.shape({
         count: React.PropTypes.number.isRequired
-      }).isRequired,
+      }),
       teams: React.PropTypes.shape({
         count: React.PropTypes.number.isRequired
-      }).isRequired,
+      }),
       permissions: React.PropTypes.shape({
         organizationUpdate: React.PropTypes.shape({
           allowed: React.PropTypes.bool.isRequired
@@ -38,6 +38,10 @@ class SettingsMenu extends React.Component {
       })
     })
   };
+
+  componentDidMount() {
+    this.props.relay.forceFetch({ isMounted: true });
+  }
 
   render() {
     return (
@@ -67,7 +71,7 @@ class SettingsMenu extends React.Component {
       {
         allowed: "organizationInvitationCreate",
         render: (idx) => (
-          <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/users`} badge={this.props.organization.members.count + this.props.organization.invitations.count}>
+          <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/users`} badge={this.calculateUsersCount()}>
             <Icon icon="users" className="icon-mr"/>Users
           </Menu.Button>
         )
@@ -75,7 +79,7 @@ class SettingsMenu extends React.Component {
       {
         allowed: "teamAdmin",
         render: (idx) => (
-          <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/teams`} badge={this.props.organization.teams.count}>
+          <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/teams`} badge={this.props.organization.teams && this.props.organization.teams.count}>
             <Icon icon="teams" className="icon-mr"/>Teams
           </Menu.Button>
         )
@@ -98,21 +102,31 @@ class SettingsMenu extends React.Component {
       }
     );
   }
+
+  calculateUsersCount() {
+    if (this.props.organization.members) {
+      return this.props.organization.members.count + this.props.organization.invitations.count;
+    }
+  }
 }
 
 export default Relay.createContainer(SettingsMenu, {
+  initialVariables: {
+    isMounted: false
+  },
+
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
         name
         slug
-        members {
+        members @include(if: $isMounted) {
           count
         }
-        invitations(state: PENDING) {
+        invitations(state: PENDING) @include(if: $isMounted) {
           count
         }
-        teams {
+        teams @include(if: $isMounted) {
           count
         }
         permissions {
