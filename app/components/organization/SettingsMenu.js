@@ -36,7 +36,8 @@ class SettingsMenu extends React.Component {
           allowed: React.PropTypes.bool.isRequired
         }).isRequired
       })
-    })
+    }),
+    relay: React.PropTypes.object.isRequired
   };
 
   componentDidMount() {
