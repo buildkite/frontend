@@ -2715,7 +2715,7 @@
             },
             {
               "name": "members",
-              "description": null,
+              "description": "Returns users within the organization",
               "args": [
                 {
                   "name": "first",
@@ -2764,6 +2764,24 @@
                     "kind": "SCALAR",
                     "name": "String",
                     "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "role",
+                  "description": "Search members by their role",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "OrganizationMemberRole",
+                        "ofType": null
+                      }
+                    }
                   },
                   "defaultValue": null
                 },
@@ -4042,6 +4060,24 @@
                     "kind": "SCALAR",
                     "name": "String",
                     "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "role",
+                  "description": "Search team members by their role",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "TeamMemberRole",
+                        "ofType": null
+                      }
+                    }
                   },
                   "defaultValue": null
                 },
