@@ -154,7 +154,13 @@ module.exports = {
           fallback: "style-loader",
           filename: "[name]-[chunkhash].js",
           use: [
-            { loader: 'css-loader' },
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: IS_PRODUCTION,
+                sourceMap: !IS_PRODUCTION
+              }
+            },
             {
               loader: 'postcss-loader',
               options: {
