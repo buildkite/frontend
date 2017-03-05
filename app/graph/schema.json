@@ -4364,24 +4364,6 @@
           "description": "An member of a team",
           "fields": [
             {
-              "name": "admin",
-              "description": "Whether or not the user is an admin of this team",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "createdAt",
               "description": "The time when the team member was added",
               "args": [
@@ -8093,24 +8075,6 @@
           "description": "A member of an organization",
           "fields": [
             {
-              "name": "admin",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "createdAt",
               "description": "The time when this user was added to the organization",
               "args": [
@@ -8525,24 +8489,6 @@
                 "kind": "OBJECT",
                 "name": "User",
                 "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "admin",
-              "description": "Whether this user should be an organization admin when they accept the invite",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -13782,22 +13728,16 @@
               "defaultValue": null
             },
             {
-              "name": "admin",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
               "name": "role",
               "description": null,
               "type": {
-                "kind": "ENUM",
-                "name": "TeamMemberRole",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "TeamMemberRole",
+                  "ofType": null
+                }
               },
               "defaultValue": null
             }
