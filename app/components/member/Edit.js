@@ -17,7 +17,7 @@ class MemberEdit extends React.Component {
   static propTypes = {
     organizationMember: React.PropTypes.shape({
       uuid: React.PropTypes.string.isRequired,
-      admin: React.PropTypes.bool.isRequired,
+      role: React.PropTypes.bool.isRequired,
       user: React.PropTypes.shape({
         name: React.PropTypes.string.isRequired,
         email: React.PropTypes.string.isRequired,
@@ -84,7 +84,7 @@ export default Relay.createContainer(MemberEdit, {
     organizationMember: () => Relay.QL`
       fragment on OrganizationMember {
         uuid
-        admin
+        role
         user {
           name
           email
