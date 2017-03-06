@@ -153,7 +153,7 @@ export default Relay.createContainer(MemberIndex, {
             }
           }
         }
-        members(first: 100) @include(if: $isMounted) {
+        members(first: 100, order: NAME) @include(if: $isMounted) {
           edges {
             node {
               id
