@@ -41,7 +41,7 @@ var devTool = IS_PRODUCTION ? "source-map" : "cheap-module-eval-source-map";
 
 var plugins = [
   // Only add the 'whatwg-fetch' plugin if the browser doesn't support it
-  new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
+  new webpack.ProvidePlugin({ 'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch' }),
 
   // Split emojis, vendor javascript up. The loader JS doesn't have any modules
   // inside it, but since it's the last one, that's where Webpack will dump all
@@ -50,6 +50,7 @@ var plugins = [
     names: ["emojis", "vendor", "loader"],
     minChunks: 2
   }),
+
 
   // After Webpack compilation, spit out a 'manifest.json' file with a mapping
   // of file name, to compiled name.
@@ -110,10 +111,6 @@ var vendor_modules = [
 
 // If we're building for production, minify the JS
 if (IS_PRODUCTION) {
-  // Need this plugin to ensure consistent module ordering so we can have
-  // determenistic filename hashes
-  plugins.push(new webpack.optimize.OccurenceOrderPlugin(true));
-
   // Don't pack react-type-snob in production
   plugins.push(new webpack.IgnorePlugin(/^react-type-snob$/));
 
@@ -154,48 +151,64 @@ module.exports = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/i,
-        loader: "style-loader!css-loader!postcss-loader"
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: function() {
+                return [
+                  require("postcss-import")(),
+                  require("postcss-cssnext")({ features: { rem: false } }),
+                  require('postcss-easings')(),
+                  require("postcss-browser-reporter")(),
+                  require("postcss-reporter")()
+                ];
+              }
+            }
+          }
+        ]
       },
       {
         test: /\.js$/i,
-        loader: 'babel',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: [
+          { loader: 'babel-loader' }
+        ]
       },
       {
         test: /\.mdx$/i,
-        loader: 'babel-loader!markdown-component-loader?passElementProps=true'
+        use: [
+          { loader: 'babel-loader' },
+          { loader: 'markdown-component-loader', options: { passElementProps: true } }
+        ]
       },
       {
         test: /\.(woff)$/i,
-        loader: 'url-loader?limit=8192'
+        use: [
+          { loader: 'url-loader', options: { limit: 8192 } }
+        ]
       },
       {
         test: /\.(png|svg|jpg|gif)$/i,
-        loaders: [
-          'url-loader?limit=8192',
-          'image-webpack?optimizationLevel=7&interlaced=false'
+        use: [
+          { loader: 'url-loader', options: { limit: 8192 } },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              optipng: { optimizationLevel: 7 },
+              gifsicle: { interlaced: false }
+            }
+          }
         ]
       }
     ]
   },
 
-  plugins: plugins,
-
-  postcss: function() {
-    return [
-      require("postcss-import")(),
-      // require("postcss-url")(),
-      require("postcss-cssnext")({ features: { rem: false } }),
-      require('postcss-easings')(),
-      // add your "plugins" here
-      // ...
-      // and if you want to compress,
-      // just use css-loader option that already use cssnano under the hood
-      require("postcss-browser-reporter")(),
-      require("postcss-reporter")()
-    ];
-  }
+  plugins: plugins
 };
