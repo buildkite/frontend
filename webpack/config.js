@@ -1,7 +1,6 @@
-const path = require("path");
-const webpack = require("webpack");
-const AssetsPlugin = require('assets-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+var path = require("path");
+var webpack = require("webpack");
+var AssetsPlugin = require('assets-webpack-plugin');
 
 // Ensure a FRONTEND_HOST is setup since we embed it in the assets.json file
 if (!process.env.FRONTEND_HOST) {
@@ -18,7 +17,7 @@ if (process.env.FRONTEND_HOST.slice(-1) !== "/") {
   throw "FRONTEND_HOST must end with a /";
 }
 
-const IS_PRODUCTION = (process.env.NODE_ENV === "production");
+var IS_PRODUCTION = (process.env.NODE_ENV === "production");
 
 // Include a hash of the bundle in the name when we're building these files for
 // production so we can use non-expiring caches for them.
@@ -26,12 +25,19 @@ const IS_PRODUCTION = (process.env.NODE_ENV === "production");
 // Also, if we used hashes in development, we'd be forever filling up our dist
 // folder with every hashed version of files we've changed (webpack doesn't
 // clean up after itself)
-const filenameFormat = IS_PRODUCTION ? "[name]-[chunkhash].js" : "[name].js";
-const chunkFilename  = IS_PRODUCTION ? "[id]-[chunkhash].js"   : "[id].js";
+var filenameFormat;
+var chunkFilename;
+if (IS_PRODUCTION) {
+  filenameFormat = "[name]-[chunkhash].js";
+  chunkFilename = "[id]-[chunkhash].js";
+} else {
+  filenameFormat = "[name].js";
+  chunkFilename = "[id].js";
+}
 
 // Toggle between the devtool if on prod/dev since cheap-module-eval-source-map
 // is way faster for development.
-const devTool = IS_PRODUCTION ? "source-map" : "cheap-module-eval-source-map";
+var devTool = IS_PRODUCTION ? "source-map" : "cheap-module-eval-source-map";
 
 var plugins = [
   // Only add the 'whatwg-fetch' plugin if the browser doesn't support it
@@ -76,9 +82,7 @@ var plugins = [
     'process.env': {
       'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }
-  }),
-
-  new ExtractTextPlugin("[name]-[contenthash].css")
+  })
 ];
 
 var vendor_modules = [
@@ -150,34 +154,25 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          filename: filenameFormat,
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                minimize: IS_PRODUCTION,
-                sourceMap: !IS_PRODUCTION
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: function() {
-                  return [
-                    require("postcss-import")(),
-                    require("postcss-cssnext")({ features: { rem: false } }),
-                    require('postcss-easings')(),
-                    require("postcss-browser-reporter")(),
-                    require("postcss-reporter")()
-                  ];
-                }
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: function() {
+                return [
+                  require("postcss-import")(),
+                  require("postcss-cssnext")({ features: { rem: false } }),
+                  require('postcss-easings')(),
+                  require("postcss-browser-reporter")(),
+                  require("postcss-reporter")()
+                ];
               }
             }
-          ]
-        })
+          }
+        ]
       },
       {
         test: /\.js$/i,
