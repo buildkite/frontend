@@ -6,14 +6,6 @@ import Routes from './routes';
 
 require("./css/main.css");
 
-if (window._standalone) {
-  // Reset includes all the styles needed if bootstrap.css isn't loaded on the page
-  require("./css/reset.css");
-} else {
-  // Fixes and additions to the old bootstrap styles
-  require("./css/legacy.css");
-}
-
 // Setup Bugsnag for JS error tracking
 if (window.Bugsnag && window._bugsnag) {
   window.Bugsnag.apiKey = window._bugsnag.apiKey;
