@@ -5,6 +5,8 @@ import Panel from '../../shared/Panel';
 import FormAutoCompleteField from '../../shared/FormAutoCompleteField';
 import permissions from '../../../lib/permissions';
 
+import FlashesStore from '../../../stores/FlashesStore';
+
 import TeamMemberCreateMutation from '../../../mutations/TeamMemberCreate';
 import TeamMemberUpdateMutation from '../../../mutations/TeamMemberUpdate';
 import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
@@ -117,7 +119,7 @@ class Members extends React.Component {
     Relay.Store.commitUpdate(new TeamMemberCreateMutation({
       team: this.props.team,
       user: user
-    }), { onFailure: (transaction) => alert(transaction.getError()) });
+    }), { onFailure: (transaction) => FlashesStore.flash(FlashesStore.ERROR, transaction.getError()) });
   };
 
   handleTeamMemberRemove = (teamMember, callback) => {
