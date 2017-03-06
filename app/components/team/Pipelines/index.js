@@ -5,6 +5,8 @@ import Panel from '../../shared/Panel';
 import FormAutoCompleteField from '../../shared/FormAutoCompleteField';
 import permissions from '../../../lib/permissions';
 
+import FlashesStore from '../../../stores/FlashesStore';
+
 import TeamPipelineCreateMutation from '../../../mutations/TeamPipelineCreate';
 import TeamPipelineUpdateMutation from '../../../mutations/TeamPipelineUpdate';
 import TeamPipelineDeleteMutation from '../../../mutations/TeamPipelineDelete';
@@ -131,7 +133,7 @@ class Pipelines extends React.Component {
   };
 
   handleMutationFailure = (transaction) => {
-    alert(transaction.getError());
+    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
   };
 }
 
