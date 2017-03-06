@@ -9,16 +9,24 @@ import Panel from '../shared/Panel';
 import UserAvatar from '../shared/UserAvatar';
 // import permissions from '../../lib/permissions';
 
-// import OrganizationMemberDeleteMutation from '../../mutations/OrganizationMemberDelete';
+import FlashesStore from '../../stores/FlashesStore';
+
+import OrganizationMemberDeleteMutation from '../../mutations/OrganizationMemberDelete';
 
 const AVATAR_SIZE = 50;
 
 class MemberEdit extends React.Component {
   static propTypes = {
+    viewer: React.PropTypes.shape({
+      user: React.PropTypes.shape({
+        id: React.PropTypes.string.isRequired
+      }).isRequired
+    }),
     organizationMember: React.PropTypes.shape({
       uuid: React.PropTypes.string.isRequired,
       role: React.PropTypes.string.isRequired,
       user: React.PropTypes.shape({
+        id: React.PropTypes.string.isRequired,
         name: React.PropTypes.string.isRequired,
         email: React.PropTypes.string.isRequired,
         avatar: React.PropTypes.shape({
@@ -41,6 +49,8 @@ class MemberEdit extends React.Component {
   }
 
   render() {
+    const isSelf = this.props.organizationMember.user.id === this.props.viewer.user.id;
+
     return (
       <DocumentTitle title={`Users · ${this.props.organizationMember.user.name}`}>
         <div>
@@ -63,35 +73,92 @@ class MemberEdit extends React.Component {
             </Panel.Row>
           </Panel>
           <Panel>
-            <Panel.Header>Leave Organization</Panel.Header>
+            <Panel.Header>
+              {isSelf ? 'Leave Organization' : 'Remove from Organization'}
+            </Panel.Header>
             <Panel.Row>
-              Removing yourself will immediately revoke your access to this organization.
+              {
+                isSelf
+                  ? 'Removing yourself will immediately revoke your access to this organization.'
+                  : 'Removing this user will immediately revoke their access to this organization.'
+              }
             </Panel.Row>
             <Panel.Row>
-              <Button>Leave Organization</Button>
+              <Button
+                theme="error"
+                loading={
+                  this.state.removing && (
+                    isSelf
+                      ? 'Leaving Organization…'
+                      : 'Removing from Organization…'
+                  )
+                }
+                onClick={this.handleRemoveFromOrganizationClick}
+              >
+                {
+                  isSelf
+                    ? 'Leave Organization'
+                    : 'Remove from Organization'
+                }
+              </Button>
             </Panel.Row>
           </Panel>
         </div>
       </DocumentTitle>
     );
   }
-}
 
-//${OrganizationMemberDeleteMutation.getFragment('organizationMember')}
+  handleRemoveFromOrganizationClick = () => {
+    // Show the removing indicator
+    this.setState({ removing: true });
+
+    const mutation = new OrganizationMemberDeleteMutation({
+      organizationMember: this.props.organizationMember
+    });
+
+    // Run the mutation
+    Relay.Store.commitUpdate(mutation, {
+      onSuccess: this.handleRemoveMutationSuccess,
+      onFailure: this.handleRemoveMutationFailure
+    });
+  }
+
+  handleRemoveMutationSuccess = (response) => {
+    this.setState({ removing: false });
+
+    this.context.router.push(`/organizations/${response.organizationMemberDelete.organization.slug}/users`);
+  }
+
+  handleRemoveMutationFailure = (transaction) => {
+    // Hide the removing indicator
+    this.setState({ removing: false });
+
+    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
+  }
+}
 
 export default Relay.createContainer(MemberEdit, {
   fragments: {
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        user {
+          id
+        }
+      }
+    `,
     organizationMember: () => Relay.QL`
       fragment on OrganizationMember {
         uuid
         role
         user {
+          id
           name
           email
           avatar {
             url
           }
         }
+        ${OrganizationMemberDeleteMutation.getFragment('organizationMember')}
       }
     `
   }

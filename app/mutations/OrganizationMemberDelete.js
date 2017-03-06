@@ -24,7 +24,11 @@ export default class OrganizationMemberDelete extends Relay.Mutation {
     return Relay.QL`
       fragment on OrganizationMemberDeletePayload {
         deletedOrganizationMemberID
+        user {
+          id
+        }
         organization {
+          slug
           members {
             count
           }
