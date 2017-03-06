@@ -17,7 +17,7 @@ class MemberEdit extends React.Component {
   static propTypes = {
     organizationMember: React.PropTypes.shape({
       uuid: React.PropTypes.string.isRequired,
-      role: React.PropTypes.bool.isRequired,
+      role: React.PropTypes.string.isRequired,
       user: React.PropTypes.shape({
         name: React.PropTypes.string.isRequired,
         email: React.PropTypes.string.isRequired,
