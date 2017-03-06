@@ -152,7 +152,7 @@ module.exports = {
         test: /\.css$/i,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          filename: "[name]-[chunkhash].js",
+          filename: filenameFormat,
           use: [
             {
               loader: 'css-loader',
