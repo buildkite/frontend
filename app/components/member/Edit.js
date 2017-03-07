@@ -7,7 +7,6 @@ import Button from '../shared/Button';
 import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
 import UserAvatar from '../shared/UserAvatar';
-// import permissions from '../../lib/permissions';
 
 import FlashesStore from '../../stores/FlashesStore';
 
