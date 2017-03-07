@@ -23,7 +23,7 @@ class MemberEdit extends React.Component {
       user: React.PropTypes.shape({
         id: React.PropTypes.string.isRequired
       }).isRequired
-    }),
+    }).isRequired,
     organizationMember: React.PropTypes.shape({
       uuid: React.PropTypes.string.isRequired,
       role: React.PropTypes.string.isRequired,
@@ -35,7 +35,7 @@ class MemberEdit extends React.Component {
           url: React.PropTypes.string.isRequired
         }).isRequired
       }).isRequired
-    })
+    }).isRequired
   };
 
   static contextTypes = {
