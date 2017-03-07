@@ -43,11 +43,18 @@ class MemberEdit extends React.Component {
   };
 
   state = {
+    isAdmin: false,
     removing: false
   };
 
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
+  }
+
+  componentWillMount() {
+    this.setState({
+      isAdmin: this.props.organizationMember.role === OrganizationMemberRoleConstants.ADMIN
+    });
   }
 
   render() {
@@ -104,7 +111,8 @@ class MemberEdit extends React.Component {
                 marginLeft: '-1.7em',
                 cursor: isSelf ? 'not-allowed' : 'inherit'
               }}
-              checked={role === OrganizationMemberRoleConstants.ADMIN}
+              onChange={this.handleAdminChange}
+              checked={this.state.isAdmin}
               disabled={isSelf}
             />
             <span className="semi-bold">Administrator</span><br />
@@ -118,6 +126,12 @@ class MemberEdit extends React.Component {
         </Panel.Row>
       </Panel>
     );
+  }
+
+  handleAdminChange = (evt) => {
+    this.setState({
+      isAdmin: evt.target.checked
+    });
   }
 
   renderRemovePanel(isSelf) {
