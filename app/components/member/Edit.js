@@ -156,10 +156,13 @@ class MemberEdit extends React.Component {
     });
   }
 
-  handleUpdateMutationSuccess = (response) => {
+  handleUpdateMutationSuccess = ({ organizationMemberUpdate }) => {
     this.setState({ updating: false });
 
-    FlashesStore.flash(FlashesStore.SUCCESS, `${'USER'}’s member details have been saved`);
+    FlashesStore.flash(
+      FlashesStore.SUCCESS,
+      `${organizationMemberUpdate.organizationMember.user.name}’s member details have been saved`
+    );
   }
 
   renderRemovePanel(isSelf) {

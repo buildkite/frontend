@@ -22,6 +22,9 @@ export default class OrganizationMemberUpdate extends Relay.Mutation {
       fragment on OrganizationMemberUpdatePayload {
         organizationMember {
           role
+          user {
+            name
+          }
         }
       }
     `;
