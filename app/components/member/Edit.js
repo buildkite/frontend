@@ -54,57 +54,80 @@ class MemberEdit extends React.Component {
     return (
       <DocumentTitle title={`Users · ${this.props.organizationMember.user.name}`}>
         <div>
-          <PageHeader>
-            <UserAvatar
-              user={this.props.organizationMember.user}
-              className="align-middle"
-              style={{ width: AVATAR_SIZE, height: AVATAR_SIZE }}
-            />
-            <PageHeader.Title>{this.props.organizationMember.user.name}</PageHeader.Title>
-            <PageHeader.Description>{this.props.organizationMember.user.email}</PageHeader.Description>
-          </PageHeader>
-          <Panel className="mb4">
-            <Panel.Header>Roles</Panel.Header>
-            <Panel.Row>
-              Administrator etc.
-            </Panel.Row>
-            <Panel.Row>
-              You can't edit your own roles
-            </Panel.Row>
-          </Panel>
-          <Panel>
-            <Panel.Header>
-              {isSelf ? 'Leave Organization' : 'Remove from Organization'}
-            </Panel.Header>
-            <Panel.Row>
-              {
-                isSelf
-                  ? 'Removing yourself will immediately revoke your access to this organization.'
-                  : 'Removing this user will immediately revoke their access to this organization.'
-              }
-            </Panel.Row>
-            <Panel.Row>
-              <Button
-                theme="error"
-                loading={
-                  this.state.removing && (
-                    isSelf
-                      ? 'Leaving Organization…'
-                      : 'Removing from Organization…'
-                  )
-                }
-                onClick={this.handleRemoveFromOrganizationClick}
-              >
-                {
-                  isSelf
-                    ? 'Leave Organization'
-                    : 'Remove from Organization'
-                }
-              </Button>
-            </Panel.Row>
-          </Panel>
+          {/* this is a custom PageHeader body. *
+            * you may not like it,              *
+            * but this is what that looks like  */}
+          <section className="flex items-top mb4">
+            <div className="flex-none">
+              <UserAvatar
+                user={this.props.organizationMember.user}
+                className="align-middle mr2"
+                style={{ width: AVATAR_SIZE, height: AVATAR_SIZE }}
+              />
+            </div>
+            <div className="flex-auto">
+              <PageHeader.Title>
+                {this.props.organizationMember.user.name}
+              </PageHeader.Title>
+              <PageHeader.Description>
+                {this.props.organizationMember.user.email}
+              </PageHeader.Description>
+            </div>
+          </section>
+          {this.renderRolePanel(isSelf)}
+          {this.renderRemovePanel(isSelf)}
         </div>
       </DocumentTitle>
+    );
+  }
+
+  renderRolePanel(isSelf) {
+    return (
+      <Panel className="mb4">
+        <Panel.Header>Roles</Panel.Header>
+        <Panel.Row>
+          Administrator etc.
+        </Panel.Row>
+        <Panel.Row>
+          You can't edit your own roles
+        </Panel.Row>
+      </Panel>
+    );
+  }
+
+  renderRemovePanel(isSelf) {
+    return (
+      <Panel>
+        <Panel.Header>
+          {isSelf ? 'Leave Organization' : 'Remove from Organization'}
+        </Panel.Header>
+        <Panel.Row>
+          {
+            isSelf
+              ? 'Removing yourself will immediately revoke your access to this organization.'
+              : 'Removing this user will immediately revoke their access to this organization.'
+          }
+        </Panel.Row>
+        <Panel.Row>
+          <Button
+            theme="error"
+            loading={
+              this.state.removing && (
+                isSelf
+                  ? 'Leaving Organization…'
+                  : 'Removing from Organization…'
+              )
+            }
+            onClick={this.handleRemoveFromOrganizationClick}
+          >
+            {
+              isSelf
+                ? 'Leave Organization'
+                : 'Remove from Organization'
+            }
+          </Button>
+        </Panel.Row>
+      </Panel>
     );
   }
 
