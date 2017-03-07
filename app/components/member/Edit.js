@@ -35,7 +35,7 @@ class MemberEdit extends React.Component {
           url: React.PropTypes.string.isRequired
         }).isRequired
       }).isRequired
-    }).isRequired
+    })
   };
 
   static contextTypes = {
@@ -58,6 +58,10 @@ class MemberEdit extends React.Component {
   }
 
   render() {
+    if (!this.props.organizationMember) {
+      return null;
+    }
+
     const isSelf = this.props.organizationMember.user.id === this.props.viewer.user.id;
 
     return (
@@ -218,7 +222,13 @@ class MemberEdit extends React.Component {
   handleRemoveMutationSuccess = (response) => {
     this.setState({ removing: false });
 
-    this.context.router.push(`/organizations/${response.organizationMemberDelete.organization.slug}/users`);
+    if (response.organizationMemberDelete.user.id === this.props.viewer.user.id) {
+      // if we remove ourself, kickflip outta there
+      // because we won't have access anymore!
+      window.location = '/';
+    } else {
+      this.context.router.push(`/organizations/${response.organizationMemberDelete.organization.slug}/users`);
+    }
   }
 
   handleMutationFailure = (transaction) => {
