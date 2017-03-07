@@ -11,6 +11,7 @@ import UserAvatar from '../shared/UserAvatar';
 
 import FlashesStore from '../../stores/FlashesStore';
 
+import OrganizationMemberUpdateMutation from '../../mutations/OrganizationMemberUpdate';
 import OrganizationMemberDeleteMutation from '../../mutations/OrganizationMemberDelete';
 
 import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
@@ -94,7 +95,14 @@ class MemberEdit extends React.Component {
     const saveRowContent = (
       isSelf
         ? <span className="dark-gray">You can’t edit your own roles</span>
-        : <Button>Save</Button>
+        : (
+          <Button
+            onClick={this.handleUpdateOrganizationMemberClick}
+            loading={this.state.updating && 'Saving…'}
+          >
+            Save
+          </Button>
+        )
     );
 
     return (
@@ -130,6 +138,28 @@ class MemberEdit extends React.Component {
     this.setState({
       isAdmin: evt.target.checked
     });
+  }
+
+  handleUpdateOrganizationMemberClick = () => {
+    // Show the updating indicator
+    this.setState({ updating: true });
+
+    const mutation = new OrganizationMemberUpdateMutation({
+      organizationMember: this.props.organizationMember,
+      role: this.state.isAdmin ? OrganizationMemberRoleConstants.ADMIN : OrganizationMemberRoleConstants.MEMBER
+    });
+
+    // Run the mutation
+    Relay.Store.commitUpdate(mutation, {
+      onSuccess: this.handleUpdateMutationSuccess,
+      onFailure: this.handleMutationFailure
+    });
+  }
+
+  handleUpdateMutationSuccess = (response) => {
+    this.setState({ updating: false });
+
+    FlashesStore.flash(FlashesStore.SUCCESS, `${'USER'}’s member details have been saved`);
   }
 
   renderRemovePanel(isSelf) {
@@ -179,7 +209,7 @@ class MemberEdit extends React.Component {
     // Run the mutation
     Relay.Store.commitUpdate(mutation, {
       onSuccess: this.handleRemoveMutationSuccess,
-      onFailure: this.handleRemoveMutationFailure
+      onFailure: this.handleMutationFailure
     });
   }
 
@@ -189,9 +219,8 @@ class MemberEdit extends React.Component {
     this.context.router.push(`/organizations/${response.organizationMemberDelete.organization.slug}/users`);
   }
 
-  handleRemoveMutationFailure = (transaction) => {
-    // Hide the removing indicator
-    this.setState({ removing: false });
+  handleMutationFailure = (transaction) => {
+    this.setState({ removing: false, updating: false });
 
     FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
   }
@@ -218,6 +247,7 @@ export default Relay.createContainer(MemberEdit, {
             url
           }
         }
+        ${OrganizationMemberUpdateMutation.getFragment('organizationMember')}
         ${OrganizationMemberDeleteMutation.getFragment('organizationMember')}
       }
     `
