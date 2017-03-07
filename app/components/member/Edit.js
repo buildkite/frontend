@@ -13,6 +13,8 @@ import FlashesStore from '../../stores/FlashesStore';
 
 import OrganizationMemberDeleteMutation from '../../mutations/OrganizationMemberDelete';
 
+import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
+
 const AVATAR_SIZE = 50;
 
 class MemberEdit extends React.Component {
@@ -82,14 +84,37 @@ class MemberEdit extends React.Component {
   }
 
   renderRolePanel(isSelf) {
+    const { role } = this.props.organizationMember;
+
+    const saveRowContent = (
+      isSelf
+        ? <span className="dark-gray">You can’t edit your own roles</span>
+        : <Button>Save</Button>
+    );
+
     return (
       <Panel className="mb4">
         <Panel.Header>Roles</Panel.Header>
         <Panel.Row>
-          Administrator etc.
+          <label className="inline-block cursor-pointer" style={{ paddingLeft: '1.7em' }}>
+            <input
+              type="checkbox"
+              className="absolute"
+              style={{
+                marginLeft: '-1.7em',
+                cursor: isSelf ? 'not-allowed' : 'inherit'
+              }}
+              checked={role === OrganizationMemberRoleConstants.ADMIN}
+              disabled={isSelf}
+            />
+            <span className="semi-bold">Administrator</span><br />
+            <span className="dark-gray">
+              Allow this person to edit organization details, manage billing information, invite new members, change notification services and see the agent registration token.
+            </span>
+          </label>
         </Panel.Row>
         <Panel.Row>
-          You can't edit your own roles
+          {saveRowContent}
         </Panel.Row>
       </Panel>
     );
