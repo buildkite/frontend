@@ -91,8 +91,6 @@ class MemberEdit extends React.Component {
   }
 
   renderRolePanel(isSelf) {
-    const { role } = this.props.organizationMember;
-
     const saveRowContent = (
       isSelf
         ? <span className="dark-gray">You can’t edit your own roles</span>
