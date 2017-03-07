@@ -51,7 +51,7 @@ class InvitationRow extends React.Component {
               className="ml1"
               theme="default"
               outline={true}
-              loading={inProgress && (resending ? "Resending Invitation..." : resendLabel)}
+              loading={inProgress && (resending ? "Resending Invitation…" : resendLabel)}
               onClick={this.handleResendInvitationClick}
             >
               {resendLabel}
@@ -60,7 +60,7 @@ class InvitationRow extends React.Component {
               className="ml1"
               theme="default"
               outline={true}
-              loading={inProgress && (revoking ? "Revoking..." : revokeLabel)}
+              loading={inProgress && (revoking ? "Revoking…" : revokeLabel)}
               onClick={this.handleRevokeInvitationClick}
             >
               {revokeLabel}
