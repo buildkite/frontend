@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import FormInputHelp from './FormInputHelp';
 import FormInputErrors from './FormInputErrors';
@@ -14,6 +15,10 @@ export default class FormCheckbox extends React.Component {
     onChange: React.PropTypes.func,
     errors: React.PropTypes.array
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     return (
