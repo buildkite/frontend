@@ -23,7 +23,8 @@ class MemberNew extends React.Component {
   };
 
   state = {
-    emails: ''
+    emails: '',
+    isAdmin: false
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -39,6 +40,8 @@ class MemberNew extends React.Component {
             <FormTextarea
               label="Email addresses of people to invite"
               help="Separate each email with a space or a new line"
+              value={this.state.emails}
+              onChange={this.handleEmailsChange}
               rows={3}
             />
           </Panel.Section>
@@ -50,22 +53,54 @@ class MemberNew extends React.Component {
             <FormCheckbox
               label="Administrator"
               help="Allow these people to edit organization details, manage billing information, invite new members, manage teams, change notification services and see the agent registration token."
+              checked={this.state.isAdmin}
+              onChange={this.handleAdminChange}
             />
           </Panel.Section>
           <Panel.Section>
-            <Button>Send Invitations</Button>
+            <Button
+              onClick={this.handleCreateInvitationClick}
+              loading={this.state.inviting && 'Sending Invitations…'}
+            >
+              Send Invitations
+            </Button>
           </Panel.Section>
         </Panel>
       </DocumentTitle>
     );
   }
 
+  handleEmailsChange = (evt) => {
+    this.setState({
+      emails: evt.target.value
+    });
+  };
+
+  handleAdminChange = (evt) => {
+    this.setState({
+      isAdmin: evt.target.checked
+    });
+  };
+
   handleCreateInvitationClick = () => {
     // Show the inviting indicator
     this.setState({ inviting: true });
 
+    const emails = this.state.emails
+      .replace(',', ' ')
+      // WARNING: This Regexp is fully qualified rather than `\s` as
+      // this is designed to mirror back-end code and functionality
+      // (see `app/models/account/invitation/creator.rb`), and RegExp
+      // `\s` includes more (Unicode) characters than Ruby's in newer
+      // browsers (those compliant with ES2017)
+      .split(/[ \t\r\n\f\v]+/gi);
+
+    const role = this.state.isAdmin ? OrganizationMemberRoleConstants.ADMIN : OrganizationMemberRoleConstants.MEMBER;
+
     const mutation = new OrganizationInvitationCreateMutation({
-      organization: this.props.organization
+      organization: this.props.organization,
+      emails,
+      role
     });
 
     // Run the mutation
