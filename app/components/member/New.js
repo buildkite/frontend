@@ -5,6 +5,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
 import Panel from '../shared/Panel';
+import FormTextarea from '../shared/FormTextarea';
 
 import FlashesStore from '../../stores/FlashesStore';
 
@@ -34,8 +35,11 @@ class MemberNew extends React.Component {
         <Panel>
           <Panel.Header>Invite New Users</Panel.Header>
           <Panel.Section>
-            Email addresses of people to invite
-            Separate each email with a space or a new line
+            <FormTextarea
+              label="Email addresses of people to invite"
+              help="Separate each email with a space or a new line"
+              rows={3}
+            />
           </Panel.Section>
           <Panel.Section>
             Teams
