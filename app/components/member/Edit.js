@@ -4,6 +4,7 @@ import DocumentTitle from 'react-document-title';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
+import FormCheckbox from '../shared/FormCheckbox';
 import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
 import UserAvatar from '../shared/UserAvatar';
@@ -112,23 +113,13 @@ class MemberEdit extends React.Component {
       <Panel className="mb4">
         <Panel.Header>Roles</Panel.Header>
         <Panel.Row>
-          <label className="inline-block cursor-pointer" style={{ paddingLeft: '1.7em' }}>
-            <input
-              type="checkbox"
-              className="absolute"
-              style={{
-                marginLeft: '-1.7em',
-                cursor: isSelf ? 'not-allowed' : 'inherit'
-              }}
-              onChange={this.handleAdminChange}
-              checked={this.state.isAdmin}
-              disabled={isSelf}
-            />
-            <span className="semi-bold">Administrator</span><br />
-            <span className="dark-gray">
-              Allow this person to edit organization details, manage billing information, invite new members, change notification services and see the agent registration token.
-            </span>
-          </label>
+          <FormCheckbox
+            label="Administrator"
+            help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see the agent registration token."
+            disabled={isSelf}
+            onChange={this.handleAdminChange}
+            checked={this.state.isAdmin}
+          />
         </Panel.Row>
         <Panel.Row>
           {saveRowContent}

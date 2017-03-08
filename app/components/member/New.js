@@ -4,8 +4,9 @@ import DocumentTitle from 'react-document-title';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
-import Panel from '../shared/Panel';
+import FormCheckbox from '../shared/FormCheckbox';
 import FormTextarea from '../shared/FormTextarea';
+import Panel from '../shared/Panel';
 
 import FlashesStore from '../../stores/FlashesStore';
 
@@ -46,7 +47,10 @@ class MemberNew extends React.Component {
             Invited users can be added directly into teams. All users will be added to the <i>Everyone</i> team.
           </Panel.Section>
           <Panel.Section>
-            Administrator
+            <FormCheckbox
+              label="Administrator"
+              help="Allow these people to edit organization details, manage billing information, invite new members, manage teams, change notification services and see the agent registration token."
+            />
           </Panel.Section>
           <Panel.Section>
             <Button>Send Invitations</Button>
