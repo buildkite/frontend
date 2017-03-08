@@ -4,8 +4,8 @@ import OrganizationMemberRoleConstants from '../constants/OrganizationMemberRole
 
 export default class OrganizationInvitationCreate extends Relay.Mutation {
   static fragments = {
-    organizationMember: () => Relay.QL`
-      fragment on OrganizationInvitation {
+    organization: () => Relay.QL`
+      fragment on Organization {
         id
       }
     `
