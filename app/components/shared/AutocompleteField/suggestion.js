@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 class Suggestion extends React.Component {
-  static displayName = "FormAutoCompleteField.Suggestion";
+  static displayName = "AutocompleteField.Suggestion";
 
   static propTypes = {
     children: React.PropTypes.node.isRequired,

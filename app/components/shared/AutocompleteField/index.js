@@ -7,7 +7,7 @@ import Spinner from '../Spinner';
 import Suggestion from './suggestion';
 import ErrorMessage from './error-message';
 
-class FormAutoCompleteField extends React.Component {
+class AutocompleteField extends React.Component {
   static propTypes = {
     onSelect: React.PropTypes.func.isRequired,
     onSearch: React.PropTypes.func.isRequired,
@@ -70,7 +70,7 @@ class FormAutoCompleteField extends React.Component {
   }
 
   isErrorMessageComponent(node) {
-    return node && node.type && node.type.displayName === "FormAutoCompleteField.ErrorMessage";
+    return node && node.type && node.type.displayName === "AutocompleteField.ErrorMessage";
   }
 
   render() {
@@ -263,6 +263,6 @@ class FormAutoCompleteField extends React.Component {
   };
 }
 
-FormAutoCompleteField.ErrorMessage = ErrorMessage;
+AutocompleteField.ErrorMessage = ErrorMessage;
 
-export default FormAutoCompleteField;
+export default AutocompleteField;

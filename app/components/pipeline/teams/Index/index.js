@@ -4,7 +4,7 @@ import DocumentTitle from 'react-document-title';
 
 import Panel from '../../../shared/Panel';
 import Emojify from '../../../shared/Emojify';
-import FormAutoCompleteField from '../../../shared/FormAutoCompleteField';
+import AutocompleteField from '../../../shared/AutocompleteField';
 
 import FlashesStore from '../../../../stores/FlashesStore';
 
@@ -54,7 +54,7 @@ class Index extends React.Component {
           <Panel.Header>Teams</Panel.Header>
 
           <Panel.Section>
-            <FormAutoCompleteField onSearch={this.handleTeamSearch}
+            <AutocompleteField onSearch={this.handleTeamSearch}
               onSelect={this.handleTeamSelect}
               items={this.renderAutoCompleteSuggestions(this.props.relay.variables.search)}
               placeholder="Add a team…"
@@ -107,9 +107,9 @@ class Index extends React.Component {
       });
     } else if (search !== "") {
       return [
-        <FormAutoCompleteField.ErrorMessage key="error">
+        <AutocompleteField.ErrorMessage key="error">
           Could not find a team with name <em>{search}</em>
-        </FormAutoCompleteField.ErrorMessage>
+        </AutocompleteField.ErrorMessage>
       ];
     } else {
       return [];
