@@ -200,8 +200,7 @@ export default Relay.createContainer(MemberNew, {
           edges {
             node {
               id
-              name
-              description
+              ${TeamSuggestion.getFragment('team')}
             }
           }
         }

@@ -1,9 +1,10 @@
 import React from 'react';
+import Relay from 'react-relay';
 import classNames from 'classnames';
 
 import Emojify from '../shared/Emojify';
 
-export default class TeamSuggestion extends React.Component {
+class TeamSuggestion extends React.Component {
   static propTypes = {
     team: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -32,3 +33,14 @@ export default class TeamSuggestion extends React.Component {
     );
   }
 }
+
+export default Relay.createContainer(TeamSuggestion, {
+  fragments: {
+    team: () => Relay.QL`
+      fragment on Team {
+        name
+        description
+      }
+    `
+  }
+});

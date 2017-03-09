@@ -22,13 +22,7 @@ class Index extends React.Component {
           edges: React.PropTypes.arrayOf(
             React.PropTypes.shape({
               node: React.PropTypes.shape({
-                id: React.PropTypes.string.isRequired,
-                name: React.PropTypes.string.isRequired,
-                description: React.PropTypes.string,
-                // The slug is required since this is the object we use in the
-                // optimistic response of the mutation, and when we render the
-                // team row we need it's slug to link it
-                slug: React.PropTypes.string
+                id: React.PropTypes.string.isRequired
               }).isRequired
             }).isRequired
           )
@@ -161,9 +155,8 @@ export default Relay.createContainer(Index, {
             edges {
               node {
                 id
-                name
-                description
                 slug
+                ${TeamSuggestion.getFragment('team')}
                 ${TeamPipelineCreateMutation.getFragment('team')}
               }
             }
