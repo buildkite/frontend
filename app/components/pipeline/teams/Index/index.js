@@ -10,8 +10,8 @@ import FlashesStore from '../../../../stores/FlashesStore';
 
 import TeamPipelineCreateMutation from '../../../../mutations/TeamPipelineCreate';
 
-import Row from "./row";
-import Suggestion from "./suggestion";
+import Row from './row';
+import TeamSuggestion from '../../../team/Suggestion';
 
 class Index extends React.Component {
   static propTypes = {
@@ -100,10 +100,10 @@ class Index extends React.Component {
       }
     });
 
-    // Either render the sugggestions, or show a "not found" error
+    // Either render the suggestions, or show a "not found" error
     if (suggestions.length > 0) {
       return suggestions.map((team) => {
-        return [<Suggestion key={team.id} team={team} />, team];
+        return [<TeamSuggestion key={team.id} team={team} />, team];
       });
     } else if (search !== "") {
       return [

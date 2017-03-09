@@ -1,11 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import Emojify from '../../../shared/Emojify';
+import Emojify from '../shared/Emojify';
 
-class Suggestion extends React.Component {
-  static displayName = "Pipeline.Teams.Suggestion";
-
+export default class TeamSuggestion extends React.Component {
   static propTypes = {
     team: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -34,5 +32,3 @@ class Suggestion extends React.Component {
     );
   }
 }
-
-export default Suggestion;
