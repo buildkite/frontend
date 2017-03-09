@@ -18,7 +18,17 @@ class MemberNew extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired
+      slug: React.PropTypes.string.isRequired,
+      teams: React.PropTypes.shape({
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.shape({
+              id: React.PropTypes.string.isRequired,
+              name: React.PropTypes.string.isRequired
+            }).isRequired
+          })
+        ).isRequired
+      }).isRequired
     }).isRequired
   };
 
@@ -48,6 +58,7 @@ class MemberNew extends React.Component {
           <Panel.Section>
             Teams
             Invited users can be added directly into teams. All users will be added to the <i>Everyone</i> team.
+            {this.props.organization.teams.edges.map((team) => <FormCheckbox key={team.node.id} label={team.node.name} />)}
           </Panel.Section>
           <Panel.Section>
             <FormCheckbox
@@ -129,6 +140,14 @@ export default Relay.createContainer(MemberNew, {
       fragment on Organization {
         name
         slug
+        teams(first: 100) {
+          edges {
+            node {
+              id
+              name
+            }
+          }
+        }
         ${OrganizationInvitationCreateMutation.getFragment('organization')}
       }
     `
