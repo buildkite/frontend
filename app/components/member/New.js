@@ -4,9 +4,12 @@ import DocumentTitle from 'react-document-title';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
+import FormAutoCompleteField from '../shared/FormAutoCompleteField';
 import FormCheckbox from '../shared/FormCheckbox';
 import FormTextarea from '../shared/FormTextarea';
 import Panel from '../shared/Panel';
+
+import TeamSuggestion from '../team/Suggestion';
 
 import FlashesStore from '../../stores/FlashesStore';
 
@@ -29,7 +32,8 @@ class MemberNew extends React.Component {
           })
         ).isRequired
       }).isRequired
-    }).isRequired
+    }).isRequired,
+    relay: React.PropTypes.object.isRequired
   };
 
   state = {
@@ -55,11 +59,7 @@ class MemberNew extends React.Component {
               rows={3}
             />
           </Panel.Section>
-          <Panel.Section>
-            Teams
-            Invited users can be added directly into teams. All users will be added to the <i>Everyone</i> team.
-            {this.props.organization.teams.edges.map((team) => <FormCheckbox key={team.node.id} label={team.node.name} />)}
-          </Panel.Section>
+          {this.renderTeamSection()}
           <Panel.Section>
             <FormCheckbox
               label="Administrator"
@@ -132,19 +132,76 @@ class MemberNew extends React.Component {
 
     FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
   }
+
+  renderTeamSection() {
+    return (
+      <Panel.Section>
+        Teams
+        Invited users can be added directly into teams. All users will be added to the <i>Everyone</i> team.
+        <FormAutoCompleteField
+          onSearch={this.handleTeamSearch}
+          onSelect={this.handleTeamSelect}
+          items={this.renderAutoCompleteSuggestions(this.props.relay.variables.search)}
+          placeholder="Add a team…"
+          ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
+        />
+      </Panel.Section>
+    );
+  }
+
+  renderAutoCompleteSuggestions(search) {
+    // First filter out any teams that are already in this list
+    const suggestions = this.props.organization.teams.edges;//.filter((teamEdge) => !this.props.teams.edges.some((teamPipelineEdge) => teamPipelineEdge.node.team.id === teamEdge.node.id));
+
+    // Either render the suggestions, or show a "not found" error
+    if (suggestions.length > 0) {
+      return suggestions.map(({ node }) => [
+        <TeamSuggestion key={node.id} team={node} />,
+        node
+      ]);
+    } else if (search !== '') {
+      return [
+        <FormAutoCompleteField.ErrorMessage key="error">
+          Could not find a team with name <em>{search}</em>
+        </FormAutoCompleteField.ErrorMessage>
+      ];
+    } else {
+      return [];
+    }
+  }
+
+  handleTeamSearch = (text) => {
+    // As a user types into the autocompletor field, perform a teams search
+    this.props.relay.setVariables({ search: text });
+  };
+
+  handleTeamSelect = (team) => {
+    // Reset the autocompletor and re-focus it
+    this._autoCompletor.clear();
+    this.props.relay.setVariables({ search: '' });
+    this._autoCompletor.focus();
+
+    // todo: add team to local list
+    team;
+  };
 }
 
 export default Relay.createContainer(MemberNew, {
+  initialVariables: {
+    search: ''
+  },
+
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
         name
         slug
-        teams(first: 100) {
+        teams(search: $search, first: 10) {
           edges {
             node {
               id
               name
+              description
             }
           }
         }
