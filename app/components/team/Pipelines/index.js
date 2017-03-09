@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import Panel from '../../shared/Panel';
-import FormAutoCompleteField from '../../shared/FormAutoCompleteField';
+import AutocompleteField from '../../shared/AutocompleteField';
 import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
@@ -63,7 +63,7 @@ class Pipelines extends React.Component {
         allowed: "teamPipelineCreate",
         render: () => (
           <Panel.Section>
-            <FormAutoCompleteField onSearch={this.handlePipelineSearch}
+            <AutocompleteField onSearch={this.handlePipelineSearch}
               onSelect={this.handlePipelineSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
               placeholder="Add pipeline…"
@@ -97,7 +97,7 @@ class Pipelines extends React.Component {
         return [<Pipeline key={pipeline.id} pipeline={pipeline} />, pipeline];
       });
     } else if (search !== "") {
-      return [<FormAutoCompleteField.ErrorMessage key={"error"}>Could not find a pipeline with name <em>{search}</em></FormAutoCompleteField.ErrorMessage>];
+      return [<AutocompleteField.ErrorMessage key={"error"}>Could not find a pipeline with name <em>{search}</em></AutocompleteField.ErrorMessage>];
     } else {
       return [];
     }

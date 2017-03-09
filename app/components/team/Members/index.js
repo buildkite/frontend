@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import Panel from '../../shared/Panel';
-import FormAutoCompleteField from '../../shared/FormAutoCompleteField';
+import AutocompleteField from '../../shared/AutocompleteField';
 import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
@@ -63,7 +63,7 @@ class Members extends React.Component {
         allowed: "teamMemberCreate",
         render: () => (
           <Panel.Section>
-            <FormAutoCompleteField onSearch={this.handleUserSearch}
+            <AutocompleteField onSearch={this.handleUserSearch}
               onSelect={this.handleUserSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
               placeholder="Add user…"
@@ -98,9 +98,9 @@ class Members extends React.Component {
       });
     } else if (search !== "") {
       return [
-        <FormAutoCompleteField.ErrorMessage key="error">
+        <AutocompleteField.ErrorMessage key="error">
           Could not find a user with name <em>{search}</em>
-        </FormAutoCompleteField.ErrorMessage>
+        </AutocompleteField.ErrorMessage>
       ];
     } else {
       return [];
