@@ -4,7 +4,7 @@ import DocumentTitle from 'react-document-title';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
-import FormAutoCompleteField from '../shared/FormAutoCompleteField';
+import AutocompleteField from '../shared/AutocompleteField';
 import FormCheckbox from '../shared/FormCheckbox';
 import FormTextarea from '../shared/FormTextarea';
 import Panel from '../shared/Panel';
@@ -138,7 +138,7 @@ class MemberNew extends React.Component {
       <Panel.Section>
         Teams
         Invited users can be added directly into teams. All users will be added to the <i>Everyone</i> team.
-        <FormAutoCompleteField
+        <AutocompleteField
           onSearch={this.handleTeamSearch}
           onSelect={this.handleTeamSelect}
           items={this.renderAutoCompleteSuggestions(this.props.relay.variables.search)}
@@ -161,9 +161,9 @@ class MemberNew extends React.Component {
       ]);
     } else if (search !== '') {
       return [
-        <FormAutoCompleteField.ErrorMessage key="error">
+        <AutocompleteField.ErrorMessage key="error">
           Could not find a team with name <em>{search}</em>
-        </FormAutoCompleteField.ErrorMessage>
+        </AutocompleteField.ErrorMessage>
       ];
     } else {
       return [];
