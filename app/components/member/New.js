@@ -153,7 +153,9 @@ class MemberNew extends React.Component {
 
   renderAutoCompleteSuggestions(search) {
     // First filter out any teams that are already in this list
-    const suggestions = this.props.organization.teams.edges.filter((teamEdge) => !this.state.teams.some((selectedTeam) => selectedTeam.id === teamEdge.node.id));
+    const suggestions = this.props.organization.teams.edges.filter((teamEdge) => (
+      teamEdge.node.name !== 'Everyone' && !this.state.teams.some((selectedTeam) => selectedTeam.id === teamEdge.node.id)
+    ));
 
     // Either render the suggestions, or show a "not found" error
     if (suggestions.length > 0) {
