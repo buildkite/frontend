@@ -8,6 +8,7 @@ import AutocompleteField from '../shared/AutocompleteField';
 import FormCheckbox from '../shared/FormCheckbox';
 import FormTextarea from '../shared/FormTextarea';
 import Panel from '../shared/Panel';
+import TeamRow from './TeamRow';
 
 import TeamSuggestion from '../team/Suggestion';
 
@@ -145,13 +146,7 @@ class MemberNew extends React.Component {
           placeholder="Add a team…"
           ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
         />
-        <ul>
-          {this.state.teams.map((team) => (
-            <li key={team.id}>
-              {team.name}
-            </li>
-          ))}
-        </ul>
+        {this.state.teams.map((team) => <TeamRow key={team.id} team={team} onRemove={this.handleTeamRemove} />)}
       </Panel.Section>
     );
   }
@@ -189,6 +184,12 @@ class MemberNew extends React.Component {
       teams: this.state.teams.concat([team])
     });
   };
+
+  handleTeamRemove = (team) => {
+    this.setState({
+      teams: this.state.teams.filter((selectedTeam) => selectedTeam.id !== team.id)
+    });
+  };
 }
 
 export default Relay.createContainer(MemberNew, {
@@ -208,6 +209,7 @@ export default Relay.createContainer(MemberNew, {
               name
               description
               ${TeamSuggestion.getFragment('team')}
+              ${TeamRow.getFragment('team')}
             }
           }
         }
