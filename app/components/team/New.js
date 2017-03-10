@@ -9,6 +9,7 @@ import TeamForm from './Form';
 
 import TeamCreateMutation from '../../mutations/TeamCreate';
 import GraphQLErrors from '../../constants/GraphQLErrors';
+import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 
 class TeamNew extends React.Component {
   static propTypes = {
@@ -25,6 +26,7 @@ class TeamNew extends React.Component {
   state = {
     name: '',
     description: '',
+    privacy: TeamPrivacyConstants.VISIBLE,
     saving: false,
     errors: null
   };
@@ -44,6 +46,7 @@ class TeamNew extends React.Component {
                 errors={this.state.errors}
                 name={this.state.name}
                 description={this.state.description}
+                privacy={this.state.privacy}
               />
             </Panel.Section>
 
@@ -71,7 +74,8 @@ class TeamNew extends React.Component {
     const mutation = new TeamCreateMutation({
       organization: this.props.organization,
       name: this.state.name,
-      description: this.state.description
+      description: this.state.description,
+      privacy: this.state.privacy
     });
 
     Relay.Store.commitUpdate(mutation, {

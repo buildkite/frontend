@@ -1,12 +1,15 @@
 import React from 'react';
 
 import FormTextField from '../shared/FormTextField';
+import FormRadioGroup from '../shared/FormRadioGroup';
 import ValidationErrors from '../../lib/ValidationErrors';
+import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 
 class TeamForm extends React.Component {
   static propTypes = {
     name: React.PropTypes.string,
     description: React.PropTypes.string,
+    privacy: React.PropTypes.oneOf(Object.keys(TeamPrivacyConstants)),
     errors: React.PropTypes.array,
     onChange: React.PropTypes.func
   };
@@ -36,6 +39,20 @@ class TeamForm extends React.Component {
           value={this.props.description}
           onChange={this.handleDescriptionChange}
         />
+
+      <FormRadioGroup
+        name="team-privacy"
+        label="Visibility"
+        help="Something"
+        value={this.props.privacy}
+        errors={errors.findForField("privacy")}
+        onChange={this.handlePrivacyChange}
+        options={[
+          { label: "Visible", value: TeamPrivacyConstants.VISIBLE, help: "Can be seen by all members within the organization" },
+          { label: "Secret", value: TeamPrivacyConstants.SECRET, help: "Can only only be seen by organization administrators and members of this team" }
+        ]}
+      />
+
       </div>
     );
   }
@@ -46,6 +63,10 @@ class TeamForm extends React.Component {
 
   handleDescriptionChange = (evt) => {
     this.props.onChange('description', evt.target.value);
+  };
+
+  handlePrivacyChange = (evt) => {
+    this.props.onChange('privacy', evt.target.value);
   };
 }
 

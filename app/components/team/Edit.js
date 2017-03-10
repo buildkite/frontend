@@ -9,6 +9,7 @@ import TeamForm from './Form';
 
 import TeamUpdateMutation from '../../mutations/TeamUpdate';
 import GraphQLErrors from '../../constants/GraphQLErrors';
+import FlashesStore from '../../stores/FlashesStore';
 
 class TeamEdit extends React.Component {
   static propTypes = {
@@ -30,6 +31,7 @@ class TeamEdit extends React.Component {
   state = {
     name: this.props.team.name,
     description: this.props.team.description,
+    privacy: this.props.team.privacy,
     saving: false,
     errors: null
   };
@@ -49,6 +51,7 @@ class TeamEdit extends React.Component {
                 errors={this.state.errors}
                 name={this.state.name}
                 description={this.state.description}
+                privacy={this.state.privacy}
               />
             </Panel.Section>
 
@@ -76,7 +79,8 @@ class TeamEdit extends React.Component {
     const mutation = new TeamUpdateMutation({
       team: this.props.team,
       name: this.state.name,
-      description: this.state.description
+      description: this.state.description,
+      privacy: this.state.privacy
     });
 
     Relay.Store.commitUpdate(mutation, {
@@ -91,7 +95,7 @@ class TeamEdit extends React.Component {
       if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
         this.setState({ errors: transaction.getError().source.errors });
       } else {
-        alert(error);
+        FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
       }
     }
 
@@ -111,6 +115,7 @@ export default Relay.createContainer(TeamEdit, {
         name
         slug
         description
+        privacy
         organization {
           name
           slug
