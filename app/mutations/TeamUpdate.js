@@ -24,6 +24,7 @@ class TeamUpdate extends Relay.Mutation {
           name
           slug
           description
+          privacy
         }
       }
     `;
@@ -39,7 +40,7 @@ class TeamUpdate extends Relay.Mutation {
   }
 
   getVariables() {
-    return { id: this.props.team.id, name: this.props.name, description: this.props.description };
+    return { id: this.props.team.id, name: this.props.name, description: this.props.description, privacy: this.props.privacy };
   }
 }
 
