@@ -59,6 +59,7 @@ export default class OrganizationInvitationCreate extends Relay.Mutation {
     return {
       id: this.props.organizationMember.id,
       emails: this.props.emails,
+      teams: this.props.teams,
       role: this.props.role
     };
   }

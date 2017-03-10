@@ -109,9 +109,12 @@ class MemberNew extends React.Component {
 
     const role = this.state.isAdmin ? OrganizationMemberRoleConstants.ADMIN : OrganizationMemberRoleConstants.MEMBER;
 
+    const teams = this.state.teams.map(({ id }) => id);
+
     const mutation = new OrganizationInvitationCreateMutation({
       organization: this.props.organization,
       emails,
+      teams,
       role
     });
 
