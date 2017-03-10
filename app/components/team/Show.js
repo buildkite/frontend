@@ -6,6 +6,7 @@ import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
 import Emojify from '../shared/Emojify';
 import permissions from '../../lib/permissions';
+import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 
 import Pipelines from './Pipelines';
 import Members from './Members';
@@ -20,6 +21,7 @@ class TeamShow extends React.Component {
       description: React.PropTypes.string,
       slug: React.PropTypes.string.isRequired,
       everyone: React.PropTypes.bool.isRequired,
+      privacy: React.PropTypes.string.isRequired,
       organization: React.PropTypes.shape({
         name: React.PropTypes.string.isRequired,
         slug: React.PropTypes.string.isRequired
@@ -52,7 +54,7 @@ class TeamShow extends React.Component {
       <DocumentTitle title={`${this.props.team.name} · ${this.props.team.organization.name} Team`}>
         <div>
           <PageHeader>
-            <PageHeader.Title><Emojify text={this.props.team.name} /></PageHeader.Title>
+            <div className="flex items-center"><Emojify className="h1 m0 p0 block" text={this.props.team.name} />{this.renderPrivacyLabel()}</div>
             <PageHeader.Description><Emojify text={this.props.team.description || "No description"} /></PageHeader.Description>
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
@@ -62,6 +64,14 @@ class TeamShow extends React.Component {
         </div>
       </DocumentTitle>
     );
+  }
+
+  renderPrivacyLabel() {
+    if (this.props.team.privacy == TeamPrivacyConstants.SECRET) {
+      return (
+        <div className="ml1 regular small border border-gray rounded dark-gray p1">Secret</div>
+      )
+    }
   }
 
   renderMenu() {
@@ -150,6 +160,7 @@ export default Relay.createContainer(TeamShow, {
         description
         slug
         everyone
+        privacy
         organization {
           name
           slug

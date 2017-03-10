@@ -5,6 +5,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 import Panel from '../shared/Panel';
 import UserAvatar from '../shared/UserAvatar';
 import Emojify from '../shared/Emojify';
+import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 
 const maxAvatars = 4;
 const avatarSize = 30;
@@ -42,7 +43,7 @@ class TeamRow extends React.Component {
       <Panel.RowLink key={this.props.team.id} to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}`}>
         <div className="flex flex-stretch items-center line-height-1" style={{ minHeight: '3em' }}>
           <div className="flex-auto">
-            <div className="m0 semi-bold"><Emojify text={this.props.team.name} /></div>
+            <div className="m0 flex items-center"><Emojify text={this.props.team.name} className="semi-bold" />{this._renderPrivacyLabel()}</div>
             {this._renderDescription()}
           </div>
           <div className="flex flex-none flex-stretch items-center my1">
@@ -52,6 +53,14 @@ class TeamRow extends React.Component {
         </div>
       </Panel.RowLink>
     );
+  }
+
+  _renderPrivacyLabel() {
+    if (this.props.team.privacy == TeamPrivacyConstants.SECRET) {
+      return (
+        <div className="ml1 regular small border border-gray rounded dark-gray p1">Secret</div>
+      )
+    }
   }
 
   _renderPipelineCount() {
@@ -122,6 +131,7 @@ export default Relay.createContainer(TeamRow, {
         name
         description
         slug
+        privacy
         organization {
           slug
         }
