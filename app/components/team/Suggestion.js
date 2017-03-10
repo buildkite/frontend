@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import classNames from 'classnames';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Emojify from '../shared/Emojify';
 
@@ -15,6 +16,10 @@ class TeamSuggestion extends React.Component {
   static contextTypes = {
     autoCompletorSuggestion: React.PropTypes.object
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     // Toggle the `dark-gray` color on the description text if this component is
