@@ -26,8 +26,7 @@ class MemberNew extends React.Component {
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
             node: React.PropTypes.shape({
-              id: React.PropTypes.string.isRequired,
-              name: React.PropTypes.string.isRequired
+              id: React.PropTypes.string.isRequired
             }).isRequired
           })
         ).isRequired
@@ -38,6 +37,7 @@ class MemberNew extends React.Component {
 
   state = {
     emails: '',
+    teams: [],
     isAdmin: false
   };
 
@@ -145,20 +145,24 @@ class MemberNew extends React.Component {
           placeholder="Add a team…"
           ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
         />
+        <ul>
+          {this.state.teams.map((team) => (
+            <li key={team.id}>
+              {team.name}
+            </li>
+          ))}
+        </ul>
       </Panel.Section>
     );
   }
 
   renderAutoCompleteSuggestions(search) {
     // First filter out any teams that are already in this list
-    const suggestions = this.props.organization.teams.edges;//.filter((teamEdge) => !this.props.teams.edges.some((teamPipelineEdge) => teamPipelineEdge.node.team.id === teamEdge.node.id));
+    const suggestions = this.props.organization.teams.edges.filter((teamEdge) => !this.state.teams.some((selectedTeam) => selectedTeam.id === teamEdge.node.id));
 
     // Either render the suggestions, or show a "not found" error
     if (suggestions.length > 0) {
-      return suggestions.map(({ node }) => [
-        <TeamSuggestion key={node.id} team={node} />,
-        node
-      ]);
+      return suggestions.map(({ node }) => [<TeamSuggestion key={node.id} team={node} />, node]);
     } else if (search !== '') {
       return [
         <AutocompleteField.ErrorMessage key="error">
@@ -181,8 +185,9 @@ class MemberNew extends React.Component {
     this.props.relay.setVariables({ search: '' });
     this._autoCompletor.focus();
 
-    // todo: add team to local list
-    team;
+    this.setState({
+      teams: this.state.teams.concat([team])
+    });
   };
 }
 
@@ -200,6 +205,8 @@ export default Relay.createContainer(MemberNew, {
           edges {
             node {
               id
+              name
+              description
               ${TeamSuggestion.getFragment('team')}
             }
           }
