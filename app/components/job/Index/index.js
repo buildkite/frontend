@@ -118,7 +118,7 @@ class AgentIndex extends React.Component {
   }
 
   handleAgentQueryRuleSearch = (event) => {
-    const agentQueryRules = event.target.value == "" ? null : event.target.value;
+    const agentQueryRules = event.target.value == "" ? null : event.target.value.split(" ");
 
     clearTimeout(this._timeout);
 
