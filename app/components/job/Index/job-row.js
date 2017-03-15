@@ -2,11 +2,14 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import Panel from '../../shared/Panel';
-import Emojify from '../../shared/Emojify';
 import JobLink from '../../shared/JobLink';
 import FriendlyTime from '../../shared/FriendlyTime';
 
 class JobRow extends React.Component {
+  static propTypes = {
+    job: React.PropTypes.object.isRequired,
+  };
+
   render() {
     return (
       <Panel.Row>
@@ -27,14 +30,14 @@ class JobRow extends React.Component {
   }
 
   renderQueryRules() {
-    if(!this.props.job.agentQueryRules.length) {
+    if (!this.props.job.agentQueryRules.length) {
       return (
         <code>queue=default</code>
-      )
+      );
     } else {
       return (
         <code>{this.props.job.agentQueryRules.join(", ")}</code>
-      )
+      );
     }
   }
 }

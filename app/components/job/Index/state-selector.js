@@ -5,7 +5,7 @@ import JobStatesConstants from '../../../constants/JobStates';
 
 const STATES = {
   [null]: {
-    label: "All",
+    label: "All"
   },
 
   [JobStatesConstants.PENDING]: {
@@ -75,9 +75,14 @@ const STATES = {
   [JobStatesConstants.SKIPPED]: {
     label: "Skipped"
   }
-}
+};
 
 class StateSelector extends React.Component {
+  static propTypes = {
+    selection: React.PropTypes.string,
+    onSelect: React.PropTypes.func
+  };
+
   render() {
     return (
       <Dropdown width={270} ref={(dropdownNode) => this.dropdownNode = dropdownNode}>
@@ -90,10 +95,10 @@ class StateSelector extends React.Component {
   renderOptions() {
     return Object.keys(STATES).map((state) => {
       return (
-        <div key={state} className="btn block hover-bg-silver" onClick={() => { this.dropdownNode.setShowing(false); this.props.onSelect(state) }}>
+        <div key={state} className="btn block hover-bg-silver" onClick={() => { this.dropdownNode.setShowing(false); this.props.onSelect(state); }}>
           <span className="block">{STATES[state].label}</span>
         </div>
-      )
+      );
     });
   }
 }

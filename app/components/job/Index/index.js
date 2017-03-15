@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import throttle from 'throttleit';
 import { seconds } from 'metrick/duration';
 
 import Spinner from '../../shared/Spinner';
@@ -16,7 +15,8 @@ const PAGE_SIZE = 100;
 
 class AgentIndex extends React.Component {
   static propTypes = {
-    organization: React.PropTypes.object.isRequired
+    organization: React.PropTypes.object.isRequired,
+    relay: React.PropTypes.object.isRequired
   };
 
   state = {
@@ -70,7 +70,7 @@ class AgentIndex extends React.Component {
   }
 
   renderCounts() {
-    if(!this.state.switchingStates && this.props.organization.jobs && this.props.organization.jobs.count > 0) {
+    if (!this.state.switchingStates && this.props.organization.jobs && this.props.organization.jobs.count > 0) {
       return (
         <div className="dark-gray mt1 small">
           Showing {this.props.organization.jobs.edges.length} of {this.props.organization.jobs.count}
@@ -80,11 +80,11 @@ class AgentIndex extends React.Component {
   }
 
   renderFooter() {
-    if(!this.props.organization.jobs || !this.props.organization.jobs.pageInfo.hasNextPage || this.state.switchingStates) {
+    if (!this.props.organization.jobs || !this.props.organization.jobs.pageInfo.hasNextPage || this.state.switchingStates) {
       return null;
     }
 
-    if(this.state.loadingMore) {
+    if (this.state.loadingMore) {
       return (
         <Panel.Footer className="center">
           <Spinner style={{ margin: 8 }} />
@@ -95,26 +95,26 @@ class AgentIndex extends React.Component {
         <Panel.Footer className="center">
           <Button outline={true} theme="default" onClick={this.handleLoadMoreClick}>Load more…</Button>
         </Panel.Footer>
-      )
+      );
     }
   }
 
   renderJobsList() {
     const jobs = this.props.organization.jobs;
 
-    if(!jobs || this.state.switchingStates) {
+    if (!jobs || this.state.switchingStates) {
       return (
         <Panel.Section className="center">
           <Spinner />
         </Panel.Section>
-      )
+      );
     } else {
-      if (jobs.edges.length == 0) {
+      if (jobs.edges.length === 0) {
         return (
           <Panel.Section className="center">
             <div>No jobs here!</div>
           </Panel.Section>
-        )
+        );
       } else {
         return jobs.edges.map((edge) => {
           return (
@@ -126,7 +126,7 @@ class AgentIndex extends React.Component {
   }
 
   handleAgentQueryRuleSearch = (event) => {
-    const agentQueryRules = event.target.value == "" ? null : event.target.value.split(" ");
+    const agentQueryRules = event.target.value === "" ? null : event.target.value.split(" ");
 
     clearTimeout(this._timeout);
 
@@ -147,7 +147,7 @@ class AgentIndex extends React.Component {
     this.setState({ switchingStates: true, selectedJobState: state });
 
     // Dunno why state comes through as `null`
-    const newState = state == "null" ? null : state;
+    const newState = state === "null" ? null : state;
 
     this.props.relay.forceFetch({ state: newState, pageSize: PAGE_SIZE }, (readyState) => {
       if (readyState.done) {
