@@ -1,5 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
+import throttle from 'throttleit';
+import { seconds } from 'metrick/duration';
 
 import Spinner from '../../shared/Spinner';
 import Panel from '../../shared/Panel';
@@ -42,7 +44,7 @@ class AgentIndex extends React.Component {
                 <div className="absolute pointer-events-none" style={{ left: 8, top: 5 }}>
                   {this.renderSearchIcon()}
                 </div>
-                <input type="text" className="input" placeholder="Search by agent query rules…" style={{ paddingLeft: 28 }} />
+                <input type="text" className="input" placeholder="Search by agent query rules…" style={{ paddingLeft: 28 }} onKeyUp={this.handleAgentQueryRuleSearch} />
               </div>
 
               <div className="flex-none pl3 flex">
@@ -115,6 +117,24 @@ class AgentIndex extends React.Component {
     }
   }
 
+  handleAgentQueryRuleSearch = (event) => {
+    const agentQueryRules = event.target.value == "" ? null : event.target.value;
+
+    clearTimeout(this._timeout);
+
+    this._timeout = setTimeout(() => {
+      delete this._timeout;
+
+      this.setState({ searching: true });
+
+      this.props.relay.forceFetch({ agentQueryRules: agentQueryRules }, (readyState) => {
+        if (readyState.done) {
+          this.setState({ searching: false });
+        }
+      });
+    }, 1::seconds);
+  };
+
   handleStateSelection = (state) => {
     this.setState({ switchingStates: true, selectedJobState: state });
 
@@ -133,7 +153,7 @@ class AgentIndex extends React.Component {
 
     const newPageSize = this.props.relay.variables.pageSize + PAGE_SIZE;
 
-    this.props.relay.setVariables({ pageSize: newPageSize }, (readyState) => {
+    this.props.relay.forceFetch({ pageSize: newPageSize }, (readyState) => {
       if (readyState.done) {
         this.setState({ loadingMore: false });
       }
@@ -152,7 +172,7 @@ export default Relay.createContainer(AgentIndex, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
-        jobs(first: $pageSize, type: COMMAND, state: $state) @include(if: $isMounted) {
+        jobs(first: $pageSize, type: COMMAND, state: $state, agentQueryRules: $agentQueryRules) @include(if: $isMounted) {
           count
           edges {
             node {
