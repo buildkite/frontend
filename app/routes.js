@@ -24,6 +24,7 @@ import PipelineScheduleNew from './components/pipeline/schedules/New';
 import PipelineScheduleShow from './components/pipeline/schedules/Show';
 import PipelineScheduleEdit from './components/pipeline/schedules/Edit';
 import PipelineTeamIndex from './components/pipeline/teams/Index';
+import JobIndex from './components/job/Index';
 
 import * as AgentQuery from './queries/Agent';
 import * as BuildQuery from './queries/Build';
@@ -80,6 +81,9 @@ export default (
       <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
       <Route path="organizations/:organization">
+        <Route path="jobs">
+          <IndexRoute component={JobIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+        </Route>
         <Route path="agents">
           <IndexRoute component={AgentIndex} queries={{ viewer: ViewerQuery.query, organization: OrganizationQuery.query }} render={renderSectionLoading} />
           <Route path=":agent" component={AgentShow} queries={{ agent: AgentQuery.query }} prepareParams={AgentQuery.prepareParams} render={renderSectionLoading} />
