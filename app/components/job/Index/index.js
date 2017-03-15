@@ -26,11 +26,7 @@ class AgentIndex extends React.Component {
   };
 
   componentDidMount() {
-    this.props.relay.forceFetch({ isMounted: true }, (readyState) => {
-      // if (readyState.done) {
-      //   this.startTimeout();
-      // }
-    });
+    this.props.relay.forceFetch({ isMounted: true });
   }
 
   render() {
@@ -51,6 +47,8 @@ class AgentIndex extends React.Component {
                 <div className="semi-bold mr1">States:</div> <StateSelector selection={this.state.selectedJobState} onSelect={this.handleStateSelection} />
               </div>
             </div>
+
+            {this.renderCounts()}
           </Panel.Section>
           {this.renderJobsList()}
           {this.renderFooter()}
@@ -67,6 +65,16 @@ class AgentIndex extends React.Component {
     } else {
       return (
         <Icon icon="search" className="gray" style={{ width: 15, height: 15 }} />
+      );
+    }
+  }
+
+  renderCounts() {
+    if(!this.state.switchingStates && this.props.organization.jobs && this.props.organization.jobs.count > 0) {
+      return (
+        <div className="dark-gray mt1 small">
+          Showing {this.props.organization.jobs.edges.length} of {this.props.organization.jobs.count}
+        </div>
       );
     }
   }
