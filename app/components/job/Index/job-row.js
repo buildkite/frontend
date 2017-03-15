@@ -7,7 +7,7 @@ import FriendlyTime from '../../shared/FriendlyTime';
 
 class JobRow extends React.Component {
   static propTypes = {
-    job: React.PropTypes.object.isRequired,
+    job: React.PropTypes.object.isRequired
   };
 
   render() {
