@@ -89,7 +89,7 @@
     "react-router-relay": "^0.13.5",
     "react-type-snob": "^0.0.3",
     "shuffle-array": "^1.0.0",
-    "styled-components": "^1.1.2",
+    "styled-components": "^1.4.4",
     "throttleit": "^1.0.0",
     "uuid": "^3.0.1",
     "whatwg-fetch": "^2.0.3"
