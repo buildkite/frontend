@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
+import { AppContainer } from 'react-hot-loader';
 
 import Routes from './routes';
 
@@ -115,5 +116,12 @@ if (process.env.NODE_ENV !== "production") {
 
 // Only do the react-router gear on pages we've designated
 window["initializeReactRouter"] = () => {
-  ReactDOM.render(Routes, document.getElementById('root'));
+  ReactDOM.render(<AppContainer>{Routes}</AppContainer>, document.getElementById('root'));
 };
+
+// Hot Module Replacement API
+if (module.hot) {
+  module.hot.accept('./routes', () => {
+    window.initializeReactRouter();
+  });
+}

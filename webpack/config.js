@@ -135,7 +135,7 @@ module.exports = {
   entry: {
     vendor: vendor_modules,
     emojis: [path.join(__dirname, '../app/emojis/buildkite.js'), path.join(__dirname, '../app/emojis/apple.js')],
-    app: path.join(__dirname, '../app/app.js'),
+    app: ["react-hot-loader/patch", path.join(__dirname, '../app/app.js')],
     public: path.join(__dirname, '../app/public.js')
   },
 
