@@ -180,32 +180,16 @@ module.exports = {
         })
       },
       {
-        test: /\.jsx?$/i,
+        test: /\.js$/i,
         exclude: /node_modules/,
         use: [
-          {
-	    loader: 'babel-loader',
-	    options: {
-	      "presets": ["react", ["es2015", {"modules": false}], "stage-0"],
-	      "plugins": [
-		"babel-relay-plugin-loader",
-              ].concat(IS_PRODUCTION ? [ "react-pure-components" ] : []),
-              "only": ["*.js", "*.jsx"]
-	    }
-	  }
+          { loader: 'babel-loader' }
         ]
       },
       {
         test: /\.mdx$/i,
         use: [
-          {
-	    loader: 'babel-loader',
-	    options: {
-	      "presets": ["react", ["es2015", {"modules": false}], "stage-0"],
-	      "plugins": [ "react-pure-components" ],
-              "only": ["*.mdx"]
-	    }
-	  },
+          { loader: 'babel-loader' },
           { loader: 'markdown-component-loader', options: { passElementProps: true } }
         ]
       },
