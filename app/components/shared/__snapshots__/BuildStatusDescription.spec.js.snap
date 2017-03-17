@@ -1,10 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`BuildStatusDescription calls through to \`getRelativeDateString\` and \`buildStatus\` 1`] = `
 <span>
   tested
    
   <time
     dateTime={"2016-10-09T12:58:05.000Z"}
-    title="at an absolute point">
+    title="at an absolute point"
+  >
     at some point
   </time>
 </span>
