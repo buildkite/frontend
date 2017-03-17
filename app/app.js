@@ -113,7 +113,14 @@ if (process.env.NODE_ENV !== "production") {
   window.Perf = require('react-addons-perf');
 }
 
+const render = (routes) => { ReactDOM.render(routes, document.getElementById('root')); };
+
 // Only do the react-router gear on pages we've designated
-window["initializeReactRouter"] = () => {
-  ReactDOM.render(Routes, document.getElementById('root'));
-};
+window["initializeReactRouter"] = () => { render(Routes); };
+
+if (module.hot) {
+  module.hot.accept('./routes', () => {
+    const nextRoutes = require("./routes").default;
+    render(nextRoutes);
+  });
+}
