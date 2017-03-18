@@ -12,20 +12,29 @@ steps:
   - wait
 
   - name: ":eslint:"
-    command: ".buildkite/eslint.sh"
+    command: ".buildkite/steps/eslint.sh"
     plugins:
       docker-compose#ed68516:
         run: frontend
 
   - name: ":jest:"
-    command: ".buildkite/jest.sh"
+    command: ".buildkite/steps/jest.sh"
     artifact_paths: "coverage/*"
     plugins:
       docker-compose#ed68516:
         run: frontend
 
+  - name: ":package::mag:"
+    command: ".buildkite/steps/bundle-analyze.sh"
+    artifact_paths:
+      - "tmp/stats.json"
+      - "tmp/bundle-analyzer-report.html"
+    plugins:
+      docker-compose#ed68516:
+        run: frontend
+
   - name: ":webpack:"
-    command: ".buildkite/webpack.sh"
+    command: ".buildkite/steps/webpack.sh"
     artifact_paths: "dist/*"
     plugins:
       docker-compose#ed68516:
@@ -34,7 +43,7 @@ steps:
   - wait
 
   - name: ":rocket:"
-    command: ".buildkite/deploy.sh"
+    command: ".buildkite/steps/deploy.sh"
     branches: "master"
     artifact_paths: "tmp/verify/*"
     agents:
