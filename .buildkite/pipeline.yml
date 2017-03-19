@@ -26,9 +26,7 @@ steps:
 
   - name: ":package::mag:"
     command: ".buildkite/steps/bundle-analyze.sh"
-    artifact_paths:
-      - "tmp/stats.json"
-      - "tmp/bundle-analyzer-report.html"
+    artifact_paths: "bundle-analysis/*"
     plugins:
       docker-compose#ed68516:
         run: frontend

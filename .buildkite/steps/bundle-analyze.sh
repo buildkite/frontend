@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-mkdir -p tmp dist
+mkdir -p bundle-analysis dist
 
 export FRONTEND_HOST=https://example.com/
 export EMOJI_HOST=https://example.com/
