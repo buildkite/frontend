@@ -82,6 +82,7 @@ var plugins = [
 ];
 
 var vendor_modules = [
+  "autosize",
   "babel-polyfill",
   "classnames",
   "deepmerge",
@@ -91,17 +92,25 @@ var vendor_modules = [
   "graphql",
   "graphql-relay",
   "history",
+  "metrick",
   "moment",
   "object-assign",
   "pusher-js",
   "react",
+  "react-addons-css-transition-group",
   "react-addons-pure-render-mixin",
+  "react-addons-shallow-compare",
   "react-addons-update",
+  "react-confetti",
   "react-document-title",
   "react-dom",
   "react-relay",
   "react-router",
   "react-router-relay",
+  "react-type-snob",
+  "styled-components",
+  "throttleit",
+  "uuid",
   "whatwg-fetch"
 ];
 
