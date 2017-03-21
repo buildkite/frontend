@@ -85,6 +85,7 @@ var vendor_modules = [
   "autosize",
   "babel-polyfill",
   "classnames",
+  "codemirror",
   "deepmerge",
   "es6-error",
   "escape-html",
