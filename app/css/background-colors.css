@@ -13,9 +13,11 @@
 .bg-olive { background-color: var(--olive) }
 .bg-lime  { background-color: var(--lime) }
 
-.bg-yellow  { background-color: var(--yellow) }
-.bg-orange  { background-color: var(--orange) }
-.bg-red     { background-color: var(--red) }
-.bg-fuchsia { background-color: var(--fuchsia) }
-.bg-purple  { background-color: var(--purple) }
-.bg-maroon  { background-color: var(--maroon) }
+.bg-yellow    { background-color: var(--yellow) }
+.bg-orange    { background-color: var(--orange) }
+.bg-light-red { background-color: var(--light-red) }
+.bg-red       { background-color: var(--red) }
+.bg-dark-red  { background-color: var(--dark-red) }
+.bg-fuchsia   { background-color: var(--fuchsia) }
+.bg-purple    { background-color: var(--purple) }
+.bg-maroon    { background-color: var(--maroon) }

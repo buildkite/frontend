@@ -12,9 +12,11 @@
 .border-olive { border-color: var(--olive) }
 .border-lime  { border-color: var(--lime) }
 
-.border-yellow  { border-color: var(--yellow) }
-.border-orange  { border-color: var(--orange) }
-.border-red     { border-color: var(--red) }
-.border-fuchsia { border-color: var(--fuchsia) }
-.border-purple  { border-color: var(--purple) }
-.border-maroon  { border-color: var(--maroon) }
+.border-yellow    { border-color: var(--yellow) }
+.border-orange    { border-color: var(--orange) }
+.border-light-red { border-color: var(--red) }
+.border-red       { border-color: var(--red) }
+.border-dark-red  { border-color: var(--red) }
+.border-fuchsia   { border-color: var(--fuchsia) }
+.border-purple    { border-color: var(--purple) }
+.border-maroon    { border-color: var(--maroon) }
