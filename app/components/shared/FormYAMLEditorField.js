@@ -26,12 +26,12 @@ class FormYAMLEdtiorField extends React.Component {
       matchBrackets: true,
       showCursorWhenSelecting: true,
       viewportMargin: Infinity,
-      gutters: [ 'CodeMirror-linenumbers' ],
+      gutters: ['CodeMirror-linenumbers'],
       extraKeys: {
-	'Ctrl-Left': 'goSubwordLeft',
-	'Ctrl-Right': 'goSubwordRight',
-	'Alt-Left': 'goGroupLeft',
-	'Alt-Right': 'goGroupRight',
+        'Ctrl-Left': 'goSubwordLeft',
+        'Ctrl-Right': 'goSubwordRight',
+        'Alt-Left': 'goGroupLeft',
+        'Alt-Right': 'goGroupRight'
       }
     });
   }
@@ -39,9 +39,9 @@ class FormYAMLEdtiorField extends React.Component {
   render() {
     return (
       <div>
-        <textarea name={this.props.name} value={this.props.value} ref={node => { this._textarea = node }} />
+        <textarea name={this.props.name} value={this.props.value} ref={(node) => { this._textarea = node; }} />
       </div>
-    )
+    );
   }
 }
 
