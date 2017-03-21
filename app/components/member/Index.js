@@ -71,7 +71,7 @@ class MemberIndex extends React.Component {
     return permissions(this.props.organization.permissions).check(
       {
         allowed: "organizationInvitationCreate",
-        render: () => <Button href={`/organizations/${this.props.organization.slug}/users/new`} theme="default" outline={true}>Invite Users</Button>
+        render: () => <Button link={`/organizations/${this.props.organization.slug}/users/new`} theme="default" outline={true}>Invite Users</Button>
       }
     );
   }
