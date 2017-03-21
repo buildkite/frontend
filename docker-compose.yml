@@ -2,6 +2,7 @@ version: '2'
 
 services:
   frontend:
+    image: index.docker.io/buildkite/frontend
     build: .
     volumes:
       - "./bundle-analysis:/frontend/bundle-analysis"
@@ -14,4 +15,3 @@ services:
       BUILDKITE_PIPELINE_SLUG:
       CI:
       EMOJI_HOST:
-      FRONTEND_HOST:
