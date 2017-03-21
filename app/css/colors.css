@@ -12,12 +12,14 @@
 .olive { color: var(--olive) }
 .lime  { color: var(--lime) }
 
-.yellow  { color: var(--yellow) }
-.orange  { color: var(--orange) }
-.red     { color: var(--red) }
-.fuchsia { color: var(--fuchsia) }
-.purple  { color: var(--purple) }
-.maroon  { color: var(--maroon) }
+.yellow    { color: var(--yellow) }
+.orange    { color: var(--orange) }
+.light-red { color: var(--light-red) }
+.red       { color: var(--red) }
+.dark-red  { color: var(--dark-red) }
+.fuchsia   { color: var(--fuchsia) }
+.purple    { color: var(--purple) }
+.maroon    { color: var(--maroon) }
 
 .color-inherit { color: inherit }
 .muted { opacity: .5 }
