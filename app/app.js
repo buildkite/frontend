@@ -47,6 +47,7 @@ window["Webpack"] = {
     "components/shared/Duration": require("./components/shared/Duration").default,
     "components/shared/Emojify": require("./components/shared/Emojify").default,
     "components/shared/FormMarkdownEditorField": require("./components/shared/FormMarkdownEditorField").default,
+    "components/shared/FormYAMLEditorField": require("./components/shared/FormYAMLEditorField").default,
     "components/shared/FormRadioGroup": require("./components/shared/FormRadioGroup").default,
     "components/shared/FormTextarea": require("./components/shared/FormTextarea").default,
     "components/shared/FormTextField": require("./components/shared/FormTextField").default,
