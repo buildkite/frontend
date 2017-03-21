@@ -31,8 +31,7 @@ class MemberNew extends React.Component {
           })
         ).isRequired
       }).isRequired
-    }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    }).isRequired
   };
 
   static contextTypes = {
