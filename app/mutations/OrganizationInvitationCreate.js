@@ -1,7 +1,5 @@
 import Relay from 'react-relay';
 
-import OrganizationMemberRoleConstants from '../constants/OrganizationMemberRoleConstants';
-
 export default class OrganizationInvitationCreate extends Relay.Mutation {
   static fragments = {
     organization: () => Relay.QL`
@@ -22,42 +20,36 @@ export default class OrganizationInvitationCreate extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on OrganizationInvitationCreatePayload {
-        invitationEdges {
-          node {
-            role
-            user {
-              name
-            }
+        organization {
+          id
+          invitations {
+            count
           }
         }
       }
     `;
   }
 
-  getOptimisticResponse() {
-    return {
-      organizationInvitationEdge: {
-        node: {
-          role: OrganizationMemberRoleConstants.MEMBER
-        }
-      }
-    };
-  }
-
   getConfigs() {
     return [{
-      type: 'RANGE_ADD',
-      parentName: 'organization',
-      parentID: this.props.organization.id,
-      connectionName: 'invitations',
-      edgeName: 'organizationInvitationEdge',
-      rangeBehaviors: () => 'prepend'
+      type: 'REQUIRED_CHILDREN',
+      children: [
+        Relay.QL`
+          fragment on OrganizationInvitationCreatePayload {
+            organization {
+              invitations {
+                count
+              }
+            }
+          }
+        `
+      ]
     }];
   }
 
   getVariables() {
     return {
-      id: this.props.organizationMember.id,
+      organizationID: this.props.organization.id,
       emails: this.props.emails,
       teams: this.props.teams,
       role: this.props.role

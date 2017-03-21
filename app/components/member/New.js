@@ -36,6 +36,10 @@ class MemberNew extends React.Component {
     relay: React.PropTypes.object.isRequired
   };
 
+  static contextTypes = {
+    router: React.PropTypes.object
+  };
+
   state = {
     emails: '',
     teams: [],
@@ -125,10 +129,10 @@ class MemberNew extends React.Component {
     });
   }
 
-  handleInvitationCreateSuccess = (response) => {
+  handleInvitationCreateSuccess = () => {
     this.setState({ inviting: false });
 
-    this.context.router.push(`/organizations/${response.organizationInvitationCreate.organization.slug}/users`);
+    this.context.router.push(`/organizations/${this.props.organization.slug}/users`);
   }
 
   handleInvitationCreateFailure = (transaction) => {
