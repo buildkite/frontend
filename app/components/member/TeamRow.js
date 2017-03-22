@@ -3,7 +3,6 @@ import Relay from 'react-relay';
 import classNames from 'classnames';
 
 import Emojify from '../shared/Emojify';
-import FormCheckbox from '../shared/FormCheckbox';
 
 class TeamRow extends React.Component {
   static propTypes = {
@@ -18,7 +17,7 @@ class TeamRow extends React.Component {
 
   render() {
     const className = classNames(
-      'px1 pt2 m1 col-12 md-col-6 lg-col-4 rounded border',
+      'p1 block cursor-pointer rounded border',
       {
         'border-gray': !this.props.checked,
         'border-green': this.props.checked
@@ -26,13 +25,21 @@ class TeamRow extends React.Component {
     );
 
     return (
-      <div className={className}>
-        <FormCheckbox
-          label={<Emojify text={this.props.team.name} />}
-          help={<Emojify text={this.props.team.description || " "} />}
-          checked={this.props.checked}
-          onChange={this.handleChange}
-        />
+      <div className="p1 col-12 md-col-6 lg-col-4">
+        <label className={className} style={{ paddingLeft: '1.9em' }}>
+          <input
+            type="checkbox"
+            checked={this.props.checked}
+            onChange={this.handleChange}
+            className="absolute"
+            style={{
+              marginLeft: '-1.7em',
+              cursor: 'inherit'
+            }}
+          />
+          <Emojify className="inline-block semi-bold truncate" text={this.props.team.name} /><br />
+          <p className="m0 p0 dark-gray truncate"><Emojify text={this.props.team.description || " "} /></p>
+        </label>
       </div>
     );
   }
