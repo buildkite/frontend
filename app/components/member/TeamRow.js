@@ -1,8 +1,25 @@
 import React from 'react';
 import Relay from 'react-relay';
-import classNames from 'classnames';
+import styled from 'styled-components';
 
 import Emojify from '../shared/Emojify';
+
+const Label = styled.label`
+  padding-left: 1.8em;
+  border-color: #dddddd;
+
+  input[type=checkbox]:focus + & {
+    border-color: #888888;
+  }
+
+  input[type=checkbox]:checked + & {
+    border-color: #2ECC40;
+  }
+
+  input[type=checkbox]:checked:focus + & {
+    border-color: #1c7d28;
+  }
+`;
 
 class TeamRow extends React.Component {
   static propTypes = {
@@ -16,14 +33,6 @@ class TeamRow extends React.Component {
   };
 
   render() {
-    const className = classNames(
-      'p1 block cursor-pointer rounded border',
-      {
-        'border-gray': !this.props.checked,
-        'border-green': this.props.checked
-      }
-    );
-
     // this ain't great, but we do what we must
     const rowName = `TeamRow-${this.props.team.id}`;
 
@@ -41,10 +50,10 @@ class TeamRow extends React.Component {
             cursor: 'inherit'
           }}
         />
-        <label htmlFor={rowName} className={className} style={{ paddingLeft: '1.9em' }}>
+        <Label htmlFor={rowName} className="p1 block cursor-pointer rounded border">
           <Emojify className="inline-block semi-bold truncate" text={this.props.team.name} /><br />
           <p className="m0 p0 dark-gray truncate"><Emojify text={this.props.team.description || " "} /></p>
-        </label>
+        </Label>
       </div>
     );
   }
