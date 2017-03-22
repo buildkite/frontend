@@ -24,19 +24,24 @@ class TeamRow extends React.Component {
       }
     );
 
+    // this ain't great, but we do what we must
+    const rowName = `TeamRow-${this.props.team.id}`;
+
     return (
       <div className="p1 col-12 md-col-6 lg-col-4">
-        <label className={className} style={{ paddingLeft: '1.9em' }}>
-          <input
-            type="checkbox"
-            checked={this.props.checked}
-            onChange={this.handleChange}
-            className="absolute"
-            style={{
-              marginLeft: '-1.7em',
-              cursor: 'inherit'
-            }}
-          />
+        <input
+          id={rowName}
+          type="checkbox"
+          checked={this.props.checked}
+          onChange={this.handleChange}
+          className="absolute"
+          style={{
+            marginTop: '.8em',
+            marginLeft: '.8em',
+            cursor: 'inherit'
+          }}
+        />
+        <label htmlFor={rowName} className={className} style={{ paddingLeft: '1.9em' }}>
           <Emojify className="inline-block semi-bold truncate" text={this.props.team.name} /><br />
           <p className="m0 p0 dark-gray truncate"><Emojify text={this.props.team.description || " "} /></p>
         </label>
