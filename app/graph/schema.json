@@ -2741,7 +2741,7 @@
                     "name": "OrganizationInvitationOrders",
                     "ofType": null
                   },
-                  "defaultValue": "\"RECENTLY_CREATED\""
+                  "defaultValue": "RECENTLY_CREATED"
                 }
               ],
               "type": {
@@ -2939,7 +2939,7 @@
                     "name": "OrganizationMemberOrder",
                     "ofType": null
                   },
-                  "defaultValue": "\"RECENTLY_CREATED\""
+                  "defaultValue": "RECENTLY_CREATED"
                 }
               ],
               "type": {
@@ -3054,7 +3054,7 @@
                     "name": "PipelineOrders",
                     "ofType": null
                   },
-                  "defaultValue": "\"RECENTLY_CREATED\""
+                  "defaultValue": "RECENTLY_CREATED"
                 }
               ],
               "type": {
@@ -3159,7 +3159,7 @@
                     "name": "TeamOrder",
                     "ofType": null
                   },
-                  "defaultValue": "\"NAME_EVERYONE_FIRST\""
+                  "defaultValue": "NAME_EVERYONE_FIRST"
                 }
               ],
               "type": {
@@ -3803,7 +3803,7 @@
                     "name": "TeamPipelineOrder",
                     "ofType": null
                   },
-                  "defaultValue": "\"RECENTLY_CREATED\""
+                  "defaultValue": "RECENTLY_CREATED"
                 }
               ],
               "type": {
@@ -6308,7 +6308,7 @@
                     "name": "TeamMemberOrder",
                     "ofType": null
                   },
-                  "defaultValue": "\"RECENTLY_CREATED\""
+                  "defaultValue": "RECENTLY_CREATED"
                 }
               ],
               "type": {
@@ -6417,13 +6417,31 @@
                     "name": "TeamPipelineOrder",
                     "ofType": null
                   },
-                  "defaultValue": "\"RECENTLY_CREATED\""
+                  "defaultValue": "RECENTLY_CREATED"
                 }
               ],
               "type": {
                 "kind": "OBJECT",
                 "name": "TeamPipelineConnection",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "privacy",
+              "description": "The privacy setting for this team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "TeamPrivacy",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -6474,6 +6492,29 @@
             }
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "TeamPrivacy",
+          "description": "Whether a team is visible or secret within an organization",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "VISIBLE",
+              "description": "Visible to all members of the organization",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SECRET",
+              "description": "Visible to organization administrators and members",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -8535,7 +8576,7 @@
                     "name": "TeamMemberOrder",
                     "ofType": null
                   },
-                  "defaultValue": "\"RECENTLY_CREATED\""
+                  "defaultValue": "RECENTLY_CREATED"
                 }
               ],
               "type": {
@@ -13730,6 +13771,20 @@
                 "ofType": null
               },
               "defaultValue": null
+            },
+            {
+              "name": "privacy",
+              "description": "The privacy setting for this team",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "TeamPrivacy",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
             }
           ],
           "interfaces": null,
@@ -13929,6 +13984,16 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "privacy",
+              "description": "The privacy setting for this team",
+              "type": {
+                "kind": "ENUM",
+                "name": "TeamPrivacy",
                 "ofType": null
               },
               "defaultValue": null
