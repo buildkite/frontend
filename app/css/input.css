@@ -22,5 +22,5 @@
 }
 
 .input.is-error:focus {
-  border-color: var(--red);
+  border-color: var(--dark-red);
 }

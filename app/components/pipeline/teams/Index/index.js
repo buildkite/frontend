@@ -10,8 +10,8 @@ import FlashesStore from '../../../../stores/FlashesStore';
 
 import TeamPipelineCreateMutation from '../../../../mutations/TeamPipelineCreate';
 
-import Row from "./row";
-import Suggestion from "./suggestion";
+import Row from './row';
+import TeamSuggestion from '../../../team/Suggestion';
 
 class Index extends React.Component {
   static propTypes = {
@@ -22,13 +22,7 @@ class Index extends React.Component {
           edges: React.PropTypes.arrayOf(
             React.PropTypes.shape({
               node: React.PropTypes.shape({
-                id: React.PropTypes.string.isRequired,
-                name: React.PropTypes.string.isRequired,
-                description: React.PropTypes.string,
-                // The slug is required since this is the object we use in the
-                // optimistic response of the mutation, and when we render the
-                // team row we need it's slug to link it
-                slug: React.PropTypes.string
+                id: React.PropTypes.string.isRequired
               }).isRequired
             }).isRequired
           )
@@ -100,10 +94,10 @@ class Index extends React.Component {
       }
     });
 
-    // Either render the sugggestions, or show a "not found" error
+    // Either render the suggestions, or show a "not found" error
     if (suggestions.length > 0) {
       return suggestions.map((team) => {
-        return [<Suggestion key={team.id} team={team} />, team];
+        return [<TeamSuggestion key={team.id} team={team} />, team];
       });
     } else if (search !== "") {
       return [
@@ -161,9 +155,8 @@ export default Relay.createContainer(Index, {
             edges {
               node {
                 id
-                name
-                description
                 slug
+                ${TeamSuggestion.getFragment('team')}
                 ${TeamPipelineCreateMutation.getFragment('team')}
               }
             }

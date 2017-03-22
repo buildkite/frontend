@@ -1,0 +1,12 @@
+.CodeMirror {
+  /* https://codemirror.net/demo/resize.html */
+  height: auto;
+}
+
+.CodeMirror-gutters {
+  background: var(--silver);
+}
+
+.CodeMirror-linenumber {
+  background: var(--silver);
+}

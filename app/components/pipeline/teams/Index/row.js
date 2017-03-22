@@ -91,9 +91,14 @@ class Row extends React.Component {
         <div className="flex flex-auto" />
       );
     } else {
+      const pipelines = this.props.teamPipeline.team.pipelines.count;
+      const members = this.props.teamPipeline.team.members.count;
+
       return (
         <div className="flex flex-auto items-center">
-          <div className="regular dark-gray">{this.props.teamPipeline.team.pipelines.count} Pipelines, {this.props.teamPipeline.team.members.count} Members</div>
+          <div className="regular dark-gray">
+            {`${pipelines} Pipeline${pipelines === 1 ? '' : 's'}, ${members} Member${members === 1 ? '' : 's'}`}
+          </div>
         </div>
       );
     }

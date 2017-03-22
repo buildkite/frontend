@@ -17,6 +17,7 @@ import TeamNew from './components/team/New';
 import TeamShow from './components/team/Show';
 import TeamEdit from './components/team/Edit';
 import MemberIndex from './components/member/Index';
+import MemberNew from './components/member/New';
 import MemberEdit from './components/member/Edit';
 import PipelineSettingsSection from './components/pipeline/SettingsSection';
 import PipelineScheduleIndex from './components/pipeline/schedules/Index';
@@ -24,6 +25,7 @@ import PipelineScheduleNew from './components/pipeline/schedules/New';
 import PipelineScheduleShow from './components/pipeline/schedules/Show';
 import PipelineScheduleEdit from './components/pipeline/schedules/Edit';
 import PipelineTeamIndex from './components/pipeline/teams/Index';
+import JobIndex from './components/job/Index';
 
 import * as AgentQuery from './queries/Agent';
 import * as BuildQuery from './queries/Build';
@@ -80,12 +82,16 @@ export default (
       <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
       <Route path="organizations/:organization">
+        <Route path="jobs">
+          <IndexRoute component={JobIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+        </Route>
         <Route path="agents">
           <IndexRoute component={AgentIndex} queries={{ viewer: ViewerQuery.query, organization: OrganizationQuery.query }} render={renderSectionLoading} />
           <Route path=":agent" component={AgentShow} queries={{ agent: AgentQuery.query }} prepareParams={AgentQuery.prepareParams} render={renderSectionLoading} />
         </Route>
         <Route path="users" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
           <IndexRoute component={MemberIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+          <Route path="new" component={MemberNew} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
           <Route path=":organizationMember/edit" component={MemberEdit} queries={{ viewer: ViewerQuery.query, organizationMember: OrganizationMemberQuery.query }} prepareParams={OrganizationMemberQuery.prepareParams} render={renderSectionLoading} />
         </Route>
         <Route path="teams" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>

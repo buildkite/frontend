@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`getColourForConnectionState for connection state \`connected\` returns the expected colour with a prefix 1`] = `"bg-lime"`;
 
 exports[`getColourForConnectionState for connection state \`connected\` returns the expected colour with no prefix 1`] = `"lime"`;

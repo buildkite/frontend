@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:00.000+10:00\` and a length of 5 in a format override 1`] = `"0 seconds"`;
 
 exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:00.000+10:00\` and no format override 1`] = `"0 seconds"`;

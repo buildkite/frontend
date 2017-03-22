@@ -33,7 +33,7 @@ class FormRadioGroup extends React.Component {
   render() {
     return (
       <div className={classNames("mb2", this.props.className)}>
-        {this.props.label && <label className="bold mb2">{this.props.label}</label>}
+        {this.props.label && <label className={classNames("block bold", { "red": this._hasErrors() })}>{this.props.label}</label>}
         {this._renderInputs()}
         {this._renderErrors()}
       </div>
@@ -63,8 +63,8 @@ class FormRadioGroup extends React.Component {
   _renderInputs() {
     return this.props.options.map(
       (option, index) => (
-        <div key={index} className="mb2">
-          <label className="mb1 inline-block pl4">
+        <div key={index} className="mt1">
+          <label className="mt1 inline-block pl4">
             <input
               className={classNames('absolute', { "is-error": this._hasErrors() }, option.className)}
               style={{ marginLeft: '-20px' }}

@@ -6,14 +6,6 @@ import Routes from './routes';
 
 require("./css/main.css");
 
-if (window._standalone) {
-  // Reset includes all the styles needed if bootstrap.css isn't loaded on the page
-  require("./css/reset.css");
-} else {
-  // Fixes and additions to the old bootstrap styles
-  require("./css/legacy.css");
-}
-
 // Setup Bugsnag for JS error tracking
 if (window.Bugsnag && window._bugsnag) {
   window.Bugsnag.apiKey = window._bugsnag.apiKey;
@@ -55,6 +47,7 @@ window["Webpack"] = {
     "components/shared/Duration": require("./components/shared/Duration").default,
     "components/shared/Emojify": require("./components/shared/Emojify").default,
     "components/shared/FormMarkdownEditorField": require("./components/shared/FormMarkdownEditorField").default,
+    "components/shared/FormYAMLEditorField": require("./components/shared/FormYAMLEditorField").default,
     "components/shared/FormRadioGroup": require("./components/shared/FormRadioGroup").default,
     "components/shared/FormTextarea": require("./components/shared/FormTextarea").default,
     "components/shared/FormTextField": require("./components/shared/FormTextField").default,

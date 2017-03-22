@@ -1,3 +1,4 @@
+@import 'reset';
 @import 'btn';
 @import 'btn-primary';
 @import 'btn-outline';
@@ -31,6 +32,10 @@
 @import 'display';
 @import 'emoji';
 
+@import 'codemirror/lib/codemirror';
+/* @import('codemirror/theme/neo'); */
+@import 'codemirror-additions';
+
 :root {
   --black:  #111111;
   --gray: #DDDDDD;
@@ -50,7 +55,8 @@
   --yellow: #FFDC00;
   --orange: #FF851B;
   --light-red: #D0A9A7;
-  --red: #a94442;
+  --red: #F45856;
+  --dark-red: #a94442;
   --fuchsia: #F012BE;
   --purple: #B10DC9;
   --maroon: #85144B;

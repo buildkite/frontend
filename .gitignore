@@ -16,3 +16,6 @@ tmp
 
 # Jest coverage output
 coverage
+
+# Webpack bundle analysis
+bundle-analysis
