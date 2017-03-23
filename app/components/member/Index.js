@@ -11,28 +11,38 @@ import permissions from '../../lib/permissions';
 import InvitationRow from './InvitationRow';
 import Row from './Row';
 
+const PAGE_SIZE = 8;
+
 class MemberIndex extends React.Component {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
       permissions: React.PropTypes.object.isRequired,
+      members: React.PropTypes.shape({
+        count: React.PropTypes.number.isRequired,
+        pageInfo: React.PropTypes.shape({
+          hasNextPage: React.PropTypes.bool.isRequired
+        }).isRequired,
+        edges: React.PropTypes.arrayOf(
+          React.PropTypes.shape({
+            node: React.PropTypes.object.isRequired
+          }).isRequired
+        ).isRequired
+      }),
       invitations: React.PropTypes.shape({
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
             node: React.PropTypes.object.isRequired
           })
         ).isRequired
-      }),
-      members: React.PropTypes.shape({
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.object.isRequired
-          }).isRequired
-        ).isRequired
       })
     }).isRequired,
     relay: React.PropTypes.object.isRequired
+  };
+
+  state = {
+    loadingMembers: false
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -55,7 +65,8 @@ class MemberIndex extends React.Component {
               <span>Invite people to this organization so they can see and create builds, manage pipelines, and customize their notification preferences.</span>
               {this.renderNewMemberButton()}
             </Panel.IntroWithButton>
-            {this.renderUsers()}
+            {this.renderMembers()}
+            {this.renderMemberFooter()}
           </Panel>
 
           <Panel>
@@ -76,15 +87,17 @@ class MemberIndex extends React.Component {
     );
   }
 
-  renderUsers() {
-    if (!this.props.organization.members) {
+  renderMembers() {
+    const { members } = this.props.organization;
+
+    if (!members) {
       return (
         <Panel.Section className="center">
           <Spinner />
         </Panel.Section>
       );
     } else {
-      return this.props.organization.members.edges.map((edge) => {
+      return members.edges.map((edge) => {
         return (
           <Row
             key={edge.node.id}
@@ -95,6 +108,52 @@ class MemberIndex extends React.Component {
       });
     }
   }
+
+  renderMemberFooter() {
+    // don't show any footer if we haven't ever loaded
+    // any members, or if there's no next page
+    if (!this.props.organization.members || !this.props.organization.members.pageInfo.hasNextPage) {
+      return;
+    }
+
+    let footerContent = (
+      <Button
+        outline={true}
+        theme="default"
+        onClick={this.handleLoadMoreMembersClick}
+      >
+        Load more users…
+      </Button>
+    );
+
+    // show a spinner if we're loading more members
+    if (this.state.loadingMembers) {
+      footerContent = <Spinner style={{ margin: 8 }} />;
+    }
+
+    return (
+      <Panel.Footer className="center">
+        {footerContent}
+      </Panel.Footer>
+    );
+  }
+
+  handleLoadMoreMembersClick = () => {
+    this.setState({ loadingMembers: true });
+
+    let { memberPageSize } = this.props.relay.variables;
+
+    memberPageSize += PAGE_SIZE;
+
+    this.props.relay.setVariables(
+      { memberPageSize },
+      (readyState) => {
+        if (readyState.done) {
+          this.setState({ loadingMembers: false });
+        }
+      }
+    );
+  };
 
   renderInvitations() {
     const invitations = this.props.organization.invitations;
@@ -131,7 +190,8 @@ class MemberIndex extends React.Component {
 
 export default Relay.createContainer(MemberIndex, {
   initialVariables: {
-    isMounted: false
+    isMounted: false,
+    memberPageSize: PAGE_SIZE
   },
 
   fragments: {
@@ -145,19 +205,23 @@ export default Relay.createContainer(MemberIndex, {
             allowed
           }
         }
+        members(first: $memberPageSize, order: NAME) @include(if: $isMounted) {
+          count
+          edges {
+            node {
+              id
+              ${Row.getFragment('organizationMember')}
+            }
+          }
+          pageInfo {
+            hasNextPage
+          }
+        }
         invitations(first: 100, state: PENDING) @include(if: $isMounted) {
           edges {
             node {
               id
               ${InvitationRow.getFragment('organizationInvitation')}
-            }
-          }
-        }
-        members(first: 100, order: NAME) @include(if: $isMounted) {
-          edges {
-            node {
-              id
-              ${Row.getFragment('organizationMember')}
             }
           }
         }
