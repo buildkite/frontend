@@ -11,7 +11,7 @@ import permissions from '../../lib/permissions';
 import InvitationRow from './InvitationRow';
 import Row from './Row';
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 10;
 
 class MemberIndex extends React.Component {
   static propTypes = {
@@ -42,7 +42,8 @@ class MemberIndex extends React.Component {
   };
 
   state = {
-    loadingMembers: false
+    loadingMembers: false,
+    loadingInvitations: false
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -72,6 +73,7 @@ class MemberIndex extends React.Component {
           <Panel>
             <Panel.Header>Invitations</Panel.Header>
             {this.renderInvitations()}
+            {this.renderInvitationFooter()}
           </Panel>
         </div>
       </DocumentTitle>
@@ -186,12 +188,59 @@ class MemberIndex extends React.Component {
       }
     }
   }
+
+  renderInvitationFooter() {
+    // don't show any footer if we haven't ever loaded
+    // any invitations, or if there's no next page
+    if (!this.props.organization.invitations || !this.props.organization.invitations.pageInfo.hasNextPage) {
+      return;
+    }
+
+    let footerContent = (
+      <Button
+        outline={true}
+        theme="default"
+        onClick={this.handleLoadMoreInvitationsClick}
+      >
+        Load more invitations…
+      </Button>
+    );
+
+    // show a spinner if we're loading more invitations
+    if (this.state.loadingInvitations) {
+      footerContent = <Spinner style={{ margin: 9.5 }} />;
+    }
+
+    return (
+      <Panel.Footer className="center">
+        {footerContent}
+      </Panel.Footer>
+    );
+  }
+
+  handleLoadMoreInvitationsClick = () => {
+    this.setState({ loadingInvitations: true });
+
+    let { invitationPageSize } = this.props.relay.variables;
+
+    invitationPageSize += PAGE_SIZE;
+
+    this.props.relay.setVariables(
+      { invitationPageSize },
+      (readyState) => {
+        if (readyState.done) {
+          this.setState({ loadingInvitations: false });
+        }
+      }
+    );
+  };
 }
 
 export default Relay.createContainer(MemberIndex, {
   initialVariables: {
     isMounted: false,
-    memberPageSize: PAGE_SIZE
+    memberPageSize: PAGE_SIZE,
+    invitationPageSize: PAGE_SIZE
   },
 
   fragments: {
@@ -217,12 +266,15 @@ export default Relay.createContainer(MemberIndex, {
             hasNextPage
           }
         }
-        invitations(first: 100, state: PENDING) @include(if: $isMounted) {
+        invitations(first: $invitationPageSize, state: PENDING) @include(if: $isMounted) {
           edges {
             node {
               id
               ${InvitationRow.getFragment('organizationInvitation')}
             }
+          }
+          pageInfo {
+            hasNextPage
           }
         }
       }
