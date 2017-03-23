@@ -31,6 +31,9 @@ class MemberIndex extends React.Component {
         ).isRequired
       }),
       invitations: React.PropTypes.shape({
+        pageInfo: React.PropTypes.shape({
+          hasNextPage: React.PropTypes.bool.isRequired
+        }).isRequired,
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
             node: React.PropTypes.object.isRequired
