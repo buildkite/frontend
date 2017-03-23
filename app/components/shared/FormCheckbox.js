@@ -2,15 +2,14 @@ import React from 'react';
 import classNames from 'classnames';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import FormInputHelp from './FormInputHelp';
 import FormInputErrors from './FormInputErrors';
 
 export default class FormCheckbox extends React.Component {
   static propTypes = {
-    label: React.PropTypes.string.isRequired,
+    label: React.PropTypes.node.isRequired,
     name: React.PropTypes.string,
     checked: React.PropTypes.bool,
-    help: React.PropTypes.string,
+    help: React.PropTypes.node,
     disabled: React.PropTypes.bool,
     onChange: React.PropTypes.func,
     errors: React.PropTypes.array
@@ -23,7 +22,7 @@ export default class FormCheckbox extends React.Component {
   render() {
     return (
       <div className="mb2">
-        <label className="inline-block cursor-pointer" style={{ paddingLeft: '1.7em' }}>
+        <label className="block cursor-pointer" style={{ paddingLeft: '1.7em' }}>
           <input
             name={this.props.name}
             type="checkbox"
@@ -52,7 +51,7 @@ export default class FormCheckbox extends React.Component {
   _renderErrors() {
     if (this._hasErrors()) {
       return (
-        <FormInputErrors errors={this.props.errors}/>
+        <FormInputErrors errors={this.props.errors} />
       );
     }
   }
@@ -60,7 +59,8 @@ export default class FormCheckbox extends React.Component {
   _renderHelp() {
     if (this.props.help) {
       return (
-        <FormInputHelp html={this.props.help}/>
+        // NOTE: This replaces FormInputHelp
+        <p className="mt1 mb0 p0 dark-gray">{this.props.help}</p>
       );
     }
   }

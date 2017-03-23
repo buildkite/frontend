@@ -1,86 +1,65 @@
 import React from 'react';
 import Relay from 'react-relay';
+import styled from 'styled-components';
 
-import Panel from '../shared/Panel';
 import Emojify from '../shared/Emojify';
-import Button from '../shared/Button';
+
+const Label = styled.label`
+  padding-left: 1.8em;
+  border-color: #dddddd;
+
+  input[type=checkbox]:focus + & {
+    border-color: #888888;
+  }
+
+  input[type=checkbox]:checked + & {
+    border-color: #2ECC40;
+  }
+
+  input[type=checkbox]:checked:focus + & {
+    border-color: #1c7d28;
+  }
+`;
 
 class TeamRow extends React.Component {
   static propTypes = {
     team: React.PropTypes.shape({
       id: React.PropTypes.string.isRequired,
       name: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string,
-      members: React.PropTypes.shape({
-        count: React.PropTypes.number
-      }),
-      pipelines: React.PropTypes.shape({
-        count: React.PropTypes.number
-      })
+      description: React.PropTypes.string
     }).isRequired,
-    onRemove: React.PropTypes.func.isRequired
+    checked: React.PropTypes.bool.isRequired,
+    onChange: React.PropTypes.func.isRequired
   };
 
   render() {
-    return (
-      <Panel.Row>
-        <div className="flex">
-          <div className="flex items-center" style={{ width: "20em" }}>
-            <div>
-              <div className="m0 semi-bold">
-                <Emojify text={this.props.team.name} />
-              </div>
-
-              {this.renderDescription()}
-            </div>
-          </div>
-
-          {this.renderAssociations()}
-
-          <Panel.RowActions>
-            {this.renderActions()}
-          </Panel.RowActions>
-        </div>
-      </Panel.Row>
-    );
-  }
-
-  renderDescription() {
-    if (this.props.team.description) {
-      return (
-        <div className="regular dark-gray"><Emojify text={this.props.team.description} /></div>
-      );
-    }
-  }
-
-  renderAssociations() {
-    const pipelines = this.props.team.pipelines.count;
-    const members = this.props.team.members.count;
+    // this ain't great, but we do what we must
+    const rowName = `TeamRow-${this.props.team.id}`;
 
     return (
-      <div className="flex flex-auto items-center">
-        <div className="regular dark-gray">
-          {`${pipelines} Pipeline${pipelines === 1 ? '' : 's'}, ${members} Member${members === 1 ? '' : 's'}`}
-        </div>
+      <div className="p1 col-12 md-col-6 lg-col-4">
+        <input
+          id={rowName}
+          type="checkbox"
+          checked={this.props.checked}
+          onChange={this.handleChange}
+          className="absolute"
+          style={{
+            marginTop: '.8em',
+            marginLeft: '.8em',
+            cursor: 'inherit'
+          }}
+        />
+        <Label htmlFor={rowName} className="p1 block cursor-pointer rounded border">
+          <Emojify className="inline-block semi-bold truncate" text={this.props.team.name} /><br />
+          <p className="m0 p0 dark-gray truncate"><Emojify text={this.props.team.description || " "} /></p>
+        </Label>
       </div>
     );
   }
 
-  renderActions() {
-    return (
-      <Button
-        theme="default"
-        outline={true}
-        className="ml3"
-        onClick={this.handleRemove}
-      >
-        Remove
-      </Button>
-    );
-  }
-
-  handleRemove = () => {
-    this.props.onRemove(this.props.team);
+  handleChange = () => {
+    this.props.onChange(this.props.team);
   };
 }
 
@@ -91,12 +70,6 @@ export default Relay.createContainer(TeamRow, {
         id
         name
         description
-        members {
-          count
-        }
-        pipelines {
-          count
-        }
       }
     `
   }

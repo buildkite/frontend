@@ -4,13 +4,12 @@ import DocumentTitle from 'react-document-title';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
-import AutocompleteField from '../shared/AutocompleteField';
 import FormCheckbox from '../shared/FormCheckbox';
 import FormTextarea from '../shared/FormTextarea';
+import FormInputLabel from '../shared/FormInputLabel';
+import FormInputHelp from '../shared/FormInputHelp';
 import Panel from '../shared/Panel';
 import TeamRow from './TeamRow';
-
-import TeamSuggestion from '../team/Suggestion';
 
 import FlashesStore from '../../stores/FlashesStore';
 
@@ -32,8 +31,7 @@ class MemberNew extends React.Component {
           })
         ).isRequired
       }).isRequired
-    }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    }).isRequired
   };
 
   static contextTypes = {
@@ -142,82 +140,58 @@ class MemberNew extends React.Component {
   }
 
   renderTeamSection() {
+    const teamEdges = this.props.organization.teams.edges
+      .filter(({ node }) =>
+        node.name !== 'Everyone' && node.description !== 'All users in your organization'
+      );
+
     return (
       <Panel.Section>
-        Teams
-        Invited users can be added directly into teams. All users will be added to the <i>Everyone</i> team.
-        <AutocompleteField
-          onSearch={this.handleTeamSearch}
-          onSelect={this.handleTeamSelect}
-          items={this.renderAutoCompleteSuggestions(this.props.relay.variables.search)}
-          placeholder="Add a team…"
-          ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-        />
-        {this.state.teams.map((team) => <TeamRow key={team.id} team={team} onRemove={this.handleTeamRemove} />)}
+        <FormInputLabel label="Teams" />
+        <FormInputHelp html="Invited users can be added directly into teams. All users will be added to the <i>Everyone</i> team." />
+        <div className="flex flex-wrap content-around mxn1">
+          {teamEdges.map(({ node }) =>
+            <TeamRow
+              key={node.id}
+              team={node}
+              checked={this.state.teams.includes(node.id)}
+              onChange={this.handleTeamChange}
+            />
+          )}
+        </div>
       </Panel.Section>
     );
   }
 
-  renderAutoCompleteSuggestions(search) {
-    // First filter out any teams that are already in this list
-    const suggestions = this.props.organization.teams.edges.filter((teamEdge) => (
-      teamEdge.node.name !== 'Everyone' && !this.state.teams.some((selectedTeam) => selectedTeam.id === teamEdge.node.id)
-    ));
+  handleTeamChange = (team) => {
+    let teams;
+    const teamIndex = this.state.teams.indexOf(team.id);
 
-    // Either render the suggestions, or show a "not found" error
-    if (suggestions.length > 0) {
-      return suggestions.map(({ node }) => [<TeamSuggestion key={node.id} team={node} />, node]);
-    } else if (search !== '') {
-      return [
-        <AutocompleteField.ErrorMessage key="error">
-          Could not find a team with name <em>{search}</em>
-        </AutocompleteField.ErrorMessage>
-      ];
+    if (teamIndex === -1) {
+      // adding
+      teams = this.state.teams.concat([team.id]);
     } else {
-      return [];
+      // removing
+      teams = this.state.teams.concat();
+      teams.splice(teamIndex, 1);
     }
-  }
 
-  handleTeamSearch = (text) => {
-    // As a user types into the autocompletor field, perform a teams search
-    this.props.relay.setVariables({ search: text });
-  };
-
-  handleTeamSelect = (team) => {
-    // Reset the autocompletor and re-focus it
-    this._autoCompletor.clear();
-    this.props.relay.setVariables({ search: '' });
-    this._autoCompletor.focus();
-
-    this.setState({
-      teams: this.state.teams.concat([team])
-    });
-  };
-
-  handleTeamRemove = (team) => {
-    this.setState({
-      teams: this.state.teams.filter((selectedTeam) => selectedTeam.id !== team.id)
-    });
+    this.setState({ teams });
   };
 }
 
 export default Relay.createContainer(MemberNew, {
-  initialVariables: {
-    search: ''
-  },
-
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
         name
         slug
-        teams(search: $search, first: 10) {
+        teams(first: 50) {
           edges {
             node {
               id
               name
               description
-              ${TeamSuggestion.getFragment('team')}
               ${TeamRow.getFragment('team')}
             }
           }
