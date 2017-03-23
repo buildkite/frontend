@@ -128,7 +128,7 @@ class MemberIndex extends React.Component {
 
     // show a spinner if we're loading more members
     if (this.state.loadingMembers) {
-      footerContent = <Spinner style={{ margin: 8 }} />;
+      footerContent = <Spinner style={{ margin: 9.5 }} />;
     }
 
     return (

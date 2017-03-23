@@ -75,7 +75,7 @@ class AgentIndex extends React.Component {
     if (this.state.loadingMore) {
       return (
         <Panel.Footer className="center">
-          <Spinner style={{ margin: 8 }} />
+          <Spinner style={{ margin: 9.5 }} />
         </Panel.Footer>
       );
     } else {

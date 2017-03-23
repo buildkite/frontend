@@ -260,7 +260,7 @@ class Agents extends React.Component {
 
     // show a spinner if we're loading more agents
     if (loading) {
-      footerContent = <Spinner style={{ margin: 8 }} />;
+      footerContent = <Spinner style={{ margin: 9.5 }} />;
     }
 
     return (
