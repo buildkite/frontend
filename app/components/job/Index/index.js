@@ -1,11 +1,11 @@
 import React from 'react';
 import Relay from 'react-relay';
-import { seconds } from 'metrick/duration';
+import { second } from 'metrick/duration';
 
+import SearchField from '../../shared/SearchField';
 import Spinner from '../../shared/Spinner';
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
-import Icon from '../../shared/Icon';
 import PageWithContainer from '../../shared/PageWithContainer';
 
 import JobRow from './job-row';
@@ -36,12 +36,11 @@ class AgentIndex extends React.Component {
           <Panel.Header>Job Explorer</Panel.Header>
           <Panel.Section>
             <div className="flex items-center">
-              <div className="relative flex-auto">
-                <div className="absolute pointer-events-none" style={{ left: 8, top: 5 }}>
-                  {this.renderSearchIcon()}
-                </div>
-                <input type="text" className="input" placeholder="Search by agent query rules…" style={{ paddingLeft: 28 }} onKeyUp={this.handleAgentQueryRuleSearch} />
-              </div>
+              <SearchField
+                className="flex-auto"
+                placeholder="Search by agent query rules…"
+                onChange={this.handleAgentQueryRuleSearch}
+              />
 
               <div className="flex-none pl3 flex">
                 <div className="semi-bold mr1">States:</div> <StateSelector selection={this.state.selectedJobState} onSelect={this.handleStateSelection} />
@@ -53,18 +52,6 @@ class AgentIndex extends React.Component {
         </Panel>
       </PageWithContainer>
     );
-  }
-
-  renderSearchIcon() {
-    if (this.state.searching) {
-      return (
-        <Spinner size={15} color={false}/>
-      );
-    } else {
-      return (
-        <Icon icon="search" className="gray" style={{ width: 15, height: 15 }} />
-      );
-    }
   }
 
   renderFooter() {
@@ -113,8 +100,8 @@ class AgentIndex extends React.Component {
     }
   }
 
-  handleAgentQueryRuleSearch = (event) => {
-    const agentQueryRules = event.target.value === "" ? null : event.target.value.split(" ");
+  handleAgentQueryRuleSearch = (value) => {
+    const agentQueryRules = value === "" ? null : value.split(" ");
 
     clearTimeout(this._timeout);
 
@@ -128,7 +115,7 @@ class AgentIndex extends React.Component {
           this.setState({ searching: false });
         }
       });
-    }, 1::seconds);
+    }, 1::second);
   };
 
   handleStateSelection = (state) => {
