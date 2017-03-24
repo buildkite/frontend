@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 import shallowCompare from 'react-addons-shallow-compare';
 
+import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
 import Spinner from '../shared/Spinner';
@@ -63,12 +64,17 @@ class MemberIndex extends React.Component {
     return (
       <DocumentTitle title={`Users · ${this.props.organization.name}`}>
         <div>
+          <PageHeader>
+            <PageHeader.Title>
+              Users
+            </PageHeader.Title>
+            <PageHeader.Description>
+              Invite people to this organization so they can see and create builds, manage pipelines, and customize their notification preferences.
+            </PageHeader.Description>
+            <PageHeader.Menu>{this.renderNewMemberButton()}</PageHeader.Menu>
+          </PageHeader>
           <Panel className="mb4">
             <Panel.Header>Users</Panel.Header>
-            <Panel.IntroWithButton>
-              <span>Invite people to this organization so they can see and create builds, manage pipelines, and customize their notification preferences.</span>
-              {this.renderNewMemberButton()}
-            </Panel.IntroWithButton>
             {this.renderMembers()}
             {this.renderMemberFooter()}
           </Panel>
@@ -87,7 +93,7 @@ class MemberIndex extends React.Component {
     return permissions(this.props.organization.permissions).check(
       {
         allowed: "organizationInvitationCreate",
-        render: () => <Button link={`/organizations/${this.props.organization.slug}/users/new`} theme="default" outline={true}>Invite Users</Button>
+        render: () => <PageHeader.Button link={`/organizations/${this.props.organization.slug}/users/new`} theme="default" outline={true}>Invite Users</PageHeader.Button>
       }
     );
   }
