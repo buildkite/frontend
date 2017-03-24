@@ -1,9 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
+import shallowCompare from 'react-addons-shallow-compare';
 
-import Icon from '../Icon';
-import Spinner from '../Spinner';
-
+import SearchField from '../SearchField';
 import Suggestion from './suggestion';
 import ErrorMessage from './error-message';
 
@@ -19,6 +18,10 @@ class AutocompleteField extends React.Component {
     visible: false,
     searching: false
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.items) {
@@ -55,17 +58,16 @@ class AutocompleteField extends React.Component {
   }
 
   clear() {
-    this._inputNode.value = '';
-    this.setState({ selected: null });
+    this._searchField.clear();
   }
 
   focus() {
-    this._inputNode.focus();
+    this._searchField.focus();
   }
 
   selectItem(item) {
     this.setState({ visible: false });
-    this._inputNode.blur();
+    this._searchField.blur();
     this.props.onSelect(item);
   }
 
@@ -76,34 +78,18 @@ class AutocompleteField extends React.Component {
   render() {
     return (
       <div className="relative">
-        <div className="absolute pointer-events-none" style={{ left: 8, top: 5 }}>
-          {this.renderIcon()}
-        </div>
-        <input type="input"
-          className="input"
-          style={{ paddingLeft: 28 }}
-          ref={(_inputNode) => this._inputNode = _inputNode}
-          onChange={this.handleInputChange}
+        <SearchField
+          ref={(_searchField) => this._searchField = _searchField}
+          onChange={this.handleSearchChange}
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           placeholder={this.props.placeholder}
+          searching={this.state.searching}
         />
         {this.renderSuggestions()}
       </div>
     );
-  }
-
-  renderIcon() {
-    if (this.state.searching) {
-      return (
-        <Spinner size={15} color={false}/>
-      );
-    } else {
-      return (
-        <Icon icon="search" className="gray" style={{ width: 15, height: 15 }} />
-      );
-    }
   }
 
   renderSuggestions() {
@@ -243,23 +229,9 @@ class AutocompleteField extends React.Component {
     }, 50);
   };
 
-  handleInputChange = (evt) => {
-    // Get a copy of the target otherwise the event will be cleared between now
-    // and when the timeout happens
-    const target = evt.target;
-
-    // If a timeout is already present, clear it since the user is still typing
-    if (this._timeout) {
-      clearTimeout(this._timeout);
-    }
-
-    // Instead of doing a search on each keypress, do it a few ms after they've
-    // stopped typing
-    this._timeout = setTimeout(() => {
-      this.props.onSearch(target.value);
-      this.setState({ searching: true });
-      delete this._timeout;
-    }, 100);
+  handleSearchChange = (value) => {
+    this.props.onSearch(value);
+    this.setState({ searching: true });
   };
 }
 
