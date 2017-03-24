@@ -6,13 +6,13 @@ import throttle from 'throttleit';
 
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
+import SearchField from '../../shared/SearchField';
 import Spinner from '../../shared/Spinner';
 import { formatNumber } from '../../../lib/number';
 
 import PusherStore from '../../../stores/PusherStore';
 
 import AgentRow from './row';
-import Search from './search';
 
 const PAGE_SIZE = 100;
 
@@ -102,33 +102,18 @@ class Agents extends React.Component {
 
     return (
       <Panel>
-        <div className="bg-silver semi-bold">
-          <div className="flex items-center">
-            <div className="flex-auto py2 px3">Agents</div>
-            <div className="flex items-center mr3">
-              {this.renderSearchSpinner()}
-              <Search
-                className="input py1 px2"
-                placeholder="Filter"
-                style={{ fontSize: 12, lineHeight: 1.1, height: 30, width: 160 }}
-                onSearch={this.handleSearch}
-              />
-            </div>
-          </div>
-        </div>
+        <Panel.Row>
+          <SearchField
+            placeholder="Search agents…"
+            onChange={this.handleSearch}
+            searching={this.state.searchingRemotelyIsSlow}
+          />
+        </Panel.Row>
         {this.renderSearchInfo(agents)}
         {this.renderAgentList(agents)}
         {this.renderFooter()}
       </Panel>
     );
-  }
-
-  renderSearchSpinner() {
-    if (this.state.searchingRemotelyIsSlow) {
-      return (
-        <Spinner className="mr2" />
-      );
-    }
   }
 
   getRelevantAgents() {
