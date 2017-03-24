@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from 'react-router';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Icon from '../../shared/Icon';
 
-class RowLink extends React.Component {
+export default class RowLink extends React.Component {
   static displayName = "Panel.RowLink";
 
   static propTypes = {
@@ -12,6 +13,10 @@ class RowLink extends React.Component {
     href: React.PropTypes.string
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     if (this.props.to) {
       return (
@@ -19,7 +24,7 @@ class RowLink extends React.Component {
           <div className="flex-auto">
             {this.props.children}
           </div>
-          <Icon icon="chevron-right" className="dark-gray" style={{ height: 15, width: 15 }} />
+          <Icon icon="chevron-right" className="flex-none dark-gray" style={{ height: 15, width: 15 }} />
         </Link>
       );
     } else {
@@ -28,11 +33,9 @@ class RowLink extends React.Component {
           <div className="flex-auto">
             {this.props.children}
           </div>
-          <Icon icon="chevron-right" className="dark-gray" style={{ height: 15, width: 15 }} />
+          <Icon icon="chevron-right" className="flex-none dark-gray" style={{ height: 15, width: 15 }} />
         </a>
       );
     }
   }
 }
-
-export default RowLink;
