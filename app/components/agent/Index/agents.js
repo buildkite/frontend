@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import { seconds } from 'metrick/duration';
+import { second, seconds } from 'metrick/duration';
 import shallowCompare from 'react-addons-shallow-compare';
 import throttle from 'throttleit';
 
@@ -328,7 +328,7 @@ class Agents extends React.Component {
 
     this.remoteSearchIsSlowTimeout = setTimeout(() => {
       this.setState({ searchingRemotelyIsSlow: true });
-    }, 1::seconds);
+    }, 1::second);
 
     this.props.relay.forceFetch(
       {
