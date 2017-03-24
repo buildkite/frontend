@@ -7,14 +7,13 @@ import shallowCompare from 'react-addons-shallow-compare';
 import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
+import SearchField from '../shared/SearchField';
 import Spinner from '../shared/Spinner';
 import permissions from '../../lib/permissions';
 import { formatNumber } from '../../lib/number';
 
 import InvitationRow from './InvitationRow';
 import Row from './Row';
-// TODO: Make this a generic component
-import Search from '../agent/Index/search';
 
 const PAGE_SIZE = 10;
 
@@ -51,6 +50,7 @@ class MemberIndex extends React.Component {
 
   state = {
     loadingMembers: false,
+    searchingMembersIsSlow: false,
     loadingInvitations: false
   };
 
@@ -78,20 +78,13 @@ class MemberIndex extends React.Component {
             <PageHeader.Menu>{this.renderNewMemberButton()}</PageHeader.Menu>
           </PageHeader>
           <Panel className="mb4">
-            <div className="bg-silver semi-bold flex items-center">
-              <div className="flex-auto py2 px3">
-                {this.props.organization.name} members
-              </div>
-              <div className="flex items-center mr3">
-                {this.renderMemberSearchSpinner()}
-                <Search
-                  className="input py1 px2"
-                  placeholder="Filter"
-                  style={{ fontSize: 12, lineHeight: 1.1, height: 30, width: 160 }}
-                  onSearch={this.handleMemberSearch}
-                />
-              </div>
-            </div>
+            <Panel.Row>
+              <SearchField
+                placeholder="Search users…"
+                searching={this.state.searchingMembersIsSlow}
+                onChange={this.handleMemberSearch}
+              />
+            </Panel.Row>
             {this.renderMemberSearchInfo()}
             {this.renderMembers()}
             {this.renderMemberFooter()}
@@ -114,14 +107,6 @@ class MemberIndex extends React.Component {
         render: () => <PageHeader.Button link={`/organizations/${this.props.organization.slug}/users/new`} theme="default" outline={true}>Invite Users</PageHeader.Button>
       }
     );
-  }
-
-  renderMemberSearchSpinner() {
-    if (this.state.searchingMembersIsSlow) {
-      return (
-        <Spinner className="mr2" />
-      );
-    }
   }
 
   renderMemberSearchInfo() {
