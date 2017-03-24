@@ -60,7 +60,7 @@ class TeamCreate extends Relay.Mutation {
   }
 
   getVariables() {
-    return { organizationID: this.props.organization.id, name: this.props.name, description: this.props.description };
+    return { organizationID: this.props.organization.id, name: this.props.name, description: this.props.description, privacy: this.props.privacy };
   }
 }
 
