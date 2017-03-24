@@ -15,7 +15,8 @@ const PEOPLE = [
   { image: "harriet", name: "Harriet Lawrence", backgroundColor: "rgb(206,153,117)" },
   { image: "ticky", name: "Jessica Stokes", backgroundColor: "rgb(236,188,217)" },
   { image: "sj26", name: "Sam Cochran", backgroundColor: "rgb(179,166,187)" },
-  { image: "toolmantim", name: "Tim Lucas", backgroundColor: "rgb(129,188,228)" }
+  { image: "toolmantim", name: "Tim Lucas", backgroundColor: "rgb(129,188,228)" },
+  { image: "lox", name: "Lachlan Donald", backgroundColor: "rgb(149,149,143)" }
 ];
 
 const wave = keyframes`
