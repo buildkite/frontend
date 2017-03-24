@@ -16,6 +16,7 @@ import FlashesStore from '../../stores/FlashesStore';
 import OrganizationInvitationCreateMutation from '../../mutations/OrganizationInvitationCreate';
 
 import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
+import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
 
 class MemberNew extends React.Component {
   static propTypes = {
@@ -111,7 +112,9 @@ class MemberNew extends React.Component {
 
     const role = this.state.isAdmin ? OrganizationMemberRoleConstants.ADMIN : OrganizationMemberRoleConstants.MEMBER;
 
-    const teams = this.state.teams.map(({ id }) => id);
+    const teams = this.state.teams.map((id) => {
+      return { id: id, role: TeamMemberRoleConstants.MEMBER };
+    });
 
     const mutation = new OrganizationInvitationCreateMutation({
       organization: this.props.organization,
