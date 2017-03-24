@@ -67,10 +67,10 @@ class TeamShow extends React.Component {
   }
 
   renderPrivacyLabel() {
-    if (this.props.team.privacy == TeamPrivacyConstants.SECRET) {
+    if (this.props.team.privacy === TeamPrivacyConstants.SECRET) {
       return (
         <div className="ml1 regular small border border-gray rounded dark-gray p1">Secret</div>
-      )
+      );
     }
   }
 

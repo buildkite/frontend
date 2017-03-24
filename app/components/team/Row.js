@@ -17,6 +17,7 @@ class TeamRow extends React.Component {
       name: React.PropTypes.string.isRequired,
       description: React.PropTypes.string,
       slug: React.PropTypes.string.isRequired,
+      privacy: React.PropTypes.string.isRequired,
       organization: React.PropTypes.shape({
         slug: React.PropTypes.string.isRequired
       }).isRequired,
@@ -56,10 +57,10 @@ class TeamRow extends React.Component {
   }
 
   _renderPrivacyLabel() {
-    if (this.props.team.privacy == TeamPrivacyConstants.SECRET) {
+    if (this.props.team.privacy === TeamPrivacyConstants.SECRET) {
       return (
         <div className="ml1 regular small border border-gray rounded dark-gray p1">Secret</div>
-      )
+      );
     }
   }
 

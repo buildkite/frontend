@@ -40,18 +40,18 @@ class TeamForm extends React.Component {
           onChange={this.handleDescriptionChange}
         />
 
-      <FormRadioGroup
-        name="team-privacy"
-        label="Visibility"
-        help="Something"
-        value={this.props.privacy}
-        errors={errors.findForField("privacy")}
-        onChange={this.handlePrivacyChange}
-        options={[
+        <FormRadioGroup
+          name="team-privacy"
+          label="Visibility"
+          help="Something"
+          value={this.props.privacy}
+          errors={errors.findForField("privacy")}
+          onChange={this.handlePrivacyChange}
+          options={[
           { label: "Visible", value: TeamPrivacyConstants.VISIBLE, help: "Can be seen by all members within the organization" },
           { label: "Secret", value: TeamPrivacyConstants.SECRET, help: "Can only only be seen by organization administrators and members of this team" }
-        ]}
-      />
+          ]}
+        />
 
       </div>
     );

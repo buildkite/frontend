@@ -17,6 +17,7 @@ class TeamEdit extends React.Component {
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
       description: React.PropTypes.string,
+      privacy: React.PropTypes.string.isRequired,
       organization: React.PropTypes.shape({
         name: React.PropTypes.string.isRequired,
         slug: React.PropTypes.string.isRequired
