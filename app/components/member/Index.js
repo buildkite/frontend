@@ -80,7 +80,7 @@ class MemberIndex extends React.Component {
           <Panel className="mb4">
             <div className="bg-silver semi-bold flex items-center">
               <div className="flex-auto py2 px3">
-                Users
+                {this.props.organization.name} members
               </div>
               <div className="flex items-center mr3">
                 {this.renderMemberSearchSpinner()}
