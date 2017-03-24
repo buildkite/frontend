@@ -173,7 +173,7 @@ class MemberIndex extends React.Component {
         theme="default"
         onClick={this.handleLoadMoreMembersClick}
       >
-        Load more users…
+        Show more users…
       </Button>
     );
 
@@ -278,7 +278,7 @@ class MemberIndex extends React.Component {
         theme="default"
         onClick={this.handleLoadMoreInvitationsClick}
       >
-        Load more invitations…
+        Show more invitations…
       </Button>
     );
 
