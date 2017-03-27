@@ -1,18 +1,18 @@
 import React from 'react';
 import Relay from 'react-relay';
-import { seconds } from 'metrick/duration';
+import { second, seconds } from 'metrick/duration';
 import shallowCompare from 'react-addons-shallow-compare';
 import throttle from 'throttleit';
 
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
+import SearchField from '../../shared/SearchField';
 import Spinner from '../../shared/Spinner';
 import { formatNumber } from '../../../lib/number';
 
 import PusherStore from '../../../stores/PusherStore';
 
 import AgentRow from './row';
-import Search from './search';
 
 const PAGE_SIZE = 100;
 
@@ -102,33 +102,18 @@ class Agents extends React.Component {
 
     return (
       <Panel>
-        <div className="bg-silver semi-bold">
-          <div className="flex items-center">
-            <div className="flex-auto py2 px3">Agents</div>
-            <div className="flex items-center mr3">
-              {this.renderSearchSpinner()}
-              <Search
-                className="input py1 px2"
-                placeholder="Filter"
-                style={{ fontSize: 12, lineHeight: 1.1, height: 30, width: 160 }}
-                onSearch={this.handleSearch}
-              />
-            </div>
-          </div>
-        </div>
+        <Panel.Row>
+          <SearchField
+            placeholder="Search agents…"
+            onChange={this.handleSearch}
+            searching={this.state.searchingRemotelyIsSlow}
+          />
+        </Panel.Row>
         {this.renderSearchInfo(agents)}
         {this.renderAgentList(agents)}
         {this.renderFooter()}
       </Panel>
     );
-  }
-
-  renderSearchSpinner() {
-    if (this.state.searchingRemotelyIsSlow) {
-      return (
-        <Spinner className="mr2" />
-      );
-    }
   }
 
   getRelevantAgents() {
@@ -260,7 +245,7 @@ class Agents extends React.Component {
 
     // show a spinner if we're loading more agents
     if (loading) {
-      footerContent = <Spinner style={{ margin: 8 }} />;
+      footerContent = <Spinner style={{ margin: 9.5 }} />;
     }
 
     return (
@@ -328,7 +313,7 @@ class Agents extends React.Component {
 
     this.remoteSearchIsSlowTimeout = setTimeout(() => {
       this.setState({ searchingRemotelyIsSlow: true });
-    }, 1::seconds);
+    }, 1::second);
 
     this.props.relay.forceFetch(
       {
