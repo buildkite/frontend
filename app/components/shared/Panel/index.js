@@ -1,6 +1,8 @@
 import React from "react";
 import classNames from "classnames";
 
+import classed from "../ClassedComponent";
+
 import IntroWithButton from "./intro-with-button";
 import Row from "./row";
 import RowActions from "./row-actions";
@@ -46,20 +48,8 @@ const SIMPLE_COMPONENTS = {
 };
 
 Object.keys(SIMPLE_COMPONENTS).forEach((componentName) => {
-  const defaultStyle = SIMPLE_COMPONENTS[componentName];
-
-  const Component = (props) => (
-    <div className={classNames(defaultStyle, props.className)}>
-      {props.children}
-    </div>
-  );
-
-  Component.displayName = `Panel.${componentName}`;
-  Component.propTypes = {
-    children: React.PropTypes.node.isRequired,
-    className: React.PropTypes.string
-  };
-
+  const Component = classed('div', SIMPLE_COMPONENTS[componentName]);
+  Component.displayName = `Panel.${componentName} (née \`${Component.displayName}\`)`;
   Panel[componentName] = Component;
 });
 

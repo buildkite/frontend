@@ -1,15 +1,6 @@
-import React from 'react';
+import classed from './ClassedComponent';
 
-class PageWithContainer extends React.Component {
-  static propTypes = {
-    children: React.PropTypes.node.isRequired
-  };
-
-  render() {
-    return (
-      <div className="container">{this.props.children}</div>
-    );
-  }
-}
+const PageWithContainer = classed('div', 'container');
+PageWithContainer.displayName = 'PageWithContainer';
 
 export default PageWithContainer;
