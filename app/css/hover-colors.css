@@ -20,6 +20,10 @@
   background-color: var(--lime);
 }
 
+.hover-dark-lime:hover {
+  color: var(--dark-lime);
+}
+
 .hover-white:hover {
   color: var(--white);
 }

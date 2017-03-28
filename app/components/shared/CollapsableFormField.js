@@ -3,6 +3,9 @@ import classNames from 'classnames';
 
 let _collapsableFormFieldCounter = 0;
 
+// Legacy bootstap collapsable field
+//
+// This should be replaced with something more akin to CollapsableArea
 class CollapsableFormField extends React.Component {
   static propTypes = {
     label: React.PropTypes.string.isRequired,

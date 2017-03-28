@@ -1,13 +1,22 @@
+import classNames from 'classnames';
 import React from 'react';
 import Relay from 'react-relay';
+import styled from 'styled-components';
 
-import Emojify from '../../shared/Emojify';
+import * as breakpoints from '../../shared/breakpoints';
 import Button from '../../shared/Button';
+import Emojify from '../../shared/Emojify';
+import Icon from '../../shared/Icon';
 
 import CreateBuildDialog from '../CreateBuildDialog';
 import Builds from './builds';
 
 import permissions from '../../../lib/permissions';
+
+// const ActionButtonsContainer = styled.div`
+//   border: solid green 2px;
+//   ${breakpoints.md`border: solid red 10px;`}
+// `;
 
 class Header extends React.Component {
   static propTypes = {
@@ -21,26 +30,34 @@ class Header extends React.Component {
 
   render() {
     return (
-      <div className="flex flex-wrap mb2">
-        <div className="flex-auto mb1">
-          <h4 className="regular h4 line-height-2 m0">
+      <div className="md-flex mb3">
+        <div className="mr-auto">
+          <h4 className="regular h4 line-height-2 m0 truncate" style={{ maxWidth: '100%' }}>
             <a className="color-inherit hover-color-inherit text-decoration-none hover-underline" href={this.props.pipeline.url}><Emojify text={this.props.pipeline.name} /></a>
           </h4>
           <div className="m0 truncate dark-gray" style={{ maxWidth: "25em", marginTop: 3 }}>
             {this.renderDescription()}
           </div>
         </div>
-        <div className="flex items-start">
+        <div className="flex items-center">
           <Builds pipeline={this.props.pipeline} buildState={this.props.buildState} />
-          {this.renderButtons()}
+          <div className="xs-hide sm-hide md-flex">
+            {this.renderButtons('ml2')}
+          </div>
+          <Button
+            className="md-hide lg-hide ml2"
+            outline={true}
+            theme="default">
+            <Icon icon="down-triangle" style={{ width: 8, height: 8, marginTop: -2 }}  />
+          </Button>
         </div>
         <CreateBuildDialog isOpen={this.state.showingCreateBuildDialog} onRequestClose={this.handleSupportDialogClose} pipeline={this.props.pipeline} />
       </div>
     );
   }
 
-  renderButtons() {
-    return permissions(this.props.pipeline.permissions).collect(
+  renderButtons(className) {
+    const buttons = permissions(this.props.pipeline.permissions).collect(
       {
         allowed: "buildCreate",
         render: (idx) => (
@@ -49,8 +66,10 @@ class Header extends React.Component {
             onClick={this.handleBuildCreateClick}
             outline={true}
             theme="default"
-            className="ml2 flex items-center"
-          >Create Build</Button>
+            className={className}
+          >
+            New Build
+          </Button>
         )
       },
       {
@@ -61,10 +80,18 @@ class Header extends React.Component {
             href={`${this.props.pipeline.url}/settings`}
             outline={true}
             theme="default"
-            className="ml2 flex items-center"
-          >Settings</Button>
+            className={className}
+          >
+            Settings
+          </Button>
         )
       }
+    );
+
+    return (
+      <div>
+        {buttons}
+      </div>
     );
   }
 

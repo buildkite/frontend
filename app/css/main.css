@@ -51,6 +51,7 @@
   --green: #2ECC40;
   --olive: #3D9970;
   --lime: #7EAF25;
+  --dark-lime: #78A42F;
 
   --yellow: #FFDC00;
   --orange: #FF851B;
@@ -73,8 +74,9 @@
 
   --container-width: 100%;
 
-  --h1: 25px;
-  --h3: 24px;
+  --h1: 28px;
+  --h2: 24px;
+  --h3: 21px;
   --h4: 18px;
   --h5: 14px;
   --h6: 12px;
