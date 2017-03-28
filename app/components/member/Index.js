@@ -4,9 +4,10 @@ import { second } from 'metrick/duration';
 import DocumentTitle from 'react-document-title';
 import shallowCompare from 'react-addons-shallow-compare';
 
+import Button from '../shared/Button';
+import Dropdown from '../shared/Dropdown';
 import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
-import Button from '../shared/Button';
 import SearchField from '../shared/SearchField';
 import Spinner from '../shared/Spinner';
 import permissions from '../../lib/permissions';
@@ -14,6 +15,14 @@ import { formatNumber } from '../../lib/number';
 
 import InvitationRow from './InvitationRow';
 import Row from './Row';
+
+import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
+
+const TEAM_ROLES =  [
+  { name: 'Everyone', id: null },
+  { name: 'Administrators', id: TeamMemberRoleConstants.ADMIN },
+  { name: 'Users', id: TeamMemberRoleConstants.MEMBER }
+];
 
 const PAGE_SIZE = 10;
 
@@ -78,13 +87,23 @@ class MemberIndex extends React.Component {
             <PageHeader.Menu>{this.renderNewMemberButton()}</PageHeader.Menu>
           </PageHeader>
           <Panel className="mb4">
-            <Panel.Row>
-              <SearchField
-                placeholder="Search users…"
-                searching={this.state.searchingMembersIsSlow}
-                onChange={this.handleMemberSearch}
-              />
-            </Panel.Row>
+            <div className="py2 px3">
+              <div className="flex flex-auto items-center">
+                <SearchField
+                  className="flex-auto"
+                  placeholder="Search users…"
+                  searching={this.state.searchingMembersIsSlow}
+                  onChange={this.handleMemberSearch}
+                />
+
+                <div className="flex-none pl3 flex">
+                  <Dropdown width={150} ref={(_memberRoleDropdown) => this._memberRoleDropdown = _memberRoleDropdown}>
+                    <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{TEAM_ROLES.find((role) => role.id === this.props.relay.variables.memberRole).name}</div>
+                    {this.renderMemberRoles()}
+                  </Dropdown>
+                </div>
+              </div>
+            </div>
             {this.renderMemberSearchInfo()}
             {this.renderMembers()}
             {this.renderMemberFooter()}
@@ -108,6 +127,20 @@ class MemberIndex extends React.Component {
       }
     );
   }
+
+  renderMemberRoles() {
+    return TEAM_ROLES.map((role, index) => {
+      return (
+        <div key={index} className="btn block hover-bg-silver" onClick={() => { this._memberRoleDropdown.setShowing(false); this.handleMemberRoleSelect(role.id); }}>
+          <span className="block">{role.name}</span>
+        </div>
+      );
+    });
+  }
+
+  handleMemberRoleSelect = (memberRole) => {
+    this.handleMemberFilterChange({ memberRole });
+  };
 
   renderMemberSearchInfo() {
     const { organization: { members }, relay: { variables: { memberSearch } } } = this.props;
@@ -175,6 +208,10 @@ class MemberIndex extends React.Component {
   }
 
   handleMemberSearch = (memberSearch) => {
+    this.handleMemberFilterChange({ memberSearch });
+  };
+
+  handleMemberFilterChange = (varibles) => {
     this.setState({ searchingMembers: true });
 
     if (this.memberSearchIsSlowTimeout) {
@@ -186,7 +223,7 @@ class MemberIndex extends React.Component {
     }, 1::second);
 
     this.props.relay.forceFetch(
-      { memberSearch },
+      varibles,
       (readyState) => {
         if (readyState.done) {
           if (this.memberSearchIsSlowTimeout) {
@@ -302,6 +339,7 @@ export default Relay.createContainer(MemberIndex, {
     isMounted: false,
     memberPageSize: PAGE_SIZE,
     memberSearch: null,
+    memberRole: null,
     invitationPageSize: PAGE_SIZE
   },
 
@@ -316,7 +354,7 @@ export default Relay.createContainer(MemberIndex, {
             allowed
           }
         }
-        members(first: $memberPageSize, search: $memberSearch, order: NAME) @include(if: $isMounted) {
+        members(first: $memberPageSize, search: $memberSearch, role: $memberRole, order: NAME) @include(if: $isMounted) {
           count
           edges {
             node {
