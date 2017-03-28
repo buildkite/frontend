@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import Relay from 'react-relay';
+import shallowCompare from 'react-addons-shallow-compare';
 import styled from 'styled-components';
 
 import * as breakpoints from '../../shared/breakpoints';
@@ -22,6 +23,10 @@ class Header extends React.Component {
   state = {
     showingCreateBuildDialog: false
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     const buildButtons = <Builds pipeline={this.props.pipeline} buildState={this.props.buildState} />;
