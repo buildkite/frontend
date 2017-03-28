@@ -13,11 +13,6 @@ import Builds from './builds';
 
 import permissions from '../../../lib/permissions';
 
-// const ActionButtonsContainer = styled.div`
-//   border: solid green 2px;
-//   ${breakpoints.md`border: solid red 10px;`}
-// `;
-
 class Header extends React.Component {
   static propTypes = {
     pipeline: React.PropTypes.object.isRequired,
@@ -29,27 +24,36 @@ class Header extends React.Component {
   };
 
   render() {
+    const buildButtons = <Builds pipeline={this.props.pipeline} buildState={this.props.buildState} />;
+
     return (
-      <div className="md-flex mb3">
-        <div className="mr-auto">
-          <h4 className="regular h4 line-height-2 m0 truncate" style={{ maxWidth: '100%' }}>
-            <a className="color-inherit hover-color-inherit text-decoration-none hover-underline" href={this.props.pipeline.url}><Emojify text={this.props.pipeline.name} /></a>
-          </h4>
-          <div className="m0 truncate dark-gray" style={{ maxWidth: "25em", marginTop: 3 }}>
-            {this.renderDescription()}
+      <div>
+        <div className="flex">
+          <div className="flex-auto mb3">
+            <h4 className="regular h4 line-height-2 m0 truncate">
+              <a className="color-inherit hover-color-inherit text-decoration-none hover-underline" href={this.props.pipeline.url}><Emojify text={this.props.pipeline.name} /></a>
+            </h4>
+            <div className="m0 truncate dark-gray" style={{ marginTop: 3 }}>
+              {this.renderDescription()}
+            </div>
+          </div>
+          <div className="mb3 flex flex-none items-center">
+            <div className="xs-hide ml2">
+              {buildButtons}
+            </div>
+            <div className="xs-hide">
+              {this.renderButtons('ml2')}
+            </div>
+            <Button
+              className="sm-hide md-hide lg-hide ml2"
+              outline={true}
+              theme="default">
+              <Icon icon="down-triangle" style={{ width: 8, height: 8, marginTop: -2 }}  />
+            </Button>
           </div>
         </div>
-        <div className="flex items-center">
-          <Builds pipeline={this.props.pipeline} buildState={this.props.buildState} />
-          <div className="xs-hide sm-hide md-flex">
-            {this.renderButtons('ml2')}
-          </div>
-          <Button
-            className="md-hide lg-hide ml2"
-            outline={true}
-            theme="default">
-            <Icon icon="down-triangle" style={{ width: 8, height: 8, marginTop: -2 }}  />
-          </Button>
+        <div className="sm-hide md-hide lg-hide mb3">
+          {buildButtons}
         </div>
         <CreateBuildDialog isOpen={this.state.showingCreateBuildDialog} onRequestClose={this.handleSupportDialogClose} pipeline={this.props.pipeline} />
       </div>
@@ -82,7 +86,7 @@ class Header extends React.Component {
             theme="default"
             className={className}
           >
-            Settings
+            Pipeline Settings
           </Button>
         )
       }

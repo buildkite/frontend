@@ -20,7 +20,7 @@ class StateSwitcher extends React.Component {
   renderLink(label, state, count) {
     const url = state ? `${this.props.path}?state=${state}` : this.props.path;
     const active = this.props.state === state;
-    const classes = classNames("hover-black hover-bg-silver text-decoration-none", {
+    const classes = classNames("hover-black hover-bg-silver text-decoration-none flex-auto", {
       "dark-gray": !active,
       "black": active
     });
@@ -42,13 +42,13 @@ class StateSwitcher extends React.Component {
   render() {
     return (
       <div className="flex">
-        <div className="rounded-left border-left border-top border-bottom border-gray flex items-center">
+        <div className="rounded-left border-left border-top border-bottom border-gray flex-auto flex items-center">
           {this.renderLink("Builds", null, this.props.buildsCount)}
         </div>
-        <div className="border-left border-top border-bottom border-gray flex items-center">
+        <div className="border-left border-top border-bottom border-gray flex-auto flex items-center">
           {this.renderLink("Running", "running", this.props.runningBuildsCount)}
         </div>
-        <div className="rounded-right border border-gray flex items-center">
+        <div className="rounded-right border border-gray flex-auto flex items-center">
           {this.renderLink("Scheduled", "scheduled", this.props.scheduledBuildsCount)}
         </div>
       </div>
