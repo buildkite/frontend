@@ -16,6 +16,7 @@ const DisclosureTriangle = styled(Icon)`
 
 export default class CollapsableArea extends React.Component {
   static propTypes = {
+    children: React.PropTypes.node.isRequired,
     initiallyExpanded: React.PropTypes.bool,
     label: React.PropTypes.string.isRequired,
     // TODO: maxHeight is a bit of a hack, and might break for responsive
@@ -40,27 +41,31 @@ export default class CollapsableArea extends React.Component {
     return (
       <div>
         <button
+          type="button"
           className="unstyled-button bold lime hover-dark-lime"
           aria-expanded={this.state.expanded}
           aria-controls={this.state.uuid}
-          onClick={this.handleToggleOptionsButtonClick}>
+          onClick={this.handleToggleOptionsButtonClick}
+        >
           {this.props.label}
           <DisclosureTriangle
             disclosed={this.state.expanded}
             icon="chevron-right"
-            style={{ width: 8, height: 8, marginLeft: 6, marginTop: -1 }} />
+            style={{ width: 8, height: 8, marginLeft: 6, marginTop: -1 }}
+          />
         </button>
         <TransitionMaxHeight
           className="relative overflow-hidden"
           aria-expanded={this.state.expanded}
           id={this.state.uuid}
-          style={{ maxHeight: this.state.expanded ? this.props.maxHeight : 0 }}>
+          style={{ maxHeight: this.state.expanded ? this.props.maxHeight : 0 }}
+        >
           <div className="pt1">
             {this.props.children}
           </div>
         </TransitionMaxHeight>
       </div>
-    )
+    );
   }
 
   handleToggleOptionsButtonClick = (event) => {
