@@ -42,7 +42,7 @@ class CreateBuildDialog extends React.Component {
 
   render() {
     return (
-      <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose} width="400">
+      <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose} width={400}>
         <form
           action={`/organizations/${this.props.pipeline.organization.slug}/pipelines/${this.props.pipeline.slug}/builds`}
           acceptCharset=""

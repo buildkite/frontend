@@ -54,7 +54,7 @@ class Pipeline extends React.Component {
 
         <a href={this.props.pipeline.url} className="flex flex-auto items-center px2 text-decoration-none color-inherit mr3">
           <div className="truncate">
-            <h2 className="inline h4 regular m0 line-height-2">{this.props.pipeline.name}</h2>
+            <h2 className="inline h4 regular m0 line-height-2"><Emojify text={this.props.pipeline.name} /></h2>
             {this.renderDescription()}
           </div>
         </a>

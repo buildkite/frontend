@@ -11,6 +11,10 @@ class SettingsMenu extends React.Component {
     pipeline: React.PropTypes.object.isRequired
   };
 
+  get provider() {
+    return this.props.pipeline.repository.provider;
+  }
+
   render() {
     const url = `/${this.props.pipeline.organization.slug}/${this.props.pipeline.slug}/settings`;
 
@@ -60,7 +64,7 @@ class SettingsMenu extends React.Component {
         allowed: "pipelineUpdate",
         render: (idx) => (
           <Menu.Button key={idx} href={`${url}/repository`}>
-            <Icon icon={this.repositoryProviderIcon()} className="icon-mr"/>{this.props.pipeline.repository.provider.name}
+            <Icon icon={this.repositoryProviderIcon()} className="icon-mr"/>{this.providerLabel()}
           </Menu.Button>
         )
       },
@@ -91,10 +95,16 @@ class SettingsMenu extends React.Component {
     );
   }
 
-  repositoryProviderIcon() {
-    const provider = this.props.pipeline.repository.provider.__typename;
+  providerLabel() {
+    if (this.provider.__typename === "RepositoryProviderUnknown") {
+      return "Repository";
+    } else {
+      return this.provider.name;
+    }
+  }
 
-    if (provider === "RepositoryProviderGithub") {
+  repositoryProviderIcon() {
+    if (this.provider.__typename === "RepositoryProviderGithub") {
       return "github";
     } else {
       return "blah";

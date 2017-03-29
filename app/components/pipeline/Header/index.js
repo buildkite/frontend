@@ -112,10 +112,13 @@ class Header extends React.Component {
         <Emojify text={this.props.pipeline.description} />
       );
     } else {
-      const url = repository.provider.url ? repository.provider.url : repository.url;
-
       return (
-        <a className="color-inherit hover-color-inherit text-decoration-none hover-underline" href={url}>{url}</a>
+        <a
+          className="color-inherit hover-color-inherit text-decoration-none hover-underline"
+          href={repository.provider.url}
+        >
+          {repository.url}
+        </a>
       );
     }
   }
