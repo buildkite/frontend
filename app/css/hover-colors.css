@@ -1,4 +1,5 @@
-.hover-color-inherit:hover { color: inherit }
+.hover-color-inherit:hover,
+.hover-color-inherit-parent:hover .hover-color-inherit { color: inherit }
 
 .hover-green:hover {
   color: var(--green);

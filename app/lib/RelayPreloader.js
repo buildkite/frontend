@@ -362,6 +362,27 @@ const QUERIES = {
       }
     }
   `,
+  "pipeline/builds_nav": Relay.QL`
+    query($pipeline: ID!) {
+      pipeline(slug: $pipeline) {
+        id
+        slug
+        organization {
+          id
+          slug
+        }
+        builds {
+          count
+        }
+        scheduledBuilds: builds(state: SCHEDULED) {
+          count
+        }
+        runningBuilds: builds(state: RUNNING) {
+          count
+        }
+      }
+    }
+  `,
   "pipeline/settings": Relay.QL`
     query($pipeline: ID!) {
       pipeline(slug: $pipeline) {

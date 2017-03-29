@@ -21,3 +21,5 @@
 .bg-fuchsia   { background-color: var(--fuchsia) }
 .bg-purple    { background-color: var(--purple) }
 .bg-maroon    { background-color: var(--maroon) }
+
+.bg-current-color { background-color: currentColor; }

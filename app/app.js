@@ -37,6 +37,7 @@ window["Webpack"] = {
     "components/layout/Flashes": require("./components/layout/Flashes").default,
     "components/organization/AgentsCount": require("./components/organization/AgentsCount").default,
     "components/organization/SettingsMenu": require("./components/organization/SettingsMenu").default,
+    "components/pipeline/BuildsNavigation": require("./components/pipeline/BuildsNavigation").default,
     "components/pipeline/Header": require("./components/pipeline/Header").default,
     "components/pipeline/Teams": require("./components/pipeline/Teams").default,
     "components/pipeline/SettingsMenu": require("./components/pipeline/SettingsMenu").default,

@@ -1,11 +1,11 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-import BuildStateSwitcher from '../../build/StateSwitcher';
+import BuildStateSwitcher from '../build/StateSwitcher';
 
-import PusherStore from '../../../stores/PusherStore';
+import PusherStore from '../../stores/PusherStore';
 
-class Builds extends React.Component {
+class BuildsNavigation extends React.Component {
   static propTypes = {
     pipeline: React.PropTypes.object.isRequired,
     relay: React.PropTypes.object.isRequired,
@@ -23,7 +23,6 @@ class Builds extends React.Component {
   render() {
     return (
       <BuildStateSwitcher
-        buildsCount={this.props.pipeline.builds.count}
         runningBuildsCount={this.props.pipeline.runningBuilds.count}
         scheduledBuildsCount={this.props.pipeline.scheduledBuilds.count}
         state={this.props.buildState}
@@ -39,7 +38,7 @@ class Builds extends React.Component {
   };
 }
 
-export default Relay.createContainer(Builds, {
+export default Relay.createContainer(BuildsNavigation, {
   fragments: {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
@@ -47,9 +46,6 @@ export default Relay.createContainer(Builds, {
         slug
         organization {
           slug
-        }
-        builds {
-          count
         }
         scheduledBuilds: builds(state: SCHEDULED) {
           count

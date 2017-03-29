@@ -55,6 +55,8 @@ const pathNodes = (icon) => {
       return require("./close").default;
     case 'unknown-user':
       return require("./unknown-user").default;
+    case 'provider/github':
+      return require("./provider/github").default;
     default:
       Logger.error(`[Icon] No icon defined for "${icon}"`);
       return require("./placeholder").default;

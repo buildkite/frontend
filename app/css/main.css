@@ -8,6 +8,7 @@
 @import 'background-hover-colors';
 @import 'border-colors';
 @import 'svg-colors';
+@import 'hover-border-colors';
 @import 'hover-colors';
 @import 'hover-fading';
 @import 'hover-underline';
@@ -74,10 +75,10 @@
 
   --container-width: 100%;
 
-  --h1: 28px;
-  --h2: 24px;
-  --h3: 21px;
-  --h4: 18px;
+  --h1: 24px;
+  --h2: 21px;
+  --h3: 18px;
+  --h4: 16px;
   --h5: 14px;
   --h6: 12px;
 
