@@ -10,6 +10,7 @@ export default class Dropdown extends React.PureComponent {
     children: PropTypes.node.isRequired,
     width: PropTypes.number.isRequired,
     className: PropTypes.string,
+    style: React.PropTypes.object,
     onToggle: PropTypes.func,
     nibOffsetX: PropTypes.number.isRequired,
     offsetY: PropTypes.number.isRequired
@@ -136,6 +137,7 @@ export default class Dropdown extends React.PureComponent {
     return (
       <span
         ref={(wrapperNode) => this.wrapperNode = wrapperNode}
+        style={this.props.style}
         className={wrapperClassName}
       >
         {firstChild}
