@@ -3358,10 +3358,10 @@
                 },
                 {
                   "name": "team",
-                  "description": "Filter the pipelines to those in a paticular team",
+                  "description": "Filter the pipelines by team",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "ID",
+                    "name": "TeamSelector",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -8139,6 +8139,16 @@
           "interfaces": [
 
           ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "TeamSelector",
+          "description": "A Team identifier using a slug, and optionally negated with a leading `!`",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },

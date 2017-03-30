@@ -14,11 +14,14 @@ import TeamPipelineDeleteMutation from '../../../mutations/TeamPipelineDelete';
 import Row from './row';
 import Pipeline from './pipeline';
 
+const PAGE_SIZE = 10;
+
 class Pipelines extends React.Component {
   static displayName = "Team.Pipelines";
 
   static propTypes = {
     team: React.PropTypes.shape({
+      slug: React.PropTypes.string.isRequired,
       pipelines: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
       }).isRequired,
@@ -34,6 +37,13 @@ class Pipelines extends React.Component {
   state = {
     removing: null
   };
+
+  componentDidMount() {
+    this.props.relay.setVariables({
+      isMounted: true,
+      teamSelector: `!${this.props.team.slug}`
+    });
+  }
 
   render() {
     return (
@@ -63,9 +73,10 @@ class Pipelines extends React.Component {
         allowed: "teamPipelineCreate",
         render: () => (
           <Panel.Section>
-            <AutocompleteField onSearch={this.handlePipelineSearch}
+            <AutocompleteField
+              onSearch={this.handlePipelineSearch}
               onSelect={this.handlePipelineSelect}
-              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
+              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.pipelineAddSearch)}
               placeholder="Add pipeline…"
               ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
             />
@@ -75,41 +86,30 @@ class Pipelines extends React.Component {
     );
   }
 
-  renderAutoCompleteSuggstions(search) {
-    // First filter out any pipelines that are already in this list
-    const suggestions = [];
-    this.props.team.organization.pipelines.edges.forEach((pipeline) => {
-      let found = false;
-      this.props.team.pipelines.edges.forEach((edge) => {
-        if (edge.node.pipeline.id === pipeline.node.id) {
-          found = true;
-        }
-      });
-
-      if (!found) {
-        suggestions.push(pipeline.node);
-      }
-    });
+  renderAutoCompleteSuggstions(pipelineAddSearch) {
+    if (!this.props.team.organization.pipelines) {
+      return [];
+    }
 
     // Either render the sugggestions, or show a "not found" error
-    if (suggestions.length > 0) {
-      return suggestions.map((pipeline) => {
-        return [<Pipeline key={pipeline.id} pipeline={pipeline} />, pipeline];
+    if (this.props.team.organization.pipelines.edges.length > 0) {
+      return this.props.team.organization.pipelines.edges.map(({ node }) => {
+        return [<Pipeline key={node.id} pipeline={node} />, node];
       });
-    } else if (search !== "") {
-      return [<AutocompleteField.ErrorMessage key={"error"}>Could not find a pipeline with name <em>{search}</em></AutocompleteField.ErrorMessage>];
+    } else if (pipelineAddSearch !== "") {
+      return [<AutocompleteField.ErrorMessage key={"error"}>Could not find a pipeline with name <em>{pipelineAddSearch}</em></AutocompleteField.ErrorMessage>];
     } else {
       return [];
     }
   }
 
-  handlePipelineSearch = (text) => {
-    this.props.relay.setVariables({ search: text });
+  handlePipelineSearch = (pipelineAddSearch) => {
+    this.props.relay.setVariables({ pipelineAddSearch });
   };
 
   handlePipelineSelect = (pipeline) => {
     this._autoCompletor.clear();
-    this.props.relay.setVariables({ search: "" });
+    this.props.relay.setVariables({ pipelineAddSearch: '' });
     this._autoCompletor.focus();
 
     Relay.Store.commitUpdate(new TeamPipelineCreateMutation({
@@ -139,16 +139,20 @@ class Pipelines extends React.Component {
 
 export default Relay.createContainer(Pipelines, {
   initialVariables: {
-    search: ""
+    isMounted: false,
+    pipelineAddSearch: '',
+    teamSelector: null,
+    pageSize: PAGE_SIZE
   },
 
   fragments: {
     team: () => Relay.QL`
       fragment on Team {
+        slug
         ${TeamPipelineCreateMutation.getFragment('team')}
 
         organization {
-          pipelines(search: $search, first: 10, order: RELEVANCE) {
+          pipelines(search: $pipelineAddSearch, first: 10, order: RELEVANCE, team: $teamSelector) @include (if: $isMounted) {
             edges {
               node {
                 id
@@ -168,7 +172,7 @@ export default Relay.createContainer(Pipelines, {
           }
         }
 
-        pipelines(first: 100, order: NAME) {
+        pipelines(first: $pageSize, order: NAME) {
           edges {
             node {
               id
