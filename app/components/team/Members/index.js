@@ -91,10 +91,10 @@ class Members extends React.Component {
       return [];
     }
 
-    // Either render the sugggestions, or show a "not found" error
+    // Either render the suggestions, or show a "not found" error
     if (this.props.team.organization.members.edges.length > 0) {
       return this.props.team.organization.members.edges.map(({ node }) => {
-        return [<User key={node.id} user={node} />, node];
+        return [<User key={node.user.id} user={node.user} />, node.user];
       });
     } else if (memberAddSearch !== "") {
       return [
