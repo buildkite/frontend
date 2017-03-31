@@ -1,8 +1,10 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-import Panel from '../../shared/Panel';
 import AutocompleteField from '../../shared/AutocompleteField';
+import Button from '../../shared/Button';
+import Panel from '../../shared/Panel';
+import Spinner from '../../shared/Spinner';
 import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
@@ -23,6 +25,10 @@ class Members extends React.Component {
     team: React.PropTypes.shape({
       slug: React.PropTypes.string.isRequired,
       members: React.PropTypes.shape({
+        count: React.PropTypes.number.isRequired,
+        pageInfo: React.PropTypes.shape({
+          hasNextPage: React.PropTypes.bool.isRequired
+        }).isRequired,
         edges: React.PropTypes.array.isRequired
       }).isRequired,
       organization: React.PropTypes.object.isRequired,
@@ -35,6 +41,7 @@ class Members extends React.Component {
   };
 
   state = {
+    loading: false,
     removing: null
   };
 
@@ -51,6 +58,7 @@ class Members extends React.Component {
         <Panel.Header>Members</Panel.Header>
         {this.renderAutoComplete()}
         {this.renderMembers()}
+        {this.renderMemberFooter()}
       </Panel>
     );
   }
@@ -65,6 +73,35 @@ class Members extends React.Component {
     } else {
       return <Panel.Section className="dark-gray">There are no users assigned to this team</Panel.Section>;
     }
+  }
+
+  renderMemberFooter() {
+    // don't show any footer if we haven't ever loaded
+    // any members, or if there's no next page
+    if (!this.props.team.members || !this.props.team.members.pageInfo.hasNextPage) {
+      return;
+    }
+
+    let footerContent = (
+      <Button
+        outline={true}
+        theme="default"
+        onClick={this.handleLoadMoreMembersClick}
+      >
+        Show more members…
+      </Button>
+    );
+
+    // show a spinner if we're loading more members
+    if (this.state.loading) {
+      footerContent = <Spinner style={{ margin: 9.5 }} />;
+    }
+
+    return (
+      <Panel.Footer className="center">
+        {footerContent}
+      </Panel.Footer>
+    );
   }
 
   renderAutoComplete() {
@@ -106,6 +143,23 @@ class Members extends React.Component {
       return [];
     }
   }
+
+  handleLoadMoreMembersClick = () => {
+    this.setState({ loading: true });
+
+    let { pageSize } = this.props.relay.variables;
+
+    pageSize += PAGE_SIZE;
+
+    this.props.relay.setVariables(
+      { pageSize },
+      (readyState) => {
+        if (readyState.done) {
+          this.setState({ loading: false });
+        }
+      }
+    );
+  };
 
   handleUserSearch = (memberAddSearch) => {
     this.props.relay.setVariables({ memberAddSearch });
@@ -175,6 +229,7 @@ export default Relay.createContainer(Members, {
         }
 
         members(first: $pageSize, order: NAME) {
+          count
           edges {
             node {
               id
@@ -198,6 +253,9 @@ export default Relay.createContainer(Members, {
               ${TeamMemberDeleteMutation.getFragment('teamMember')}
               ${TeamMemberUpdateMutation.getFragment('teamMember')}
             }
+          }
+          pageInfo {
+            hasNextPage
           }
         }
       }
