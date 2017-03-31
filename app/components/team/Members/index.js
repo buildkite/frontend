@@ -14,11 +14,14 @@ import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
 import Row from './row';
 import User from './user';
 
+const PAGE_SIZE = 10;
+
 class Members extends React.Component {
   static displayName = "Team.Members";
 
   static propTypes = {
     team: React.PropTypes.shape({
+      slug: React.PropTypes.string.isRequired,
       members: React.PropTypes.shape({
         edges: React.PropTypes.array.isRequired
       }).isRequired,
@@ -34,6 +37,13 @@ class Members extends React.Component {
   state = {
     removing: null
   };
+
+  componentDidMount() {
+    this.props.relay.setVariables({
+      isMounted: true,
+      teamSelector: `!${this.props.team.slug}`
+    });
+  }
 
   render() {
     return (
@@ -63,9 +73,10 @@ class Members extends React.Component {
         allowed: "teamMemberCreate",
         render: () => (
           <Panel.Section>
-            <AutocompleteField onSearch={this.handleUserSearch}
+            <AutocompleteField
+              onSearch={this.handleUserSearch}
               onSelect={this.handleUserSelect}
-              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
+              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.memberAddSearch)}
               placeholder="Add user…"
               ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
             />
@@ -75,31 +86,20 @@ class Members extends React.Component {
     );
   }
 
-  renderAutoCompleteSuggstions(search) {
-    // First filter out any members that are already in this list
-    const suggestions = [];
-    this.props.team.organization.members.edges.forEach((member) => {
-      let found = false;
-      this.props.team.members.edges.forEach((edge) => {
-        if (edge.node.user.id === member.node.user.id) {
-          found = true;
-        }
-      });
-
-      if (!found) {
-        suggestions.push(member.node.user);
-      }
-    });
+  renderAutoCompleteSuggstions(memberAddSearch) {
+    if (!this.props.team.organization.members) {
+      return [];
+    }
 
     // Either render the sugggestions, or show a "not found" error
-    if (suggestions.length > 0) {
-      return suggestions.map((user) => {
-        return [<User key={user.id} user={user} />, user];
+    if (this.props.team.organization.members.edges.length > 0) {
+      return this.props.team.organization.members.edges.map(({ node }) => {
+        return [<User key={node.id} user={node} />, node];
       });
-    } else if (search !== "") {
+    } else if (memberAddSearch !== "") {
       return [
         <AutocompleteField.ErrorMessage key="error">
-          Could not find a user with name <em>{search}</em>
+          Could not find a user with name <em>{memberAddSearch}</em>
         </AutocompleteField.ErrorMessage>
       ];
     } else {
@@ -107,13 +107,13 @@ class Members extends React.Component {
     }
   }
 
-  handleUserSearch = (text) => {
-    this.props.relay.setVariables({ search: text });
+  handleUserSearch = (memberAddSearch) => {
+    this.props.relay.setVariables({ memberAddSearch });
   };
 
   handleUserSelect = (user) => {
     this._autoCompletor.clear();
-    this.props.relay.setVariables({ search: "" });
+    this.props.relay.setVariables({ memberAddSearch: "" });
     this._autoCompletor.focus();
 
     Relay.Store.commitUpdate(new TeamMemberCreateMutation({
@@ -138,16 +138,20 @@ class Members extends React.Component {
 
 export default Relay.createContainer(Members, {
   initialVariables: {
-    search: ""
+    isMounted: false,
+    memberAddSearch: '',
+    teamSelector: null,
+    pageSize: PAGE_SIZE
   },
 
   fragments: {
     team: () => Relay.QL`
       fragment on Team {
+        slug
         ${TeamMemberCreateMutation.getFragment('team')}
 
         organization {
-          members(search: $search, first: 10, order: RELEVANCE) {
+          members(search: $memberAddSearch, first: 10, order: RELEVANCE, team: $teamSelector) @include (if: $isMounted) {
             edges {
               node {
                 user {
@@ -170,7 +174,7 @@ export default Relay.createContainer(Members, {
           }
         }
 
-        members(first: 100, order: NAME) {
+        members(first: $pageSize, order: NAME) {
           edges {
             node {
               id

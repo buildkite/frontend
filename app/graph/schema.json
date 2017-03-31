@@ -3234,6 +3234,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "team",
+                  "description": "Filter the members by team",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "TeamSelector",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "role",
                   "description": "Search members by their role",
                   "type": {
