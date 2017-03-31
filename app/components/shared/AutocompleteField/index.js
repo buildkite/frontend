@@ -43,10 +43,6 @@ class AutocompleteField extends React.PureComponent {
       if (this.state.searching) {
         this.setState({ searching: false });
       }
-
-      // And finally, if we got data, then we should make the list
-      // visible
-      this.setState({ visible: (nextProps.items.length > 0) });
     } else {
       this.setState({ selected: null });
     }
