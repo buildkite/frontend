@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import UserAvatar from '../../shared/UserAvatar';
 
@@ -20,10 +19,6 @@ export default class User extends React.Component {
   static contextTypes = {
     autoCompletorSuggestion: React.PropTypes.object
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     // Toggle the `dark-gray` color on the repository text if this component is

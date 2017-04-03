@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import shallowCompare from 'react-addons-shallow-compare';
 
 export default class Pipeline extends React.Component {
   static displayName = "Team.Pipelines.Pipeline";
@@ -17,10 +16,6 @@ export default class Pipeline extends React.Component {
   static contextTypes = {
     autoCompletorSuggestion: React.PropTypes.object
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     // Toggle the `dark-gray` color on the repository text if this component is
