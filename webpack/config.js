@@ -113,7 +113,6 @@ var vendor_modules = [
   "react-relay",
   "react-router",
   "react-router-relay",
-  "react-type-snob",
   "styled-components",
   "throttleit",
   "uuid",
