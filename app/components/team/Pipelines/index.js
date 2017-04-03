@@ -1,20 +1,17 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-import AutocompleteField from '../../shared/AutocompleteField';
 import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
 import Spinner from '../../shared/Spinner';
-import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
 
-import TeamPipelineCreateMutation from '../../../mutations/TeamPipelineCreate';
 import TeamPipelineUpdateMutation from '../../../mutations/TeamPipelineUpdate';
 import TeamPipelineDeleteMutation from '../../../mutations/TeamPipelineDelete';
 
+import Chooser from './chooser';
 import Row from './row';
-import Pipeline from './pipeline';
 
 const PAGE_SIZE = 10;
 
@@ -23,17 +20,11 @@ class Pipelines extends React.Component {
 
   static propTypes = {
     team: React.PropTypes.shape({
-      slug: React.PropTypes.string.isRequired,
       pipelines: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired,
         pageInfo: React.PropTypes.shape({
           hasNextPage: React.PropTypes.bool.isRequired
         }).isRequired,
         edges: React.PropTypes.array.isRequired
-      }).isRequired,
-      organization: React.PropTypes.object.isRequired,
-      permissions: React.PropTypes.shape({
-        teamPipelineCreate: React.PropTypes.object.isRequired
       }).isRequired
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
@@ -45,18 +36,11 @@ class Pipelines extends React.Component {
     removing: null
   };
 
-  componentDidMount() {
-    this.props.relay.setVariables({
-      isMounted: true,
-      teamSelector: `!${this.props.team.slug}`
-    });
-  }
-
   render() {
     return (
       <Panel className={this.props.className}>
         <Panel.Header>Pipelines</Panel.Header>
-        {this.renderAutoComplete()}
+        <Chooser team={this.props.team} />
         {this.renderPipelines()}
         {this.renderPipelineFooter()}
       </Panel>
@@ -104,42 +88,6 @@ class Pipelines extends React.Component {
     );
   }
 
-  renderAutoComplete() {
-    return permissions(this.props.team.permissions).check(
-      {
-        allowed: "teamPipelineCreate",
-        render: () => (
-          <Panel.Section>
-            <AutocompleteField
-              onSearch={this.handlePipelineSearch}
-              onSelect={this.handlePipelineSelect}
-              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.pipelineAddSearch)}
-              placeholder="Add pipeline…"
-              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-            />
-          </Panel.Section>
-        )
-      }
-    );
-  }
-
-  renderAutoCompleteSuggstions(pipelineAddSearch) {
-    if (!this.props.team.organization.pipelines) {
-      return [];
-    }
-
-    // Either render the sugggestions, or show a "not found" error
-    if (this.props.team.organization.pipelines.edges.length > 0) {
-      return this.props.team.organization.pipelines.edges.map(({ node }) => {
-        return [<Pipeline key={node.id} pipeline={node} />, node];
-      });
-    } else if (pipelineAddSearch !== "") {
-      return [<AutocompleteField.ErrorMessage key={"error"}>Could not find a pipeline with name <em>{pipelineAddSearch}</em></AutocompleteField.ErrorMessage>];
-    } else {
-      return [];
-    }
-  }
-
   handleLoadMorePipelinesClick = () => {
     this.setState({ loading: true });
 
@@ -155,21 +103,6 @@ class Pipelines extends React.Component {
         }
       }
     );
-  };
-
-  handlePipelineSearch = (pipelineAddSearch) => {
-    this.props.relay.setVariables({ pipelineAddSearch });
-  };
-
-  handlePipelineSelect = (pipeline) => {
-    this._autoCompletor.clear();
-    this.props.relay.setVariables({ pipelineAddSearch: '' });
-    this._autoCompletor.focus();
-
-    Relay.Store.commitUpdate(new TeamPipelineCreateMutation({
-      team: this.props.team,
-      pipeline: pipeline
-    }), { onFailure: this.handleMutationFailure });
   };
 
   handleAccessLevelChange = (teamPipeline, accessLevel, callback) => {
@@ -193,38 +126,13 @@ class Pipelines extends React.Component {
 
 export default Relay.createContainer(Pipelines, {
   initialVariables: {
-    isMounted: false,
-    pipelineAddSearch: '',
-    teamSelector: null,
     pageSize: PAGE_SIZE
   },
 
   fragments: {
     team: () => Relay.QL`
       fragment on Team {
-        slug
-        ${TeamPipelineCreateMutation.getFragment('team')}
-
-        organization {
-          pipelines(search: $pipelineAddSearch, first: 10, order: RELEVANCE, team: $teamSelector) @include (if: $isMounted) {
-            edges {
-              node {
-                id
-                name
-                repository {
-                  url
-                }
-                ${TeamPipelineCreateMutation.getFragment('pipeline')}
-              }
-            }
-          }
-        }
-
-        permissions {
-          teamPipelineCreate {
-            allowed
-          }
-        }
+        ${Chooser.getFragment('team')}
 
         pipelines(first: $pageSize, order: NAME) {
           count
