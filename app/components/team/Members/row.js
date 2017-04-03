@@ -40,7 +40,7 @@ class Row extends React.Component {
     return (
       <Panel.Row>
         <User user={this.props.teamMember.user} role={this.props.teamMember.role} />
-        <Panel.RowActions>{this.renderActions()}</Panel.RowActions>
+        <Panel.RowActions className="ml2">{this.renderActions()}</Panel.RowActions>
       </Panel.Row>
     );
   }

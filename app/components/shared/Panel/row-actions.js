@@ -1,11 +1,18 @@
-import React from "react";
+import React from 'react';
+import classNames from 'classnames';
+import shallowCompare from 'react-addons-shallow-compare';
 
-class RowActions extends React.Component {
+export default class RowActions extends React.Component {
   static displayName = "Panel.RowActions";
 
   static propTypes = {
-    children: React.PropTypes.node
+    children: React.PropTypes.node,
+    className: React.PropTypes.string
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     const children = React.Children.toArray(this.props.children);
@@ -16,7 +23,7 @@ class RowActions extends React.Component {
     // trick!
     if (children.length > 0) {
       return (
-        <div className="flex items-center">
+        <div className={classNames('flex items-center', this.props.className)}>
           {this.props.children}
         </div>
       );
@@ -25,5 +32,3 @@ class RowActions extends React.Component {
     }
   }
 }
-
-export default RowActions;
