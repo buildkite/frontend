@@ -1,7 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { second, seconds } from 'metrick/duration';
-import shallowCompare from 'react-addons-shallow-compare';
 import throttle from 'throttleit';
 
 import Panel from '../../shared/Panel';
@@ -16,7 +15,7 @@ import AgentRow from './row';
 
 const PAGE_SIZE = 100;
 
-class Agents extends React.Component {
+class Agents extends React.PureComponent {
   static propTypes = {
     organization: React.PropTypes.shape({
       allAgents: React.PropTypes.shape({
@@ -91,10 +90,6 @@ class Agents extends React.Component {
     },
     3::seconds
   );
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     // grab (potentially) filtered agent list here, as we need it in several places

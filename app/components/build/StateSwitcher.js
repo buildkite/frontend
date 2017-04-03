@@ -1,10 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import { formatNumber } from '../../lib/number';
 
-class StateSwitcher extends React.Component {
+class StateSwitcher extends React.PureComponent {
   static propTypes = {
     buildsCount: React.PropTypes.number,
     runningBuildsCount: React.PropTypes.number,
@@ -12,10 +11,6 @@ class StateSwitcher extends React.Component {
     state: React.PropTypes.string,
     path: React.PropTypes.string
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   renderLink(label, state, count) {
     const url = state ? `${this.props.path}?state=${state}` : this.props.path;

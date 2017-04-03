@@ -1,10 +1,9 @@
 import React from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 import classNames from 'classnames';
 import { second } from 'metrick/duration';
 import { getDurationString } from '../../lib/date';
 
-class Duration extends React.Component {
+class Duration extends React.PureComponent {
   static propTypes = {
     from: React.PropTypes.oneOfType([
       React.PropTypes.string,
@@ -72,10 +71,6 @@ class Duration extends React.Component {
     this.setState({
       value: getDurationString(from, to, format, overrides)
     });
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
   }
 
   render() {

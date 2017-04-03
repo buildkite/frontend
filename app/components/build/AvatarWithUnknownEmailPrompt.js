@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Dropdown from '../shared/Dropdown';
 import Icon from '../shared/Icon';
@@ -12,7 +11,7 @@ import FlashesStore from '../../stores/FlashesStore';
 import EmailCreateMutation from '../../mutations/EmailCreate';
 import NoticeDismissMutation from '../../mutations/NoticeDismiss';
 
-class AvatarWithUnknownEmailPrompt extends React.Component {
+class AvatarWithUnknownEmailPrompt extends React.PureComponent {
   static propTypes = {
     build: React.PropTypes.shape({
       createdBy: React.PropTypes.shape({
@@ -74,10 +73,6 @@ class AvatarWithUnknownEmailPrompt extends React.Component {
   // it's associated email to their user account
   isUnregisteredWithEmail(createdBy) {
     return (createdBy && createdBy.email && createdBy.__typename === "UnregisteredUser");
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
   }
 
   componentDidMount() {

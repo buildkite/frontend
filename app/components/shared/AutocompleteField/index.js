@@ -1,12 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import SearchField from '../SearchField';
 import Suggestion from './suggestion';
 import ErrorMessage from './error-message';
 
-class AutocompleteField extends React.Component {
+class AutocompleteField extends React.PureComponent {
   static propTypes = {
     onSelect: React.PropTypes.func.isRequired,
     onSearch: React.PropTypes.func.isRequired,
@@ -18,10 +17,6 @@ class AutocompleteField extends React.Component {
     visible: false,
     searching: false
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.items) {

@@ -1,7 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
 import FormCheckbox from '../shared/FormCheckbox';
@@ -18,7 +17,7 @@ import OrganizationInvitationCreateMutation from '../../mutations/OrganizationIn
 import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
 import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
 
-class MemberNew extends React.Component {
+class MemberNew extends React.PureComponent {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -44,10 +43,6 @@ class MemberNew extends React.Component {
     teams: [],
     isAdmin: false
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     return (

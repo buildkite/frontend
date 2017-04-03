@@ -2,7 +2,6 @@ import React from 'react';
 import Relay from 'react-relay';
 import { second } from 'metrick/duration';
 import DocumentTitle from 'react-document-title';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
 import Dropdown from '../shared/Dropdown';
@@ -26,7 +25,7 @@ const TEAM_ROLES =  [
 
 const PAGE_SIZE = 10;
 
-class MemberIndex extends React.Component {
+class MemberIndex extends React.PureComponent {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -62,10 +61,6 @@ class MemberIndex extends React.Component {
     searchingMembersIsSlow: false,
     loadingInvitations: false
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   componentDidMount() {
     // Use a `forceFetch` so every time the user comes back to this page we'll

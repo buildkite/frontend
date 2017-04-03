@@ -1,10 +1,9 @@
 import React from "react";
 import { Link } from 'react-router';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Icon from '../../shared/Icon';
 
-export default class RowLink extends React.Component {
+export default class RowLink extends React.PureComponent {
   static displayName = "Panel.RowLink";
 
   static propTypes = {
@@ -12,10 +11,6 @@ export default class RowLink extends React.Component {
     to: React.PropTypes.string,
     href: React.PropTypes.string
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     if (this.props.to) {
