@@ -18,6 +18,11 @@ if (process.env.FRONTEND_HOST.slice(-1) !== "/") {
   throw "FRONTEND_HOST must end with a /";
 }
 
+// Ensure a EMOJI_HOST is setup since we need it for emoji
+if (!process.env.EMOJI_HOST) {
+  throw "No EMOJI_HOST set";
+}
+
 const IS_PRODUCTION = (process.env.NODE_ENV === "production");
 
 // Include a hash of the bundle in the name when we're building these files for
