@@ -2,7 +2,6 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import Button from '../../shared/Button';
-import Dialog from '../../shared/Dialog';
 import Panel from '../../shared/Panel';
 import Spinner from '../../shared/Spinner';
 
@@ -33,26 +32,16 @@ class Pipelines extends React.Component {
   };
 
   state = {
-    loading: false,
-    showingDialog: false
+    loading: false
   };
 
   render() {
     return (
-      <div>
-        <Panel className={this.props.className}>
-          <Panel.Header>Pipelines <Button onClick={this.handleDialogOpen}>Add Pipeline…</Button></Panel.Header>
-          {this.renderPipelines()}
-          {this.renderPipelineFooter()}
-        </Panel>
-        <Dialog
-          isOpen={this.state.showingDialog}
-          onRequestClose={this.handleDialogClose}
-          width={350}
-        >
-          <Chooser team={this.props.team} />
-        </Dialog>
-      </div>
+      <Panel className={this.props.className}>
+        <Panel.Header>Pipelines <Chooser team={this.props.team} /></Panel.Header>
+        {this.renderPipelines()}
+        {this.renderPipelineFooter()}
+      </Panel>
     );
   }
 
@@ -96,14 +85,6 @@ class Pipelines extends React.Component {
       </Panel.Footer>
     );
   }
-
-  handleDialogOpen = () => {
-    this.setState({ showingDialog: true });
-  };
-
-  handleDialogClose = () => {
-    this.setState({ showingDialog: false });
-  };
 
   handleLoadMorePipelinesClick = () => {
     this.setState({ loading: true });

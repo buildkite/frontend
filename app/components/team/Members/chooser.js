@@ -2,6 +2,8 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import AutocompleteField from '../../shared/AutocompleteField';
+import Button from '../../shared/Button';
+import Dialog from '../../shared/Dialog';
 import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
@@ -32,7 +34,8 @@ class Chooser extends React.Component {
 
   state = {
     loading: false,
-    removing: null
+    removing: null,
+    showingDialog: false
   };
 
   componentDidMount() {
@@ -47,13 +50,22 @@ class Chooser extends React.Component {
       {
         allowed: "teamMemberCreate",
         render: () => (
-          <AutocompleteField
-            onSearch={this.handleUserSearch}
-            onSelect={this.handleUserSelect}
-            items={this.renderAutoCompleteSuggstions(this.props.relay.variables.memberAddSearch)}
-            placeholder="Add user…"
-            ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-          />
+          <div>
+            <Button onClick={this.handleDialogOpen}>Add User…</Button>
+            <Dialog
+              isOpen={this.state.showingDialog}
+              onRequestClose={this.handleDialogClose}
+              width={350}
+            >
+              <AutocompleteField
+                onSearch={this.handleUserSearch}
+                onSelect={this.handleUserSelect}
+                items={this.renderAutoCompleteSuggstions(this.props.relay.variables.memberAddSearch)}
+                placeholder="Add user…"
+                ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
+              />
+            </Dialog>
+          </div>
         )
       }
     );
@@ -79,6 +91,14 @@ class Chooser extends React.Component {
       return [];
     }
   }
+
+  handleDialogOpen = () => {
+    this.setState({ showingDialog: true });
+  };
+
+  handleDialogClose = () => {
+    this.setState({ showingDialog: false });
+  };
 
   handleUserSearch = (memberAddSearch) => {
     this.props.relay.setVariables({ memberAddSearch });
