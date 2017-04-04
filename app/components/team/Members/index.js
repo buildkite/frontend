@@ -36,7 +36,10 @@ class Members extends React.Component {
   render() {
     return (
       <Panel className={this.props.className}>
-        <Panel.Header>Members <Chooser team={this.props.team} /></Panel.Header>
+        <Panel.Header className="flex items-center">
+          <span className="flex-auto">Members</span>
+          <Chooser team={this.props.team} />
+        </Panel.Header>
         {this.renderMembers()}
         {this.renderMemberFooter()}
       </Panel>
