@@ -61,15 +61,18 @@ class Chooser extends React.Component {
             <Dialog
               isOpen={this.state.showingDialog}
               onRequestClose={this.handleDialogClose}
-              width={350}
+              width={400}
             >
-              <AutocompleteField
-                onSearch={this.handleUserSearch}
-                onSelect={this.handleUserSelect}
-                items={this.renderAutoCompleteSuggstions(this.props.relay.variables.memberAddSearch)}
-                placeholder="Add user…"
-                ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-              />
+              <div className="p4">
+                <AutocompleteField
+                  onSearch={this.handleUserSearch}
+                  onSelect={this.handleUserSelect}
+                  items={this.renderAutoCompleteSuggstions(this.props.relay.variables.memberAddSearch)}
+                  placeholder="Find a user…"
+                  popover={false}
+                  ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
+                />
+              </div>
             </Dialog>
           </div>
         )
@@ -99,7 +102,7 @@ class Chooser extends React.Component {
   }
 
   handleDialogOpen = () => {
-    this.setState({ showingDialog: true });
+    this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
   };
 
   handleDialogClose = () => {
@@ -111,9 +114,9 @@ class Chooser extends React.Component {
   };
 
   handleUserSelect = (user) => {
+    this.setState({ showingDialog: false });
     this._autoCompletor.clear();
-    this.props.relay.setVariables({ memberAddSearch: "" });
-    this._autoCompletor.focus();
+    this.props.relay.setVariables({ memberAddSearch: '' });
 
     Relay.Store.commitUpdate(new TeamMemberCreateMutation({
       team: this.props.team,

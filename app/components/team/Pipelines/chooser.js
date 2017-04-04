@@ -59,15 +59,18 @@ class Chooser extends React.Component {
             <Dialog
               isOpen={this.state.showingDialog}
               onRequestClose={this.handleDialogClose}
-              width={350}
+              width={400}
             >
-              <AutocompleteField
-                onSearch={this.handlePipelineSearch}
-                onSelect={this.handlePipelineSelect}
-                items={this.renderAutoCompleteSuggstions(this.props.relay.variables.pipelineAddSearch)}
-                placeholder="Add pipeline…"
-                ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-              />
+              <div className="p4">
+                <AutocompleteField
+                  onSearch={this.handlePipelineSearch}
+                  onSelect={this.handlePipelineSelect}
+                  items={this.renderAutoCompleteSuggstions(this.props.relay.variables.pipelineAddSearch)}
+                  placeholder="Find a pipeline…"
+                  popover={false}
+                  ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
+                />
+              </div>
             </Dialog>
           </div>
         )
@@ -93,7 +96,7 @@ class Chooser extends React.Component {
   }
 
   handleDialogOpen = () => {
-    this.setState({ showingDialog: true });
+    this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
   };
 
   handleDialogClose = () => {
@@ -105,9 +108,9 @@ class Chooser extends React.Component {
   };
 
   handlePipelineSelect = (pipeline) => {
+    this.setState({ showingDialog: false });
     this._autoCompletor.clear();
     this.props.relay.setVariables({ pipelineAddSearch: '' });
-    this._autoCompletor.focus();
 
     Relay.Store.commitUpdate(new TeamPipelineCreateMutation({
       team: this.props.team,
