@@ -49,7 +49,13 @@ class Chooser extends React.Component {
         allowed: "teamPipelineCreate",
         render: () => (
           <div>
-            <Button onClick={this.handleDialogOpen}>Add Pipeline…</Button>
+            <Button
+              onClick={this.handleDialogOpen}
+              outline={true}
+              theme="default"
+            >
+              Add Pipeline…
+            </Button>
             <Dialog
               isOpen={this.state.showingDialog}
               onRequestClose={this.handleDialogClose}

@@ -51,7 +51,13 @@ class Chooser extends React.Component {
         allowed: "teamMemberCreate",
         render: () => (
           <div>
-            <Button onClick={this.handleDialogOpen}>Add User…</Button>
+            <Button
+              onClick={this.handleDialogOpen}
+              outline={true}
+              theme="default"
+            >
+              Add User…
+            </Button>
             <Dialog
               isOpen={this.state.showingDialog}
               onRequestClose={this.handleDialogClose}
