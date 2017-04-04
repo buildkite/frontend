@@ -2,7 +2,6 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import AutocompleteField from '../../shared/AutocompleteField';
-import Panel from '../../shared/Panel';
 import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
@@ -46,15 +45,13 @@ class Chooser extends React.Component {
       {
         allowed: "teamPipelineCreate",
         render: () => (
-          <Panel.Section>
-            <AutocompleteField
-              onSearch={this.handlePipelineSearch}
-              onSelect={this.handlePipelineSelect}
-              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.pipelineAddSearch)}
-              placeholder="Add pipeline…"
-              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-            />
-          </Panel.Section>
+          <AutocompleteField
+            onSearch={this.handlePipelineSearch}
+            onSelect={this.handlePipelineSelect}
+            items={this.renderAutoCompleteSuggstions(this.props.relay.variables.pipelineAddSearch)}
+            placeholder="Add pipeline…"
+            ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
+          />
         )
       }
     );

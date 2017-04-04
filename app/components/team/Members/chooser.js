@@ -2,7 +2,6 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import AutocompleteField from '../../shared/AutocompleteField';
-import Panel from '../../shared/Panel';
 import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
@@ -48,15 +47,13 @@ class Chooser extends React.Component {
       {
         allowed: "teamMemberCreate",
         render: () => (
-          <Panel.Section>
-            <AutocompleteField
-              onSearch={this.handleUserSearch}
-              onSelect={this.handleUserSelect}
-              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.memberAddSearch)}
-              placeholder="Add user…"
-              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-            />
-          </Panel.Section>
+          <AutocompleteField
+            onSearch={this.handleUserSearch}
+            onSelect={this.handleUserSelect}
+            items={this.renderAutoCompleteSuggstions(this.props.relay.variables.memberAddSearch)}
+            placeholder="Add user…"
+            ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
+          />
         )
       }
     );
