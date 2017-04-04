@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import Button from '../../shared/Button';
+import Dialog from '../../shared/Dialog';
 import Panel from '../../shared/Panel';
 import Spinner from '../../shared/Spinner';
 
@@ -31,17 +32,25 @@ class Members extends React.Component {
 
   state = {
     loading: false,
-    removing: null
+    showingDialog: false
   };
 
   render() {
     return (
-      <Panel className={this.props.className}>
-        <Panel.Header>Members</Panel.Header>
-        <Chooser team={this.props.team} />
-        {this.renderMembers()}
-        {this.renderMemberFooter()}
-      </Panel>
+      <div>
+        <Panel className={this.props.className}>
+          <Panel.Header>Members <Button onClick={this.handleDialogOpen}>Add User…</Button></Panel.Header>
+          {this.renderMembers()}
+          {this.renderMemberFooter()}
+        </Panel>
+        <Dialog
+          isOpen={this.state.showingDialog}
+          onRequestClose={this.handleDialogClose}
+          width={350}
+        >
+          <Chooser team={this.props.team} />
+        </Dialog>
+      </div>
     );
   }
 
@@ -85,6 +94,14 @@ class Members extends React.Component {
       </Panel.Footer>
     );
   }
+
+  handleDialogOpen = () => {
+    this.setState({ showingDialog: true });
+  };
+
+  handleDialogClose = () => {
+    this.setState({ showingDialog: false });
+  };
 
   handleLoadMoreMembersClick = () => {
     this.setState({ loading: true });
