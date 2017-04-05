@@ -1,5 +1,4 @@
 import React from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 import shuffle from 'shuffle-array';
 import styled, { keyframes } from 'styled-components';
 
@@ -49,17 +48,13 @@ const Mugshot = styled.img`
   margin: ${-IMAGE_PADDING_VERTICAL}px ${-IMAGE_PADDING_HORIZONTAL}px;
 `;
 
-class SupportDialog extends React.Component {
+class SupportDialog extends React.PureComponent {
   static displayName = "Navigation.SupportDialog";
 
   static propTypes = {
     isOpen: React.PropTypes.bool,
     onRequestClose: React.PropTypes.func
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     return (

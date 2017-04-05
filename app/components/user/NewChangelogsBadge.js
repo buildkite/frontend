@@ -1,12 +1,11 @@
 import React from 'react';
 import Relay from 'react-relay';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import shallowCompare from 'react-addons-shallow-compare';
 import classNames from 'classnames';
 
 import PusherStore from '../../stores/PusherStore';
 
-class NewChangelogsBadge extends React.Component {
+class NewChangelogsBadge extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
     relay: React.PropTypes.object.isRequired,
@@ -28,10 +27,6 @@ class NewChangelogsBadge extends React.Component {
 
   handlePusherWebsocketEvent = () => {
     this.props.relay.forceFetch();
-  };
-
-  shouldComponentUpdate = (nextProps, nextState) => {
-    return shallowCompare(this, nextProps, nextState);
   };
 
   render() {

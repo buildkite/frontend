@@ -1,12 +1,11 @@
 import React from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Chooser from '../../shared/Chooser';
 import Dropdown from '../../shared/Dropdown';
 
 import TeamMemberRoleConstants from '../../../constants/TeamMemberRoleConstants';
 
-class MemberRole extends React.Component {
+class MemberRole extends React.PureComponent {
   static displayName = "Team.Pipelines.Role";
 
   static propTypes = {
@@ -16,10 +15,6 @@ class MemberRole extends React.Component {
     onRoleChange: React.PropTypes.func.isRequired,
     savingNewRole: React.PropTypes.string
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     const saving = this.props.savingNewRole;

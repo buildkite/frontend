@@ -1,7 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
 import FormRadioGroup from '../shared/FormRadioGroup';
@@ -21,7 +20,7 @@ import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberR
 import GraphQLErrors from '../../constants/GraphQLErrors';
 import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
 
-class MemberNew extends React.Component {
+class MemberNew extends React.PureComponent {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -49,10 +48,6 @@ class MemberNew extends React.Component {
     role: OrganizationMemberRoleConstants.MEMBER,
     errors: null
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   componentDidMount() {
     this.props.relay.forceFetch({ isMounted: true });

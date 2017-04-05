@@ -1,5 +1,4 @@
 import React from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 import { v4 as uuid } from 'uuid';
 
 import BuildStates from '../../constants/BuildStates';
@@ -32,7 +31,7 @@ const STATE_COLORS = {
   [BuildStates.NOT_RUN]: '#83B0E4'
 };
 
-class BuildState extends React.Component {
+class BuildState extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
     size: React.PropTypes.number.isRequired,
@@ -49,10 +48,6 @@ class BuildState extends React.Component {
     this.setState({
       uuid: uuid()
     });
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
   }
 
   render() {

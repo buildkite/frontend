@@ -1,17 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
-import shallowCompare from 'react-addons-shallow-compare';
 
-class FormInputLabel extends React.Component {
+class FormInputLabel extends React.PureComponent {
   static propTypes = {
     label: React.PropTypes.node.isRequired,
     children: React.PropTypes.node,
     errors: React.PropTypes.bool
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     return (

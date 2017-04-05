@@ -1,18 +1,13 @@
 import React from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Emoji from '../../lib/Emoji';
 
-class Emojify extends React.Component {
+class Emojify extends React.PureComponent {
   static propTypes = {
     text: React.PropTypes.string,
     className: React.PropTypes.string,
     style: React.PropTypes.object
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     const { className, text, style } = this.props;

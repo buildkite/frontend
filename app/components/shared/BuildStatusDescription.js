@@ -1,10 +1,9 @@
 import React from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 import { minute } from 'metrick/duration';
 import { getDateString, getRelativeDateString } from '../../lib/date';
 import { buildStatus } from '../../lib/builds';
 
-class BuildStatusDescription extends React.Component {
+class BuildStatusDescription extends React.PureComponent {
   static propTypes = {
     build: React.PropTypes.object.isRequired,
     updateFrequency: React.PropTypes.number.isRequired
@@ -57,10 +56,6 @@ class BuildStatusDescription extends React.Component {
     }
 
     this.updateBuildInfo(build);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
   }
 
   render() {

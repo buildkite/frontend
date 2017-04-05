@@ -1,5 +1,4 @@
 import React from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 import styled from 'styled-components';
 
 const NIB_WIDTH = 32;
@@ -21,7 +20,7 @@ Nib.defaultProps = {
   className: 'absolute pointer-events-none'
 };
 
-export default class Popover extends React.Component {
+export default class Popover extends React.PureComponent {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
     nibOffsetX: React.PropTypes.number.isRequired,
@@ -40,10 +39,6 @@ export default class Popover extends React.Component {
     innerRef() {},
     width: 250
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     const { children, innerRef, nibOffsetX, offsetX, offsetY: top, style, width } = this.props;

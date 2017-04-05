@@ -1,11 +1,10 @@
 import React from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 import classNames from 'classnames';
 
 import Popover from '.';
 import calculateViewportOffsets from './calculate-viewport-offsets';
 
-export default class AnchoredPopover extends React.Component {
+export default class AnchoredPopover extends React.PureComponent {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
     className: React.PropTypes.string,
@@ -28,10 +27,6 @@ export default class AnchoredPopover extends React.Component {
     showing: false,
     width: 250
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   handleWindowResize = () => {
     // when hidden, we wait for the resize to be finished!
