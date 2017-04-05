@@ -5,6 +5,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
 import FormCheckbox from '../shared/FormCheckbox';
+import FormRadioGroup from '../shared/FormRadioGroup';
 import FormTextarea from '../shared/FormTextarea';
 import FormInputLabel from '../shared/FormInputLabel';
 import FormInputHelp from '../shared/FormInputHelp';
@@ -43,7 +44,7 @@ class MemberNew extends React.Component {
   state = {
     emails: '',
     teams: [],
-    isAdmin: false
+    role: OrganizationMemberRoleConstants.MEMBER
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -68,12 +69,19 @@ class MemberNew extends React.Component {
                 onChange={this.handleEmailsChange}
                 rows={3}
               />
-              <FormCheckbox
-                label="Administrator"
-                help="Allow these people to edit organization details, manage billing information, invite new members, manage teams, change notification services and see the agent registration token."
-                checked={this.state.isAdmin}
+
+              <FormRadioGroup
+                name="role"
+                label="Role"
+                help="What type of organization-wide permissions will the invited users have?"
+                value={this.state.role}
                 onChange={this.handleAdminChange}
+                options={[
+                  { label: "User", value: OrganizationMemberRoleConstants.MEMBER, help: "Can view, create and manage pipelines and builds." },
+                  { label: "Administrator", value: OrganizationMemberRoleConstants.ADMIN, help: "Has full administrative access to all parts of the organization." }
+                ]}
               />
+
               {this.renderTeamSection()}
             </Panel.Section>
             <Panel.Section>
@@ -98,7 +106,7 @@ class MemberNew extends React.Component {
 
   handleAdminChange = (evt) => {
     this.setState({
-      isAdmin: evt.target.checked
+      role: evt.target.value
     });
   };
 
@@ -115,7 +123,7 @@ class MemberNew extends React.Component {
       // browsers (those compliant with ES2017)
       .split(/[ \t\r\n\f\v]+/gi);
 
-    const role = this.state.isAdmin ? OrganizationMemberRoleConstants.ADMIN : OrganizationMemberRoleConstants.MEMBER;
+    const role = this.state.role;
 
     const teams = this.state.teams.map((id) => {
       return { id: id, role: TeamMemberRoleConstants.MEMBER };
