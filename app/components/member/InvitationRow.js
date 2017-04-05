@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
 import Panel from '../shared/Panel';
@@ -12,7 +11,7 @@ import OrganizationInvitationRevoke from '../../mutations/OrganizationInvitation
 
 import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
 
-class InvitationRow extends React.Component {
+class InvitationRow extends React.PureComponent {
   static propTypes = {
     organizationInvitation: React.PropTypes.shape({
       uuid: React.PropTypes.string.isRequired,
@@ -25,10 +24,6 @@ class InvitationRow extends React.Component {
     resending: false,
     revoking: false
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     const { resending, revoking } = this.state;

@@ -1,11 +1,10 @@
 import React from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
 
 import Popover, { calculateViewportOffsets } from './Popover';
 
-export default class Dropdown extends React.Component {
+export default class Dropdown extends React.PureComponent {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
     width: React.PropTypes.number.isRequired,
@@ -27,10 +26,6 @@ export default class Dropdown extends React.Component {
     offsetY: 35,
     width: 250
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   handleWindowResize = () => {
     // when hidden, we wait for the resize to be finished!

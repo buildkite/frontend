@@ -1,13 +1,12 @@
 import React from 'react';
 import Relay from 'react-relay';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import BuildTooltip from './build-tooltip';
 import AnchoredPopover from '../../shared/Popover/anchored';
 
 import { BAR_HEIGHT_MINIMUM, BAR_WIDTH, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT } from './constants';
 
-class Bar extends React.Component {
+class Bar extends React.PureComponent {
   static propTypes = {
     href: React.PropTypes.string,
     color: React.PropTypes.string.isRequired,
@@ -27,10 +26,6 @@ class Bar extends React.Component {
 
   state = {
     hover: false
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
   }
 
   handleMouseOver = () => {

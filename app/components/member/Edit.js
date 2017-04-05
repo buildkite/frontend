@@ -1,7 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
 import FormCheckbox from '../shared/FormCheckbox';
@@ -18,7 +17,7 @@ import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberR
 
 const AVATAR_SIZE = 50;
 
-class MemberEdit extends React.Component {
+class MemberEdit extends React.PureComponent {
   static propTypes = {
     viewer: React.PropTypes.shape({
       user: React.PropTypes.shape({
@@ -47,10 +46,6 @@ class MemberEdit extends React.Component {
     isAdmin: false,
     removing: false
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   componentWillMount() {
     this.setState({

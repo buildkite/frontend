@@ -1,5 +1,4 @@
 import React from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 import styled from 'styled-components';
 
 const starColor = "#f8cc1c";
@@ -19,14 +18,10 @@ const StarSVG = styled.svg`
   }
 `;
 
-class Favorite extends React.Component {
+class Favorite extends React.PureComponent {
   static propTypes = {
     favorite: React.PropTypes.bool.isRequired
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     return (

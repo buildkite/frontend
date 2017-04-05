@@ -1,10 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import FormInputErrors from './FormInputErrors';
 
-export default class FormCheckbox extends React.Component {
+export default class FormCheckbox extends React.PureComponent {
   static propTypes = {
     label: React.PropTypes.node.isRequired,
     name: React.PropTypes.string,
@@ -14,10 +13,6 @@ export default class FormCheckbox extends React.Component {
     onChange: React.PropTypes.func,
     errors: React.PropTypes.array
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     return (

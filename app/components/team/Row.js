@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
-import shallowCompare from 'react-addons-shallow-compare';
 
+import { formatNumber } from '../../lib/number';
 import Panel from '../shared/Panel';
 import UserAvatar from '../shared/UserAvatar';
 import Emojify from '../shared/Emojify';
@@ -10,7 +10,7 @@ import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 const maxAvatars = 4;
 const avatarSize = 30;
 
-class TeamRow extends React.Component {
+class TeamRow extends React.PureComponent {
   static propTypes = {
     team: React.PropTypes.shape({
       id: React.PropTypes.string.isRequired,
@@ -34,10 +34,6 @@ class TeamRow extends React.Component {
       }).isRequired
     }).isRequired
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     return (
@@ -101,11 +97,11 @@ class TeamRow extends React.Component {
 
     if (extrasCount > 0) {
       return (
-        <div className="inline-block bg-gray bold circle center border border-white semi-bold"
-          style={{ width: avatarSize, height: avatarSize, lineHeight: `${avatarSize - 4}px`, fontSize: 11, borderWidth: 2 }}
-          title={`and another ${extrasCount} member${extrasCount === 1 ? '' : 's'}`}
+        <div className="inline-block bg-gray bold center border border-white semi-bold px1"
+          style={{ borderRadius: avatarSize / 2, minWidth: avatarSize, height: avatarSize, lineHeight: `${avatarSize - 4}px`, fontSize: 11, borderWidth: 2 }}
+          title={`and another ${formatNumber(extrasCount)} member${extrasCount === 1 ? '' : 's'}`}
         >
-          {"+" + extrasCount}
+          {"+" + formatNumber(extrasCount)}
         </div>
       );
     }

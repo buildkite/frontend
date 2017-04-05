@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Panel from '../shared/Panel';
 import UserAvatar from '../shared/UserAvatar';
@@ -9,7 +8,7 @@ import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberR
 
 const AVATAR_SIZE = 40;
 
-class MemberRow extends React.Component {
+class MemberRow extends React.PureComponent {
   static propTypes = {
     organization: React.PropTypes.shape({
       slug: React.PropTypes.string.isRequired
@@ -26,10 +25,6 @@ class MemberRow extends React.Component {
       }).isRequired
     }).isRequired
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     return (
