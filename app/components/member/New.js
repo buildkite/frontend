@@ -9,6 +9,7 @@ import FormTextarea from '../shared/FormTextarea';
 import FormInputLabel from '../shared/FormInputLabel';
 import FormInputHelp from '../shared/FormInputHelp';
 import Panel from '../shared/Panel';
+import PageHeader from '../shared/PageHeader';
 import TeamRow from './TeamRow';
 
 import FlashesStore from '../../stores/FlashesStore';
@@ -52,35 +53,39 @@ class MemberNew extends React.Component {
   render() {
     return (
       <DocumentTitle title={`Users · ${this.props.organization.name}`}>
-        <Panel>
-          <Panel.Header>Invite New Users</Panel.Header>
-          <Panel.Section>
-            <FormTextarea
-              label="Email addresses of people to invite"
-              help="Separate each email with a space or a new line"
-              value={this.state.emails}
-              onChange={this.handleEmailsChange}
-              rows={3}
-            />
-          </Panel.Section>
-          {this.renderTeamSection()}
-          <Panel.Section>
-            <FormCheckbox
-              label="Administrator"
-              help="Allow these people to edit organization details, manage billing information, invite new members, manage teams, change notification services and see the agent registration token."
-              checked={this.state.isAdmin}
-              onChange={this.handleAdminChange}
-            />
-          </Panel.Section>
-          <Panel.Section>
-            <Button
-              onClick={this.handleCreateInvitationClick}
-              loading={this.state.inviting && 'Sending Invitations…'}
-            >
-              Send Invitations
-            </Button>
-          </Panel.Section>
-        </Panel>
+        <div>
+          <PageHeader>
+            <PageHeader.Title>
+              Invite Users
+            </PageHeader.Title>
+          </PageHeader>
+          <Panel>
+            <Panel.Section>
+              <FormTextarea
+                label="Email Addresses"
+                help="This list of email addresses to invite, each one separated with a space or a new line"
+                value={this.state.emails}
+                onChange={this.handleEmailsChange}
+                rows={3}
+              />
+              <FormCheckbox
+                label="Administrator"
+                help="Allow these people to edit organization details, manage billing information, invite new members, manage teams, change notification services and see the agent registration token."
+                checked={this.state.isAdmin}
+                onChange={this.handleAdminChange}
+              />
+              {this.renderTeamSection()}
+            </Panel.Section>
+            <Panel.Section>
+              <Button
+                onClick={this.handleCreateInvitationClick}
+                loading={this.state.inviting && 'Sending Invitations…'}
+              >
+                Send Invitations
+              </Button>
+            </Panel.Section>
+          </Panel>
+        </div>
       </DocumentTitle>
     );
   }
