@@ -33,7 +33,7 @@ class MemberNew extends React.PureComponent {
             }).isRequired
           })
         ).isRequired
-      }).isRequired
+      })
     }).isRequired,
     relay: React.PropTypes.object.isRequired
   };
