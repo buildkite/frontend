@@ -13,11 +13,11 @@ const Label = styled.label`
   }
 
   input[type=checkbox]:checked + & {
-    border-color: #2ECC40;
+    border-color: #7EAF25;
   }
 
   input[type=checkbox]:checked:focus + & {
-    border-color: #1c7d28;
+    border-color: #3D9970;
   }
 `;
 
