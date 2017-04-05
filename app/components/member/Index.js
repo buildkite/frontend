@@ -247,7 +247,7 @@ class MemberIndex extends React.PureComponent {
   };
 
   renderInvitationsPanel() {
-    if(this.props.organization.permissions.organizationInvitationCreate.allowed) {
+    if (this.props.organization.permissions.organizationInvitationCreate.allowed) {
       return (
         <Panel>
           <Panel.Header>Invitations</Panel.Header>
