@@ -1,7 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { seconds } from 'metrick/duration';
-import shallowCompare from 'react-addons-shallow-compare';
 import Confetti from 'react-confetti';
 
 import Button from '../../shared/Button';
@@ -9,7 +8,7 @@ import Dialog from '../../shared/Dialog';
 import Emojify from '../../shared/Emojify';
 import Panel from '../../shared/Panel';
 
-class AgentInstallation extends React.Component {
+class AgentInstallation extends React.PureComponent {
   static propTypes = {
     organization: React.PropTypes.shape({
       agents: React.PropTypes.shape({
@@ -41,10 +40,6 @@ class AgentInstallation extends React.Component {
     if (nextProps.organization.agents && this.props.organization.agents && nextProps.organization.agents.count > this.props.organization.agents.count) {
       this.setState({ isDialogOpen: true });
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
   }
 
   render() {

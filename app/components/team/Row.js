@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import { formatNumber } from '../../lib/number';
 import Panel from '../shared/Panel';
@@ -11,7 +10,7 @@ import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 const maxAvatars = 4;
 const avatarSize = 30;
 
-class TeamRow extends React.Component {
+class TeamRow extends React.PureComponent {
   static propTypes = {
     team: React.PropTypes.shape({
       id: React.PropTypes.string.isRequired,
@@ -35,10 +34,6 @@ class TeamRow extends React.Component {
       }).isRequired
     }).isRequired
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     return (

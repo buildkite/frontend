@@ -1,11 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Icon from './Icon';
 import Spinner from './Spinner';
 
-export default class SearchField extends React.Component {
+export default class SearchField extends React.PureComponent {
   static propTypes = {
     className: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
@@ -20,10 +19,6 @@ export default class SearchField extends React.Component {
     placeholder: 'Search…',
     searching: false
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   clear() {
     this._inputNode.value = '';

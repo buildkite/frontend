@@ -1,7 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
@@ -10,7 +9,7 @@ import permissions from '../../lib/permissions';
 
 import Row from './Row';
 
-class TeamIndex extends React.Component {
+class TeamIndex extends React.PureComponent {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -26,10 +25,6 @@ class TeamIndex extends React.Component {
     }).isRequired,
     relay: React.PropTypes.object.isRequired
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   componentDidMount() {
     this.props.relay.forceFetch({ isMounted: true });

@@ -1,5 +1,4 @@
 import React from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Chooser from '../../shared/Chooser';
 import Dropdown from '../../shared/Dropdown';
@@ -8,7 +7,7 @@ const MANAGE_BUILD_AND_READ = "MANAGE_BUILD_AND_READ";
 const BUILD_AND_READ = "BUILD_AND_READ";
 const READ_ONLY = "READ_ONLY";
 
-class AccessLevel extends React.Component {
+class AccessLevel extends React.PureComponent {
   static displayName = "Team.Pipelines.AccessLevel";
 
   static propTypes = {
@@ -18,10 +17,6 @@ class AccessLevel extends React.Component {
     onAccessLevelChange: React.PropTypes.func.isRequired,
     saving: React.PropTypes.string
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     const saving = this.props.saving;

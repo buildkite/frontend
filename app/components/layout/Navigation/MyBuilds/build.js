@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import shallowCompare from 'react-addons-shallow-compare';
 import styled from 'styled-components';
 
 import Emojify from '../../../shared/Emojify';
@@ -23,7 +22,7 @@ BuildLink.defaultProps = {
   className: "flex text-decoration-none dark-gray hover-lime mb2"
 };
 
-class BuildsDropdownBuild extends React.Component {
+class BuildsDropdownBuild extends React.PureComponent {
   static propTypes = {
     build: React.PropTypes.object,
     relay: React.PropTypes.object.isRequired
@@ -42,10 +41,6 @@ class BuildsDropdownBuild extends React.Component {
       this.props.relay.forceFetch();
     }
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     const buildTime = buildStatus(this.props.build).timeValue;
