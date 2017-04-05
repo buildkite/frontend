@@ -54,6 +54,10 @@ class MemberNew extends React.Component {
     return shallowCompare(this, nextProps, nextState);
   }
 
+  componentDidMount() {
+    this.props.relay.forceFetch({ isMounted: true });
+  }
+
   render() {
     const errors = new ValidationErrors(this.state.errors);
 
@@ -169,6 +173,11 @@ class MemberNew extends React.Component {
   }
 
   renderTeamSection() {
+    // If the teams haven't loaded yet
+    if(!this.props.organization.teams) {
+      return null;
+    }
+
     const teamEdges = this.props.organization.teams.edges
       .filter(({ node }) =>
         node.name !== 'Everyone' && node.description !== 'All users in your organization'
@@ -210,12 +219,16 @@ class MemberNew extends React.Component {
 }
 
 export default Relay.createContainer(MemberNew, {
+  initialVariables: {
+    isMounted: false
+  },
+
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
         name
         slug
-        teams(first: 50) {
+        teams(first: 50) @include(if: $isMounted) {
           edges {
             node {
               id
