@@ -70,7 +70,7 @@ class SettingsMenu extends React.Component {
         )
       },
       {
-        allowed: "organizationInvitationCreate",
+        always: true,
         render: (idx) => (
           <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/users`} badge={this.calculateUsersCount()}>
             <Icon icon="users" className="icon-mr"/>Users

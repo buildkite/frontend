@@ -59,7 +59,9 @@ class PermissionManager {
   check(config, args) {
     args = args || [];
 
-    if (config.all) {
+    if (config.always) {
+      return config.render(...args);
+    } else if (config.all) {
       if (this.areAllPermissionsAllowed()) {return config.render(...args);}
     } else if (config.allowed) {
       if (this.isPermissionAllowed(config.allowed)) {return config.render(...args);}
@@ -68,7 +70,7 @@ class PermissionManager {
     } else if (config.only) {
       if (this.isPermissionOnlyOneAllowed(config.only)) {return config.render(...args);}
     } else {
-      throw new Error('Missing permission config attribute. Must be either `all`, `allowed`, `any` or `only`');
+      throw new Error('Missing permission config attribute. Must be either `always`, `all`, `allowed`, `any` or `only`');
     }
 
     return null;
