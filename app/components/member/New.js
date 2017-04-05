@@ -4,7 +4,6 @@ import DocumentTitle from 'react-document-title';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
-import FormCheckbox from '../shared/FormCheckbox';
 import FormRadioGroup from '../shared/FormRadioGroup';
 import FormTextarea from '../shared/FormTextarea';
 import FormInputLabel from '../shared/FormInputLabel';
@@ -36,7 +35,8 @@ class MemberNew extends React.Component {
           })
         ).isRequired
       }).isRequired
-    }).isRequired
+    }).isRequired,
+    relay: React.PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -174,7 +174,7 @@ class MemberNew extends React.Component {
 
   renderTeamSection() {
     // If the teams haven't loaded yet
-    if(!this.props.organization.teams) {
+    if (!this.props.organization.teams) {
       return null;
     }
 
