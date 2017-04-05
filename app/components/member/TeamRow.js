@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Emojify from '../shared/Emojify';
 
 const Label = styled.label`
-  padding-left: 1.8em;
+  padding-left: 2.1em;
   border-color: #dddddd;
 
   input[type=checkbox]:focus + & {
@@ -45,14 +45,14 @@ class TeamRow extends React.Component {
           onChange={this.handleChange}
           className="absolute"
           style={{
-            marginTop: '.8em',
-            marginLeft: '.8em',
+            marginTop: '1.4em',
+            marginLeft: '1.1em',
             cursor: 'inherit'
           }}
         />
-        <Label htmlFor={rowName} className="p1 block cursor-pointer rounded border">
-          <Emojify className="inline-block semi-bold truncate" text={this.props.team.name} /><br />
-          <p className="m0 p0 dark-gray truncate"><Emojify text={this.props.team.description || " "} /></p>
+        <Label htmlFor={rowName} className="p2 block cursor-pointer rounded border">
+          <Emojify className="semi-bold truncate block" text={this.props.team.name} />
+          <div className="m0 p0 dark-gray truncate"><Emojify text={this.props.team.description || "n/a"} /></div>
         </Label>
       </div>
     );

@@ -154,10 +154,10 @@ class MemberNew extends React.Component {
       );
 
     return (
-      <Panel.Section>
+      <div>
         <FormInputLabel label="Teams" />
-        <FormInputHelp html="Invited users can be added directly into teams. All users will be added to the <i>Everyone</i> team." />
-        <div className="flex flex-wrap content-around mxn1">
+        <FormInputHelp html="You can give the invited users additional permissions by adding them to one or more teams." />
+        <div className="flex flex-wrap content-around mxn1 mt1">
           {teamEdges.map(({ node }) =>
             <TeamRow
               key={node.id}
@@ -167,7 +167,7 @@ class MemberNew extends React.Component {
             />
           )}
         </div>
-      </Panel.Section>
+      </div>
     );
   }
 
