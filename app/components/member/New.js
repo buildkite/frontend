@@ -14,10 +14,12 @@ import PageHeader from '../shared/PageHeader';
 import TeamRow from './TeamRow';
 
 import FlashesStore from '../../stores/FlashesStore';
+import ValidationErrors from '../../lib/ValidationErrors';
 
 import OrganizationInvitationCreateMutation from '../../mutations/OrganizationInvitationCreate';
 
 import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
+import GraphQLErrors from '../../constants/GraphQLErrors';
 import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
 
 class MemberNew extends React.Component {
@@ -44,7 +46,8 @@ class MemberNew extends React.Component {
   state = {
     emails: '',
     teams: [],
-    role: OrganizationMemberRoleConstants.MEMBER
+    role: OrganizationMemberRoleConstants.MEMBER,
+    errors: null
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -52,6 +55,8 @@ class MemberNew extends React.Component {
   }
 
   render() {
+    const errors = new ValidationErrors(this.state.errors);
+
     return (
       <DocumentTitle title={`Users · ${this.props.organization.name}`}>
         <div>
@@ -66,6 +71,7 @@ class MemberNew extends React.Component {
                 label="Email Addresses"
                 help="This list of email addresses to invite, each one separated with a space or a new line"
                 value={this.state.emails}
+                errors={errors.findForField("emails")}
                 onChange={this.handleEmailsChange}
                 rows={3}
               />
@@ -150,9 +156,16 @@ class MemberNew extends React.Component {
   }
 
   handleInvitationCreateFailure = (transaction) => {
-    this.setState({ inviting: false, updating: false });
+    const error = transaction.getError();
+    if (error) {
+      if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
+        this.setState({ errors: transaction.getError().source.errors });
+      } else {
+        FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
+      }
+    }
 
-    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
+    this.setState({ inviting: false });
   }
 
   renderTeamSection() {
