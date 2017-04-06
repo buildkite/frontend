@@ -86,7 +86,7 @@ export default Relay.createContainer(TeamIndex, {
             allowed
           }
         }
-        teams(first: 100, order: NAME_EVERYONE_FIRST) @include(if: $isMounted) {
+        teams(first: 100, order: NAME) @include(if: $isMounted) {
           edges {
             node {
               id
