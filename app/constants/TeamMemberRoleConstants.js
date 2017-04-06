@@ -1,5 +1,5 @@
 const TeamMemberRoleConstants = {
-  ADMIN: "ADMIN",
+  MAINTAINER: "MAINTAINER",
   MEMBER: "MEMBER"
 };
 

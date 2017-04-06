@@ -25,10 +25,10 @@ class MemberRole extends React.PureComponent {
 
         <Chooser selected={this.props.teamMember.role} onSelect={this.props.onRoleChange}>
           <Chooser.SelectOption
-            value={TeamMemberRoleConstants.ADMIN}
-            saving={saving === TeamMemberRoleConstants.ADMIN}
-            selected={this.props.teamMember.role === TeamMemberRoleConstants.ADMIN}
-            label={this.label(TeamMemberRoleConstants.ADMIN)}
+            value={TeamMemberRoleConstants.MAINTAINER}
+            saving={saving === TeamMemberRoleConstants.MAINTAINER}
+            selected={this.props.teamMember.role === TeamMemberRoleConstants.MAINTAINER}
+            label={this.label(TeamMemberRoleConstants.MAINTAINER)}
             description="Manage members and pipelines with unrestricted access"
           />
           <Chooser.SelectOption
@@ -45,8 +45,8 @@ class MemberRole extends React.PureComponent {
 
   label(value) {
     switch (value) {
-      case TeamMemberRoleConstants.ADMIN:
-        return "Team Admin";
+      case TeamMemberRoleConstants.MAINTAINER:
+        return "Maintainer";
       case TeamMemberRoleConstants.MEMBER:
         return "Member";
     }

@@ -7122,7 +7122,7 @@
               "deprecationReason": null
             },
             {
-              "name": "ADMIN",
+              "name": "MAINTAINER",
               "description": "The user can manage pipelines and users within the team",
               "isDeprecated": false,
               "deprecationReason": null
