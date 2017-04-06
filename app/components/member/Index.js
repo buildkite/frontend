@@ -15,12 +15,12 @@ import { formatNumber } from '../../lib/number';
 import InvitationRow from './InvitationRow';
 import Row from './Row';
 
-import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
+import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
 
-const TEAM_ROLES =  [
+const ORGANIZATION_ROLES =  [
   { name: 'Everyone', id: null },
-  { name: 'Administrators', id: TeamMemberRoleConstants.ADMIN },
-  { name: 'Users', id: TeamMemberRoleConstants.MEMBER }
+  { name: 'Administrators', id: OrganizationMemberRoleConstants.ADMIN },
+  { name: 'Users', id: OrganizationMemberRoleConstants.MEMBER }
 ];
 
 const PAGE_SIZE = 10;
@@ -93,7 +93,7 @@ class MemberIndex extends React.PureComponent {
 
                 <div className="flex-none pl3 flex">
                   <Dropdown width={150} ref={(_memberRoleDropdown) => this._memberRoleDropdown = _memberRoleDropdown}>
-                    <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{TEAM_ROLES.find((role) => role.id === this.props.relay.variables.memberRole).name}</div>
+                    <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{ORGANIZATION_ROLES.find((role) => role.id === this.props.relay.variables.memberRole).name}</div>
                     {this.renderMemberRoles()}
                   </Dropdown>
                 </div>
@@ -120,7 +120,7 @@ class MemberIndex extends React.PureComponent {
   }
 
   renderMemberRoles() {
-    return TEAM_ROLES.map((role, index) => {
+    return ORGANIZATION_ROLES.map((role, index) => {
       return (
         <div key={index} className="btn block hover-bg-silver" onClick={() => { this._memberRoleDropdown.setShowing(false); this.handleMemberRoleSelect(role.id); }}>
           <span className="block">{role.name}</span>
