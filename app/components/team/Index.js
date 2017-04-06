@@ -32,11 +32,15 @@ class TeamIndex extends React.PureComponent {
       slug: React.PropTypes.string.isRequired,
       permissions: React.PropTypes.object.isRequired,
       teams: React.PropTypes.shape({
+        count: React.PropTypes.number.isRequired,
         edges: React.PropTypes.arrayOf(
           React.PropTypes.shape({
             node: React.PropTypes.object.isRequired
           }).isRequired
-        ).isRequired
+        ).isRequired,
+        pageInfo: React.PropTypes.shape({
+          hasNextPage: React.PropTypes.bool.isRequired
+        }).isRequired
       })
     }).isRequired,
     relay: React.PropTypes.object.isRequired
@@ -194,7 +198,7 @@ class TeamIndex extends React.PureComponent {
   };
 
   handleTeamSearch = (teamSearch) => {
-    this.handleTeamFilterChange({ teamSearchSearch });
+    this.handleTeamFilterChange({ teamSearch });
   };
 
   handleTeamFilterChange = (varibles) => {
