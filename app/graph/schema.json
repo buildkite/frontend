@@ -3442,6 +3442,24 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "privacy",
+                  "description": "Search teams by their privacy",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "TeamPrivacy",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "order",
                   "description": "Order the teams",
                   "type": {
