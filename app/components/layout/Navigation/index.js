@@ -207,7 +207,7 @@ class Navigation extends React.PureComponent {
         any: true,
         render: () => {
           return [
-            <NavigationButton key={1} className="py0" href={`/organizations/${organization.slug}/users`} linkIf={Features.NewAccountMemberSettings}>Users</NavigationButton>,
+            <NavigationButton key={1} className="py0" href={`/organizations/${organization.slug}/users`} linkIf={true}>Users</NavigationButton>,
             <NavigationButton key={2} className="py0" href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
           ];
         }

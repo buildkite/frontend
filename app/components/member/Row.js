@@ -28,7 +28,7 @@ class MemberRow extends React.PureComponent {
 
   render() {
     return (
-      <Panel.RowLink key={this.props.organizationMember.uuid} to={`/organizations/${this.props.organization.slug}/users/${this.props.organizationMember.uuid}/edit`}>
+      <Panel.RowLink key={this.props.organizationMember.uuid} to={`/organizations/${this.props.organization.slug}/users/${this.props.organizationMember.uuid}`}>
         <div className="flex flex-stretch items-center">
           <div className="flex flex-none mr2">
             <UserAvatar

@@ -92,7 +92,7 @@ export default (
         <Route path="users" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
           <IndexRoute component={MemberIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
           <Route path="new" component={MemberNew} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
-          <Route path=":organizationMember/edit" component={MemberEdit} queries={{ viewer: ViewerQuery.query, organizationMember: OrganizationMemberQuery.query }} prepareParams={OrganizationMemberQuery.prepareParams} render={renderSectionLoading} />
+          <Route path=":organizationMember" component={MemberEdit} queries={{ viewer: ViewerQuery.query, organizationMember: OrganizationMemberQuery.query }} prepareParams={OrganizationMemberQuery.prepareParams} render={renderSectionLoading} />
         </Route>
         <Route path="teams" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
           <IndexRoute component={TeamIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
