@@ -8,13 +8,22 @@ import Button from '../shared/Button';
 import Spinner from '../shared/Spinner';
 import PageHeader from '../shared/PageHeader';
 import SearchField from '../shared/SearchField';
+import Dropdown from '../shared/Dropdown';
 
 import { formatNumber } from '../../lib/number';
 import permissions from '../../lib/permissions';
 
 import Row from './Row';
 
-const PAGE_SIZE = 1;
+import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
+
+const TEAM_PRIVACIES =  [
+  { name: 'All Teams', id: null },
+  { name: 'Visible', id: TeamPrivacyConstants.VISIBLE },
+  { name: 'Secret', id: TeamPrivacyConstants.SECRET }
+];
+
+const PAGE_SIZE = 10;
 
 class TeamIndex extends React.PureComponent {
   static propTypes = {
@@ -66,6 +75,13 @@ class TeamIndex extends React.PureComponent {
                   searching={this.state.searchingTeamsIsSlow}
                   onChange={this.handleTeamSearch}
                 />
+
+                <div className="flex-none pl3 flex">
+                  <Dropdown width={150} ref={(_teamPrivacyDropdown) => this._teamPrivacyDropdown = _teamPrivacyDropdown}>
+                    <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{TEAM_PRIVACIES.find((privacy) => privacy.id === this.props.relay.variables.teamPrivacy).name}</div>
+                    {this.renderTeamPrivacies()}
+                  </Dropdown>
+                </div>
               </div>
             </div>
 
@@ -76,6 +92,16 @@ class TeamIndex extends React.PureComponent {
         </div>
       </DocumentTitle>
     );
+  }
+
+  renderTeamPrivacies() {
+    return TEAM_PRIVACIES.map((role, index) => {
+      return (
+        <div key={index} className="btn block hover-bg-silver" onClick={() => { this._teamPrivacyDropdown.setShowing(false); this.handleTeamPrivacySelect(role.id); }}>
+          <span className="block">{role.name}</span>
+        </div>
+      );
+    });
   }
 
   renderTeams() {
@@ -163,7 +189,15 @@ class TeamIndex extends React.PureComponent {
     );
   };
 
-  handleTeamSearch = (search) => {
+  handleTeamPrivacySelect = (teamPrivacy) => {
+    this.handleTeamFilterChange({ teamPrivacy });
+  };
+
+  handleTeamSearch = (teamSearch) => {
+    this.handleTeamFilterChange({ teamSearchSearch });
+  };
+
+  handleTeamFilterChange = (varibles) => {
     this.setState({ searchingTeams: true });
 
     if (this.teamSearchIsSlowTimeout) {
@@ -175,7 +209,7 @@ class TeamIndex extends React.PureComponent {
     }, 1::second);
 
     this.props.relay.forceFetch(
-      { teamSearch: search },
+      varibles,
       (readyState) => {
         if (readyState.done) {
           if (this.teamSearchIsSlowTimeout) {
@@ -195,7 +229,8 @@ export default Relay.createContainer(TeamIndex, {
   initialVariables: {
     isMounted: false,
     teamPageSize: PAGE_SIZE,
-    teamSearch: null
+    teamSearch: null,
+    teamPrivacy: null
   },
 
   fragments: {
@@ -208,7 +243,7 @@ export default Relay.createContainer(TeamIndex, {
             allowed
           }
         }
-        teams(first: $teamPageSize, search: $teamSearch, order: NAME) @include(if: $isMounted) {
+        teams(first: $teamPageSize, search: $teamSearch, privacy: $teamPrivacy, order: NAME) @include(if: $isMounted) {
           count
           edges {
             node {
