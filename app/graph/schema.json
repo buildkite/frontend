@@ -6714,6 +6714,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "search",
+                  "description": "Search team members named like the given query case insensitively",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "role",
                   "description": "Search team members by their role",
                   "type": {
@@ -6833,6 +6843,16 @@
                 {
                   "name": "before",
                   "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "search",
+                  "description": "Search pipelines named like the given query case insensitively",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
