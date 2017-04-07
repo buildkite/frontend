@@ -1,11 +1,15 @@
 import React from 'react';
 import Relay from 'react-relay';
+import { second } from 'metrick/duration';
 
 import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
+import SearchField from '../../shared/SearchField';
 import Spinner from '../../shared/Spinner';
 
 import FlashesStore from '../../../stores/FlashesStore';
+
+import { formatNumber } from '../../../lib/number';
 
 import TeamPipelineUpdateMutation from '../../../mutations/TeamPipelineUpdate';
 import TeamPipelineDeleteMutation from '../../../mutations/TeamPipelineDelete';
@@ -32,7 +36,8 @@ class Pipelines extends React.Component {
   };
 
   state = {
-    loading: false
+    loading: false,
+    searchingPipelinesIsSlow: false
   };
 
   render() {
@@ -43,6 +48,14 @@ class Pipelines extends React.Component {
           <Chooser team={this.props.team} />
         </div>
         <Panel className={this.props.className}>
+          <div className="py2 px3">
+            <SearchField
+              placeholder="Search pipelines…"
+              searching={this.state.searchingPipelinesIsSlow}
+              onChange={this.handlePipelineSearch}
+            />
+          </div>
+          {this.renderPipelineSearchInfo()}
           {this.renderPipelines()}
           {this.renderPipelineFooter()}
         </Panel>
@@ -58,7 +71,24 @@ class Pipelines extends React.Component {
         );
       });
     } else {
+      if (this.props.relay.variables.pipelineSearch) {
+        return null;
+      }
       return <Panel.Section className="dark-gray">There are no pipelines assigned to this team</Panel.Section>;
+    }
+  }
+
+  renderPipelineSearchInfo() {
+    const { team: { pipelines }, relay: { variables: { pipelineSearch } } } = this.props;
+
+    if (pipelineSearch && pipelines) {
+      return (
+        <div className="bg-silver semi-bold py2 px3">
+          <small className="dark-gray">
+            {formatNumber(pipelines.count)} matching pipelines
+          </small>
+        </div>
+      );
     }
   }
 
@@ -90,6 +120,33 @@ class Pipelines extends React.Component {
       </Panel.Footer>
     );
   }
+
+  handlePipelineSearch = (pipelineSearch) => {
+    this.setState({ searchingPipelines: true });
+
+    if (this.teamSearchIsSlowTimeout) {
+      clearTimeout(this.teamSearchIsSlowTimeout);
+    }
+
+    this.teamSearchIsSlowTimeout = setTimeout(() => {
+      this.setState({ searchingPipelinesIsSlow: true });
+    }, 1::second);
+
+    this.props.relay.forceFetch(
+      { pipelineSearch },
+      (readyState) => {
+        if (readyState.done) {
+          if (this.teamSearchIsSlowTimeout) {
+            clearTimeout(this.teamSearchIsSlowTimeout);
+          }
+          this.setState({
+            searchingPipelines: false,
+            searchingPipelinesIsSlow: false
+          });
+        }
+      }
+    );
+  };
 
   handleLoadMorePipelinesClick = () => {
     this.setState({ loading: true });
@@ -129,7 +186,8 @@ class Pipelines extends React.Component {
 
 export default Relay.createContainer(Pipelines, {
   initialVariables: {
-    pageSize: PAGE_SIZE
+    pageSize: PAGE_SIZE,
+    pipelineSearch: null
   },
 
   fragments: {
@@ -137,7 +195,7 @@ export default Relay.createContainer(Pipelines, {
       fragment on Team {
         ${Chooser.getFragment('team')}
 
-        pipelines(first: $pageSize, order: NAME) {
+        pipelines(first: $pageSize, search: $pipelineSearch, order: NAME) {
           count
           edges {
             node {

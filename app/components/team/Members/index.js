@@ -1,9 +1,13 @@
 import React from 'react';
 import Relay from 'react-relay';
+import { second } from 'metrick/duration';
 
 import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
+import SearchField from '../../shared/SearchField';
 import Spinner from '../../shared/Spinner';
+
+import { formatNumber } from '../../../lib/number';
 
 import TeamMemberUpdateMutation from '../../../mutations/TeamMemberUpdate';
 import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
@@ -30,7 +34,8 @@ class Members extends React.Component {
   };
 
   state = {
-    loading: false
+    loading: false,
+    searchingMembersIsSlow: false
   };
 
   render() {
@@ -41,6 +46,14 @@ class Members extends React.Component {
           <Chooser team={this.props.team} />
         </div>
         <Panel className={this.props.className}>
+          <div className="py2 px3">
+            <SearchField
+              placeholder="Search members…"
+              searching={this.state.searchingMembersIsSlow}
+              onChange={this.handleMemberSearch}
+            />
+          </div>
+          {this.renderMemberSearchInfo()}
           {this.renderMembers()}
           {this.renderMemberFooter()}
         </Panel>
@@ -56,7 +69,24 @@ class Members extends React.Component {
         );
       });
     } else {
+      if (this.props.relay.variables.memberSearch) {
+        return null;
+      }
       return <Panel.Section className="dark-gray">There are no users assigned to this team</Panel.Section>;
+    }
+  }
+
+  renderMemberSearchInfo() {
+    const { team: { members }, relay: { variables: { memberSearch } } } = this.props;
+
+    if (memberSearch && members) {
+      return (
+        <div className="bg-silver semi-bold py2 px3">
+          <small className="dark-gray">
+            {formatNumber(members.count)} matching members
+          </small>
+        </div>
+      );
     }
   }
 
@@ -88,6 +118,33 @@ class Members extends React.Component {
       </Panel.Footer>
     );
   }
+
+  handleMemberSearch = (memberSearch) => {
+    this.setState({ searchingMembers: true });
+
+    if (this.teamSearchIsSlowTimeout) {
+      clearTimeout(this.teamSearchIsSlowTimeout);
+    }
+
+    this.teamSearchIsSlowTimeout = setTimeout(() => {
+      this.setState({ searchingMembersIsSlow: true });
+    }, 1::second);
+
+    this.props.relay.forceFetch(
+      { memberSearch },
+      (readyState) => {
+        if (readyState.done) {
+          if (this.teamSearchIsSlowTimeout) {
+            clearTimeout(this.teamSearchIsSlowTimeout);
+          }
+          this.setState({
+            searchingMembers: false,
+            searchingMembersIsSlow: false
+          });
+        }
+      }
+    );
+  };
 
   handleLoadMoreMembersClick = () => {
     this.setState({ loading: true });
@@ -129,7 +186,8 @@ export default Relay.createContainer(Members, {
     isMounted: false,
     memberAddSearch: '',
     teamSelector: null,
-    pageSize: PAGE_SIZE
+    pageSize: PAGE_SIZE,
+    memberSearch: null
   },
 
   fragments: {
@@ -137,7 +195,7 @@ export default Relay.createContainer(Members, {
       fragment on Team {
         ${Chooser.getFragment('team')}
 
-        members(first: $pageSize, order: NAME) {
+        members(first: $pageSize, search: $memberSearch, order: NAME) {
           count
           edges {
             node {
