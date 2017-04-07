@@ -20,7 +20,6 @@ class TeamShow extends React.Component {
       name: React.PropTypes.string.isRequired,
       description: React.PropTypes.string,
       slug: React.PropTypes.string.isRequired,
-      everyone: React.PropTypes.bool.isRequired,
       privacy: React.PropTypes.string.isRequired,
       organization: React.PropTypes.shape({
         name: React.PropTypes.string.isRequired,
@@ -59,7 +58,7 @@ class TeamShow extends React.Component {
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
-          {this.renderMembers()}
+          <Members team={this.props.team} className="mb4" />
           <Pipelines team={this.props.team} />
         </div>
       </DocumentTitle>
@@ -89,21 +88,6 @@ class TeamShow extends React.Component {
         )
       }
     );
-  }
-
-  renderMembers() {
-    if (this.props.team.everyone) {
-      return (
-        <Panel className="mb4">
-          <Panel.Header>Members</Panel.Header>
-          <Panel.Section>This team is automatically managed by Buildkite so as you invite and remove users from your organization they are added and removed from this team.</Panel.Section>
-        </Panel>
-      );
-    } else {
-      return (
-        <Members team={this.props.team} className="mb4" />
-      );
-    }
   }
 
   handleRemoveTeamClick = () => {
@@ -146,20 +130,15 @@ class TeamShow extends React.Component {
 }
 
 export default Relay.createContainer(TeamShow, {
-  initialVariables: {
-    isEveryoneTeam: false
-  },
-
   fragments: {
-    team: (variables) => Relay.QL`
+    team: () => Relay.QL`
       fragment on Team {
         ${Pipelines.getFragment('team')}
-        ${Members.getFragment('team').unless(variables.isEveryoneTeam)}
+        ${Members.getFragment('team')}
         ${TeamDeleteMutation.getFragment('team')}
         name
         description
         slug
-        everyone
         privacy
         organization {
           name
