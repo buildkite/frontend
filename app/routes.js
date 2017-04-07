@@ -19,6 +19,7 @@ import TeamEdit from './components/team/Edit';
 import MemberIndex from './components/member/Index';
 import MemberNew from './components/member/New';
 import MemberEdit from './components/member/Edit';
+import SSOIndex from './components/sso/Index';
 import PipelineSettingsSection from './components/pipeline/SettingsSection';
 import PipelineScheduleIndex from './components/pipeline/schedules/Index';
 import PipelineScheduleNew from './components/pipeline/schedules/New';
@@ -99,6 +100,9 @@ export default (
           <Route path="new" component={TeamNew} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
           <Route path=":team" component={TeamShow} queries={{ team: TeamQuery.query }} prepareParams={TeamQuery.prepareParams} render={renderSectionLoading} />
           <Route path=":team/edit" component={TeamEdit} queries={{ team: TeamQuery.query }} prepareParams={TeamQuery.prepareParams} render={renderSectionLoading} />
+        </Route>
+        <Route path="sso" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
+          <IndexRoute component={SSOIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
         </Route>
       </Route>
 

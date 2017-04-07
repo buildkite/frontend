@@ -95,6 +95,14 @@ class SettingsMenu extends React.Component {
         )
       },
       {
+        allowed: "organizationUpdate",
+        render: (idx) => (
+          <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/sso`}>
+            <Icon icon="sso" className="icon-mr"/>SSO
+          </Menu.Button>
+        )
+      },
+      {
         allowed: "organizationBillingUpdate",
         render: (idx) => (
           <Menu.Button key={idx} href={`/organizations/${this.props.organization.slug}/billing`}>
