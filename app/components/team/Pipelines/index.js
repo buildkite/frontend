@@ -37,14 +37,16 @@ class Pipelines extends React.Component {
 
   render() {
     return (
-      <Panel className={this.props.className}>
-        <Panel.Header className="flex items-center">
-          <span className="flex-auto">Pipelines</span>
+      <div>
+        <div className="flex items-center">
+          <h2 className="h2 flex-auto">Pipelines</h2>
           <Chooser team={this.props.team} />
-        </Panel.Header>
-        {this.renderPipelines()}
-        {this.renderPipelineFooter()}
-      </Panel>
+        </div>
+        <Panel className={this.props.className}>
+          {this.renderPipelines()}
+          {this.renderPipelineFooter()}
+        </Panel>
+      </div>
     );
   }
 

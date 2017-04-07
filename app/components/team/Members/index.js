@@ -35,14 +35,16 @@ class Members extends React.Component {
 
   render() {
     return (
-      <Panel className={this.props.className}>
-        <Panel.Header className="flex items-center">
-          <span className="flex-auto">Members</span>
+      <div>
+        <div className="flex items-center">
+          <h2 className="h2 flex-auto">Members</h2>
           <Chooser team={this.props.team} />
-        </Panel.Header>
-        {this.renderMembers()}
-        {this.renderMemberFooter()}
-      </Panel>
+        </div>
+        <Panel className={this.props.className}>
+          {this.renderMembers()}
+          {this.renderMemberFooter()}
+        </Panel>
+      </div>
     );
   }
 
