@@ -73,7 +73,7 @@ class PermissionManager {
     //
     // `and` can either be a boolean value, or a function.
     if (config.and !== undefined) {
-      if (typeof(config.and) == 'function') {
+      if (typeof (config.and) == 'function') {
         if (!config.and()) {
           return null;
         }

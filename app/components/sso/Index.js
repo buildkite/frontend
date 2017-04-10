@@ -6,14 +6,12 @@ import Panel from '../shared/Panel';
 import PageHeader from '../shared/PageHeader';
 import Spinner from '../shared/Spinner';
 
-import permissions from '../../lib/permissions';
-
 class SSOIndex extends React.PureComponent {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       slug: React.PropTypes.string.isRequired,
-      permissions: React.PropTypes.object.isRequired
+      sso: React.PropTypes.object
     }).isRequired,
     relay: React.PropTypes.object.isRequired
   };
@@ -42,7 +40,7 @@ class SSOIndex extends React.PureComponent {
   }
 
   renderDetailsPanel() {
-    if(!this.props.organization.sso) {
+    if (!this.props.organization.sso) {
       return (
         <Panel>
           <Panel.Section className="center">
@@ -52,7 +50,7 @@ class SSOIndex extends React.PureComponent {
       );
     }
 
-    if(this.props.organization.sso.isEnabled) {
+    if (this.props.organization.sso.isEnabled) {
       return (
         <Panel>
           <Panel.Section>
@@ -60,7 +58,7 @@ class SSOIndex extends React.PureComponent {
             <p>If you need to update your SSO settings or have it disabled, please get in touch with Buildkite Support.</p>
           </Panel.Section>
         </Panel>
-      )
+      );
     } else {
       return (
         <Panel>
@@ -69,7 +67,7 @@ class SSOIndex extends React.PureComponent {
             <p>If you want to find out more about SSO or have it enabled, please get in touch with Buildkite Support.</p>
           </Panel.Section>
         </Panel>
-      )
+      );
     }
   }
 }
@@ -94,11 +92,6 @@ export default Relay.createContainer(SSOIndex, {
             ...on SSOProviderSAML {
               emailDomain
             }
-          }
-        }
-        permissions {
-          organizationUpdate {
-            allowed
           }
         }
       }
