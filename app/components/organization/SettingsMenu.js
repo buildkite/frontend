@@ -96,6 +96,7 @@ class SettingsMenu extends React.Component {
       },
       {
         allowed: "organizationUpdate",
+        and: Features.SSOSettings,
         render: (idx) => (
           <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/sso`}>
             <Icon icon="sso" className="icon-mr"/>SSO
