@@ -3,7 +3,6 @@ import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
 import PageHeader from '../shared/PageHeader';
-import Panel from '../shared/Panel';
 import Emojify from '../shared/Emojify';
 import permissions from '../../lib/permissions';
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
