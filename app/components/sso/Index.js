@@ -56,7 +56,7 @@ class SSOIndex extends React.PureComponent {
       return (
         <Panel>
           <Panel.Section>
-            <p><span className="green">✔</span> SSO has been enabled for your organization via <strong>{this.props.organization.sso.provider.name}</strong>. Users will be automatically added to your organization when they successfully authenticate using {this.props.organization.sso.provider.name} and their <strong>{this.props.organization.sso.provider.emailDomain}</strong> email address.</p>
+            <p><span className="green">✔</span> SSO has been enabled for your organization using <strong>{this.props.organization.sso.provider.name}</strong>. Users will be automatically added to your organization when they successfully authenticate using {this.props.organization.sso.provider.name} and their <strong>{this.props.organization.sso.provider.emailDomain}</strong> email address.</p>
             <p>If you need to update your SSO settings or have it disabled, please get in touch with Buildkite Support.</p>
           </Panel.Section>
         </Panel>
