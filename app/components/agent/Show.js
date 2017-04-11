@@ -46,16 +46,30 @@ class AgentShow extends React.Component {
       // This will cause a full refresh of the data every 3 seconds. This seems
       // very low, but chances are people aren't really looking at this page
       // for long periods of time.
-      this._agentRefreshInterval = setInterval(this.fetchUpdatedData, 3::seconds);
+      this.startTimeout();
     }
   }
 
   componentWillUnmount() {
-    clearInterval(this._agentRefreshInterval);
+    clearTimeout(this._agentRefreshTimeout);
   }
 
+  startTimeout = () => {
+    this._agentRefreshTimeout = setTimeout(
+      this.fetchUpdatedData,
+      3::seconds
+    );
+  };
+
   fetchUpdatedData = () => {
-    this.props.relay.forceFetch(true);
+    this.props.relay.forceFetch(
+      true,
+      (readyState) => {
+        if (readyState.done) {
+          this.startTimeout();
+        }
+      }
+    );
   };
 
   renderExtraItem(title, content) {
@@ -217,7 +231,7 @@ class AgentShow extends React.Component {
     return (
       <DocumentTitle title={`Agents / ${this.props.agent.name} · ${this.props.agent.organization.name}`}>
         <PageWithContainer>
-          <Panel className="sm-col-6 mx-auto">
+          <Panel className="sm-col-9 lg-col-6 mx-auto">
             <Panel.Header>{this.props.agent.name}</Panel.Header>
 
             <Panel.Row key="info">
