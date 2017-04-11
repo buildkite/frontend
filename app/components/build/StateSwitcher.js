@@ -35,10 +35,12 @@ class StateSwitcher extends React.PureComponent {
   }
 
   render() {
+    const buildsTitle = this.props.buildsCount === 1 ? "Build" : "Builds";
+
     return (
       <div className="flex">
         <div className="rounded-left border-left border-top border-bottom border-gray flex items-center">
-          {this.renderLink("Builds", null, this.props.buildsCount)}
+          {this.renderLink(buildsTitle, null, this.props.buildsCount)}
         </div>
         <div className="border-left border-top border-bottom border-gray flex items-center">
           {this.renderLink("Running", "running", this.props.runningBuildsCount)}
