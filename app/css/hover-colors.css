@@ -1,4 +1,5 @@
-.hover-color-inherit:hover { color: inherit }
+.hover-color-inherit:hover,
+.hover-color-inherit-parent:hover .hover-color-inherit { color: inherit }
 
 .hover-green:hover {
   color: var(--green);
@@ -18,6 +19,10 @@
 .hover-lime:active .hover-lime-child,
 .hover-lime:focus .hover-lime-child {
   background-color: var(--lime);
+}
+
+.hover-dark-lime:hover {
+  color: var(--dark-lime);
 }
 
 .hover-white:hover {
