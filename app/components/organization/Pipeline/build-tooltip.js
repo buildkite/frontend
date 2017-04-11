@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import BuildStatusDescription from '../../shared/BuildStatusDescription';
 import Duration from '../../shared/Duration';
@@ -10,7 +9,7 @@ import UserAvatar from '../../shared/UserAvatar';
 import { buildTime } from '../../../lib/builds';
 import { shortMessage, shortCommit } from '../../../lib/commits';
 
-class BuildTooltip extends React.Component {
+class BuildTooltip extends React.PureComponent {
   static propTypes = {
     build: React.PropTypes.shape({
       commit: React.PropTypes.string,
@@ -25,10 +24,6 @@ class BuildTooltip extends React.Component {
       finishedAt: React.PropTypes.string
     }).isRequired
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     return (

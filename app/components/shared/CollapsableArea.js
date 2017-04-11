@@ -12,7 +12,7 @@ const DisclosureTriangle = styled(Icon)`
   transform: rotate(${(props) => props.disclosed ? -90 : 90}deg);
   trasform-origin: center 0;
   transition: transform 200ms;
-`
+`;
 
 export default class CollapsableArea extends React.Component {
   static propTypes = {

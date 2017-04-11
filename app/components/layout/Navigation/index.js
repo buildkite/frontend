@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import shallowCompare from 'react-addons-shallow-compare';
 import classNames from 'classnames';
 
 import UserAvatar from '../../shared/UserAvatar';
@@ -19,7 +18,7 @@ import DropdownButton from './dropdown-button';
 import SupportDialog from './support-dialog';
 import MyBuilds from './MyBuilds';
 
-class Navigation extends React.Component {
+class Navigation extends React.PureComponent {
   static propTypes = {
     organization: React.PropTypes.object,
     viewer: React.PropTypes.object,
@@ -96,10 +95,6 @@ class Navigation extends React.Component {
 
   handleSupportDialogClose = () => {
     this.setState({ showingSupportDialog: false });
-  };
-
-  shouldComponentUpdate = (nextProps, nextState) => {
-    return shallowCompare(this, nextProps, nextState);
   };
 
   renderTopOrganizationMenu() {
@@ -212,7 +207,7 @@ class Navigation extends React.Component {
         any: true,
         render: () => {
           return [
-            <NavigationButton key={1} className="py0" href={`/organizations/${organization.slug}/users`} linkIf={Features.NewAccountMemberSettings}>Users</NavigationButton>,
+            <NavigationButton key={1} className="py0" href={`/organizations/${organization.slug}/users`} linkIf={true}>Users</NavigationButton>,
             <NavigationButton key={2} className="py0" href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
           ];
         }

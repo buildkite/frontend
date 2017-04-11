@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import { formatNumber } from '../../lib/number';
 
@@ -33,7 +32,7 @@ Count.propTypes = {
   count: React.PropTypes.number.isRequired
 };
 
-class StateSwitcher extends React.Component {
+class StateSwitcher extends React.PureComponent {
   static propTypes = {
     buildsCount: React.PropTypes.number,
     runningBuildsCount: React.PropTypes.number,
@@ -41,10 +40,6 @@ class StateSwitcher extends React.Component {
     state: React.PropTypes.string,
     path: React.PropTypes.string
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   matchesState(state) {
     return this.props.state === state && document.location.toString().indexOf(this.props.path) !== -1;

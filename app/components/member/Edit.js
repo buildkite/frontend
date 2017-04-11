@@ -1,7 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
 import FormCheckbox from '../shared/FormCheckbox';
@@ -18,7 +17,7 @@ import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberR
 
 const AVATAR_SIZE = 50;
 
-class MemberEdit extends React.Component {
+class MemberEdit extends React.PureComponent {
   static propTypes = {
     viewer: React.PropTypes.shape({
       user: React.PropTypes.shape({
@@ -28,6 +27,7 @@ class MemberEdit extends React.Component {
     organizationMember: React.PropTypes.shape({
       uuid: React.PropTypes.string.isRequired,
       role: React.PropTypes.string.isRequired,
+      permissions: React.PropTypes.object.isRequired,
       user: React.PropTypes.shape({
         id: React.PropTypes.string.isRequired,
         name: React.PropTypes.string.isRequired,
@@ -47,10 +47,6 @@ class MemberEdit extends React.Component {
     isAdmin: false,
     removing: false
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   componentWillMount() {
     this.setState({
@@ -96,6 +92,17 @@ class MemberEdit extends React.Component {
   }
 
   renderRolePanel(isSelf) {
+    // Don't show the remove panel if you can't actually update them
+    if (!this.props.organizationMember.permissions.organizationMemberUpdate.allowed) {
+      return (
+        <Panel className="mb4">
+          <Panel.Section>
+            <p>{this.props.organizationMember.permissions.organizationMemberUpdate.message}</p>
+          </Panel.Section>
+        </Panel>
+      );
+    }
+
     const saveRowContent = (
       isSelf
         ? <span className="dark-gray">You can’t edit your own roles</span>
@@ -160,6 +167,11 @@ class MemberEdit extends React.Component {
   }
 
   renderRemovePanel(isSelf) {
+    // Don't show the remove panel if you can't actually remove them
+    if (!this.props.organizationMember.permissions.organizationMemberDelete.allowed) {
+      return null;
+    }
+
     return (
       <Panel>
         <Panel.Header>
@@ -248,6 +260,16 @@ export default Relay.createContainer(MemberEdit, {
           email
           avatar {
             url
+          }
+        }
+        permissions {
+          organizationMemberUpdate {
+            allowed
+            message
+          }
+          organizationMemberDelete {
+            allowed
+            message
           }
         }
         ${OrganizationMemberUpdateMutation.getFragment('organizationMember')}

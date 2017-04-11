@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import shallowCompare from 'react-addons-shallow-compare';
 import throttle from 'throttleit';
 import { seconds } from 'metrick/duration';
 
@@ -13,7 +12,7 @@ import { formatNumber } from '../../lib/number';
 // given time window. I wish this was cleaner, kid, I really do.
 const requestUpdate = throttle((callback) => callback(), 3::seconds);
 
-class AgentsCount extends React.Component {
+class AgentsCount extends React.PureComponent {
   static propTypes = {
     organization: React.PropTypes.shape({
       agents: React.PropTypes.shape({
@@ -52,10 +51,6 @@ class AgentsCount extends React.Component {
     if (nextProps.organization.agents) {
       this.setState({ agentCount: nextProps.organization.agents.count });
     }
-  };
-
-  shouldComponentUpdate = (nextProps, nextState) => {
-    return shallowCompare(this, nextProps, nextState);
   };
 
   render() {

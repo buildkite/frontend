@@ -2,7 +2,6 @@ import React from 'react';
 import Relay from 'react-relay';
 import { second } from 'metrick/duration';
 import DocumentTitle from 'react-document-title';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
 import Dropdown from '../shared/Dropdown';
@@ -16,17 +15,17 @@ import { formatNumber } from '../../lib/number';
 import InvitationRow from './InvitationRow';
 import Row from './Row';
 
-import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
+import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
 
-const TEAM_ROLES =  [
+const ORGANIZATION_ROLES =  [
   { name: 'Everyone', id: null },
-  { name: 'Administrators', id: TeamMemberRoleConstants.ADMIN },
-  { name: 'Users', id: TeamMemberRoleConstants.MEMBER }
+  { name: 'Administrators', id: OrganizationMemberRoleConstants.ADMIN },
+  { name: 'Users', id: OrganizationMemberRoleConstants.MEMBER }
 ];
 
 const PAGE_SIZE = 10;
 
-class MemberIndex extends React.Component {
+class MemberIndex extends React.PureComponent {
   static propTypes = {
     organization: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -63,10 +62,6 @@ class MemberIndex extends React.Component {
     loadingInvitations: false
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
-
   componentDidMount() {
     // Use a `forceFetch` so every time the user comes back to this page we'll
     // grab fresh data.
@@ -98,7 +93,7 @@ class MemberIndex extends React.Component {
 
                 <div className="flex-none pl3 flex">
                   <Dropdown width={150} ref={(_memberRoleDropdown) => this._memberRoleDropdown = _memberRoleDropdown}>
-                    <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{TEAM_ROLES.find((role) => role.id === this.props.relay.variables.memberRole).name}</div>
+                    <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{ORGANIZATION_ROLES.find((role) => role.id === this.props.relay.variables.memberRole).name}</div>
                     {this.renderMemberRoles()}
                   </Dropdown>
                 </div>
@@ -109,11 +104,7 @@ class MemberIndex extends React.Component {
             {this.renderMemberFooter()}
           </Panel>
 
-          <Panel>
-            <Panel.Header>Invitations</Panel.Header>
-            {this.renderInvitations()}
-            {this.renderInvitationFooter()}
-          </Panel>
+          {this.renderInvitationsPanel()}
         </div>
       </DocumentTitle>
     );
@@ -129,7 +120,7 @@ class MemberIndex extends React.Component {
   }
 
   renderMemberRoles() {
-    return TEAM_ROLES.map((role, index) => {
+    return ORGANIZATION_ROLES.map((role, index) => {
       return (
         <div key={index} className="btn block hover-bg-silver" onClick={() => { this._memberRoleDropdown.setShowing(false); this.handleMemberRoleSelect(role.id); }}>
           <span className="block">{role.name}</span>
@@ -254,6 +245,18 @@ class MemberIndex extends React.Component {
       }
     );
   };
+
+  renderInvitationsPanel() {
+    if (this.props.organization.permissions.organizationInvitationCreate.allowed) {
+      return (
+        <Panel>
+          <Panel.Header>Invitations</Panel.Header>
+          {this.renderInvitations()}
+          {this.renderInvitationFooter()}
+        </Panel>
+      );
+    }
+  }
 
   renderInvitations() {
     const invitations = this.props.organization.invitations;

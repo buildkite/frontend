@@ -1,9 +1,8 @@
 import React from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 import { minute } from 'metrick/duration';
 import { getDateString, getRelativeDateString } from '../../lib/date';
 
-class FriendlyTime extends React.Component {
+class FriendlyTime extends React.PureComponent {
   static propTypes = {
     value: React.PropTypes.string.isRequired,
     updateFrequency: React.PropTypes.number.isRequired,
@@ -61,10 +60,6 @@ class FriendlyTime extends React.Component {
     this.setState({
       value: getRelativeDateString(value, { capitalized, seconds })
     });
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
   }
 
   render() {

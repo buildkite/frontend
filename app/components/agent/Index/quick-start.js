@@ -1,7 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
-import shallowCompare from 'react-addons-shallow-compare';
 import classNames from 'classnames';
 
 import Emojify from '../../shared/Emojify';
@@ -23,7 +22,7 @@ const GUIDES = ((guideRequire) =>
 const getEmojiForGuide = ({ emoji, title }) => emoji || `:${title.toLowerCase()}:`;
 const getSlugForGuide = ({ slug, title }) => slug || encodeURIComponent(title.toLowerCase());
 
-class QuickStart extends React.Component {
+class QuickStart extends React.PureComponent {
   static propTypes = {
     center: React.PropTypes.bool.isRequired,
     location: React.PropTypes.shape({
@@ -58,10 +57,6 @@ class QuickStart extends React.Component {
       isMounted: true,
       organizationSlug: this.props.organization.slug
     });
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
   }
 
   getSlugFromHash() {

@@ -697,6 +697,296 @@
         },
         {
           "kind": "OBJECT",
+          "name": "BuildSourceAPI",
+          "description": "A build was triggered via an API",
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "BuildSource",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "BuildSource",
+          "description": null,
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "BuildSourceAPI",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "BuildSourceFrontend",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "BuildSourceSchedule",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "BuildSourceTriggerJob",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "BuildSourceWebhook",
+              "ofType": null
+            }
+          ]
+        },
+        {
+          "kind": "OBJECT",
+          "name": "BuildSourceFrontend",
+          "description": "A build was triggered manually via the frontend",
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "BuildSource",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "BuildSourceWebhook",
+          "description": "A build was triggered via a Webhook",
+          "fields": [
+            {
+              "name": "headers",
+              "description": "Provider specific headers sent along with the webhook. This will return null if the webhook has been purged by Buildkite.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "payload",
+              "description": "The body of the webhook. Buildkite only webhook data for a short period of time, so if this returns null - then the webhook data has been purged by Buildkite",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID for this webhook. This will return null if the webhook has been purged by Buildkite",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "BuildSource",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "JSON",
+          "description": "A blob of JSON represented as a pretty formatted string",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "BuildSourceTriggerJob",
+          "description": "A build was triggered via a trigger job",
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "BuildSource",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "BuildSourceSchedule",
+          "description": "A build was triggered via a schedule",
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "BuildSource",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "Query",
           "description": "The query root for this schema",
           "fields": [
@@ -2232,7 +2522,7 @@
             },
             {
               "name": "source",
-              "description": "Where the build was created from",
+              "description": "Where the build was created",
               "args": [
 
               ],
@@ -2240,8 +2530,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
+                  "kind": "INTERFACE",
+                  "name": "BuildSource",
                   "ofType": null
                 }
               },
@@ -3152,6 +3442,24 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "privacy",
+                  "description": "Search teams by their privacy",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "TeamPrivacy",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "order",
                   "description": "Order the teams",
                   "type": {
@@ -3159,7 +3467,7 @@
                     "name": "TeamOrder",
                     "ofType": null
                   },
-                  "defaultValue": "NAME_EVERYONE_FIRST"
+                  "defaultValue": "NAME"
                 }
               ],
               "type": {
@@ -6814,7 +7122,7 @@
               "deprecationReason": null
             },
             {
-              "name": "ADMIN",
+              "name": "MAINTAINER",
               "description": "The user can manage pipelines and users within the team",
               "isDeprecated": false,
               "deprecationReason": null
@@ -8295,12 +8603,6 @@
             {
               "name": "NAME",
               "description": "Order by name alphabetically",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "NAME_EVERYONE_FIRST",
-              "description": "Order by name alphabetically by ensure the `Everyone` team is at the top of the list",
               "isDeprecated": false,
               "deprecationReason": null
             },

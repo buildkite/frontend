@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import shallowCompare from 'react-addons-shallow-compare';
 
 import Button from '../shared/Button';
 import CollapsableArea from '../shared/CollapsableArea';
@@ -8,7 +7,7 @@ import Dialog from '../shared/Dialog';
 import FormTextField from '../shared/FormTextField';
 import FormTextarea from '../shared/FormTextarea';
 
-class CreateBuildDialog extends React.Component {
+class CreateBuildDialog extends React.PureComponent {
   static propTypes = {
     pipeline: React.PropTypes.object.isRequired,
     isOpen: React.PropTypes.bool,
@@ -19,10 +18,6 @@ class CreateBuildDialog extends React.Component {
     showingMoreOptions: false,
     creatingBuild: false
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   componentDidUpdate(prevProps) {
     if (!prevProps.isOpen && this.props.isOpen) {
