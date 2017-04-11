@@ -79,6 +79,7 @@
     "object-assign": "^4.1.0",
     "pusher-js": "^4.0.0",
     "query-string": "^4.2.3",
+    "raw-loader": "^0.5.1",
     "react": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-perf": "^15.3.2",
