@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
-import Emojify from '../../shared/Emojify';
+import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
+import Emojify from '../../shared/Emojify';
+import Icon from '../../shared/Icon';
 
 import CreateBuildDialog from '../CreateBuildDialog';
 import Builds from './builds';
@@ -22,18 +24,25 @@ class Header extends React.Component {
 
   render() {
     return (
-      <div className="flex flex-wrap mb2">
-        <div className="flex-auto mb1">
-          <h4 className="regular h3 line-height-2 m0">
-            <a className="color-inherit hover-color-inherit text-decoration-none hover-underline" href={this.props.pipeline.url}><Emojify text={this.props.pipeline.name} /></a>
-          </h4>
-          <div className="m0 truncate dark-gray" style={{ maxWidth: "25em", marginTop: 3 }}>
-            {this.renderDescription()}
+      <div>
+        <div className="flex mb3">
+          <div className="flex-auto flex">
+            <a className="line-height-1 color-inherit hover-color-inherit text-decoration-none flex flex-column flex-auto hover-lime hover-color-inherit-parent truncate mr3" href={this.props.pipeline.url}>
+              <h4 className="inline semi-bold h3 m0 truncate">
+                <Emojify text={this.props.pipeline.name} />
+              </h4>
+              <span className="block truncate h5 regular m0 dark-gray hover-color-inherit line-height-3" style={{ marginTop: 3 }}>
+                {this.renderDescription()}
+              </span>
+            </a>
           </div>
-        </div>
-        <div className="flex items-start">
-          <Builds pipeline={this.props.pipeline} buildState={this.props.buildState} />
-          {this.renderButtons()}
+          <div className="flex">
+            <a href="TODO" className="flex flex-none items-center px3 black hover-lime line-height-0 text-decoration-none">
+              <Icon icon="github" />
+            </a>
+            <Builds pipeline={this.props.pipeline} buildState={this.props.buildState} />
+            {this.renderButtons()}
+          </div>
         </div>
         <CreateBuildDialog isOpen={this.state.showingCreateBuildDialog} onRequestClose={this.handleSupportDialogClose} pipeline={this.props.pipeline} />
       </div>
@@ -51,7 +60,7 @@ class Header extends React.Component {
             outline={true}
             theme="default"
             className="ml2 flex items-center"
-          >Create Build</Button>
+          >New Build</Button>
         )
       },
       {
@@ -63,25 +72,23 @@ class Header extends React.Component {
             outline={true}
             theme="default"
             className="ml2 flex items-center"
-          >Settings</Button>
+          >Pipeline Settings</Button>
         )
       }
     );
   }
 
   renderDescription() {
-    const repository = this.props.pipeline.repository;
-
     if (this.props.pipeline.description) {
       return (
         <Emojify text={this.props.pipeline.description} />
       );
     } else {
-      const url = repository.provider.url ? repository.provider.url : repository.url;
-
-      return (
-        <a className="color-inherit hover-color-inherit text-decoration-none hover-underline" href={url}>{url}</a>
-      );
+      if (this.props.pipeline.repository.provider.url) {
+        return this.props.pipeline.repository.provider.url;
+      } else {
+        return this.props.pipeline.repository.url;
+      }
     }
   }
 
