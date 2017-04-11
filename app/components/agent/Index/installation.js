@@ -14,7 +14,7 @@ class AgentInstallation extends React.PureComponent {
       agents: React.PropTypes.shape({
         count: React.PropTypes.number.isRequired,
         edges: React.PropTypes.array.isRequired
-      }).isRequired
+      })
     }).isRequired,
     relay: React.PropTypes.object.isRequired
   };
@@ -24,16 +24,36 @@ class AgentInstallation extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.props.relay.setVariables({ isMounted: true });
-    this._agentRefreshInterval = setInterval(this.fetchUpdatedData, 5::seconds);
+    this.props.relay.setVariables(
+      { isMounted: true },
+      (readyState) => {
+        if (readyState.done) {
+          this.startTimeout();
+        }
+      }
+    );
   }
 
   componentWillUnmount() {
-    clearInterval(this._agentRefreshInterval);
+    clearTimeout(this._agentRefreshTimeout);
   }
 
+  startTimeout = () => {
+    this._agentRefreshTimeout = setTimeout(
+      this.fetchUpdatedData,
+      5::seconds
+    );
+  };
+
   fetchUpdatedData = () => {
-    this.props.relay.forceFetch(true);
+    this.props.relay.forceFetch(
+      true,
+      (readyState) => {
+        if (readyState.done) {
+          this.startTimeout();
+        }
+      }
+    );
   };
 
   componentWillReceiveProps = (nextProps) => {
