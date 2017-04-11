@@ -153,7 +153,7 @@ class QuickStart extends React.PureComponent {
               className: 'border border-gray rounded bg-silver overflow-auto p2 monospace'
             },
             'h2': {
-              className: 'h5 semi-bold'
+              className: 'h4 semi-bold'
             }
           }}
           token={token}

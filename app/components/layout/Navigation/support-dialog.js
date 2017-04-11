@@ -79,12 +79,12 @@ class SupportDialog extends React.PureComponent {
             )}
           </Mugshots>
 
-          <div className="mx-auto mb2 pt1 px3 sm-col-10 semi-bold line-height-4 h5">
+          <div className="mx-auto mb2 pt1 px3 sm-col-10 semi-bold line-height-4 h4">
             If you have a question, problem, or just need a hand send us an email and we’ll help you out.
           </div>
 
           <div className="pt1">
-            <Button className="h5 bold" href="mailto:support@buildkite.com" theme="default" outline={true}>Email support@buildkite.com</Button>
+            <Button className="h4 bold" href="mailto:support@buildkite.com" theme="default" outline={true}>Email support@buildkite.com</Button>
           </div>
         </div>
       </Dialog>

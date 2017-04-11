@@ -64,7 +64,7 @@ class AgentInstallation extends React.PureComponent {
               <p className="m0 mb2">
                 <Emojify text=":raised_hands:" style={{ fontSize: 32 }} />
               </p>
-              <p className="m0 h4 bold mb2" style={{ paddingLeft: '1.5em', paddingRight: '1.5em' }}>
+              <p className="m0 h3 bold mb2" style={{ paddingLeft: '1.5em', paddingRight: '1.5em' }}>
                 You’ve connected your first Buildkite Agent!
               </p>
               <Button outline={true} theme="default" link={`/${organization.slug}`} className="mt2">Manage Your Pipelines</Button>

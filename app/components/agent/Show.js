@@ -61,8 +61,8 @@ class AgentShow extends React.Component {
   renderExtraItem(title, content) {
     return (
       <tr key={title} style={{ marginTop: 3 }} className="border-gray border-bottom">
-        <th className="h5 p2 semi-bold left-align align-top" width={100}>{title}</th>
-        <td className="h5 p2">{content}</td>
+        <th className="h4 p2 semi-bold left-align align-top" width={100}>{title}</th>
+        <td className="h4 p2">{content}</td>
       </tr>
     );
   }
