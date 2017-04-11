@@ -162,7 +162,7 @@ class AgentShow extends React.Component {
     }
     extras.push(this.renderExtraItem(
       'Meta-data',
-      <pre className="black bg-silver rounded border border-gray pt1 px2 m0 mb1 monospace" style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{metaDataContent}</pre>
+      <pre className="black bg-silver rounded border border-gray p2 m0 mb1 monospace" style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{metaDataContent}</pre>
     ));
 
     return extras;
