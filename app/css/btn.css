@@ -1,4 +1,4 @@
-.btn {
+.btn, .unstyled-button {
   font-family: inherit;
   font-size: inherit;
   font-weight: 500;
@@ -29,4 +29,10 @@
 ::-moz-focus-inner {
   border: 0;
   padding: 0;
+}
+
+.unstyled-button {
+  padding: 0;
+  line-height: inherit;
+  border: none;
 }

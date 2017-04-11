@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import Button from '../shared/Button';
+import CollapsableArea from '../shared/CollapsableArea';
 import Dialog from '../shared/Dialog';
 import FormTextField from '../shared/FormTextField';
 import FormTextarea from '../shared/FormTextarea';
@@ -14,7 +15,7 @@ class CreateBuildDialog extends React.PureComponent {
   };
 
   state = {
-    showingMoreOptions: false,
+    showingOptions: false,
     creatingBuild: false
   };
 
@@ -36,7 +37,7 @@ class CreateBuildDialog extends React.PureComponent {
 
   render() {
     return (
-      <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose}>
+      <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose} width={400}>
         <form
           action={`/organizations/${this.props.pipeline.organization.slug}/pipelines/${this.props.pipeline.slug}/builds`}
           acceptCharset=""
@@ -47,12 +48,9 @@ class CreateBuildDialog extends React.PureComponent {
           <input type="hidden" name="utf8" value="✓" />
           <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
 
-          <div className="p4 border-bottom border-gray">
-            <h1 className="h1 mt0 mb1">Create Build</h1>
-            <p className="p0 m0">Manually start a new build for a given branch and commit.</p>
-          </div>
+          <div className="p4">
+            <h1 className="m0 h2 semi-bold mb3">New Build</h1>
 
-          <div className="px4 py3 border-bottom border-gray">
             <FormTextField
               name="build[message]"
               label="Message"
@@ -77,48 +75,43 @@ class CreateBuildDialog extends React.PureComponent {
               required={true}
             />
 
-            {this.renderMoreOptions()}
+            <CollapsableArea
+              label="Options"
+              maxHeight={250}
+              onToggle={this.handleOptionsToggle}
+              collapsed={!this.state.showingOptions}
+            >
+              <FormTextarea
+                name="build[env]"
+                label="Environment Variables"
+                help="Place each environment variable on a new line, in the format <code>KEY=value</code>"
+                rows={3}
+                tabIndex={this.state.showingOptions ? 0 : -1}
+              />
+              <div className="relative">
+                <input type="hidden" name="build[clean_checkout]" value="0" />
+                <label className="bold">
+                  <input
+                    className="absolute"
+                    name="build[clean_checkout]"
+                    type="checkbox"
+                    value="1"
+                    tabIndex={this.state.showingOptions ? 0 : -1}
+                  />
+                  {' '}
+                  <span className="ml4">Clean checkout</span>
+                </label>
+                <div className="mb0 p0 dark-gray ml4">Force the agent to remove any existing build directory and perform a fresh checkout</div>
+              </div>
+            </CollapsableArea>
           </div>
 
-          <div className="px4 py3">
-            <Button onClick={this.handleCreateBuildButtonClick} loading={this.state.creatingBuild ? "Creating Build..." : false}>Create Build</Button>
+          <div className="px4 pb4">
+            <Button className="col-12" onClick={this.handleCreateBuildButtonClick} loading={this.state.creatingBuild ? "Creating Build..." : false}>Create Build</Button>
           </div>
         </form>
       </Dialog>
     );
-  }
-
-  renderMoreOptions() {
-    if (this.state.showingMoreOptions) {
-      return (
-        <div>
-          <a href="#" onClick={this.handleToggleOptionsButtonClick} className="bold mb2 block blue hover-navy text-decoration-none hover-underline">Show less options…</a>
-
-          <FormTextarea
-            name="build[env]"
-            label="Environment Variables"
-            help="Separate each environment variable with a new line. They must be in the format: FOO=bar"
-            rows={3}
-          />
-
-          <div style={{ paddingLeft: 18 }}>
-            <input type="hidden" name="build[clean_checkout]" value="0" />
-            <label className="bold"><input name="build[clean_checkout]" type="checkbox" className="absolute" style={{ marginLeft: -18 }} value="1" />Clean checkout</label>
-            <div className="mb0 p0 dark-gray">Performs a clean checkout by removing any existing repository files.</div>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <a href="#" onClick={this.handleToggleOptionsButtonClick} className="bold blue hover-navy text-decoration-none hover-underline">Show more options…</a>
-      );
-    }
-  }
-
-  handleToggleOptionsButtonClick = (event) => {
-    event.preventDefault();
-
-    this.setState({ showingMoreOptions: !this.state.showingMoreOptions });
   }
 
   handleCreateBuildButtonClick = (event) => {
@@ -126,6 +119,10 @@ class CreateBuildDialog extends React.PureComponent {
 
     this.setState({ creatingBuild: true });
     this.form.submit();
+  }
+
+  handleOptionsToggle = () => {
+    this.setState({ showingOptions: !this.state.showingOptions });
   }
 }
 

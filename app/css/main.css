@@ -24,6 +24,7 @@
 @import 'icons';
 @import 'input';
 @import 'colors';
+@import 'outline';
 
 @import 'basscss';
 
@@ -51,6 +52,7 @@
   --green: #2ECC40;
   --olive: #3D9970;
   --lime: #7EAF25;
+  --dark-lime: #5C7F24;
 
   --yellow: #FFDC00;
   --orange: #FF851B;
