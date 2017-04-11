@@ -21,7 +21,9 @@
   background-color: var(--lime);
 }
 
-.hover-dark-lime:hover {
+.hover-dark-lime:hover,
+.hover-dark-lime:active,
+.hover-dark-lime:focus {
   color: var(--dark-lime);
 }
 

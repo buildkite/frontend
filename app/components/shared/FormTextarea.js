@@ -21,7 +21,8 @@ class FormTextarea extends React.Component {
     resizable: React.PropTypes.string,
     autoresize: React.PropTypes.bool,
     className: React.PropTypes.string,
-    errors: React.PropTypes.array
+    errors: React.PropTypes.array,
+    tabIndex: React.PropTypes.number
   };
 
   static defaultProps = {
@@ -123,6 +124,7 @@ class FormTextarea extends React.Component {
         rows={this.props.rows}
         style={style}
         ref={(_textarea) => this._textarea = _textarea}
+        tabIndex={this.props.tabIndex}
       />
     );
   }

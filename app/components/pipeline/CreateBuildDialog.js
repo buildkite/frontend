@@ -15,7 +15,7 @@ class CreateBuildDialog extends React.PureComponent {
   };
 
   state = {
-    showingMoreOptions: false,
+    showingOptions: false,
     creatingBuild: false
   };
 
@@ -75,17 +75,33 @@ class CreateBuildDialog extends React.PureComponent {
               required={true}
             />
 
-            <CollapsableArea label="Options" maxHeight={250}>
+            <CollapsableArea
+              label="Options"
+              maxHeight={250}
+              onToggle={this.handleOptionsToggle}
+              collapsed={!this.state.showingOptions}
+            >
               <FormTextarea
                 name="build[env]"
                 label="Environment Variables"
                 help="Place each environment variable on a new line, in the format <code>KEY=value</code>"
                 rows={3}
+                tabIndex={this.state.showingOptions ? 0 : -1}
               />
-              <div style={{ paddingLeft: 18 }}>
+              <div className="relative">
                 <input type="hidden" name="build[clean_checkout]" value="0" />
-                <label className="bold"><input name="build[clean_checkout]" type="checkbox" className="absolute" style={{ marginLeft: -18 }} value="1" />Clean checkout</label>
-                <div className="mb0 p0 dark-gray">Force the agent to remove any existing build directory and perform a fresh checkout</div>
+                <label className="bold">
+                  <input
+                    className="absolute"
+                    name="build[clean_checkout]"
+                    type="checkbox"
+                    value="1"
+                    tabIndex={this.state.showingOptions ? 0 : -1}
+                  />
+                  {' '}
+                  <span className="ml4">Clean checkout</span>
+                </label>
+                <div className="mb0 p0 dark-gray ml4">Force the agent to remove any existing build directory and perform a fresh checkout</div>
               </div>
             </CollapsableArea>
           </div>
@@ -103,6 +119,10 @@ class CreateBuildDialog extends React.PureComponent {
 
     this.setState({ creatingBuild: true });
     this.form.submit();
+  }
+
+  handleOptionsToggle = () => {
+    this.setState({ showingOptions: !this.state.showingOptions });
   }
 }
 
