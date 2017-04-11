@@ -23,7 +23,7 @@ class Header extends React.Component {
     return (
       <div className="flex flex-wrap mb2">
         <div className="flex-auto mb1">
-          <h4 className="regular h4 line-height-2 m0">
+          <h4 className="regular h3 line-height-2 m0">
             <a className="color-inherit hover-color-inherit text-decoration-none hover-underline" href={this.props.pipeline.url}><Emojify text={this.props.pipeline.name} /></a>
           </h4>
           <div className="m0 truncate dark-gray" style={{ maxWidth: "25em", marginTop: 3 }}>
