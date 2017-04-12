@@ -92,7 +92,13 @@ if (window._graphql) {
   Relay.injectNetworkLayer(
     new Relay.DefaultNetworkLayer(
       window._graphql["url"],
-      { credentials: "same-origin", headers: window._graphql["headers"] }
+      {
+        credentials: "same-origin",
+        headers: window._graphql["headers"],
+        // Standard relay values, that can be overriden by some pages
+        fetchTimeout: window._graphql["fetchTimeout"] || 1500,
+        retryDelays: window._graphql["retryDelays"] || [1000, 3000]
+      }
     )
   );
 }
