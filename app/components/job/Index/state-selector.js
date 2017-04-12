@@ -4,38 +4,6 @@ import Dropdown from '../../shared/Dropdown';
 import JobStatesConstants from '../../../constants/JobStates';
 
 const STATES = {
-  [null]: {
-    label: "All"
-  },
-
-  [JobStatesConstants.PENDING]: {
-    label: "Pending"
-  },
-
-  [JobStatesConstants.WAITING]: {
-    label: "Waiting"
-  },
-
-  [JobStatesConstants.WAITING_FAILED]: {
-    label: "Waiting Failed"
-  },
-
-  [JobStatesConstants.BLOCKED]: {
-    label: "Blocked"
-  },
-
-  [JobStatesConstants.BLOCKED_FAILED]: {
-    label: "Blocked Failed"
-  },
-
-  [JobStatesConstants.UNBLOCKED]: {
-    label: "Unblocked"
-  },
-
-  [JobStatesConstants.UNBLOCKED_FAILED]: {
-    label: "Unblocked Failed"
-  },
-
   [JobStatesConstants.SCHEDULED]: {
     label: "Scheduled"
   },
@@ -52,28 +20,12 @@ const STATES = {
     label: "Running"
   },
 
-  [JobStatesConstants.FINISHED]: {
-    label: "Finished"
-  },
-
   [JobStatesConstants.CANCELING]: {
     label: "Canceling"
   },
 
-  [JobStatesConstants.CANCELED]: {
-    label: "Canceled"
-  },
-
   [JobStatesConstants.TIMING_OUT]: {
     label: "Timing Out"
-  },
-
-  [JobStatesConstants.TIMED_OUT]: {
-    label: "Timed Out"
-  },
-
-  [JobStatesConstants.SKIPPED]: {
-    label: "Skipped"
   }
 };
 
@@ -95,11 +47,17 @@ class StateSelector extends React.Component {
   renderOptions() {
     return Object.keys(STATES).map((state) => {
       return (
-        <div key={state} className="btn block hover-bg-silver" onClick={() => { this.dropdownNode.setShowing(false); this.props.onSelect(state); }}>
+        <div key={state} className="btn block hover-bg-silver" onClick={() => this.setState(state)}>
           <span className="block">{STATES[state].label}</span>
         </div>
       );
     });
+  }
+
+  setState(state) {
+    this.dropdownNode.setShowing(false);
+
+    this.props.onSelect(state);
   }
 }
 

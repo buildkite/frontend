@@ -8,6 +8,8 @@ import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
 import PageWithContainer from '../../shared/PageWithContainer';
 
+import JobStatesConstants from '../../../constants/JobStates';
+
 import JobRow from './job-row';
 import StateSelector from './state-selector';
 
@@ -20,9 +22,10 @@ class AgentIndex extends React.Component {
   };
 
   state = {
+    searching: false,
     loadingMore: false,
     switchingStates: false,
-    selectedJobState: null
+    selectedJobState: JobStatesConstants.SCHEDULED
   };
 
   componentDidMount() {
@@ -40,6 +43,7 @@ class AgentIndex extends React.Component {
                 className="flex-auto"
                 placeholder="Search by agent query rules…"
                 onChange={this.handleAgentQueryRuleSearch}
+                searching={this.state.searching}
               />
 
               <div className="flex-none pl3 flex">
@@ -87,7 +91,9 @@ class AgentIndex extends React.Component {
       if (jobs.edges.length === 0) {
         return (
           <Panel.Section className="center">
-            <div>No jobs here!</div>
+            <div>
+              There are no {this.state.selectedJobState.toLowerCase()} jobs
+            </div>
           </Panel.Section>
         );
       } else {
@@ -147,7 +153,7 @@ class AgentIndex extends React.Component {
 export default Relay.createContainer(AgentIndex, {
   initialVariables: {
     isMounted: false,
-    state: null,
+    state: JobStatesConstants.SCHEDULED,
     agentQueryRules: null,
     pageSize: PAGE_SIZE
   },
