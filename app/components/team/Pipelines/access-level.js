@@ -7,7 +7,7 @@ const MANAGE_BUILD_AND_READ = "MANAGE_BUILD_AND_READ";
 const BUILD_AND_READ = "BUILD_AND_READ";
 const READ_ONLY = "READ_ONLY";
 
-class AccessLevel extends React.PureComponent {
+export default class AccessLevel extends React.PureComponent {
   static displayName = "Team.Pipelines.AccessLevel";
 
   static propTypes = {
@@ -64,5 +64,3 @@ class AccessLevel extends React.PureComponent {
     }
   }
 }
-
-export default AccessLevel;

@@ -96,7 +96,7 @@ class AutocompleteDialog extends React.PureComponent {
 
         suggestions.push(<hr key={key += 1} className="p0 m0 bg-gray" style={{ border: "none", height: 1 }} />);
       }
-    };
+    }
 
     return (
       <div className="block" style={{ width: "100%", height: 120 }}>

@@ -10,7 +10,7 @@ import permissions from '../../../lib/permissions';
 import Pipeline from './pipeline';
 import AccessLevel from './access-level';
 
-export default class Row extends React.Component {
+export default class Row extends React.PureComponent {
   static displayName = "Team.Pipelines.Row";
 
   static propTypes = {

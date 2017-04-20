@@ -10,7 +10,7 @@ import permissions from '../../../lib/permissions';
 import User from './user';
 import Role from './role';
 
-class Row extends React.Component {
+export default class Row extends React.PureComponent {
   static displayName = "Team.Members.Row";
 
   static propTypes = {
@@ -100,5 +100,3 @@ class Row extends React.Component {
     }
   };
 }
-
-export default Row;
