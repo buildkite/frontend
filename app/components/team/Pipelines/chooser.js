@@ -1,9 +1,8 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-import AutocompleteField from '../../shared/AutocompleteField';
+import AutocompleteDialog from '../../shared/Autocomplete/Dialog';
 import Button from '../../shared/Button';
-import Dialog from '../../shared/Dialog';
 import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
@@ -56,22 +55,18 @@ class Chooser extends React.Component {
             >
               Add Pipeline…
             </Button>
-            <Dialog
+            <AutocompleteDialog
               isOpen={this.state.showingDialog}
               onRequestClose={this.handleDialogClose}
               width={400}
-            >
-              <div className="p4">
-                <AutocompleteField
-                  onSearch={this.handlePipelineSearch}
-                  onSelect={this.handlePipelineSelect}
-                  items={this.renderAutoCompleteSuggstions(this.props.relay.variables.pipelineAddSearch)}
-                  placeholder="Find a pipeline…"
-                  popover={false}
-                  ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-                />
-              </div>
-            </Dialog>
+              onSearch={this.handlePipelineSearch}
+              onSelect={this.handlePipelineSelect}
+              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.pipelineAddSearch)}
+              placeholder="Find a pipeline…"
+              selectLabel="Add Pipeline"
+              popover={false}
+              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
+            />
           </div>
         )
       }
@@ -89,9 +84,17 @@ class Chooser extends React.Component {
         return [<Pipeline key={node.id} pipeline={node} />, node];
       });
     } else if (pipelineAddSearch !== "") {
-      return [<AutocompleteField.ErrorMessage key={"error"}>Could not find a pipeline with name <em>{pipelineAddSearch}</em></AutocompleteField.ErrorMessage>];
+      return [
+        <AutocompleteDialog.ErrorMessage key={"error"}>
+          Could not find a pipeline with name <em>{pipelineAddSearch}</em>
+        </AutocompleteDialog.ErrorMessage>
+      ];
     } else {
-      return [];
+      return [
+        <AutocompleteDialog.ErrorMessage key={"error"}>
+          Could not find any more pipelines to add
+        </AutocompleteDialog.ErrorMessage>
+      ];
     }
   }
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-import AutocompleteField from '../../shared/AutocompleteField';
+import AutocompleteDialog from '../../shared/Autocomplete/Dialog';
 import Button from '../../shared/Button';
-import Dialog from '../../shared/Dialog';
 import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
@@ -58,22 +57,18 @@ class Chooser extends React.Component {
             >
               Add User…
             </Button>
-            <Dialog
+            <AutocompleteDialog
               isOpen={this.state.showingDialog}
               onRequestClose={this.handleDialogClose}
               width={400}
-            >
-              <div className="p4">
-                <AutocompleteField
-                  onSearch={this.handleUserSearch}
-                  onSelect={this.handleUserSelect}
-                  items={this.renderAutoCompleteSuggstions(this.props.relay.variables.memberAddSearch)}
-                  placeholder="Find a user…"
-                  popover={false}
-                  ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-                />
-              </div>
-            </Dialog>
+              onSearch={this.handleUserSearch}
+              onSelect={this.handleUserSelect}
+              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.memberAddSearch)}
+              placeholder="Find a user…"
+              selectLabel="Add User"
+              popover={false}
+              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
+            />
           </div>
         )
       }
@@ -92,12 +87,16 @@ class Chooser extends React.Component {
       });
     } else if (memberAddSearch !== "") {
       return [
-        <AutocompleteField.ErrorMessage key="error">
+        <AutocompleteDialog.ErrorMessage key="error">
           Could not find a user with name <em>{memberAddSearch}</em>
-        </AutocompleteField.ErrorMessage>
+        </AutocompleteDialog.ErrorMessage>
       ];
     } else {
-      return [];
+      return [
+        <AutocompleteDialog.ErrorMessage key="error">
+          Could not find any more users to add
+        </AutocompleteDialog.ErrorMessage>
+      ];
     }
   }
 
