@@ -1,9 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import UserAvatar from '../../shared/UserAvatar';
 
-export default class User extends React.Component {
+export default class User extends React.PureComponent {
   static displayName = "Team.Members.User";
 
   static propTypes = {
@@ -16,22 +15,7 @@ export default class User extends React.Component {
     }).isRequired
   };
 
-  static contextTypes = {
-    autoCompletorSuggestion: React.PropTypes.object
-  };
-
   render() {
-    // Toggle the `dark-gray` color on the repository text if this component is
-    // in an auto completor and is highlighted.
-    const autoCompletorSuggestion = this.context.autoCompletorSuggestion;
-    const emailTextClass = classNames(
-      "truncate block",
-      {
-        "dark-gray": !autoCompletorSuggestion || (autoCompletorSuggestion && !autoCompletorSuggestion.selected),
-        "white": (autoCompletorSuggestion && autoCompletorSuggestion.selected)
-      }
-    );
-
     return (
       <div className="flex">
         <div className="flex-none icon-mr" style={{ width: 39, height: 39 }} >
@@ -39,7 +23,7 @@ export default class User extends React.Component {
         </div>
         <div className="flex-auto overflow-hidden">
           <strong className="truncate semi-bold block" title={this.props.user.name}>{this.props.user.name}</strong>
-          <small className={emailTextClass} title={this.props.user.email}>{this.props.user.email}</small>
+          <small className="truncate dark-gray block" title={this.props.user.email}>{this.props.user.email}</small>
         </div>
       </div>
     );
