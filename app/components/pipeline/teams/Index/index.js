@@ -4,7 +4,7 @@ import DocumentTitle from 'react-document-title';
 
 import Panel from '../../../shared/Panel';
 import Emojify from '../../../shared/Emojify';
-import AutocompleteField from '../../../shared/AutocompleteField';
+import AutocompleteField from '../../../shared/Autocomplete/Field';
 
 import FlashesStore from '../../../../stores/FlashesStore';
 

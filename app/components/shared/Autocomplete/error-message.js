@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 class ErrorMessage extends React.Component {
-  static displayName = "AutocompleteField.ErrorMessage";
+  static displayName = "Autocomplete.ErrorMessage";
 
   static propTypes = {
     children: React.PropTypes.node.isRequired,

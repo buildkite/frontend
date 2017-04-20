@@ -1,8 +1,8 @@
 import React from 'react';
 
-import SearchField from '../SearchField';
+import SearchField from '../../SearchField';
 import Suggestion from './suggestion';
-import ErrorMessage from './error-message';
+import ErrorMessage from '../error-message';
 
 const KEYCODE_UP = 38;
 const KEYCODE_DOWN = 40;
@@ -13,12 +13,7 @@ class AutocompleteField extends React.PureComponent {
     onSelect: React.PropTypes.func.isRequired,
     onSearch: React.PropTypes.func.isRequired,
     placeholder: React.PropTypes.string,
-    popover: React.PropTypes.bool.isRequired,
     items: React.PropTypes.array
-  };
-
-  static defaultProps = {
-    popover: true
   };
 
   state = {
@@ -71,7 +66,7 @@ class AutocompleteField extends React.PureComponent {
   }
 
   isErrorMessageComponent(node) {
-    return node && node.type && node.type.displayName === "AutocompleteField.ErrorMessage";
+    return node && node.type && node.type.displayName === ErrorMessage.displayName;
   }
 
   render() {
@@ -93,7 +88,7 @@ class AutocompleteField extends React.PureComponent {
 
   renderSuggestions() {
     const style = {
-      display: (!this.props.popover || this.state.visible) ? "block" : "none",
+      display: this.state.visible ? "block" : "none",
       marginTop: 3,
       zIndex: 999,
       width: "100%",
@@ -130,7 +125,7 @@ class AutocompleteField extends React.PureComponent {
 
     return (
       <div
-        className={this.props.popover ? 'bg-white border border-silver rounded shadow absolute' : ''}
+        className="bg-white border border-silver rounded shadow absolute"
         style={style}
       >
         <ul className="list-reset m0 p0">
@@ -150,7 +145,7 @@ class AutocompleteField extends React.PureComponent {
 
   handleKeyDown = (evt) => {
     // Do nothing if the list isn't visible
-    if (!this.props.popover && !this.state.visible) {
+    if (!this.state.visible) {
       return false;
     }
 
