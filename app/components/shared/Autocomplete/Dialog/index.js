@@ -5,10 +5,6 @@ import SearchField from '../../SearchField';
 import Suggestion from './suggestion';
 import ErrorMessage from '../error-message';
 
-const KEYCODE_UP = 38;
-const KEYCODE_DOWN = 40;
-const KEYCODE_ENTER = 13;
-
 class AutocompleteDialog extends React.PureComponent {
   static propTypes = {
     isOpen: React.PropTypes.bool.isRequired,
