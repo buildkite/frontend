@@ -21,12 +21,23 @@ class JobRow extends React.Component {
             <JobLink job={this.props.job} />
             <div className="dark-gray mt1">{this.renderQueryRules()}</div>
           </div>
+          {this.renderConcurrency()}
           <div className="flex-none dark-gray">
             Created <FriendlyTime value={this.props.job.createdAt} />
           </div>
         </div>
       </Panel.Row>
     );
+  }
+
+  renderConcurrency() {
+    if(this.props.job.concurrency) {
+      return (
+        <div className="flex-none pr4">
+          <code className="dark-gray">{this.props.job.concurrency.group} [{this.props.job.concurrency.limit}]</code>
+        </div>
+      );
+    }
   }
 
   renderQueryRules() {
@@ -50,6 +61,10 @@ export default Relay.createContainer(JobRow, {
           id
           state
           agentQueryRules
+          concurrency {
+            group
+            limit
+          }
           createdAt
         }
         ${JobLink.getFragment('job')}
