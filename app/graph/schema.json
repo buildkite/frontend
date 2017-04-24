@@ -2354,7 +2354,7 @@
               "args": [
                 {
                   "name": "first",
-                  "description": null,
+                  "description": "Returns the first _n_ elements from the list.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -2363,11 +2363,31 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "last",
-                  "description": null,
+                  "description": "Returns the last _n_ elements from the list.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3137,6 +3157,16 @@
                         "ofType": null
                       }
                     }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "concurrency",
+                  "description": null,
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "JobConcurrencySearch",
+                    "ofType": null
                   },
                   "defaultValue": null
                 }
@@ -4495,6 +4525,20 @@
               "deprecationReason": null
             },
             {
+              "name": "concurrency",
+              "description": "Concurrency information related to a job",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "JobConcurrency",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "createdAt",
               "description": "The time when the job was created",
               "args": [
@@ -4815,6 +4859,55 @@
               "deprecationReason": null
             }
           ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "JobConcurrency",
+          "description": "Concurrency configuration for a job",
+          "fields": [
+            {
+              "name": "group",
+              "description": "The concurrency group",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "limit",
+              "description": "The maximum amount of jobs in the concurrency that are allowed to run at any given time",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
           "possibleTypes": null
         },
         {
@@ -6108,6 +6201,20 @@
                   "name": "JobStates",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "triggered",
+              "description": "The build that this job triggered",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Build",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -8163,6 +8270,35 @@
           "interfaces": [
 
           ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "JobConcurrencySearch",
+          "description": "Searching for concurrency groups on jobs",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "group",
+              "description": "The groups you want to search",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
