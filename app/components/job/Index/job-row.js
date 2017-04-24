@@ -31,7 +31,7 @@ class JobRow extends React.Component {
   }
 
   renderConcurrency() {
-    if(this.props.job.concurrency) {
+    if (this.props.job.concurrency) {
       return (
         <div className="flex-none pr4">
           <code className="dark-gray">{this.props.job.concurrency.group} [{this.props.job.concurrency.limit}]</code>

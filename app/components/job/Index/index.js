@@ -14,7 +14,7 @@ import JobStatesConstants from '../../../constants/JobStates';
 import JobRow from './job-row';
 
 const PAGE_SIZE = 100;
-const SEARCH_KEYWORDS = [ 'state', 'agent', 'concurrency-group' ];
+const SEARCH_KEYWORDS = ['state', 'agent', 'concurrency-group'];
 
 class AgentIndex extends React.Component {
   static propTypes = {
@@ -104,9 +104,9 @@ class AgentIndex extends React.Component {
 
   handleSearch = (value) => {
     const searchQueryParams = searchQuery.parse(value, { keywords: SEARCH_KEYWORDS });
-    let variables = { concurrency: { group: null }, states: null, agentQueryRules: null };
+    const variables = { concurrency: { group: null }, states: null, agentQueryRules: null };
 
-    if(typeof(searchQueryParams) == 'string') {
+    if (typeof (searchQueryParams) == 'string') {
       // todo
     } else {
       variables.concurrency.group = searchQueryParams['concurrency-group'];
