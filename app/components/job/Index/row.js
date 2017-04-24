@@ -5,7 +5,7 @@ import Panel from '../../shared/Panel';
 import JobLink from '../../shared/JobLink';
 import FriendlyTime from '../../shared/FriendlyTime';
 
-class JobRow extends React.Component {
+class Row extends React.PureComponent {
   static propTypes = {
     job: React.PropTypes.object.isRequired
   };
@@ -53,7 +53,7 @@ class JobRow extends React.Component {
   }
 }
 
-export default Relay.createContainer(JobRow, {
+export default Relay.createContainer(Row, {
   fragments: {
     job: () => Relay.QL`
       fragment on Job {
