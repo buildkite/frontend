@@ -25,6 +25,7 @@ export default class SearchInput extends React.PureComponent {
           onKeyUp={this.handleInputKeyUp}
           value={this.props.value}
           placeholder="Search by agent query rules…"
+          spellCheck={false}
         />
       </div>
     );
