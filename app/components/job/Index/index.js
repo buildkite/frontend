@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { second } from 'metrick/duration';
+import searchQuery from 'search-query-parser';
 
 import SearchField from '../../shared/SearchField';
 import Spinner from '../../shared/Spinner';
@@ -11,9 +12,9 @@ import PageWithContainer from '../../shared/PageWithContainer';
 import JobStatesConstants from '../../../constants/JobStates';
 
 import JobRow from './job-row';
-import StateSelector from './state-selector';
 
 const PAGE_SIZE = 100;
+const SEARCH_KEYWORDS = [ 'state', 'agent', 'concurrency-group' ];
 
 class AgentIndex extends React.Component {
   static propTypes = {
@@ -23,9 +24,8 @@ class AgentIndex extends React.Component {
 
   state = {
     searching: false,
-    loadingMore: false,
-    switchingStates: false,
-    selectedJobState: JobStatesConstants.SCHEDULED
+    paginating: false,
+    query: "state:scheduled"
   };
 
   componentDidMount() {
@@ -41,14 +41,10 @@ class AgentIndex extends React.Component {
             <div className="flex items-center">
               <SearchField
                 className="flex-auto"
-                placeholder="Search by agent query rules…"
-                onChange={this.handleAgentQueryRuleSearch}
+                placeholder="Search jobs…"
+                onChange={this.handleSearch}
                 searching={this.state.searching}
               />
-
-              <div className="flex-none pl3 flex">
-                <div className="semi-bold mr1">States:</div> <StateSelector selection={this.state.selectedJobState} onSelect={this.handleStateSelection} />
-              </div>
             </div>
           </Panel.Section>
           {this.renderJobsList()}
@@ -59,11 +55,11 @@ class AgentIndex extends React.Component {
   }
 
   renderFooter() {
-    if (!this.props.organization.jobs || !this.props.organization.jobs.pageInfo.hasNextPage || this.state.switchingStates) {
+    if (!this.props.organization.jobs || !this.props.organization.jobs.pageInfo.hasNextPage) {
       return null;
     }
 
-    if (this.state.loadingMore) {
+    if (this.state.paginating) {
       return (
         <Panel.Footer className="center">
           <Spinner style={{ margin: 9.5 }} />
@@ -81,7 +77,7 @@ class AgentIndex extends React.Component {
   renderJobsList() {
     const jobs = this.props.organization.jobs;
 
-    if (!jobs || this.state.switchingStates) {
+    if (!jobs) {
       return (
         <Panel.Section className="center">
           <Spinner />
@@ -92,7 +88,7 @@ class AgentIndex extends React.Component {
         return (
           <Panel.Section className="center">
             <div>
-              There are no {this.state.selectedJobState.toLowerCase()} jobs
+              No jobs could be found
             </div>
           </Panel.Section>
         );
@@ -106,8 +102,17 @@ class AgentIndex extends React.Component {
     }
   }
 
-  handleAgentQueryRuleSearch = (value) => {
-    const agentQueryRules = value === "" ? null : value.split(" ");
+  handleSearch = (value) => {
+    const searchQueryParams = searchQuery.parse(value, { keywords: SEARCH_KEYWORDS });
+    let variables = { concurrency: { group: null }, states: null, agentQueryRules: null };
+
+    if(typeof(searchQueryParams) == 'string') {
+      // todo
+    } else {
+      variables.concurrency.group = searchQueryParams['concurrency-group'];
+      variables.agentQueryRules = searchQueryParams['agent'];
+      variables.states = searchQueryParams['state'];
+    }
 
     clearTimeout(this._timeout);
 
@@ -116,7 +121,7 @@ class AgentIndex extends React.Component {
 
       this.setState({ searching: true });
 
-      this.props.relay.forceFetch({ agentQueryRules: agentQueryRules }, (readyState) => {
+      this.props.relay.forceFetch(variables, (readyState) => {
         if (readyState.done) {
           this.setState({ searching: false });
         }
@@ -124,27 +129,14 @@ class AgentIndex extends React.Component {
     }, 1::second);
   };
 
-  handleStateSelection = (state) => {
-    this.setState({ switchingStates: true, selectedJobState: state });
-
-    // Dunno why state comes through as `null`
-    const newState = state === "null" ? null : state;
-
-    this.props.relay.forceFetch({ state: newState, pageSize: PAGE_SIZE }, (readyState) => {
-      if (readyState.done) {
-        this.setState({ switchingStates: false });
-      }
-    });
-  };
-
   handleLoadMoreClick = () => {
-    this.setState({ loadingMore: true });
+    this.setState({ paginating: true });
 
     const newPageSize = this.props.relay.variables.pageSize + PAGE_SIZE;
 
     this.props.relay.forceFetch({ pageSize: newPageSize }, (readyState) => {
       if (readyState.done) {
-        this.setState({ loadingMore: false });
+        this.setState({ paginating: false });
       }
     });
   };
@@ -153,15 +145,16 @@ class AgentIndex extends React.Component {
 export default Relay.createContainer(AgentIndex, {
   initialVariables: {
     isMounted: false,
-    state: JobStatesConstants.SCHEDULED,
+    states: null,
     agentQueryRules: null,
+    concurrency: null,
     pageSize: PAGE_SIZE
   },
 
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
-        jobs(first: $pageSize, type: COMMAND, state: $state, agentQueryRules: $agentQueryRules) @include(if: $isMounted) {
+        jobs(first: $pageSize, type: COMMAND, state: $states, agentQueryRules: $agentQueryRules, concurrency: $concurrency) @include(if: $isMounted) {
           edges {
             node {
               ...on JobTypeCommand {
