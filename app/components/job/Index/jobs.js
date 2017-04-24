@@ -15,7 +15,8 @@ class Jobs extends React.PureComponent {
   static propTypes = {
     organization: React.PropTypes.object.isRequired,
     relay: React.PropTypes.object.isRequired,
-    query: React.PropTypes.string
+    query: React.PropTypes.string,
+    onSuggestionClick: React.PropTypes.func
   };
 
   state = {
@@ -120,7 +121,12 @@ class Jobs extends React.PureComponent {
       } else {
         return jobs.edges.map((edge) => {
           return (
-            <Row key={edge.node.id} job={edge.node} />
+            <Row
+              key={edge.node.id}
+              job={edge.node}
+              onConcurrencyGroupClick={this.handleConcurrencyGroupClick}
+              onAgentQueryRuleClick={this.handleAgentQueryRuleClick}
+            />
           );
         });
       }
@@ -153,6 +159,14 @@ class Jobs extends React.PureComponent {
         this.setState({ paginating: false });
       }
     });
+  };
+
+  handleConcurrencyGroupClick = (concurrencyGroup) => {
+    this.props.onSuggestionClick(`concurrency-group:${concurrencyGroup}`);
+  };
+
+  handleAgentQueryRuleClick = (agentQueryRule) => {
+    this.props.onSuggestionClick(agentQueryRule);
   };
 }
 

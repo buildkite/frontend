@@ -5,3 +5,7 @@
 .hover-underline-parent:hover .hover-underline-child {
   text-decoration: underline;
 }
+
+.hover-underline-dotted:hover {
+  border-bottom: 1px dashed currentColor;
+}

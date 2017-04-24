@@ -7,7 +7,9 @@ import FriendlyTime from '../../shared/FriendlyTime';
 
 class Row extends React.PureComponent {
   static propTypes = {
-    job: React.PropTypes.object.isRequired
+    job: React.PropTypes.object.isRequired,
+    onConcurrencyGroupClick: React.PropTypes.func,
+    onAgentQueryRuleClick: React.PropTypes.func
   };
 
   render() {
@@ -34,22 +36,40 @@ class Row extends React.PureComponent {
     if (this.props.job.concurrency) {
       return (
         <div className="flex-none pr4">
-          <code className="dark-gray">{this.props.job.concurrency.group} [{this.props.job.concurrency.limit}]</code>
+          <code className="dark-gray">
+            <span className="cursor-pointer hover-underline-dotted" onClick={this.handleConcurrencyGroupClick}>{this.props.job.concurrency.group}</span> [{this.props.job.concurrency.limit}]
+          </code>
         </div>
       );
     }
   }
 
   renderQueryRules() {
-    if (!this.props.job.agentQueryRules.length) {
+    const agentQueryRules = !this.props.job.agentQueryRules.length ? ["queue=default"] : this.props.job.agentQueryRules;
+
+    return agentQueryRules.map((agentQueryRule) => {
       return (
-        <code>queue=default</code>
+        <code
+          key={agentQueryRule}
+          onClick={(event) => this.handleAgentQueryRuleClick(event, agentQueryRule)}
+          className="cursor-pointer hover-underline-dotted mr1"
+        >
+          {agentQueryRule}
+        </code>
       );
-    } else {
-      return (
-        <code>{this.props.job.agentQueryRules.join(", ")}</code>
-      );
-    }
+    });
+  }
+
+  handleConcurrencyGroupClick = (event) => {
+    event.preventDefault();
+
+    this.props.onConcurrencyGroupClick(this.props.job.concurrency.group);
+  }
+
+  handleAgentQueryRuleClick = (event, agentQueryRule) => {
+    event.preventDefault();
+
+    this.props.onAgentQueryRuleClick(agentQueryRule);
   }
 }
 

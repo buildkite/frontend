@@ -58,6 +58,7 @@ class JobIndex extends React.Component {
         <Jobs
           query={this.state.query}
           organization={this.props.organization}
+          onSuggestionClick={this.handleSuggestionClick}
         />
       </PageWithContainer>
     );
@@ -71,6 +72,12 @@ class JobIndex extends React.Component {
     event.preventDefault();
 
     this.context.router.push(`/organizations/${this.props.organization.slug}/jobs?q=${this.state.searchInputValue}`);
+  };
+
+  handleSuggestionClick = (suggestion) => {
+    const query = `${this.state.searchInputValue} ${suggestion}`;
+
+    this.context.router.push(`/organizations/${this.props.organization.slug}/jobs?q=${query}`);
   };
 }
 
