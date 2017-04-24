@@ -23,7 +23,7 @@ class JobIndex extends React.Component {
     super(initialProps);
 
     // Figure out if the default query
-    const query = this.props.location.query.q !== undefined ? this.props.location.query.q : "queue=default state:scheduled";
+    const query = this.props.location.query.q !== undefined ? this.props.location.query.q : "state:scheduled";
     this.state = { query: query, searchInputValue: query };
   }
 
