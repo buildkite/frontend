@@ -14,9 +14,9 @@ import JobStatesConstants from '../../../constants/JobStates';
 import JobRow from './job-row';
 
 const PAGE_SIZE = 100;
-const SEARCH_KEYWORDS = ['state', 'agent', 'concurrency-group'];
+const SEARCH_KEYWORDS = ['state', 'concurrency-group'];
 
-class AgentIndex extends React.Component {
+class JobIndex extends React.Component {
   static propTypes = {
     organization: React.PropTypes.object.isRequired,
     relay: React.PropTypes.object.isRequired
@@ -25,11 +25,29 @@ class AgentIndex extends React.Component {
   state = {
     searching: false,
     paginating: false,
-    query: "state:scheduled"
+    query: "queue=default state:scheduled"
+  };
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   };
 
   componentDidMount() {
-    this.props.relay.forceFetch({ isMounted: true });
+    console.log("OMG MOUNTED");
+
+    // Use the default query if one hasn't alredy been populated by the URL
+    const query = this.props.location.query.q !== undefined ? this.props.location.query.q : this.state.query;
+
+    this.performSearch(query);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log("NEW PROPS");
+
+    // When the `q` param in the URL changes, do a new search
+    if (this.props.location.query.q !== nextProps.location.query.q) {
+      this.performSearch(nextProps.location.query.q);
+    }
   }
 
   render() {
@@ -38,16 +56,19 @@ class AgentIndex extends React.Component {
         <Panel>
           <Panel.Header>{this.props.organization.name} Jobs</Panel.Header>
           <Panel.Section>
-            <div className="flex items-center">
+            <div className="flex items-top">
               <SearchField
+                ref={(_searchFieldNode) => this._searchFieldNode = _searchFieldNode}
                 className="flex-auto"
-                placeholder="Search jobs…"
-                onChange={this.handleSearch}
-                searching={this.state.searching}
+                placeholder="Search by agent query rules…"
+                onKeyDown={this.handleSearchKeyDown}
+                searching={false}
+                defaultValue={this.props.location.query.q || this.state.query}
               />
+              <Button outline={true} theme="default" onClick={this.handleSearchClick} className="ml3" style={{lineHeight: '0.9em'}} loading={this.state.searching ? 'Search' : null}>Search</Button>
             </div>
-            <div className="dark-gray">
-              Do something like this and you'll be fine.
+            <div className="dark-gray mt1">
+              You can further filter jobs using <code>state:scheduled</code> or <code>concurrency-group:custom-group</code>
             </div>
           </Panel.Section>
           {this.renderJobsList()}
@@ -80,7 +101,11 @@ class AgentIndex extends React.Component {
   renderJobsList() {
     const jobs = this.props.organization.jobs;
 
-    if (!jobs) {
+    if(!this.state.query) {
+      return (
+        null
+      )
+    } else if (!jobs || this.state.searching) {
       return (
         <Panel.Section className="center">
           <Spinner />
@@ -105,31 +130,52 @@ class AgentIndex extends React.Component {
     }
   }
 
-  handleSearch = (value) => {
-    const searchQueryParams = searchQuery.parse(value, { keywords: SEARCH_KEYWORDS });
-    const variables = { concurrency: { group: null }, states: null, agentQueryRules: null };
+  navigateToSearchQuery() {
+    const query = this._searchFieldNode.getValue();
+
+    this.context.router.push(`/organizations/${this.props.organization.slug}/jobs?q=${query}`);
+  }
+
+  handleSearchKeyDown = (event) => {
+    // Update search query if you hit "ENTER" on the field
+    if(event.keyCode == 13) {
+      this.navigateToSearchQuery();
+    }
+  }
+
+  handleSearchClick = () => {
+    // Update search query when you click the "SEARCH" button
+    this.navigateToSearchQuery();
+  };
+
+  performSearch = (query) => {
+    console.log(query);
+
+    const searchQueryParams = searchQuery.parse(query, { keywords: SEARCH_KEYWORDS });
+    const variables = { concurrency: { group: null }, states: null, agentQueryRules: null, hasSearchQuery: true };
 
     if (typeof (searchQueryParams) == 'string') {
-      // todo
-    } else {
+      variables.agentQueryRules = searchQueryParams;
+    } else if (searchQueryParams) {
+      variables.agentQueryRules = searchQueryParams.text;
       variables.concurrency.group = searchQueryParams['concurrency-group'];
-      variables.agentQueryRules = searchQueryParams['agent'];
-      variables.states = searchQueryParams['state'];
+
+      // Ensure the states are all upper case since it's a GraphQL enum
+      let states = searchQueryParams['state'];
+      if(typeof (states) == 'array') {
+        variables.states = states.map((state) => state.toUpperCase());
+      } else {
+        variables.states = states.toUpperCase();
+      }
     }
 
-    clearTimeout(this._timeout);
+    this.setState({ searching: true, query: query });
 
-    this._timeout = setTimeout(() => {
-      delete this._timeout;
-
-      this.setState({ searching: true });
-
-      this.props.relay.forceFetch(variables, (readyState) => {
-        if (readyState.done) {
-          this.setState({ searching: false });
-        }
-      });
-    }, 1::second);
+    this.props.relay.forceFetch(variables, (readyState) => {
+      if (readyState.done) {
+        this.setState({ searching: false });
+      }
+    });
   };
 
   handleLoadMoreClick = () => {
@@ -145,9 +191,9 @@ class AgentIndex extends React.Component {
   };
 }
 
-export default Relay.createContainer(AgentIndex, {
+export default Relay.createContainer(JobIndex, {
   initialVariables: {
-    isMounted: false,
+    hasSearchQuery: false,
     states: null,
     agentQueryRules: null,
     concurrency: null,
@@ -158,7 +204,8 @@ export default Relay.createContainer(AgentIndex, {
     organization: () => Relay.QL`
       fragment on Organization {
         name
-        jobs(first: $pageSize, type: COMMAND, state: $states, agentQueryRules: $agentQueryRules, concurrency: $concurrency) @include(if: $isMounted) {
+        slug
+        jobs(first: $pageSize, type: COMMAND, state: $states, agentQueryRules: $agentQueryRules, concurrency: $concurrency) @include(if: $hasSearchQuery) {
           edges {
             node {
               ...on JobTypeCommand {

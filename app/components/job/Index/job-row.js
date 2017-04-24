@@ -15,7 +15,7 @@ class JobRow extends React.Component {
       <Panel.Row>
         <div className="flex items-center">
           <div className="flex-none" style={{ width: 120 }}>
-            {this.props.job.state}
+            {this.props.job.state.toLowerCase()}
           </div>
           <div className="flex-auto">
             <JobLink job={this.props.job} />
