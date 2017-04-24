@@ -1,179 +1,93 @@
 import React from 'react';
 import Relay from 'react-relay';
-import { second } from 'metrick/duration';
 
-import SearchField from '../../shared/SearchField';
-import Spinner from '../../shared/Spinner';
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
+import PageHeader from '../../shared/PageHeader';
 import PageWithContainer from '../../shared/PageWithContainer';
 
-import JobStatesConstants from '../../../constants/JobStates';
+import Jobs from './jobs';
+import SearchInput from './search-input';
 
-import JobRow from './job-row';
-import StateSelector from './state-selector';
-
-const PAGE_SIZE = 100;
-
-class AgentIndex extends React.Component {
+class JobIndex extends React.Component {
   static propTypes = {
     organization: React.PropTypes.object.isRequired,
-    relay: React.PropTypes.object.isRequired
+    location: React.PropTypes.object
   };
 
-  state = {
-    searching: false,
-    loadingMore: false,
-    switchingStates: false,
-    selectedJobState: JobStatesConstants.SCHEDULED
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   };
 
-  componentDidMount() {
-    this.props.relay.forceFetch({ isMounted: true });
+  constructor(initialProps) {
+    super(initialProps);
+
+    // Figure out if the default query
+    const query = this.props.location.query.q !== undefined ? this.props.location.query.q : "state:scheduled";
+    this.state = { query: query, searchInputValue: query };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // When the `q` param in the URL changes, do a new search
+    const query = nextProps.location.query.q;
+    if (query !== undefined && this.state.query !== query){
+      this.setState({ query: query, searchInputValue: query });
+    }
   }
 
   render() {
     return (
       <PageWithContainer>
-        <Panel>
-          <Panel.Header>Job Explorer</Panel.Header>
-          <Panel.Section>
-            <div className="flex items-center">
-              <SearchField
-                className="flex-auto"
-                placeholder="Search by agent query rules…"
-                onChange={this.handleAgentQueryRuleSearch}
-                searching={this.state.searching}
-              />
+        <PageHeader>
+          <PageHeader.Title>Jobs</PageHeader.Title>
+        </PageHeader>
 
-              <div className="flex-none pl3 flex">
-                <div className="semi-bold mr1">States:</div> <StateSelector selection={this.state.selectedJobState} onSelect={this.handleStateSelection} />
-              </div>
+        <Panel className="mb4">
+          <Panel.Section>
+            <form onSubmit={this.handleFormSubmit} className="flex items-stretch">
+              <SearchInput value={this.state.searchInputValue} onChange={this.handleSearchInputChange} />
+              <Button outline={true} theme="default" className="ml3">Search</Button>
+            </form>
+
+            <div className="dark-gray mt1">
+              You can further filter jobs using <code>state:scheduled</code> or <code>concurrency-group:custom-group</code>
             </div>
           </Panel.Section>
-          {this.renderJobsList()}
-          {this.renderFooter()}
         </Panel>
+
+        <Jobs
+          query={this.state.query}
+          organization={this.props.organization}
+          onSuggestionClick={this.handleSuggestionClick}
+        />
       </PageWithContainer>
     );
   }
 
-  renderFooter() {
-    if (!this.props.organization.jobs || !this.props.organization.jobs.pageInfo.hasNextPage || this.state.switchingStates) {
-      return null;
-    }
-
-    if (this.state.loadingMore) {
-      return (
-        <Panel.Footer className="center">
-          <Spinner style={{ margin: 9.5 }} />
-        </Panel.Footer>
-      );
-    } else {
-      return (
-        <Panel.Footer className="center">
-          <Button outline={true} theme="default" onClick={this.handleLoadMoreClick}>Load more…</Button>
-        </Panel.Footer>
-      );
-    }
-  }
-
-  renderJobsList() {
-    const jobs = this.props.organization.jobs;
-
-    if (!jobs || this.state.switchingStates) {
-      return (
-        <Panel.Section className="center">
-          <Spinner />
-        </Panel.Section>
-      );
-    } else {
-      if (jobs.edges.length === 0) {
-        return (
-          <Panel.Section className="center">
-            <div>
-              There are no {this.state.selectedJobState.toLowerCase()} jobs
-            </div>
-          </Panel.Section>
-        );
-      } else {
-        return jobs.edges.map((edge) => {
-          return (
-            <JobRow key={edge.node.id} job={edge.node} />
-          );
-        });
-      }
-    }
-  }
-
-  handleAgentQueryRuleSearch = (value) => {
-    const agentQueryRules = value === "" ? null : value.split(" ");
-
-    clearTimeout(this._timeout);
-
-    this._timeout = setTimeout(() => {
-      delete this._timeout;
-
-      this.setState({ searching: true });
-
-      this.props.relay.forceFetch({ agentQueryRules: agentQueryRules }, (readyState) => {
-        if (readyState.done) {
-          this.setState({ searching: false });
-        }
-      });
-    }, 1::second);
+  handleSearchInputChange = (event) => {
+    this.setState({ searchInputValue: event.target.value });
   };
 
-  handleStateSelection = (state) => {
-    this.setState({ switchingStates: true, selectedJobState: state });
+  handleFormSubmit = (event) => {
+    event.preventDefault();
 
-    // Dunno why state comes through as `null`
-    const newState = state === "null" ? null : state;
-
-    this.props.relay.forceFetch({ state: newState, pageSize: PAGE_SIZE }, (readyState) => {
-      if (readyState.done) {
-        this.setState({ switchingStates: false });
-      }
-    });
+    this.context.router.push(`/organizations/${this.props.organization.slug}/jobs?q=${this.state.searchInputValue}`);
   };
 
-  handleLoadMoreClick = () => {
-    this.setState({ loadingMore: true });
+  handleSuggestionClick = (suggestion) => {
+    const query = `${this.state.searchInputValue} ${suggestion}`;
 
-    const newPageSize = this.props.relay.variables.pageSize + PAGE_SIZE;
-
-    this.props.relay.forceFetch({ pageSize: newPageSize }, (readyState) => {
-      if (readyState.done) {
-        this.setState({ loadingMore: false });
-      }
-    });
+    this.context.router.push(`/organizations/${this.props.organization.slug}/jobs?q=${query}`);
   };
 }
 
-export default Relay.createContainer(AgentIndex, {
-  initialVariables: {
-    isMounted: false,
-    state: JobStatesConstants.SCHEDULED,
-    agentQueryRules: null,
-    pageSize: PAGE_SIZE
-  },
-
+export default Relay.createContainer(JobIndex, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
-        jobs(first: $pageSize, type: COMMAND, state: $state, agentQueryRules: $agentQueryRules) @include(if: $isMounted) {
-          edges {
-            node {
-              ...on JobTypeCommand {
-                id
-              }
-              ${JobRow.getFragment('job')}
-            }
-          }
-          pageInfo {
-            hasNextPage
-          }
-        }
+        name
+        slug
+        ${Jobs.getFragment('organization')}
       }
     `
   }
