@@ -8,10 +8,6 @@ const STATES = {
     label: "Scheduled"
   },
 
-  [JobStatesConstants.THROTTLED]: {
-    label: "Throttled"
-  },
-
   [JobStatesConstants.ASSIGNED]: {
     label: "Assigned"
   },

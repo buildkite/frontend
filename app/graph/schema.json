@@ -4763,12 +4763,6 @@
               "deprecationReason": null
             },
             {
-              "name": "THROTTLED",
-              "description": "The job is waiting on a `wait` step to finish",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "WAITING_FAILED",
               "description": "The job was in a `WAITING` state when the build failed",
               "isDeprecated": false,

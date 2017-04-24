@@ -16,8 +16,7 @@ const JobStates = {
   TIMING_OUT: "TIMING_OUT",
   TIMED_OUT: "TIMED_OUT",
   SKIPPED: "SKIPPED",
-  BROKEN: "BROKEN",
-  THROTTLED: "THROTTLED"
+  BROKEN: "BROKEN"
 };
 
 export default JobStates;
