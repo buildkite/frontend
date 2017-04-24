@@ -12,7 +12,7 @@ import SearchInput from './search-input';
 class JobIndex extends React.Component {
   static propTypes = {
     organization: React.PropTypes.object.isRequired,
-    relay: React.PropTypes.object.isRequired
+    location: React.PropTypes.object
   };
 
   static contextTypes = {
@@ -71,26 +71,6 @@ class JobIndex extends React.Component {
     event.preventDefault();
 
     this.context.router.push(`/organizations/${this.props.organization.slug}/jobs?q=${this.state.searchInputValue}`);
-  };
-
-  performSearch = (query) => {
-    const searchQueryParams = searchQuery.parse(query, { keywords: SEARCH_KEYWORDS });
-    const variables = { concurrency: { group: null }, states: null, agentQueryRules: null, hasSearchQuery: true };
-
-    if (typeof (searchQueryParams) == 'string') {
-      variables.agentQueryRules = searchQueryParams;
-    } else if (searchQueryParams) {
-      variables.agentQueryRules = searchQueryParams.text;
-      variables.concurrency.group = searchQueryParams['concurrency-group'];
-
-      // Ensure the states are all upper case since it's a GraphQL enum
-      let states = searchQueryParams['state'];
-      if(typeof (states) == 'array') {
-        variables.states = states.map((state) => state.toUpperCase());
-      } else {
-        variables.states = states.toUpperCase();
-      }
-    }
   };
 }
 

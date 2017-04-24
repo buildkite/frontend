@@ -9,7 +9,7 @@ import Button from '../../shared/Button';
 import Row from './row';
 
 const PAGE_SIZE = 50;
-const SEARCH_KEYWORDS = [ 'state', 'concurrency-group' ];
+const SEARCH_KEYWORDS = ['state', 'concurrency-group'];
 
 class Jobs extends React.PureComponent {
   static propTypes = {
@@ -42,7 +42,7 @@ class Jobs extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.query != nextProps.query) {
+    if (this.props.query !== nextProps.query) {
       const variables = this.parseSearchQuery(nextProps.query);
 
       this.setState({ loading: true });
@@ -59,18 +59,18 @@ class Jobs extends React.PureComponent {
     const searchQueryParams = searchQuery.parse(query, { keywords: SEARCH_KEYWORDS });
     const variables = { concurrency: { group: null }, states: null, agentQueryRules: null };
 
-    if (typeof (searchQueryParams) == 'string') {
+    if (typeof searchQueryParams === 'string') {
       variables.agentQueryRules = searchQueryParams;
     } else if (searchQueryParams) {
       variables.agentQueryRules = searchQueryParams.text;
       variables.concurrency.group = searchQueryParams['concurrency-group'];
 
       // Ensure the states are all upper case since it's a GraphQL enum
-      let states = searchQueryParams['state'];
-      if(typeof (states) == 'array') {
-        variables.states = states.map((state) => state.toUpperCase());
-      } else {
+      const states = searchQueryParams['state'];
+      if (typeof states === 'string') {
         variables.states = states.toUpperCase();
+      } else {
+        variables.states = states.map((state) => state.toUpperCase());
       }
     }
 
@@ -79,7 +79,7 @@ class Jobs extends React.PureComponent {
 
   render() {
     // Just return a null component if no query was defined
-    if(!this.props.query) {
+    if (!this.props.query) {
       return null;
     }
 
@@ -93,9 +93,8 @@ class Jobs extends React.PureComponent {
 
   renderJobs() {
     const jobs = this.props.organization.jobs;
-    const query = this.props.query;
 
-    if(this.state.error) {
+    if (this.state.error) {
       return (
         <Panel.Section className="center">
           <div className="red">{this.state.error.message}</div>
