@@ -36,7 +36,7 @@ class AgentIndex extends React.Component {
     return (
       <PageWithContainer>
         <Panel>
-          <Panel.Header>Job Explorer</Panel.Header>
+          <Panel.Header>{this.props.organization.name} Jobs</Panel.Header>
           <Panel.Section>
             <div className="flex items-center">
               <SearchField
@@ -45,6 +45,9 @@ class AgentIndex extends React.Component {
                 onChange={this.handleSearch}
                 searching={this.state.searching}
               />
+            </div>
+            <div className="dark-gray">
+              Do something like this and you'll be fine.
             </div>
           </Panel.Section>
           {this.renderJobsList()}
@@ -154,6 +157,7 @@ export default Relay.createContainer(AgentIndex, {
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
+        name
         jobs(first: $pageSize, type: COMMAND, state: $states, agentQueryRules: $agentQueryRules, concurrency: $concurrency) @include(if: $isMounted) {
           edges {
             node {
