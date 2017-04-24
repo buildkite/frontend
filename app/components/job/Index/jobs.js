@@ -67,10 +67,12 @@ class Jobs extends React.PureComponent {
 
       // Ensure the states are all upper case since it's a GraphQL enum
       const states = searchQueryParams['state'];
-      if (typeof states === 'string') {
-        variables.states = states.toUpperCase();
-      } else {
-        variables.states = states.map((state) => state.toUpperCase());
+      if(states) {
+        if (typeof states === 'string') {
+          variables.states = states.toUpperCase();
+        } else {
+          variables.states = states.map((state) => state.toUpperCase());
+        }
       }
     }
 
