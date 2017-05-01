@@ -44,5 +44,7 @@ steps:
     command: ".buildkite/steps/deploy.sh"
     branches: "master"
     artifact_paths: "tmp/verify/*"
+    concurrency: 1
+    concurrency_group: "deployer"
     agents:
       queue: "deploy"
