@@ -4793,6 +4793,12 @@
               "deprecationReason": null
             },
             {
+              "name": "LIMITED",
+              "description": "The job is waiting for jobs with the same concurrency group to finish",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "SCHEDULED",
               "description": "The job is scheduled and waiting for an agent",
               "isDeprecated": false,
