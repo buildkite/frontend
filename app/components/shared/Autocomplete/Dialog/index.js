@@ -99,7 +99,7 @@ class AutocompleteDialog extends React.PureComponent {
     }
 
     return (
-      <div className="block" style={{ width: "100%", height: 120 }}>
+      <div className="block" style={{ width: "100%", minHeight: 120 }}>
         <ul className="list-reset m0 p0">
           {suggestions}
         </ul>

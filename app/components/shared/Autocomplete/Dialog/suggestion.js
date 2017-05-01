@@ -28,7 +28,7 @@ export default class Suggestion extends React.PureComponent {
         </div>
         <Button
           onClick={this.handleSelectClick}
-          className="flex-none"
+          className="ml2 flex-none"
           outline={true}
           theme="default"
         >
