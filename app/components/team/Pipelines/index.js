@@ -48,13 +48,7 @@ class Pipelines extends React.Component {
           <Chooser team={this.props.team} />
         </div>
         <Panel className={this.props.className}>
-          <div className="py2 px3">
-            <SearchField
-              placeholder="Search pipelines…"
-              searching={this.state.searchingPipelinesIsSlow}
-              onChange={this.handlePipelineSearch}
-            />
-          </div>
+          {this.renderPipelineSearch()}
           {this.renderPipelineSearchInfo()}
           {this.renderPipelines()}
           {this.renderPipelineFooter()}
@@ -75,6 +69,24 @@ class Pipelines extends React.Component {
         return null;
       }
       return <Panel.Section className="dark-gray">There are no pipelines assigned to this team</Panel.Section>;
+    }
+  }
+
+  renderPipelineSearch() {
+    const { team: { pipelines }, relay: { variables: { pipelineSearch } } } = this.props;
+
+    if (pipelines.edges.length > 0 || pipelineSearch) {
+      return (
+        <div className="py2 px3">
+          <SearchField
+            placeholder="Search pipelines…"
+            searching={this.state.searchingPipelinesIsSlow}
+            onChange={this.handlePipelineSearch}
+          />
+        </div>
+      );
+    } else {
+      return null;
     }
   }
 

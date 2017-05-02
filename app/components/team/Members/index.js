@@ -46,13 +46,7 @@ class Members extends React.Component {
           <Chooser team={this.props.team} />
         </div>
         <Panel className={this.props.className}>
-          <div className="py2 px3">
-            <SearchField
-              placeholder="Search members…"
-              searching={this.state.searchingMembersIsSlow}
-              onChange={this.handleMemberSearch}
-            />
-          </div>
+          {this.renderMemberSearch()}
           {this.renderMemberSearchInfo()}
           {this.renderMembers()}
           {this.renderMemberFooter()}
@@ -73,6 +67,24 @@ class Members extends React.Component {
         return null;
       }
       return <Panel.Section className="dark-gray">There are no users assigned to this team</Panel.Section>;
+    }
+  }
+
+  renderMemberSearch() {
+    const { team: { members }, relay: { variables: { memberSearch } } } = this.props;
+
+    if (members.edges.length > 0 || memberSearch) {
+      return (
+        <div className="py2 px3">
+          <SearchField
+            placeholder="Search members…"
+            searching={this.state.searchingMembersIsSlow}
+            onChange={this.handleMemberSearch}
+          />
+        </div>
+      );
+    } else {
+      return null;
     }
   }
 
