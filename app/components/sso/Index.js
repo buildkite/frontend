@@ -56,7 +56,7 @@ class SSOIndex extends React.PureComponent {
   renderLoginLink() {
     const url = `/login?org=${this.props.organization.slug}`;
 
-    return <a href={url}>{url}</a>;
+    return <a href={url} className="lime text-decoration-none hover-lime hover-underline">{url}</a>;
   }
 
   renderDetailsPanel() {
