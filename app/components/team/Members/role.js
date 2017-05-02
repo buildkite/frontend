@@ -5,7 +5,7 @@ import Dropdown from '../../shared/Dropdown';
 
 import TeamMemberRoleConstants from '../../../constants/TeamMemberRoleConstants';
 
-class MemberRole extends React.PureComponent {
+export default class MemberRole extends React.PureComponent {
   static displayName = "Team.Pipelines.Role";
 
   static propTypes = {
@@ -52,5 +52,3 @@ class MemberRole extends React.PureComponent {
     }
   }
 }
-
-export default MemberRole;

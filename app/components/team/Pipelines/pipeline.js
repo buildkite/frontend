@@ -1,7 +1,6 @@
 import React from 'react';
-import classNames from 'classnames';
 
-class Pipeline extends React.Component {
+export default class Pipeline extends React.PureComponent {
   static displayName = "Team.Pipelines.Pipeline";
 
   static propTypes = {
@@ -13,26 +12,12 @@ class Pipeline extends React.Component {
     }).isRequired
   };
 
-  static contextTypes = {
-    autoCompletorSuggestion: React.PropTypes.object
-  };
-
   render() {
-    // Toggle the `dark-gray` color on the repository text if this component is
-    // in an auto completor and is highlighted.
-    const autoCompletorSuggestion = this.context.autoCompletorSuggestion;
-    const repositoryTextClasses = classNames({
-      "dark-gray": !autoCompletorSuggestion || (autoCompletorSuggestion && !autoCompletorSuggestion.selected),
-      "white": (autoCompletorSuggestion && autoCompletorSuggestion.selected)
-    });
-
     return (
       <div>
-        <strong className="semi-bold block">{this.props.pipeline.name}</strong>
-        <small className={repositoryTextClasses}>{this.props.pipeline.repository.url}</small>
+        <strong className="truncate semi-bold block" title={this.props.pipeline.name}>{this.props.pipeline.name}</strong>
+        <small className="truncate dark-gray block" title={this.props.pipeline.repository.url}>{this.props.pipeline.repository.url}</small>
       </div>
     );
   }
 }
-
-export default Pipeline;

@@ -4,7 +4,7 @@ import DocumentTitle from 'react-document-title';
 
 import Panel from '../../../shared/Panel';
 import Emojify from '../../../shared/Emojify';
-import AutocompleteField from '../../../shared/AutocompleteField';
+import AutocompleteField from '../../../shared/Autocomplete/Field';
 
 import FlashesStore from '../../../../stores/FlashesStore';
 
@@ -48,7 +48,8 @@ class Index extends React.Component {
           <Panel.Header>Teams</Panel.Header>
 
           <Panel.Section>
-            <AutocompleteField onSearch={this.handleTeamSearch}
+            <AutocompleteField
+              onSearch={this.handleTeamSearch}
               onSelect={this.handleTeamSelect}
               items={this.renderAutoCompleteSuggestions(this.props.relay.variables.search)}
               placeholder="Add a team…"
@@ -118,7 +119,7 @@ class Index extends React.Component {
   handleTeamSelect = (team) => {
     // Reset the autocompletor and re-focus it
     this._autoCompletor.clear();
-    this.props.relay.setVariables({ search: "" });
+    this.props.relay.setVariables({ search: '' });
     this._autoCompletor.focus();
 
     // Create our mutation that will add the pipeline to the team
@@ -141,7 +142,7 @@ class Index extends React.Component {
 
 export default Relay.createContainer(Index, {
   initialVariables: {
-    search: ""
+    search: ''
   },
 
   fragments: {

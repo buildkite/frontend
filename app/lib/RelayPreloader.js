@@ -43,7 +43,7 @@ const QUERIES = {
     }
   `,
   "organization_show/organization": Relay.QL`
-    query PipelinesList($organization: ID!, $team: ID) {
+    query PipelinesList($organization: ID!, $team: TeamSelector) {
       organization(slug: $organization) {
         id
         slug

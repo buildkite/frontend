@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-class ErrorMessage extends React.Component {
-  static displayName = "AutocompleteField.ErrorMessage";
+export default class ErrorMessage extends React.PureComponent {
+  static displayName = "Autocomplete.ErrorMessage";
 
   static propTypes = {
     children: React.PropTypes.node.isRequired,
@@ -17,5 +17,3 @@ class ErrorMessage extends React.Component {
     );
   }
 }
-
-export default ErrorMessage;

@@ -1,18 +1,21 @@
 import React from 'react';
 import Relay from 'react-relay';
+import { second } from 'metrick/duration';
 
+import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
-import AutocompleteField from '../../shared/AutocompleteField';
-import permissions from '../../../lib/permissions';
+import SearchField from '../../shared/SearchField';
+import Spinner from '../../shared/Spinner';
 
-import FlashesStore from '../../../stores/FlashesStore';
+import { formatNumber } from '../../../lib/number';
 
-import TeamMemberCreateMutation from '../../../mutations/TeamMemberCreate';
 import TeamMemberUpdateMutation from '../../../mutations/TeamMemberUpdate';
 import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
 
+import Chooser from './chooser';
 import Row from './row';
-import User from './user';
+
+const PAGE_SIZE = 10;
 
 class Members extends React.Component {
   static displayName = "Team.Members";
@@ -20,11 +23,10 @@ class Members extends React.Component {
   static propTypes = {
     team: React.PropTypes.shape({
       members: React.PropTypes.shape({
+        pageInfo: React.PropTypes.shape({
+          hasNextPage: React.PropTypes.bool.isRequired
+        }).isRequired,
         edges: React.PropTypes.array.isRequired
-      }).isRequired,
-      organization: React.PropTypes.object.isRequired,
-      permissions: React.PropTypes.shape({
-        teamMemberCreate: React.PropTypes.object.isRequired
       }).isRequired
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
@@ -32,16 +34,24 @@ class Members extends React.Component {
   };
 
   state = {
-    removing: null
+    loading: false,
+    searchingMembersIsSlow: false
   };
 
   render() {
     return (
-      <Panel className={this.props.className}>
-        <Panel.Header>Members</Panel.Header>
-        {this.renderAutoComplete()}
-        {this.renderMembers()}
-      </Panel>
+      <div>
+        <div className="flex items-center">
+          <h2 className="h2 flex-auto">Members</h2>
+          <Chooser team={this.props.team} />
+        </div>
+        <Panel className={this.props.className}>
+          {this.renderMemberSearch()}
+          {this.renderMemberSearchInfo()}
+          {this.renderMembers()}
+          {this.renderMemberFooter()}
+        </Panel>
+      </div>
     );
   }
 
@@ -53,73 +63,120 @@ class Members extends React.Component {
         );
       });
     } else {
+      if (this.props.relay.variables.memberSearch) {
+        return null;
+      }
       return <Panel.Section className="dark-gray">There are no users assigned to this team</Panel.Section>;
     }
   }
 
-  renderAutoComplete() {
-    return permissions(this.props.team.permissions).check(
-      {
-        allowed: "teamMemberCreate",
-        render: () => (
-          <Panel.Section>
-            <AutocompleteField onSearch={this.handleUserSearch}
-              onSelect={this.handleUserSelect}
-              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
-              placeholder="Add user…"
-              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-            />
-          </Panel.Section>
-        )
-      }
-    );
-  }
+  renderMemberSearch() {
+    const { team: { members }, relay: { variables: { memberSearch } } } = this.props;
 
-  renderAutoCompleteSuggstions(search) {
-    // First filter out any members that are already in this list
-    const suggestions = [];
-    this.props.team.organization.members.edges.forEach((member) => {
-      let found = false;
-      this.props.team.members.edges.forEach((edge) => {
-        if (edge.node.user.id === member.node.user.id) {
-          found = true;
-        }
-      });
-
-      if (!found) {
-        suggestions.push(member.node.user);
-      }
-    });
-
-    // Either render the sugggestions, or show a "not found" error
-    if (suggestions.length > 0) {
-      return suggestions.map((user) => {
-        return [<User key={user.id} user={user} />, user];
-      });
-    } else if (search !== "") {
-      return [
-        <AutocompleteField.ErrorMessage key="error">
-          Could not find a user with name <em>{search}</em>
-        </AutocompleteField.ErrorMessage>
-      ];
+    if (members.edges.length > 0 || memberSearch) {
+      return (
+        <div className="py2 px3">
+          <SearchField
+            placeholder="Search members…"
+            searching={this.state.searchingMembersIsSlow}
+            onChange={this.handleMemberSearch}
+          />
+        </div>
+      );
     } else {
-      return [];
+      return null;
     }
   }
 
-  handleUserSearch = (text) => {
-    this.props.relay.setVariables({ search: text });
+  renderMemberSearchInfo() {
+    const { team: { members }, relay: { variables: { memberSearch } } } = this.props;
+
+    if (memberSearch && members) {
+      return (
+        <div className="bg-silver semi-bold py2 px3">
+          <small className="dark-gray">
+            {formatNumber(members.count)} matching members
+          </small>
+        </div>
+      );
+    }
+  }
+
+  renderMemberFooter() {
+    // don't show any footer if we haven't ever loaded
+    // any members, or if there's no next page
+    if (!this.props.team.members || !this.props.team.members.pageInfo.hasNextPage) {
+      return;
+    }
+
+    let footerContent = (
+      <Button
+        outline={true}
+        theme="default"
+        onClick={this.handleLoadMoreMembersClick}
+      >
+        Show more members…
+      </Button>
+    );
+
+    // show a spinner if we're loading more members
+    if (this.state.loading) {
+      footerContent = <Spinner style={{ margin: 9.5 }} />;
+    }
+
+    return (
+      <Panel.Footer className="center">
+        {footerContent}
+      </Panel.Footer>
+    );
+  }
+
+  handleMemberSearch = (memberSearch) => {
+    this.setState({ searchingMembers: true });
+
+    if (this.teamSearchIsSlowTimeout) {
+      clearTimeout(this.teamSearchIsSlowTimeout);
+    }
+
+    this.teamSearchIsSlowTimeout = setTimeout(() => {
+      this.setState({ searchingMembersIsSlow: true });
+    }, 1::second);
+
+    this.props.relay.forceFetch(
+      { memberSearch },
+      (readyState) => {
+        if (readyState.done) {
+          if (this.teamSearchIsSlowTimeout) {
+            clearTimeout(this.teamSearchIsSlowTimeout);
+          }
+          this.setState({
+            searchingMembers: false,
+            searchingMembersIsSlow: false
+          });
+        }
+      }
+    );
   };
 
-  handleUserSelect = (user) => {
-    this._autoCompletor.clear();
-    this.props.relay.setVariables({ search: "" });
-    this._autoCompletor.focus();
+  handleLoadMoreMembersClick = () => {
+    this.setState({ loading: true });
 
-    Relay.Store.commitUpdate(new TeamMemberCreateMutation({
-      team: this.props.team,
-      user: user
-    }), { onFailure: (transaction) => FlashesStore.flash(FlashesStore.ERROR, transaction.getError()) });
+    let { pageSize } = this.props.relay.variables;
+
+    pageSize += PAGE_SIZE;
+
+    this.props.relay.setVariables(
+      { pageSize },
+      (readyState) => {
+        if (readyState.done) {
+          this.setState({ loading: false });
+        }
+      }
+    );
+  };
+
+  handleUserSearch = (memberAddSearch) => {
+    this.props.relay.setVariables({ memberAddSearch });
   };
 
   handleTeamMemberRemove = (teamMember, callback) => {
@@ -138,39 +195,20 @@ class Members extends React.Component {
 
 export default Relay.createContainer(Members, {
   initialVariables: {
-    search: ""
+    isMounted: false,
+    memberAddSearch: '',
+    teamSelector: null,
+    pageSize: PAGE_SIZE,
+    memberSearch: null
   },
 
   fragments: {
     team: () => Relay.QL`
       fragment on Team {
-        ${TeamMemberCreateMutation.getFragment('team')}
+        ${Chooser.getFragment('team')}
 
-        organization {
-          members(search: $search, first: 10, order: RELEVANCE) {
-            edges {
-              node {
-                user {
-                  id
-                  name
-                  email
-                  avatar {
-                    url
-                  }
-                  ${TeamMemberCreateMutation.getFragment('user')}
-                }
-              }
-            }
-          }
-        }
-
-        permissions {
-          teamMemberCreate {
-            allowed
-          }
-        }
-
-        members(first: 100, order: NAME) {
+        members(first: $pageSize, search: $memberSearch, order: NAME) {
+          count
           edges {
             node {
               id
@@ -194,6 +232,9 @@ export default Relay.createContainer(Members, {
               ${TeamMemberDeleteMutation.getFragment('teamMember')}
               ${TeamMemberUpdateMutation.getFragment('teamMember')}
             }
+          }
+          pageInfo {
+            hasNextPage
           }
         }
       }

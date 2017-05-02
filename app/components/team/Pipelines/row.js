@@ -10,7 +10,7 @@ import permissions from '../../../lib/permissions';
 import Pipeline from './pipeline';
 import AccessLevel from './access-level';
 
-class Row extends React.Component {
+export default class Row extends React.PureComponent {
   static displayName = "Team.Pipelines.Row";
 
   static propTypes = {
@@ -37,7 +37,7 @@ class Row extends React.Component {
     return (
       <Panel.Row>
         <Pipeline pipeline={this.props.teamPipeline.pipeline} />
-        <Panel.RowActions>
+        <Panel.RowActions className="ml2">
           {this.renderActions()}
         </Panel.RowActions>
       </Panel.Row>
@@ -110,5 +110,3 @@ class Row extends React.Component {
     });
   };
 }
-
-export default Row;

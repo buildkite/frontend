@@ -1,18 +1,23 @@
 import React from 'react';
 import Relay from 'react-relay';
+import { second } from 'metrick/duration';
 
+import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
-import AutocompleteField from '../../shared/AutocompleteField';
-import permissions from '../../../lib/permissions';
+import SearchField from '../../shared/SearchField';
+import Spinner from '../../shared/Spinner';
 
 import FlashesStore from '../../../stores/FlashesStore';
 
-import TeamPipelineCreateMutation from '../../../mutations/TeamPipelineCreate';
+import { formatNumber } from '../../../lib/number';
+
 import TeamPipelineUpdateMutation from '../../../mutations/TeamPipelineUpdate';
 import TeamPipelineDeleteMutation from '../../../mutations/TeamPipelineDelete';
 
+import Chooser from './chooser';
 import Row from './row';
-import Pipeline from './pipeline';
+
+const PAGE_SIZE = 10;
 
 class Pipelines extends React.Component {
   static displayName = "Team.Pipelines";
@@ -20,11 +25,10 @@ class Pipelines extends React.Component {
   static propTypes = {
     team: React.PropTypes.shape({
       pipelines: React.PropTypes.shape({
+        pageInfo: React.PropTypes.shape({
+          hasNextPage: React.PropTypes.bool.isRequired
+        }).isRequired,
         edges: React.PropTypes.array.isRequired
-      }).isRequired,
-      organization: React.PropTypes.object.isRequired,
-      permissions: React.PropTypes.shape({
-        teamPipelineCreate: React.PropTypes.object.isRequired
       }).isRequired
     }).isRequired,
     relay: React.PropTypes.object.isRequired,
@@ -32,16 +36,24 @@ class Pipelines extends React.Component {
   };
 
   state = {
-    removing: null
+    loading: false,
+    searchingPipelinesIsSlow: false
   };
 
   render() {
     return (
-      <Panel className={this.props.className}>
-        <Panel.Header>Pipelines</Panel.Header>
-        {this.renderAutoComplete()}
-        {this.renderPipelines()}
-      </Panel>
+      <div>
+        <div className="flex items-center">
+          <h2 className="h2 flex-auto">Pipelines</h2>
+          <Chooser team={this.props.team} />
+        </div>
+        <Panel className={this.props.className}>
+          {this.renderPipelineSearch()}
+          {this.renderPipelineSearchInfo()}
+          {this.renderPipelines()}
+          {this.renderPipelineFooter()}
+        </Panel>
+      </div>
     );
   }
 
@@ -53,69 +65,116 @@ class Pipelines extends React.Component {
         );
       });
     } else {
+      if (this.props.relay.variables.pipelineSearch) {
+        return null;
+      }
       return <Panel.Section className="dark-gray">There are no pipelines assigned to this team</Panel.Section>;
     }
   }
 
-  renderAutoComplete() {
-    return permissions(this.props.team.permissions).check(
-      {
-        allowed: "teamPipelineCreate",
-        render: () => (
-          <Panel.Section>
-            <AutocompleteField onSearch={this.handlePipelineSearch}
-              onSelect={this.handlePipelineSelect}
-              items={this.renderAutoCompleteSuggstions(this.props.relay.variables.search)}
-              placeholder="Add pipeline…"
-              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-            />
-          </Panel.Section>
-        )
-      }
-    );
-  }
+  renderPipelineSearch() {
+    const { team: { pipelines }, relay: { variables: { pipelineSearch } } } = this.props;
 
-  renderAutoCompleteSuggstions(search) {
-    // First filter out any pipelines that are already in this list
-    const suggestions = [];
-    this.props.team.organization.pipelines.edges.forEach((pipeline) => {
-      let found = false;
-      this.props.team.pipelines.edges.forEach((edge) => {
-        if (edge.node.pipeline.id === pipeline.node.id) {
-          found = true;
-        }
-      });
-
-      if (!found) {
-        suggestions.push(pipeline.node);
-      }
-    });
-
-    // Either render the sugggestions, or show a "not found" error
-    if (suggestions.length > 0) {
-      return suggestions.map((pipeline) => {
-        return [<Pipeline key={pipeline.id} pipeline={pipeline} />, pipeline];
-      });
-    } else if (search !== "") {
-      return [<AutocompleteField.ErrorMessage key={"error"}>Could not find a pipeline with name <em>{search}</em></AutocompleteField.ErrorMessage>];
+    if (pipelines.edges.length > 0 || pipelineSearch) {
+      return (
+        <div className="py2 px3">
+          <SearchField
+            placeholder="Search pipelines…"
+            searching={this.state.searchingPipelinesIsSlow}
+            onChange={this.handlePipelineSearch}
+          />
+        </div>
+      );
     } else {
-      return [];
+      return null;
     }
   }
 
-  handlePipelineSearch = (text) => {
-    this.props.relay.setVariables({ search: text });
+  renderPipelineSearchInfo() {
+    const { team: { pipelines }, relay: { variables: { pipelineSearch } } } = this.props;
+
+    if (pipelineSearch && pipelines) {
+      return (
+        <div className="bg-silver semi-bold py2 px3">
+          <small className="dark-gray">
+            {formatNumber(pipelines.count)} matching pipelines
+          </small>
+        </div>
+      );
+    }
+  }
+
+  renderPipelineFooter() {
+    // don't show any footer if we haven't ever loaded
+    // any pipelines, or if there's no next page
+    if (!this.props.team.pipelines || !this.props.team.pipelines.pageInfo.hasNextPage) {
+      return;
+    }
+
+    let footerContent = (
+      <Button
+        outline={true}
+        theme="default"
+        onClick={this.handleLoadMorePipelinesClick}
+      >
+        Show more pipelines…
+      </Button>
+    );
+
+    // show a spinner if we're loading more pipelines
+    if (this.state.loading) {
+      footerContent = <Spinner style={{ margin: 9.5 }} />;
+    }
+
+    return (
+      <Panel.Footer className="center">
+        {footerContent}
+      </Panel.Footer>
+    );
+  }
+
+  handlePipelineSearch = (pipelineSearch) => {
+    this.setState({ searchingPipelines: true });
+
+    if (this.teamSearchIsSlowTimeout) {
+      clearTimeout(this.teamSearchIsSlowTimeout);
+    }
+
+    this.teamSearchIsSlowTimeout = setTimeout(() => {
+      this.setState({ searchingPipelinesIsSlow: true });
+    }, 1::second);
+
+    this.props.relay.forceFetch(
+      { pipelineSearch },
+      (readyState) => {
+        if (readyState.done) {
+          if (this.teamSearchIsSlowTimeout) {
+            clearTimeout(this.teamSearchIsSlowTimeout);
+          }
+          this.setState({
+            searchingPipelines: false,
+            searchingPipelinesIsSlow: false
+          });
+        }
+      }
+    );
   };
 
-  handlePipelineSelect = (pipeline) => {
-    this._autoCompletor.clear();
-    this.props.relay.setVariables({ search: "" });
-    this._autoCompletor.focus();
+  handleLoadMorePipelinesClick = () => {
+    this.setState({ loading: true });
 
-    Relay.Store.commitUpdate(new TeamPipelineCreateMutation({
-      team: this.props.team,
-      pipeline: pipeline
-    }), { onFailure: this.handleMutationFailure });
+    let { pageSize } = this.props.relay.variables;
+
+    pageSize += PAGE_SIZE;
+
+    this.props.relay.setVariables(
+      { pageSize },
+      (readyState) => {
+        if (readyState.done) {
+          this.setState({ loading: false });
+        }
+      }
+    );
   };
 
   handleAccessLevelChange = (teamPipeline, accessLevel, callback) => {
@@ -139,36 +198,17 @@ class Pipelines extends React.Component {
 
 export default Relay.createContainer(Pipelines, {
   initialVariables: {
-    search: ""
+    pageSize: PAGE_SIZE,
+    pipelineSearch: null
   },
 
   fragments: {
     team: () => Relay.QL`
       fragment on Team {
-        ${TeamPipelineCreateMutation.getFragment('team')}
+        ${Chooser.getFragment('team')}
 
-        organization {
-          pipelines(search: $search, first: 10, order: RELEVANCE) {
-            edges {
-              node {
-                id
-                name
-                repository {
-                  url
-                }
-                ${TeamPipelineCreateMutation.getFragment('pipeline')}
-              }
-            }
-          }
-        }
-
-        permissions {
-          teamPipelineCreate {
-            allowed
-          }
-        }
-
-        pipelines(first: 100, order: NAME) {
+        pipelines(first: $pageSize, search: $pipelineSearch, order: NAME) {
+          count
           edges {
             node {
               id
@@ -191,6 +231,9 @@ export default Relay.createContainer(Pipelines, {
               ${TeamPipelineDeleteMutation.getFragment('teamPipeline')}
               ${TeamPipelineUpdateMutation.getFragment('teamPipeline')}
             }
+          }
+          pageInfo {
+            hasNextPage
           }
         }
       }

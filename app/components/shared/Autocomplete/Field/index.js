@@ -1,9 +1,12 @@
 import React from 'react';
-import classNames from 'classnames';
 
-import SearchField from '../SearchField';
+import SearchField from '../../SearchField';
 import Suggestion from './suggestion';
-import ErrorMessage from './error-message';
+import ErrorMessage from '../error-message';
+
+const KEYCODE_UP = 38;
+const KEYCODE_DOWN = 40;
+const KEYCODE_ENTER = 13;
 
 class AutocompleteField extends React.PureComponent {
   static propTypes = {
@@ -14,8 +17,8 @@ class AutocompleteField extends React.PureComponent {
   };
 
   state = {
-    visible: false,
-    searching: false
+    searching: false,
+    visible: false
   };
 
   componentWillReceiveProps(nextProps) {
@@ -43,10 +46,6 @@ class AutocompleteField extends React.PureComponent {
       if (this.state.searching) {
         this.setState({ searching: false });
       }
-
-      // And finally, if we got data, then we should make the list
-      // visible
-      this.setState({ visible: (nextProps.items.length > 0) });
     } else {
       this.setState({ selected: null });
     }
@@ -67,7 +66,7 @@ class AutocompleteField extends React.PureComponent {
   }
 
   isErrorMessageComponent(node) {
-    return node && node.type && node.type.displayName === "AutocompleteField.ErrorMessage";
+    return node && node.type && node.type.displayName === ErrorMessage.displayName;
   }
 
   render() {
@@ -112,23 +111,26 @@ class AutocompleteField extends React.PureComponent {
         return (
           <Suggestion
             key={index}
-            className={classNames({
-              "rounded": items.length === 1,
-              "rounded-top": (items.length > 1 && index === 0),
-              "rounded-bottom": (index > 0 && index === (items.length - 1))
-            })}
+            className="rounded"
             selected={!!isSelected}
             suggestion={item[1]}
             onMouseOver={this.handleSuggestionMouseOver}
             onMouseDown={this.handleSuggestionMouseDown}
-          >{item[0]}</Suggestion>
+          >
+            {item[0]}
+          </Suggestion>
         );
       }
     });
 
     return (
-      <div className="bg-white border border-silver rounded shadow absolute" style={style}>
-        <ul className="list-reset m0 p0">{suggestions}</ul>
+      <div
+        className="bg-white border border-silver rounded shadow absolute"
+        style={style}
+      >
+        <ul className="list-reset m0 p0">
+          {suggestions}
+        </ul>
       </div>
     );
   }
@@ -147,6 +149,11 @@ class AutocompleteField extends React.PureComponent {
       return false;
     }
 
+    // Do nothing if there are no items
+    if (this.props.items.length === 0) {
+      return false;
+    }
+
     // Find the index of the currently selected item
     let index;
     for (let itemIndex = 0; itemIndex < this.props.items.length; itemIndex++) {
@@ -158,25 +165,27 @@ class AutocompleteField extends React.PureComponent {
         continue;
       }
 
-      if (item[1].id === this.state.selected.id) {
+      if (this.state.selected && item[1].id === this.state.selected.id) {
         index = itemIndex;
         break;
       }
     }
 
-    // If it couldn't be found for some reason, bail
-    if (index == null) {
-      return false;
-    }
-
     // If they've pressed the down key, progress to the next item in the list.
-    if (evt.keyCode === 40) {
+    if (evt.keyCode === KEYCODE_DOWN) {
       evt.preventDefault();
 
-      // If the next index doesn't exist, go back to the first
-      let next = index + 1;
-      if (this.props.items.length === next) {
+      let next;
+
+      if (index == null) {
+        // If there wasn't already a selection, go to the first
         next = 0;
+      } else {
+        // If the next index doesn't exist, go to the first
+        next = index + 1;
+        if (this.props.items.length === next) {
+          next = 0;
+        }
       }
 
       // Select the next item in the list
@@ -186,13 +195,20 @@ class AutocompleteField extends React.PureComponent {
     }
 
     // If they've pressed the up key, progress to the next item in the list.
-    if (evt.keyCode === 38) {
+    if (evt.keyCode === KEYCODE_UP) {
       evt.preventDefault();
 
-      // If the previous index doesn't exist, go back to the first
-      let previous = index - 1;
-      if (previous === -1) {
+      let previous;
+
+      if (index == null) {
+        // If there wasn't already a selection, go to the last
         previous = this.props.items.length - 1;
+      } else {
+        // If the previous index doesn't exist, go to the last
+        previous = index - 1;
+        if (previous === -1) {
+          previous = this.props.items.length - 1;
+        }
       }
 
       // Select the previous item in the list
@@ -202,7 +218,7 @@ class AutocompleteField extends React.PureComponent {
     }
 
     // If they've hit enter, select the item
-    if (evt.keyCode === 13) {
+    if (evt.keyCode === KEYCODE_ENTER) {
       evt.preventDefault();
       this.selectItem(this.state.selected);
       return;

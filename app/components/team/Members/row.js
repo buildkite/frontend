@@ -10,7 +10,7 @@ import permissions from '../../../lib/permissions';
 import User from './user';
 import Role from './role';
 
-class Row extends React.Component {
+export default class Row extends React.PureComponent {
   static displayName = "Team.Members.Row";
 
   static propTypes = {
@@ -40,7 +40,7 @@ class Row extends React.Component {
     return (
       <Panel.Row>
         <User user={this.props.teamMember.user} role={this.props.teamMember.role} />
-        <Panel.RowActions>{this.renderActions()}</Panel.RowActions>
+        <Panel.RowActions className="ml2">{this.renderActions()}</Panel.RowActions>
       </Panel.Row>
     );
   }
@@ -100,5 +100,3 @@ class Row extends React.Component {
     }
   };
 }
-
-export default Row;
