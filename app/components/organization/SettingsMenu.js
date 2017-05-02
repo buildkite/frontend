@@ -99,7 +99,7 @@ class SettingsMenu extends React.Component {
         and: Features.SSOSettings,
         render: (idx) => (
           <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/sso`}>
-            <Icon icon="sso" className="icon-mr"/>SSO
+            <Icon icon="sso" className="icon-mr"/>Single Sign On
           </Menu.Button>
         )
       },
