@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
+import Icon from '../shared/Icon';
 import Panel from '../shared/Panel';
 import PageHeader from '../shared/PageHeader';
 import Spinner from '../shared/Spinner';
@@ -24,14 +25,26 @@ class SSOIndex extends React.PureComponent {
     return (
       <DocumentTitle title={`SSO · ${this.props.organization.name}`}>
         <div>
-          <PageHeader>
-            <PageHeader.Title>
-              Single Sign On
-            </PageHeader.Title>
-            <PageHeader.Description>
-              SSO enables you to automatically onboard users without having to manually invite them via email. SSO is available via SAML (Okta, Bitium, etc) or Google Apps (GSuite).
-            </PageHeader.Description>
-          </PageHeader>
+          {/* this is a custom PageHeader body. *
+            * you may not like it,              *
+            * but this is what that looks like  */}
+          <section className="flex items-top mb4">
+            <div className="flex-none">
+              <Icon
+                icon="sso"
+                className="align-middle mr2"
+                style={{ width: 40, height: 40 }}
+              />
+            </div>
+            <div className="flex-auto">
+              <PageHeader.Title>
+                Single Sign On
+              </PageHeader.Title>
+              <PageHeader.Description>
+                SSO enables you to automatically onboard users without having to manually invite them via email. SSO is available via SAML (Okta, Bitium, etc) or Google Apps (GSuite).
+              </PageHeader.Description>
+            </div>
+          </section>
 
           {this.renderDetailsPanel()}
         </div>
