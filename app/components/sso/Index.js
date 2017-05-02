@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
+import Button from '../shared/Button';
 import Icon from '../shared/Icon';
 import Panel from '../shared/Panel';
 import PageHeader from '../shared/PageHeader';
@@ -41,7 +42,7 @@ class SSOIndex extends React.PureComponent {
                 Single Sign On
               </PageHeader.Title>
               <PageHeader.Description>
-                SSO enables you to automatically onboard users without having to manually invite them via email. SSO is available via SAML (Okta, Bitium, etc) or Google Apps (GSuite).
+                Manage your organization’s Single Sign On settings
               </PageHeader.Description>
             </div>
           </section>
@@ -50,6 +51,12 @@ class SSOIndex extends React.PureComponent {
         </div>
       </DocumentTitle>
     );
+  }
+
+  renderLoginLink() {
+    const url = `/login?org=${this.props.organization.slug}`;
+
+    return <a href={url}>{url}</a>;
   }
 
   renderDetailsPanel() {
@@ -67,19 +74,43 @@ class SSOIndex extends React.PureComponent {
       return (
         <Panel>
           <Panel.Section>
-            <p><span className="green">✔</span> SSO has been enabled for your organization using <strong>{this.props.organization.sso.provider.name}</strong>. Users will be automatically added to your organization when they successfully authenticate using {this.props.organization.sso.provider.name} and their <strong>{this.props.organization.sso.provider.emailDomain}</strong> email address.</p>
-            <p>If you need to update your SSO settings or have it disabled, please get in touch with Buildkite Support.</p>
+            <p>Single Sign On is enabled using {this.props.organization.sso.provider.name}</p>
+            <p>Anyone with {this.props.organization.sso.provider.emailDomain} email address address can login to Buildkite by entering their email address on the login page.</p>
+            <p>Your organization specific login URL is: {this.renderLoginLink()}</p>
           </Panel.Section>
         </Panel>
       );
     } else {
       return (
-        <Panel>
-          <Panel.Section>
-            <p>SSO has not yet been enabled for your organization.</p>
-            <p>If you want to find out more about SSO or have it enabled, please get in touch with Buildkite Support.</p>
-          </Panel.Section>
-        </Panel>
+        <div>
+          <Panel>
+            <Panel.Section>
+              <p>Single Sign On allows you require users to login to Buildkite using your own third-party authentication server. Once enabled, you’ll no longer have to invite users, as they’ll be automatically added to your organization when they go to login.</p>
+              <p>Supported SSO systems:</p>
+              <ul>
+                <li>Bitium</li>
+                <li>Okta</li>
+                <li>Google Apps</li>
+                <li>SAML</li>
+                <li>ADFS (SAML)</li>
+              </ul>
+              <Button href="mailto:support@buildkite.com?subject=Please enable SSO for my account!">Contact Support to Enable SSO</Button>
+            </Panel.Section>
+          </Panel>
+          <Panel className="mt4">
+            <Panel.Section>
+              <h2>Frequently Asked SSO Questions</h2>
+              <h3>How does user billing work with SSO? </h3>
+              <p>When a user signs in with SSO, the additional user is added to your account and will be charged immediately, just as if you had invited them to the account.</p>
+              <h3>What type of encryption is supported? </h3>
+              <p>We support AE256 and all types of great encryption. In addition, you can use the ROT13 algorithm for extra security.</p>
+              <h3>Can I use multiple email domains? </h3>
+              <p>We currently only support a single email domain (e.g. example.com) for an organization.</p>
+              <h3>Can I set up SSO for additional organizations? </h3>
+              <p>We support setting up SSO for additional organizations, but one of the organizations will be the default. To login to the secondary organizations, you can add ?asd to your organization’s login URL.</p>
+            </Panel.Section>
+          </Panel>
+        </div>
       );
     }
   }
