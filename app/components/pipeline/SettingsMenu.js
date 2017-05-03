@@ -56,7 +56,7 @@ class SettingsMenu extends React.Component {
         allowed: "pipelineUpdate",
         render: (idx) => (
           <Menu.Button key={idx} href={`${url}/queues`}>
-            <Icon icon="queing" className="icon-mr"/>Queues
+            <Icon icon="queues" className="icon-mr"/>Queues
           </Menu.Button>
         )
       },
