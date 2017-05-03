@@ -106,9 +106,9 @@ class SettingsMenu extends React.Component {
   repositoryProviderIcon() {
     if (this.provider.__typename === "RepositoryProviderGithub") {
       return "github";
-    } else {
       // TODO: Add all the others
-      return "blah";
+    } else {
+      return "git";
     }
   }
 
