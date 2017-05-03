@@ -59,7 +59,7 @@ class SupportDialog extends React.PureComponent {
   render() {
     return (
       <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose}>
-        <div className="center" style={{ padding: "50px 10px" }}>
+        <div className="center" style={{ padding: "10% 2%" }}>
           {/* fyi the h1 class here is only necessary so this doesn't break on Bootstrap pages */}
           <h1 className="bold h1 mt0 mt2 mb4">
             <WavingEmoji className="inline-block" text=":wave::skin-tone-3:" />
