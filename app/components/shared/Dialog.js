@@ -37,12 +37,23 @@ const DialogContainer = styled.div`
   width: 100vw;
   maxWidth: 100%;
   height: 100%;
-  padding: 25px 25px 40px;
+  padding: 25px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  &:after {
+    display: block;
+    flex: 0 0 auto;
+    height: 40px;
+    content: '';
+  }
 `;
+// NOTE: DialogContainer:after is a substitute for padding
+// which would otherwise be applied, but is ignored by both
+// Firefox and Safari!
 
 DialogContainer.defaultProps = {
-  className: 'flex'
+  className: 'flex flex-column'
 };
 
 const DialogBox = styled.div`
