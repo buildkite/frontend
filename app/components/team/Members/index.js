@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import { second } from 'metrick/duration';
 
+import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
 import SearchField from '../../shared/SearchField';
@@ -24,6 +25,7 @@ class Members extends React.Component {
   static propTypes = {
     team: PropTypes.shape({
       members: PropTypes.shape({
+        count: PropTypes.number.isRequired,
         pageInfo: PropTypes.shape({
           hasNextPage: PropTypes.bool.isRequired
         }).isRequired,
@@ -43,7 +45,7 @@ class Members extends React.Component {
     return (
       <div>
         <div className="flex items-center">
-          <h2 className="h2 flex-auto">Members</h2>
+          <h2 className="h2 flex-auto">Members {this.renderMemberCount()}</h2>
           <Chooser team={this.props.team} />
         </div>
         <Panel className={this.props.className}>
@@ -53,6 +55,16 @@ class Members extends React.Component {
           {this.renderMemberFooter()}
         </Panel>
       </div>
+    );
+  }
+
+  renderMemberCount() {
+    if (!this.props.team.members) {
+      return;
+    }
+
+    return (
+      <Badge>{formatNumber(this.props.team.members.count)}</Badge>
     );
   }
 
