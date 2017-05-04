@@ -27,24 +27,46 @@ const DialogBackdrop = styled.div`
   bottom: 0;
   right: 0;
   opacity: 0.9;
-  z-index: 1002;
 `;
 
 DialogBackdrop.defaultProps = {
   className: 'absolute bg-white'
 };
 
+const DialogContainer = styled.div`
+  width: 100vw;
+  maxWidth: 100%;
+  height: 100%;
+  padding: 25px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  &:after {
+    display: block;
+    flex: 0 0 auto;
+    height: 40px;
+    content: '';
+  }
+`;
+// NOTE: DialogContainer:after is a substitute for padding
+// which would otherwise be applied, but is ignored by both
+// Firefox and Safari!
+
+DialogContainer.defaultProps = {
+  className: 'flex flex-column'
+};
+
 const DialogBox = styled.div`
-  width: ${(props) => props.width}px;
-  zIndex: 1004;
-  maxWidth: 90vw;
+  width: 100%;
+  maxWidth: ${(props) => props.width}px;
+  margin: auto;
 `;
 
 DialogBox.defaultProps = {
-  className: 'background bg-white transition-popup rounded-3 shadow-subtle relative mx4'
+  className: 'background bg-white rounded-3 shadow-subtle relative'
 };
 
-const DialogContainer = styled.span`
+const DialogWrapper = styled.div`
   top: 0;
   left: 0;
   bottom: 0;
@@ -52,8 +74,8 @@ const DialogContainer = styled.span`
   z-index: 1000;
 `;
 
-DialogContainer.defaultProps = {
-  className: 'block fixed flex items-center justify-center'
+DialogWrapper.defaultProps = {
+  className: 'fixed'
 };
 
 class Dialog extends React.Component {
@@ -115,6 +137,12 @@ class Dialog extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    // This locks the body's scrolling whenever the dialog is _rendered_
+    const action = this.state.rendered ? 'add' : 'remove';
+    document.body.classList[action]('overflow-hidden');
+  }
+
   maybeClose = (event) => {
     event.preventDefault();
     if (typeof this.props.onRequestClose === 'function') {
@@ -159,10 +187,12 @@ class Dialog extends React.Component {
     }
 
     return (
-      <DialogBox width={this.props.width}>
-        {this.renderCloseButton()}
-        {this.props.children}
-      </DialogBox>
+      <DialogContainer>
+        <DialogBox width={this.props.width}>
+          {this.renderCloseButton()}
+          {this.props.children}
+        </DialogBox>
+      </DialogContainer>
     );
   }
 
@@ -172,12 +202,12 @@ class Dialog extends React.Component {
     }
 
     return (
-      <DialogContainer>
+      <DialogWrapper>
+        {this.renderBackdrop()}
         <ReactCSSTransitionGroup transitionName="transition-slide-up" transitionEnterTimeout={150} transitionLeaveTimeout={300}>
           {this.renderDialog()}
         </ReactCSSTransitionGroup>
-        {this.renderBackdrop()}
-      </DialogContainer>
+      </DialogWrapper>
     );
   }
 }
