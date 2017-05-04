@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import { second } from 'metrick/duration';
 
+import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
 import SearchField from '../../shared/SearchField';
@@ -26,6 +27,7 @@ class Pipelines extends React.Component {
   static propTypes = {
     team: PropTypes.shape({
       pipelines: PropTypes.shape({
+        count: PropTypes.number.isRequired,
         pageInfo: PropTypes.shape({
           hasNextPage: PropTypes.bool.isRequired
         }).isRequired,
@@ -45,7 +47,7 @@ class Pipelines extends React.Component {
     return (
       <div>
         <div className="flex items-center">
-          <h2 className="h2 flex-auto">Pipelines</h2>
+          <h2 className="h2 flex-auto">Pipelines {this.renderPipelineCount()}</h2>
           <Chooser team={this.props.team} />
         </div>
         <Panel className={this.props.className}>
@@ -55,6 +57,16 @@ class Pipelines extends React.Component {
           {this.renderPipelineFooter()}
         </Panel>
       </div>
+    );
+  }
+
+  renderPipelineCount() {
+    if (!this.props.team.pipelines) {
+      return;
+    }
+
+    return (
+      <Badge>{formatNumber(this.props.team.pipelines.count)}</Badge>
     );
   }
 
