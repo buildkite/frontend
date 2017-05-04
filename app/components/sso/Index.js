@@ -97,8 +97,6 @@ class SSOIndex extends React.PureComponent {
               <h2 className="h3" style={{ color: '#8E8E8E', fontWeight: 300 }}>Frequently Asked SSO Questions</h2>
               <h3 className="h4" style={{ fontWeight: 'normal' }}>How does user billing work with SSO?</h3>
               <p>When a user signs in with SSO, the additional user is added to your account and will be charged immediately, just as if you had invited them to the account.</p>
-              <h3 className="h4" style={{ fontWeight: 'normal' }}>What type of encryption is supported?</h3>
-              <p>We support AE256 and all types of great encryption. In addition, you can use the ROT13 algorithm for extra security.</p>
               <h3 className="h4" style={{ fontWeight: 'normal' }}>Can I use multiple email domains?</h3>
               <p>We currently only support a single email domain (e.g. example.com) for an organization.</p>
               <h3 className="h4" style={{ fontWeight: 'normal' }}>Can I set up SSO for additional organizations?</h3>
