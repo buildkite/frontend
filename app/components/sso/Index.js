@@ -67,6 +67,17 @@ class SSOIndex extends React.PureComponent {
     alert('You’re already logged in! You can copy the link from here to share it.');
   }
 
+  renderEmailURI() {
+    const { organization } = this.props;
+
+    const address = 'support@buildkite.com';
+    const subject = (
+      `Please enable SSO for ${organization.name}! (a.k.a. “${organization.slug}”)`
+    );
+
+    return `mailto:${address}?subject=${encodeURIComponent(subject)}`;
+  }
+
   renderDetailsPanel() {
     if (!this.props.organization.sso) {
       return (
@@ -102,7 +113,9 @@ class SSOIndex extends React.PureComponent {
                 <li>SAML</li>
                 <li>ADFS (SAML)</li>
               </ul>
-              <Button href="mailto:support@buildkite.com?subject=Please enable SSO for my account!">Contact Support to Enable SSO</Button>
+              <Button href={this.renderEmailURI()}>
+                Contact Support to Enable SSO
+              </Button>
             </Panel.Section>
           </Panel>
           <Panel className="mt4">
