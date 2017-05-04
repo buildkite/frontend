@@ -137,6 +137,12 @@ class Dialog extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    // This locks the body's scrolling whenever the dialog is _rendered_
+    const action = this.state.rendered ? 'add' : 'remove';
+    document.body.classList[action]('overflow-hidden');
+  }
+
   maybeClose = (event) => {
     event.preventDefault();
     if (typeof this.props.onRequestClose === 'function') {
