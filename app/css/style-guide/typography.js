@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Example = function(props) {
   return <div className="my3 border-left border-gray pl4 py2">{props.children}</div>;
 };
-Example.propTypes = { children: React.PropTypes.node };
+Example.propTypes = { children: PropTypes.node };
 
 const Section = function(props) {
   return (
@@ -14,7 +15,7 @@ const Section = function(props) {
     </div>
   );
 };
-Section.propTypes = { title: React.PropTypes.string, children: React.PropTypes.node };
+Section.propTypes = { title: PropTypes.string, children: PropTypes.node };
 
 export default class Typography extends React.PureComponent {
   render() {

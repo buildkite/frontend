@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
@@ -15,30 +16,30 @@ import TeamSuggestion from '../../../team/Suggestion';
 
 class Index extends React.Component {
   static propTypes = {
-    pipeline: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      organization: React.PropTypes.shape({
-        teams: React.PropTypes.shape({
-          edges: React.PropTypes.arrayOf(
-            React.PropTypes.shape({
-              node: React.PropTypes.shape({
-                id: React.PropTypes.string.isRequired
+    pipeline: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      organization: PropTypes.shape({
+        teams: PropTypes.shape({
+          edges: PropTypes.arrayOf(
+            PropTypes.shape({
+              node: PropTypes.shape({
+                id: PropTypes.string.isRequired
               }).isRequired
             }).isRequired
           )
         })
       }),
-      teams: React.PropTypes.shape({
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.shape({
-              id: React.PropTypes.string.isRequired
+      teams: PropTypes.shape({
+        edges: PropTypes.arrayOf(
+          PropTypes.shape({
+            node: PropTypes.shape({
+              id: PropTypes.string.isRequired
             }).isRequired
           }).isRequired
         )
       }).isRequired
     }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired
   };
 
   render() {

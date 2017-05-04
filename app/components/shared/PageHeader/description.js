@@ -1,10 +1,11 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 class Description extends React.Component {
   static displayName = "PageHeader.Description";
 
   static propTypes = {
-    children: React.PropTypes.node.isRequired
+    children: PropTypes.node.isRequired
   };
 
   render() {

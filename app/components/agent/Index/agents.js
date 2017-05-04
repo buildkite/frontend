@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import { second, seconds } from 'metrick/duration';
 import throttle from 'throttleit';
@@ -17,19 +18,19 @@ const PAGE_SIZE = 100;
 
 class Agents extends React.PureComponent {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      allAgents: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired
+    organization: PropTypes.shape({
+      allAgents: PropTypes.shape({
+        count: PropTypes.number.isRequired
       }),
-      agents: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired,
-        pageInfo: React.PropTypes.shape({
-          hasNextPage: React.PropTypes.bool.isRequired
+      agents: PropTypes.shape({
+        count: PropTypes.number.isRequired,
+        pageInfo: PropTypes.shape({
+          hasNextPage: PropTypes.bool.isRequired
         }).isRequired,
-        edges: React.PropTypes.array.isRequired
+        edges: PropTypes.array.isRequired
       })
     }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired
   };
 
   state = {

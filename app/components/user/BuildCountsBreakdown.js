@@ -1,22 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import PusherStore from '../../stores/PusherStore';
 import StateSwitcher from '../build/StateSwitcher';
 
 class BuildCountsBreakdown extends React.Component {
   static propTypes = {
-    viewer: React.PropTypes.shape({
-      builds: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired
+    viewer: PropTypes.shape({
+      builds: PropTypes.shape({
+        count: PropTypes.number.isRequired
       }),
-      scheduledBuilds: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired
+      scheduledBuilds: PropTypes.shape({
+        count: PropTypes.number.isRequired
       }),
-      runningBuilds: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired
+      runningBuilds: PropTypes.shape({
+        count: PropTypes.number.isRequired
       })
     }),
-    state: React.PropTypes.string
+    state: PropTypes.string
   };
 
   state = {

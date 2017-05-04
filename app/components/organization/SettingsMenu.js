@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Menu from '../shared/Menu';
@@ -7,37 +8,37 @@ import permissions from '../../lib/permissions';
 
 class SettingsMenu extends React.Component {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired,
-      members: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired
+    organization: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+      members: PropTypes.shape({
+        count: PropTypes.number.isRequired
       }),
-      invitations: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired
+      invitations: PropTypes.shape({
+        count: PropTypes.number.isRequired
       }),
-      teams: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired
+      teams: PropTypes.shape({
+        count: PropTypes.number.isRequired
       }),
-      permissions: React.PropTypes.shape({
-        organizationUpdate: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+      permissions: PropTypes.shape({
+        organizationUpdate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired,
-        organizationInvitationCreate: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+        organizationInvitationCreate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired,
-        teamAdmin: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+        teamAdmin: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired,
-        notificationServiceUpdate: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+        notificationServiceUpdate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired,
-        organizationBillingUpdate: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+        organizationBillingUpdate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired
       })
     }),
-    relay: React.PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired
   };
 
   componentDidMount() {

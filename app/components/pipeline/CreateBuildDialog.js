@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Button from '../shared/Button';
@@ -9,9 +10,9 @@ import FormTextarea from '../shared/FormTextarea';
 
 class CreateBuildDialog extends React.PureComponent {
   static propTypes = {
-    pipeline: React.PropTypes.object.isRequired,
-    isOpen: React.PropTypes.bool,
-    onRequestClose: React.PropTypes.func
+    pipeline: PropTypes.object.isRequired,
+    isOpen: PropTypes.bool,
+    onRequestClose: PropTypes.func
   };
 
   state = {

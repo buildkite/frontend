@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 export default class ErrorMessage extends React.PureComponent {
   static displayName = "Autocomplete.ErrorMessage";
 
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    className: React.PropTypes.string
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string
   };
 
   render() {

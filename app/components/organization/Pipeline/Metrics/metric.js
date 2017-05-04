@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import classNames from 'classnames';
 
 class Metric extends React.Component {
   static propTypes = {
-    pipelineMetric: React.PropTypes.shape({
-      label: React.PropTypes.string.isRequired,
-      value: React.PropTypes.string,
-      url: React.PropTypes.string
+    pipelineMetric: PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string,
+      url: PropTypes.string
     }).isRequired
   };
 

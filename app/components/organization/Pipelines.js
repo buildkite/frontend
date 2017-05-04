@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import SectionLoader from '../shared/SectionLoader';
@@ -11,25 +12,25 @@ import Welcome from './Welcome';
 
 class OrganizationPipelines extends React.Component {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired,
-      pipelines: React.PropTypes.shape({
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.shape({
-              id: React.PropTypes.string.isRequired
+    organization: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+      pipelines: PropTypes.shape({
+        edges: PropTypes.arrayOf(
+          PropTypes.shape({
+            node: PropTypes.shape({
+              id: PropTypes.string.isRequired
             }).isRequired
           }).isRequired
         )
       })
     }),
-    relay: React.PropTypes.object.isRequired,
-    team: React.PropTypes.string
+    relay: PropTypes.object.isRequired,
+    team: PropTypes.string
   };
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   state = {

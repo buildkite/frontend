@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const NIB_WIDTH = 32;
@@ -22,13 +23,13 @@ Nib.defaultProps = {
 
 export default class Popover extends React.PureComponent {
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    nibOffsetX: React.PropTypes.number.isRequired,
-    offsetX: React.PropTypes.number.isRequired,
-    offsetY: React.PropTypes.number.isRequired,
-    style: React.PropTypes.object.isRequired,
-    innerRef: React.PropTypes.func.isRequired,
-    width: React.PropTypes.number.isRequired
+    children: PropTypes.node.isRequired,
+    nibOffsetX: PropTypes.number.isRequired,
+    offsetX: PropTypes.number.isRequired,
+    offsetY: PropTypes.number.isRequired,
+    style: PropTypes.object.isRequired,
+    innerRef: PropTypes.func.isRequired,
+    width: PropTypes.number.isRequired
   };
 
   static defaultProps = {

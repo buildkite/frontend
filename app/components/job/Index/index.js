@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Panel from '../../shared/Panel';
@@ -11,12 +12,12 @@ import SearchInput from './search-input';
 
 class JobIndex extends React.Component {
   static propTypes = {
-    organization: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object
+    organization: PropTypes.object.isRequired,
+    location: PropTypes.object
   };
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   constructor(initialProps) {

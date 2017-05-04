@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
@@ -7,12 +8,12 @@ import PusherStore from '../../stores/PusherStore';
 
 class NewChangelogsBadge extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    relay: React.PropTypes.object.isRequired,
-    style: React.PropTypes.object,
-    viewer: React.PropTypes.shape({
-      unreadChangelogs: React.PropTypes.shape({
-        count: React.PropTypes.number
+    className: PropTypes.string,
+    relay: PropTypes.object.isRequired,
+    style: PropTypes.object,
+    viewer: PropTypes.shape({
+      unreadChangelogs: PropTypes.shape({
+        count: PropTypes.number
       })
     })
   };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import searchQuery from 'search-query-parser';
 
@@ -13,10 +14,10 @@ const SEARCH_KEYWORDS = ['state', 'concurrency-group'];
 
 class Jobs extends React.PureComponent {
   static propTypes = {
-    organization: React.PropTypes.object.isRequired,
-    relay: React.PropTypes.object.isRequired,
-    query: React.PropTypes.string,
-    onSuggestionClick: React.PropTypes.func
+    organization: PropTypes.object.isRequired,
+    relay: PropTypes.object.isRequired,
+    query: PropTypes.string,
+    onSuggestionClick: PropTypes.func
   };
 
   state = {

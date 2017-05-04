@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Menu from '../shared/Menu';
@@ -8,7 +9,7 @@ import permissions from '../../lib/permissions';
 
 class SettingsMenu extends React.Component {
   static propTypes = {
-    pipeline: React.PropTypes.object.isRequired
+    pipeline: PropTypes.object.isRequired
   };
 
   get provider() {

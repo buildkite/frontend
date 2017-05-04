@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import classNames from 'classnames';
 
@@ -20,9 +21,9 @@ import MyBuilds from './MyBuilds';
 
 class Navigation extends React.PureComponent {
   static propTypes = {
-    organization: React.PropTypes.object,
-    viewer: React.PropTypes.object,
-    relay: React.PropTypes.object.isRequired
+    organization: PropTypes.object,
+    viewer: PropTypes.object,
+    relay: PropTypes.object.isRequired
   };
 
   componentDidMount() {

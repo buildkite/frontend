@@ -1,12 +1,13 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Header from "./header";
-import Button from "./button";
+import Header from './header';
+import Button from './button';
 
 class Menu extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node.isRequired
+    children: PropTypes.node.isRequired
   };
 
   render() {

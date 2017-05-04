@@ -1,14 +1,15 @@
 import React from 'react';
-import update from "react-addons-update";
-import classNames from "classnames";
+import PropTypes from 'prop-types';
+import update from 'react-addons-update';
+import classNames from 'classnames';
 
 class Spinner extends React.Component {
   static propTypes = {
-    size: React.PropTypes.number,
-    className: React.PropTypes.string,
-    style: React.PropTypes.object,
-    color: React.PropTypes.bool,
-    fadeIn: React.PropTypes.bool
+    size: PropTypes.number,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    color: PropTypes.bool,
+    fadeIn: PropTypes.bool
   };
 
   static defaultProps = {

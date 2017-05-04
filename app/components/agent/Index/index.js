@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
@@ -11,13 +12,13 @@ import QuickStart from './quick-start';
 
 class AgentIndex extends React.Component {
   static propTypes = {
-    location: React.PropTypes.shape({
-      query: React.PropTypes.object
+    location: PropTypes.shape({
+      query: PropTypes.object
     }).isRequired,
-    organization: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired
+    organization: PropTypes.shape({
+      name: PropTypes.string.isRequired
     }).isRequired,
-    viewer: React.PropTypes.object.isRequired
+    viewer: PropTypes.object.isRequired
   };
 
   render() {

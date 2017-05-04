@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 class FormInputLabel extends React.PureComponent {
   static propTypes = {
-    label: React.PropTypes.node.isRequired,
-    children: React.PropTypes.node,
-    errors: React.PropTypes.bool
+    label: PropTypes.node.isRequired,
+    children: PropTypes.node,
+    errors: PropTypes.bool
   };
 
   render() {

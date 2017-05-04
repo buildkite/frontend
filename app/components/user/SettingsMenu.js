@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Menu from '../shared/Menu';
 import Icon from '../shared/Icon';
 
 class SettingsMenu extends React.Component {
   static propTypes = {
-    viewer: React.PropTypes.shape({
-      organizations: React.PropTypes.shape({
-        edges: React.PropTypes.array
+    viewer: PropTypes.shape({
+      organizations: PropTypes.shape({
+        edges: PropTypes.array
       }).isRequired
     }).isRequired
   };

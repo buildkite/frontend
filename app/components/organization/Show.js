@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
@@ -11,18 +12,18 @@ import Teams from './Teams';
 
 class OrganizationShow extends React.Component {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired
+    organization: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired
     }).isRequired,
-    relay: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    team: React.PropTypes.string
+    relay: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    team: PropTypes.string
   };
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   componentDidMount() {

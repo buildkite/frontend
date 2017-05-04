@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const starColor = "#f8cc1c";
@@ -20,7 +21,7 @@ const StarSVG = styled.svg`
 
 class Favorite extends React.PureComponent {
   static propTypes = {
-    favorite: React.PropTypes.bool.isRequired
+    favorite: PropTypes.bool.isRequired
   };
 
   render() {

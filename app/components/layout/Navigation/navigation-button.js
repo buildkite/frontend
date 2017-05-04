@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
@@ -6,12 +7,12 @@ class NavigationButton extends React.Component {
   static displayName = "Navigation.NavigationButton";
 
   static propTypes = {
-    style: React.PropTypes.object,
-    className: React.PropTypes.string,
-    linkIf: React.PropTypes.bool,
-    href: React.PropTypes.string,
-    children: React.PropTypes.node,
-    onClick: React.PropTypes.func
+    style: PropTypes.object,
+    className: PropTypes.string,
+    linkIf: PropTypes.bool,
+    href: PropTypes.string,
+    children: PropTypes.node,
+    onClick: PropTypes.func
   };
 
   static defaultProps = {
@@ -19,7 +20,7 @@ class NavigationButton extends React.Component {
   };
 
   static contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
   };
 
   render() {

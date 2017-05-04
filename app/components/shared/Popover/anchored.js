@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Popover from '.';
@@ -6,12 +7,12 @@ import calculateViewportOffsets from './calculate-viewport-offsets';
 
 export default class AnchoredPopover extends React.PureComponent {
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    className: React.PropTypes.string,
-    nibOffsetX: React.PropTypes.number.isRequired,
-    position: React.PropTypes.oneOf(['relative', 'absolute']).isRequired,
-    style: React.PropTypes.object,
-    width: React.PropTypes.number.isRequired
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string,
+    nibOffsetX: PropTypes.number.isRequired,
+    position: PropTypes.oneOf(['relative', 'absolute']).isRequired,
+    style: PropTypes.object,
+    width: PropTypes.number.isRequired
   };
 
   static defaultProps = {

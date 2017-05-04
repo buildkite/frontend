@@ -24,6 +24,7 @@ window["Webpack"] = {
     "eventemitter3": require("eventemitter3"),
     "moment": require("moment"),
     "object-assign": require("object-assign"),
+    "prop-types": require("prop-types"),
     "react": require("react"),
     "react-dom": require("react-dom"),
     "react-relay": require("react-relay"),

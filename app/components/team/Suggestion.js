@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import classNames from 'classnames';
 
@@ -6,14 +7,14 @@ import Emojify from '../shared/Emojify';
 
 class TeamSuggestion extends React.PureComponent {
   static propTypes = {
-    team: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string
+    team: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string
     }).isRequired
   };
 
   static contextTypes = {
-    autoCompletorSuggestion: React.PropTypes.object
+    autoCompletorSuggestion: PropTypes.object
   };
 
   render() {

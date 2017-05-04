@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
@@ -9,29 +10,29 @@ import PageHeader from '../../shared/PageHeader';
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
 
-import Form from "./Form";
+import Form from './Form';
 
 class Edit extends React.Component {
   static propTypes = {
-    pipelineSchedule: React.PropTypes.shape({
-      uuid: React.PropTypes.string.isRequired,
-      cronline: React.PropTypes.string.isRequired,
-      label: React.PropTypes.string,
-      commit: React.PropTypes.string,
-      branch: React.PropTypes.string,
-      message: React.PropTypes.string,
-      env: React.PropTypes.arrayOf(React.PropTypes.string),
-      pipeline: React.PropTypes.shape({
-        slug: React.PropTypes.string.isRequired,
-        organization: React.PropTypes.shape({
-          slug: React.PropTypes.string.isRequired
+    pipelineSchedule: PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      cronline: PropTypes.string.isRequired,
+      label: PropTypes.string,
+      commit: PropTypes.string,
+      branch: PropTypes.string,
+      message: PropTypes.string,
+      env: PropTypes.arrayOf(PropTypes.string),
+      pipeline: PropTypes.shape({
+        slug: PropTypes.string.isRequired,
+        organization: PropTypes.shape({
+          slug: PropTypes.string.isRequired
         }).isRequired
       }).isRequired
     }).isRequired
   };
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   state = {

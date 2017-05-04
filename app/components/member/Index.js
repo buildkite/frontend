@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import { second } from 'metrick/duration';
 import DocumentTitle from 'react-document-title';
@@ -27,33 +28,33 @@ const PAGE_SIZE = 10;
 
 class MemberIndex extends React.PureComponent {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired,
-      permissions: React.PropTypes.object.isRequired,
-      members: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired,
-        pageInfo: React.PropTypes.shape({
-          hasNextPage: React.PropTypes.bool.isRequired
+    organization: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+      permissions: PropTypes.object.isRequired,
+      members: PropTypes.shape({
+        count: PropTypes.number.isRequired,
+        pageInfo: PropTypes.shape({
+          hasNextPage: PropTypes.bool.isRequired
         }).isRequired,
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.object.isRequired
+        edges: PropTypes.arrayOf(
+          PropTypes.shape({
+            node: PropTypes.object.isRequired
           }).isRequired
         ).isRequired
       }),
-      invitations: React.PropTypes.shape({
-        pageInfo: React.PropTypes.shape({
-          hasNextPage: React.PropTypes.bool.isRequired
+      invitations: PropTypes.shape({
+        pageInfo: PropTypes.shape({
+          hasNextPage: PropTypes.bool.isRequired
         }).isRequired,
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.object.isRequired
+        edges: PropTypes.arrayOf(
+          PropTypes.shape({
+            node: PropTypes.object.isRequired
           })
         ).isRequired
       })
     }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired
   };
 
   state = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import SearchField from '../../SearchField';
 import Suggestion from './suggestion';
@@ -10,10 +11,10 @@ const KEYCODE_ENTER = 13;
 
 class AutocompleteField extends React.PureComponent {
   static propTypes = {
-    onSelect: React.PropTypes.func.isRequired,
-    onSearch: React.PropTypes.func.isRequired,
-    placeholder: React.PropTypes.string,
-    items: React.PropTypes.array
+    onSelect: PropTypes.func.isRequired,
+    onSearch: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
+    items: PropTypes.array
   };
 
   state = {

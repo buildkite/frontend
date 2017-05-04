@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 class DropdownButton extends React.Component {
   static displayName = "Navigation.DropdownButton";
 
   static propTypes = {
-    style: React.PropTypes.object,
-    className: React.PropTypes.string,
-    children: React.PropTypes.node,
-    onMouseEnter: React.PropTypes.func
+    style: PropTypes.object,
+    className: PropTypes.string,
+    children: PropTypes.node,
+    onMouseEnter: PropTypes.func
   };
 
   render() {

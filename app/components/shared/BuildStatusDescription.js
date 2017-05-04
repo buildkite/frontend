@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { minute } from 'metrick/duration';
 import { getDateString, getRelativeDateString } from '../../lib/date';
 import { buildStatus } from '../../lib/builds';
 
 class BuildStatusDescription extends React.PureComponent {
   static propTypes = {
-    build: React.PropTypes.object.isRequired,
-    updateFrequency: React.PropTypes.number.isRequired
+    build: PropTypes.object.isRequired,
+    updateFrequency: PropTypes.number.isRequired
   };
 
   static defaultProps = {

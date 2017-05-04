@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Pipeline extends React.PureComponent {
   static displayName = "Team.Pipelines.Pipeline";
 
   static propTypes = {
-    pipeline: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      repository: React.PropTypes.shape({
-        url: React.PropTypes.string.isRequired
+    pipeline: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      repository: PropTypes.shape({
+        url: PropTypes.string.isRequired
       }).isRequired
     }).isRequired
   };

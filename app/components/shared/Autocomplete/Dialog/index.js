@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Dialog from '../../Dialog';
 import SearchField from '../../SearchField';
@@ -7,14 +8,14 @@ import ErrorMessage from '../error-message';
 
 class AutocompleteDialog extends React.PureComponent {
   static propTypes = {
-    isOpen: React.PropTypes.bool.isRequired,
-    onRequestClose: React.PropTypes.func.isRequired,
-    width: React.PropTypes.number,
-    onSelect: React.PropTypes.func.isRequired,
-    onSearch: React.PropTypes.func.isRequired,
-    placeholder: React.PropTypes.string,
-    selectLabel: React.PropTypes.string,
-    items: React.PropTypes.array
+    isOpen: PropTypes.bool.isRequired,
+    onRequestClose: PropTypes.func.isRequired,
+    width: PropTypes.number,
+    onSelect: PropTypes.func.isRequired,
+    onSearch: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
+    selectLabel: PropTypes.string,
+    items: PropTypes.array
   };
 
   state = {

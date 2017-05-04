@@ -1,21 +1,22 @@
-import React from "react";
-import classNames from "classnames";
+import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 class Option extends React.Component {
   static displayName = "Chooser.Option";
 
   static propTypes = {
-    tag: React.PropTypes.string.isRequired,
-    children: React.PropTypes.node.isRequired,
-    className: React.PropTypes.string,
-    unselectedClassName: React.PropTypes.string,
-    selectedClassName: React.PropTypes.string,
-    value: React.PropTypes.any.isRequired,
-    data: React.PropTypes.any
+    tag: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string,
+    unselectedClassName: PropTypes.string,
+    selectedClassName: PropTypes.string,
+    value: PropTypes.any.isRequired,
+    data: PropTypes.any
   };
 
   static contextTypes = {
-    chooser: React.PropTypes.object.isRequired
+    chooser: PropTypes.object.isRequired
   };
 
   static defaultProps = {

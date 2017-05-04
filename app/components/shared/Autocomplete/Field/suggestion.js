@@ -1,20 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 class Suggestion extends React.Component {
   static displayName = "AutocompleteField.Suggestion";
 
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    selected: React.PropTypes.bool.isRequired,
-    suggestion: React.PropTypes.object.isRequired,
-    onMouseOver: React.PropTypes.func.isRequired,
-    onMouseDown: React.PropTypes.func.isRequired,
-    className: React.PropTypes.string
+    children: PropTypes.node.isRequired,
+    selected: PropTypes.bool.isRequired,
+    suggestion: PropTypes.object.isRequired,
+    onMouseOver: PropTypes.func.isRequired,
+    onMouseDown: PropTypes.func.isRequired,
+    className: PropTypes.string
   };
 
   static childContextTypes = {
-    autoCompletorSuggestion: React.PropTypes.object
+    autoCompletorSuggestion: PropTypes.object
   };
 
   // Pass suggestion information down to the children of this component so they

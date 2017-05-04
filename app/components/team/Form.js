@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import FormTextField from '../shared/FormTextField';
 import FormRadioGroup from '../shared/FormRadioGroup';
@@ -7,11 +8,11 @@ import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 
 class TeamForm extends React.Component {
   static propTypes = {
-    name: React.PropTypes.string,
-    description: React.PropTypes.string,
-    privacy: React.PropTypes.oneOf(Object.keys(TeamPrivacyConstants)),
-    errors: React.PropTypes.array,
-    onChange: React.PropTypes.func
+    name: PropTypes.string,
+    description: PropTypes.string,
+    privacy: PropTypes.oneOf(Object.keys(TeamPrivacyConstants)),
+    errors: PropTypes.array,
+    onChange: PropTypes.func
   };
 
   componentDidMount() {

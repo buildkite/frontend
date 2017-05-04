@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import { seconds } from 'metrick/duration';
 import Confetti from 'react-confetti';
@@ -10,13 +11,13 @@ import Panel from '../../shared/Panel';
 
 class AgentInstallation extends React.PureComponent {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      agents: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired,
-        edges: React.PropTypes.array.isRequired
+    organization: PropTypes.shape({
+      agents: PropTypes.shape({
+        count: PropTypes.number.isRequired,
+        edges: PropTypes.array.isRequired
       })
     }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired
   };
 
   state = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import { second } from 'metrick/duration';
 
@@ -23,16 +24,16 @@ class Pipelines extends React.Component {
   static displayName = "Team.Pipelines";
 
   static propTypes = {
-    team: React.PropTypes.shape({
-      pipelines: React.PropTypes.shape({
-        pageInfo: React.PropTypes.shape({
-          hasNextPage: React.PropTypes.bool.isRequired
+    team: PropTypes.shape({
+      pipelines: PropTypes.shape({
+        pageInfo: PropTypes.shape({
+          hasNextPage: PropTypes.bool.isRequired
         }).isRequired,
-        edges: React.PropTypes.array.isRequired
+        edges: PropTypes.array.isRequired
       }).isRequired
     }).isRequired,
-    relay: React.PropTypes.object.isRequired,
-    className: React.PropTypes.string
+    relay: PropTypes.object.isRequired,
+    className: PropTypes.string
   };
 
   state = {

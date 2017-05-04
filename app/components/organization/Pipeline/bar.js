@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import BuildTooltip from './build-tooltip';
@@ -8,16 +9,16 @@ import { BAR_HEIGHT_MINIMUM, BAR_WIDTH, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT }
 
 class Bar extends React.PureComponent {
   static propTypes = {
-    href: React.PropTypes.string,
-    color: React.PropTypes.string.isRequired,
-    hoverColor: React.PropTypes.string.isRequired,
-    duration: React.PropTypes.number,
-    graph: React.PropTypes.shape({
-      maximumDuration: React.PropTypes.number
+    href: PropTypes.string,
+    color: PropTypes.string.isRequired,
+    hoverColor: PropTypes.string.isRequired,
+    duration: PropTypes.number,
+    graph: PropTypes.shape({
+      maximumDuration: PropTypes.number
     }).isRequired,
-    left: React.PropTypes.number.isRequired,
-    build: React.PropTypes.object,
-    showFullGraph: React.PropTypes.bool.isRequired
+    left: PropTypes.number.isRequired,
+    build: PropTypes.object,
+    showFullGraph: PropTypes.bool.isRequired
   };
 
   static defaultProps = {

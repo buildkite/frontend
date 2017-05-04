@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import shallowCompare from 'react-addons-shallow-compare';
 
@@ -6,8 +7,8 @@ export default class RowActions extends React.Component {
   static displayName = "Panel.RowActions";
 
   static propTypes = {
-    children: React.PropTypes.node,
-    className: React.PropTypes.string
+    children: PropTypes.node,
+    className: PropTypes.string
   };
 
   shouldComponentUpdate(nextProps, nextState) {

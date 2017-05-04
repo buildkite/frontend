@@ -1,16 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
-import Metric from "./metric";
+import Metric from './metric';
 
 class Metrics extends React.Component {
   static propTypes = {
-    pipeline: React.PropTypes.shape({
-      metrics: React.PropTypes.shape({
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.shape({
-              label: React.PropTypes.string.isRequired
+    pipeline: PropTypes.shape({
+      metrics: PropTypes.shape({
+        edges: PropTypes.arrayOf(
+          PropTypes.shape({
+            node: PropTypes.shape({
+              label: PropTypes.string.isRequired
             }).isRequired
           }).isRequired
         )

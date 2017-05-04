@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Chooser from '../../shared/Chooser';
 import Dropdown from '../../shared/Dropdown';
@@ -9,11 +10,11 @@ export default class MemberRole extends React.PureComponent {
   static displayName = "Team.Pipelines.Role";
 
   static propTypes = {
-    teamMember: React.PropTypes.shape({
-      role: React.PropTypes.string.isRequired
+    teamMember: PropTypes.shape({
+      role: PropTypes.string.isRequired
     }).isRequired,
-    onRoleChange: React.PropTypes.func.isRequired,
-    savingNewRole: React.PropTypes.string
+    onRoleChange: PropTypes.func.isRequired,
+    savingNewRole: PropTypes.string
   };
 
   render() {

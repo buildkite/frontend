@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
@@ -20,14 +21,14 @@ const RotatableIcon = styled(Icon)`
 // any focusable elements (such as text inputs) when the area is collapsed
 export default class CollapsableArea extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    collapsed: React.PropTypes.bool,
-    label: React.PropTypes.string.isRequired,
-    onToggle: React.PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
+    collapsed: PropTypes.bool,
+    label: PropTypes.string.isRequired,
+    onToggle: PropTypes.func.isRequired,
     // TODO: maxHeight is a bit of a hack, and might break for responsive
     // pages. We could instead use JS to calculate the height, and remove this
     // property altogether.
-    maxHeight: React.PropTypes.number.isRequired
+    maxHeight: PropTypes.number.isRequired
   };
 
   constructor(props) {

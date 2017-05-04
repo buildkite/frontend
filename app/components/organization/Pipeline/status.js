@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import AnchoredPopover from '../../shared/Popover/anchored';
@@ -8,14 +9,14 @@ import BuildTooltip from './build-tooltip';
 
 class Status extends React.Component {
   static propTypes = {
-    pipeline: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      builds: React.PropTypes.shape({
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.shape({
-              state: React.PropTypes.string.isRequired,
-              url: React.PropTypes.string.isRequired
+    pipeline: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      builds: PropTypes.shape({
+        edges: PropTypes.arrayOf(
+          PropTypes.shape({
+            node: PropTypes.shape({
+              state: PropTypes.string.isRequired,
+              url: PropTypes.string.isRequired
             }).isRequired
           }).isRequired
         )

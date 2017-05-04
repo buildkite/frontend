@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
@@ -6,7 +7,7 @@ import { seconds } from 'metrick/duration';
 import StateIcon from './state-icon';
 import Button from '../shared/Button';
 import FlashesStore from '../../stores/FlashesStore';
-import FriendlyTime from "../shared/FriendlyTime";
+import FriendlyTime from '../shared/FriendlyTime';
 import JobLink from '../shared/JobLink';
 import PageWithContainer from '../shared/PageWithContainer';
 import Panel from '../shared/Panel';
@@ -17,22 +18,22 @@ import AgentStopMutation from '../../mutations/AgentStop';
 
 class AgentShow extends React.Component {
   static propTypes = {
-    agent: React.PropTypes.shape({
-      id: React.PropTypes.string,
-      name: React.PropTypes.string,
-      connectionState: React.PropTypes.string,
-      job: React.PropTypes.object,
-      permissions: React.PropTypes.shape({
-        agentStop: React.PropTypes.shape({
-          allowed: React.PropTypes.bool
+    agent: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      connectionState: PropTypes.string,
+      job: PropTypes.object,
+      permissions: PropTypes.shape({
+        agentStop: PropTypes.shape({
+          allowed: PropTypes.bool
         })
       }),
-      organization: React.PropTypes.shape({
-        name: React.PropTypes.string,
-        slug: React.PropTypes.string
+      organization: PropTypes.shape({
+        name: PropTypes.string,
+        slug: PropTypes.string
       })
     }),
-    relay: React.PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired
   };
 
   state = {

@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Icon from '../../shared/Icon';
 
 export default class SearchInput extends React.PureComponent {
   static propTypes = {
-    value: React.PropTypes.string,
-    onChange: React.PropTypes.func
+    value: PropTypes.string,
+    onChange: PropTypes.func
   };
 
   render() {

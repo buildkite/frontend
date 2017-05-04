@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Button from '../shared/Button';
@@ -13,10 +14,10 @@ import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberR
 
 class InvitationRow extends React.PureComponent {
   static propTypes = {
-    organizationInvitation: React.PropTypes.shape({
-      uuid: React.PropTypes.string.isRequired,
-      email: React.PropTypes.string.isRequired,
-      role: React.PropTypes.string.isRequired
+    organizationInvitation: PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired
     }).isRequired
   };
 

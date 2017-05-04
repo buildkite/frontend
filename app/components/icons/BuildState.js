@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 
 import BuildStates from '../../constants/BuildStates';
@@ -33,11 +34,11 @@ const STATE_COLORS = {
 
 class BuildState extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    size: React.PropTypes.number.isRequired,
-    state: React.PropTypes.oneOf(Object.keys(STATE_COLORS)),
-    strokeWidth: React.PropTypes.number.isRequired,
-    style: React.PropTypes.object
+    className: PropTypes.string,
+    size: PropTypes.number.isRequired,
+    state: PropTypes.oneOf(Object.keys(STATE_COLORS)),
+    strokeWidth: PropTypes.number.isRequired,
+    style: PropTypes.object
   };
 
   state = {

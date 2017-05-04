@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
@@ -14,25 +15,25 @@ import TeamDeleteMutation from '../../mutations/TeamDelete';
 
 class TeamShow extends React.Component {
   static propTypes = {
-    teamSlug: React.PropTypes.string.isRequired,
-    team: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string,
-      slug: React.PropTypes.string.isRequired,
-      privacy: React.PropTypes.string.isRequired,
-      organization: React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired,
-        slug: React.PropTypes.string.isRequired
+    teamSlug: PropTypes.string.isRequired,
+    team: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      slug: PropTypes.string.isRequired,
+      privacy: PropTypes.string.isRequired,
+      organization: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        slug: PropTypes.string.isRequired
       }).isRequired,
-      permissions: React.PropTypes.shape({
-        teamUpdate: React.PropTypes.object.isRequired,
-        teamDelete: React.PropTypes.object.isRequired
+      permissions: PropTypes.shape({
+        teamUpdate: PropTypes.object.isRequired,
+        teamDelete: PropTypes.object.isRequired
       }).isRequired
     })
   };
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   state = {

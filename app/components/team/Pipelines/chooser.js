@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import AutocompleteDialog from '../../shared/Autocomplete/Dialog';
@@ -15,18 +16,18 @@ class Chooser extends React.Component {
   static displayName = "Team.Pipelines.Chooser";
 
   static propTypes = {
-    team: React.PropTypes.shape({
-      slug: React.PropTypes.string.isRequired,
-      organization: React.PropTypes.shape({
-        pipelines: React.PropTypes.shape({
-          edges: React.PropTypes.array.isRequired
+    team: PropTypes.shape({
+      slug: PropTypes.string.isRequired,
+      organization: PropTypes.shape({
+        pipelines: PropTypes.shape({
+          edges: PropTypes.array.isRequired
         })
       }),
-      permissions: React.PropTypes.shape({
-        teamPipelineCreate: React.PropTypes.object.isRequired
+      permissions: PropTypes.shape({
+        teamPipelineCreate: PropTypes.object.isRequired
       }).isRequired
     }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired
   };
 
   state = {

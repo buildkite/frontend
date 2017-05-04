@@ -1,19 +1,20 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Option from "./option";
-import SelectOption from "./select-option";
+import Option from './option';
+import SelectOption from './select-option';
 
 class Chooser extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    className: React.PropTypes.string,
-    multiple: React.PropTypes.bool,
-    selected: React.PropTypes.any,
-    onSelect: React.PropTypes.func.isRequired
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string,
+    multiple: PropTypes.bool,
+    selected: PropTypes.any,
+    onSelect: PropTypes.func.isRequired
   };
 
   static childContextTypes = {
-    chooser: React.PropTypes.object.isRequired
+    chooser: PropTypes.object.isRequired
   };
 
   getChildContext() {

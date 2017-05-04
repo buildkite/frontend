@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Typography from './typography';
 
@@ -6,7 +7,7 @@ const Section = function(props) {
   return <div className="my4">{props.children}</div>;
 };
 Section.propTypes = {
-  children: React.PropTypes.node
+  children: PropTypes.node
 };
 
 // Useful when authoring our base CSS styles

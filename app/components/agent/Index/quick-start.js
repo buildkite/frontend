@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
 import classNames from 'classnames';
@@ -24,25 +25,25 @@ const getSlugForGuide = ({ slug, title }) => slug || encodeURIComponent(title.to
 
 class QuickStart extends React.PureComponent {
   static propTypes = {
-    center: React.PropTypes.bool.isRequired,
-    location: React.PropTypes.shape({
-      hash: React.PropTypes.string.isRequired,
-      pathname: React.PropTypes.string.isRequired,
-      search: React.PropTypes.string.isRequired
+    center: PropTypes.bool.isRequired,
+    location: PropTypes.shape({
+      hash: PropTypes.string.isRequired,
+      pathname: PropTypes.string.isRequired,
+      search: PropTypes.string.isRequired
     }).isRequired,
-    organization: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired,
-      uuid: React.PropTypes.string,
-      agentTokens: React.PropTypes.shape({
-        edges: React.PropTypes.array.isRequired
+    organization: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+      uuid: PropTypes.string,
+      agentTokens: PropTypes.shape({
+        edges: PropTypes.array.isRequired
       })
     }).isRequired,
-    relay: React.PropTypes.object.isRequired,
-    title: React.PropTypes.string.isRequired,
-    viewer: React.PropTypes.shape({
-      apiAccessTokens: React.PropTypes.shape({
-        edges: React.PropTypes.array.isRequired
+    relay: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired,
+    viewer: PropTypes.shape({
+      apiAccessTokens: PropTypes.shape({
+        edges: PropTypes.array.isRequired
       })
     })
   };

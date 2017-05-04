@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import shuffle from 'shuffle-array';
 import styled, { keyframes } from 'styled-components';
 
@@ -52,8 +53,8 @@ class SupportDialog extends React.PureComponent {
   static displayName = "Navigation.SupportDialog";
 
   static propTypes = {
-    isOpen: React.PropTypes.bool,
-    onRequestClose: React.PropTypes.func
+    isOpen: PropTypes.bool,
+    onRequestClose: PropTypes.func
   };
 
   render() {

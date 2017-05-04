@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Chooser from '../../shared/Chooser';
 import Dropdown from '../../shared/Dropdown';
@@ -11,11 +12,11 @@ export default class AccessLevel extends React.PureComponent {
   static displayName = "Team.Pipelines.AccessLevel";
 
   static propTypes = {
-    teamPipeline: React.PropTypes.shape({
-      accessLevel: React.PropTypes.string.isRequired
+    teamPipeline: PropTypes.shape({
+      accessLevel: PropTypes.string.isRequired
     }).isRequired,
-    onAccessLevelChange: React.PropTypes.func.isRequired,
-    saving: React.PropTypes.string
+    onAccessLevelChange: PropTypes.func.isRequired,
+    saving: PropTypes.string
   };
 
   render() {

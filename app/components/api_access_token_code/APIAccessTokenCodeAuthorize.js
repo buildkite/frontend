@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
@@ -12,10 +13,10 @@ import FlashesStore from '../../stores/FlashesStore';
 
 class APIAccessTokenCodeAuthorize extends React.Component {
   static propTypes = {
-    apiAccessTokenCode: React.PropTypes.shape({
-      authorizedAt: React.PropTypes.string,
-      application: React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired
+    apiAccessTokenCode: PropTypes.shape({
+      authorizedAt: PropTypes.string,
+      application: PropTypes.shape({
+        name: PropTypes.string.isRequired
       }).isRequired
     })
   };

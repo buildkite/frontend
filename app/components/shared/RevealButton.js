@@ -1,11 +1,12 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Button from './Button';
 
 class RevealButton extends React.Component {
   static propTypes = {
-    caption: React.PropTypes.node,
-    children: React.PropTypes.node
+    caption: PropTypes.node,
+    children: PropTypes.node
   };
 
   static defaultProps = {

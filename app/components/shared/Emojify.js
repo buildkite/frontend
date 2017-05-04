@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Emoji from '../../lib/Emoji';
 
 class Emojify extends React.PureComponent {
   static propTypes = {
-    text: React.PropTypes.string,
-    className: React.PropTypes.string,
-    style: React.PropTypes.object
+    text: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object
   };
 
   render() {

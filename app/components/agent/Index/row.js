@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
 
@@ -8,20 +9,20 @@ import JobLink from '../../shared/JobLink';
 
 class AgentRow extends React.Component {
   static propTypes = {
-    agent: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      connectionState: React.PropTypes.string.isRequired,
-      hostname: React.PropTypes.string.isRequired,
-      job: React.PropTypes.shape({
-        state: React.PropTypes.string
+    agent: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      connectionState: PropTypes.string.isRequired,
+      hostname: PropTypes.string.isRequired,
+      job: PropTypes.shape({
+        state: PropTypes.string
       }),
-      metaData: React.PropTypes.array.isRequired,
-      name: React.PropTypes.string.isRequired,
-      organization: React.PropTypes.shape({
-        slug: React.PropTypes.string.isRequired
+      metaData: PropTypes.array.isRequired,
+      name: PropTypes.string.isRequired,
+      organization: PropTypes.shape({
+        slug: PropTypes.string.isRequired
       }).isRequired,
-      uuid: React.PropTypes.string.isRequired,
-      version: React.PropTypes.string.isRequired
+      uuid: PropTypes.string.isRequired,
+      version: PropTypes.string.isRequired
     })
   };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import classNames from 'classnames';
 
@@ -6,19 +7,19 @@ import Emojify from './Emojify';
 
 class JobLink extends React.Component {
   static propTypes = {
-    job: React.PropTypes.shape({
-      label: React.PropTypes.string,
-      command: React.PropTypes.string,
-      url: React.PropTypes.string,
-      build: React.PropTypes.shape({
-        number: React.PropTypes.number,
-        pipeline: React.PropTypes.shape({
-          name: React.PropTypes.string
+    job: PropTypes.shape({
+      label: PropTypes.string,
+      command: PropTypes.string,
+      url: PropTypes.string,
+      build: PropTypes.shape({
+        number: PropTypes.number,
+        pipeline: PropTypes.shape({
+          name: PropTypes.string
         })
       })
     }),
-    className: React.PropTypes.string,
-    style: React.PropTypes.object
+    className: PropTypes.string,
+    style: PropTypes.object
   };
 
   render() {

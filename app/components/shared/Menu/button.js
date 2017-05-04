@@ -1,18 +1,19 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Badge from "../Badge";
-import BaseButton from "../Button";
+import Badge from '../Badge';
+import BaseButton from '../Button';
 
 class Button extends React.Component {
   static displayName = "Menu.Button";
 
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    badge: React.PropTypes.number,
-    href: React.PropTypes.string,
-    active: React.PropTypes.bool,
-    link: React.PropTypes.string
+    children: PropTypes.node.isRequired,
+    badge: PropTypes.number,
+    href: PropTypes.string,
+    active: PropTypes.bool,
+    link: PropTypes.string
   };
 
   render() {

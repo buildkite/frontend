@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
@@ -14,21 +15,21 @@ export default class Row extends React.PureComponent {
   static displayName = "Team.Members.Row";
 
   static propTypes = {
-    teamMember: React.PropTypes.shape({
-      user: React.PropTypes.object.isRequired,
-      role: React.PropTypes.string.isRequired,
-      permissions: React.PropTypes.shape({
-        teamMemberUpdate: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+    teamMember: PropTypes.shape({
+      user: PropTypes.object.isRequired,
+      role: PropTypes.string.isRequired,
+      permissions: PropTypes.shape({
+        teamMemberUpdate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired,
-        teamMemberDelete: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+        teamMemberDelete: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired
       })
     }).isRequired,
-    onRemoveClick: React.PropTypes.func.isRequired,
-    onRoleChange: React.PropTypes.func.isRequired,
-    relay: React.PropTypes.object.isRequired
+    onRemoveClick: PropTypes.func.isRequired,
+    onRoleChange: PropTypes.func.isRequired,
+    relay: PropTypes.object.isRequired
   };
 
   state = {

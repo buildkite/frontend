@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import BuildState from '../icons/BuildState';
@@ -35,9 +36,9 @@ export default function StateIcon(props) {
 }
 
 StateIcon.propTypes = {
-  className: React.PropTypes.string,
-  agent: React.PropTypes.shape({
-    connectionState: React.PropTypes.string.isRequired,
-    job: React.PropTypes.object
+  className: PropTypes.string,
+  agent: PropTypes.shape({
+    connectionState: PropTypes.string.isRequired,
+    job: PropTypes.object
   })
 };

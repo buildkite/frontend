@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Chooser from '../shared/Chooser';
 import Emojify from '../shared/Emojify';
 
 class PipelineTeams extends React.Component {
   static propTypes = {
-    organization: React.PropTypes.object.isRequired,
-    selected: React.PropTypes.array.isRequired,
-    onTeamSelect: React.PropTypes.func.isRequired,
-    onTeamDeselect: React.PropTypes.func.isRequired
+    organization: PropTypes.object.isRequired,
+    selected: PropTypes.array.isRequired,
+    onTeamSelect: PropTypes.func.isRequired,
+    onTeamDeselect: PropTypes.func.isRequired
   };
 
   state = {
