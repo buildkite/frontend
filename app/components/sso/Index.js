@@ -49,9 +49,22 @@ class SSOIndex extends React.PureComponent {
   }
 
   renderLoginLink() {
-    const url = `/login?org=${this.props.organization.slug}`;
+    const url = `${window.location.origin}/login?org=${this.props.organization.slug}`;
 
-    return <a href={url} className="lime text-decoration-none hover-lime hover-underline">{url}</a>;
+    return (
+      <a
+        href={url}
+        className="semi-bold lime text-decoration-none hover-lime hover-underline"
+        onClick={this.handleLoginLinkClick}
+      >
+        {url}
+      </a>
+    );
+  }
+
+  handleLoginLinkClick(evt) {
+    evt.preventDefault();
+    alert('You’re already logged in! You can copy the link from here to share it.');
   }
 
   renderDetailsPanel() {
