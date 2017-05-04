@@ -83,8 +83,8 @@ class SSOIndex extends React.PureComponent {
         <Panel>
           <Panel.Section>
             <p>Single Sign On is enabled using {this.props.organization.sso.provider.name}</p>
-            <p>Anyone with {this.props.organization.sso.provider.emailDomain} email address address can login to Buildkite by entering their email address on the login page.</p>
-            <p>Your organization specific login URL is: {this.renderLoginLink()}</p>
+            <p>Anyone with a {this.props.organization.sso.provider.emailDomain} email address can login to Buildkite by entering their email address on the login page.</p>
+            <p>Your organization-specific login URL is: {this.renderLoginLink()}</p>
           </Panel.Section>
         </Panel>
       );
