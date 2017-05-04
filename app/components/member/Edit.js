@@ -65,26 +65,21 @@ class MemberEdit extends React.PureComponent {
     return (
       <DocumentTitle title={`Users · ${this.props.organizationMember.user.name}`}>
         <div>
-          {/* this is a custom PageHeader body. *
-            * you may not like it,              *
-            * but this is what that looks like  */}
-          <section className="flex items-top mb4">
-            <div className="flex-none">
+          <PageHeader>
+            <PageHeader.Icon>
               <UserAvatar
                 user={this.props.organizationMember.user}
                 className="align-middle mr2"
                 style={{ width: AVATAR_SIZE, height: AVATAR_SIZE }}
               />
-            </div>
-            <div className="flex-auto">
-              <PageHeader.Title>
-                {this.props.organizationMember.user.name}
-              </PageHeader.Title>
-              <PageHeader.Description>
-                {this.props.organizationMember.user.email}
-              </PageHeader.Description>
-            </div>
-          </section>
+            </PageHeader.Icon>
+            <PageHeader.Title>
+              {this.props.organizationMember.user.name}
+            </PageHeader.Title>
+            <PageHeader.Description>
+              {this.props.organizationMember.user.email}
+            </PageHeader.Description>
+          </PageHeader>
           {this.renderRolePanel(isSelf)}
           {this.renderRemovePanel(isSelf)}
         </div>

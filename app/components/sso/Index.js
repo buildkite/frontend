@@ -26,26 +26,21 @@ class SSOIndex extends React.PureComponent {
     return (
       <DocumentTitle title={`SSO · ${this.props.organization.name}`}>
         <div>
-          {/* this is a custom PageHeader body. *
-            * you may not like it,              *
-            * but this is what that looks like  */}
-          <section className="flex items-top mb4">
-            <div className="flex-none">
+          <PageHeader>
+            <PageHeader.Icon>
               <Icon
                 icon="sso"
                 className="align-middle mr2"
                 style={{ width: 40, height: 40 }}
               />
-            </div>
-            <div className="flex-auto">
-              <PageHeader.Title>
-                Single Sign On
-              </PageHeader.Title>
-              <PageHeader.Description>
-                Manage your organization’s Single Sign On settings
-              </PageHeader.Description>
-            </div>
-          </section>
+            </PageHeader.Icon>
+            <PageHeader.Title>
+              Single Sign On
+            </PageHeader.Title>
+            <PageHeader.Description>
+              Manage your organization’s Single Sign On settings
+            </PageHeader.Description>
+          </PageHeader>
 
           {this.renderDetailsPanel()}
         </div>
