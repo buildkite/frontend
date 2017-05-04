@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Icon from './Icon';
@@ -6,13 +7,13 @@ import Spinner from './Spinner';
 
 export default class SearchField extends React.PureComponent {
   static propTypes = {
-    className: React.PropTypes.string,
-    onChange: React.PropTypes.func.isRequired,
-    onKeyDown: React.PropTypes.func,
-    onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
-    placeholder: React.PropTypes.string.isRequired,
-    searching: React.PropTypes.bool.isRequired
+    className: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    onKeyDown: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    placeholder: PropTypes.string.isRequired,
+    searching: PropTypes.bool.isRequired
   };
 
   defaultProps = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
@@ -13,20 +14,20 @@ import FlashesStore from '../../stores/FlashesStore';
 
 class TeamEdit extends React.Component {
   static propTypes = {
-    team: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string,
-      privacy: React.PropTypes.string.isRequired,
-      organization: React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired,
-        slug: React.PropTypes.string.isRequired
+    team: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      privacy: PropTypes.string.isRequired,
+      organization: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        slug: PropTypes.string.isRequired
       }).isRequired
     }).isRequired
   };
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   state = {

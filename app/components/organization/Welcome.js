@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import PipelineIcon from '../icons/Pipeline';
 
 class Welcome extends React.Component {
   static propTypes = {
-    organization: React.PropTypes.string.isRequired
+    organization: PropTypes.string.isRequired
   }
 
   render() {

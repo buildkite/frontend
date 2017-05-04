@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import FormInputHelp from './FormInputHelp';
@@ -6,26 +7,26 @@ import FormInputErrors from './FormInputErrors';
 
 class FormRadioGroup extends React.Component {
   static propTypes = {
-    options: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        className: React.PropTypes.string,
-        label: React.PropTypes.string.isRequired,
-        help: React.PropTypes.string,
-        value: React.PropTypes.oneOfType([
-          React.PropTypes.bool,
-          React.PropTypes.string
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        className: PropTypes.string,
+        label: PropTypes.string.isRequired,
+        help: PropTypes.string,
+        value: PropTypes.oneOfType([
+          PropTypes.bool,
+          PropTypes.string
         ]).isRequired
       })
     ).isRequired,
-    value: React.PropTypes.oneOfType([
-      React.PropTypes.bool,
-      React.PropTypes.string
+    value: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.string
     ]),
-    label: React.PropTypes.string,
-    name: React.PropTypes.string,
-    className: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    errors: React.PropTypes.array
+    label: PropTypes.string,
+    name: PropTypes.string,
+    className: PropTypes.string,
+    onChange: PropTypes.func,
+    errors: PropTypes.array
   };
 
   inputs = []

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autosize from 'autosize';
 import MarkdownEditor from '../../lib/MarkdownEditor';
@@ -7,11 +8,11 @@ import Button from '../shared/Button';
 
 class FormMarkdownEdtiorField extends React.Component {
   static propTypes = {
-    id: React.PropTypes.string,
-    name: React.PropTypes.string,
-    value: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    rows: React.PropTypes.number
+    id: PropTypes.string,
+    name: PropTypes.string,
+    value: PropTypes.string,
+    placeholder: PropTypes.string,
+    rows: PropTypes.number
   };
 
   state = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
@@ -8,21 +9,21 @@ import GraphQLErrors from '../../../constants/GraphQLErrors';
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
 
-import Form from "./Form";
+import Form from './Form';
 
 class New extends React.Component {
   static propTypes = {
-    pipeline: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired
+    pipeline: PropTypes.shape({
+      name: PropTypes.string.isRequired
     }).isRequired,
-    params: React.PropTypes.shape({
-      organization: React.PropTypes.string.isRequired,
-      pipeline: React.PropTypes.string.isRequired
+    params: PropTypes.shape({
+      organization: PropTypes.string.isRequired,
+      pipeline: PropTypes.string.isRequired
     }).isRequired
   };
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   state = {

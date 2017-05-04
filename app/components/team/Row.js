@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import { formatNumber } from '../../lib/number';
@@ -12,25 +13,25 @@ const avatarSize = 30;
 
 class TeamRow extends React.PureComponent {
   static propTypes = {
-    team: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      name: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string,
-      slug: React.PropTypes.string.isRequired,
-      privacy: React.PropTypes.string.isRequired,
-      organization: React.PropTypes.shape({
-        slug: React.PropTypes.string.isRequired
+    team: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      slug: PropTypes.string.isRequired,
+      privacy: PropTypes.string.isRequired,
+      organization: PropTypes.shape({
+        slug: PropTypes.string.isRequired
       }).isRequired,
-      members: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired,
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.object.isRequired
+      members: PropTypes.shape({
+        count: PropTypes.number.isRequired,
+        edges: PropTypes.arrayOf(
+          PropTypes.shape({
+            node: PropTypes.object.isRequired
           }).isRequired
         ).isRequired
       }).isRequired,
-      pipelines: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired
+      pipelines: PropTypes.shape({
+        count: PropTypes.number.isRequired
       }).isRequired
     }).isRequired
   };

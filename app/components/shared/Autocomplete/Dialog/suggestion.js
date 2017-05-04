@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Button from '../../Button';
@@ -7,11 +8,11 @@ export default class Suggestion extends React.PureComponent {
   static displayName = "AutocompleteDialog.Suggestion";
 
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    suggestion: React.PropTypes.object.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
-    selectLabel: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string
+    children: PropTypes.node.isRequired,
+    suggestion: PropTypes.object.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    selectLabel: PropTypes.string.isRequired,
+    className: PropTypes.string
   };
 
   defaultProps = {

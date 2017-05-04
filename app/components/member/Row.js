@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Panel from '../shared/Panel';
@@ -10,17 +11,17 @@ const AVATAR_SIZE = 40;
 
 class MemberRow extends React.PureComponent {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      slug: React.PropTypes.string.isRequired
+    organization: PropTypes.shape({
+      slug: PropTypes.string.isRequired
     }).isRequired,
-    organizationMember: React.PropTypes.shape({
-      uuid: React.PropTypes.string.isRequired,
-      role: React.PropTypes.string.isRequired,
-      user: React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired,
-        email: React.PropTypes.string.isRequired,
-        avatar: React.PropTypes.shape({
-          url: React.PropTypes.string.isRequired
+    organizationMember: PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired,
+      user: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        avatar: PropTypes.shape({
+          url: PropTypes.string.isRequired
         }).isRequired
       }).isRequired
     }).isRequired

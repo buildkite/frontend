@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import PageWithMenu from '../shared/PageWithMenu';
@@ -6,8 +7,8 @@ import SettingsMenu from './SettingsMenu';
 
 class SettingsSection extends React.Component {
   static propTypes = {
-    organization: React.PropTypes.object.isRequired,
-    children: React.PropTypes.node.isRequired
+    organization: PropTypes.object.isRequired,
+    children: PropTypes.node.isRequired
   };
 
   render() {

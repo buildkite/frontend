@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class FormInputHelp extends React.Component {
   static propTypes = {
-    html: React.PropTypes.string.isRequired
+    html: PropTypes.string.isRequired
   };
 
   render() {

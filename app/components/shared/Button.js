@@ -1,5 +1,6 @@
-import React from "react";
-import classNames from "classnames";
+import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { Link } from 'react-router';
 
 const NORMAL_THEMES = {
@@ -20,20 +21,20 @@ const OUTLINE_THEMES = {
 
 class Button extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node,
-    className: React.PropTypes.string,
-    link: React.PropTypes.string,
-    href: React.PropTypes.string,
-    outline: React.PropTypes.bool,
-    style: React.PropTypes.object,
-    onClick: React.PropTypes.func,
-    tabIndex: React.PropTypes.number,
-    type: React.PropTypes.string,
-    loading: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.bool
+    children: PropTypes.node,
+    className: PropTypes.string,
+    link: PropTypes.string,
+    href: PropTypes.string,
+    outline: PropTypes.bool,
+    style: PropTypes.object,
+    onClick: PropTypes.func,
+    tabIndex: PropTypes.number,
+    type: PropTypes.string,
+    loading: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
     ]),
-    theme: React.PropTypes.oneOf([
+    theme: PropTypes.oneOf([
       'default',
       'primary',
       'success',
@@ -48,7 +49,7 @@ class Button extends React.Component {
   };
 
   static contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
   };
 
   render() {

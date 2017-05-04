@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import FormTextField from '../../shared/FormTextField';
@@ -7,15 +8,15 @@ import ValidationErrors from '../../../lib/ValidationErrors';
 
 class Form extends React.Component {
   static propTypes = {
-    cronline: React.PropTypes.string,
-    label: React.PropTypes.string,
-    commit: React.PropTypes.string,
-    branch: React.PropTypes.string,
-    message: React.PropTypes.string,
-    env: React.PropTypes.string,
-    errors: React.PropTypes.array,
-    pipeline: React.PropTypes.shape({
-      defaultBranch: React.PropTypes.string.isRequired
+    cronline: PropTypes.string,
+    label: PropTypes.string,
+    commit: PropTypes.string,
+    branch: PropTypes.string,
+    message: PropTypes.string,
+    env: PropTypes.string,
+    errors: PropTypes.array,
+    pipeline: PropTypes.shape({
+      defaultBranch: PropTypes.string.isRequired
     }).isRequired
   };
 

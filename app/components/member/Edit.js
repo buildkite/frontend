@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
@@ -19,28 +20,28 @@ const AVATAR_SIZE = 50;
 
 class MemberEdit extends React.PureComponent {
   static propTypes = {
-    viewer: React.PropTypes.shape({
-      user: React.PropTypes.shape({
-        id: React.PropTypes.string.isRequired
+    viewer: PropTypes.shape({
+      user: PropTypes.shape({
+        id: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
-    organizationMember: React.PropTypes.shape({
-      uuid: React.PropTypes.string.isRequired,
-      role: React.PropTypes.string.isRequired,
-      permissions: React.PropTypes.object.isRequired,
-      user: React.PropTypes.shape({
-        id: React.PropTypes.string.isRequired,
-        name: React.PropTypes.string.isRequired,
-        email: React.PropTypes.string.isRequired,
-        avatar: React.PropTypes.shape({
-          url: React.PropTypes.string.isRequired
+    organizationMember: PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired,
+      permissions: PropTypes.object.isRequired,
+      user: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        avatar: PropTypes.shape({
+          url: PropTypes.string.isRequired
         }).isRequired
       }).isRequired
     })
   };
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   state = {

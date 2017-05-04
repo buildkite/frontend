@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Favorite from '../../icons/Favorite';
@@ -16,21 +17,21 @@ import Graph from './graph';
 
 class Pipeline extends React.Component {
   static propTypes = {
-    pipeline: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string,
-      defaultBranch: React.PropTypes.string.isRequired,
-      favorite: React.PropTypes.bool.isRequired,
-      url: React.PropTypes.string.isRequired,
-      permissions: React.PropTypes.shape({
-        pipelineFavorite: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+    pipeline: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      defaultBranch: PropTypes.string.isRequired,
+      favorite: PropTypes.bool.isRequired,
+      url: PropTypes.string.isRequired,
+      permissions: PropTypes.shape({
+        pipelineFavorite: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired
       })
     }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired
   };
 
   state = {

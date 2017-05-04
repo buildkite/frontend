@@ -1,25 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { second } from 'metrick/duration';
 import { getDurationString } from '../../lib/date';
 
 class Duration extends React.PureComponent {
   static propTypes = {
-    from: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number,
-      React.PropTypes.instanceOf(Date)
+    from: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.instanceOf(Date)
     ]),
-    to: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number,
-      React.PropTypes.instanceOf(Date)
+    to: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.instanceOf(Date)
     ]),
-    className: React.PropTypes.string,
-    tabularNumerals: React.PropTypes.bool.isRequired,
-    format: React.PropTypes.oneOf(getDurationString.formats),
-    overrides: React.PropTypes.object,
-    updateFrequency: React.PropTypes.number
+    className: PropTypes.string,
+    tabularNumerals: PropTypes.bool.isRequired,
+    format: PropTypes.oneOf(getDurationString.formats),
+    overrides: PropTypes.object,
+    updateFrequency: PropTypes.number
   };
 
   static defaultProps = {

@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Panel from '../../../shared/Panel';
 
 class Build extends React.Component {
   static propTypes = {
-    build: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      url: React.PropTypes.string.isRequired,
-      number: React.PropTypes.number.isRequired
+    build: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+      number: PropTypes.number.isRequired
     }).isRequired
   };
 

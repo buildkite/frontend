@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
 
@@ -17,31 +18,31 @@ import TeamPipelineDeleteMutation from '../../../../mutations/TeamPipelineDelete
 
 class Row extends React.Component {
   static propTypes = {
-    teamPipeline: React.PropTypes.shape({
-      team: React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired,
-        slug: React.PropTypes.string.isRequired,
-        description: React.PropTypes.string,
-        members: React.PropTypes.shape({
-          count: React.PropTypes.number
+    teamPipeline: PropTypes.shape({
+      team: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        slug: PropTypes.string.isRequired,
+        description: PropTypes.string,
+        members: PropTypes.shape({
+          count: PropTypes.number
         }),
-        pipelines: React.PropTypes.shape({
-          count: React.PropTypes.number
+        pipelines: PropTypes.shape({
+          count: PropTypes.number
         })
       }).isRequired,
-      permissions: React.PropTypes.shape({
-        teamPipelineUpdate: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+      permissions: PropTypes.shape({
+        teamPipelineUpdate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired,
-        teamPipelineDelete: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+        teamPipelineDelete: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired
       })
     }).isRequired,
-    organization: React.PropTypes.shape({
-      slug: React.PropTypes.string.isRequired
+    organization: PropTypes.shape({
+      slug: PropTypes.string.isRequired
     }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired
   };
 
   state = {

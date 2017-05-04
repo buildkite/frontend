@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
 
@@ -6,12 +7,12 @@ import Popover, { calculateViewportOffsets } from './Popover';
 
 export default class Dropdown extends React.PureComponent {
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    width: React.PropTypes.number.isRequired,
-    className: React.PropTypes.string,
-    onToggle: React.PropTypes.func,
-    nibOffsetX: React.PropTypes.number.isRequired,
-    offsetY: React.PropTypes.number.isRequired
+    children: PropTypes.node.isRequired,
+    width: PropTypes.number.isRequired,
+    className: PropTypes.string,
+    onToggle: PropTypes.func,
+    nibOffsetX: PropTypes.number.isRequired,
+    offsetY: PropTypes.number.isRequired
   };
 
   static defaultProps = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import BuildStateSwitcher from '../../build/StateSwitcher';
@@ -7,9 +8,9 @@ import PusherStore from '../../../stores/PusherStore';
 
 class Builds extends React.Component {
   static propTypes = {
-    pipeline: React.PropTypes.object.isRequired,
-    relay: React.PropTypes.object.isRequired,
-    buildState: React.PropTypes.string
+    pipeline: PropTypes.object.isRequired,
+    relay: PropTypes.object.isRequired,
+    buildState: PropTypes.string
   };
 
   componentDidMount() {

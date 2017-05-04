@@ -1,15 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { formatNumber } from '../../lib/number';
 
 class StateSwitcher extends React.PureComponent {
   static propTypes = {
-    buildsCount: React.PropTypes.number,
-    runningBuildsCount: React.PropTypes.number,
-    scheduledBuildsCount: React.PropTypes.number,
-    state: React.PropTypes.string,
-    path: React.PropTypes.string
+    buildsCount: PropTypes.number,
+    runningBuildsCount: PropTypes.number,
+    scheduledBuildsCount: PropTypes.number,
+    state: PropTypes.string,
+    path: PropTypes.string
   };
 
   renderLink(label, state, count) {

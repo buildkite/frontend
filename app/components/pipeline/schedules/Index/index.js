@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
@@ -7,30 +8,30 @@ import Button from '../../../shared/Button';
 import permissions from '../../../../lib/permissions';
 import Emojify from '../../../shared/Emojify';
 
-import Row from "./row";
+import Row from './row';
 
 class Index extends React.Component {
   static propTypes = {
-    pipeline: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      schedules: React.PropTypes.shape({
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.shape({
-              id: React.PropTypes.string.isRequired
+    pipeline: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      schedules: PropTypes.shape({
+        edges: PropTypes.arrayOf(
+          PropTypes.shape({
+            node: PropTypes.shape({
+              id: PropTypes.string.isRequired
             }).isRequired
           }).isRequired
         )
       }).isRequired,
-      permissions: React.PropTypes.shape({
-        pipelineScheduleCreate: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+      permissions: PropTypes.shape({
+        pipelineScheduleCreate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired
       }).isRequired
     }).isRequired,
-    params: React.PropTypes.shape({
-      organization: React.PropTypes.string.isRequired,
-      pipeline: React.PropTypes.string.isRequired
+    params: PropTypes.shape({
+      organization: PropTypes.string.isRequired,
+      pipeline: PropTypes.string.isRequired
     }).isRequired
   };
 

@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Link extends React.Component {
   static displayName = "Footer.Link";
 
   static propTypes = {
-    href: React.PropTypes.string.isRequired,
-    children: React.PropTypes.node.isRequired
+    href: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired
   };
 
   render() {

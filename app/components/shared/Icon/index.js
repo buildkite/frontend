@@ -1,5 +1,6 @@
 import React from 'react';
-import update from "react-addons-update";
+import PropTypes from 'prop-types';
+import update from 'react-addons-update';
 
 import Logger from '../../../lib/Logger';
 
@@ -42,10 +43,10 @@ function Icon(props) {
 }
 
 Icon.propTypes = {
-  icon: React.PropTypes.string.isRequired,
-  title: React.PropTypes.string,
-  className: React.PropTypes.string,
-  style: React.PropTypes.object
+  icon: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.object
 };
 
 export default Icon;

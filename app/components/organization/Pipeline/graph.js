@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -29,18 +30,18 @@ const NOT_RUN_COLOR_HOVER = SKIPPED_COLOR_HOVER;
 
 class Graph extends React.Component {
   static propTypes = {
-    pipeline: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      builds: React.PropTypes.shape({
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.shape({
-              state: React.PropTypes.string.isRequired,
-              url: React.PropTypes.string.isRequired,
-              startedAt: React.PropTypes.string,
-              finishedAt: React.PropTypes.string,
-              canceledAt: React.PropTypes.string,
-              scheduledAt: React.PropTypes.string
+    pipeline: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      builds: PropTypes.shape({
+        edges: PropTypes.arrayOf(
+          PropTypes.shape({
+            node: PropTypes.shape({
+              state: PropTypes.string.isRequired,
+              url: PropTypes.string.isRequired,
+              startedAt: PropTypes.string,
+              finishedAt: PropTypes.string,
+              canceledAt: PropTypes.string,
+              scheduledAt: PropTypes.string
             }).isRequired
           }).isRequired
         )

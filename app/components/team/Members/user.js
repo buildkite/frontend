@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import UserAvatar from '../../shared/UserAvatar';
 
@@ -6,11 +7,11 @@ export default class User extends React.PureComponent {
   static displayName = "Team.Members.User";
 
   static propTypes = {
-    user: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      email: React.PropTypes.string.isRequired,
-      avatar: React.PropTypes.shape({
-        url: React.PropTypes.string.isRequired
+    user: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      avatar: PropTypes.shape({
+        url: PropTypes.string.isRequired
       }).isRequired
     }).isRequired
   };

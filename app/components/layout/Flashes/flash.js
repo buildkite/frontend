@@ -1,16 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import FlashesStore from '../../../stores/FlashesStore';
 
 class Flash extends React.Component {
   static propTypes = {
-    flash: React.PropTypes.shape({
-      id: React.PropTypes.number.isRequired,
-      type: React.PropTypes.string.isRequired,
-      message: React.PropTypes.string.isRequired
+    flash: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      type: PropTypes.string.isRequired,
+      message: PropTypes.string.isRequired
     }),
-    onRemoveClick: React.PropTypes.func.isRequired
+    onRemoveClick: PropTypes.func.isRequired
   };
 
   render() {

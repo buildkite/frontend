@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Panel from '../../shared/Panel';
@@ -7,19 +8,19 @@ import RevealButton from '../../shared/RevealButton';
 
 class AgentTokens extends React.Component {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      agentTokens: React.PropTypes.shape({
-        edges: React.PropTypes.array.isRequired
+    organization: PropTypes.shape({
+      agentTokens: PropTypes.shape({
+        edges: PropTypes.array.isRequired
       }),
-      permissions: React.PropTypes.shape({
-        agentTokenView: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+      permissions: PropTypes.shape({
+        agentTokenView: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired
       })
     }).isRequired,
-    relay: React.PropTypes.object.isRequired,
-    title: React.PropTypes.string.isRequired,
-    setupMode: React.PropTypes.bool
+    relay: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired,
+    setupMode: PropTypes.bool
   };
 
   static defaultProps = {

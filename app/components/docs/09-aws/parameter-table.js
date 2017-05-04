@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { stringify } from 'query-string';
 
 const newTokenForOrgLink = (props) => {
@@ -22,8 +23,8 @@ const newTokenForOrgLink = (props) => {
 };
 
 AWSTableRow.propTypes = {
-  title: React.PropTypes.node.isRequired,
-  children: React.PropTypes.node.isRequired
+  title: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 function AWSTableRow(props) {
@@ -40,17 +41,17 @@ function AWSTableRow(props) {
 }
 
 AWSParameterTable.propTypes = {
-  token: React.PropTypes.string,
-  organization: React.PropTypes.shape({
-    name: React.PropTypes.string,
-    slug: React.PropTypes.string,
-    uuid: React.PropTypes.string
+  token: PropTypes.string,
+  organization: PropTypes.shape({
+    name: PropTypes.string,
+    slug: PropTypes.string,
+    uuid: PropTypes.string
   }).isRequired,
-  apiAccessTokens: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      token: React.PropTypes.string.isRequired,
-      uuid: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string.isRequired
+  apiAccessTokens: PropTypes.arrayOf(
+    PropTypes.shape({
+      token: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired
     })
   ).isRequired
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import CollapsableFormField from './CollapsableFormField';
@@ -8,17 +9,17 @@ import FormInputLabel from './FormInputLabel';
 
 class FormTextField extends React.Component {
   static propTypes = {
-    label: React.PropTypes.string.isRequired,
-    className: React.PropTypes.string,
-    name: React.PropTypes.string,
-    value: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    help: React.PropTypes.string,
-    spellCheck: React.PropTypes.bool,
-    onChange: React.PropTypes.func,
-    collapsable: React.PropTypes.bool,
-    errors: React.PropTypes.array,
-    required: React.PropTypes.bool
+    label: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    name: PropTypes.string,
+    value: PropTypes.string,
+    placeholder: PropTypes.string,
+    help: PropTypes.string,
+    spellCheck: PropTypes.bool,
+    onChange: PropTypes.func,
+    collapsable: PropTypes.bool,
+    errors: PropTypes.array,
+    required: PropTypes.bool
   };
 
   static defaultProps = {

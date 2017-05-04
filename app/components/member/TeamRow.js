@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import styled from 'styled-components';
 
@@ -23,13 +24,13 @@ const Label = styled.label`
 
 class TeamRow extends React.Component {
   static propTypes = {
-    team: React.PropTypes.shape({
-      id: React.PropTypes.string.isRequired,
-      name: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string
+    team: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string
     }).isRequired,
-    checked: React.PropTypes.bool.isRequired,
-    onChange: React.PropTypes.func.isRequired
+    checked: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired
   };
 
   render() {

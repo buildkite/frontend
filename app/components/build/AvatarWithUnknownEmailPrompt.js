@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Dropdown from '../shared/Dropdown';
@@ -13,29 +14,29 @@ import NoticeDismissMutation from '../../mutations/NoticeDismiss';
 
 class AvatarWithUnknownEmailPrompt extends React.PureComponent {
   static propTypes = {
-    build: React.PropTypes.shape({
-      createdBy: React.PropTypes.shape({
-        email: React.PropTypes.string,
-        name: React.PropTypes.string
+    build: PropTypes.shape({
+      createdBy: PropTypes.shape({
+        email: PropTypes.string,
+        name: PropTypes.string
       })
     }).isRequired,
-    viewer: React.PropTypes.shape({
-      emails: React.PropTypes.shape({
-        edges: React.PropTypes.arrayOf(
-          React.PropTypes.shape({
-            node: React.PropTypes.shape({
-              id: React.PropTypes.string,
-              address: React.PropTypes.string,
-              verified: React.PropTypes.bool
+    viewer: PropTypes.shape({
+      emails: PropTypes.shape({
+        edges: PropTypes.arrayOf(
+          PropTypes.shape({
+            node: PropTypes.shape({
+              id: PropTypes.string,
+              address: PropTypes.string,
+              verified: PropTypes.bool
             })
           })
         )
       }).isRequired,
-      notice: React.PropTypes.shape({
-        dismissedAt: React.PropTypes.string
+      notice: PropTypes.shape({
+        dismissedAt: PropTypes.string
       })
     }).isRequired,
-    relay: React.PropTypes.object
+    relay: PropTypes.object
   };
 
   state = {

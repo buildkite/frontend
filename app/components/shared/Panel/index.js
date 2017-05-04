@@ -1,15 +1,16 @@
-import React from "react";
-import classNames from "classnames";
+import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-import IntroWithButton from "./intro-with-button";
-import Row from "./row";
-import RowActions from "./row-actions";
-import RowLink from "./row-link";
+import IntroWithButton from './intro-with-button';
+import Row from './row';
+import RowActions from './row-actions';
+import RowLink from './row-link';
 
 class Panel extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    className: React.PropTypes.string
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string
   };
 
   render() {
@@ -56,8 +57,8 @@ Object.keys(SIMPLE_COMPONENTS).forEach((componentName) => {
 
   Component.displayName = `Panel.${componentName}`;
   Component.propTypes = {
-    children: React.PropTypes.node.isRequired,
-    className: React.PropTypes.string
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string
   };
 
   Panel[componentName] = Component;

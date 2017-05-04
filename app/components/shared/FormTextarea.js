@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autosize from 'autosize';
 
@@ -9,20 +10,20 @@ import FormInputLabel from './FormInputLabel';
 
 class FormTextarea extends React.Component {
   static propTypes = {
-    label: React.PropTypes.string.isRequired,
-    rows: React.PropTypes.number.isRequired,
-    name: React.PropTypes.string,
-    value: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    help: React.PropTypes.string,
-    spellCheck: React.PropTypes.bool,
-    onChange: React.PropTypes.func,
-    collapsable: React.PropTypes.bool,
-    resizable: React.PropTypes.string,
-    autoresize: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    errors: React.PropTypes.array,
-    tabIndex: React.PropTypes.number
+    label: PropTypes.string.isRequired,
+    rows: PropTypes.number.isRequired,
+    name: PropTypes.string,
+    value: PropTypes.string,
+    placeholder: PropTypes.string,
+    help: PropTypes.string,
+    spellCheck: PropTypes.bool,
+    onChange: PropTypes.func,
+    collapsable: PropTypes.bool,
+    resizable: PropTypes.string,
+    autoresize: PropTypes.bool,
+    className: PropTypes.string,
+    errors: PropTypes.array,
+    tabIndex: PropTypes.number
   };
 
   static defaultProps = {

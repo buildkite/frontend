@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import { second } from 'metrick/duration';
 
@@ -21,16 +22,16 @@ class Members extends React.Component {
   static displayName = "Team.Members";
 
   static propTypes = {
-    team: React.PropTypes.shape({
-      members: React.PropTypes.shape({
-        pageInfo: React.PropTypes.shape({
-          hasNextPage: React.PropTypes.bool.isRequired
+    team: PropTypes.shape({
+      members: PropTypes.shape({
+        pageInfo: PropTypes.shape({
+          hasNextPage: PropTypes.bool.isRequired
         }).isRequired,
-        edges: React.PropTypes.array.isRequired
+        edges: PropTypes.array.isRequired
       }).isRequired
     }).isRequired,
-    relay: React.PropTypes.object.isRequired,
-    className: React.PropTypes.string
+    relay: PropTypes.object.isRequired,
+    className: PropTypes.string
   };
 
   state = {

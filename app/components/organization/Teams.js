@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Dropdown from '../shared/Dropdown';
@@ -8,9 +9,9 @@ import Icon from '../shared/Icon';
 
 class Teams extends React.Component {
   static propTypes = {
-    selected: React.PropTypes.string,
-    organization: React.PropTypes.object.isRequired,
-    onTeamChange: React.PropTypes.func.isRequired
+    selected: PropTypes.string,
+    organization: PropTypes.object.isRequired,
+    onTeamChange: PropTypes.func.isRequired
   };
 
   render() {

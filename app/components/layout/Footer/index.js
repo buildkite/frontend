@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Link from './link';
@@ -6,12 +7,12 @@ import Icon from '../../shared/Icon';
 
 class Footer extends React.Component {
   static propTypes = {
-    viewer: React.PropTypes.shape({
-      unreadChangelogs: React.PropTypes.shape({
-        count: React.PropTypes.number
+    viewer: PropTypes.shape({
+      unreadChangelogs: PropTypes.shape({
+        count: PropTypes.number
       })
     }),
-    relay: React.PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired
   };
 
   componentDidMount() {

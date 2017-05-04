@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
@@ -17,8 +18,8 @@ import DropdownButton from './../dropdown-button';
 
 class MyBuilds extends React.Component {
   static propTypes = {
-    viewer: React.PropTypes.object,
-    relay: React.PropTypes.object.isRequired
+    viewer: PropTypes.object,
+    relay: PropTypes.object.isRequired
   }
 
   state = {

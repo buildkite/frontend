@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Panel from '../../shared/Panel';
@@ -7,9 +8,9 @@ import FriendlyTime from '../../shared/FriendlyTime';
 
 class Row extends React.PureComponent {
   static propTypes = {
-    job: React.PropTypes.object.isRequired,
-    onConcurrencyGroupClick: React.PropTypes.func,
-    onAgentQueryRuleClick: React.PropTypes.func
+    job: PropTypes.object.isRequired,
+    onConcurrencyGroupClick: PropTypes.func,
+    onAgentQueryRuleClick: PropTypes.func
   };
 
   render() {

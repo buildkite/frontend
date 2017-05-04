@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class FormInputErrors extends React.Component {
   static propTypes = {
-    errors: React.PropTypes.array.isRequired
+    errors: PropTypes.array.isRequired
   };
 
   render() {

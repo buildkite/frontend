@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import throttle from 'throttleit';
 import { seconds } from 'metrick/duration';
@@ -14,12 +15,12 @@ const requestUpdate = throttle((callback) => callback(), 3::seconds);
 
 class AgentsCount extends React.PureComponent {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      agents: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired
+    organization: PropTypes.shape({
+      agents: PropTypes.shape({
+        count: PropTypes.number.isRequired
       })
     }),
-    relay: React.PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired
   };
 
   state = {

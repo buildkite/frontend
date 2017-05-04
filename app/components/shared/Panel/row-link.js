@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import Icon from '../../shared/Icon';
@@ -7,9 +8,9 @@ export default class RowLink extends React.PureComponent {
   static displayName = "Panel.RowLink";
 
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    to: React.PropTypes.string,
-    href: React.PropTypes.string
+    children: PropTypes.node.isRequired,
+    to: PropTypes.string,
+    href: PropTypes.string
   };
 
   render() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
@@ -14,18 +15,18 @@ export default class Row extends React.PureComponent {
   static displayName = "Team.Pipelines.Row";
 
   static propTypes = {
-    teamPipeline: React.PropTypes.shape({
-      accessLevel: React.PropTypes.string,
-      pipeline: React.PropTypes.object.isRequired,
-      permissions: React.PropTypes.shape({
-        teamPipelineDelete: React.PropTypes.shape({
-          allowed: React.PropTypes.bool.isRequired
+    teamPipeline: PropTypes.shape({
+      accessLevel: PropTypes.string,
+      pipeline: PropTypes.object.isRequired,
+      permissions: PropTypes.shape({
+        teamPipelineDelete: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired
       })
     }).isRequired,
-    onAccessLevelChange: React.PropTypes.func.isRequired,
-    onRemoveClick: React.PropTypes.func.isRequired,
-    relay: React.PropTypes.object.isRequired
+    onAccessLevelChange: PropTypes.func.isRequired,
+    onRemoveClick: PropTypes.func.isRequired,
+    relay: PropTypes.object.isRequired
   };
 
   state = {

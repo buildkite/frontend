@@ -1,13 +1,14 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Title from "./title";
-import Description from "./description";
-import Menu from "./menu";
-import Button from "./button";
+import Title from './title';
+import Description from './description';
+import Menu from './menu';
+import Button from './button';
 
 class PageHeader extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node.isRequired
+    children: PropTypes.node.isRequired
   };
 
   render() {

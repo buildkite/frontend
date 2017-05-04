@@ -3380,9 +3380,9 @@ html-entities@^1.2.0:
     inherits "^2.0.1"
     readable-stream "^2.0.2"
 
-"htmltojsx@git+https://github.com/reactjs/react-magic.git#e63dabeefb87d4ce1e74ac2ddb73b0164c344219":
+"htmltojsx@https://github.com/reactjs/react-magic#e63dabeefb87d4ce1e74ac2ddb73b0164c344219":
   version "0.2.6-dev"
-  resolved "git+https://github.com/reactjs/react-magic.git#e63dabeefb87d4ce1e74ac2ddb73b0164c344219"
+  resolved "https://github.com/reactjs/react-magic#e63dabeefb87d4ce1e74ac2ddb73b0164c344219"
   dependencies:
     jsdom-no-contextify "~3.1.0"
     react "~0.14.6"
@@ -5911,7 +5911,7 @@ promise@^7.0.3, promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@~15.5.7:
+prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@~15.5.7:
   version "15.5.8"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
   dependencies:

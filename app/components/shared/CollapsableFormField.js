@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 let _collapsableFormFieldCounter = 0;
@@ -8,9 +9,9 @@ let _collapsableFormFieldCounter = 0;
 // This should be replaced with something more akin to CollapsableArea
 class CollapsableFormField extends React.Component {
   static propTypes = {
-    label: React.PropTypes.string.isRequired,
-    collapsed: React.PropTypes.bool.isRequired,
-    children: React.PropTypes.node.isRequired
+    label: PropTypes.string.isRequired,
+    collapsed: PropTypes.bool.isRequired,
+    children: PropTypes.node.isRequired
   };
 
   state = {

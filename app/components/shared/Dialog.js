@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import styled from 'styled-components';
 
@@ -80,11 +81,11 @@ DialogWrapper.defaultProps = {
 
 class Dialog extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node,
-    closeable: React.PropTypes.bool,
-    isOpen: React.PropTypes.bool,
-    onRequestClose: React.PropTypes.func,
-    width: React.PropTypes.number
+    children: PropTypes.node,
+    closeable: PropTypes.bool,
+    isOpen: PropTypes.bool,
+    onRequestClose: PropTypes.func,
+    width: PropTypes.number
   };
 
   static defaultProps = {

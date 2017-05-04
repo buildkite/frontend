@@ -1,8 +1,9 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Spinner from '../../shared/Spinner';
 
-import Option from "./option";
+import Option from './option';
 
 function SelectOption(props) {
   return (
@@ -23,11 +24,11 @@ function SelectOption(props) {
 SelectOption.displayName = "Chooser.SelectOption";
 
 SelectOption.propTypes = {
-  value: React.PropTypes.string.isRequired,
-  label: React.PropTypes.string.isRequired,
-  description: React.PropTypes.string.isRequired,
-  saving: React.PropTypes.bool,
-  selected: React.PropTypes.bool
+  value: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  saving: PropTypes.bool,
+  selected: PropTypes.bool
 };
 
 function Icon(props) {
@@ -49,8 +50,8 @@ function Icon(props) {
 }
 
 Icon.propTypes = {
-  saving: React.PropTypes.bool.isRequired,
-  selected: React.PropTypes.bool.isRequired
+  saving: PropTypes.bool.isRequired,
+  selected: PropTypes.bool.isRequired
 };
 
 export default SelectOption;

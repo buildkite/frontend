@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { minute } from 'metrick/duration';
 import { getDateString, getRelativeDateString } from '../../lib/date';
 
 class FriendlyTime extends React.PureComponent {
   static propTypes = {
-    value: React.PropTypes.string.isRequired,
-    updateFrequency: React.PropTypes.number.isRequired,
-    capitalized: React.PropTypes.bool.isRequired,
-    seconds: React.PropTypes.bool.isRequired
+    value: PropTypes.string.isRequired,
+    updateFrequency: PropTypes.number.isRequired,
+    capitalized: PropTypes.bool.isRequired,
+    seconds: PropTypes.bool.isRequired
   };
 
   static defaultProps = {

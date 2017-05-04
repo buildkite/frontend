@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class FormYAMLEdtiorField extends React.Component {
   static propTypes = {
-    name: React.PropTypes.string,
-    value: React.PropTypes.string
+    name: PropTypes.string,
+    value: PropTypes.string
   };
 
   componentDidMount() {

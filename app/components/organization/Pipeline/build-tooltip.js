@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import BuildStatusDescription from '../../shared/BuildStatusDescription';
@@ -11,17 +12,17 @@ import { shortMessage, shortCommit } from '../../../lib/commits';
 
 class BuildTooltip extends React.PureComponent {
   static propTypes = {
-    build: React.PropTypes.shape({
-      commit: React.PropTypes.string,
-      createdBy: React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired,
-        avatar: React.PropTypes.shape({
-          url: React.PropTypes.string
+    build: PropTypes.shape({
+      commit: PropTypes.string,
+      createdBy: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        avatar: PropTypes.shape({
+          url: PropTypes.string
         }).isRequired
       }),
-      message: React.PropTypes.string,
-      startedAt: React.PropTypes.string,
-      finishedAt: React.PropTypes.string
+      message: PropTypes.string,
+      startedAt: PropTypes.string,
+      finishedAt: PropTypes.string
     }).isRequired
   };
 

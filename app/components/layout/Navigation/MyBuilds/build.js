@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import styled from 'styled-components';
 
@@ -24,8 +25,8 @@ BuildLink.defaultProps = {
 
 class BuildsDropdownBuild extends React.PureComponent {
   static propTypes = {
-    build: React.PropTypes.object,
-    relay: React.PropTypes.object.isRequired
+    build: PropTypes.object,
+    relay: PropTypes.object.isRequired
   }
 
   componentDidMount() {

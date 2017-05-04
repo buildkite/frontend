@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class PageWithMenu extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node.isRequired
+    children: PropTypes.node.isRequired
   };
 
   render() {

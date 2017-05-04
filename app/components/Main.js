@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
@@ -8,9 +9,9 @@ import Flashes from './layout/Flashes';
 
 class Main extends React.Component {
   static propTypes = {
-    children: React.PropTypes.node.isRequired,
-    viewer: React.PropTypes.object.isRequired,
-    organization: React.PropTypes.object
+    children: PropTypes.node.isRequired,
+    viewer: PropTypes.object.isRequired,
+    organization: PropTypes.object
   };
 
   render() {
