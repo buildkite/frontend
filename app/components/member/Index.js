@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title';
 
 import Button from '../shared/Button';
 import Dropdown from '../shared/Dropdown';
+import Icon from '../shared/Icon';
 import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
 import SearchField from '../shared/SearchField';
@@ -74,6 +75,13 @@ class MemberIndex extends React.PureComponent {
       <DocumentTitle title={`Users · ${this.props.organization.name}`}>
         <div>
           <PageHeader>
+            <PageHeader.Icon>
+              <Icon
+                icon="users"
+                className="align-middle mr2"
+                style={{ width: 40, height: 40 }}
+              />
+            </PageHeader.Icon>
             <PageHeader.Title>
               Users
             </PageHeader.Title>
