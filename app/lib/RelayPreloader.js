@@ -319,6 +319,20 @@ const QUERIES = {
       }
     }
   `,
+  "sso/index": Relay.QL`
+    query($organization: ID!) {
+      organization(slug: $organization) {
+        id
+        name
+        slug
+        permissions {
+          organizationUpdate {
+            allowed
+          }
+        }
+      }
+    }
+  `,
   "pipeline/header": Relay.QL`
     query($pipeline: ID!) {
       pipeline(slug: $pipeline) {

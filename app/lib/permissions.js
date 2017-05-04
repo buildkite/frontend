@@ -59,6 +59,31 @@ class PermissionManager {
   check(config, args) {
     args = args || [];
 
+    // Along with checking a paticular permission, you can also pass an `and` config, i.e.
+    //
+    //      {
+    //        allowed: "organizationUpdate",
+    //        and: Features.SSOSettings,
+    //        render: (idx) => (
+    //          <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/sso`}>
+    //            <Icon icon="sso" className="icon-mr"/>SSO
+    //          </Menu.Button>
+    //        )
+    //      },
+    //
+    // `and` can either be a boolean value, or a function.
+    if (config.and !== undefined) {
+      if (typeof (config.and) == 'function') {
+        if (!config.and()) {
+          return null;
+        }
+      } else {
+        if (!config.and) {
+          return null;
+        }
+      }
+    }
+
     if (config.always) {
       return config.render(...args);
     } else if (config.all) {
