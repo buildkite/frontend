@@ -6,7 +6,6 @@ import DocumentTitle from 'react-document-title';
 import Panel from '../../../shared/Panel';
 import Button from '../../../shared/Button';
 import permissions from '../../../../lib/permissions';
-import Emojify from '../../../shared/Emojify';
 
 import Row from './row';
 
