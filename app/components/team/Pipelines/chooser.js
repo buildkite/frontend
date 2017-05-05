@@ -8,8 +8,6 @@ import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
 
-import TeamPipelineCreateMutation from '../../../mutations/TeamPipelineCreate';
-
 import Pipeline from './pipeline';
 
 class Chooser extends React.Component {
@@ -17,6 +15,7 @@ class Chooser extends React.Component {
 
   static propTypes = {
     team: PropTypes.shape({
+      id: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired,
       organization: PropTypes.shape({
         pipelines: PropTypes.shape({
@@ -27,7 +26,8 @@ class Chooser extends React.Component {
         teamPipelineCreate: PropTypes.object.isRequired
       }).isRequired
     }).isRequired,
-    relay: PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired,
+    onChoose: PropTypes.func.isRequired
   };
 
   state = {
@@ -116,10 +116,33 @@ class Chooser extends React.Component {
     this._autoCompletor.clear();
     this.props.relay.setVariables({ pipelineAddSearch: '' });
 
-    Relay.Store.commitUpdate(new TeamPipelineCreateMutation({
-      team: this.props.team,
-      pipeline: pipeline
-    }), { onFailure: this.handleMutationFailure });
+    const query = Relay.QL`mutation TeamPipelineCreateMutation {
+      teamPipelineCreate(input: $input) {
+        clientMutationId
+        pipeline {
+          id
+          name
+        }
+      }
+    }`;
+
+    const variables = {
+      input: {
+        teamID: this.props.team.id,
+        pipelineID: pipeline.id
+      }
+    };
+
+    const mutation = new Relay.GraphQLMutation(query, variables, null, Relay.Store, {
+      onFailure: this.handleMutationFailure,
+      onSuccess: this.handleMutationSuccess
+    });
+
+    mutation.commit();
+  };
+
+  handleMutationSuccess = (response) => {
+    this.props.onChoose(response.teamPipelineCreate.pipeline);
   };
 
   handleMutationFailure = (transaction) => {
@@ -137,8 +160,8 @@ export default Relay.createContainer(Chooser, {
   fragments: {
     team: () => Relay.QL`
       fragment on Team {
+        id
         slug
-        ${TeamPipelineCreateMutation.getFragment('team')}
 
         organization {
           pipelines(search: $pipelineAddSearch, first: 10, order: RELEVANCE, team: $teamSelector) @include (if: $isMounted) {
@@ -149,7 +172,6 @@ export default Relay.createContainer(Chooser, {
                 repository {
                   url
                 }
-                ${TeamPipelineCreateMutation.getFragment('pipeline')}
               }
             }
           }

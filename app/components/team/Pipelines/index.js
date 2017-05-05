@@ -26,6 +26,9 @@ class Pipelines extends React.Component {
 
   static propTypes = {
     team: PropTypes.shape({
+      allPipelines: PropTypes.shape({
+        count: PropTypes.number.isRequired
+      }).isRequired,
       pipelines: PropTypes.shape({
         count: PropTypes.number.isRequired,
         pageInfo: PropTypes.shape({
@@ -48,7 +51,7 @@ class Pipelines extends React.Component {
       <div>
         <div className="flex items-center">
           <h2 className="h2 flex-auto">Pipelines {this.renderPipelineCount()}</h2>
-          <Chooser team={this.props.team} />
+          <Chooser team={this.props.team} onChoose={this.handleTeamPipelineChoose} />
         </div>
         <Panel className={this.props.className}>
           {this.renderPipelineSearch()}
@@ -66,7 +69,7 @@ class Pipelines extends React.Component {
     }
 
     return (
-      <Badge>{formatNumber(this.props.team.pipelines.count)}</Badge>
+      <Badge>{formatNumber(this.props.team.allPipelines.count)}</Badge>
     );
   }
 
@@ -146,6 +149,10 @@ class Pipelines extends React.Component {
     );
   }
 
+  handleTeamPipelineChoose = () => {
+    this.props.relay.forceFetch();
+  };
+
   handlePipelineSearch = (pipelineSearch) => {
     this.setState({ searchingPipelines: true });
 
@@ -219,6 +226,10 @@ export default Relay.createContainer(Pipelines, {
     team: () => Relay.QL`
       fragment on Team {
         ${Chooser.getFragment('team')}
+
+        allPipelines: pipelines {
+          count
+        }
 
         pipelines(first: $pageSize, search: $pipelineSearch, order: NAME) {
           count
