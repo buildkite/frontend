@@ -46,6 +46,7 @@ class Header extends React.Component {
   };
 
   state = {
+    showingActionsDropdown: false,
     showingCreateBuildDialog: false
   };
 
@@ -75,10 +76,12 @@ class Header extends React.Component {
               className="visible-xs ml2"
               width={200}
               ref={(_actionsDropdown) => this._actionsDropdown = _actionsDropdown}
+              onToggle={this.handleActionsDropdownToggle}
             >
               <Button
                 outline={true}
                 theme="default"
+                className={this.state.showingActionsDropdown ? 'lime' : ''}
               >
                 <Icon icon="down-triangle" style={{ width: 7, height: 7 }} />
               </Button>
@@ -174,8 +177,14 @@ class Header extends React.Component {
     }
   }
 
+  handleActionsDropdownToggle = (visible) => {
+    this.setState({ showingActionsDropdown: visible });
+  };
+
   handleBuildCreateClick = () => {
-    this._actionsDropdown.setShowing(false);
+    if (this.state.showingActionsDropdown) {
+      this._actionsDropdown.setShowing(false);
+    }
 
     this.setState({ showingCreateBuildDialog: true });
   };
