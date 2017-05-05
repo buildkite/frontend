@@ -1,6 +1,11 @@
 .CodeMirror {
   /* https://codemirror.net/demo/resize.html */
   height: auto;
+  min-height: 150px;
+}
+
+.CodeMirror-scroll {
+  min-height: 150px;
 }
 
 .CodeMirror-gutters {
