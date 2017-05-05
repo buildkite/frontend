@@ -18,13 +18,13 @@ class Button extends React.Component {
 
   render() {
     return (
-      <BaseButton className={classNames(`block hover-lime focus-lime truncate`, { "lime": this._isActive() })}
+      <BaseButton className={classNames(`block hover-lime focus-lime`, { "lime": this._isActive() })}
         theme={false}
         href={this.props.href}
         link={this.props.link}
       >
         <div className="flex">
-          <div className="flex-auto">{this.props.children}</div>
+          <div className="flex-auto truncate flex items-center">{this.props.children}</div>
           <div className="flex-none">{this._renderBadge()}</div>
         </div>
       </BaseButton>
