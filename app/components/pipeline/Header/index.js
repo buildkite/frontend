@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
-import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
 import Emojify from '../../shared/Emojify';
 import Icon from '../../shared/Icon';
