@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title';
 
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
+import Icon from '../shared/Icon';
 import Spinner from '../shared/Spinner';
 import PageHeader from '../shared/PageHeader';
 import SearchField from '../shared/SearchField';
@@ -62,6 +63,13 @@ class TeamIndex extends React.PureComponent {
       <DocumentTitle title={`Teams · ${this.props.organization.name}`}>
         <div>
           <PageHeader>
+            <PageHeader.Icon>
+              <Icon
+                icon="teams"
+                className="align-middle mr2"
+                style={{ width: 40, height: 40 }}
+              />
+            </PageHeader.Icon>
             <PageHeader.Title>
               Teams
             </PageHeader.Title>
