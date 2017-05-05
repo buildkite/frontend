@@ -56,7 +56,7 @@ class SettingsMenu extends React.Component {
       {
         allowed: "pipelineUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} href={`${url}/queues`}>
+          <Menu.Button key={idx} href={`${url}/build-skipping`}>
             <Icon icon="build-skipping" className="icon-mr"/>Build Skipping
           </Menu.Button>
         )
