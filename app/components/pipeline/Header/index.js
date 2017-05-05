@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Button from '../../shared/Button';
+import Dropdown from '../../shared/Dropdown';
 import Emojify from '../../shared/Emojify';
 import Icon from '../../shared/Icon';
 
@@ -25,8 +26,8 @@ class Header extends React.Component {
   render() {
     return (
       <div>
-        <div className="flex mb3 items-center flex-wrap">
-          <div className="flex flex-auto">
+        <div className="flex mb1 items-center flex-wrap" style={{ marginTop: -10 }}>
+          <div className="flex flex-auto items-center my2" style={{ flexBasis: 320 }}>
             <a
               href={this.props.pipeline.url}
               className="inline-block flex-auto line-height-1 color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent truncate"
@@ -42,9 +43,21 @@ class Header extends React.Component {
               </span>
             </a>
             {this.renderProviderBadge()}
+            <Dropdown width={250} className="visible-xs" onToggle={this.handleSettingsDropdownToggle}>
+              <Button
+                outline={true}
+                theme="default"
+              >
+                <Icon icon="down-triangle" style={{ width: 7, height: 7 }} />
+              </Button>
+              TBD
+            </Dropdown>
           </div>
-          <Builds pipeline={this.props.pipeline} buildState={this.props.buildState} />
-          <div className="flex flex-auto">
+          <Builds
+            pipeline={this.props.pipeline}
+            buildState={this.props.buildState}
+          />
+          <div className="flex hidden-xs">
             {this.renderButtons()}
           </div>
         </div>
