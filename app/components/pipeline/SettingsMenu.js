@@ -28,7 +28,7 @@ class SettingsMenu extends React.Component {
 
         <Menu>
           <Menu.Button href={`${url}/email-preferences`}>
-            <Icon icon="emails" className="icon-mr"/>Your Email Preferences
+            <Icon icon="emails" className="icon-mr"/>Personal Email Settings
           </Menu.Button>
         </Menu>
       </div>
@@ -57,7 +57,7 @@ class SettingsMenu extends React.Component {
         allowed: "pipelineUpdate",
         render: (idx) => (
           <Menu.Button key={idx} href={`${url}/queues`}>
-            <Icon icon="queues" className="icon-mr"/>Queues
+            <Icon icon="build-skipping" className="icon-mr"/>Build Skipping
           </Menu.Button>
         )
       },
@@ -89,7 +89,7 @@ class SettingsMenu extends React.Component {
         allowed: "pipelineUpdate",
         render: (idx) => (
           <Menu.Button key={idx} href={`${url}/badges`}>
-            <Icon icon="badges" className="icon-mr"/>Badges
+            <Icon icon="badges" className="icon-mr"/>Build Badges
           </Menu.Button>
         )
       }
