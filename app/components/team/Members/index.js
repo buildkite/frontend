@@ -24,6 +24,9 @@ class Members extends React.Component {
 
   static propTypes = {
     team: PropTypes.shape({
+      allMembers: PropTypes.shape({
+        count: PropTypes.number.isRequired
+      }).isRequired,
       members: PropTypes.shape({
         count: PropTypes.number.isRequired,
         pageInfo: PropTypes.shape({
@@ -46,7 +49,7 @@ class Members extends React.Component {
       <div>
         <div className="flex items-center">
           <h2 className="h2 flex-auto">Members {this.renderMemberCount()}</h2>
-          <Chooser team={this.props.team} />
+          <Chooser team={this.props.team} onChoose={this.handleTeamMemberChoose} />
         </div>
         <Panel className={this.props.className}>
           {this.renderMemberSearch()}
@@ -64,7 +67,7 @@ class Members extends React.Component {
     }
 
     return (
-      <Badge>{formatNumber(this.props.team.members.count)}</Badge>
+      <Badge>{formatNumber(this.props.team.allMembers.count)}</Badge>
     );
   }
 
@@ -188,6 +191,10 @@ class Members extends React.Component {
     );
   };
 
+  handleTeamMemberChoose = () => {
+    this.props.relay.forceFetch();
+  };
+
   handleUserSearch = (memberAddSearch) => {
     this.props.relay.setVariables({ memberAddSearch });
   };
@@ -219,6 +226,10 @@ export default Relay.createContainer(Members, {
     team: () => Relay.QL`
       fragment on Team {
         ${Chooser.getFragment('team')}
+
+        allMembers: members {
+          count
+        }
 
         members(first: $pageSize, search: $memberSearch, order: NAME) {
           count
