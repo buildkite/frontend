@@ -50,6 +50,8 @@ class Header extends React.Component {
   };
 
   render() {
+    const actions = this.getAvailableActions();
+
     return (
       <div>
         <div className="flex mb1 items-center flex-wrap" style={{ marginTop: -10 }}>
@@ -69,14 +71,18 @@ class Header extends React.Component {
               </span>
             </a>
             {this.renderProviderBadge()}
-            <Dropdown width={250} className="visible-xs ml2" onToggle={this.handleSettingsDropdownToggle}>
+            <Dropdown
+              className="visible-xs ml2"
+              width={200}
+              ref={(_actionsDropdown) => this._actionsDropdown = _actionsDropdown}
+            >
               <Button
                 outline={true}
                 theme="default"
               >
                 <Icon icon="down-triangle" style={{ width: 7, height: 7 }} />
               </Button>
-              TBD
+              {this.renderDropdownItemsForActions(actions)}
             </Dropdown>
           </HeaderVitals>
           <HeaderBuilds
@@ -84,7 +90,7 @@ class Header extends React.Component {
             buildState={this.props.buildState}
           />
           <div className="flex hidden-xs">
-            {this.renderButtons()}
+            {this.renderButtonsForActions(actions)}
           </div>
         </div>
         <CreateBuildDialog
@@ -115,37 +121,49 @@ class Header extends React.Component {
     );
   }
 
-  renderButtons() {
+  getAvailableActions() {
+    // NOTE: We "render" props here so we can show near-identical
+    // action lists in the dropdown and header. `children` is assumed
+    // to be any renderable thing. Have at it!
     return permissions(this.props.pipeline.permissions).collect(
       {
         allowed: "buildCreate",
-        render: (idx) => (
-          <Button
-            key={idx}
-            onClick={this.handleBuildCreateClick}
-            outline={true}
-            theme="default"
-            className="ml2 flex items-center"
-          >
-            New Build
-          </Button>
-        )
+        render: (idx) => ({
+          onClick: this.handleBuildCreateClick,
+          children: 'New Build'
+        })
       },
       {
         allowed: "pipelineUpdate",
-        render: (idx) => (
-          <Button
-            key={idx}
-            href={`${this.props.pipeline.url}/settings`}
-            outline={true}
-            theme="default"
-            className="ml2 flex items-center"
-          >
-            Pipeline Settings
-          </Button>
-        )
+        render: (idx) => ({
+          href: `${this.props.pipeline.url}/settings`,
+          children: 'Pipeline Settings'
+        })
       }
     );
+  }
+
+  renderDropdownItemsForActions(actions) {
+    return actions.map((action, index) => (
+      <a
+        key={index}
+        className="btn black hover-lime focus-lime flex items-center flex-none semi-bold"
+        {...action}
+        href={action.href || '#'}
+      />
+    ));
+  }
+
+  renderButtonsForActions(actions) {
+    return actions.map((action, index) => (
+      <Button
+        key={index}
+        outline={true}
+        theme="default"
+        className="ml2 flex items-center"
+        {...action}
+      />
+    ));
   }
 
   renderDescription() {
@@ -157,6 +175,8 @@ class Header extends React.Component {
   }
 
   handleBuildCreateClick = () => {
+    this._actionsDropdown.setShowing(false);
+
     this.setState({ showingCreateBuildDialog: true });
   };
 
