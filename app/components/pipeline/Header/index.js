@@ -59,7 +59,9 @@ class Header extends React.Component {
             outline={true}
             theme="default"
             className="ml2 flex items-center"
-          >New Build</Button>
+          >
+            New Build
+          </Button>
         )
       },
       {
@@ -71,7 +73,9 @@ class Header extends React.Component {
             outline={true}
             theme="default"
             className="ml2 flex items-center"
-          >Pipeline Settings</Button>
+          >
+            Pipeline Settings
+          </Button>
         )
       }
     );
