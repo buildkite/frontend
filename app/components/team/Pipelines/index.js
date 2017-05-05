@@ -149,7 +149,7 @@ class Pipelines extends React.Component {
     );
   }
 
-  handleTeamPipelineChoose = (pipeline) => {
+  handleTeamPipelineChoose = () => {
     this.props.relay.forceFetch();
   };
 

@@ -15,6 +15,7 @@ class Chooser extends React.Component {
 
   static propTypes = {
     team: PropTypes.shape({
+      id: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired,
       organization: PropTypes.shape({
         pipelines: PropTypes.shape({
@@ -127,9 +128,9 @@ class Chooser extends React.Component {
 
     const variables = {
       input: {
-	teamID: this.props.team.id,
-	pipelineID: pipeline.id
-      },
+        teamID: this.props.team.id,
+        pipelineID: pipeline.id
+      }
     };
 
     const mutation = new Relay.GraphQLMutation(query, variables, null, Relay.Store, {
