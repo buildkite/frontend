@@ -24,7 +24,7 @@ class Button extends React.Component {
         link={this.props.link}
       >
         <div className="flex">
-          <div className="flex-auto truncate">{this.props.children}</div>
+          <div className="flex-auto truncate flex items-center">{this.props.children}</div>
           <div className="flex-none">{this._renderBadge()}</div>
         </div>
       </BaseButton>
