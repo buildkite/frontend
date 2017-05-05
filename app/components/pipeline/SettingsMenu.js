@@ -57,7 +57,7 @@ class SettingsMenu extends React.Component {
         allowed: "pipelineUpdate",
         render: (idx) => (
           <Menu.Button key={idx} href={`${url}/queues`}>
-            <Icon icon="queing" className="icon-mr"/>Queues
+            <Icon icon="queues" className="icon-mr"/>Queues
           </Menu.Button>
         )
       },
@@ -105,11 +105,15 @@ class SettingsMenu extends React.Component {
   }
 
   repositoryProviderIcon() {
-    if (this.provider.__typename === "RepositoryProviderGithub") {
+    if (this.provider.__typename === "RepositoryProviderBitbucket") {
+      return "bitbucket";
+    } else if (this.provider.__typename === "RepositoryProviderGithub") {
       return "github";
-    } else {
+    } else if (this.provider.__typename === "RepositoryProviderGitlab") {
+      return "gitlab";
       // TODO: Add all the others
-      return "blah";
+    } else {
+      return "git";
     }
   }
 
