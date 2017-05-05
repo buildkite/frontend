@@ -10,6 +10,7 @@ import CreateBuildDialog from '../CreateBuildDialog';
 import Builds from './builds';
 
 import permissions from '../../../lib/permissions';
+import { repositoryProviderIcon } from '../../../lib/repositories';
 
 class Header extends React.Component {
   static propTypes = {
@@ -24,27 +25,54 @@ class Header extends React.Component {
   render() {
     return (
       <div>
-        <div className="flex mb3">
-          <div className="flex-auto flex">
-            <a className="line-height-1 color-inherit hover-color-inherit text-decoration-none flex flex-column flex-auto hover-lime hover-color-inherit-parent truncate mr3" href={this.props.pipeline.url}>
-              <h4 className="inline semi-bold h3 m0 truncate">
+        <div className="flex mb3 items-center flex-wrap">
+          <div className="flex flex-auto">
+            <a
+              href={this.props.pipeline.url}
+              className="inline-block flex-auto line-height-1 color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent truncate"
+            >
+              <h4 className="semi-bold h3 m0 truncate">
                 <Emojify text={this.props.pipeline.name} />
               </h4>
-              <span className="block truncate h5 regular m0 dark-gray hover-color-inherit line-height-3" style={{ marginTop: 3 }}>
+              <span
+                className="truncate h5 regular m0 dark-gray hover-color-inherit line-height-3"
+                style={{ marginTop: 3 }}
+              >
                 {this.renderDescription()}
               </span>
             </a>
+            {this.renderProviderBadge()}
           </div>
-          <div className="flex">
-            <a href="TODO" className="flex flex-none items-center px3 black hover-lime line-height-0 text-decoration-none">
-              <Icon icon="github" />
-            </a>
-            <Builds pipeline={this.props.pipeline} buildState={this.props.buildState} />
+          <Builds pipeline={this.props.pipeline} buildState={this.props.buildState} />
+          <div className="flex flex-auto">
             {this.renderButtons()}
           </div>
         </div>
-        <CreateBuildDialog isOpen={this.state.showingCreateBuildDialog} onRequestClose={this.handleSupportDialogClose} pipeline={this.props.pipeline} />
+        <CreateBuildDialog
+          isOpen={this.state.showingCreateBuildDialog}
+          onRequestClose={this.handleCreateBuildDialogClose}
+          pipeline={this.props.pipeline}
+        />
       </div>
+    );
+  }
+
+  repositoryUrl() {
+    if (this.props.pipeline.repository.provider.url) {
+      return this.props.pipeline.repository.provider.url;
+    } else {
+      return this.props.pipeline.repository.url;
+    }
+  }
+
+  renderProviderBadge() {
+    return (
+      <a
+        href={this.repositoryUrl()}
+        className="flex flex-none items-center px3 black hover-lime line-height-0 text-decoration-none"
+      >
+        <Icon icon={repositoryProviderIcon(this.props.pipeline.repository.provider.__typename)} />
+      </a>
     );
   }
 
@@ -83,25 +111,19 @@ class Header extends React.Component {
 
   renderDescription() {
     if (this.props.pipeline.description) {
-      return (
-        <Emojify text={this.props.pipeline.description} />
-      );
+      return <Emojify text={this.props.pipeline.description} />;
     } else {
-      if (this.props.pipeline.repository.provider.url) {
-        return this.props.pipeline.repository.provider.url;
-      } else {
-        return this.props.pipeline.repository.url;
-      }
+      return this.repositoryUrl();
     }
   }
 
   handleBuildCreateClick = () => {
     this.setState({ showingCreateBuildDialog: true });
-  }
+  };
 
-  handleSupportDialogClose = () => {
+  handleCreateBuildDialogClose = () => {
     this.setState({ showingCreateBuildDialog: false });
-  }
+  };
 }
 
 export default Relay.createContainer(Header, {
@@ -117,6 +139,7 @@ export default Relay.createContainer(Header, {
         repository {
           url
           provider {
+            __typename
             url
           }
         }
