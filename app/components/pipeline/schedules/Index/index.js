@@ -6,7 +6,6 @@ import DocumentTitle from 'react-document-title';
 import Panel from '../../../shared/Panel';
 import Button from '../../../shared/Button';
 import permissions from '../../../../lib/permissions';
-import Emojify from '../../../shared/Emojify';
 
 import Row from './row';
 
@@ -42,7 +41,7 @@ class Index extends React.Component {
           <Panel.Header>Schedules</Panel.Header>
 
           <Panel.IntroWithButton>
-            <span>Schedules are a way for you to automatically create builds at a pre-defined time.</span>
+            <span>Schedules allow you to automatically create builds at regular times.</span>
             {this.renderNewScheduleButton()}
           </Panel.IntroWithButton>
           {this.renderScheduleRows()}
@@ -55,7 +54,7 @@ class Index extends React.Component {
     return permissions(this.props.pipeline.permissions).check(
       {
         allowed: "pipelineScheduleCreate",
-        render: () => <Button link={`/${this.props.params.organization}/${this.props.params.pipeline}/settings/schedules/new`} theme={"default"} outline={true}>Create a Schedule</Button>
+        render: () => <Button link={`/${this.props.params.organization}/${this.props.params.pipeline}/settings/schedules/new`} theme={"default"} outline={true}>Create Schedule</Button>
       }
     );
   }
@@ -68,11 +67,7 @@ class Index extends React.Component {
         );
       });
     } else {
-      return (
-        <Panel.Row>
-          <div className="dark-gray py2 center"><Emojify text="This pipeline doesn't have any schedules yet :eyes:" /></div>
-        </Panel.Row>
-      );
+      return null;
     }
   }
 }
