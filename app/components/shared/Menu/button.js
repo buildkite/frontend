@@ -18,7 +18,7 @@ class Button extends React.Component {
 
   render() {
     return (
-      <BaseButton className={classNames(`block hover-lime focus-lime truncate`, { "lime": this._isActive() })}
+      <BaseButton className={classNames(`block hover-lime focus-lime`, { "lime": this._isActive() })}
         theme={false}
         href={this.props.href}
         link={this.props.link}
