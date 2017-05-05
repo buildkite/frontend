@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
@@ -10,12 +11,12 @@ import Spinner from '../shared/Spinner';
 
 class SSOIndex extends React.PureComponent {
   static propTypes = {
-    organization: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      slug: React.PropTypes.string.isRequired,
-      sso: React.PropTypes.object
+    organization: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+      sso: PropTypes.object
     }).isRequired,
-    relay: React.PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired
   };
 
   componentDidMount() {
@@ -72,7 +73,7 @@ class SSOIndex extends React.PureComponent {
 
     const address = 'support@buildkite.com';
     const subject = (
-      `Please enable SSO for ${organization.name}! (a.k.a. “${organization.slug}”)`
+      `Please enable SSO for ${organization.name} (“${organization.slug}”)`
     );
 
     return `mailto:${address}?subject=${encodeURIComponent(subject)}`;
@@ -92,10 +93,10 @@ class SSOIndex extends React.PureComponent {
     if (this.props.organization.sso.isEnabled) {
       return (
         <Panel>
-          <Panel.Section>
-            <p>Single Sign On is enabled using {this.props.organization.sso.provider.name}</p>
-            <p>Anyone with a {this.props.organization.sso.provider.emailDomain} email address can login to Buildkite by entering their email address on the login page.</p>
-            <p>Your organization-specific login URL is: {this.renderLoginLink()}</p>
+          <Panel.Section className="max-width-3">
+            <p className="h4 bold">Single Sign On is enabled for this organization.</p>
+            <p>To login, users can enter their their email address on the Buildkite login page and they will redirected to {this.props.organization.sso.provider.name} for authentication and sign-in.</p>
+            <p>If you have multiple organizations configured with SSO, users can login using this organization-specific login URL:<br/>{this.renderLoginLink()}</p>
           </Panel.Section>
         </Panel>
       );
@@ -103,29 +104,33 @@ class SSOIndex extends React.PureComponent {
       return (
         <div>
           <Panel>
-            <Panel.Section>
-              <p>Single Sign On allows you require users to login to Buildkite using your own third-party authentication server. Once enabled, you’ll no longer have to invite users, as they’ll be automatically added to your organization when they go to login.</p>
+            <Panel.Section className="max-width-3">
+              <p>Single Sign On (SSO) allows you to use your own authentication server for signing into Buildkite.</p>
+              <p>During the sign in process, new users will be automatically added to your organization.</p>
               <p>Supported SSO systems:</p>
               <ul>
-                <li>Bitium</li>
-                <li>Okta</li>
-                <li>Google Apps</li>
+                <li>Bitium (<a className="semi-bold lime text-decoration-none hover-lime hover-underline" href="https://support.bitium.com/administration/saml-buildkite/">Instructions</a>)</li>
+                <li>Okta (<a className="semi-bold lime text-decoration-none hover-lime hover-underline" href="http://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Buildkite.html">Instructions</a>)</li>
+                <li>Google Apps (G Suite)</li>
                 <li>SAML</li>
                 <li>ADFS (SAML)</li>
               </ul>
+              <p>To enable SSO for this organization, contact support with your authentication server details.</p>
               <Button href={this.renderEmailURI()}>
-                Contact Support to Enable SSO
+                Contact Support
               </Button>
             </Panel.Section>
           </Panel>
           <Panel className="mt4">
-            <Panel.Section>
-              <h2 className="h3" style={{ color: '#8E8E8E', fontWeight: 300 }}>Frequently Asked SSO Questions</h2>
-              <h3 className="h4" style={{ fontWeight: 'normal' }}>How does user billing work with SSO?</h3>
+            <Panel.Header>
+              Frequently Asked SSO Questions
+            </Panel.Header>
+            <Panel.Section className="max-width-2">
+              <h3 className="mt3 h4 bold">How does user billing work with SSO?</h3>
               <p>When a user signs in with SSO, the additional user is added to your account and will be charged immediately, just as if you had invited them to the account.</p>
-              <h3 className="h4" style={{ fontWeight: 'normal' }}>Can I use multiple email domains?</h3>
+              <h3 className="mt3 h4 bold">Can I use multiple email domains?</h3>
               <p>We currently only support a single email domain (e.g. example.com) for an organization.</p>
-              <h3 className="h4" style={{ fontWeight: 'normal' }}>Can I set up SSO for additional organizations?</h3>
+              <h3 className="mt3 h4 bold">Can I set up SSO for additional organizations?</h3>
               <p>We support setting up SSO for additional organizations, but one of the organizations will be the default. To login to the secondary organizations, you can add ?asd to your organization’s login URL.</p>
             </Panel.Section>
           </Panel>
