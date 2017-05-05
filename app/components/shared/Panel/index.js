@@ -6,6 +6,7 @@ import IntroWithButton from './intro-with-button';
 import Row from './row';
 import RowActions from './row-actions';
 import RowLink from './row-link';
+import Header from './header';
 
 class Panel extends React.Component {
   static propTypes = {
@@ -39,9 +40,9 @@ Panel.IntroWithButton = IntroWithButton;
 Panel.Row = Row;
 Panel.RowActions = RowActions;
 Panel.RowLink = RowLink;
+Panel.Header = Header;
 
 const SIMPLE_COMPONENTS = {
-  Header: 'bg-silver py2 px3 semi-bold',
   Footer: 'py2 px3',
   Section: 'm3'
 };
