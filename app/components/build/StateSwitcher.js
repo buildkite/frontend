@@ -40,7 +40,7 @@ class StateSwitcher extends React.PureComponent {
     const buildsTitle = this.props.buildsCount === 1 ? "Build" : "Builds";
 
     return (
-      <div className="flex" style={{ flex: '1 1 auto' }}>
+      <div className={classNames('flex', this.props.className)}>
         <div className="rounded-left border-left border-top border-bottom border-gray flex-auto flex items-center">
           {this.renderLink(buildsTitle, null, this.props.buildsCount)}
         </div>

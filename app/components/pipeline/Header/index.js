@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay';
+import styled from 'styled-components';
 
 import Button from '../../shared/Button';
 import Dropdown from '../../shared/Dropdown';
@@ -12,6 +13,31 @@ import Builds from './builds';
 
 import permissions from '../../../lib/permissions';
 import { repositoryProviderIcon } from '../../../lib/repositories';
+
+const HeaderVitals = styled.div`
+  flex-basis: 100%;
+
+  @media (min-width: 768px) {
+    flex-basis: 320px;
+  }
+`;
+
+HeaderVitals.defaultProps = {
+  className: 'flex flex-auto items-center my2'
+};
+
+const HeaderBuilds = styled(Builds)`
+  flex: 1 1 auto;
+
+  @media (min-width: 768px) and (max-width: 991px) {
+    order: 3;
+  }
+
+  @media (min-width: 992px) {
+    margin-left: 10px;
+    flex: 0 1 auto;
+  }
+`;
 
 class Header extends React.Component {
   static propTypes = {
@@ -27,7 +53,7 @@ class Header extends React.Component {
     return (
       <div>
         <div className="flex mb1 items-center flex-wrap" style={{ marginTop: -10 }}>
-          <div className="flex flex-auto items-center my2" style={{ flexBasis: 320 }}>
+          <HeaderVitals>
             <a
               href={this.props.pipeline.url}
               className="inline-block flex-auto line-height-1 color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent truncate"
@@ -43,7 +69,7 @@ class Header extends React.Component {
               </span>
             </a>
             {this.renderProviderBadge()}
-            <Dropdown width={250} className="visible-xs" onToggle={this.handleSettingsDropdownToggle}>
+            <Dropdown width={250} className="visible-xs ml2" onToggle={this.handleSettingsDropdownToggle}>
               <Button
                 outline={true}
                 theme="default"
@@ -52,8 +78,8 @@ class Header extends React.Component {
               </Button>
               TBD
             </Dropdown>
-          </div>
-          <Builds
+          </HeaderVitals>
+          <HeaderBuilds
             pipeline={this.props.pipeline}
             buildState={this.props.buildState}
           />
@@ -82,7 +108,7 @@ class Header extends React.Component {
     return (
       <a
         href={this.repositoryUrl()}
-        className="flex flex-none items-center px3 black hover-lime line-height-0 text-decoration-none"
+        className="flex flex-none items-center pl3 black hover-lime line-height-0 text-decoration-none"
       >
         <Icon icon={repositoryProviderIcon(this.props.pipeline.repository.provider.__typename)} />
       </a>
