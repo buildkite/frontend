@@ -8,8 +8,6 @@ import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
 
-import TeamMemberCreateMutation from '../../../mutations/TeamMemberCreate';
-
 import User from './user';
 
 const PAGE_SIZE = 10;
@@ -19,6 +17,7 @@ class Chooser extends React.Component {
 
   static propTypes = {
     team: PropTypes.shape({
+      id: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired,
       organization: PropTypes.shape({
         members: PropTypes.shape({
@@ -29,7 +28,8 @@ class Chooser extends React.Component {
         teamMemberCreate: PropTypes.object.isRequired
       }).isRequired
     }).isRequired,
-    relay: PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired,
+    onChoose: PropTypes.func.isRequired
   };
 
   state = {
@@ -118,10 +118,33 @@ class Chooser extends React.Component {
     this._autoCompletor.clear();
     this.props.relay.setVariables({ memberAddSearch: '' });
 
-    Relay.Store.commitUpdate(new TeamMemberCreateMutation({
-      team: this.props.team,
-      user: user
-    }), { onFailure: (transaction) => FlashesStore.flash(FlashesStore.ERROR, transaction.getError()) });
+    const query = Relay.QL`mutation TeamMemberCreateMutation {
+      teamMemberCreate(input: $input) {
+        clientMutationId
+      }
+    }`;
+
+    const variables = {
+      input: {
+        teamID: this.props.team.id,
+        userID: user.id
+      }
+    };
+
+    const mutation = new Relay.GraphQLMutation(query, variables, null, Relay.Store, {
+      onFailure: this.handleMutationFailure,
+      onSuccess: this.handleMutationSuccess
+    });
+
+    mutation.commit();
+  };
+
+  handleMutationSuccess = () => {
+    this.props.onChoose();
+  };
+
+  handleMutationFailure = (transaction) => {
+    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
   };
 }
 
@@ -136,8 +159,8 @@ export default Relay.createContainer(Chooser, {
   fragments: {
     team: () => Relay.QL`
       fragment on Team {
+        id
         slug
-        ${TeamMemberCreateMutation.getFragment('team')}
 
         organization {
           members(search: $memberAddSearch, first: 10, order: RELEVANCE, team: $teamSelector) @include (if: $isMounted) {
@@ -150,7 +173,6 @@ export default Relay.createContainer(Chooser, {
                   avatar {
                     url
                   }
-                  ${TeamMemberCreateMutation.getFragment('user')}
                 }
               }
             }
