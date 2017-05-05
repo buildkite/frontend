@@ -6,6 +6,7 @@ import Menu from '../shared/Menu';
 import Icon from '../shared/Icon';
 
 import permissions from '../../lib/permissions';
+import { repositoryProviderIcon } from '../../lib/repositories';
 
 class SettingsMenu extends React.Component {
   static propTypes = {
@@ -65,7 +66,7 @@ class SettingsMenu extends React.Component {
         allowed: "pipelineUpdate",
         render: (idx) => (
           <Menu.Button key={idx} href={`${url}/repository`}>
-            <Icon icon={this.repositoryProviderIcon()} className="icon-mr"/>{this.providerLabel()}
+            <Icon icon={repositoryProviderIcon(this.provider.__typename)} className="icon-mr"/>{this.providerLabel()}
           </Menu.Button>
         )
       },
@@ -101,19 +102,6 @@ class SettingsMenu extends React.Component {
       return "Repository";
     } else {
       return this.provider.name;
-    }
-  }
-
-  repositoryProviderIcon() {
-    if (this.provider.__typename === "RepositoryProviderBitbucket") {
-      return "bitbucket";
-    } else if (this.provider.__typename === "RepositoryProviderGithub") {
-      return "github";
-    } else if (this.provider.__typename === "RepositoryProviderGitlab") {
-      return "gitlab";
-      // TODO: Add all the others
-    } else {
-      return "git";
     }
   }
 
