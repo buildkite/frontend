@@ -68,11 +68,7 @@ class Index extends React.Component {
         );
       });
     } else {
-      return (
-        <Panel.Row>
-          <div className="dark-gray py2 center"><Emojify text="This pipeline doesn't have any schedules yet :eyes:" /></div>
-        </Panel.Row>
-      );
+      return null;
     }
   }
 }
