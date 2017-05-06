@@ -12,7 +12,7 @@ import CreateBuildDialog from '../CreateBuildDialog';
 import Builds from './builds';
 
 import permissions from '../../../lib/permissions';
-import { repositoryProviderIcon } from '../../../lib/repositories';
+import { repositoryGitToWebUri, repositoryProviderIcon } from '../../../lib/repositories';
 
 const HeaderVitals = styled.div`
   flex-basis: 100%;
@@ -114,13 +114,33 @@ class Header extends React.Component {
   }
 
   renderProviderBadge() {
+    const uri = this.repositoryUrl();
+
+    const icon = (
+      <Icon
+        title={uri}
+        icon={repositoryProviderIcon(this.props.pipeline.repository.provider.__typename)}
+      />
+    );
+
+    const webUri = repositoryGitToWebUri(uri);
+
+    // if we have a web URI, return a clickable link!
+    if (webUri) {
+      return (
+        <a
+          href={webUri}
+          className="flex flex-none items-center pl3 black hover-lime line-height-0 text-decoration-none"
+        >
+          {icon}
+        </a>
+      );
+    }
+
     return (
-      <a
-        href={this.repositoryUrl()}
-        className="flex flex-none items-center pl3 black hover-lime line-height-0 text-decoration-none"
-      >
-        <Icon icon={repositoryProviderIcon(this.props.pipeline.repository.provider.__typename)} />
-      </a>
+      <span className="flex flex-none items-center pl3 black">
+        {icon}
+      </span>
     );
   }
 
