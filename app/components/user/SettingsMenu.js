@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Menu from '../shared/Menu';
-import Icon from '../shared/Icon';
 
 class SettingsMenu extends React.Component {
   static propTypes = {
@@ -19,7 +18,11 @@ class SettingsMenu extends React.Component {
     this.props.viewer.organizations.edges.forEach((organization) => {
       if (organization.node.permissions.organizationUpdate.allowed) {
         organizations.push(
-          <Menu.Button key={organization.node.slug} href={`/organizations/${organization.node.slug}/settings`}>{organization.node.name}</Menu.Button>
+          <Menu.Button
+            key={organization.node.slug}
+            href={`/organizations/${organization.node.slug}/settings`}
+            label={organization.node.name}
+          />
         );
       }
     });
@@ -39,21 +42,29 @@ class SettingsMenu extends React.Component {
         <Menu>
           <Menu.Header>Personal Settings</Menu.Header>
 
-          <Menu.Button href={`/user/settings`}>
-            <Icon icon="settings" className="icon-mr"/>Profile &amp; Password
-          </Menu.Button>
+          <Menu.Button
+            icon="settings"
+            href="/user/settings"
+            label="Profile & Password"
+          />
 
-          <Menu.Button href={`/user/emails`}>
-            <Icon icon="emails" className="icon-mr"/>Email Settings
-          </Menu.Button>
+          <Menu.Button
+            icon="emails"
+            href="/user/emails"
+            label="Email Settings"
+          />
 
-          <Menu.Button href={`/user/connected-apps`}>
-            <Icon icon="connected-apps" className="icon-mr"/>Connected Apps
-          </Menu.Button>
+          <Menu.Button
+            icon="connected-apps"
+            href="/user/connected-apps"
+            label="Connected Apps"
+          />
 
-          <Menu.Button href={`/user/api-access-tokens`}>
-            <Icon icon="api-tokens" className="icon-mr"/>API Access Tokens
-          </Menu.Button>
+          <Menu.Button
+            icon="api-tokens"
+            href="/user/api-access-tokens"
+            label="API Access Tokens"
+          />
         </Menu>
 
         {organizationsMenu}
