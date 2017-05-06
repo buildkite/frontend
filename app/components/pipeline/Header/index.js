@@ -151,14 +151,14 @@ class Header extends React.Component {
     return permissions(this.props.pipeline.permissions).collect(
       {
         allowed: "buildCreate",
-        render: (idx) => ({
+        render: () => ({
           onClick: this.handleBuildCreateClick,
           children: 'New Build'
         })
       },
       {
         allowed: "pipelineUpdate",
-        render: (idx) => ({
+        render: () => ({
           href: `${this.props.pipeline.url}/settings`,
           children: 'Pipeline Settings'
         })

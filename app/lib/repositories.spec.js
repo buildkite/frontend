@@ -26,7 +26,7 @@ describe('repositoryGitToWebUri', () => {
         const webUri = repositoryGitToWebUri(uri);
         expect(webUri).toMatchSnapshot();
         expect(webUri.indexOf('http')).toBe(0);
-      })
+      });
     });
   });
 
@@ -35,8 +35,8 @@ describe('repositoryGitToWebUri', () => {
       it(JSON.stringify(uri), () => {
         expect(repositoryGitToWebUri(uri)).toBeUndefined();
       });
-    })
-  })
+    });
+  });
 });
 
 const PROVIDERS = [

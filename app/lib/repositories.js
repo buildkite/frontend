@@ -15,7 +15,7 @@ export function repositoryGitToWebUri(gitUri) {
     /^([^:]+:\/\/)?(?:git@)?([^:]+:[0-9]+|[^:\/]+)[:/](.+)$/i,
     (match, protocol, host, path) => {
       if (!protocol || protocol.indexOf('https') !== 0) {
-        protocol = 'https://'
+        protocol = 'https://';
       }
 
       return `${protocol}${host}/${path.replace(/\.git$/i, '')}`;

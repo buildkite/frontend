@@ -7,6 +7,7 @@ import { formatNumber } from '../../lib/number';
 class StateSwitcher extends React.PureComponent {
   static propTypes = {
     buildsCount: PropTypes.number,
+    className: PropTypes.string,
     runningBuildsCount: PropTypes.number,
     scheduledBuildsCount: PropTypes.number,
     state: PropTypes.string,
