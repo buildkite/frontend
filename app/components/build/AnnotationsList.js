@@ -1,9 +1,12 @@
 import React from 'react';
 import Relay from 'react-relay';
+import MarkdownIt from 'markdown-it';
 
 import Emojify from '../shared/Emojify';
 
 import PusherStore from '../../stores/PusherStore';
+
+const MARKDOWN_IT = new MarkdownIt();
 
 class AnnnotationsList extends React.Component {
   componentDidMount() {
@@ -19,11 +22,9 @@ class AnnnotationsList extends React.Component {
       return this.renderAnnotation(edge.node);
     });
 
-    if(annotations.length) {
-      return (
-        <div>{annotations}</div>
-      )
-    }
+    return (
+      <div>{annotations}</div>
+    )
   }
 
   renderAnnotation(annotation) {
@@ -71,7 +72,7 @@ class AnnnotationsList extends React.Component {
       <div key={annotation.id} className={`rounded flex items-stretch border-${borderColor} border mb4`}>
         {annotationIconNode}
         <div className="p3 flex-auto">
-          <div><Emojify text={annotation.body} /></div>
+          <div dangerouslySetInnerHTML={{ __html: MARKDOWN_IT.render(annotation.body) }} />
         </div>
       </div>
     );
