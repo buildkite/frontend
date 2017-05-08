@@ -6,8 +6,6 @@ import Emojify from '../shared/Emojify';
 
 import PusherStore from '../../stores/PusherStore';
 
-const MARKDOWN_IT = new MarkdownIt();
-
 class AnnnotationsList extends React.Component {
   componentDidMount() {
     PusherStore.on("build:annotations_change", this.handlePusherWebsocketEvent);
@@ -54,25 +52,21 @@ class AnnnotationsList extends React.Component {
       iconColor = "white";
       icon = "warning";
     } else {
+      backgroundColor = "gray";
       borderColor = "gray";
+      iconColor = "dark-gray";
+      icon = "sticky-note-o";
     }
 
-    let annotationIconNode;
-    if(annotation.style) {
-      annotationIconNode = (
+    return (
+      <div key={annotation.id} className={`rounded flex items-stretch border-${borderColor} border mb4`}>
         <div className={`bg-${backgroundColor} flex-none flex items-center`} style={{width: 30}}>
           <div className="center flex-auto">
             <i className={`fa fa-${icon} ${iconColor}`}></i>
           </div>
         </div>
-      )
-    }
-
-    return (
-      <div key={annotation.id} className={`rounded flex items-stretch border-${borderColor} border mb4`}>
-        {annotationIconNode}
         <div className="p3 flex-auto">
-          <div dangerouslySetInnerHTML={{ __html: MARKDOWN_IT.render(annotation.body) }} />
+          <div dangerouslySetInnerHTML={{ __html: annotation.body.html }} />
         </div>
       </div>
     );
@@ -95,7 +89,9 @@ export default Relay.createContainer(AnnnotationsList, {
             node {
               id
               style
-              body
+              body {
+                html
+              }
             }
           }
         }

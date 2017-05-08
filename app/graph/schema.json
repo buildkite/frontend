@@ -10451,13 +10451,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AnnotationBody",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10552,6 +10548,55 @@
               "name": "Node",
               "ofType": null
             }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AnnotationBody",
+          "description": "A body of an annotation",
+          "fields": [
+            {
+              "name": "html",
+              "description": "The body of the annotation rendered as HTML",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "text",
+              "description": "The body of the annotation as text",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
           ],
           "enumValues": null,
           "possibleTypes": null
