@@ -22,7 +22,7 @@ class FormYAMLEdtiorField extends React.Component {
       tabSize: 2,
       mode: 'yaml',
       keyMap: 'sublime',
-      // theme: 'neo',
+      theme: 'bk-dark',
       autoCloseBrackets: true,
       matchBrackets: true,
       showCursorWhenSelecting: true,
