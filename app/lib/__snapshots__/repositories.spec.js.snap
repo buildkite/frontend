@@ -1,21 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`repositoryGitToWebUri returns expected web URI for "git+ssh://git@github.com/ticky/mojibaka.git" 1`] = `"https://github.com/ticky/mojibaka"`;
-
-exports[`repositoryGitToWebUri returns expected web URI for "git://git@github.com:80/ticky/mojibaka.git" 1`] = `"https://github.com:80/ticky/mojibaka"`;
-
-exports[`repositoryGitToWebUri returns expected web URI for "git@codebasehq.com:2fast/2furious/movie.git" 1`] = `"https://codebasehq.com/2fast/2furious/movie"`;
-
-exports[`repositoryGitToWebUri returns expected web URI for "git@github.com:buildkite/bash-example.git" 1`] = `"https://github.com/buildkite/bash-example"`;
-
-exports[`repositoryGitToWebUri returns expected web URI for "git@repo.buildkite.example.com:this-might-be/gitlab-or-something-right.git" 1`] = `"https://repo.buildkite.example.com/this-might-be/gitlab-or-something-right"`;
-
-exports[`repositoryGitToWebUri returns expected web URI for "gitisweird.net.au:this/is/valid/somehow.git" 1`] = `"https://gitisweird.net.au/this/is/valid/somehow"`;
-
-exports[`repositoryGitToWebUri returns expected web URI for "http://home.someguy.io:8000/myrepo/private-server.git" 1`] = `"https://home.someguy.io:8000/myrepo/private-server"`;
-
-exports[`repositoryGitToWebUri returns expected web URI for "https://github.com/ticky/jessicastokes.net.git" 1`] = `"https://github.com/ticky/jessicastokes.net"`;
-
 exports[`repositoryProviderIcon returns expected icon names for RepositoryProviderBitbucket 1`] = `"bitbucket"`;
 
 exports[`repositoryProviderIcon returns expected icon names for RepositoryProviderCodebase 1`] = `"git"`;

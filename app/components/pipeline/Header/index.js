@@ -12,7 +12,7 @@ import CreateBuildDialog from '../CreateBuildDialog';
 import Builds from './builds';
 
 import permissions from '../../../lib/permissions';
-import { repositoryGitToWebUri, repositoryProviderIcon } from '../../../lib/repositories';
+import { repositoryProviderIcon } from '../../../lib/repositories';
 
 const HeaderVitals = styled.div`
   flex-basis: 100%;
@@ -105,39 +105,24 @@ class Header extends React.Component {
     );
   }
 
-  repositoryUrl() {
-    if (this.props.pipeline.repository.provider.url) {
-      return this.props.pipeline.repository.provider.url;
-    } else {
-      return this.props.pipeline.repository.url;
-    }
-  }
-
   renderProviderBadge() {
-    const uri = this.repositoryUrl();
+    const uri = this.props.pipeline.repository.provider.url;
 
-    const icon = (
-      <Icon
-        title={uri}
-        icon={repositoryProviderIcon(this.props.pipeline.repository.provider.__typename)}
-      />
-    );
-
-    const webUri = repositoryGitToWebUri(uri);
-
-    // if we have a web URI, return a clickable link!
-    if (webUri) {
-      return (
-        <a
-          href={webUri}
-          className="flex flex-none items-center pl3 black hover-lime line-height-0 text-decoration-none"
-        >
-          {icon}
-        </a>
-      );
-    } else {
+    if (!uri) {
       return null;
     }
+
+    return (
+      <a
+        href={uri}
+        className="flex flex-none items-center pl3 black hover-lime line-height-0 text-decoration-none"
+      >
+        <Icon
+          title={uri}
+          icon={repositoryProviderIcon(this.props.pipeline.repository.provider.__typename)}
+        />
+      </a>
+    );
   }
 
   getAvailableActions() {
@@ -189,7 +174,7 @@ class Header extends React.Component {
     if (this.props.pipeline.description) {
       return <Emojify text={this.props.pipeline.description} />;
     } else {
-      return this.repositoryUrl();
+      return this.props.pipeline.repository.url;
     }
   }
 
