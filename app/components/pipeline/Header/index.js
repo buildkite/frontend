@@ -135,13 +135,9 @@ class Header extends React.Component {
           {icon}
         </a>
       );
+    } else {
+      return null;
     }
-
-    return (
-      <span className="flex flex-none items-center pl3 black">
-        {icon}
-      </span>
-    );
   }
 
   getAvailableActions() {
