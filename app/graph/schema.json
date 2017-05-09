@@ -10442,7 +10442,7 @@
         {
           "kind": "OBJECT",
           "name": "Annotation",
-          "description": "A annotation on a build",
+          "description": "An annotation allows you to add arbitary content to the top of a build page in the Buildkite UI",
           "fields": [
             {
               "name": "body",
@@ -10454,6 +10454,24 @@
                 "kind": "OBJECT",
                 "name": "AnnotationBody",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "context",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10472,20 +10490,6 @@
                   "name": "String",
                   "ofType": null
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdBy",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10523,6 +10527,20 @@
               "deprecationReason": null
             },
             {
+              "name": "updatedAt",
+              "description": "The last time the annotation was changed",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "uuid",
               "description": "The public UUID for this annotation",
               "args": [
@@ -10550,6 +10568,47 @@
             }
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "AnnotationStyle",
+          "description": "The visual style of the annoation",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "DEFAULT",
+              "description": "The default styling of an annotation",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SUCCESS",
+              "description": "The annotation has a green border with a tick next to it",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "INFO",
+              "description": "The annotation has a blue border with an information icon next to it",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "WARNING",
+              "description": "The annotation has an orange border with a warning icon next to it",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ERROR",
+              "description": " The annotation has a red border with a cross next to it",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -10599,41 +10658,6 @@
 
           ],
           "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "AnnotationStyle",
-          "description": "The visual style of the annoation",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "SUCCESS",
-              "description": "",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "INFO",
-              "description": "",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "WARNING",
-              "description": "",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "ERROR",
-              "description": "",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
           "possibleTypes": null
         },
         {
@@ -12124,33 +12148,6 @@
               "deprecationReason": null
             },
             {
-              "name": "annotationCreate",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "AnnotationCreateInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "AnnotationCreatePayload",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "apiAccessTokenCodeAuthorize",
               "description": "Authorize an API Access Token Code generated by an API Application. Please note this mutation is private and cannot be executed externally.",
               "args": [
@@ -12172,6 +12169,33 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "APIAccessTokenCodeAuthorizeMutationPayload",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "buildAnnotate",
+              "description": null,
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "BuildAnnotateInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "BuildAnnotatePayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -13386,8 +13410,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "AnnotationCreatePayload",
-          "description": "Autogenerated return type of AnnotationCreate",
+          "name": "BuildAnnotatePayload",
+          "description": "Autogenerated return type of BuildAnnotate",
           "fields": [
             {
               "name": "annotationEdge",
@@ -13441,8 +13465,8 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "AnnotationCreateInput",
-          "description": "Autogenerated input type of AnnotationCreate",
+          "name": "BuildAnnotateInput",
+          "description": "Autogenerated input type of BuildAnnotate",
           "fields": null,
           "inputFields": [
             {
@@ -13457,7 +13481,7 @@
             },
             {
               "name": "buildID",
-              "description": null,
+              "description": "The GraphQL ID of the build you want to annotate",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -13471,7 +13495,7 @@
             },
             {
               "name": "body",
-              "description": null,
+              "description": "The body of the annotation. Markdown and some limited HTML is supported",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -13485,13 +13509,23 @@
             },
             {
               "name": "style",
-              "description": null,
+              "description": "The style of the annotation. The default is `DEFAULT`",
               "type": {
                 "kind": "ENUM",
                 "name": "AnnotationStyle",
                 "ofType": null
               },
-              "defaultValue": null
+              "defaultValue": "DEFAULT"
+            },
+            {
+              "name": "context",
+              "description": "A string label to differentiate this annotation from other annotations. The default is `default`",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": "\"default\""
             }
           ],
           "interfaces": null,
