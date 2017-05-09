@@ -34,6 +34,7 @@ class Button extends React.Component {
       PropTypes.string,
       PropTypes.bool
     ]),
+    iconOnly: PropTypes.bool,
     theme: PropTypes.oneOf([
       'default',
       'primary',
@@ -66,7 +67,10 @@ class Button extends React.Component {
     // Merge the "btn" class onto the props, and toggle the disabled state
     // depending on whether or not this button is in it's "loading" state.
     const props = {
-      className: classNames("btn nowrap", this.props.className, themes[this.props.theme], { "is-disabled": !!this.props.loading }),
+      className: classNames("btn nowrap", this.props.className, themes[this.props.theme], {
+        "-icon-only": this.props.iconOnly,
+        "is-disabled": !!this.props.loading
+      }),
       disabled: !!this.props.loading,
       style: this.props.style,
       onClick: this.props.onClick,

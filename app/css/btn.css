@@ -16,6 +16,12 @@
   background-color: transparent;
 }
 
+.btn.-icon-only {
+  display: flex;
+  align-items: center;
+  padding: 1em;
+}
+
 .btn:hover, .btn:active, .btn:focus {
   text-decoration: none;
   outline: none;

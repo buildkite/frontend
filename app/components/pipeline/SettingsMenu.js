@@ -5,6 +5,7 @@ import Relay from 'react-relay';
 import Menu from '../shared/Menu';
 
 import permissions from '../../lib/permissions';
+import { repositoryProviderIcon } from '../../lib/repositories';
 
 class SettingsMenu extends React.Component {
   static propTypes = {
@@ -77,7 +78,7 @@ class SettingsMenu extends React.Component {
         render: (idx) => (
           <Menu.Button
             key={idx}
-            icon={this.repositoryProviderIcon()}
+            icon={repositoryProviderIcon(this.provider.__typename)}
             href={`${url}/repository`}
             label={this.providerLabel()}
           />
@@ -122,19 +123,6 @@ class SettingsMenu extends React.Component {
       return "Repository";
     } else {
       return this.provider.name;
-    }
-  }
-
-  repositoryProviderIcon() {
-    if (this.provider.__typename === "RepositoryProviderBitbucket") {
-      return "bitbucket";
-    } else if (this.provider.__typename === "RepositoryProviderGithub") {
-      return "github";
-    } else if (this.provider.__typename === "RepositoryProviderGitlab") {
-      return "gitlab";
-      // TODO: Add all the others
-    } else {
-      return "git";
     }
   }
 
