@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay';
@@ -81,9 +82,10 @@ class Header extends React.Component {
               <Button
                 outline={true}
                 theme="default"
-                className={this.state.showingActionsDropdown ? 'lime' : ''}
+                className={classNames({ lime: this.state.showingActionsDropdown })}
+                iconOnly={true}
               >
-                <Icon icon="down-triangle" style={{ width: 7, height: 7 }} />
+                <Icon icon="down-triangle" style={{ width: 7, height: 7 }} className="flex-none" />
               </Button>
               {this.renderDropdownItemsForActions(actions)}
             </Dropdown>
