@@ -4,12 +4,14 @@ import classNames from 'classnames';
 
 import Badge from '../Badge';
 import BaseButton from '../Button';
+import Icon from '../Icon';
 
 class Button extends React.Component {
   static displayName = "Menu.Button";
 
   static propTypes = {
-    children: PropTypes.node.isRequired,
+    label: PropTypes.string.isRequired,
+    icon: PropTypes.string,
     badge: PropTypes.number,
     href: PropTypes.string,
     active: PropTypes.bool,
@@ -24,8 +26,11 @@ class Button extends React.Component {
         link={this.props.link}
       >
         <div className="flex">
-          <div className="flex-auto truncate flex items-center">{this.props.children}</div>
-          <div className="flex-none">{this._renderBadge()}</div>
+          <div className="flex-auto flex items-center">
+            {this._renderIcon()}
+            <div className="truncate">{this.props.label}</div>
+          </div>
+          {this._renderBadge()}
         </div>
       </BaseButton>
     );
@@ -40,12 +45,22 @@ class Button extends React.Component {
     }
   }
 
+  _renderIcon() {
+    if (this.props.icon) {
+      return (
+        <Icon className="flex-none icon-mr" icon={this.props.icon}/>
+      );
+    }
+  }
+
   _renderBadge() {
     if (this.props.badge) {
       return (
-        <Badge className={classNames(`hover-lime-child`, { "bg-lime": this._isActive() })}>
-          {this.props.badge}
-        </Badge>
+        <div className="flex-none">
+          <Badge className={classNames(`hover-lime-child`, { "bg-lime": this._isActive() })}>
+            {this.props.badge}
+          </Badge>
+        </div>
       );
     }
   }

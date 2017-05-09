@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Menu from '../shared/Menu';
-import Icon from '../shared/Icon';
 
 import permissions from '../../lib/permissions';
 import { repositoryProviderIcon } from '../../lib/repositories';
@@ -28,9 +27,11 @@ class SettingsMenu extends React.Component {
         </Menu>
 
         <Menu>
-          <Menu.Button href={`${url}/email-preferences`}>
-            <Icon icon="emails" className="icon-mr"/>Personal Email Settings
-          </Menu.Button>
+          <Menu.Button
+            icon="emails"
+            href={`${url}/email-preferences`}
+            label="Personal Email Settings"
+          />
         </Menu>
       </div>
     );
@@ -41,57 +42,77 @@ class SettingsMenu extends React.Component {
       {
         allowed: "pipelineUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} href={`${url}`} active={this.isPipelineButtonActive(url)}>
-            <Icon icon="pipeline" className="icon-mr"/>Pipeline
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon="pipeline"
+            href={`${url}`}
+            active={this.isPipelineButtonActive(url)}
+            label="Pipeline"
+          />
         )
       },
       {
         allowed: "pipelineUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} href={`${url}/name-and-description`}>
-            <Icon icon="settings" className="icon-mr"/>Name &amp; Description
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon="settings"
+            href={`${url}/name-and-description`}
+            label="Name &amp; Description"
+          />
         )
       },
       {
         allowed: "pipelineUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} href={`${url}/build-skipping`}>
-            <Icon icon="build-skipping" className="icon-mr"/>Build Skipping
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon="build-skipping"
+            href={`${url}/build-skipping`}
+            label="Build Skipping"
+          />
         )
       },
       {
         allowed: "pipelineUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} href={`${url}/repository`}>
-            <Icon icon={repositoryProviderIcon(this.provider.__typename)} className="icon-mr"/>{this.providerLabel()}
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon={repositoryProviderIcon(this.provider.__typename)}
+            href={`${url}/repository`}
+            label={this.providerLabel()}
+          />
         )
       },
       {
         allowed: "pipelineUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} link={`${url}/teams`} badge={this.props.pipeline.teams.count}>
-            <Icon icon="teams" className="icon-mr"/>Teams
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon="teams" link={`${url}/teams`}
+            badge={this.props.pipeline.teams.count}
+            label="Teams"
+          />
         )
       },
       {
         allowed: "pipelineUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} link={`${url}/schedules`} badge={this.props.pipeline.schedules.count}>
-            <Icon icon="schedules" className="icon-mr"/>Schedules
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon="schedules" link={`${url}/schedules`} badge={this.props.pipeline.schedules.count}
+            label="Schedules"
+          />
         )
       },
       {
         allowed: "pipelineUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} href={`${url}/badges`}>
-            <Icon icon="badges" className="icon-mr"/>Build Badges
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon="badges" href={`${url}/badges`}
+            label="Build Badges"
+          />
         )
       }
     );

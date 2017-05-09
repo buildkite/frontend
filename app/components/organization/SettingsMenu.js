@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
 import Menu from '../shared/Menu';
-import Icon from '../shared/Icon';
 import permissions from '../../lib/permissions';
 
 class SettingsMenu extends React.Component {
@@ -54,7 +53,10 @@ class SettingsMenu extends React.Component {
         </Menu>
 
         <Menu>
-          <Menu.Button href={`/user/settings`}>Personal Settings</Menu.Button>
+          <Menu.Button
+            href={`/user/settings`}
+            label="Personal Settings"
+          />
         </Menu>
       </div>
     );
@@ -65,50 +67,69 @@ class SettingsMenu extends React.Component {
       {
         allowed: "organizationUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} href={`/organizations/${this.props.organization.slug}/settings`}>
-            <Icon icon="settings" className="icon-mr"/>Settings
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon="settings"
+            href={`/organizations/${this.props.organization.slug}/settings`}
+            label="Settings"
+          />
         )
       },
       {
         always: true,
         render: (idx) => (
-          <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/users`} badge={this.calculateUsersCount()}>
-            <Icon icon="users" className="icon-mr"/>Users
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon="users"
+            link={`/organizations/${this.props.organization.slug}/users`}
+            badge={this.calculateUsersCount()}
+            label="Users"
+          />
         )
       },
       {
         allowed: "teamAdmin",
         render: (idx) => (
-          <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/teams`} badge={this.props.organization.teams && this.props.organization.teams.count}>
-            <Icon icon="teams" className="icon-mr"/>Teams
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon="teams"
+            link={`/organizations/${this.props.organization.slug}/teams`}
+            badge={this.props.organization.teams && this.props.organization.teams.count}
+            label="Teams"
+          />
         )
       },
       {
         allowed: "notificationServiceUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} href={`/organizations/${this.props.organization.slug}/services`}>
-            <Icon icon="notification-services" className="icon-mr"/>Notification Services
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon="notification-services"
+            href={`/organizations/${this.props.organization.slug}/services`}
+            label="Notification Services"
+          />
         )
       },
       {
         allowed: "organizationUpdate",
-        and: Features.SSOSettings,
         render: (idx) => (
-          <Menu.Button key={idx} link={`/organizations/${this.props.organization.slug}/sso`}>
-            <Icon icon="sso" className="icon-mr"/>Single Sign On
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon="sso"
+            link={`/organizations/${this.props.organization.slug}/sso`}
+            label="Single Sign On"
+          />
         )
       },
       {
         allowed: "organizationBillingUpdate",
         render: (idx) => (
-          <Menu.Button key={idx} href={`/organizations/${this.props.organization.slug}/billing`}>
-            <Icon icon="billing" className="icon-mr"/>Billing
-          </Menu.Button>
+          <Menu.Button
+            key={idx}
+            icon="billing"
+            href={`/organizations/${this.props.organization.slug}/billing`}
+            label="Billing"
+          />
         )
       }
     );
