@@ -17,7 +17,7 @@ import OrganizationMemberDeleteMutation from '../../mutations/OrganizationMember
 
 import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
 
-import TeamRow from '../team/Row';
+import TeamMemberRow from './edit/TeamMemberRow';
 
 const AVATAR_SIZE = 50;
 const INITIAL_PAGE_SIZE = 5;
@@ -180,7 +180,7 @@ class MemberEdit extends React.PureComponent {
   }
 
   renderTeamsPanel(isSelf) {
-    if (this.props.organizationMember.teams) {
+    if (this.props.organizationMember.teams.edges.length > 0) {
       return (
         <Panel className="mb4">
           <Panel.Header>Teams</Panel.Header>
@@ -194,21 +194,13 @@ class MemberEdit extends React.PureComponent {
   renderTeams() {
     const teams = this.props.organizationMember.teams
 
-    if (!teams) {
-      return (
-        <Panel.Section className="center">
-          <Spinner />
-        </Panel.Section>
-      );
-    } else if (teams.edges.length > 0) {
-      return (
-        teams.edges.map((edge) => {
-          return (
-            <TeamRow key={edge.node.id} team={edge.node.team} />
-          );
-        })
-      );
-    }
+    return (
+      teams.edges.map((edge) => {
+        return (
+          <TeamMemberRow key={edge.node.id} teamMember={edge.node} />
+        );
+      })
+    );
   }
 
   renderTeamsFooter() {
@@ -365,9 +357,7 @@ export default Relay.createContainer(MemberEdit, {
           edges {
             node {
               id
-              team {
-                ${TeamRow.getFragment('team')}
-              }
+              ${TeamMemberRow.getFragment('teamMember')}
             }
           }
         }
