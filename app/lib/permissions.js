@@ -63,7 +63,7 @@ class PermissionManager {
     //
     //      {
     //        allowed: "organizationUpdate",
-    //        and: Features.SSOSettings,
+    //        and: Features.MyFeatureFlag,
     //        render: (idx) => (
     //          ...
     //        )

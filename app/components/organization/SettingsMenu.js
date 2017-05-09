@@ -112,7 +112,6 @@ class SettingsMenu extends React.Component {
       },
       {
         allowed: "organizationUpdate",
-        and: Features.SSOSettings,
         render: (idx) => (
           <Menu.Button
             key={idx}
