@@ -146,6 +146,10 @@ module.exports = {
 
   devtool: devTool,
 
+  devServer: {
+    headers: { "Access-Control-Allow-Origin": "http://buildkite.dev" }
+  },
+
   entry: {
     vendor: vendor_modules,
     emojis: [path.join(__dirname, '../app/emojis/buildkite.js'), path.join(__dirname, '../app/emojis/apple.js')],
