@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`repositoryProviderIcon returns expected icon names for RepositoryProviderBitbucket 1`] = `"bitbucket"`;
+
+exports[`repositoryProviderIcon returns expected icon names for RepositoryProviderCodebase 1`] = `"git"`;
+
+exports[`repositoryProviderIcon returns expected icon names for RepositoryProviderGithub 1`] = `"github"`;
+
+exports[`repositoryProviderIcon returns expected icon names for RepositoryProviderGithubEnterprise 1`] = `"github"`;
+
+exports[`repositoryProviderIcon returns expected icon names for RepositoryProviderGitlab 1`] = `"gitlab"`;
+
+exports[`repositoryProviderIcon returns expected icon names for RepositoryProviderGitlabCommunity 1`] = `"gitlab"`;
+
+exports[`repositoryProviderIcon returns expected icon names for RepositoryProviderUnknown 1`] = `"git"`;

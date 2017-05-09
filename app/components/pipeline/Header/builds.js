@@ -10,6 +10,7 @@ class Builds extends React.Component {
   static propTypes = {
     pipeline: PropTypes.object.isRequired,
     relay: PropTypes.object.isRequired,
+    className: PropTypes.string,
     buildState: PropTypes.string
   };
 
@@ -24,6 +25,7 @@ class Builds extends React.Component {
   render() {
     return (
       <BuildStateSwitcher
+        className={this.props.className}
         buildsCount={this.props.pipeline.builds.count}
         runningBuildsCount={this.props.pipeline.runningBuilds.count}
         scheduledBuildsCount={this.props.pipeline.scheduledBuilds.count}
