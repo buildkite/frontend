@@ -86,6 +86,7 @@ class SettingsMenu extends React.Component {
       },
       {
         allowed: "pipelineUpdate",
+        and: Features.Teams,
         render: (idx) => (
           <Menu.Button
             key={idx}
