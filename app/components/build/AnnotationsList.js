@@ -65,8 +65,8 @@ class AnnnotationsList extends React.Component {
             <i className={`fa fa-${icon} ${iconColor}`}></i>
           </div>
         </div>
-        <div className="p3 flex-auto">
-          <div dangerouslySetInnerHTML={{ __html: annotation.body.html }} />
+        <div className="flex-auto">
+          <div className="m3 annotation-body" dangerouslySetInnerHTML={{ __html: annotation.body.html }} />
         </div>
       </div>
     );

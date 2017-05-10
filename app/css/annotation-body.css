@@ -1,0 +1,15 @@
+/* This isn't strictly BassCSS here, but it's the only easy way to render the
+ * different elements within an annotation body */
+
+.annotation-body pre {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.annotation-body details summary {
+  outline: none !important;
+}
+
+.annotation-body details[open] summary {
+  margin-bottom: 10px;
+}
