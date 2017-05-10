@@ -10,7 +10,7 @@ export default class Header extends PureComponent {
 
   render() {
     return (
-      <h2 className={classNames('h4 m0 bg-silver py2 px3 semi-bold', this.props.className)}>
+      <h2 className={classNames('h4 m0 bg-silver py2 px3 semi-bold line-height-4', this.props.className)}>
         {this.props.children}
       </h2>
     );

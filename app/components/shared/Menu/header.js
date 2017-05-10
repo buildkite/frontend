@@ -10,7 +10,7 @@ class Header extends React.Component {
 
   render() {
     return (
-      <div className="border border-gray bg-silver py2 px3 semi-bold rounded-top">
+      <div className="border border-gray bg-silver py2 px3 semi-bold rounded-top line-height-4">
         {this.props.children}
       </div>
     );
