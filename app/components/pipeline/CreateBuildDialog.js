@@ -71,8 +71,8 @@ class CreateBuildDialog extends React.PureComponent {
             <FormTextField
               name="build[branch]"
               label="Branch"
-              placeholder="master"
-              value="master"
+              placeholder={this.props.pipeline.defaultBranch}
+              value={this.props.pipeline.defaultBranch}
               required={true}
             />
 
