@@ -53,6 +53,14 @@ class Header extends React.Component {
     showingCreateBuildDialog: false
   };
 
+  componentWillMount() {
+    if (new Buildkite.Url(window.location).getAnchorPath() === 'new') {
+      this.setState({
+        showingCreateBuildDialog: true
+      });
+    }
+  }
+
   render() {
     const actions = this.getAvailableActions();
 
