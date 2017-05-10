@@ -74,7 +74,7 @@ class Header extends React.Component {
             </a>
             {this.renderProviderBadge()}
             <Dropdown
-              className="visible-xs ml2"
+              className="md-hide lg-hide ml2"
               width={200}
               ref={(_actionsDropdown) => this._actionsDropdown = _actionsDropdown}
               onToggle={this.handleActionsDropdownToggle}
@@ -94,7 +94,7 @@ class Header extends React.Component {
             pipeline={this.props.pipeline}
             buildState={this.props.buildState}
           />
-          <div className="flex hidden-xs">
+          <div className="flex xs-hide sm-hide">
             {this.renderButtonsForActions(actions)}
           </div>
         </div>
