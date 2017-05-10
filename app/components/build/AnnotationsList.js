@@ -1,12 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Relay from 'react-relay';
-import MarkdownIt from 'markdown-it';
-
-import Emojify from '../shared/Emojify';
 
 import PusherStore from '../../stores/PusherStore';
 
 class AnnnotationsList extends React.Component {
+  static propTypes = {
+    build: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      annotations: PropTypes.shape({
+        edges: PropTypes.arrayOf(
+          PropTypes.shape({
+            node: PropTypes.shape({
+              id: PropTypes.string.isRequired,
+              style: PropTypes.string.isRequired,
+              body: PropTypes.shape({
+                html: PropTypes.string
+              }).isRequired
+            }).isRequired
+          }).isRequired
+        ).isRequired
+      }).isRequired
+    }).isRequired,
+    relay: PropTypes.object
+  };
+
   componentDidMount() {
     PusherStore.on("build:annotations_change", this.handlePusherWebsocketEvent);
   }
@@ -16,13 +34,13 @@ class AnnnotationsList extends React.Component {
   }
 
   render() {
-    let annotations = this.props.build.annotations.edges.map((edge) => {
+    const annotations = this.props.build.annotations.edges.map((edge) => {
       return this.renderAnnotation(edge.node);
     });
 
     return (
       <div>{annotations}</div>
-    )
+    );
   }
 
   renderAnnotation(annotation) {
@@ -31,22 +49,22 @@ class AnnnotationsList extends React.Component {
     let icon;
     let iconColor;
 
-    if(annotation.style == "SUCCESS") {
+    if (annotation.style === "SUCCESS") {
       backgroundColor = "green";
       borderColor = "green";
       iconColor = "white";
       icon = "check";
-    } else if(annotation.style == "ERROR") {
+    } else if (annotation.style === "ERROR") {
       backgroundColor = "red";
       borderColor = "red";
       iconColor = "white";
       icon = "times";
-    } else if(annotation.style == "INFO") {
+    } else if (annotation.style === "INFO") {
       backgroundColor = "blue";
       borderColor = "blue";
       iconColor = "white";
       icon = "info";
-    } else if(annotation.style == "WARNING") {
+    } else if (annotation.style === "WARNING") {
       backgroundColor = "orange";
       borderColor = "orange";
       iconColor = "white";
@@ -60,9 +78,9 @@ class AnnnotationsList extends React.Component {
 
     return (
       <div key={annotation.id} className={`rounded flex items-stretch border-${borderColor} border mb4`}>
-        <div className={`bg-${backgroundColor} flex-none flex items-center`} style={{width: 30}}>
+        <div className={`bg-${backgroundColor} flex-none flex items-center`} style={{ width: 30 }}>
           <div className="center flex-auto">
-            <i className={`fa fa-${icon} ${iconColor}`}></i>
+            <i className={`fa fa-${icon} ${iconColor}`} />
           </div>
         </div>
         <div className="flex-auto">

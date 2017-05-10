@@ -417,7 +417,7 @@ const QUERIES = {
         }
       }
     }
-  `,
+  `
 };
 
 class RelayPreloader {
