@@ -65,8 +65,8 @@ Object.keys(SIMPLE_COMPONENTS).forEach((componentName) => {
 
   Component.displayName = `PageHeader.${componentName}`;
   Component.propTypes = {
-    children: React.PropTypes.node.isRequired,
-    className: React.PropTypes.string
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string
   };
 
   PageHeader[componentName] = Component;
