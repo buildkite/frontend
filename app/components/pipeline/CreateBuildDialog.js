@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay';
+import { parse } from 'query-string';
 
 import Button from '../shared/Button';
 import CollapsableArea from '../shared/CollapsableArea';
@@ -29,12 +30,12 @@ class CreateBuildDialog extends React.PureComponent {
   };
 
   componentWillMount() {
-    const bkUrl = new Buildkite.Url(window.location);
+    const [hashPath, hashQuery] = window.location.hash.split('?');
 
-    if (bkUrl.getAnchorPath() === 'new') {
+    if (hashPath === '#new') {
       const newState = {};
 
-      newState.defaultValues = bkUrl.getAnchorQueryParameters();
+      newState.defaultValues = parse(hashQuery);
 
       // expand expando area if values in expando area are non-default!
       if (newState.defaultValues.env || newState.defaultValues.clean_checkout) {
