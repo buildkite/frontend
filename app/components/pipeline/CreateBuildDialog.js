@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay';
+import { parse } from 'query-string';
 
 import Button from '../shared/Button';
 import CollapsableArea from '../shared/CollapsableArea';
@@ -17,8 +18,40 @@ class CreateBuildDialog extends React.PureComponent {
 
   state = {
     showingOptions: false,
-    creatingBuild: false
+    creatingBuild: false,
+    defaultValues: {
+      // putting these here so it's obvious they exist(!)
+      message: undefined,
+      commit: undefined,
+      branch: undefined,
+      env: undefined,
+      clean_checkout: undefined
+    }
   };
+
+  componentWillMount() {
+    const [hashPath, hashQuery] = window.location.hash.split('?');
+
+    if (hashPath === '#new') {
+      const newState = {};
+
+      newState.defaultValues = parse(hashQuery);
+
+      // expand expando area if values in expando area are non-default!
+      if (newState.defaultValues.env || newState.defaultValues.clean_checkout) {
+        newState.showingOptions = true;
+      }
+
+      this.setState(newState);
+    }
+  }
+
+  componentDidMount() {
+    // Focus the build message input box if the dialog started life opened.
+    if (this.props.isOpen && this.buildMessageTextField) {
+      this.buildMessageTextField.focus();
+    }
+  }
 
   componentDidUpdate(prevProps) {
     if (!prevProps.isOpen && this.props.isOpen) {
@@ -57,6 +90,7 @@ class CreateBuildDialog extends React.PureComponent {
               label="Message"
               placeholder="Description of this build"
               required={true}
+              value={this.state.defaultValues.message}
               ref={(buildMessageTextField) => this.buildMessageTextField = buildMessageTextField}
             />
 
@@ -64,7 +98,7 @@ class CreateBuildDialog extends React.PureComponent {
               name="build[commit]"
               label="Commit"
               placeholder="HEAD"
-              value="HEAD"
+              value={this.state.defaultValues.commit || 'HEAD'}
               required={true}
             />
 
@@ -72,7 +106,7 @@ class CreateBuildDialog extends React.PureComponent {
               name="build[branch]"
               label="Branch"
               placeholder={this.props.pipeline.defaultBranch}
-              value={this.props.pipeline.defaultBranch}
+              value={this.state.defaultValues.branch || this.props.pipeline.defaultBranch}
               required={true}
             />
 
@@ -87,6 +121,7 @@ class CreateBuildDialog extends React.PureComponent {
                 label="Environment Variables"
                 help="Place each environment variable on a new line, in the format <code>KEY=value</code>"
                 rows={3}
+                value={this.state.defaultValues.env}
                 tabIndex={this.state.showingOptions ? 0 : -1}
               />
               <div className="relative">
@@ -97,6 +132,7 @@ class CreateBuildDialog extends React.PureComponent {
                     name="build[clean_checkout]"
                     type="checkbox"
                     value="1"
+                    defaultChecked={this.state.defaultValues.clean_checkout === 'true'}
                     tabIndex={this.state.showingOptions ? 0 : -1}
                   />
                   {' '}

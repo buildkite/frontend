@@ -53,6 +53,14 @@ class Header extends React.Component {
     showingCreateBuildDialog: false
   };
 
+  componentWillMount() {
+    if (window.location.hash.split('?').shift() === '#new') {
+      this.setState({
+        showingCreateBuildDialog: true
+      });
+    }
+  }
+
   render() {
     const actions = this.getAvailableActions();
 
