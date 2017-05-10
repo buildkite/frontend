@@ -29,6 +29,7 @@ HeaderVitals.defaultProps = {
 
 const HeaderBuilds = styled(Builds)`
   flex: 1 1 auto;
+  margin-bottom: 5px;
 
   @media (min-width: 768px) and (max-width: 991px) {
     order: 3;
@@ -37,6 +38,7 @@ const HeaderBuilds = styled(Builds)`
   @media (min-width: 992px) {
     margin-left: 10px;
     flex: 0 1 auto;
+    margin-bottom: 0;
   }
 `;
 
@@ -74,7 +76,7 @@ class Header extends React.Component {
             </a>
             {this.renderProviderBadge()}
             <Dropdown
-              className="visible-xs ml2"
+              className="sm-hide md-hide lg-hide ml2"
               width={200}
               ref={(_actionsDropdown) => this._actionsDropdown = _actionsDropdown}
               onToggle={this.handleActionsDropdownToggle}
@@ -94,7 +96,7 @@ class Header extends React.Component {
             pipeline={this.props.pipeline}
             buildState={this.props.buildState}
           />
-          <div className="flex hidden-xs">
+          <div className="flex xs-hide">
             {this.renderButtonsForActions(actions)}
           </div>
         </div>
