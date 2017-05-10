@@ -394,6 +394,29 @@ const QUERIES = {
         }
       }
     }
+  `,
+  "build_show/annotations": Relay.QL`
+    query BuildAnnotations($build: ID!) {
+      build(slug: $build) {
+        id
+	annotations(first: 10) {
+          edges {
+            node {
+              id
+              style
+              body {
+                html
+              }
+            }
+            cursor
+          }
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+          }
+        }
+      }
+    }
   `
 };
 
