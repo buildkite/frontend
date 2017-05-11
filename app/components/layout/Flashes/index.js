@@ -9,7 +9,8 @@ const FLASH_CONN_ERROR_ID = 'FLASH_CONN_ERROR';
 
 class Flashes extends React.PureComponent {
   state = {
-    flashes: []
+    flashes: [],
+    lastConnected: true // assume we were connected when the page loaded
   };
 
   componentWillMount() {
@@ -34,8 +35,22 @@ class Flashes extends React.PureComponent {
     this.setState({ flashes: this.state.flashes.concat(payload) });
   };
 
+  hasConnectionErrorFlash() {
+    return this.state.flashes.length > 0 && this.state.flashes[0].id === FLASH_CONN_ERROR_ID;
+  }
+
   // show a flash when there's a push connection issue
   handleConnectionError = () => {
+    if (this.hasConnectionErrorFlash() || !this.state.lastConnected) {
+      // try not to be irritating; don't add a new flash when
+      // we're showing one, or when we haven't reconnected yet.
+      //
+      // this means we don't add a new flash if the user
+      // dismissed one before a connection was restored
+      // (kinder for those with flaky connections! <3)
+      return;
+    }
+
     const connectionFlash = {
       id: FLASH_CONN_ERROR_ID,
       type: FlashesStore.ERROR,
@@ -44,19 +59,25 @@ class Flashes extends React.PureComponent {
 
     // prepend the flash
     this.setState({
-      flashes: [connectionFlash].concat(this.state.flashes)
+      flashes: [connectionFlash].concat(this.state.flashes),
+      lastConnected: false
     });
   };
 
   // hide connection error flash (if it exists!) when reconnected
   handleConnectionSuccess = () => {
+    const newState = {
+      // make it known that we got a good connection!
+      lastConnected: true
+    };
+
     // as the flash is always prepended (and no other flash is),
     // we can slice from the front rather than filter or find index
-    if (this.state.flashes.length > 0 && this.state.flashes[0].id === FLASH_CONN_ERROR_ID) {
-      this.setState({
-        flashes: this.state.flashes.slice(1)
-      });
+    if (this.hasConnectionErrorFlash()) {
+      newState.flashes = this.state.flashes.slice(1);
     }
+
+    this.setState(newState);
   };
 
   render() {
@@ -78,15 +99,11 @@ class Flashes extends React.PureComponent {
   }
 
   handleFlashRemove = (flash) => {
-    const flashes = [];
-
-    for (const nextFlash of this.state.flashes) {
-      if (flash.id !== nextFlash.id) {
-        flashes.push(nextFlash);
-      }
-    }
-
-    this.setState({ flashes: flashes });
+    this.setState({
+      flashes: this.state.flashes.filter(
+        (nextFlash) => flash.id !== nextFlash.id
+      )
+    });
   };
 }
 
