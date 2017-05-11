@@ -6,7 +6,14 @@ class PusherStore extends EventEmitter {
   configure(key, options) {
     this.pusher = new Pusher(key, options);
 
-    this.pusher.connection.bind("connected", () => this.emit("connected"));
+    this.pusher.connection.bind(
+      'state_change',
+      ({ current, ...context }) => {
+        Logger.info("[PusherStore]", current, context);
+
+        this.emit(current, context);
+      }
+    );
   }
 
   isConfigured() {
