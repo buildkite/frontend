@@ -12,7 +12,6 @@ if (window.Bugsnag && window._bugsnag) {
   window.Bugsnag.appVersion = window._bugsnag.appVersion;
   window.Bugsnag.user = window._bugsnag.user;
   window.Bugsnag.releaseStage = window._bugsnag.releaseStage;
-  window.Bugsnag.notifyReleaseStages = window._bugsnag.notifyReleaseStages;
 }
 
 // Toggle on development features
