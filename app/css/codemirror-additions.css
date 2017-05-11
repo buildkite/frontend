@@ -2,6 +2,8 @@
   /* https://codemirror.net/demo/resize.html */
   height: auto;
   min-height: 150px;
+  font-family: var(--font-family-mono);
+  font-size: 13px;
 }
 
 .CodeMirror-scroll {
