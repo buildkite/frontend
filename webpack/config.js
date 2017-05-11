@@ -136,8 +136,8 @@ if (IS_PRODUCTION) {
   }));
 }
 
-if (process.env['BUGSNAG_JS_API_KEY']) {
-  // Only load Bugsnag if configured
+if (IS_PRODUCTION || process.env['BUGSNAG_JS_API_KEY']) {
+  // Only load Bugsnag if configured, or we're in Production
   vendor_modules.push("bugsnag-js");
 }
 
