@@ -6,7 +6,7 @@ class Logger {
     this.console = window['console'];
 
     // Tell the world that logging has been turned on!
-    this.info("[Logger]", "Enabled...");
+    this.info("[Logger] Enabled...");
   }
 
   info() {
