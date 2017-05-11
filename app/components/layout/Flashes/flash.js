@@ -8,7 +8,7 @@ class Flash extends React.PureComponent {
   static propTypes = {
     flash: PropTypes.shape({
       type: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired
+      message: PropTypes.node.isRequired
     }),
     onRemoveClick: PropTypes.func.isRequired
   };

@@ -54,7 +54,7 @@ class Flashes extends React.PureComponent {
     const connectionFlash = {
       id: FLASH_CONN_ERROR_ID,
       type: FlashesStore.ERROR,
-      message: 'Push events have been disconnected. Real-time updates won’t work for now. We’ll try to reconnect soon!'
+      message: <span><span className="semi-bold">Couldn’t connect to Buildkite for push updates.</span> We’ll try to reconnect! Information won’t update automatically for now.</span>
     };
 
     // prepend the flash
