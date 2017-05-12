@@ -108,7 +108,15 @@ class TeamMemberRow extends React.PureComponent {
     }
   }
 
-  handleRemove = () => {
+  handleRemove = (e) => {
+    if (confirm("Remove this user from the team?")) {
+      e.preventDefault();
+
+      this.performRemove();
+    }
+  }
+
+  performRemove = () => {
     this.setState({ removing: true });
 
     const mutation = new TeamMemberDeleteMutation({
