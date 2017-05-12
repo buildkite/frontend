@@ -55,22 +55,22 @@ class TeamMemberRow extends React.PureComponent {
               <Link to={`/organizations/${this.props.teamMember.team.organization.slug}/teams/${this.props.teamMember.team.slug}`} className="blue hover-navy text-decoration-none hover-underline">
                 <Emojify text={this.props.teamMember.team.name} />
               </Link>
-              {this._renderPrivacyLabel()}
+              {this.renderPrivacyLabel()}
             </div>
-            {this._renderDescription()}
+            {this.renderDescription()}
           </div>
           <div className="flex flex-none flex-stretch items-center my1">
-            {this._renderPipelineCount()}
+            {this.renderPipelineCount()}
           </div>
           <Panel.RowActions>
-            {this._renderActions()}
+            {this.renderActions()}
           </Panel.RowActions>
         </div>
       </Panel.Row>
     );
   }
 
-  _renderPrivacyLabel() {
+  renderPrivacyLabel() {
     if (this.props.teamMember.team.privacy === TeamPrivacyConstants.SECRET) {
       return (
         <div className="ml1 regular small border border-gray rounded dark-gray p1">Secret</div>
@@ -78,7 +78,7 @@ class TeamMemberRow extends React.PureComponent {
     }
   }
 
-  _renderPipelineCount() {
+  renderPipelineCount() {
     if (this.props.teamMember.team.pipelines.count !== 0) {
       return (
         <span className="regular mr2">
@@ -88,7 +88,7 @@ class TeamMemberRow extends React.PureComponent {
     }
   }
 
-  _renderDescription() {
+  renderDescription() {
     if (this.props.teamMember.team.description) {
       return (
         <div className="regular dark-gray mt1"><Emojify text={this.props.teamMember.team.description} /></div>
@@ -96,19 +96,19 @@ class TeamMemberRow extends React.PureComponent {
     }
   }
 
-  _renderActions() {
+  renderActions() {
     if (this.props.teamMember.permissions.teamMemberDelete.allowed) {
       return <Button
         loading={this.state.removing ? "Removing…" : false}
         theme={"default"}
         outline={true}
         className="ml3"
-        onClick={this._handleRemove}
+        onClick={this.handleRemove}
       >Remove</Button>
     }
   }
 
-  _handleRemove = () => {
+  handleRemove = () => {
     this.setState({ removing: true });
 
     const mutation = new TeamMemberDeleteMutation({
