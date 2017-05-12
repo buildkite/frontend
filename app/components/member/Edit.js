@@ -18,6 +18,7 @@ import OrganizationMemberDeleteMutation from '../../mutations/OrganizationMember
 import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
 
 import TeamMemberRow from './edit/TeamMemberRow';
+import PipelineRow from './edit/PipelineRow';
 
 const AVATAR_SIZE = 50;
 const INITIAL_PAGE_SIZE = 5;
@@ -345,6 +346,18 @@ export default Relay.createContainer(MemberEdit, {
             node {
               id
               ${TeamMemberRow.getFragment('teamMember')}
+            }
+          }
+        }
+        pipelines(first: $pipelinesPageSize, order: NAME) {
+          count
+          pageInfo {
+            hasNextPage
+          }
+          edges {
+            node {
+              id
+              ${PipelineRow.getFragment('memberPipeline')}
             }
           }
         }
