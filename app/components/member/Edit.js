@@ -62,12 +62,14 @@ class MemberEdit extends React.PureComponent {
 
   state = {
     isAdmin: false,
+    isSelf: false,
     removing: false
   };
 
   componentWillMount() {
     this.setState({
-      isAdmin: this.props.organizationMember.role === OrganizationMemberRoleConstants.ADMIN
+      isAdmin: this.props.organizationMember.role === OrganizationMemberRoleConstants.ADMIN,
+      isSelf: this.props.organizationMember.user.id === this.props.viewer.user.id
     });
   }
 
@@ -75,8 +77,6 @@ class MemberEdit extends React.PureComponent {
     if (!this.props.organizationMember) {
       return null;
     }
-
-    const isSelf = this.props.organizationMember.user.id === this.props.viewer.user.id;
 
     return (
       <DocumentTitle title={`Users · ${this.props.organizationMember.user.name}`}>
@@ -95,16 +95,16 @@ class MemberEdit extends React.PureComponent {
             <PageHeader.Description>
               {this.props.organizationMember.user.email}
             </PageHeader.Description>
+            <PageHeader.Menu>{this.renderRemoveButton()}</PageHeader.Menu>
           </PageHeader>
-          {this.renderRolePanel(isSelf)}
-          {this.renderTeamsPanel(isSelf)}
-          {this.renderRemovePanel(isSelf)}
+          {this.renderRolePanel()}
+          {this.renderTeamsPanel()}
         </div>
       </DocumentTitle>
     );
   }
 
-  renderRolePanel(isSelf) {
+  renderRolePanel() {
     // Don't show the remove panel if you can't actually update them
     if (!this.props.organizationMember.permissions.organizationMemberUpdate.allowed) {
       return (
@@ -117,7 +117,7 @@ class MemberEdit extends React.PureComponent {
     }
 
     const saveRowContent = (
-      isSelf
+      this.state.isSelf
         ? <span className="dark-gray">You can’t edit your own roles</span>
         : (
           <Button
@@ -136,7 +136,7 @@ class MemberEdit extends React.PureComponent {
           <FormCheckbox
             label="Administrator"
             help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see the agent registration token."
-            disabled={isSelf}
+            disabled={this.state.isSelf}
             onChange={this.handleAdminChange}
             checked={this.state.isAdmin}
           />
@@ -179,7 +179,7 @@ class MemberEdit extends React.PureComponent {
     );
   }
 
-  renderTeamsPanel(isSelf) {
+  renderTeamsPanel() {
     if (this.props.organizationMember.teams.edges.length > 0) {
       return (
         <Panel className="mb4">
@@ -249,52 +249,39 @@ class MemberEdit extends React.PureComponent {
     );
   };
 
-  renderRemovePanel(isSelf) {
+  renderRemoveButton() {
     // Don't show the remove panel if you can't actually remove them
     if (!this.props.organizationMember.permissions.organizationMemberDelete.allowed) {
       return null;
     }
 
+    const loading = this.state.isSelf ? 'Leaving Organization…' : 'Removing from Organization…',
+      text = this.state.isSelf ? 'Leave Organization' : 'Remove from Organization';
+
     return (
-      <Panel>
-        <Panel.Header>
-          {isSelf ? 'Leave Organization' : 'Remove from Organization'}
-        </Panel.Header>
-        <Panel.Row>
-          {
-            isSelf
-              ? 'Removing yourself will immediately revoke your access to this organization.'
-              : 'Removing this user will immediately revoke their access to this organization.'
-          }
-        </Panel.Row>
-        <Panel.Row>
-          <Button
-            theme="error"
-            loading={
-              this.state.removing && (
-                isSelf
-                  ? 'Leaving Organization…'
-                  : 'Removing from Organization…'
-              )
-            }
-            onClick={this.handleRemoveFromOrganizationClick}
-          >
-            {
-              isSelf
-                ? 'Leave Organization'
-                : 'Remove from Organization'
-            }
-          </Button>
-        </Panel.Row>
-      </Panel>
+      <Button
+        theme="error"
+        loading={this.state.removing && loading}
+        onClick={this.handleRemoveClick}
+      >{text}</Button>
     );
   }
 
-  handleRemoveFromOrganizationClick = () => {
+  handleRemoveClick = () => {
+    const message = this.state.isSelf
+      ? 'Removing yourself will immediately revoke your access to this organization.'
+      : 'Removing this user will immediately revoke their access to this organization.';
+
+    if (confirm(message)) {
+      this.performRemove();
+    }
+  };
+
+  performRemove = () => {
     // Show the removing indicator
     this.setState({ removing: true });
 
-    const mutation = new OrganizationMemberDeleteMutation({
+    let mutation = new OrganizationMemberDeleteMutation({
       organizationMember: this.props.organizationMember
     });
 
@@ -303,7 +290,7 @@ class MemberEdit extends React.PureComponent {
       onSuccess: this.handleRemoveMutationSuccess,
       onFailure: this.handleMutationFailure
     });
-  }
+  };
 
   handleRemoveMutationSuccess = (response) => {
     this.setState({ removing: false });
@@ -315,13 +302,13 @@ class MemberEdit extends React.PureComponent {
     } else {
       this.context.router.push(`/organizations/${response.organizationMemberDelete.organization.slug}/users`);
     }
-  }
+  };
 
   handleMutationFailure = (transaction) => {
     this.setState({ removing: false, updating: false });
 
     FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
-  }
+  };
 }
 
 export default Relay.createContainer(MemberEdit, {
