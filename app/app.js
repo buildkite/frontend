@@ -97,8 +97,11 @@ if (window._graphql) {
       {
         credentials: "same-origin",
         headers: window._graphql["headers"],
-        // Standard relay values, that can be overriden by some pages
-        fetchTimeout: window._graphql["fetchTimeout"] || 1500,
+        // Standard relay values, that can be overriden by some pages. If a
+        // request is taking a while, we don't want to force Relay to make
+        // another because that's just gonna slow down the server even more. So
+        // we'll bump the default fetchTimeout to 10m
+        fetchTimeout: 600000, // 10m
         retryDelays: window._graphql["retryDelays"] || [1000, 3000]
       }
     )
