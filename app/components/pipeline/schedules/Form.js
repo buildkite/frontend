@@ -72,7 +72,7 @@ class Form extends React.Component {
         />
 
         <FormTextarea
-          label="Environment Varibles"
+          label="Environment Variables"
           help="Environment variables to be set, each on a new line. e.g. <code>FOO=bar</code>"
           className="input"
           rows={2}
