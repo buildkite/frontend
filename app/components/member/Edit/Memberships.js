@@ -19,7 +19,7 @@ class MemberEditMemberships extends React.PureComponent {
 
     if (teams.length) {
       content = this.props.organizationMember.teams.edges.map(({ node }) => (
-        <Panel.Section>{node.team.name}</Panel.Section>
+        <Panel.Section key={node.id}>{node.team.name}</Panel.Section>
       ));
     } else {
       content = (
@@ -48,6 +48,7 @@ export default Relay.createContainer(MemberEditMemberships, {
         teams(first: 10) {
           edges {
             node {
+              id
               team {
                 name
               }

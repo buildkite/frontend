@@ -43,7 +43,7 @@ class MemberEditRemove extends React.PureComponent {
 
     return (
       <div>
-        <h2 class="h2">
+        <h2 className="h2">
           {isSelf ? 'Leave Organization' : 'Remove from Organization'}
         </h2>
         <Panel>

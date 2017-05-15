@@ -6,9 +6,9 @@ import DocumentTitle from 'react-document-title';
 import PageHeader from '../../shared/PageHeader';
 import UserAvatar from '../../shared/UserAvatar';
 
-import MemberEditRole from './role';
-import MemberEditMemberships from './memberships';
-import MemberEditRemove from './remove';
+import MemberEditRole from './Role';
+import MemberEditMemberships from './Memberships';
+import MemberEditRemove from './Remove';
 
 const AVATAR_SIZE = 50;
 
