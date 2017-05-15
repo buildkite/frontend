@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
-import Button from '../shared/Button';
-import FormCheckbox from '../shared/FormCheckbox';
-import PageHeader from '../shared/PageHeader';
-import Panel from '../shared/Panel';
-import UserAvatar from '../shared/UserAvatar';
+import Button from '../../shared/Button';
+import FormCheckbox from '../../shared/FormCheckbox';
+import PageHeader from '../../shared/PageHeader';
+import Panel from '../../shared/Panel';
+import UserAvatar from '../../shared/UserAvatar';
 
-import FlashesStore from '../../stores/FlashesStore';
+import FlashesStore from '../../../stores/FlashesStore';
 
-import OrganizationMemberUpdateMutation from '../../mutations/OrganizationMemberUpdate';
-import OrganizationMemberDeleteMutation from '../../mutations/OrganizationMemberDelete';
+import OrganizationMemberUpdateMutation from '../../../mutations/OrganizationMemberUpdate';
+import OrganizationMemberDeleteMutation from '../../../mutations/OrganizationMemberDelete';
 
-import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
+import OrganizationMemberRoleConstants from '../../../constants/OrganizationMemberRoleConstants';
 
 const AVATAR_SIZE = 50;
 
