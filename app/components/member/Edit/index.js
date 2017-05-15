@@ -7,6 +7,7 @@ import PageHeader from '../../shared/PageHeader';
 import UserAvatar from '../../shared/UserAvatar';
 
 import MemberEditRole from './role';
+import MemberEditMemberships from './memberships';
 import MemberEditRemove from './remove';
 
 const AVATAR_SIZE = 50;
@@ -53,6 +54,9 @@ class MemberEdit extends React.PureComponent {
             viewer={this.props.viewer}
             organizationMember={this.props.organizationMember}
           />
+          <MemberEditMemberships
+            organizationMember={this.props.organizationMember}
+          />
           <MemberEditRemove
             viewer={this.props.viewer}
             organizationMember={this.props.organizationMember}
@@ -74,6 +78,7 @@ export default Relay.createContainer(MemberEdit, {
     organizationMember: () => Relay.QL`
       fragment on OrganizationMember {
         ${MemberEditRole.getFragment('organizationMember')}
+        ${MemberEditMemberships.getFragment('organizationMember')}
         ${MemberEditRemove.getFragment('organizationMember')}
         uuid
         user {
