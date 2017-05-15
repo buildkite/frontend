@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import styled from 'styled-components';
 
 import Button from '../../shared/Button';

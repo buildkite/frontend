@@ -511,6 +511,13 @@ babel-plugin-react-transform@^2.0.2:
   dependencies:
     lodash "^4.6.1"
 
+babel-plugin-relay@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-relay/-/babel-plugin-relay-1.0.1.tgz#15e8a4f6fb488a39133a312595816dd9cf44f3a0"
+  dependencies:
+    babel-runtime "^6.23.0"
+    graphql "^0.9.5"
+
 babel-plugin-syntax-async-functions@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-async-functions/-/babel-plugin-syntax-async-functions-6.13.0.tgz#cad9cad1191b5ad634bf30ae0872391e0647be95"
@@ -978,25 +985,7 @@ babel-register@^6.24.1:
     mkdirp "^0.5.1"
     source-map-support "^0.4.2"
 
-babel-relay-plugin-loader@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/babel-relay-plugin-loader/-/babel-relay-plugin-loader-0.10.0.tgz#1dff6f6d6355243fe23a2dec5483d4c45a111300"
-  dependencies:
-    babel-relay-plugin "^0.10.0"
-
-babel-relay-plugin@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/babel-relay-plugin/-/babel-relay-plugin-0.10.0.tgz#c7adede2b27dcc4aeedcb1ae760e364b2bacfaa0"
-  dependencies:
-    graphql "0.8.2"
-
-babel-relay-plugin@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/babel-relay-plugin/-/babel-relay-plugin-0.11.0.tgz#3ca99a395e40ac10050ca25c1200ea4706b2d8a5"
-  dependencies:
-    graphql "0.9.1"
-
-babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.6.1:
+babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0:
   version "6.23.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.23.0.tgz#0a9489f144de70efb3ce4300accdb329e2fc543b"
   dependencies:
@@ -3161,19 +3150,7 @@ graphql-relay@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/graphql-relay/-/graphql-relay-0.5.1.tgz#3b3e44430a24c0f636e713f43f65bd542fe02ac9"
 
-graphql@0.8.2:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.8.2.tgz#eb1bb524b38104bbf2c9157f9abc67db2feba7d2"
-  dependencies:
-    iterall "1.0.2"
-
-graphql@0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.9.1.tgz#f4d154cbec054d4a5d3b1be95f23435c09aa86c8"
-  dependencies:
-    iterall "1.0.3"
-
-graphql@^0.9.1:
+graphql@^0.9.1, graphql@^0.9.5:
   version "0.9.6"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.9.6.tgz#514421e9d225c29dfc8fd305459abae58815ef2c"
   dependencies:
@@ -3960,14 +3937,6 @@ istanbul-reports@^1.1.0:
   resolved "https://registry.yarnpkg.com/istanbul-reports/-/istanbul-reports-1.1.0.tgz#1ef3b795889219cfb5fad16365f6ce108d5f8c66"
   dependencies:
     handlebars "^4.0.3"
-
-iterall@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.0.2.tgz#41a2e96ce9eda5e61c767ee5dc312373bb046e91"
-
-iterall@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.0.3.tgz#e0b31958f835013c323ff0b10943829ac69aa4b7"
 
 iterall@^1.0.0:
   version "1.1.1"
@@ -6094,17 +6063,19 @@ react-proxy@^1.1.7:
     lodash "^4.6.1"
     react-deep-force-update "^1.0.0"
 
-react-relay@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-0.10.0.tgz#4b19c4450e0140b9f04fd6fe96d8f451f0804078"
+react-relay@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-1.0.0.tgz#e1dfe7795c1b3781ad2bc6f84495a4870c2842d7"
   dependencies:
-    babel-runtime "^6.6.1"
+    babel-runtime "^6.23.0"
     fbjs "^0.8.1"
+    prop-types "^15.5.8"
     react-static-container "^1.0.1"
+    relay-runtime "~1.0.0"
 
-react-router-relay@^0.13.7:
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/react-router-relay/-/react-router-relay-0.13.7.tgz#f5be1ef55bc5c6881e3623beeee6ef96a0d8a168"
+"react-router-relay@https://github.com/sj26/react-router-relay/releases/download/v0.13.7%2Bclassic/react-router-relay-0.13.7.classic.tgz":
+  version "0.13.7+classic"
+  resolved "https://github.com/sj26/react-router-relay/releases/download/v0.13.7%2Bclassic/react-router-relay-0.13.7.classic.tgz#13c1a5acbf2c89156c080f9156107ece40dea29e"
   dependencies:
     babel-runtime "^6.23.0"
     invariant "^2.2.2"
@@ -6342,6 +6313,13 @@ regjsparser@^0.1.4:
   resolved "https://registry.yarnpkg.com/regjsparser/-/regjsparser-0.1.5.tgz#7ee8f84dc6fa792d3fd0ae228d24bd949ead205c"
   dependencies:
     jsesc "~0.5.0"
+
+relay-runtime@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-1.0.0.tgz#3011ba84e844f154b14edf401950a8ed2c95cb2b"
+  dependencies:
+    babel-runtime "^6.23.0"
+    fbjs "^0.8.1"
 
 remove-trailing-separator@^1.0.1:
   version "1.0.1"

@@ -1,4 +1,4 @@
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 
 class PipelineScheduleDelete extends Relay.Mutation {
   static fragments = {

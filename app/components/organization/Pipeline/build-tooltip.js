@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 
 import BuildStatusDescription from '../../shared/BuildStatusDescription';
 import Duration from '../../shared/Duration';

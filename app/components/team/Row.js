@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 
 import { formatNumber } from '../../lib/number';
 import Panel from '../shared/Panel';

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 
 import AutocompleteDialog from '../../shared/Autocomplete/Dialog';
 import Button from '../../shared/Button';

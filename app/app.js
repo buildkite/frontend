@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 
 import Routes from './routes';
 
@@ -35,7 +35,7 @@ window["Webpack"] = {
     "prop-types": require("prop-types"),
     "react": require("react"),
     "react-dom": require("react-dom"),
-    "react-relay": require("react-relay"),
+    "react-relay": require("react-relay/classic"),
     "react-addons-pure-render-mixin": require("react-addons-pure-render-mixin"),
 
     "components/build/AvatarWithUnknownEmailPrompt": require("./components/build/AvatarWithUnknownEmailPrompt").default,
