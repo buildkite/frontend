@@ -67,21 +67,23 @@ class MemberEditRole extends React.PureComponent {
     );
 
     return (
-      <Panel className="mb4">
-        <Panel.Header>Roles</Panel.Header>
-        <Panel.Row>
-          <FormCheckbox
-            label="Administrator"
-            help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see the agent registration token."
-            disabled={isSelf}
-            onChange={this.handleAdminChange}
-            checked={this.state.isAdmin}
-          />
-        </Panel.Row>
-        <Panel.Row>
-          {saveRowContent}
-        </Panel.Row>
-      </Panel>
+      <div className="mb4">
+        <h2 className="h2">Roles</h2>
+        <Panel>
+          <Panel.Row>
+            <FormCheckbox
+              label="Administrator"
+              help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see the agent registration token."
+              disabled={isSelf}
+              onChange={this.handleAdminChange}
+              checked={this.state.isAdmin}
+            />
+          </Panel.Row>
+          <Panel.Row>
+            {saveRowContent}
+          </Panel.Row>
+        </Panel>
+      </div>
     );
   }
 

@@ -42,37 +42,39 @@ class MemberEditRemove extends React.PureComponent {
     const isSelf = this.props.organizationMember.user.id === this.props.viewer.user.id;
 
     return (
-      <Panel>
-        <Panel.Header>
+      <div>
+        <h2 class="h2">
           {isSelf ? 'Leave Organization' : 'Remove from Organization'}
-        </Panel.Header>
-        <Panel.Row>
-          {
-            isSelf
-              ? 'Removing yourself will immediately revoke your access to this organization.'
-              : 'Removing this user will immediately revoke their access to this organization.'
-          }
-        </Panel.Row>
-        <Panel.Row>
-          <Button
-            theme="error"
-            loading={
-              this.state.removing && (
-                isSelf
-                  ? 'Leaving Organization…'
-                  : 'Removing from Organization…'
-              )
-            }
-            onClick={this.handleRemoveFromOrganizationClick}
-          >
+        </h2>
+        <Panel>
+          <Panel.Row>
             {
               isSelf
-                ? 'Leave Organization'
-                : 'Remove from Organization'
+                ? 'Removing yourself will immediately revoke your access to this organization.'
+                : 'Removing this user will immediately revoke their access to this organization.'
             }
-          </Button>
-        </Panel.Row>
-      </Panel>
+          </Panel.Row>
+          <Panel.Row>
+            <Button
+              theme="error"
+              loading={
+                this.state.removing && (
+                  isSelf
+                    ? 'Leaving Organization…'
+                    : 'Removing from Organization…'
+                )
+              }
+              onClick={this.handleRemoveFromOrganizationClick}
+            >
+              {
+                isSelf
+                  ? 'Leave Organization'
+                  : 'Remove from Organization'
+              }
+            </Button>
+          </Panel.Row>
+        </Panel>
+      </div>
     );
   }
 
