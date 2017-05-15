@@ -40,48 +40,56 @@ class MemberEditRole extends React.PureComponent {
   }
 
   render() {
+    let content;
+
     // Don't show the remove panel if you can't actually update them
     if (!this.props.organizationMember.permissions.organizationMemberUpdate.allowed) {
-      return (
-        <Panel className="mb4">
-          <Panel.Section>
-            <p>{this.props.organizationMember.permissions.organizationMemberUpdate.message}</p>
-          </Panel.Section>
+      content = (
+        <Panel>
+          <Panel.Row>
+            {this.props.organizationMember.permissions.organizationMemberUpdate.message}
+          </Panel.Row>
+        </Panel>
+      );
+    } else {
+      const isSelf = this.props.organizationMember.user.id === this.props.viewer.user.id;
+
+      const saveRowContent = (
+        isSelf
+          ? <span className="dark-gray">You can’t edit your own roles</span>
+          : (
+            <Button
+              onClick={this.handleUpdateOrganizationMemberClick}
+              loading={this.state.updating && 'Saving…'}
+            >
+              Save
+            </Button>
+          )
+      );
+
+      content = (
+        <Panel>
+          <Panel.Row>
+            <FormCheckbox
+              label="Administrator"
+              help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see the agent registration token."
+              disabled={isSelf}
+              onChange={this.handleAdminChange}
+              checked={this.state.isAdmin}
+            />
+          </Panel.Row>
+          <Panel.Row>
+            {saveRowContent}
+          </Panel.Row>
         </Panel>
       );
     }
 
-    const isSelf = this.props.organizationMember.user.id === this.props.viewer.user.id;
-
-    const saveRowContent = (
-      isSelf
-        ? <span className="dark-gray">You can’t edit your own roles</span>
-        : (
-          <Button
-            onClick={this.handleUpdateOrganizationMemberClick}
-            loading={this.state.updating && 'Saving…'}
-          >
-            Save
-          </Button>
-        )
-    );
-
     return (
-      <Panel className="mb4">
-        <Panel.Header>Roles</Panel.Header>
-        <Panel.Row>
-          <FormCheckbox
-            label="Administrator"
-            help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see the agent registration token."
-            disabled={isSelf}
-            onChange={this.handleAdminChange}
-            checked={this.state.isAdmin}
-          />
-        </Panel.Row>
-        <Panel.Row>
-          {saveRowContent}
-        </Panel.Row>
-      </Panel>
+      <div className="mb4">
+        <h2 className="h2">Roles</h2>
+        {content}
+      </div>
     );
   }
 

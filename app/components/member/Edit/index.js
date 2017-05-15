@@ -106,11 +106,13 @@ class MemberEdit extends React.PureComponent {
   renderTeamsPanel() {
     if (this.props.organizationMember.teams.edges.length > 0) {
       return (
-        <Panel className="mb4">
-          <Panel.Header>Teams</Panel.Header>
-          {this.renderTeams()}
-          {this.renderTeamsFooter()}
-        </Panel>
+        <div className="mb4">
+          <h2 className="h2">Teams</h2>
+          <Panel>
+            {this.renderTeams()}
+            {this.renderTeamsFooter()}
+          </Panel>
+        </div>
       );
     }
   }
