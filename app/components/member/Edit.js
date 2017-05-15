@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 
+import Badge from '../shared/Badge';
 import Button from '../shared/Button';
 import FormCheckbox from '../shared/FormCheckbox';
 import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
 import Spinner from '../shared/Spinner';
 import UserAvatar from '../shared/UserAvatar';
+
+import { formatNumber } from '../../lib/number';
 
 import FlashesStore from '../../stores/FlashesStore';
 
@@ -182,16 +185,30 @@ class MemberEdit extends React.PureComponent {
   renderTeamsPanel() {
     if (this.props.organizationMember.teams.edges.length > 0) {
       return (
-        <Panel className="mb4">
-          <Panel.Header>Teams</Panel.Header>
-          {this.renderTeams()}
-          {this.renderTeamsFooter()}
-        </Panel>
+        <div>
+          <div className="flex items-center">
+            <h2 className="h2 flex-auto">Teams {this.renderTeamsCount()}</h2>
+          </div>
+          <Panel className="mb4">
+            {this.renderTeamsRows()}
+            {this.renderTeamsFooter()}
+          </Panel>
+        </div>
       );
     }
   }
 
-  renderTeams() {
+  renderTeamsCount() {
+    if (!this.props.organizationMember.teams) {
+      return;
+    }
+
+    return (
+      <Badge>{formatNumber(this.props.organizationMember.teams.count)}</Badge>
+    );
+  }
+
+  renderTeamsRows() {
     const teams = this.props.organizationMember.teams
 
     return (
