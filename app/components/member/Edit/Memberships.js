@@ -4,6 +4,8 @@ import Relay from 'react-relay';
 
 import Panel from '../../shared/Panel';
 
+const PAGE_SIZE = 10;
+
 class MemberEditMemberships extends React.PureComponent {
   static propTypes = {
     organizationMember: PropTypes.shape({
@@ -41,11 +43,15 @@ class MemberEditMemberships extends React.PureComponent {
 }
 
 export default Relay.createContainer(MemberEditMemberships, {
+  initialVariables: {
+    pageSize: PAGE_SIZE
+  },
+
   fragments: {
     organizationMember: () => Relay.QL`
       fragment on OrganizationMember {
         uuid
-        teams(first: 10) {
+        teams(first: $pageSize) {
           edges {
             node {
               id
