@@ -11,7 +11,7 @@ import UserAvatar from '../../shared/UserAvatar';
 
 import FlashesStore from '../../../stores/FlashesStore';
 
-import MemberEditRole from './role';
+import MemberEditRole from './Role';
 
 import OrganizationMemberDeleteMutation from '../../../mutations/OrganizationMemberDelete';
 
