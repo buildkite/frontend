@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
 
-import { formatNumber } from '../../../lib/number';
-
 import Button from '../../shared/Button';
 import Emojify from '../../shared/Emojify';
 import Panel from '../../shared/Panel';
-import UserAvatar from '../../shared/UserAvatar';
 
 import FlashesStore from '../../../stores/FlashesStore';
 
@@ -98,19 +95,23 @@ class TeamMemberRow extends React.PureComponent {
 
   renderActions() {
     if (this.props.teamMember.permissions.teamMemberDelete.allowed) {
-      return <Button
-        loading={this.state.removing ? "Removing…" : false}
-        theme={"default"}
-        outline={true}
-        className="ml3"
-        onClick={this.handleRemove}
-      >Remove</Button>
+      return (
+        <Button
+          loading={this.state.removing ? "Removing…" : false}
+          theme={"default"}
+          outline={true}
+          className="ml3"
+          onClick={this.handleRemove}
+        >
+          Remove
+        </Button>
+      );
     }
   }
 
-  handleRemove = (e) => {
+  handleRemove = (evt) => {
     if (confirm("Remove this user from the team?")) {
-      e.preventDefault();
+      evt.preventDefault();
 
       this.performRemove();
     }

@@ -4,7 +4,6 @@ import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
 import Button from '../../shared/Button';
-import FormCheckbox from '../../shared/FormCheckbox';
 import PageHeader from '../../shared/PageHeader';
 import Panel from '../../shared/Panel';
 import Spinner from '../../shared/Spinner';
@@ -12,10 +11,9 @@ import UserAvatar from '../../shared/UserAvatar';
 
 import FlashesStore from '../../../stores/FlashesStore';
 
-import OrganizationMemberUpdateMutation from '../../../mutations/OrganizationMemberUpdate';
-import OrganizationMemberDeleteMutation from '../../../mutations/OrganizationMemberDelete';
+import MemberEditRole from './role';
 
-import OrganizationMemberRoleConstants from '../../../constants/OrganizationMemberRoleConstants';
+import OrganizationMemberDeleteMutation from '../../../mutations/OrganizationMemberDelete';
 
 import TeamMemberRow from './TeamMemberRow';
 
@@ -32,7 +30,6 @@ class MemberEdit extends React.PureComponent {
     }).isRequired,
     organizationMember: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
-      role: PropTypes.string.isRequired,
       permissions: PropTypes.object.isRequired,
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -53,7 +50,8 @@ class MemberEdit extends React.PureComponent {
           }).isRequired
         ).isRequired
       }).isRequired
-    })
+    }),
+    relay: PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -61,14 +59,12 @@ class MemberEdit extends React.PureComponent {
   };
 
   state = {
-    isAdmin: false,
-    isSelf: false,
-    removing: false
+    removing: false,
+    isSelf: false
   };
 
   componentWillMount() {
     this.setState({
-      isAdmin: this.props.organizationMember.role === OrganizationMemberRoleConstants.ADMIN,
       isSelf: this.props.organizationMember.user.id === this.props.viewer.user.id
     });
   }
@@ -97,85 +93,13 @@ class MemberEdit extends React.PureComponent {
             </PageHeader.Description>
             <PageHeader.Menu>{this.renderRemoveButton()}</PageHeader.Menu>
           </PageHeader>
-          {this.renderRolePanel()}
+          <MemberEditRole
+            viewer={this.props.viewer}
+            organizationMember={this.props.organizationMember}
+          />
           {this.renderTeamsPanel()}
         </div>
       </DocumentTitle>
-    );
-  }
-
-  renderRolePanel() {
-    // Don't show the remove panel if you can't actually update them
-    if (!this.props.organizationMember.permissions.organizationMemberUpdate.allowed) {
-      return (
-        <Panel className="mb4">
-          <Panel.Section>
-            <p>{this.props.organizationMember.permissions.organizationMemberUpdate.message}</p>
-          </Panel.Section>
-        </Panel>
-      );
-    }
-
-    const saveRowContent = (
-      this.state.isSelf
-        ? <span className="dark-gray">You can’t edit your own roles</span>
-        : (
-          <Button
-            onClick={this.handleUpdateOrganizationMemberClick}
-            loading={this.state.updating && 'Saving…'}
-          >
-            Save
-          </Button>
-        )
-    );
-
-    return (
-      <Panel className="mb4">
-        <Panel.Header>Roles</Panel.Header>
-        <Panel.Section>
-          <FormCheckbox
-            label="Administrator"
-            help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see the agent registration token."
-            disabled={this.state.isSelf}
-            onChange={this.handleAdminChange}
-            checked={this.state.isAdmin}
-          />
-        </Panel.Section>
-        <Panel.Row>
-          {saveRowContent}
-        </Panel.Row>
-      </Panel>
-    );
-  }
-
-  handleAdminChange = (evt) => {
-    this.setState({
-      isAdmin: evt.target.checked
-    });
-  }
-
-  handleUpdateOrganizationMemberClick = () => {
-    // Show the updating indicator
-    this.setState({ updating: true });
-
-    const mutation = new OrganizationMemberUpdateMutation({
-      organizationMember: this.props.organizationMember,
-      role: this.state.isAdmin ? OrganizationMemberRoleConstants.ADMIN : OrganizationMemberRoleConstants.MEMBER
-    });
-
-    // Run the mutation
-    Relay.Store.commitUpdate(mutation, {
-      onSuccess: this.handleUpdateMutationSuccess,
-      onFailure: this.handleMutationFailure
-    });
-  }
-
-  handleUpdateMutationSuccess = ({ organizationMemberUpdate }) => {
-    this.setState({ updating: false });
-
-    FlashesStore.flash(
-      FlashesStore.SUCCESS,
-      `${organizationMemberUpdate.organizationMember.user.name}’s member details have been saved`
     );
   }
 
@@ -192,15 +116,12 @@ class MemberEdit extends React.PureComponent {
   }
 
   renderTeams() {
-    const teams = this.props.organizationMember.teams
-
-    return (
-      teams.edges.map((edge) => {
-        return (
-          <TeamMemberRow key={edge.node.id} teamMember={edge.node} />
-        );
-      })
-    );
+    return this.props.organizationMember.teams.edges.map(({ node }) => (
+      <TeamMemberRow
+        key={node.id}
+        teamMember={node}
+      />
+    ));
   }
 
   renderTeamsFooter() {
@@ -255,15 +176,24 @@ class MemberEdit extends React.PureComponent {
       return null;
     }
 
-    const loading = this.state.isSelf ? 'Leaving Organization…' : 'Removing from Organization…',
-      text = this.state.isSelf ? 'Leave Organization' : 'Remove from Organization';
+    const loading = this.state.removing && (
+      this.state.isSelf
+        ? 'Leaving Organization…'
+        : 'Removing from Organization…'
+    );
 
     return (
       <Button
         theme="error"
-        loading={this.state.removing && loading}
+        loading={loading}
         onClick={this.handleRemoveClick}
-      >{text}</Button>
+      >
+        {
+          this.state.isSelf
+            ? 'Leave Organization'
+            : 'Remove from Organization'
+        }
+      </Button>
     );
   }
 
@@ -281,18 +211,18 @@ class MemberEdit extends React.PureComponent {
     // Show the removing indicator
     this.setState({ removing: true });
 
-    let mutation = new OrganizationMemberDeleteMutation({
+    const mutation = new OrganizationMemberDeleteMutation({
       organizationMember: this.props.organizationMember
     });
 
     // Run the mutation
     Relay.Store.commitUpdate(mutation, {
-      onSuccess: this.handleRemoveMutationSuccess,
+      onSuccess: this.handleMutationSuccess,
       onFailure: this.handleMutationFailure
     });
   };
 
-  handleRemoveMutationSuccess = (response) => {
+  handleMutationSuccess = (response) => {
     this.setState({ removing: false });
 
     if (response.organizationMemberDelete.user.id === this.props.viewer.user.id) {
@@ -305,7 +235,7 @@ class MemberEdit extends React.PureComponent {
   };
 
   handleMutationFailure = (transaction) => {
-    this.setState({ removing: false, updating: false });
+    this.setState({ removing: false });
 
     FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
   };
@@ -319,6 +249,7 @@ export default Relay.createContainer(MemberEdit, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
+        ${MemberEditRole.getFragment('viewer')}
         user {
           id
         }
@@ -326,8 +257,8 @@ export default Relay.createContainer(MemberEdit, {
     `,
     organizationMember: () => Relay.QL`
       fragment on OrganizationMember {
+        ${MemberEditRole.getFragment('organizationMember')}
         uuid
-        role
         user {
           id
           name
@@ -349,16 +280,11 @@ export default Relay.createContainer(MemberEdit, {
           }
         }
         permissions {
-          organizationMemberUpdate {
-            allowed
-            message
-          }
           organizationMemberDelete {
             allowed
             message
           }
         }
-        ${OrganizationMemberUpdateMutation.getFragment('organizationMember')}
         ${OrganizationMemberDeleteMutation.getFragment('organizationMember')}
       }
     `
