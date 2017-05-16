@@ -9,11 +9,8 @@ import Panel from '../../shared/Panel';
 import Spinner from '../../shared/Spinner';
 import UserAvatar from '../../shared/UserAvatar';
 
-import FlashesStore from '../../../stores/FlashesStore';
-
 import MemberEditRole from './Role';
-
-import OrganizationMemberDeleteMutation from '../../../mutations/OrganizationMemberDelete';
+import MemberEditRemove from './Remove';
 
 import TeamMemberRow from './TeamMemberRow';
 
@@ -30,7 +27,6 @@ class MemberEdit extends React.PureComponent {
     }).isRequired,
     organizationMember: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
-      permissions: PropTypes.object.isRequired,
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -54,21 +50,6 @@ class MemberEdit extends React.PureComponent {
     relay: PropTypes.object.isRequired
   };
 
-  static contextTypes = {
-    router: PropTypes.object.isRequired
-  };
-
-  state = {
-    removing: false,
-    isSelf: false
-  };
-
-  componentWillMount() {
-    this.setState({
-      isSelf: this.props.organizationMember.user.id === this.props.viewer.user.id
-    });
-  }
-
   render() {
     if (!this.props.organizationMember) {
       return null;
@@ -91,7 +72,12 @@ class MemberEdit extends React.PureComponent {
             <PageHeader.Description>
               {this.props.organizationMember.user.email}
             </PageHeader.Description>
-            <PageHeader.Menu>{this.renderRemoveButton()}</PageHeader.Menu>
+            <PageHeader.Menu>
+              <MemberEditRemove
+                viewer={this.props.viewer}
+                organizationMember={this.props.organizationMember}
+              />
+            </PageHeader.Menu>
           </PageHeader>
           <MemberEditRole
             viewer={this.props.viewer}
@@ -171,76 +157,6 @@ class MemberEdit extends React.PureComponent {
       }
     );
   };
-
-  renderRemoveButton() {
-    // Don't show the remove panel if you can't actually remove them
-    if (!this.props.organizationMember.permissions.organizationMemberDelete.allowed) {
-      return null;
-    }
-
-    const loading = this.state.removing && (
-      this.state.isSelf
-        ? 'Leaving Organization…'
-        : 'Removing from Organization…'
-    );
-
-    return (
-      <Button
-        theme="error"
-        loading={loading}
-        onClick={this.handleRemoveClick}
-      >
-        {
-          this.state.isSelf
-            ? 'Leave Organization'
-            : 'Remove from Organization'
-        }
-      </Button>
-    );
-  }
-
-  handleRemoveClick = () => {
-    const message = this.state.isSelf
-      ? 'Removing yourself will immediately revoke your access to this organization.'
-      : 'Removing this user will immediately revoke their access to this organization.';
-
-    if (confirm(message)) {
-      this.performRemove();
-    }
-  };
-
-  performRemove = () => {
-    // Show the removing indicator
-    this.setState({ removing: true });
-
-    const mutation = new OrganizationMemberDeleteMutation({
-      organizationMember: this.props.organizationMember
-    });
-
-    // Run the mutation
-    Relay.Store.commitUpdate(mutation, {
-      onSuccess: this.handleMutationSuccess,
-      onFailure: this.handleMutationFailure
-    });
-  };
-
-  handleMutationSuccess = (response) => {
-    this.setState({ removing: false });
-
-    if (response.organizationMemberDelete.user.id === this.props.viewer.user.id) {
-      // if we remove ourself, kickflip outta there
-      // because we won't have access anymore!
-      window.location = '/';
-    } else {
-      this.context.router.push(`/organizations/${response.organizationMemberDelete.organization.slug}/users`);
-    }
-  };
-
-  handleMutationFailure = (transaction) => {
-    this.setState({ removing: false });
-
-    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
-  };
 }
 
 export default Relay.createContainer(MemberEdit, {
@@ -252,6 +168,7 @@ export default Relay.createContainer(MemberEdit, {
     viewer: () => Relay.QL`
       fragment on Viewer {
         ${MemberEditRole.getFragment('viewer')}
+        ${MemberEditRemove.getFragment('viewer')}
         user {
           id
         }
@@ -260,6 +177,7 @@ export default Relay.createContainer(MemberEdit, {
     organizationMember: () => Relay.QL`
       fragment on OrganizationMember {
         ${MemberEditRole.getFragment('organizationMember')}
+        ${MemberEditRemove.getFragment('organizationMember')}
         uuid
         user {
           id
@@ -281,13 +199,6 @@ export default Relay.createContainer(MemberEdit, {
             }
           }
         }
-        permissions {
-          organizationMemberDelete {
-            allowed
-            message
-          }
-        }
-        ${OrganizationMemberDeleteMutation.getFragment('organizationMember')}
       }
     `
   }
