@@ -74,8 +74,13 @@ const renderMain = (route) => {
   }
 };
 
+// Reset Bugsnag on route changes if it's loaded
+const onRouterUpdate = window.Bugsnag
+  ? () => (window.Bugsnag.refresh())
+  : undefined;
+
 export default (
-  <Router history={browserHistory} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
+  <Router history={browserHistory} onUpdate={onRouterUpdate} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
     <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery.query, build: BuildQuery.query }} prepareParams={BuildQuery.prepareParams} />
 
     <Route path="/" component={Main} getQueries={getMainQueries} render={renderMain}>

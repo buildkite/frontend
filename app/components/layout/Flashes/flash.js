@@ -4,12 +4,11 @@ import classNames from 'classnames';
 
 import FlashesStore from '../../../stores/FlashesStore';
 
-class Flash extends React.Component {
+class Flash extends React.PureComponent {
   static propTypes = {
     flash: PropTypes.shape({
-      id: PropTypes.number.isRequired,
       type: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired
+      message: PropTypes.node.isRequired
     }),
     onRemoveClick: PropTypes.func.isRequired
   };
@@ -21,7 +20,7 @@ class Flash extends React.Component {
     });
 
     return (
-      <div key={this.props.flash.id} className={classes}>
+      <div className={classes}>
         <div className="flex-auto px4 py3" data-flash-message={true}>{this.props.flash.message}</div>
         <button className="btn px4 py3" onClick={this.handleCloseClick} data-flash-close={true}>Close</button>
       </div>

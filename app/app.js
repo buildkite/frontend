@@ -12,7 +12,14 @@ if (window.Bugsnag && window._bugsnag) {
   window.Bugsnag.appVersion = window._bugsnag.appVersion;
   window.Bugsnag.user = window._bugsnag.user;
   window.Bugsnag.releaseStage = window._bugsnag.releaseStage;
-  window.Bugsnag.notifyReleaseStages = window._bugsnag.notifyReleaseStages;
+}
+
+// Toggle on development features
+if (process.env.NODE_ENV === "development") {
+  require('react-type-snob').default(React);
+  require('./lib/Logger').default.enable();
+  require('react-relay/lib/RelayNetworkDebug').init();
+  window.Perf = require('react-addons-perf');
 }
 
 // Allows old sprockets and inline-javascript to access webpack modules
@@ -116,14 +123,6 @@ if (window._pusher) {
   for (const channel of window._pusher["channels"]) {
     PusherStore.listen(channel);
   }
-}
-
-// Toggle on development features
-if (process.env.NODE_ENV === "development") {
-  require('react-type-snob').default(React);
-  require('./lib/Logger').default.enable();
-  require('react-relay/lib/RelayNetworkDebug').init();
-  window.Perf = require('react-addons-perf');
 }
 
 // Only do the react-router gear on pages we've designated
