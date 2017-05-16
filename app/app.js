@@ -20,6 +20,7 @@ window["Webpack"] = {
   modules: {
     "autosize": require("autosize"),
     "classnames": require("classnames"),
+    "create-react-class": require("create-react-class"),
     "escape-html": require("escape-html"),
     "eventemitter3": require("eventemitter3"),
     "moment": require("moment"),
