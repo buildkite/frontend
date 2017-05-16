@@ -6,7 +6,7 @@ import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
 import Spinner from '../../shared/Spinner';
 
-import TeamMemberRow from './TeamMemberRow';
+import MembershipRow from './MembershipRow';
 
 const INITIAL_PAGE_SIZE = 5;
 const PAGE_SIZE = 20;
@@ -43,16 +43,17 @@ class MemberEditMemberships extends React.PureComponent {
   }
 
   renderTeams() {
-    if (this.props.organizationMember.teams.edges.length > 0) {
-      return this.props.organizationMember.teams.edges.map(({ node }) => (
-        <TeamMemberRow
-          key={node.id}
-          teamMember={node}
-        />
-      ));
-    } else {
-      return "This user is not a member of any teams.";
+    const teams = this.props.organizationMember.teams.edges;
+
+    if (!teams.length) {
+      return (
+        <Panel.Row>
+          This user is not a member of any teams.
+        </Panel.Row>
+      );
     }
+
+    return teams.map(({ node }) => <MembershipRow key={node.id} teamMember={node} />);
   }
 
   renderTeamsFooter() {
@@ -122,7 +123,7 @@ export default Relay.createContainer(MemberEditMemberships, {
           edges {
             node {
               id
-              ${TeamMemberRow.getFragment('teamMember')}
+              ${MembershipRow.getFragment('teamMember')}
             }
           }
         }

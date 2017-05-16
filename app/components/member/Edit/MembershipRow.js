@@ -13,7 +13,7 @@ import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
 
 import TeamPrivacyConstants from '../../../constants/TeamPrivacyConstants';
 
-class TeamMemberRow extends React.PureComponent {
+class MembershipRow extends React.PureComponent {
   static propTypes = {
     teamMember: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -136,7 +136,7 @@ class TeamMemberRow extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(TeamMemberRow, {
+export default Relay.createContainer(MembershipRow, {
   fragments: {
     teamMember: () => Relay.QL`
       fragment on TeamMember {
