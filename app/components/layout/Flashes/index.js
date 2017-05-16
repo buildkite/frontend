@@ -40,6 +40,11 @@ class Flashes extends React.PureComponent {
   }
 
   // show a flash when there's a push connection issue
+  //
+  // NOTE: Pusher only sends this event if the following conditions are met;
+  //        1. The websocket timed out (30 seconds by default)
+  //        2. Reconnecting the websocket (after 10 seconds) failed
+  //       Thus, this can only happen once in a given 40 second period.
   handleConnectionError = () => {
     if (this.hasConnectionErrorFlash() || !this.state.lastConnected) {
       // try not to be irritating; don't add a new flash when
