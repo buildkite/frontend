@@ -6101,7 +6101,7 @@ react-relay@^0.10.0:
     fbjs "^0.8.1"
     react-static-container "^1.0.1"
 
-react-router-relay@^0.13.5:
+react-router-relay@^0.13.7:
   version "0.13.7"
   resolved "https://registry.yarnpkg.com/react-router-relay/-/react-router-relay-0.13.7.tgz#f5be1ef55bc5c6881e3623beeee6ef96a0d8a168"
   dependencies:
