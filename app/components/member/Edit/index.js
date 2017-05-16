@@ -37,6 +37,8 @@ class MemberEdit extends React.PureComponent {
       return null;
     }
 
+    const isSelf = this.props.organizationMember.user.id === this.props.viewer.user.id;
+
     return (
       <DocumentTitle title={`Users · ${this.props.organizationMember.user.name}`}>
         <div>
@@ -56,16 +58,19 @@ class MemberEdit extends React.PureComponent {
             </PageHeader.Description>
             <PageHeader.Menu>
               <MemberEditRemove
+                isSelf={isSelf}
                 viewer={this.props.viewer}
                 organizationMember={this.props.organizationMember}
               />
             </PageHeader.Menu>
           </PageHeader>
           <MemberEditRole
+            isSelf={isSelf}
             viewer={this.props.viewer}
             organizationMember={this.props.organizationMember}
           />
           <MemberEditMemberships
+            isSelf={isSelf}
             organizationMember={this.props.organizationMember}
           />
         </div>
@@ -78,7 +83,6 @@ export default Relay.createContainer(MemberEdit, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
-        ${MemberEditRole.getFragment('viewer')}
         ${MemberEditRemove.getFragment('viewer')}
         user {
           id

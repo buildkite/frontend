@@ -27,6 +27,7 @@ class MemberEditMemberships extends React.PureComponent {
         ).isRequired
       }).isRequired
     }),
+    isSelf: PropTypes.bool.isRequired,
     relay: PropTypes.object.isRequired
   };
 
@@ -53,7 +54,13 @@ class MemberEditMemberships extends React.PureComponent {
       );
     }
 
-    return teams.map(({ node }) => <MembershipRow key={node.id} teamMember={node} />);
+    return teams.map(({ node }) => (
+      <MembershipRow
+        key={node.id}
+        teamMember={node}
+        isSelf={this.props.isSelf}
+      />
+    ));
   }
 
   renderTeamsFooter() {

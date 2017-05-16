@@ -21,7 +21,8 @@ class MemberEditRemove extends React.PureComponent {
       user: PropTypes.shape({
         id: PropTypes.string.isRequired
       }).isRequired
-    })
+    }),
+    isSelf: PropTypes.bool.isRequired
   };
 
   static contextTypes = {
@@ -29,15 +30,8 @@ class MemberEditRemove extends React.PureComponent {
   };
 
   state = {
-    removing: false,
-    isSelf: false
+    removing: false
   };
-
-  componentWillMount() {
-    this.setState({
-      isSelf: this.props.organizationMember.user.id === this.props.viewer.user.id
-    });
-  }
 
   render() {
     // Don't show the remove panel if you can't actually remove them
@@ -46,7 +40,7 @@ class MemberEditRemove extends React.PureComponent {
     }
 
     const loading = this.state.removing && (
-      this.state.isSelf
+      this.props.isSelf
         ? 'Leaving Organization…'
         : 'Removing from Organization…'
     );
@@ -58,7 +52,7 @@ class MemberEditRemove extends React.PureComponent {
         onClick={this.handleRemoveClick}
       >
         {
-          this.state.isSelf
+          this.props.isSelf
             ? 'Leave Organization'
             : 'Remove from Organization'
         }
@@ -67,7 +61,7 @@ class MemberEditRemove extends React.PureComponent {
   }
 
   handleRemoveClick = () => {
-    const message = this.state.isSelf
+    const message = this.props.isSelf
       ? 'Removing yourself will immediately revoke your access to this organization.'
       : 'Removing this user will immediately revoke their access to this organization.';
 

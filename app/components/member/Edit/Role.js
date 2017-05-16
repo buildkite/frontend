@@ -14,19 +14,14 @@ import OrganizationMemberRoleConstants from '../../../constants/OrganizationMemb
 
 class MemberEditRole extends React.PureComponent {
   static propTypes = {
-    viewer: PropTypes.shape({
-      user: PropTypes.shape({
-        id: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired,
     organizationMember: PropTypes.shape({
       role: PropTypes.string.isRequired,
       permissions: PropTypes.object.isRequired,
       user: PropTypes.shape({
-        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
       }).isRequired
-    })
+    }),
+    isSelf: PropTypes.bool.isRequired
   };
 
   state = {
@@ -52,10 +47,8 @@ class MemberEditRole extends React.PureComponent {
         </Panel>
       );
     } else {
-      const isSelf = this.props.organizationMember.user.id === this.props.viewer.user.id;
-
       const saveRowContent = (
-        isSelf
+        this.props.isSelf
           ? <span className="dark-gray">You can’t edit your own roles</span>
           : (
             <Button
@@ -73,7 +66,7 @@ class MemberEditRole extends React.PureComponent {
             <FormCheckbox
               label="Administrator"
               help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see the agent registration token."
-              disabled={isSelf}
+              disabled={this.props.isSelf}
               onChange={this.handleAdminChange}
               checked={this.state.isAdmin}
             />
@@ -133,18 +126,10 @@ class MemberEditRole extends React.PureComponent {
 
 export default Relay.createContainer(MemberEditRole, {
   fragments: {
-    viewer: () => Relay.QL`
-      fragment on Viewer {
-        user {
-          id
-        }
-      }
-    `,
     organizationMember: () => Relay.QL`
       fragment on OrganizationMember {
         role
         user {
-          id
           name
         }
         permissions {

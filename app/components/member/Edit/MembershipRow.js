@@ -36,7 +36,8 @@ class MembershipRow extends React.PureComponent {
           message: PropTypes.string
         })
       })
-    }).isRequired
+    }).isRequired,
+    isSelf: PropTypes.bool.isRequired
   };
 
   state = {
@@ -49,7 +50,10 @@ class MembershipRow extends React.PureComponent {
         <div className="flex flex-stretch items-center line-height-1" style={{ minHeight: '3em' }}>
           <div className="flex-auto">
             <div className="m0 flex items-center">
-              <Link to={`/organizations/${this.props.teamMember.team.organization.slug}/teams/${this.props.teamMember.team.slug}`} className="blue hover-navy text-decoration-none hover-underline">
+              <Link
+                to={`/organizations/${this.props.teamMember.team.organization.slug}/teams/${this.props.teamMember.team.slug}`}
+                className="blue hover-navy text-decoration-none hover-underline"
+              >
                 <Emojify text={this.props.teamMember.team.name} />
               </Link>
               {this.renderPrivacyLabel()}
@@ -97,20 +101,20 @@ class MembershipRow extends React.PureComponent {
     if (this.props.teamMember.permissions.teamMemberDelete.allowed) {
       return (
         <Button
-          loading={this.state.removing ? "Removing…" : false}
+          loading={this.state.removing && (this.props.isSelf ? 'Leaving…' : 'Removing…')}
           theme={"default"}
           outline={true}
           className="ml3"
           onClick={this.handleRemove}
         >
-          Remove
+          {this.props.isSelf ? 'Leave' : 'Remove'}
         </Button>
       );
     }
   }
 
   handleRemove = (evt) => {
-    if (confirm("Remove this user from the team?")) {
+    if (confirm(this.props.isSelf ? 'Leave this team?' : 'Remove this user from the team?')) {
       evt.preventDefault();
 
       this.performRemove();
