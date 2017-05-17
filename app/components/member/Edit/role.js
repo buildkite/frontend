@@ -12,7 +12,9 @@ import OrganizationMemberUpdateMutation from '../../../mutations/OrganizationMem
 
 import OrganizationMemberRoleConstants from '../../../constants/OrganizationMemberRoleConstants';
 
-class MemberEditRole extends React.PureComponent {
+class Role extends React.PureComponent {
+  static displayName = "Member.Edit.Role";
+
   static propTypes = {
     organizationMember: PropTypes.shape({
       role: PropTypes.string.isRequired,
@@ -124,7 +126,7 @@ class MemberEditRole extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(MemberEditRole, {
+export default Relay.createContainer(Role, {
   fragments: {
     organizationMember: () => Relay.QL`
       fragment on OrganizationMember {

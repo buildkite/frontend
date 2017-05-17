@@ -3,17 +3,19 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
 
-import Button from '../../shared/Button';
-import Emojify from '../../shared/Emojify';
-import Panel from '../../shared/Panel';
+import Button from '../../../shared/Button';
+import Emojify from '../../../shared/Emojify';
+import Panel from '../../../shared/Panel';
 
-import FlashesStore from '../../../stores/FlashesStore';
+import FlashesStore from '../../../../stores/FlashesStore';
 
-import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
+import TeamMemberDeleteMutation from '../../../../mutations/TeamMemberDelete';
 
-import TeamPrivacyConstants from '../../../constants/TeamPrivacyConstants';
+import TeamPrivacyConstants from '../../../../constants/TeamPrivacyConstants';
 
-class MembershipRow extends React.PureComponent {
+class Row extends React.PureComponent {
+  static displayName = "Member.Edit.Memberships.Row";
+
   static propTypes = {
     teamMember: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -140,7 +142,7 @@ class MembershipRow extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(MembershipRow, {
+export default Relay.createContainer(Row, {
   fragments: {
     teamMember: () => Relay.QL`
       fragment on TeamMember {

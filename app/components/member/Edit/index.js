@@ -6,13 +6,15 @@ import DocumentTitle from 'react-document-title';
 import PageHeader from '../../shared/PageHeader';
 import UserAvatar from '../../shared/UserAvatar';
 
-import MemberEditRole from './Role';
-import MemberEditRemove from './Remove';
-import MemberEditMemberships from './Memberships';
+import MemberEditRole from './role';
+import MemberEditRemove from './remove';
+import MemberEditMemberships from './memberships';
 
 const AVATAR_SIZE = 50;
 
-class MemberEdit extends React.PureComponent {
+class Edit extends React.PureComponent {
+  static displayName = "Member.Edit";
+
   static propTypes = {
     viewer: PropTypes.shape({
       user: PropTypes.shape({
@@ -79,7 +81,7 @@ class MemberEdit extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(MemberEdit, {
+export default Relay.createContainer(Edit, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {

@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
-import Button from '../../shared/Button';
-import Panel from '../../shared/Panel';
-import Spinner from '../../shared/Spinner';
+import Button from '../../../shared/Button';
+import Panel from '../../../shared/Panel';
+import Spinner from '../../../shared/Spinner';
 
-import MembershipRow from './MembershipRow';
+import Row from './row';
 
 const INITIAL_PAGE_SIZE = 5;
 const PAGE_SIZE = 20;
 
-class MemberEditMemberships extends React.PureComponent {
+class Memberships extends React.PureComponent {
+  static displayName = "Member.Edit.Memberships";
+
   static propTypes = {
     organizationMember: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
@@ -55,7 +57,7 @@ class MemberEditMemberships extends React.PureComponent {
     }
 
     return teams.map(({ node }) => (
-      <MembershipRow
+      <Row
         key={node.id}
         teamMember={node}
         isSelf={this.props.isSelf}
@@ -110,7 +112,7 @@ class MemberEditMemberships extends React.PureComponent {
   };
 }
 
-export default Relay.createContainer(MemberEditMemberships, {
+export default Relay.createContainer(Memberships, {
   initialVariables: {
     teamsPageSize: INITIAL_PAGE_SIZE
   },
@@ -130,7 +132,7 @@ export default Relay.createContainer(MemberEditMemberships, {
           edges {
             node {
               id
-              ${MembershipRow.getFragment('teamMember')}
+              ${Row.getFragment('teamMember')}
             }
           }
         }

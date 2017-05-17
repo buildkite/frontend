@@ -8,7 +8,9 @@ import FlashesStore from '../../../stores/FlashesStore';
 
 import OrganizationMemberDeleteMutation from '../../../mutations/OrganizationMemberDelete';
 
-class MemberEditRemove extends React.PureComponent {
+class Remove extends React.PureComponent {
+  static displayName = "Member.Edit.Remove";
+
   static propTypes = {
     viewer: PropTypes.shape({
       user: PropTypes.shape({
@@ -104,7 +106,7 @@ class MemberEditRemove extends React.PureComponent {
   };
 }
 
-export default Relay.createContainer(MemberEditRemove, {
+export default Relay.createContainer(Remove, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
