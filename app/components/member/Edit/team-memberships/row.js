@@ -7,6 +7,8 @@ import Button from '../../../shared/Button';
 import Emojify from '../../../shared/Emojify';
 import Panel from '../../../shared/Panel';
 
+import permissions from '../../../../lib/permissions';
+
 import FlashesStore from '../../../../stores/FlashesStore';
 
 import TeamMemberDeleteMutation from '../../../../mutations/TeamMemberDelete';
@@ -100,19 +102,20 @@ class Row extends React.PureComponent {
   }
 
   renderActions() {
-    if (this.props.teamMember.permissions.teamMemberDelete.allowed) {
-      return (
-        <Button
-          loading={this.state.removing && (this.props.isSelf ? 'Leaving…' : 'Removing…')}
-          theme={"default"}
-          outline={true}
-          className="ml3"
-          onClick={this.handleRemove}
-        >
-          {this.props.isSelf ? 'Leave' : 'Remove'}
-        </Button>
-      );
-    }
+    return permissions(this.props.teamMember.permissions).check({
+        allowed: 'teamMemberDelete',
+        render: () => (
+          <Button
+            loading={this.state.removing && (this.props.isSelf ? 'Leaving…' : 'Removing…')}
+            theme={"default"}
+            outline={true}
+            className="ml3"
+            onClick={this.handleRemove}
+          >
+            {this.props.isSelf ? 'Leave' : 'Remove'}
+          </Button>
+        )
+    });
   }
 
   handleRemove = (evt) => {
