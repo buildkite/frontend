@@ -1,7 +1,7 @@
 env:
-  - FRONTEND_HOST=https://buildkiteassets.com/frontend/
-  - EMOJI_HOST=https://buildkiteassets.com/emojis
-  - S3_URL=s3://buildkiteassets.com/frontend/
+  FRONTEND_HOST: https://buildkiteassets.com/frontend/
+  EMOJI_HOST: https://buildkiteassets.com/emojis
+  S3_URL: s3://buildkiteassets.com/frontend/
 
 steps:
   - name: ":docker: :package:"
