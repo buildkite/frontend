@@ -7,10 +7,13 @@ import Button from '../../../shared/Button';
 import Emojify from '../../../shared/Emojify';
 import Panel from '../../../shared/Panel';
 
+import MemberRole from '../../../team/Members/role';
+
 import permissions from '../../../../lib/permissions';
 
 import FlashesStore from '../../../../stores/FlashesStore';
 
+import TeamMemberUpdateMutation from '../../../../mutations/TeamMemberUpdate';
 import TeamMemberDeleteMutation from '../../../../mutations/TeamMemberDelete';
 
 import TeamPrivacyConstants from '../../../../constants/TeamPrivacyConstants';
@@ -21,6 +24,7 @@ class Row extends React.PureComponent {
   static propTypes = {
     teamMember: PropTypes.shape({
       id: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired,
       team: PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -35,6 +39,10 @@ class Row extends React.PureComponent {
         }).isRequired
       }).isRequired,
       permissions: PropTypes.shape({
+        teamMemberUpdate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired,
+          message: PropTypes.string
+        }),
         teamMemberDelete: PropTypes.shape({
           allowed: PropTypes.bool.isRequired,
           message: PropTypes.string
@@ -45,7 +53,8 @@ class Row extends React.PureComponent {
   };
 
   state = {
-    removing: null
+    removing: null,
+    savingNewRole: null
   };
 
   render() {
@@ -102,21 +111,55 @@ class Row extends React.PureComponent {
   }
 
   renderActions() {
-    return permissions(this.props.teamMember.permissions).check({
-      allowed: 'teamMemberDelete',
-      render: () => (
-        <Button
-          loading={this.state.removing && (this.props.isSelf ? 'Leaving…' : 'Removing…')}
-          theme={"default"}
-          outline={true}
-          className="ml3"
-          onClick={this.handleRemove}
-        >
-          {this.props.isSelf ? 'Leave' : 'Remove'}
-        </Button>
+    return permissions(this.props.teamMember.permissions).collect(
+      {
+        allowed: 'teamMemberUpdate',
+        render: () => (
+          <MemberRole
+            key="update"
+            teamMember={this.props.teamMember}
+            onRoleChange={this.handleRoleChange}
+            savingNewRole={this.state.savingNewRole}
+          />
         )
-    });
+      },
+      {
+        allowed: 'teamMemberDelete',
+        render: () => (
+          <Button
+            key="delete"
+            loading={this.state.removing && (this.props.isSelf ? 'Leaving…' : 'Removing…')}
+            theme={"default"}
+            outline={true}
+            className="ml3"
+            onClick={this.handleRemove}
+          >
+            {this.props.isSelf ? 'Leave' : 'Remove'}
+          </Button>
+          )
+      }
+    );
   }
+
+  handleRoleChange = (role) => {
+    this.setState({ savingNewRole: role });
+
+    const mutation = new TeamMemberUpdateMutation({
+      teamMember: this.props.teamMember,
+      role: role
+    });
+
+    Relay.Store.commitUpdate(mutation, {
+      onSuccess: () => {
+        this.setState({ savingNewRole: null });
+      },
+      onFailure: (transaction) => {
+        this.setState({ savingNewRole: null });
+
+        FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
+      }
+    });
+  };
 
   handleRemove = (evt) => {
     if (confirm(this.props.isSelf ? 'Leave this team?' : 'Remove this user from the team?')) {
@@ -150,6 +193,7 @@ export default Relay.createContainer(Row, {
     teamMember: () => Relay.QL`
       fragment on TeamMember {
         id
+        role
         team {
           id
           name
@@ -164,11 +208,16 @@ export default Relay.createContainer(Row, {
           }
         }
         permissions {
+          teamMemberUpdate {
+            allowed
+            message
+          }
           teamMemberDelete {
             allowed
             message
           }
         }
+        ${TeamMemberUpdateMutation.getFragment('teamMember')}
         ${TeamMemberDeleteMutation.getFragment('teamMember')}
       }
     `
