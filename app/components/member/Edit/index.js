@@ -50,10 +50,10 @@ class MemberEdit extends React.PureComponent {
                 style={{ width: AVATAR_SIZE, height: AVATAR_SIZE }}
               />
             </PageHeader.Icon>
-            <PageHeader.Title>
+            <PageHeader.Title className="truncate mr2">
               {this.props.organizationMember.user.name}
             </PageHeader.Title>
-            <PageHeader.Description>
+            <PageHeader.Description className="truncate mr2">
               {this.props.organizationMember.user.email}
             </PageHeader.Description>
             <PageHeader.Menu>
