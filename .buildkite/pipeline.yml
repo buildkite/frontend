@@ -45,7 +45,20 @@ steps:
 
   - wait
 
-  - name: ":rocket:"
+  - name: ":rocket: :docker:"
+    branches: "master"
+    concurrency: 1
+    concurrency_group: "deployer"
+    plugins:
+      docker-compose#v1.3.0:
+        push:
+          - app:index.docker.io/buildkite/frontend:build-${BUILDKITE_BUILD_NUMBER}
+          - app:index.docker.io/buildkite/frontend:commit-${BUILDKITE_COMMIT:0:6}
+          - app:index.docker.io/buildkite/frontend:latest
+
+  - wait
+
+  - name: ":rocket: :s3:"
     command: ".buildkite/steps/deploy.sh"
     branches: "master"
     artifact_paths: "tmp/verify/*"
