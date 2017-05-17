@@ -4,9 +4,10 @@ import Relay from 'react-relay';
 
 import AutocompleteDialog from '../../../shared/Autocomplete/Dialog';
 import Button from '../../../shared/Button';
-import Emojify from '../../../shared/Emojify';
 
 import FlashesStore from '../../../../stores/FlashesStore';
+
+import Team from './team';
 
 const PAGE_SIZE = 10;
 
@@ -20,7 +21,9 @@ class Chooser extends React.Component {
         id: PropTypes.string.isRequired
       }).isRequired,
       organization: PropTypes.shape({
-        teams: PropTypes.array
+        teams: PropTypes.shape({
+          edges: PropTypes.array.isRequired
+        })
       }).isRequired
     }).isRequired,
     relay: PropTypes.object.isRequired,
@@ -108,13 +111,7 @@ class Chooser extends React.Component {
     // Either render the suggestions, or show a "not found" error
     if (this.state.relevantTeams.length > 0) {
       return this.state.relevantTeams.map(({ node }) => {
-        return [
-          <div key={node.id}>
-            <Emojify className="semi-bold truncate block" text={node.name} />
-            <div className="m0 p0 dark-gray truncate"><Emojify text={node.description || "n/a"} /></div>
-          </div>,
-          node
-        ];
+        return [<Team key={node.id} team={node} />, node];
       });
     } else if (teamAddSearch !== "") {
       return [
@@ -197,8 +194,7 @@ export default Relay.createContainer(Chooser, {
             edges {
               node {
                 id
-                name
-                description
+                ${Team.getFragment('team')}
                 permissions {
                   teamMemberCreate {
                     allowed
