@@ -4,6 +4,3 @@ services:
   frontend:
     ports:
       - "4890:4890"
-    environment:
-      FRONTEND_HOST: http://localhost:4890/
-
