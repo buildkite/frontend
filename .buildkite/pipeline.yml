@@ -46,7 +46,9 @@ steps:
   - wait
 
   - name: ":rocket: :docker:"
-    branches: "master"
+    branches:
+      - master
+      - push-docker-image
     concurrency: 1
     concurrency_group: "deployer"
     plugins:
