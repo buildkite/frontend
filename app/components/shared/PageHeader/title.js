@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-class Title extends React.Component {
+class Title extends React.PureComponent {
   static displayName = "PageHeader.Title";
 
   static propTypes = {
