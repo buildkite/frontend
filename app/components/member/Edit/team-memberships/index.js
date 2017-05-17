@@ -11,8 +11,8 @@ import Row from './row';
 const INITIAL_PAGE_SIZE = 5;
 const PAGE_SIZE = 20;
 
-class Memberships extends React.PureComponent {
-  static displayName = "Member.Edit.Memberships";
+class TeamMemberships extends React.PureComponent {
+  static displayName = "Member.Edit.TeamMemberships";
 
   static propTypes = {
     organizationMember: PropTypes.shape({
@@ -112,7 +112,7 @@ class Memberships extends React.PureComponent {
   };
 }
 
-export default Relay.createContainer(Memberships, {
+export default Relay.createContainer(TeamMemberships, {
   initialVariables: {
     teamsPageSize: INITIAL_PAGE_SIZE
   },

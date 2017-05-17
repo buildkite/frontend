@@ -14,7 +14,7 @@ import TeamMemberDeleteMutation from '../../../../mutations/TeamMemberDelete';
 import TeamPrivacyConstants from '../../../../constants/TeamPrivacyConstants';
 
 class Row extends React.PureComponent {
-  static displayName = "Member.Edit.Memberships.Row";
+  static displayName = "Member.Edit.TeamMemberships.Row";
 
   static propTypes = {
     teamMember: PropTypes.shape({
