@@ -103,17 +103,17 @@ class Row extends React.PureComponent {
 
   renderActions() {
     return permissions(this.props.teamMember.permissions).check({
-        allowed: 'teamMemberDelete',
-        render: () => (
-          <Button
-            loading={this.state.removing && (this.props.isSelf ? 'Leaving…' : 'Removing…')}
-            theme={"default"}
-            outline={true}
-            className="ml3"
-            onClick={this.handleRemove}
-          >
-            {this.props.isSelf ? 'Leave' : 'Remove'}
-          </Button>
+      allowed: 'teamMemberDelete',
+      render: () => (
+        <Button
+          loading={this.state.removing && (this.props.isSelf ? 'Leaving…' : 'Removing…')}
+          theme={"default"}
+          outline={true}
+          className="ml3"
+          onClick={this.handleRemove}
+        >
+          {this.props.isSelf ? 'Leave' : 'Remove'}
+        </Button>
         )
     });
   }

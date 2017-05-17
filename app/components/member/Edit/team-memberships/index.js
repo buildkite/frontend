@@ -7,6 +7,7 @@ import Panel from '../../../shared/Panel';
 import Spinner from '../../../shared/Spinner';
 
 import Row from './row';
+import Chooser from './chooser';
 
 const INITIAL_PAGE_SIZE = 5;
 const PAGE_SIZE = 20;
@@ -36,7 +37,14 @@ class TeamMemberships extends React.PureComponent {
   render() {
     return (
       <div className="mb4">
-        <h2 className="h2">Team Memberships</h2>
+        <div className="flex items-center">
+          <h2 className="h2 flex-auto">Team Memberships</h2>
+          <Chooser
+            organizationMember={this.props.organizationMember}
+            onChoose={this.handleTeamMemberAdd}
+            isSelf={this.props.isSelf}
+          />
+        </div>
         <Panel>
           {this.renderTeams()}
           {this.renderTeamsFooter()}
@@ -44,6 +52,10 @@ class TeamMemberships extends React.PureComponent {
       </div>
     );
   }
+
+  handleTeamMemberAdd = () => {
+    this.props.relay.forceFetch();
+  };
 
   renderTeams() {
     const teams = this.props.organizationMember.teams.edges;
@@ -136,6 +148,7 @@ export default Relay.createContainer(TeamMemberships, {
             }
           }
         }
+        ${Chooser.getFragment('organizationMember')}
       }
     `
   }
