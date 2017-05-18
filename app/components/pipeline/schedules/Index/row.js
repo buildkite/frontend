@@ -46,7 +46,7 @@ class Row extends React.Component {
   renderLabel() {
     if (this.props.pipelineSchedule.label) {
       return (
-        <div className="m0 semi-bold mt1 mb1"><Emojify text={this.props.pipelineSchedule.label} /></div>
+        <div className="m0 semi-bold mb1"><Emojify text={this.props.pipelineSchedule.label} /></div>
       );
     }
   }
