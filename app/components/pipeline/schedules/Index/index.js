@@ -41,7 +41,7 @@ class Index extends React.Component {
           <Panel.Header>Schedules</Panel.Header>
 
           <Panel.IntroWithButton>
-            <span>Build schedules automatically create builds at a specified interval.</span>
+            <span>Build schedules automatically create builds at specified intervals.</span>
             {this.renderNewScheduleButton()}
           </Panel.IntroWithButton>
           {this.renderScheduleRows()}
