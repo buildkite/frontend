@@ -40,7 +40,7 @@ class Form extends React.Component {
 
         <FormTextField
           label="Cron Interval"
-          help={"The interval for when builds will be created, in UTC, using <a class=\"lime\" target=\"_blank\" rel=\"noopener\" href=\"https://crontab.guru\">cron format</a>. Also supports <code>@monthly</code>, <code>@weekly</code>, <code>@daily</code>, <code>@midnight</code>, and <code>@hourly</code>. For example, <code>30 * * * *</code> creates a build on the 30th minute of every hour."}
+          help={"The interval for when builds will be created, in UTC, using crontab format. See the <a class=\"lime\" href=\"/docs/builds/scheduled-builds\">Scheduled Builds</a> documentation for more information and examples."}
           required={true}
           errors={errors.findForField("cronline")}
           value={this.props.cronline}
