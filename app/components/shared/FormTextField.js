@@ -43,7 +43,11 @@ class FormTextField extends React.Component {
     } else {
       return (
         <div className="mb2">
-          <FormInputLabel label={this.props.label} errors={this._hasErrors()}>
+          <FormInputLabel
+            label={this.props.label}
+            errors={this._hasErrors()}
+            required={this.props.required}
+          >
             {this._renderInput()}
           </FormInputLabel>
           {this._renderErrors()}

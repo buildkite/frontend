@@ -67,8 +67,8 @@ class Show extends React.Component {
       <DocumentTitle title={this.props.pipelineSchedule.cronline}>
         <div>
           <PageHeader>
-            <PageHeader.Title>{this.props.pipelineSchedule.cronline}</PageHeader.Title>
-            <PageHeader.Description><Emojify text={this.props.pipelineSchedule.label || "No label"} /></PageHeader.Description>
+            <PageHeader.Title><Emojify text={this.props.pipelineSchedule.label || "No description"} /></PageHeader.Title>
+            <PageHeader.Description>{this.props.pipelineSchedule.cronline}</PageHeader.Description>
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
@@ -78,15 +78,14 @@ class Show extends React.Component {
               <div className="mb2 dark-gray"><code>{this.props.pipelineSchedule.commit}</code></div>
 
               <div><strong>Branch</strong></div>
-              <div className="mb2 dark-gray"><code>{this.props.pipelineSchedule.branch}</code></div>
+              <div className="mb2 dark-gray">{this.props.pipelineSchedule.branch}</div>
 
               <div><strong>Message</strong></div>
-              <div className="mb2 dark-gray">{this.props.pipelineSchedule.message || "n/a"}</div>
+              <div className="mb2 dark-gray">{this.props.pipelineSchedule.message || "Scheduled build"}</div>
 
-              <div><strong>Environment Variables</strong></div>
-              <div className="mb2 dark-gray"><pre><code>{this.props.pipelineSchedule.env.join("\n")}</code></pre></div>
+              {this.renderEnv()}
 
-              <div><strong>Creator</strong></div>
+              <div><strong>Created By</strong></div>
               <div className="mb2 dark-gray">{this.props.pipelineSchedule.createdBy.name}</div>
             </Panel.Section>
           </Panel>
@@ -94,8 +93,8 @@ class Show extends React.Component {
           <Panel>
             <Panel.Header>Recent Builds</Panel.Header>
             <Panel.Row>
-              <div className="dark-gray py2 center">
-                <Emojify text={`:timer_clock: Next build scheduled for ${getRelativeDateString(this.props.pipelineSchedule.nextBuildAt)}…`} />
+              <div className="dark-gray py1">
+                <Emojify text={`Next build scheduled for ${getRelativeDateString(this.props.pipelineSchedule.nextBuildAt)}`} />
               </div>
             </Panel.Row>
             {this.props.pipelineSchedule.builds.edges.map((edge) => <Build key={edge.node.id} build={edge.node} />)}
@@ -103,6 +102,19 @@ class Show extends React.Component {
         </div>
       </DocumentTitle>
     );
+  }
+
+  renderEnv() {
+    if (this.props.pipelineSchedule.env.length !== 0) {
+      return (
+        <div>
+          <div><strong>Environment Variables</strong></div>
+          <div className="mb2 dark-gray"><pre><code>{this.props.pipelineSchedule.env.join("\n")}</code></pre></div>
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 
   renderMenu() {

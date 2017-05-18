@@ -41,7 +41,7 @@ class Index extends React.Component {
           <Panel.Header>Schedules</Panel.Header>
 
           <Panel.IntroWithButton>
-            <span>Schedules allow you to automatically create builds at regular times.</span>
+            <span>Build schedules automatically create builds at a specified interval.</span>
             {this.renderNewScheduleButton()}
           </Panel.IntroWithButton>
           {this.renderScheduleRows()}
@@ -54,7 +54,7 @@ class Index extends React.Component {
     return permissions(this.props.pipeline.permissions).check(
       {
         allowed: "pipelineScheduleCreate",
-        render: () => <Button link={`/${this.props.params.organization}/${this.props.params.pipeline}/settings/schedules/new`} theme={"default"} outline={true}>Create Schedule</Button>
+        render: () => <Button link={`/${this.props.params.organization}/${this.props.params.pipeline}/settings/schedules/new`} theme={"default"} outline={true}>New Schedule</Button>
       }
     );
   }

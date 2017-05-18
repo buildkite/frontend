@@ -6,7 +6,6 @@ import DocumentTitle from 'react-document-title';
 import PipelineScheduleUpdateMutation from '../../../mutations/PipelineScheduleUpdate';
 import GraphQLErrors from '../../../constants/GraphQLErrors';
 
-import PageHeader from '../../shared/PageHeader';
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
 
@@ -44,11 +43,9 @@ class Edit extends React.Component {
     return (
       <DocumentTitle title={`Update`}>
         <form onSubmit={this.handleFormSubmit}>
-          <PageHeader>
-            <PageHeader.Title>Update Schedule</PageHeader.Title>
-          </PageHeader>
-
           <Panel>
+            <Panel.Header>Update Schedule</Panel.Header>
+
             <Panel.Section>
               <Form
                 pipeline={this.props.pipelineSchedule.pipeline}

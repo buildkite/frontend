@@ -36,7 +36,7 @@ class New extends React.Component {
       <DocumentTitle title={`Schedules · ${this.props.pipeline.name}`}>
         <form onSubmit={this.handleFormSubmit}>
           <Panel>
-            <Panel.Header>Create New Schedule</Panel.Header>
+            <Panel.Header>New Schedule</Panel.Header>
 
             <Panel.Section>
               <Form pipeline={this.props.pipeline} errors={this.state.errors} ref={(form) => this.form = form} />
