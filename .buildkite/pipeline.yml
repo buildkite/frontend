@@ -1,7 +1,7 @@
 steps:
   - name: ":docker: :package:"
     plugins:
-      docker-compose:
+      docker-compose#v1.3.0:
         build: frontend
         image-repository: index.docker.io/buildkiteci/frontend
     env:
@@ -14,28 +14,28 @@ steps:
   - name: ":eslint:"
     command: ".buildkite/steps/eslint.sh"
     plugins:
-      docker-compose#ed68516:
+      docker-compose#v1.3.0:
         run: frontend
 
   - name: ":jest:"
     command: ".buildkite/steps/jest.sh"
     artifact_paths: "coverage/*"
     plugins:
-      docker-compose#ed68516:
+      docker-compose#v1.3.0:
         run: frontend
 
   - name: ":package::mag:"
     command: ".buildkite/steps/bundle-analyze.sh"
     artifact_paths: "bundle-analysis/*"
     plugins:
-      docker-compose#ed68516:
+      docker-compose#v1.3.0:
         run: frontend
 
   - name: ":webpack:"
     command: ".buildkite/steps/webpack.sh"
     artifact_paths: "dist/*"
     plugins:
-      docker-compose#ed68516:
+      docker-compose#v1.3.0:
         run: frontend
 
   - wait
