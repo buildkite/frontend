@@ -70,13 +70,19 @@ class Chooser extends React.Component {
   }
 
   renderAutoCompleteSuggstions(teamAddSearch) {
-    if (!this.props.organizationMember.organization.teams) {
+    const teams = this.props.organizationMember.organization.teams;
+
+    if (!teams) {
       return [];
     }
 
+    const relevantTeamEdges = teams.edges.filter(({ node }) => (
+      node.permissions.teamMemberCreate.allowed
+    ));
+
     // Either render the suggestions, or show a "not found" error
-    if (this.props.organizationMember.organization.teams.edges.length > 0) {
-      return this.props.organizationMember.organization.teams.edges.map(({ node }) => {
+    if (relevantTeamEdges.length > 0) {
+      return relevantTeamEdges.map(({ node }) => {
         return [<Team key={node.id} team={node} />, node];
       });
     } else if (teamAddSearch !== "") {
