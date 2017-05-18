@@ -21,7 +21,7 @@ class Form extends React.Component {
   };
 
   componentDidMount() {
-    this.cronlineTextField.focus();
+    this.labelTextField.focus();
   }
 
   render() {
