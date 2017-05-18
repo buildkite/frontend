@@ -44,11 +44,9 @@ class Edit extends React.Component {
     return (
       <DocumentTitle title={`Update`}>
         <form onSubmit={this.handleFormSubmit}>
-          <PageHeader>
-            <PageHeader.Title>Update Schedule</PageHeader.Title>
-          </PageHeader>
-
           <Panel>
+            <Panel.Header>Update Schedule</Panel.Header>
+
             <Panel.Section>
               <Form
                 pipeline={this.props.pipelineSchedule.pipeline}
