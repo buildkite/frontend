@@ -26,7 +26,7 @@ class TeamForm extends React.Component {
       <div>
         <FormTextField
           label="Name"
-          help="Pick a name for your team (you can even use :emoji:)"
+          help="The name for the team (supports :emoji:)"
           errors={errors.findForField("name")}
           value={this.props.name}
           onChange={this.handleTeamNameChange}
@@ -35,7 +35,7 @@ class TeamForm extends React.Component {
 
         <FormTextField
           label="Description"
-          help="Describe what this team is all about"
+          help="The description for the team (supports :emoji:)"
           errors={errors.findForField("description")}
           value={this.props.description}
           onChange={this.handleDescriptionChange}

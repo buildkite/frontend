@@ -6,7 +6,8 @@ class FormInputLabel extends React.PureComponent {
   static propTypes = {
     label: PropTypes.node.isRequired,
     children: PropTypes.node,
-    errors: PropTypes.bool
+    errors: PropTypes.bool,
+    required: PropTypes.bool
   };
 
   render() {
@@ -14,6 +15,7 @@ class FormInputLabel extends React.PureComponent {
       <label>
         <div className={classNames("bold mb1", { "red": this.props.errors })}>
           {this.props.label}
+          {this.props.required && <span className="dark-gray h6"> — Required</span>}
         </div>
         {this.props.children}
       </label>
