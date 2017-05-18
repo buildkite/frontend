@@ -6,7 +6,6 @@ import DocumentTitle from 'react-document-title';
 import PipelineScheduleUpdateMutation from '../../../mutations/PipelineScheduleUpdate';
 import GraphQLErrors from '../../../constants/GraphQLErrors';
 
-import PageHeader from '../../shared/PageHeader';
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
 
