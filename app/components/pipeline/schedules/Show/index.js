@@ -67,8 +67,8 @@ class Show extends React.Component {
       <DocumentTitle title={this.props.pipelineSchedule.cronline}>
         <div>
           <PageHeader>
-            <PageHeader.Title>{this.props.pipelineSchedule.cronline}</PageHeader.Title>
-            <PageHeader.Description><Emojify text={this.props.pipelineSchedule.label || "No label"} /></PageHeader.Description>
+            <PageHeader.Title><Emojify text={this.props.pipelineSchedule.label || "No description"} /></PageHeader.Title>
+            <PageHeader.Description>{this.props.pipelineSchedule.cronline}</PageHeader.Description>
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
