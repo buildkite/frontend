@@ -49,25 +49,28 @@ class Form extends React.Component {
 
         <FormTextField
           label="Message"
-          help="The message to use for the build. Default: “Scheduled Build for (Pipeline Name)”"
+          help="The message to use for the build."
           errors={errors.findForField("message")}
           value={this.props.message}
+          placeholder="Scheduled build"
           ref={(messageTextField) => this.messageTextField = messageTextField}
         />
 
         <FormTextField
           label="Commit"
-          help="The commit to use for the build. Default: “HEAD”"
+          help="The commit ref to use for the build."
           errors={errors.findForField("commit")}
           value={this.props.commit}
+          placeholder="HEAD"
           ref={(commitTextField) => this.commitTextField = commitTextField}
         />
 
         <FormTextField
           label="Branch"
-          help={`The branch to use for the build. Default: the pipeline’s default branch (currently “${this.props.pipeline.defaultBranch}”)`}
+          help="The branch to use for the build. Defaults to the pipeline’s default branch."
           errors={errors.findForField("branch")}
           value={this.props.branch}
+          placeholder={this.props.pipeline.defaultBranch}
           ref={(branchTextField) => this.branchTextField = branchTextField}
         />
 
