@@ -27,6 +27,7 @@ class MemberNew extends React.PureComponent {
       name: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired,
       teams: PropTypes.shape({
+        count: PropTypes.number.isRequired,
         edges: PropTypes.arrayOf(
           PropTypes.shape({
             node: PropTypes.shape({
@@ -174,6 +175,11 @@ class MemberNew extends React.PureComponent {
       return null;
     }
 
+    // If there aren't any teams then we don't have the feature
+    if (this.props.organization.teams.count === 0) {
+      return null;
+    }
+
     const teamEdges = this.props.organization.teams.edges
       .filter(({ node }) =>
         node.name !== 'Everyone' && node.description !== 'All users in your organization'
@@ -225,6 +231,7 @@ export default Relay.createContainer(MemberNew, {
         name
         slug
         teams(first: 50) @include(if: $isMounted) {
+          count
           edges {
             node {
               id
