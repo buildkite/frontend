@@ -85,7 +85,7 @@ class Show extends React.Component {
 
               {this.renderEnv()}
 
-              <div><strong>Creator</strong></div>
+              <div><strong>Created By</strong></div>
               <div className="mb2 dark-gray">{this.props.pipelineSchedule.createdBy.name}</div>
             </Panel.Section>
           </Panel>
@@ -93,7 +93,7 @@ class Show extends React.Component {
           <Panel>
             <Panel.Header>Recent Builds</Panel.Header>
             <Panel.Row>
-              <div className="dark-gray py2">
+              <div className="dark-gray py1">
                 <Emojify text={`Next build scheduled for ${getRelativeDateString(this.props.pipelineSchedule.nextBuildAt)}`} />
               </div>
             </Panel.Row>
