@@ -30,11 +30,13 @@ class Row extends React.Component {
       <Panel.RowLink to={`/${organization.slug}/${pipeline.slug}/settings/schedules/${this.props.pipelineSchedule.uuid}`}>
         <div className="flex flex-stretch items-center line-height-1" style={{ minHeight: '3em' }}>
           <div className="flex-auto">
-            <div className="m0 semi-bold">{this.props.pipelineSchedule.cronline}</div>
             {this.renderLabel()}
+            <span className="dark-gray regular">{this.props.pipelineSchedule.cronline}</span>
           </div>
-          <div className="flex flex-none flex-stretch items-center my1 pr3">
-            <code className="dark-gray">{this.props.pipelineSchedule.branch} | {this.props.pipelineSchedule.commit}</code>
+          <div className="flex flex-none flex-stretch items-center my1 pr3 dark-gray">
+            <code className="dark-gray">{this.props.pipelineSchedule.commit}</code>
+            <span>&nbsp;/&nbsp;</span>
+            {this.props.pipelineSchedule.branch}
           </div>
         </div>
       </Panel.RowLink>
@@ -44,7 +46,7 @@ class Row extends React.Component {
   renderLabel() {
     if (this.props.pipelineSchedule.label) {
       return (
-        <div className="regular dark-gray mt1"><Emojify text={this.props.pipelineSchedule.label} /></div>
+        <div className="m0 semi-bold mt1 mb1"><Emojify text={this.props.pipelineSchedule.label} /></div>
       );
     }
   }

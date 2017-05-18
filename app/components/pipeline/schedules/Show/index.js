@@ -78,13 +78,12 @@ class Show extends React.Component {
               <div className="mb2 dark-gray"><code>{this.props.pipelineSchedule.commit}</code></div>
 
               <div><strong>Branch</strong></div>
-              <div className="mb2 dark-gray"><code>{this.props.pipelineSchedule.branch}</code></div>
+              <div className="mb2 dark-gray">{this.props.pipelineSchedule.branch}</div>
 
               <div><strong>Message</strong></div>
-              <div className="mb2 dark-gray">{this.props.pipelineSchedule.message || "n/a"}</div>
+              <div className="mb2 dark-gray">{this.props.pipelineSchedule.message || "Scheduled build"}</div>
 
-              <div><strong>Environment Variables</strong></div>
-              <div className="mb2 dark-gray"><pre><code>{this.props.pipelineSchedule.env.join("\n")}</code></pre></div>
+              {this.renderEnv()}
 
               <div><strong>Creator</strong></div>
               <div className="mb2 dark-gray">{this.props.pipelineSchedule.createdBy.name}</div>
@@ -103,6 +102,19 @@ class Show extends React.Component {
         </div>
       </DocumentTitle>
     );
+  }
+
+  renderEnv() {
+    if (this.props.pipelineSchedule.env.length !== 0) {
+      return (
+        <div>
+          <div><strong>Environment Variables</strong></div>
+          <div className="mb2 dark-gray"><pre><code>{this.props.pipelineSchedule.env.join("\n")}</code></pre></div>
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 
   renderMenu() {
