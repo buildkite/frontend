@@ -2,13 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 
+import Button from '../shared/Button';
 import SectionLoader from '../shared/SectionLoader';
+import Spinner from '../shared/Spinner';
 
 import FlashesStore from '../../stores/FlashesStore';
 import UserSessionStore from '../../stores/UserSessionStore';
 
 import Pipeline from './Pipeline';
 import Welcome from './Welcome';
+
+const INITIAL_PAGE_SIZE = 100;
+const PAGE_SIZE = 50;
 
 class OrganizationPipelines extends React.Component {
   static propTypes = {
@@ -22,7 +27,10 @@ class OrganizationPipelines extends React.Component {
               id: PropTypes.string.isRequired
             }).isRequired
           }).isRequired
-        )
+        ),
+        pageInfo: PropTypes.shape({
+          hasNextPage: PropTypes.bool.isRequired
+        }).isRequired
       })
     }),
     relay: PropTypes.object.isRequired,
@@ -122,6 +130,7 @@ class OrganizationPipelines extends React.Component {
       return (
         <div>
           {this.renderPipelines()}
+          {this.renderPipelineFooter()}
         </div>
       );
     } else {
@@ -159,12 +168,60 @@ class OrganizationPipelines extends React.Component {
     // Just in case
     return [];
   }
+
+  renderPipelineFooter() {
+    const { organization } = this.props;
+    const { loading } = this.state;
+
+    // don't show any footer if we haven't ever loaded
+    // any pipelines, or if there's no next page
+    if (!organization.pipelines || !organization.pipelines.pageInfo.hasNextPage) {
+      return;
+    }
+
+    let footerContent = (
+      <Button
+        outline={true}
+        theme="default"
+        onClick={this.handleLoadMorePipelinesClick}
+      >
+        Load more pipelines…
+      </Button>
+    );
+
+    // show a spinner if we're loading more pipelines
+    if (loading) {
+      footerContent = <Spinner style={{ margin: 9.5 }} />;
+    }
+
+    return (
+      <div className="center">
+        {footerContent}
+      </div>
+    );
+  }
+
+  handleLoadMorePipelinesClick = () => {
+    this.setState({ loading: true });
+
+    this.props.relay.setVariables(
+      {
+        pageSize: this.props.relay.variables.pageSize + PAGE_SIZE
+      },
+      (readyState) => {
+        if (readyState.done) {
+          this.setState({ loading: false });
+        }
+      }
+    );
+  };
 }
 
 export default Relay.createContainer(OrganizationPipelines, {
   initialVariables: {
     teamSearch: null,
     includeGraphData: false,
+    pageSize: INITIAL_PAGE_SIZE,
     isMounted: false
   },
 
@@ -173,13 +230,16 @@ export default Relay.createContainer(OrganizationPipelines, {
       fragment on Organization {
         id
         slug
-        pipelines(first: 500, team: $teamSearch, order: NAME) @include(if: $isMounted) {
+        pipelines(first: $pageSize, team: $teamSearch, order: NAME) @include(if: $isMounted) {
           edges {
             node {
               id
               favorite
               ${Pipeline.getFragment('pipeline', { includeGraphData: variables.includeGraphData })}
             }
+          }
+          pageInfo {
+            hasNextPage
           }
         }
       }
