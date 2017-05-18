@@ -18,7 +18,8 @@ class Chooser extends React.Component {
     organizationMember: PropTypes.shape({
       id: PropTypes.string.isRequired,
       user: PropTypes.shape({
-        id: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired,
+        uuid: PropTypes.string.isRequired
       }).isRequired,
       organization: PropTypes.shape({
         teams: PropTypes.shape({
@@ -32,52 +33,17 @@ class Chooser extends React.Component {
   };
 
   state = {
-    showingDialog: false,
-    relevantTeams: [],
-    canAddToAny: false
+    showingDialog: false
   };
 
   componentDidMount() {
     this.props.relay.setVariables({
-      isMounted: true
+      isMounted: true,
+      userSelector: `!${this.props.organizationMember.user.uuid}`
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const teams = nextProps.organizationMember.organization.teams;
-
-    // If we don't get given teams, we haven't sent the query yet,
-    // so we don't know!
-    if (!teams) {
-      return;
-    }
-
-    const newState = {};
-
-    // NOTE: This is a bit of a hack to work around the fact that
-    // permissions exist on a per-team level, not at the
-    // organizationMember or organization level!
-    newState.relevantTeams = teams.edges.filter(({ node }) => (
-      node.permissions.teamMemberCreate.allowed
-    ));
-
-    if (!this.props.relay.variables.teamAddSearch) {
-      if (newState.relevantTeams.length > 0) {
-        newState.canAddToAny = true;
-      }
-    }
-
-    this.setState(newState);
-  }
-
   render() {
-    // Only show the button once we've got the first team request,
-    // and discovered that there are one or more teams to which
-    // the current user can add members
-    if (!this.state.canAddToAny) {
-      return null;
-    }
-
     return (
       <div>
         <Button
@@ -109,8 +75,8 @@ class Chooser extends React.Component {
     }
 
     // Either render the suggestions, or show a "not found" error
-    if (this.state.relevantTeams.length > 0) {
-      return this.state.relevantTeams.map(({ node }) => {
+    if (this.props.organizationMember.organization.teams.edges.length > 0) {
+      return this.props.organizationMember.organization.teams.edges.map(({ node }) => {
         return [<Team key={node.id} team={node} />, node];
       });
     } else if (teamAddSearch !== "") {
@@ -122,7 +88,7 @@ class Chooser extends React.Component {
     } else {
       return [
         <AutocompleteDialog.ErrorMessage key="error">
-          Could not find any more teams
+          {`Could not find any more teams ${this.props.isSelf ? 'to join' : 'to add'}`}
         </AutocompleteDialog.ErrorMessage>
       ];
     }
@@ -179,6 +145,7 @@ export default Relay.createContainer(Chooser, {
   initialVariables: {
     isMounted: false,
     teamAddSearch: '',
+    userSelector: null,
     pageSize: PAGE_SIZE
   },
 
@@ -188,9 +155,10 @@ export default Relay.createContainer(Chooser, {
         id
         user {
           id
+          uuid
         }
         organization {
-          teams(search: $teamAddSearch, first: 10, order: RELEVANCE) @include (if: $isMounted) {
+          teams(search: $teamAddSearch, first: 10, order: RELEVANCE, user: $userSelector) @include (if: $isMounted) {
             edges {
               node {
                 id
