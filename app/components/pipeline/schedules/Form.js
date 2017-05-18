@@ -65,7 +65,7 @@ class Form extends React.Component {
 
         <FormTextField
           label="Branch"
-          help={`The branch to use for the build. Default: the pipeline’s default branch (“${this.props.pipeline.defaultBranch}”)`}
+          help={`The branch to use for the build. Default: the pipeline’s default branch (currently “${this.props.pipeline.defaultBranch}”)`}
           errors={errors.findForField("branch")}
           value={this.props.branch}
           ref={(branchTextField) => this.branchTextField = branchTextField}
