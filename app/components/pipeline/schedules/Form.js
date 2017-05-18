@@ -48,34 +48,34 @@ class Form extends React.Component {
         />
 
         <FormTextField
-          label="Message"
+          label="Build Message"
           help="The message to use for the build."
           errors={errors.findForField("message")}
-          value={this.props.message}
-          placeholder="Scheduled build"
+          value={this.props.message || "Scheduled build"}
+          required={true}
           ref={(messageTextField) => this.messageTextField = messageTextField}
         />
 
         <FormTextField
-          label="Commit"
+          label="Build Commit"
           help="The commit ref to use for the build."
           errors={errors.findForField("commit")}
-          value={this.props.commit}
-          placeholder="HEAD"
+          value={this.props.commit || "HEAD"}
+          required={true}
           ref={(commitTextField) => this.commitTextField = commitTextField}
         />
 
         <FormTextField
-          label="Branch"
-          help="The branch to use for the build. Defaults to the pipeline’s default branch."
+          label="Build Branch"
+          help="The branch to use for the build."
           errors={errors.findForField("branch")}
-          value={this.props.branch}
-          placeholder={this.props.pipeline.defaultBranch}
+          value={this.props.branch || this.props.pipeline.defaultBranch}
+          required={true}
           ref={(branchTextField) => this.branchTextField = branchTextField}
         />
 
         <FormTextarea
-          label="Environment Variables"
+          label="Build Environment Variables"
           help="The environment variables to use for the build, each on a new line. e.g. <code>FOO=bar</code>"
           className="input"
           rows={2}
