@@ -3535,6 +3535,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "user",
+                  "description": "Filter the pipelines by user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "UserSelector",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "privacy",
                   "description": "Search teams by their privacy",
                   "type": {
@@ -8865,6 +8875,16 @@
           "interfaces": [
 
           ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "UserSelector",
+          "description": "A User identifier using a UUID, and optionally negated with a leading `!`",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
