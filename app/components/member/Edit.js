@@ -115,7 +115,7 @@ class MemberEdit extends React.PureComponent {
     return (
       <Panel className="mb4">
         <Panel.Header>Roles</Panel.Header>
-        <Panel.Row>
+        <Panel.Section>
           <FormCheckbox
             label="Administrator"
             help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see the agent registration token."
@@ -123,7 +123,7 @@ class MemberEdit extends React.PureComponent {
             onChange={this.handleAdminChange}
             checked={this.state.isAdmin}
           />
-        </Panel.Row>
+        </Panel.Section>
         <Panel.Row>
           {saveRowContent}
         </Panel.Row>
