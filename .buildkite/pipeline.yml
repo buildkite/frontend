@@ -46,11 +46,9 @@ steps:
   - wait
 
   - name: ":rocket: :docker:"
-    branches:
-      - master
-      - push-docker-image
+    branches: "master"
     concurrency: 1
-    concurrency_group: "deployer"
+    concurrency_group: "docker-deployer"
     plugins:
       docker-compose#v1.3.1:
         push:
