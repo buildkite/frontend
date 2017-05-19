@@ -54,13 +54,7 @@ class MemberNew extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.props.relay.forceFetch(
-      { isMounted: true },
-      (readyState) => {
-        if (readyState.done) {
-        }
-      }
-    );
+    this.props.relay.forceFetch({ isMounted: true });
   }
 
   componentWillReceiveProps(nextProps) {
