@@ -78,7 +78,7 @@ class AnnnotationsList extends React.Component {
 
     return (
       <div key={annotation.id} className={`rounded flex items-stretch border-${borderColor} border mb4`}>
-        <div className={`bg-${backgroundColor} flex-none flex items-center`} style={{ width: 30 }}>
+        <div className={`bg-${backgroundColor} flex-none flex pt3`} style={{ width: 30 }}>
           <div className="center flex-auto">
             <i className={`fa fa-${icon} ${iconColor}`} />
           </div>
