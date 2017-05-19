@@ -32,7 +32,8 @@ class MemberNew extends React.PureComponent {
           PropTypes.shape({
             node: PropTypes.shape({
               id: PropTypes.string.isRequired,
-              slug: PropTypes.string.isRequired
+              slug: PropTypes.string.isRequired,
+              isDefaultTeam: PropTypes.bool.isRequired
             }).isRequired
           })
         ).isRequired
@@ -47,13 +48,28 @@ class MemberNew extends React.PureComponent {
 
   state = {
     emails: '',
-    teams: [],
+    teams: null, // when mounted we set this to the default teams
     role: OrganizationMemberRoleConstants.MEMBER,
     errors: null
   };
 
   componentDidMount() {
-    this.props.relay.forceFetch({ isMounted: true });
+    this.props.relay.forceFetch(
+      { isMounted: true },
+      (readyState) => {
+        if (readyState.done) {
+        }
+      }
+    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Initialize state teams to default teams when mounted and we get props
+    if (this.state.teams === null && nextProps.organization.teams) {
+      this.state.teams = nextProps.organization.teams.edges
+        .filter(({ node }) => node.isDefaultTeam)
+        .map(({ node }) => node.id);
+    }
   }
 
   render() {
@@ -235,6 +251,7 @@ export default Relay.createContainer(MemberNew, {
             node {
               id
               slug
+              isDefaultTeam
               ${TeamRow.getFragment('team')}
             }
           }
