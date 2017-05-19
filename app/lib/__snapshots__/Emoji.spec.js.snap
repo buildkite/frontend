@@ -64,6 +64,6 @@ exports[`Emoji parse turns emojis into HTML 13`] = `"<img class=\\"emoji\\" titl
 
 exports[`Emoji parse turns emojis into HTML 14`] = `"<img class=\\"emoji\\" title=\\"hankey\\" alt=\\"💩\\" src=\\"emoji-host.com/img-apple-64/1f4a9.png\\" draggable=\\"false\\" /> in the <img class=\\"emoji\\" title=\\"dash\\" alt=\\"💨\\" src=\\"emoji-host.com/img-apple-64/1f4a8.png\\" draggable=\\"false\\" />"`;
 
-exports[`Emoji parse turns emojis into HTML 15`] = `"<img class=\\"emoji\\" title=\\"copyright\\" alt=\\"©\\" src=\\"emoji-host.com/img-apple-64/00a9.png\\" draggable=\\"false\\" />©"`;
+exports[`Emoji parse turns emojis into HTML 15`] = `"<img class=\\"emoji\\" title=\\"copyright\\" alt=\\"©️\\" src=\\"emoji-host.com/img-apple-64/00a9.png\\" draggable=\\"false\\" />©"`;
 
-exports[`Emoji parse turns emojis into HTML 16`] = `"<img class=\\"emoji\\" title=\\"b\\" alt=\\"🅱\\" src=\\"emoji-host.com/img-apple-64/1f171.png\\" draggable=\\"false\\" />epis"`;
+exports[`Emoji parse turns emojis into HTML 16`] = `"<img class=\\"emoji\\" title=\\"b\\" alt=\\"🅱️\\" src=\\"emoji-host.com/img-apple-64/1f171.png\\" draggable=\\"false\\" />epis"`;

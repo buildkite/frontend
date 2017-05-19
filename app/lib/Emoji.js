@@ -3,7 +3,6 @@ import emojiRegex from 'emoji-regex';
 import BUILDKITE_EMOJI from '../emojis/buildkite';
 import UNICODE_EMOJI from '../emojis/apple';
 
-// Unicode emoji regexp based on https://github.com/mathiasbynens/emoji-regex
 const UNICODE_REGEXP = emojiRegex();
 const COLON_REGEXP = new RegExp('\:[^\\s:]+\:', 'g');
 
@@ -39,7 +38,7 @@ class Emoji {
       const emojiIndex = catalogue.index[match] || catalogue.index[match.replace(/\uFE0F$/, '')];
 
       if ((typeof emojiIndex) === 'number') {
-        return this._image(catalogue, catalogue.emoji[emojiIndex]);
+        return this._image(catalogue, catalogue.emoji[emojiIndex], match);
       } else {
         return match;
       }
@@ -88,10 +87,10 @@ class Emoji {
     return string.replace(COLON_REGEXP, () => replacements.shift());
   }
 
-  _image(catalogue, emoji) {
+  _image({ host }, emoji, match) {
     // Emoji catalogue hosts have a normalized host that always end with a "/"
-    const emojiUrl = `${catalogue.host}${emoji.image}`;
-    const emojiCanonicalRepresentation = emoji.unicode || `:${emoji.name}:`;
+    const emojiUrl = `${host}${emoji.image}`;
+    const emojiCanonicalRepresentation = match || emoji.unicode || `:${emoji.name}:`;
 
     return `<img class="emoji" title="${emoji.name}" alt="${emojiCanonicalRepresentation}" src="${emojiUrl}" draggable="false" />`;
   }
