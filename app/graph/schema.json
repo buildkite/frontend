@@ -16,7 +16,7 @@
           "fields": [
             {
               "name": "name",
-              "description": null,
+              "description": "The name of the provider",
               "args": [
 
               ],
@@ -34,7 +34,7 @@
             },
             {
               "name": "url",
-              "description": null,
+              "description": "This URL to the provider’s web interface",
               "args": [
 
               ],
@@ -75,7 +75,7 @@
           "fields": [
             {
               "name": "name",
-              "description": null,
+              "description": "The name of the provider",
               "args": [
 
               ],
@@ -93,7 +93,7 @@
             },
             {
               "name": "url",
-              "description": null,
+              "description": "This URL to the provider’s web interface",
               "args": [
 
               ],
@@ -164,7 +164,7 @@
           "fields": [
             {
               "name": "name",
-              "description": null,
+              "description": "The name of the provider",
               "args": [
 
               ],
@@ -182,7 +182,7 @@
             },
             {
               "name": "url",
-              "description": null,
+              "description": "This URL to the provider’s web interface",
               "args": [
 
               ],
@@ -213,7 +213,7 @@
           "fields": [
             {
               "name": "name",
-              "description": null,
+              "description": "The name of the provider",
               "args": [
 
               ],
@@ -231,7 +231,7 @@
             },
             {
               "name": "url",
-              "description": null,
+              "description": "This URL to the provider’s web interface",
               "args": [
 
               ],
@@ -262,7 +262,7 @@
           "fields": [
             {
               "name": "name",
-              "description": null,
+              "description": "The name of the provider",
               "args": [
 
               ],
@@ -280,7 +280,7 @@
             },
             {
               "name": "url",
-              "description": null,
+              "description": "This URL to the provider’s web interface",
               "args": [
 
               ],
@@ -311,7 +311,7 @@
           "fields": [
             {
               "name": "name",
-              "description": null,
+              "description": "The name of the provider",
               "args": [
 
               ],
@@ -329,7 +329,7 @@
             },
             {
               "name": "url",
-              "description": null,
+              "description": "This URL to the provider’s web interface",
               "args": [
 
               ],
@@ -360,7 +360,7 @@
           "fields": [
             {
               "name": "name",
-              "description": null,
+              "description": "The name of the provider",
               "args": [
 
               ],
@@ -378,7 +378,7 @@
             },
             {
               "name": "url",
-              "description": null,
+              "description": "This URL to the provider’s web interface",
               "args": [
 
               ],
@@ -409,7 +409,7 @@
           "fields": [
             {
               "name": "name",
-              "description": null,
+              "description": "The name of the provider",
               "args": [
 
               ],
@@ -427,7 +427,7 @@
             },
             {
               "name": "url",
-              "description": null,
+              "description": "This URL to the provider’s web interface",
               "args": [
 
               ],
@@ -458,7 +458,7 @@
           "fields": [
             {
               "name": "name",
-              "description": null,
+              "description": "The name of the provider",
               "args": [
 
               ],
@@ -476,7 +476,7 @@
             },
             {
               "name": "url",
-              "description": null,
+              "description": "This URL to the provider’s web interface",
               "args": [
 
               ],
@@ -507,7 +507,7 @@
           "fields": [
             {
               "name": "name",
-              "description": null,
+              "description": "The name of the provider",
               "args": [
 
               ],
@@ -525,7 +525,7 @@
             },
             {
               "name": "url",
-              "description": null,
+              "description": "This URL to the provider’s web interface",
               "args": [
 
               ],
@@ -4270,7 +4270,7 @@
           "fields": [
             {
               "name": "provider",
-              "description": null,
+              "description": "The repository’s provider",
               "args": [
 
               ],
@@ -4284,7 +4284,7 @@
             },
             {
               "name": "url",
-              "description": "The URL for this repository",
+              "description": "The git URL for this repository",
               "args": [
 
               ],
@@ -6678,6 +6678,24 @@
               "deprecationReason": null
             },
             {
+              "name": "defaultMemberRole",
+              "description": "New organization members will be granted this role on this team",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "TeamMemberRole",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "description",
               "description": "A description of the team",
               "args": [
@@ -6721,6 +6739,24 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isDefaultTeam",
+              "description": "Add new organization members to this team by default",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
                   "ofType": null
                 }
               },
@@ -7028,6 +7064,29 @@
         },
         {
           "kind": "ENUM",
+          "name": "TeamMemberRole",
+          "description": "The roles a user can be within a team",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "MEMBER",
+              "description": "The user is a regular member of the team",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "MAINTAINER",
+              "description": "The user can manage pipelines and users within the team",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
           "name": "TeamPipelineOrder",
           "description": "The diferent orders you can sort pipelines by",
           "fields": null,
@@ -7306,29 +7365,6 @@
             }
           ],
           "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "TeamMemberRole",
-          "description": "The roles a user can be within a team",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "MEMBER",
-              "description": "The user is a regular member of the team",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "MAINTAINER",
-              "description": "The user can manage pipelines and users within the team",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
           "possibleTypes": null
         },
         {
@@ -10460,7 +10496,7 @@
             },
             {
               "name": "context",
-              "description": null,
+              "description": "The context of the annotation that helps you differentiate this one from others",
               "args": [
 
               ],
@@ -10514,7 +10550,7 @@
             },
             {
               "name": "style",
-              "description": "The style of the annotation",
+              "description": "The visual style of the annotation",
               "args": [
 
               ],
@@ -10618,18 +10654,14 @@
           "fields": [
             {
               "name": "html",
-              "description": "The body of the annotation rendered as HTML",
+              "description": "The body of the annotation rendered as HTML. The renderer result could be an empty string if the textual version has unsupported HTML tags",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -13414,6 +13446,20 @@
           "description": "Autogenerated return type of BuildAnnotate",
           "fields": [
             {
+              "name": "annotation",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Annotation",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "annotationEdge",
               "description": null,
               "args": [
@@ -13497,13 +13543,9 @@
               "name": "body",
               "description": "The body of the annotation. Markdown and some limited HTML is supported",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -13526,6 +13568,16 @@
                 "ofType": null
               },
               "defaultValue": "\"default\""
+            },
+            {
+              "name": "append",
+              "description": "Append to an existing annotation",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": "false"
             }
           ],
           "interfaces": null,
@@ -14807,6 +14859,34 @@
                 }
               },
               "defaultValue": null
+            },
+            {
+              "name": "isDefaultTeam",
+              "description": "Add new organization members to this team by default",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "defaultMemberRole",
+              "description": "New organization members will be granted this role on this team",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "TeamMemberRole",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
             }
           ],
           "interfaces": null,
@@ -15017,6 +15097,34 @@
                 "kind": "ENUM",
                 "name": "TeamPrivacy",
                 "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "isDefaultTeam",
+              "description": "Add new organization members to this team by default",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "defaultMemberRole",
+              "description": "New organization members will be granted this role on this team",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "TeamMemberRole",
+                  "ofType": null
+                }
               },
               "defaultValue": null
             }
