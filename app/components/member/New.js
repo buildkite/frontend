@@ -60,11 +60,11 @@ class MemberNew extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     // Initialize state teams to default teams when mounted and we get props
     if (this.state.teams === null && nextProps.organization.teams) {
-      this.setState({
-        teams: nextProps.organization.teams.edges
-          .filter(({ node }) => node.isDefaultTeam)
-          .map(({ node }) => node.id);
-      });
+      let defaultTeams = nextProps.organization.teams.edges
+        .filter(({ node }) => node.isDefaultTeam)
+        .map(({ node }) => node.id);
+
+      this.setState({ teams: defaultTeams });
     }
   }
 
