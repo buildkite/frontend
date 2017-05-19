@@ -10,6 +10,7 @@ import TeamForm from './Form';
 
 import TeamCreateMutation from '../../mutations/TeamCreate';
 import GraphQLErrors from '../../constants/GraphQLErrors';
+import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 
 class TeamNew extends React.Component {
@@ -28,6 +29,8 @@ class TeamNew extends React.Component {
     name: '',
     description: '',
     privacy: TeamPrivacyConstants.VISIBLE,
+    isDefaultTeam: false,
+    defaultMemberRole: TeamMemberRoleConstants.MEMBER,
     saving: false,
     errors: null
   };
@@ -48,6 +51,7 @@ class TeamNew extends React.Component {
                 name={this.state.name}
                 description={this.state.description}
                 privacy={this.state.privacy}
+                isDefaultTeam={this.state.isDefaultTeam}
               />
             </Panel.Section>
 
@@ -76,7 +80,9 @@ class TeamNew extends React.Component {
       organization: this.props.organization,
       name: this.state.name,
       description: this.state.description,
-      privacy: this.state.privacy
+      privacy: this.state.privacy,
+      isDefaultTeam: this.state.isDefaultTeam,
+      defaultMemberRole: this.state.defaultMemberRole
     });
 
     Relay.Store.commitUpdate(mutation, {
