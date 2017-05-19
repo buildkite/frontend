@@ -19,6 +19,8 @@ class TeamEdit extends React.Component {
       slug: PropTypes.string.isRequired,
       description: PropTypes.string,
       privacy: PropTypes.string.isRequired,
+      isDefaultTeam: PropTypes.bool.isRequired,
+      defaultMemberRole: PropTypes.string.isRequired,
       organization: PropTypes.shape({
         name: PropTypes.string.isRequired,
         slug: PropTypes.string.isRequired
@@ -34,6 +36,8 @@ class TeamEdit extends React.Component {
     name: this.props.team.name,
     description: this.props.team.description,
     privacy: this.props.team.privacy,
+    isDefaultTeam: this.props.team.isDefaultTeam,
+    defaultMemberRole: this.props.team.defaultMemberRole,
     saving: false,
     errors: null
   };
@@ -54,6 +58,7 @@ class TeamEdit extends React.Component {
                 name={this.state.name}
                 description={this.state.description}
                 privacy={this.state.privacy}
+                isDefaultTeam={this.state.isDefaultTeam}
               />
             </Panel.Section>
 
@@ -82,7 +87,9 @@ class TeamEdit extends React.Component {
       team: this.props.team,
       name: this.state.name,
       description: this.state.description,
-      privacy: this.state.privacy
+      privacy: this.state.privacy,
+      isDefaultTeam: this.state.isDefaultTeam,
+      defaultMemberRole: this.state.defaultMemberRole
     });
 
     Relay.Store.commitUpdate(mutation, {
@@ -118,6 +125,8 @@ export default Relay.createContainer(TeamEdit, {
         slug
         description
         privacy
+        isDefaultTeam
+        defaultMemberRole
         organization {
           name
           slug

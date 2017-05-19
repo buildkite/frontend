@@ -19,6 +19,7 @@ class TeamRow extends React.PureComponent {
       description: PropTypes.string,
       slug: PropTypes.string.isRequired,
       privacy: PropTypes.string.isRequired,
+      isDefaultTeam: PropTypes.bool.isRequired,
       organization: PropTypes.shape({
         slug: PropTypes.string.isRequired
       }).isRequired,
@@ -41,7 +42,7 @@ class TeamRow extends React.PureComponent {
       <Panel.RowLink key={this.props.team.id} to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}`}>
         <div className="flex flex-stretch items-center line-height-1" style={{ minHeight: '3em' }}>
           <div className="flex-auto">
-            <div className="m0 flex items-center"><Emojify text={this.props.team.name} className="semi-bold" />{this._renderPrivacyLabel()}</div>
+            <div className="m0 flex items-center"><Emojify text={this.props.team.name} className="semi-bold" />{this._renderPrivacyLabel()}{this._renderDefaultLabel()}</div>
             {this._renderDescription()}
           </div>
           <div className="flex flex-none flex-stretch items-center my1">
@@ -57,6 +58,14 @@ class TeamRow extends React.PureComponent {
     if (this.props.team.privacy === TeamPrivacyConstants.SECRET) {
       return (
         <div className="ml1 regular small border border-gray rounded dark-gray p1">Secret</div>
+      );
+    }
+  }
+
+  _renderDefaultLabel() {
+    if (this.props.team.isDefaultTeam) {
+      return (
+        <div className="ml1 regular small border border-gray rounded dark-gray p1">Default</div>
       );
     }
   }
@@ -130,6 +139,7 @@ export default Relay.createContainer(TeamRow, {
         description
         slug
         privacy
+        isDefaultTeam
         organization {
           slug
         }

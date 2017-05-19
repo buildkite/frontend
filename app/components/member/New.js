@@ -31,7 +31,9 @@ class MemberNew extends React.PureComponent {
         edges: PropTypes.arrayOf(
           PropTypes.shape({
             node: PropTypes.shape({
-              id: PropTypes.string.isRequired
+              id: PropTypes.string.isRequired,
+              slug: PropTypes.string.isRequired,
+              isDefaultTeam: PropTypes.bool.isRequired
             }).isRequired
           })
         ).isRequired
@@ -46,13 +48,24 @@ class MemberNew extends React.PureComponent {
 
   state = {
     emails: '',
-    teams: [],
+    teams: null, // when mounted we set this to the default teams
     role: OrganizationMemberRoleConstants.MEMBER,
     errors: null
   };
 
   componentDidMount() {
     this.props.relay.forceFetch({ isMounted: true });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Initialize state teams to default teams when mounted and we get props
+    if (this.state.teams === null && nextProps.organization.teams) {
+      let defaultTeams = nextProps.organization.teams.edges
+        .filter(({ node }) => node.isDefaultTeam)
+        .map(({ node }) => node.id);
+
+      this.setState({ teams: defaultTeams });
+    }
   }
 
   render() {
@@ -181,9 +194,7 @@ class MemberNew extends React.PureComponent {
     }
 
     const teamEdges = this.props.organization.teams.edges
-      .filter(({ node }) =>
-        node.name !== 'Everyone' && node.description !== 'All users in your organization'
-      );
+      .filter(({ node }) => node.slug !== 'everyone');
 
     return (
       <div>
@@ -235,8 +246,8 @@ export default Relay.createContainer(MemberNew, {
           edges {
             node {
               id
-              name
-              description
+              slug
+              isDefaultTeam
               ${TeamRow.getFragment('team')}
             }
           }

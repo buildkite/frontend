@@ -18,7 +18,7 @@ export default class FormCheckbox extends React.PureComponent {
   render() {
     return (
       <div className="mb2">
-        <label className="block cursor-pointer" style={{ paddingLeft: '1.7em' }}>
+        <label className="inline-block pl4 cursor-pointer">
           <input
             name={this.props.name}
             type="checkbox"
@@ -26,8 +26,8 @@ export default class FormCheckbox extends React.PureComponent {
             onChange={this.props.onChange}
             className="absolute"
             style={{
-              marginLeft: '-1.7em',
-              cursor: this.props.disabled ? 'not-allowed' : 'inherit'
+              marginLeft: "-20px",
+              cursor: this.props.disabled ? "not-allowed" : "inherit"
             }}
             disabled={this.props.disabled}
             ref={(_checkbox) => this._checkbox = _checkbox}

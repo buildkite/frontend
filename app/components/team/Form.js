@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import FormTextField from '../shared/FormTextField';
+import FormCheckbox from '../shared/FormCheckbox';
+import FormInputLabel from '../shared/FormInputLabel';
 import FormRadioGroup from '../shared/FormRadioGroup';
+import FormTextField from '../shared/FormTextField';
 import ValidationErrors from '../../lib/ValidationErrors';
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 
@@ -11,6 +13,7 @@ class TeamForm extends React.Component {
     name: PropTypes.string,
     description: PropTypes.string,
     privacy: PropTypes.oneOf(Object.keys(TeamPrivacyConstants)),
+    isDefaultTeam: PropTypes.bool,
     errors: PropTypes.array,
     onChange: PropTypes.func
   };
@@ -54,6 +57,16 @@ class TeamForm extends React.Component {
           ]}
         />
 
+        <FormInputLabel label="Default" />
+
+        <FormCheckbox
+          name="team-is-default-team"
+          label="Automatically add new users to this team"
+          help="Users will automatically be added to this team when they sign in with SSO"
+          checked={this.props.isDefaultTeam}
+          onChange={this.handleIsDefaultTeamChange}
+        />
+
       </div>
     );
   }
@@ -68,6 +81,10 @@ class TeamForm extends React.Component {
 
   handlePrivacyChange = (evt) => {
     this.props.onChange('privacy', evt.target.value);
+  };
+
+  handleIsDefaultTeamChange = (evt) => {
+    this.props.onChange('isDefaultTeam', evt.target.checked);
   };
 }
 

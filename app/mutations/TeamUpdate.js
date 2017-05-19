@@ -25,6 +25,8 @@ class TeamUpdate extends Relay.Mutation {
           slug
           description
           privacy
+          isDefaultTeam
+          defaultMemberRole
         }
       }
     `;
@@ -40,7 +42,14 @@ class TeamUpdate extends Relay.Mutation {
   }
 
   getVariables() {
-    return { id: this.props.team.id, name: this.props.name, description: this.props.description, privacy: this.props.privacy };
+    return {
+      id: this.props.team.id,
+      name: this.props.name,
+      description: this.props.description,
+      privacy: this.props.privacy,
+      isDefaultTeam: this.props.isDefaultTeam,
+      defaultMemberRole: this.props.defaultMemberRole
+    };
   }
 }
 
