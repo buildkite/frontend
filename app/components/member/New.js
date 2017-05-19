@@ -61,6 +61,7 @@ class MemberNew extends React.PureComponent {
     // Initialize state teams to default teams when mounted and we get props
     if (this.state.teams === null && nextProps.organization.teams) {
       let defaultTeams = nextProps.organization.teams.edges
+        .filter(({ node }) => node.slug !== "everyone")
         .filter(({ node }) => node.isDefaultTeam)
         .map(({ node }) => node.id);
 
