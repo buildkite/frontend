@@ -1,14 +1,16 @@
 import escape from 'escape-html';
-import BUILDKITE_EMOJIS from '../emojis/buildkite';
-import APPLE_EMOJIS from '../emojis/apple';
+import emojiRegex from 'emoji-regex';
+import BUILDKITE_EMOJI from '../emojis/buildkite';
+import UNICODE_EMOJI from '../emojis/apple';
 
-const UNICODE_REGEXP = new RegExp('\\ud83c[\\udf00-\\udfff]|\\ud83d[\\udc00-\\ude4f]|\\ud83d[\\ude80-\\udeff]', 'g');
+// Unicode emoji regexp based on https://github.com/mathiasbynens/emoji-regex
+const UNICODE_REGEXP = emojiRegex();
 const COLON_REGEXP = new RegExp('\:[^\\s:]+\:', 'g');
 
 class Emoji {
   parse(string, options = {}) {
     if (!string || string.length === 0) {
-      return "";
+      return '';
     }
 
     // Turn off escaping if the option is explicitly set
@@ -16,20 +18,37 @@ class Emoji {
       string = escape(string);
     }
 
-    // Start with replacing BK emojis (which are more likely than Apple emojis)
-    string = this._replace(BUILDKITE_EMOJIS, COLON_REGEXP, string);
+    // Start with replacing BK emoji (which are more likely than Unicode emoji)
+    string = this._replace_colons(BUILDKITE_EMOJI, string);
 
-    // Then do an Apple emoji parse
+    // Then do a Unicode emoji parse
     if (options.replaceUnicode !== false) {
-      string = this._replace(APPLE_EMOJIS, UNICODE_REGEXP, string);
+      string = this._replace_unicode(UNICODE_EMOJI, string);
     }
-    string = this._replace(APPLE_EMOJIS, COLON_REGEXP, string);
+
+    string = this._replace_colons(UNICODE_EMOJI, string);
 
     return string;
   }
 
-  _replace(catalogue, regexp, string) {
-    const matches = string.match(regexp);
+  // replaces unicode emoji with images
+  _replace_unicode(catalogue, string) {
+    return string.replace(UNICODE_REGEXP, (match) => {
+      const emojiIndex = catalogue.index[match];
+
+      if ((typeof emojiIndex) === 'number') {
+        return this._image(catalogue, catalogue.emoji[emojiIndex]);
+      } else {
+        return match;
+      }
+    });
+  }
+
+  // replaces emoji shortcodes with images
+  _replace_colons(catalogue, string) {
+    // NOTE: replacements are done indirectly here, because the
+    // colon regexp will not catch modifiers in a single match
+    const matches = string.match(COLON_REGEXP);
     const replacements = [];
 
     // Bail if there aren't any emojis to replace
@@ -64,7 +83,7 @@ class Emoji {
       }
     }
 
-    return string.replace(regexp, () => replacements.shift());
+    return string.replace(COLON_REGEXP, () => replacements.shift());
   }
 
   _image(catalogue, emoji) {

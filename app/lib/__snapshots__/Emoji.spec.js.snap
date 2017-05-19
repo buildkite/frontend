@@ -1,8 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Emoji parse allows you to turn of unicode parsing of emojis 1`] = `"👍 <img class=\\"emoji\\" title=\\"buildkite\\" alt=\\":buildkite:\\" src=\\"emoji-host.com/img-buildkite-64/buildkite.png\\" draggable=\\"false\\" />"`;
-
 exports[`Emoji parse allows you to turn off HTML escaping 1`] = `"<img class=\\"emoji\\" title=\\"tada\\" alt=\\"🎉\\" src=\\"emoji-host.com/img-apple-64/1f389.png\\" draggable=\\"false\\" /> <strong>This be strong...</strong>"`;
+
+exports[`Emoji parse allows you to turn off unicode parsing of emojis 1`] = `"<img class=\\"emoji\\" title=\\"buildkite\\" alt=\\":buildkite:\\" src=\\"emoji-host.com/img-buildkite-64/buildkite.png\\" draggable=\\"false\\" />"`;
+
+exports[`Emoji parse allows you to turn off unicode parsing of emojis 2`] = `"<img class=\\"emoji\\" title=\\"wave\\" alt=\\"👋🏼\\" src=\\"emoji-host.com/img-apple-64/1f44b-1f3fc.png\\" draggable=\\"false\\" />"`;
+
+exports[`Emoji parse allows you to turn off unicode parsing of emojis 3`] = `"👋🏿"`;
+
+exports[`Emoji parse allows you to turn off unicode parsing of emojis 4`] = `"👍 <img class=\\"emoji\\" title=\\"buildkite\\" alt=\\":buildkite:\\" src=\\"emoji-host.com/img-buildkite-64/buildkite.png\\" draggable=\\"false\\" />"`;
+
+exports[`Emoji parse allows you to turn off unicode parsing of emojis 5`] = `"™"`;
+
+exports[`Emoji parse allows you to turn off unicode parsing of emojis 6`] = `"®️"`;
+
+exports[`Emoji parse allows you to turn off unicode parsing of emojis 7`] = `"👩‍👩‍👧"`;
+
+exports[`Emoji parse allows you to turn off unicode parsing of emojis 8`] = `"<img class=\\"emoji\\" title=\\"woman-woman-girl\\" alt=\\"👩‍👩‍👧\\" src=\\"emoji-host.com/img-apple-64/1f469-200d-1f469-200d-1f467.png\\" draggable=\\"false\\" />"`;
+
+exports[`Emoji parse allows you to turn off unicode parsing of emojis 9`] = `"👩🏻‍🏫"`;
+
+exports[`Emoji parse allows you to turn off unicode parsing of emojis 10`] = `"🇦🇺💜🇨🇦"`;
 
 exports[`Emoji parse escapes other HTML by default 1`] = `"<img class=\\"emoji\\" title=\\"tada\\" alt=\\"🎉\\" src=\\"emoji-host.com/img-apple-64/1f389.png\\" draggable=\\"false\\" /> &lt;strong&gt;This be strong...&lt;/strong&gt;"`;
 
@@ -11,3 +29,17 @@ exports[`Emoji parse turns emojis into HTML 1`] = `"<img class=\\"emoji\\" title
 exports[`Emoji parse turns emojis into HTML 2`] = `"<img class=\\"emoji\\" title=\\"wave\\" alt=\\"👋🏼\\" src=\\"emoji-host.com/img-apple-64/1f44b-1f3fc.png\\" draggable=\\"false\\" />"`;
 
 exports[`Emoji parse turns emojis into HTML 3`] = `"<img class=\\"emoji\\" title=\\"wave\\" alt=\\"👋🏿\\" src=\\"emoji-host.com/img-apple-64/1f44b-1f3ff.png\\" draggable=\\"false\\" />"`;
+
+exports[`Emoji parse turns emojis into HTML 4`] = `"<img class=\\"emoji\\" title=\\"+1\\" alt=\\"👍\\" src=\\"emoji-host.com/img-apple-64/1f44d.png\\" draggable=\\"false\\" /> <img class=\\"emoji\\" title=\\"buildkite\\" alt=\\":buildkite:\\" src=\\"emoji-host.com/img-buildkite-64/buildkite.png\\" draggable=\\"false\\" />"`;
+
+exports[`Emoji parse turns emojis into HTML 5`] = `"™"`;
+
+exports[`Emoji parse turns emojis into HTML 6`] = `"®️"`;
+
+exports[`Emoji parse turns emojis into HTML 7`] = `"<img class=\\"emoji\\" title=\\"woman-woman-girl\\" alt=\\"👩‍👩‍👧\\" src=\\"emoji-host.com/img-apple-64/1f469-200d-1f469-200d-1f467.png\\" draggable=\\"false\\" />"`;
+
+exports[`Emoji parse turns emojis into HTML 8`] = `"<img class=\\"emoji\\" title=\\"woman-woman-girl\\" alt=\\"👩‍👩‍👧\\" src=\\"emoji-host.com/img-apple-64/1f469-200d-1f469-200d-1f467.png\\" draggable=\\"false\\" />"`;
+
+exports[`Emoji parse turns emojis into HTML 9`] = `"<img class=\\"emoji\\" title=\\"woman\\" alt=\\"👩🏻\\" src=\\"emoji-host.com/img-apple-64/1f469-1f3fb.png\\" draggable=\\"false\\" />‍<img class=\\"emoji\\" title=\\"school\\" alt=\\"🏫\\" src=\\"emoji-host.com/img-apple-64/1f3eb.png\\" draggable=\\"false\\" />"`;
+
+exports[`Emoji parse turns emojis into HTML 10`] = `"<img class=\\"emoji\\" title=\\"flag-au\\" alt=\\"🇦🇺\\" src=\\"emoji-host.com/img-apple-64/1f1e6-1f1fa.png\\" draggable=\\"false\\" /><img class=\\"emoji\\" title=\\"purple_heart\\" alt=\\"💜\\" src=\\"emoji-host.com/img-apple-64/1f49c.png\\" draggable=\\"false\\" /><img class=\\"emoji\\" title=\\"flag-ca\\" alt=\\"🇨🇦\\" src=\\"emoji-host.com/img-apple-64/1f1e8-1f1e6.png\\" draggable=\\"false\\" />"`;
