@@ -194,7 +194,7 @@ class MemberNew extends React.PureComponent {
     }
 
     const teamEdges = this.props.organization.teams.edges
-      .filter(({ node }) => node.slug != 'everyone');
+      .filter(({ node }) => node.slug !== 'everyone');
 
     return (
       <div>
