@@ -20,11 +20,17 @@ const EMOJI_TESTS = [
   '👋🏿',
   '👍 :buildkite:',
   '™',
-  '®️',
   '👩‍👩‍👧',
   ':woman-woman-girl:',
   '👩🏻‍🏫',
-  '🇦🇺💜🇨🇦'
+  '🇦🇺💜🇨🇦',
+  'String with :rocket:',
+  'String with \\:rocket\\:',
+  'arn\\:aws\\:s3:::bucket',
+  '⛄',
+  '💩 in the 💨',
+  '©️©',
+  '🅱️epis'
 ];
 
 describe('Emoji', () => {

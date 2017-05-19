@@ -34,7 +34,9 @@ class Emoji {
   // replaces unicode emoji with images
   _replace_unicode(catalogue, string) {
     return string.replace(UNICODE_REGEXP, (match) => {
-      const emojiIndex = catalogue.index[match];
+      // NOTE: We accept either a normal match or a match with the VARIATION SELECTOR-16 removed
+      //       as our Unicode catalogue lists most emoji *without* VARIATION SELECTOR-16 attached
+      const emojiIndex = catalogue.index[match] || catalogue.index[match.replace(/\uFE0F$/, '')];
 
       if ((typeof emojiIndex) === 'number') {
         return this._image(catalogue, catalogue.emoji[emojiIndex]);
