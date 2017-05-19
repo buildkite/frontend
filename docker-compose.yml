@@ -4,6 +4,10 @@ services:
   frontend:
     image: index.docker.io/buildkite/frontend
     build: .
+    volumes:
+      - "./bundle-analysis:/frontend/bundle-analysis"
+      - "./dist:/frontend/dist"
+      - "./coverage:/frontend/coverage"
     environment:
       - EMOJI_HOST
       - FRONTEND_HOST
@@ -12,6 +16,3 @@ services:
       - BUILDKITE_ORGANIZATION_SLUG
       - BUILDKITE_PIPELINE_SLUG
       - CI
-    volumes:
-      - ".:/frontend:cached"
-      - /frontend/node_modules
