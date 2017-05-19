@@ -31,7 +31,8 @@ class MemberNew extends React.PureComponent {
         edges: PropTypes.arrayOf(
           PropTypes.shape({
             node: PropTypes.shape({
-              id: PropTypes.string.isRequired
+              id: PropTypes.string.isRequired,
+              slug: PropTypes.string.isRequired
             }).isRequired
           })
         ).isRequired
@@ -181,9 +182,7 @@ class MemberNew extends React.PureComponent {
     }
 
     const teamEdges = this.props.organization.teams.edges
-      .filter(({ node }) =>
-        node.name !== 'Everyone' && node.description !== 'All users in your organization'
-      );
+      .filter(({ node }) => node.slug != 'everyone');
 
     return (
       <div>
@@ -235,8 +234,7 @@ export default Relay.createContainer(MemberNew, {
           edges {
             node {
               id
-              name
-              description
+              slug
               ${TeamRow.getFragment('team')}
             }
           }
