@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import update from 'react-addons-update';
+import escape from 'escape-html';
 
 import Logger from '../../../lib/Logger';
 
@@ -14,7 +15,7 @@ const svgContent = ((icon_context) => (
       Logger.error(`[Icon] No icon defined for "${name}"`, err);
     }
 
-    return (title ? `<title>${title}</title>` : '') + icon;
+    return (title ? `<title>${escape(title)}</title>` : '') + icon;
   }
 ))(require.context('!raw-loader!./', false, /\.svg$/));
 
