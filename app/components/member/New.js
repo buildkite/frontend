@@ -146,9 +146,12 @@ class MemberNew extends React.PureComponent {
 
     const role = this.state.role;
 
-    const teams = this.state.teams.map((id) => {
-      return { id: id, role: TeamMemberRoleConstants.MEMBER };
-    });
+    let teams = [];
+    if(this.state.teams) {
+      teams = this.state.teams.map((id) => {
+        return { id: id, role: TeamMemberRoleConstants.MEMBER };
+      });
+    }
 
     const mutation = new OrganizationInvitationCreateMutation({
       organization: this.props.organization,
