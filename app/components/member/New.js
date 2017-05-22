@@ -60,7 +60,7 @@ class MemberNew extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     // Initialize state teams to default teams when mounted and we get props
     if (this.state.teams === null && nextProps.organization.teams) {
-      let defaultTeams = nextProps.organization.teams.edges
+      const defaultTeams = nextProps.organization.teams.edges
         .filter(({ node }) => node.slug !== "everyone")
         .filter(({ node }) => node.isDefaultTeam)
         .map(({ node }) => node.id);
@@ -147,7 +147,7 @@ class MemberNew extends React.PureComponent {
     const role = this.state.role;
 
     let teams = [];
-    if(this.state.teams) {
+    if (this.state.teams) {
       teams = this.state.teams.map((id) => {
         return { id: id, role: TeamMemberRoleConstants.MEMBER };
       });
