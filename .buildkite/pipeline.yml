@@ -1,7 +1,12 @@
+env:
+  FRONTEND_HOST: https://buildkiteassets.com/frontend/
+  EMOJI_HOST: https://buildkiteassets.com/emojis
+  S3_URL: s3://buildkiteassets.com/frontend/
+
 steps:
   - name: ":docker: :package:"
     plugins:
-      docker-compose#v1.3.0:
+      docker-compose#v1.3.1:
         build: frontend
         image-repository: index.docker.io/buildkiteci/frontend
     env:
@@ -14,33 +19,46 @@ steps:
   - name: ":eslint:"
     command: ".buildkite/steps/eslint.sh"
     plugins:
-      docker-compose#v1.3.0:
+      docker-compose#v1.3.1:
         run: frontend
 
   - name: ":jest:"
     command: ".buildkite/steps/jest.sh"
     artifact_paths: "coverage/*"
     plugins:
-      docker-compose#v1.3.0:
+      docker-compose#v1.3.1:
         run: frontend
 
   - name: ":package::mag:"
     command: ".buildkite/steps/bundle-analyze.sh"
     artifact_paths: "bundle-analysis/*"
     plugins:
-      docker-compose#v1.3.0:
+      docker-compose#v1.3.1:
         run: frontend
 
   - name: ":webpack:"
     command: ".buildkite/steps/webpack.sh"
     artifact_paths: "dist/*"
     plugins:
-      docker-compose#v1.3.0:
+      docker-compose#v1.3.1:
         run: frontend
 
   - wait
 
-  - name: ":rocket:"
+  - name: ":rocket: :docker:"
+    branches: "master"
+    concurrency: 1
+    concurrency_group: "docker-deployer"
+    plugins:
+      docker-compose#v1.3.1:
+        push:
+          - frontend:index.docker.io/buildkite/frontend:build-${BUILDKITE_BUILD_NUMBER}
+          - frontend:index.docker.io/buildkite/frontend:commit-${BUILDKITE_COMMIT:0:6}
+          - frontend:index.docker.io/buildkite/frontend:latest
+
+  - wait
+
+  - name: ":rocket: :s3:"
     command: ".buildkite/steps/deploy.sh"
     branches: "master"
     artifact_paths: "tmp/verify/*"

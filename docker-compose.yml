@@ -2,16 +2,17 @@ version: '2'
 
 services:
   frontend:
+    image: index.docker.io/buildkite/frontend
     build: .
     volumes:
       - "./bundle-analysis:/frontend/bundle-analysis"
       - "./dist:/frontend/dist"
       - "./coverage:/frontend/coverage"
     environment:
-      BUILDKITE:
-      BUILDKITE_COMMIT:
-      BUILDKITE_ORGANIZATION_SLUG:
-      BUILDKITE_PIPELINE_SLUG:
-      CI:
-      EMOJI_HOST:
-      FRONTEND_HOST:
+      - EMOJI_HOST
+      - FRONTEND_HOST
+      - BUILDKITE
+      - BUILDKITE_COMMIT
+      - BUILDKITE_ORGANIZATION_SLUG
+      - BUILDKITE_PIPELINE_SLUG
+      - CI
