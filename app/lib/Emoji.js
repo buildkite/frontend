@@ -18,20 +18,20 @@ class Emoji {
     }
 
     // Start with replacing BK emoji (which are more likely than Unicode emoji)
-    string = this._replace_colons(BUILDKITE_EMOJI, string);
+    string = this._replaceColons(BUILDKITE_EMOJI, string);
 
     // Then do a Unicode emoji parse
     if (options.replaceUnicode !== false) {
-      string = this._replace_unicode(UNICODE_EMOJI, string);
+      string = this._replaceUnicode(UNICODE_EMOJI, string);
     }
 
-    string = this._replace_colons(UNICODE_EMOJI, string);
+    string = this._replaceColons(UNICODE_EMOJI, string);
 
     return string;
   }
 
   // replaces unicode emoji with images
-  _replace_unicode(catalogue, string) {
+  _replaceUnicode(catalogue, string) {
     return string.replace(UNICODE_REGEXP, (match) => {
       // NOTE: We accept either a normal match or a match with the VARIATION SELECTOR-16 removed
       //       as our Unicode catalogue lists most emoji *without* VARIATION SELECTOR-16 attached
@@ -46,7 +46,7 @@ class Emoji {
   }
 
   // replaces emoji shortcodes with images
-  _replace_colons(catalogue, string) {
+  _replaceColons(catalogue, string) {
     // NOTE: replacements are done indirectly here, because the
     // colon regexp will not catch modifiers in a single match
     const matches = string.match(COLON_REGEXP);
