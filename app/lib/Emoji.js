@@ -1,15 +1,14 @@
 import escape from 'escape-html';
-import emojiRegex from 'emoji-regex';
-import BUILDKITE_EMOJI from '../emojis/buildkite';
-import UNICODE_EMOJI from '../emojis/apple';
+import BUILDKITE_EMOJIS from '../emojis/buildkite';
+import APPLE_EMOJIS from '../emojis/apple';
 
-const UNICODE_REGEXP = emojiRegex();
+const UNICODE_REGEXP = new RegExp('\\ud83c[\\udf00-\\udfff]|\\ud83d[\\udc00-\\ude4f]|\\ud83d[\\ude80-\\udeff]', 'g');
 const COLON_REGEXP = new RegExp('\:[^\\s:]+\:', 'g');
 
 class Emoji {
   parse(string, options = {}) {
     if (!string || string.length === 0) {
-      return '';
+      return "";
     }
 
     // Turn off escaping if the option is explicitly set
@@ -17,39 +16,20 @@ class Emoji {
       string = escape(string);
     }
 
-    // Start with replacing BK emoji (which are more likely than Unicode emoji)
-    string = this._replaceColons(BUILDKITE_EMOJI, string);
+    // Start with replacing BK emojis (which are more likely than Apple emojis)
+    string = this._replace(BUILDKITE_EMOJIS, COLON_REGEXP, string);
 
-    // Then do a Unicode emoji parse
+    // Then do an Apple emoji parse
     if (options.replaceUnicode !== false) {
-      string = this._replaceUnicode(UNICODE_EMOJI, string);
+      string = this._replace(APPLE_EMOJIS, UNICODE_REGEXP, string);
     }
-
-    string = this._replaceColons(UNICODE_EMOJI, string);
+    string = this._replace(APPLE_EMOJIS, COLON_REGEXP, string);
 
     return string;
   }
 
-  // replaces unicode emoji with images
-  _replaceUnicode(catalogue, string) {
-    return string.replace(UNICODE_REGEXP, (match) => {
-      // NOTE: We accept either a normal match or a match with the VARIATION SELECTOR-16 removed
-      //       as our Unicode catalogue lists most emoji *without* VARIATION SELECTOR-16 attached
-      const emojiIndex = catalogue.index[match] || catalogue.index[match.replace(/\uFE0F$/, '')];
-
-      if ((typeof emojiIndex) === 'number') {
-        return this._image(catalogue, catalogue.emoji[emojiIndex], match);
-      } else {
-        return match;
-      }
-    });
-  }
-
-  // replaces emoji shortcodes with images
-  _replaceColons(catalogue, string) {
-    // NOTE: replacements are done indirectly here, because the
-    // colon regexp will not catch modifiers in a single match
-    const matches = string.match(COLON_REGEXP);
+  _replace(catalogue, regexp, string) {
+    const matches = string.match(regexp);
     const replacements = [];
 
     // Bail if there aren't any emojis to replace
@@ -84,13 +64,13 @@ class Emoji {
       }
     }
 
-    return string.replace(COLON_REGEXP, () => replacements.shift());
+    return string.replace(regexp, () => replacements.shift());
   }
 
-  _image({ host }, emoji, match) {
+  _image(catalogue, emoji) {
     // Emoji catalogue hosts have a normalized host that always end with a "/"
-    const emojiUrl = `${host}${emoji.image}`;
-    const emojiCanonicalRepresentation = match || emoji.unicode || `:${emoji.name}:`;
+    const emojiUrl = `${catalogue.host}${emoji.image}`;
+    const emojiCanonicalRepresentation = emoji.unicode || `:${emoji.name}:`;
 
     return `<img class="emoji" title="${emoji.name}" alt="${emojiCanonicalRepresentation}" src="${emojiUrl}" draggable="false" />`;
   }
