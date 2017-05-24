@@ -36,13 +36,6 @@ class Chooser extends React.Component {
     showingDialog: false
   };
 
-  componentDidMount() {
-    this.props.relay.setVariables({
-      isMounted: true,
-      userSelector: `!${this.props.organizationMember.user.uuid}`
-    });
-  }
-
   render() {
     return (
       <div>
@@ -101,7 +94,21 @@ class Chooser extends React.Component {
   }
 
   handleDialogOpen = () => {
-    this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
+    // Fetch the teams list on first open by setting (if: $showingDialog) to true
+    // and force re-fetch on subsequent opens in case the teams list has changed
+    this.props.relay.forceFetch({
+      showingDialog: true,
+      userSelector: `!${this.props.organizationMember.user.uuid}`
+    }, (state) => {
+      // When we're finished re-fetching, show the dialog
+      if (state.done) {
+        this.setState({
+          showingDialog: true
+        }, () => {
+          this._autoCompletor.focus();
+        });
+      }
+    });
   };
 
   handleDialogClose = () => {
@@ -149,7 +156,7 @@ class Chooser extends React.Component {
 
 export default Relay.createContainer(Chooser, {
   initialVariables: {
-    isMounted: false,
+    showingDialog: false,
     teamAddSearch: '',
     userSelector: null,
     pageSize: PAGE_SIZE
@@ -164,7 +171,8 @@ export default Relay.createContainer(Chooser, {
           uuid
         }
         organization {
-          teams(search: $teamAddSearch, first: 10, order: RELEVANCE, user: $userSelector) @include (if: $isMounted) {
+          id
+          teams(search: $teamAddSearch, first: 10, order: RELEVANCE, user: $userSelector) @include (if: $showingDialog) {
             edges {
               node {
                 id
