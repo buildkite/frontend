@@ -64,7 +64,7 @@ export default class AnchoredPopover extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handlewindowResize);
+    window.removeEventListener('resize', this.handleWindowResize);
     this._resizeDebounceTimeout = clearTimeout(this._resizeDebounceTimeout); // just in case
   }
 
