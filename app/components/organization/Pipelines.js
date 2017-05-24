@@ -35,7 +35,7 @@ class OrganizationPipelines extends React.Component {
     }),
     relay: PropTypes.object.isRequired,
     team: PropTypes.string,
-    pipelineFilter: PropTypes.string
+    filter: PropTypes.string
   };
 
   static contextTypes = {
@@ -54,7 +54,7 @@ class OrganizationPipelines extends React.Component {
       {
         isMounted: true,
         teamSearch: this.props.team,
-        pipelineFilter: this.props.pipelineFilter
+        pipelineFilter: this.props.filter
       },
       ({ done, error }) => {
         if (done) {
@@ -91,7 +91,7 @@ class OrganizationPipelines extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Are we switching teams or filtering?
-    if (this.props.team !== nextProps.team || this.props.pipelineFilter !== nextProps.pipelineFilter) {
+    if (this.props.team !== nextProps.team || this.props.filter !== nextProps.filter) {
       // Start by changing the `fetching` state to show the spinner
       this.setState(
         { fetching: true },
@@ -101,7 +101,7 @@ class OrganizationPipelines extends React.Component {
           this.props.relay.forceFetch(
             {
               teamSearch: nextProps.team,
-              pipelineFilter: nextProps.pipelineFilter
+              pipelineFilter: nextProps.filter
             },
             (readyState) => {
               // Now that we've got the data, turn off the spinner

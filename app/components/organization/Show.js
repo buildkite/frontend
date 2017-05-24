@@ -51,7 +51,7 @@ class OrganizationShow extends React.Component {
             <Pipelines
               organization={this.props.organization}
               team={this.props.location.query.team || null}
-              pipelineFilter={this.props.location.query.filter || null}
+              filter={this.props.location.query.filter || null}
             />
           </PageWithContainer>
         </div>

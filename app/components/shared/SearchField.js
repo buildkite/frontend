@@ -38,12 +38,12 @@ export default class SearchField extends React.PureComponent {
 
   render() {
     return (
-      <div className={classNames('relative', this.props.className)}>
+      <div className={classNames('dark-gray relative', this.props.className)}>
         {this.renderIcon()}
         <input
           type="text"
           className={classNames('input', { borderless: this.props.borderless })}
-          style={{ paddingLeft: 28 }}
+          style={{ color: 'inherit', paddingLeft: 28 }}
           ref={(_inputNode) => this._inputNode = _inputNode}
           defaultValue={this.props.defaultValue}
           onChange={this.handleInputChange}
@@ -74,8 +74,8 @@ export default class SearchField extends React.PureComponent {
       return (
         <Icon
           icon="search"
-          className={classNames('gray', className)}
-          style={{ width: iconSize, height: iconSize, ...style }}
+          className={className}
+          style={{ color: 'currentColor', width: iconSize, height: iconSize, ...style }}
         />
       );
     }
