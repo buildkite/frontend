@@ -72,6 +72,13 @@ class Graph extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this._interval) {
+      clearInterval(this._interval);
+      delete this._interval;
+    }
+  }
+
   componentDidUpdate() {
     this.toggleRenderInterval(this.props.pipeline.builds.edges);
 
@@ -201,7 +208,7 @@ class Graph extends React.Component {
     } else {
       // Clear the interval now that nothing is running
       if (this._interval) {
-        clearTimeout(this._interval);
+        clearInterval(this._interval);
         delete this._interval;
       }
     }
