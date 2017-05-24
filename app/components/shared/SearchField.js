@@ -12,12 +12,15 @@ export default class SearchField extends React.PureComponent {
     onKeyDown: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
+    defaultValue: PropTypes.string,
     placeholder: PropTypes.string.isRequired,
+    borderless: PropTypes.bool.isRequired,
     searching: PropTypes.bool.isRequired
   };
 
-  defaultProps = {
+  static defaultProps = {
     placeholder: 'Search…',
+    borderless: false,
     searching: false
   };
 
@@ -39,9 +42,10 @@ export default class SearchField extends React.PureComponent {
         {this.renderIcon()}
         <input
           type="text"
-          className="input"
+          className={classNames('input', { borderless: this.props.borderless })}
           style={{ paddingLeft: 28 }}
           ref={(_inputNode) => this._inputNode = _inputNode}
+          defaultValue={this.props.defaultValue}
           onChange={this.handleInputChange}
           onKeyDown={this.props.onKeyDown}
           onFocus={this.props.onFocus}
