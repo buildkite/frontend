@@ -43,7 +43,7 @@ class OrganizationPipelines extends React.Component {
   };
 
   state = {
-    fetching: false
+    loading: false
   }
 
   componentDidMount() {
@@ -92,9 +92,9 @@ class OrganizationPipelines extends React.Component {
   componentWillReceiveProps(nextProps) {
     // Are we switching teams or filtering?
     if (this.props.team !== nextProps.team || this.props.filter !== nextProps.filter) {
-      // Start by changing the `fetching` state to show the spinner
+      // Start by changing the `loading` state to show the spinner
       this.setState(
-        { fetching: true },
+        { loading: true },
         () => {
           // Once state has been set, force a full re-fetch of the pipelines in
           // the new team
@@ -106,7 +106,7 @@ class OrganizationPipelines extends React.Component {
             (readyState) => {
               // Now that we've got the data, turn off the spinner
               if (readyState.done) {
-                this.setState({ fetching: false });
+                this.setState({ loading: false });
               }
             }
           );
@@ -135,7 +135,7 @@ class OrganizationPipelines extends React.Component {
   render() {
     // Are we switching teams or getting the first set of data? Lets bail out
     // early and show the spinner.
-    if (this.state.fetching || !this.props.organization.pipelines) {
+    if (this.state.loading || !this.props.organization.pipelines) {
       return (
         <SectionLoader />
       );
@@ -149,6 +149,12 @@ class OrganizationPipelines extends React.Component {
           {this.renderPipelines()}
           {this.renderPipelineFooter()}
         </div>
+      );
+    } else if (this.props.filter) {
+      return (
+        <p className="semi-bold my4 center">
+          No pipelines were found!
+        </p>
       );
     } else {
       return (
