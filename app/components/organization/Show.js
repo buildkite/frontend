@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
+import styled from 'styled-components';
 import { stringify } from 'query-string';
 
 import Button from '../shared/Button';
@@ -11,6 +12,19 @@ import SearchField from '../shared/SearchField';
 
 import Pipelines from './Pipelines';
 import Teams from './Teams';
+
+const ResponsiveSearchField = styled(SearchField)`
+  flex-basis: 100%;
+  order: 3;
+
+  @media (min-width: 480px) {
+    font-size: 16px;
+    flex-basis: 200px;
+    margin-left: .5em;
+    margin-top: -.25em;
+    order: initial;
+  }
+`;
 
 class OrganizationShow extends React.Component {
   static propTypes = {
@@ -41,7 +55,17 @@ class OrganizationShow extends React.Component {
               {this.renderTeams()}
               {this.renderFilter()}
 
-              <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{ width: 34, height: 34 }} href={`/organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
+              <Button
+                theme="default"
+                outline={true}
+                className="p0 ml-auto flex circle items-center justify-center"
+                style={{
+                  width: 34,
+                  height: 34
+                }}
+                href={`/organizations/${this.props.organization.slug}/pipelines/new`}
+                title="New Pipeline"
+              >
                 <Icon icon="plus" title="New Pipeline"/>
               </Button>
             </div>
@@ -73,13 +97,9 @@ class OrganizationShow extends React.Component {
 
   renderFilter() {
     return (
-      <SearchField
+      <ResponsiveSearchField
         borderless={true}
-        className="light ml4 flex-auto"
-        style={{
-          fontSize: 16,
-          marginTop: '-.25em'
-        }}
+        className="light flex-auto"
         onChange={this.handleFilterChange}
         defaultValue={this.props.location.query.filter}
         searching={false}

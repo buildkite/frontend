@@ -66,7 +66,7 @@ export default class SearchField extends React.PureComponent {
   }
 
   renderIcon() {
-    const iconSize = '1.08em';
+    const iconSize = '1.07em';
     const className = 'absolute pointer-events-none';
     const style = { left: '.6em', top: '.64em' };
 
