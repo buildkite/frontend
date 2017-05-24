@@ -23,6 +23,13 @@ class Edit extends React.PureComponent {
     }).isRequired,
     organizationMember: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
+      organization: PropTypes.shape({
+        permissions: PropTypes.shape({
+          teamAdmin: PropTypes.shape({
+            allowed: PropTypes.bool.isRequired
+          }).isRequired
+        }).isRequired
+      }).isRequired,
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -40,6 +47,16 @@ class Edit extends React.PureComponent {
     }
 
     const isSelf = this.props.organizationMember.user.id === this.props.viewer.user.id;
+
+    let memberEditTeamMemberships = null;
+    if (this.props.organizationMember.organization.permissions.teamAdmin.allowed) {
+      memberEditTeamMemberships = (
+        <MemberEditTeamMemberships
+          isSelf={isSelf}
+          organizationMember={this.props.organizationMember}
+        />
+      );
+    }
 
     return (
       <DocumentTitle title={`Users · ${this.props.organizationMember.user.name}`}>
@@ -71,10 +88,7 @@ class Edit extends React.PureComponent {
             viewer={this.props.viewer}
             organizationMember={this.props.organizationMember}
           />
-          <MemberEditTeamMemberships
-            isSelf={isSelf}
-            organizationMember={this.props.organizationMember}
-          />
+          {memberEditTeamMemberships}
         </div>
       </DocumentTitle>
     );
@@ -97,6 +111,13 @@ export default Relay.createContainer(Edit, {
         ${MemberEditRemove.getFragment('organizationMember')}
         ${MemberEditTeamMemberships.getFragment('organizationMember')}
         uuid
+        organization {
+          permissions {
+            teamAdmin {
+              allowed
+            }
+          }
+        }
         user {
           id
           name
