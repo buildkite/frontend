@@ -13,7 +13,7 @@ import SearchField from '../shared/SearchField';
 import Pipelines from './Pipelines';
 import Teams from './Teams';
 
-const ResponsiveSearchField = styled(SearchField)`
+const FilterField = styled(SearchField)`
   flex-basis: 100%;
   order: 3;
 
@@ -25,6 +25,10 @@ const ResponsiveSearchField = styled(SearchField)`
     order: initial;
   }
 `;
+
+FilterField.defaultProps = {
+  className: 'light flex-auto'
+};
 
 class OrganizationShow extends React.Component {
   static propTypes = {
@@ -97,9 +101,8 @@ class OrganizationShow extends React.Component {
 
   renderFilter() {
     return (
-      <ResponsiveSearchField
+      <FilterField
         borderless={true}
-        className="light flex-auto"
         onChange={this.handleFilterChange}
         defaultValue={this.props.location.query.filter}
         searching={false}
