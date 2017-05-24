@@ -1,4 +1,4 @@
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
 const QUERIES = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 
 import Panel from '../../shared/Panel';
 import JobLink from '../../shared/JobLink';
