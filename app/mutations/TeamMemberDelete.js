@@ -4,10 +4,10 @@ class TeamMemberDelete extends Relay.Mutation {
   static fragments = {
     teamMember: () => Relay.QL`
       fragment on TeamMember {
-	id
-	team {
-	  id
-	}
+        id
+        team {
+          id
+        }
       }
     `
   }
@@ -15,7 +15,7 @@ class TeamMemberDelete extends Relay.Mutation {
   getMutation() {
     return Relay.QL`
       mutation {
-	teamMemberDelete
+        teamMemberDelete
       }
     `;
   }
@@ -23,12 +23,12 @@ class TeamMemberDelete extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on TeamMemberDeletePayload {
-	deletedTeamMemberID,
-	team {
-	  members {
-	    count
-	  }
-	}
+        deletedTeamMemberID,
+        team {
+          members {
+            count
+          }
+        }
       }
     `;
   }
