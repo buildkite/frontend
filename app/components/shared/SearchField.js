@@ -48,6 +48,7 @@ export default class SearchField extends React.PureComponent {
           type="text"
           className={classNames('input', { borderless: this.props.borderless })}
           style={{
+            margin: 0,
             color: 'inherit',
             fontSize: 'inherit',
             fontWeight: 'inherit',
@@ -66,7 +67,7 @@ export default class SearchField extends React.PureComponent {
   }
 
   renderIcon() {
-    const iconSize = '1.07em';
+    const iconSize = '1.1em';
     const className = 'absolute pointer-events-none';
     const style = { left: '.6em', top: '.64em' };
 
