@@ -14,16 +14,37 @@ function mockLoadWebpackedEmojis(catalogue) {
 jest.mock('../emojis/buildkite', () => mockLoadWebpackedEmojis('buildkite'));
 jest.mock('../emojis/apple', () => mockLoadWebpackedEmojis('apple'));
 
+const EMOJI_TESTS = [
+  ':buildkite:',
+  ':wave::skin-tone-3:',
+  '👋🏿',
+  '👍 :buildkite:',
+  '™',
+  '👩‍👩‍👧',
+  ':woman-woman-girl:',
+  '👩🏻‍🏫',
+  '🇦🇺💜🇨🇦',
+  'String with :rocket:',
+  'String with \\:rocket\\:',
+  'arn\\:aws\\:s3:::bucket',
+  '⛄',
+  '💩 in the 💨',
+  '©️©',
+  '🅱️epis'
+];
+
 describe('Emoji', () => {
   describe('parse', () => {
     it('turns emojis into HTML', () => {
-      expect(Emoji.parse(":buildkite:")).toMatchSnapshot();
-      expect(Emoji.parse(":wave::skin-tone-3:")).toMatchSnapshot();
-      expect(Emoji.parse("👋🏿")).toMatchSnapshot();
+      EMOJI_TESTS.forEach((testcase) => {
+        expect(Emoji.parse(testcase)).toMatchSnapshot();
+      });
     });
 
-    it('allows you to turn of unicode parsing of emojis', () => {
-      expect(Emoji.parse("👍 :buildkite:", { replaceUnicode: false })).toMatchSnapshot();
+    it('allows you to turn off unicode parsing of emojis', () => {
+      EMOJI_TESTS.forEach((testcase) => {
+        expect(Emoji.parse(testcase, { replaceUnicode: false })).toMatchSnapshot();
+      });
     });
 
     it('escapes other HTML by default', () => {
