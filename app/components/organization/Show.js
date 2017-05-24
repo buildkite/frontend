@@ -36,12 +36,10 @@ class OrganizationShow extends React.Component {
       <DocumentTitle title={`${this.props.organization.name}`}>
         <div>
           <PageWithContainer>
-            <div className="flex mb2 items-start">
-              <div className="mr-auto flex items-start">
-                <h1 className="h1 p0 m0 mr4 regular line-height-1 inline-block">Pipelines</h1>
-                {this.renderTeams()}
-                {this.renderFilter()}
-              </div>
+            <div className="flex flex-wrap items-start mb2">
+              <h1 className="h1 p0 m0 mr4 regular line-height-1 inline-block">Pipelines</h1>
+              {this.renderTeams()}
+              {this.renderFilter()}
 
               <Button theme="default" outline={true} className="p0 flex circle items-center justify-center" style={{ width: 34, height: 34 }} href={`/organizations/${this.props.organization.slug}/pipelines/new`} title="New Pipeline">
                 <Icon icon="plus" title="New Pipeline"/>
@@ -77,7 +75,11 @@ class OrganizationShow extends React.Component {
     return (
       <SearchField
         borderless={true}
-        className="ml4"
+        className="light ml4 flex-auto"
+        style={{
+          fontSize: 16,
+          marginTop: '-.25em'
+        }}
         onChange={this.handleFilterChange}
         defaultValue={this.props.location.query.filter}
         searching={false}

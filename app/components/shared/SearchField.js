@@ -8,6 +8,7 @@ import Spinner from './Spinner';
 export default class SearchField extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    style: PropTypes.object,
     onChange: PropTypes.func.isRequired,
     onKeyDown: PropTypes.func,
     onFocus: PropTypes.func,
@@ -38,12 +39,20 @@ export default class SearchField extends React.PureComponent {
 
   render() {
     return (
-      <div className={classNames('dark-gray relative', this.props.className)}>
+      <div
+        className={classNames('dark-gray relative', this.props.className)}
+        style={this.props.style}
+      >
         {this.renderIcon()}
         <input
           type="text"
           className={classNames('input', { borderless: this.props.borderless })}
-          style={{ color: 'inherit', paddingLeft: 28 }}
+          style={{
+            color: 'inherit',
+            fontSize: 'inherit',
+            fontWeight: 'inherit',
+            paddingLeft: '2em'
+          }}
           ref={(_inputNode) => this._inputNode = _inputNode}
           defaultValue={this.props.defaultValue}
           onChange={this.handleInputChange}
@@ -57,9 +66,9 @@ export default class SearchField extends React.PureComponent {
   }
 
   renderIcon() {
-    const iconSize = 15;
+    const iconSize = '1.08em';
     const className = 'absolute pointer-events-none';
-    const style = { left: 8, top: 9 };
+    const style = { left: '.6em', top: '.64em' };
 
     if (this.props.searching) {
       return (
