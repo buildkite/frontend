@@ -1,9 +1,9 @@
-version: '2'
+version: '2.1'
 
 services:
   frontend:
     volumes:
-      - ".:/frontend:cached,ro"
+      - ".:/frontend:cached"
       - "./bundle-analysis:/frontend/bundle-analysis"
       - "./dist:/frontend/dist"
       - "./coverage:/frontend/coverage"
