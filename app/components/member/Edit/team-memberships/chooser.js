@@ -33,8 +33,17 @@ class Chooser extends React.Component {
   };
 
   state = {
-    showingDialog: false
+    showingDialog: false,
+    searching: false
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextState.searching) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   render() {
     return (
@@ -116,7 +125,12 @@ class Chooser extends React.Component {
   };
 
   handleTeamSearch = (teamAddSearch) => {
-    this.props.relay.forceFetch({ teamAddSearch });
+    this.setState({ searching: true })
+    this.props.relay.forceFetch({ teamAddSearch }, (state) => {
+      if(state.done) {
+        this.setState({ searching: false });
+      }
+    });
   };
 
   handleTeamSelect = (team) => {
