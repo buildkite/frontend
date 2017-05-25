@@ -20,16 +20,16 @@ class Button extends React.Component {
 
   render() {
     return (
-      <BaseButton className={classNames(`block hover-lime focus-lime`, { "lime": this._isActive() })}
+      <BaseButton
+        className={classNames('flex items-center hover-lime focus-lime border-none', { "lime": this._isActive() })}
+        style={{ minHeight: '3.1em' }}
         theme={false}
         href={this.props.href}
         link={this.props.link}
       >
-        <div className="flex">
-          <div className="flex-auto flex items-center">
-            {this._renderIcon()}
-            <div className="truncate">{this.props.label}</div>
-          </div>
+        <div className="flex-auto flex items-center">
+          {this._renderIcon()}
+          <div className="flex-auto truncate">{this.props.label}</div>
           {this._renderBadge()}
         </div>
       </BaseButton>
@@ -56,11 +56,9 @@ class Button extends React.Component {
   _renderBadge() {
     if (this.props.badge) {
       return (
-        <div className="flex-none">
-          <Badge className={classNames(`hover-lime-child`, { "bg-lime": this._isActive() })}>
-            {this.props.badge}
-          </Badge>
-        </div>
+        <Badge className={classNames('flex-none hover-lime-child', { "bg-lime": this._isActive() })}>
+          {this.props.badge}
+        </Badge>
       );
     }
   }
