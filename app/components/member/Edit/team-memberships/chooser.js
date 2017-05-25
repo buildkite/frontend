@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import AutocompleteDialog from '../../../shared/Autocomplete/Dialog';
 import Button from '../../../shared/Button';
@@ -38,11 +39,9 @@ class Chooser extends React.Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if(nextState.searching) {
-      return false;
-    } else {
-      return true;
-    }
+    // Only update when a forceFetch isn't pending, and
+    // we also meet the usual requirements to update
+    return !nextState.searching && shallowCompare(this, nextProps, nextState);
   }
 
   render() {
@@ -125,12 +124,15 @@ class Chooser extends React.Component {
   };
 
   handleTeamSearch = (teamAddSearch) => {
-    this.setState({ searching: true })
-    this.props.relay.forceFetch({ teamAddSearch }, (state) => {
-      if(state.done) {
-        this.setState({ searching: false });
+    this.setState({ searching: true });
+    this.props.relay.forceFetch(
+      { teamAddSearch },
+      (state) => {
+        if (state.done) {
+          this.setState({ searching: false });
+        }
       }
-    });
+    );
   };
 
   handleTeamSelect = (team) => {
