@@ -39,8 +39,8 @@ class Chooser extends React.Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    // Only update when a forceFetch isn't pending, and
-    // we also meet the usual requirements to update
+    // Only update when a forceFetch isn't pending, and we also meet the usual
+    // requirements to update. This avoids any re-use of old cached Team data.
     return !nextState.searching && shallowCompare(this, nextProps, nextState);
   }
 
