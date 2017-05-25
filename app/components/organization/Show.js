@@ -107,6 +107,7 @@ class OrganizationShow extends React.Component {
         defaultValue={this.props.location.query.filter}
         searching={false}
         placeholder="Filter"
+        autofocus={true}
       />
     );
   }

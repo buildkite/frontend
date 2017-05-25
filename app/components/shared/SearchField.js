@@ -16,14 +16,22 @@ export default class SearchField extends React.PureComponent {
     defaultValue: PropTypes.string,
     placeholder: PropTypes.string.isRequired,
     borderless: PropTypes.bool.isRequired,
-    searching: PropTypes.bool.isRequired
+    searching: PropTypes.bool.isRequired,
+    autofocus: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
     placeholder: 'Search…',
     borderless: false,
-    searching: false
+    searching: false,
+    autofocus: false
   };
+
+  componentDidMount() {
+    if (this.props.autofocus) {
+      this.focus();
+    }
+  }
 
   clear() {
     this._inputNode.value = '';
