@@ -43,7 +43,8 @@ class OrganizationPipelines extends React.Component {
   };
 
   state = {
-    fetching: false
+    fetching: false,
+    loadingMore: false
   }
 
   componentDidMount() {
@@ -194,7 +195,7 @@ class OrganizationPipelines extends React.Component {
 
   renderPipelineFooter() {
     const { organization } = this.props;
-    const { loading } = this.state;
+    const { loadingMore } = this.state;
 
     // don't show any footer if we haven't ever loaded
     // any pipelines, or if there's no next page
@@ -213,7 +214,7 @@ class OrganizationPipelines extends React.Component {
     );
 
     // show a spinner if we're loading more pipelines
-    if (loading) {
+    if (loadingMore) {
       footerContent = <Spinner style={{ margin: 9.5 }} />;
     }
 
@@ -225,7 +226,7 @@ class OrganizationPipelines extends React.Component {
   }
 
   handleLoadMorePipelinesClick = () => {
-    this.setState({ loading: true });
+    this.setState({ loadingMore: true });
 
     this.props.relay.setVariables(
       {
@@ -233,7 +234,7 @@ class OrganizationPipelines extends React.Component {
       },
       (readyState) => {
         if (readyState.done) {
-          this.setState({ loading: false });
+          this.setState({ loadingMore: false });
         }
       }
     );
