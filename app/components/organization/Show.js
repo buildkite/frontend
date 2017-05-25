@@ -58,7 +58,7 @@ class OrganizationShow extends React.Component {
         <div>
           <PageWithContainer>
             <div className="flex flex-wrap items-start mb2">
-              <h1 className="h1 p0 m0 mr4 regular line-height-1 inline-block">Pipelines</h1>
+              <h1 className="h1 p0 m0 regular line-height-1 inline-block">Pipelines</h1>
               {this.renderTeams()}
               {this.renderFilter()}
 
