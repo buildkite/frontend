@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import classNames from 'classnames';
 
 import Popover, { calculateViewportOffsets } from './Popover';
@@ -139,13 +139,13 @@ export default class Dropdown extends React.PureComponent {
         className={wrapperClassName}
       >
         {firstChild}
-        <ReactCSSTransitionGroup
+        <CSSTransitionGroup
           transitionName="transition-popup"
           transitionEnterTimeout={200}
           transitionLeaveTimeout={200}
         >
           {this.renderPopover(children)}
-        </ReactCSSTransitionGroup>
+        </CSSTransitionGroup>
       </span>
     );
   }

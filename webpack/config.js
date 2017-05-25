@@ -103,7 +103,7 @@ var vendor_modules = [
   "object-assign",
   "pusher-js",
   "react",
-  "react-addons-css-transition-group",
+  "react-transition-group",
   "react-addons-pure-render-mixin",
   "react-addons-shallow-compare",
   "react-addons-update",
