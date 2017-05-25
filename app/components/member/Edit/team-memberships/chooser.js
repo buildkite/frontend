@@ -116,13 +116,13 @@ class Chooser extends React.Component {
   };
 
   handleTeamSearch = (teamAddSearch) => {
-    this.props.relay.setVariables({ teamAddSearch });
+    this.props.relay.forceFetch({ teamAddSearch });
   };
 
   handleTeamSelect = (team) => {
     this.setState({ showingDialog: false });
     this._autoCompletor.clear();
-    this.props.relay.setVariables({ teamAddSearch: '' });
+    this.props.relay.forceFetch({ teamAddSearch: '' });
 
     const query = Relay.QL`mutation TeamMemberCreateMutation {
       teamMemberCreate(input: $input) {
