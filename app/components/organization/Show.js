@@ -21,10 +21,13 @@ const FilterField = styled(SearchField)`
     font-size: 16px;
     flex-basis: 200px;
     margin-left: .5em;
+    margin-right: 1em;
     margin-top: -.25em;
     order: initial;
   }
 `;
+// NOTE: the large-screen margin-left is ~half right
+// to adjust for the position of SearchField's icon
 
 FilterField.defaultProps = {
   className: 'light flex-auto'
