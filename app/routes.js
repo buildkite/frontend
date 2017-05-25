@@ -38,6 +38,8 @@ import * as TeamQuery from './queries/Team';
 import * as ViewerQuery from './queries/Viewer';
 import * as APIAccessTokenCodeQuery from './queries/APIAccessTokenCode';
 
+import FlashesStore from './stores/FlashesStore';
+
 const renderSectionLoading = (route) => {
   if (!route.props) {
     return (
@@ -74,10 +76,15 @@ const renderMain = (route) => {
   }
 };
 
-// Reset Bugsnag on route changes if it's loaded
-const onRouterUpdate = window.Bugsnag
-  ? () => (window.Bugsnag.refresh())
-  : undefined;
+const onRouterUpdate = () => {
+  // Reset flashes on route changes
+  FlashesStore.reset();
+
+  // Reset Bugsnag on route changes if it's loaded
+  if (window.Bugsnag) {
+    window.Bugsnag.refresh();
+  }
+};
 
 export default (
   <Router history={browserHistory} onUpdate={onRouterUpdate} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
