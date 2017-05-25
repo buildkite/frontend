@@ -12,8 +12,8 @@ import UserSessionStore from '../../stores/UserSessionStore';
 import Pipeline from './Pipeline';
 import Welcome from './Welcome';
 
-const INITIAL_PAGE_SIZE = 100;
-const PAGE_SIZE = 50;
+const INITIAL_PAGE_SIZE = 25;
+const PAGE_SIZE = 150;
 
 class OrganizationPipelines extends React.Component {
   static propTypes = {
