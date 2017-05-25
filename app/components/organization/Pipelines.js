@@ -153,7 +153,7 @@ class OrganizationPipelines extends React.Component {
     } else if (this.props.filter) {
       return (
         <p className="semi-bold my4 center" style={{ paddingBottom: 1 }}>
-          No pipelines were found!
+          {`No pipelines matching “${this.props.filter}”`}
         </p>
       );
     } else {
