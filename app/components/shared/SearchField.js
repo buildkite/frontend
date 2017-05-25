@@ -27,6 +27,25 @@ export default class SearchField extends React.PureComponent {
     autofocus: false
   };
 
+  state = {
+    value: ''
+  }
+
+  // NOTE: We make the input a controlled component within the
+  // context of the search field so that usages can reset the value
+  // via defaultValue without controlling the entire component themselves
+  componentWillMount() {
+    if (this.props.defaultValue) {
+      this.setState({ value: this.props.defaultValue });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.defaultValue !== this.props.defaultValue) {
+      this.setState({ value: nextProps.defaultValue || '' });
+    }
+  }
+
   componentDidMount() {
     if (this.props.autofocus) {
       this.focus();
@@ -63,7 +82,7 @@ export default class SearchField extends React.PureComponent {
             paddingLeft: '2em'
           }}
           ref={(_inputNode) => this._inputNode = _inputNode}
-          defaultValue={this.props.defaultValue}
+          value={this.state.value}
           onChange={this.handleInputChange}
           onKeyDown={this.props.onKeyDown}
           onFocus={this.props.onFocus}
@@ -108,6 +127,9 @@ export default class SearchField extends React.PureComponent {
     if (this._timeout) {
       clearTimeout(this._timeout);
     }
+
+    // Update the component-level state immediately, so keypresses aren't swallowed
+    this.setState({ value });
 
     // Instead of doing a search on each keypress, do it a few ms after they've
     // stopped typing
