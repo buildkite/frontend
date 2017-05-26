@@ -125,7 +125,23 @@ if (window._pusher) {
   }
 }
 
-// Only do the react-router gear on pages we've designated
-window["initializeReactRouter"] = () => {
-  ReactDOM.render(Routes, document.getElementById('root'));
+// Render the given react root, wrapping for hot reloading in development.
+const render = (root) => {
+  if (process.env.NODE_ENV ===  "development") {
+    const {AppContainer} = require("react-hot-loader");
+    root = (<AppContainer>{root}</AppContainer>);
+  }
+
+  ReactDOM.render(root, document.getElementById('root'));
 };
+
+const init = () => {
+  render(Routes);
+
+  if (module.hot) {
+    module.hot.accept('./routes', (routes) => { render(routes.Routes); })
+  }
+}
+
+// Only do the react-router gear on pages we've designated
+window["initializeReactRouter"] = init;

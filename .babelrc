@@ -4,6 +4,9 @@
     ["relay", {"schema": "app/graph/schema.json"}]
   ],
   "env": {
+    "development": {
+      "plugins": ["react-hot-loader/babel"]
+    },
     "test": {
       "plugins": ["react-pure-components"]
     },
