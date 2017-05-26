@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import classNames from 'classnames';
 
 import PusherStore from '../../stores/PusherStore';
@@ -36,7 +36,7 @@ class NewChangelogsBadge extends React.PureComponent {
     }
 
     return (
-      <ReactCSSTransitionGroup
+      <CSSTransitionGroup
         transitionName="transition-changelog-appear"
         transitionAppear={true}
         transitionAppearTimeout={3000}
@@ -71,7 +71,7 @@ class NewChangelogsBadge extends React.PureComponent {
             }}
           />
         </span>
-      </ReactCSSTransitionGroup>
+      </CSSTransitionGroup>
     );
   }
 }

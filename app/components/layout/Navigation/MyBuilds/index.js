@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import classNames from 'classnames';
 import { hour, seconds } from 'metrick/duration';
 
@@ -82,9 +82,9 @@ class MyBuilds extends React.Component {
         <DropdownButton className={classNames("py0", { "lime": this.state.isDropdownVisible })} onMouseEnter={this.handleButtonMouseEnter}>
           {'My Builds '}
           <div className="xs-hide">
-            <ReactCSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
+            <CSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
               {this.renderBadge()}
-            </ReactCSSTransitionGroup>
+            </CSSTransitionGroup>
           </div>
           <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
         </DropdownButton>

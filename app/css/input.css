@@ -15,25 +15,25 @@
     color: inherit;
   }
 
+  &:focus {
+    border-color: #888;
+    outline: 0;
+  }
+
   &.borderless {
     border-color: #fff;
     box-shadow: none;
-
-    &:focus {
-      border-color: #fff;
-    }
   }
-}
 
-.input:focus {
-  border-color: #888;
-  outline: 0;
-}
+  &.borderless:focus {
+    border-color: #fff;
+  }
 
-.input.is-error {
-  border-color: var(--light-red);
-}
+  &.is-error {
+    border-color: var(--light-red);
+  }
 
-.input.is-error:focus {
-  border-color: var(--dark-red);
+  &.is-error:focus {
+    border-color: var(--dark-red);
+  }
 }

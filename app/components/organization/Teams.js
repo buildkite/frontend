@@ -60,10 +60,10 @@ class Teams extends React.Component {
 
   renderOptions() {
     return this.props.organization.teams.edges.map((edge) =>
-      <Chooser.Option key={edge.node.id} value={edge.node.slug} className="btn block hover-bg-silver line-height-3">
+      (<Chooser.Option key={edge.node.id} value={edge.node.slug} className="btn block hover-bg-silver line-height-3">
         <Emojify className="block" text={edge.node.name} />
         {edge.node.description ? <Emojify className="dark-gray light" text={edge.node.description} /> : null}
-      </Chooser.Option>
+      </Chooser.Option>)
     );
   }
 

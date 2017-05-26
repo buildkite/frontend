@@ -205,14 +205,14 @@ class MemberNew extends React.PureComponent {
         <FormInputLabel label="Teams" />
         <FormInputHelp html="You can give the invited users additional permissions by adding them to one or more teams." />
         <div className="flex flex-wrap content-around mxn1 mt1">
-          {teamEdges.map(({ node }) =>
+          {teamEdges.map(({ node }) => (
             <TeamRow
               key={node.id}
               team={node}
               checked={this.state.teams.includes(node.id)}
               onChange={this.handleTeamChange}
             />
-          )}
+          ))}
         </div>
       </div>
     );
