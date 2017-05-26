@@ -4,9 +4,6 @@
     ["relay", {"schema": "app/graph/schema.json"}]
   ],
   "env": {
-    "development": {
-      "presets": ["react-hmre"]
-    },
     "test": {
       "plugins": ["react-pure-components"]
     },
