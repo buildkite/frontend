@@ -5,10 +5,10 @@ import DocumentTitle from 'react-document-title';
 
 import PageWithContainer from '../../shared/PageWithContainer';
 
-import Agents from './agents';
-import AgentTokens from './agent-tokens';
-import AgentInstallation from './installation';
-import QuickStart from './quick-start';
+import Agents from './Agents';
+import AgentTokens from './AgentTokens';
+import AgentInstallation from './AgentInstallation';
+import QuickStart from './QuickStart';
 
 class AgentIndex extends React.Component {
   static propTypes = {
