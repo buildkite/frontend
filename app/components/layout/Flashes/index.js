@@ -21,12 +21,14 @@ class Flashes extends React.PureComponent {
 
   componentDidMount() {
     FlashesStore.on('flash', this.handleStoreChange);
+    FlashesStore.on('reset', this.handleStoreReset);
     PusherStore.on('unavailable', this.handleConnectionError);
     PusherStore.on('connected', this.handleConnectionSuccess);
   }
 
   componentWillUnmount() {
     FlashesStore.off('flash', this.handleStoreChange);
+    FlashesStore.off('reset', this.handleStoreReset);
     PusherStore.off('unavailable', this.handleConnectionError);
     PusherStore.off('connected', this.handleConnectionSuccess);
   }
@@ -38,6 +40,16 @@ class Flashes extends React.PureComponent {
   hasConnectionErrorFlash() {
     return this.state.flashes.length > 0 && this.state.flashes[0].id === FLASH_CONN_ERROR_ID;
   }
+
+  handleStoreReset = () => {
+    this.setState({
+      flashes: (
+        this.hasConnectionErrorFlash()
+          ? this.state.flashes.slice(0, 1)
+          : []
+      )
+    });
+  };
 
   // show a flash when there's a push connection issue
   //
