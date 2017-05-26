@@ -34,7 +34,7 @@ const DialogContainer = styled.div.attrs({
   className: 'flex flex-column'
 })`
   width: 100vw;
-  maxWidth: 100%;
+  max-width: 100%;
   height: 100%;
   padding: 25px;
   overflow-y: auto;
@@ -55,7 +55,7 @@ const DialogBox = styled.div.attrs({
   className: 'background bg-white rounded-3 shadow-subtle relative'
 })`
   width: 100%;
-  maxWidth: ${(props) => props.width}px;
+  max-width: ${(props) => props.width}px;
   margin: auto;
 `;
 

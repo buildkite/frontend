@@ -29,7 +29,11 @@ class FlashesStore extends EventEmitter {
       }
     }
 
-    this.emit("flash", { id: (new Date()).valueOf(), type: type, message: message });
+    this.emit('flash', { id: (new Date()).valueOf(), type: type, message: message });
+  }
+
+  reset() {
+    this.emit('reset');
   }
 }
 
