@@ -17,5 +17,8 @@ tmp
 # Jest coverage output
 coverage
 
+# babel generated files (from relay-compiler)
+__generated__
+
 # Webpack bundle analysis
 bundle-analysis
