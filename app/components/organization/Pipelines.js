@@ -34,7 +34,8 @@ class OrganizationPipelines extends React.Component {
       })
     }),
     relay: PropTypes.object.isRequired,
-    team: PropTypes.string
+    team: PropTypes.string,
+    filter: PropTypes.string
   };
 
   static contextTypes = {
@@ -42,59 +43,76 @@ class OrganizationPipelines extends React.Component {
   };
 
   state = {
-    fetching: false
+    fetching: false,
+    loadingMore: false
   }
 
   componentDidMount() {
     // After the `OrganizationPipelines` component has mounted, kick off a
     // Relay query to load in all the pipelines. `includeGraphData` is still
     // false at this point because we'll load in that data after this.
-    this.props.relay.setVariables({ isMounted: true, teamSearch: this.props.team }, ({ done, error }) => {
-      if (done) {
-        // Now kick off a full reload, which will grab the pipelines again, but
-        // this time with all the graph data.
-        setTimeout(() => {
-          this.props.relay.forceFetch({ includeGraphData: true });
-        }, 0);
-      } else if (error) {
-        // if we couldn't find that team in GraphQL, let's redirect to not requesting a team!
-        if (error.source.errors.some(({ message }) => message === 'No team found')) {
-          this.context.router.push(`/${this.props.organization.slug}`);
-          this.maybeUpdateDefaultTeam(this.props.organization.id, null);
-          // WARNING: We need to set isMounted here because it didn't get successfuly
-          // updated by the parent setVariables call!
-          this.props.relay.setVariables({ isMounted: true, teamSearch: null }, (readyState) => {
-            // flash error once we've got data so it behaves more like its backend counterpart!
-            //
-            // NOTE: We check `aborted` as well as `done` because it *should* return `done` but
-            // it looks like if it's canceled during a query it'll return `aborted` but render
-            // the right data.
-            if (readyState.aborted || readyState.done) {
-              FlashesStore.flash(FlashesStore.ERROR, "The requested team couldn’t be found! Switched back to All teams.");
-            }
-          });
+    this.props.relay.setVariables(
+      {
+        isMounted: true,
+        teamSearch: this.props.team,
+        pipelineFilter: this.props.filter
+      },
+      ({ done, error }) => {
+        if (done) {
+          // Now kick off a full reload, which will grab the pipelines again, but
+          // this time with all the graph data.
+          setTimeout(() => {
+            this.props.relay.forceFetch({ includeGraphData: true });
+          }, 0);
+        } else if (error) {
+          // if we couldn't find that team in GraphQL, let's redirect to not requesting a team!
+          if (error.source.errors.some(({ message }) => message === 'No team found')) {
+            this.context.router.push(`/${this.props.organization.slug}`);
+            this.maybeUpdateDefaultTeam(this.props.organization.id, null);
+            // WARNING: We need to set isMounted here because it didn't get successfuly
+            // updated by the parent setVariables call!
+            this.props.relay.setVariables({ isMounted: true, teamSearch: null }, (readyState) => {
+              // flash error once we've got data so it behaves more like its backend counterpart!
+              //
+              // NOTE: We check `aborted` as well as `done` because it *should* return `done` but
+              // it looks like if it's canceled during a query it'll return `aborted` but render
+              // the right data.
+              if (readyState.aborted || readyState.done) {
+                FlashesStore.flash(FlashesStore.ERROR, "The requested team couldn’t be found! Switched back to All teams.");
+              }
+            });
+          }
         }
       }
-    });
+    );
 
     // We might've started out with a new team, so let's see about updating the default!
     this.maybeUpdateDefaultTeam(this.props.organization.id, this.props.team);
   }
 
   componentWillReceiveProps(nextProps) {
-    // Are we switching teams?
-    if (this.props.team !== nextProps.team) {
+    // Are we switching teams or filtering?
+    if (this.props.team !== nextProps.team || this.props.filter !== nextProps.filter) {
       // Start by changing the `fetching` state to show the spinner
-      this.setState({ fetching: true }, () => {
-        // Once state has been set, force a full re-fetch of the pipelines in
-        // the new team
-        this.props.relay.forceFetch({ teamSearch: nextProps.team }, (readyState) => {
-          // Now that we've got the data, turn off the spinner
-          if (readyState.done) {
-            this.setState({ fetching: false });
-          }
-        });
-      });
+      this.setState(
+        { fetching: true },
+        () => {
+          // Once state has been set, force a full re-fetch of the pipelines in
+          // the new team
+          this.props.relay.forceFetch(
+            {
+              teamSearch: nextProps.team,
+              pipelineFilter: nextProps.filter
+            },
+            (readyState) => {
+              // Now that we've got the data, turn off the spinner
+              if (readyState.done) {
+                this.setState({ fetching: false });
+              }
+            }
+          );
+        }
+      );
     }
 
     // Let's try updating the default team - we don't rely on the last team
@@ -132,6 +150,12 @@ class OrganizationPipelines extends React.Component {
           {this.renderPipelines()}
           {this.renderPipelineFooter()}
         </div>
+      );
+    } else if (this.props.filter) {
+      return (
+        <p className="semi-bold my4 center" style={{ paddingBottom: 1 }}>
+          {`No pipelines matching “${this.props.filter}”`}
+        </p>
       );
     } else {
       return (
@@ -171,7 +195,7 @@ class OrganizationPipelines extends React.Component {
 
   renderPipelineFooter() {
     const { organization } = this.props;
-    const { loading } = this.state;
+    const { loadingMore } = this.state;
 
     // don't show any footer if we haven't ever loaded
     // any pipelines, or if there's no next page
@@ -190,7 +214,7 @@ class OrganizationPipelines extends React.Component {
     );
 
     // show a spinner if we're loading more pipelines
-    if (loading) {
+    if (loadingMore) {
       footerContent = <Spinner style={{ margin: 9.5 }} />;
     }
 
@@ -202,7 +226,7 @@ class OrganizationPipelines extends React.Component {
   }
 
   handleLoadMorePipelinesClick = () => {
-    this.setState({ loading: true });
+    this.setState({ loadingMore: true });
 
     this.props.relay.setVariables(
       {
@@ -210,7 +234,7 @@ class OrganizationPipelines extends React.Component {
       },
       (readyState) => {
         if (readyState.done) {
-          this.setState({ loading: false });
+          this.setState({ loadingMore: false });
         }
       }
     );
@@ -222,6 +246,7 @@ export default Relay.createContainer(OrganizationPipelines, {
     teamSearch: null,
     includeGraphData: false,
     pageSize: INITIAL_PAGE_SIZE,
+    pipelineFilter: null,
     isMounted: false
   },
 
@@ -230,7 +255,7 @@ export default Relay.createContainer(OrganizationPipelines, {
       fragment on Organization {
         id
         slug
-        pipelines(first: $pageSize, team: $teamSearch, order: NAME) @include(if: $isMounted) {
+        pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, order: NAME) @include(if: $isMounted) {
           edges {
             node {
               id
