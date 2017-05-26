@@ -15,16 +15,12 @@ class Teams extends React.Component {
   };
 
   render() {
-    if (this.props.organization.teams.edges.length > 0) {
-      return this.renderDropdown();
-    } else {
+    if (this.props.organization.teams.edges.length === 0) {
       return null;
     }
-  }
 
-  renderDropdown() {
     return (
-      <Dropdown width={300} ref={(dropdownNode) => this.dropdownNode = dropdownNode}>
+      <Dropdown className="ml4" width={300} ref={(dropdownNode) => this.dropdownNode = dropdownNode}>
         <button className="h3 px0 py1 m0 light dark-gray inline-block btn" style={{ fontSize: 16 }}>
           <div className="flex">
             <span className="flex items-center">
@@ -64,7 +60,7 @@ class Teams extends React.Component {
 
   renderOptions() {
     return this.props.organization.teams.edges.map((edge) =>
-      <Chooser.Option key={edge.node.id} value={edge.node.slug} className="btn block hover-bg-silver">
+      <Chooser.Option key={edge.node.id} value={edge.node.slug} className="btn block hover-bg-silver line-height-3">
         <Emojify className="block" text={edge.node.name} />
         {edge.node.description ? <Emojify className="dark-gray light" text={edge.node.description} /> : null}
       </Chooser.Option>

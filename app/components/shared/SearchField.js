@@ -8,18 +8,49 @@ import Spinner from './Spinner';
 export default class SearchField extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    style: PropTypes.object,
     onChange: PropTypes.func.isRequired,
     onKeyDown: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
+    defaultValue: PropTypes.string,
     placeholder: PropTypes.string.isRequired,
-    searching: PropTypes.bool.isRequired
+    borderless: PropTypes.bool.isRequired,
+    searching: PropTypes.bool.isRequired,
+    autofocus: PropTypes.bool.isRequired
   };
 
-  defaultProps = {
+  static defaultProps = {
     placeholder: 'Search…',
-    searching: false
+    borderless: false,
+    searching: false,
+    autofocus: false
   };
+
+  state = {
+    value: ''
+  }
+
+  // NOTE: We make the input a controlled component within the
+  // context of the search field so that usages can reset the value
+  // via defaultValue without controlling the entire component themselves
+  componentWillMount() {
+    if (this.props.defaultValue) {
+      this.setState({ value: this.props.defaultValue });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.defaultValue !== this.props.defaultValue) {
+      this.setState({ value: nextProps.defaultValue || '' });
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.autofocus) {
+      this.focus();
+    }
+  }
 
   clear() {
     this._inputNode.value = '';
@@ -35,13 +66,23 @@ export default class SearchField extends React.PureComponent {
 
   render() {
     return (
-      <div className={classNames('relative', this.props.className)}>
+      <div
+        className={classNames('dark-gray relative', this.props.className)}
+        style={this.props.style}
+      >
         {this.renderIcon()}
         <input
           type="text"
-          className="input"
-          style={{ paddingLeft: 28 }}
+          className={classNames('input', { borderless: this.props.borderless })}
+          style={{
+            margin: 0,
+            color: 'inherit',
+            fontSize: 'inherit',
+            fontWeight: 'inherit',
+            paddingLeft: '2em'
+          }}
           ref={(_inputNode) => this._inputNode = _inputNode}
+          value={this.state.value}
           onChange={this.handleInputChange}
           onKeyDown={this.props.onKeyDown}
           onFocus={this.props.onFocus}
@@ -53,9 +94,9 @@ export default class SearchField extends React.PureComponent {
   }
 
   renderIcon() {
-    const iconSize = 15;
+    const iconSize = '1em';
     const className = 'absolute pointer-events-none';
-    const style = { left: 8, top: 9 };
+    const style = { left: '.75em', top: '.68em' };
 
     if (this.props.searching) {
       return (
@@ -70,8 +111,8 @@ export default class SearchField extends React.PureComponent {
       return (
         <Icon
           icon="search"
-          className={classNames('gray', className)}
-          style={{ width: iconSize, height: iconSize, ...style }}
+          className={className}
+          style={{ color: 'currentColor', width: iconSize, height: iconSize, ...style }}
         />
       );
     }
@@ -86,6 +127,9 @@ export default class SearchField extends React.PureComponent {
     if (this._timeout) {
       clearTimeout(this._timeout);
     }
+
+    // Update the component-level state immediately, so keypresses aren't swallowed
+    this.setState({ value });
 
     // Instead of doing a search on each keypress, do it a few ms after they've
     // stopped typing

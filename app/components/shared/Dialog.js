@@ -7,7 +7,9 @@ import Icon from './Icon';
 
 const BUTTON_SIZE = 30;
 
-const CloseButton = styled.button`
+const CloseButton = styled.button.attrs({
+  className: 'absolute circle shadow-subtle bg-white bold flex items-center cursor-pointer border border-white p0 hover-lime focus-lime'
+})`
   top: ${-BUTTON_SIZE / 2}px;
   right: ${-BUTTON_SIZE / 2}px;
   width: ${BUTTON_SIZE}px;
@@ -18,11 +20,9 @@ const CloseButton = styled.button`
   }
 `;
 
-CloseButton.defaultProps = {
-  className: 'absolute circle shadow-subtle bg-white bold flex items-center cursor-pointer border border-white p0 hover-lime focus-lime'
-};
-
-const DialogBackdrop = styled.div`
+const DialogBackdrop = styled.div.attrs({
+  className: 'absolute bg-white'
+})`
   top: 0;
   left: 0;
   bottom: 0;
@@ -30,13 +30,11 @@ const DialogBackdrop = styled.div`
   opacity: 0.9;
 `;
 
-DialogBackdrop.defaultProps = {
-  className: 'absolute bg-white'
-};
-
-const DialogContainer = styled.div`
+const DialogContainer = styled.div.attrs({
+  className: 'flex flex-column'
+})`
   width: 100vw;
-  maxWidth: 100%;
+  max-width: 100%;
   height: 100%;
   padding: 25px;
   overflow-y: auto;
@@ -53,31 +51,23 @@ const DialogContainer = styled.div`
 // which would otherwise be applied, but is ignored by both
 // Firefox and Safari!
 
-DialogContainer.defaultProps = {
-  className: 'flex flex-column'
-};
-
-const DialogBox = styled.div`
+const DialogBox = styled.div.attrs({
+  className: 'background bg-white rounded-3 shadow-subtle relative'
+})`
   width: 100%;
-  maxWidth: ${(props) => props.width}px;
+  max-width: ${(props) => props.width}px;
   margin: auto;
 `;
 
-DialogBox.defaultProps = {
-  className: 'background bg-white rounded-3 shadow-subtle relative'
-};
-
-const DialogWrapper = styled.div`
+const DialogWrapper = styled.div.attrs({
+  className: 'fixed'
+})`
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   z-index: 1000;
 `;
-
-DialogWrapper.defaultProps = {
-  className: 'fixed'
-};
 
 class Dialog extends React.Component {
   static propTypes = {

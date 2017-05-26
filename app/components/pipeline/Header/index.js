@@ -15,17 +15,15 @@ import Builds from './builds';
 import permissions from '../../../lib/permissions';
 import { repositoryProviderIcon } from '../../../lib/repositories';
 
-const HeaderVitals = styled.div`
+const HeaderVitals = styled.div.attrs({
+  className: 'flex flex-auto items-center my2'
+})`
   flex-basis: 100%;
 
   @media (min-width: 768px) {
     flex-basis: 320px;
   }
 `;
-
-HeaderVitals.defaultProps = {
-  className: 'flex flex-auto items-center my2'
-};
 
 const HeaderBuilds = styled(Builds)`
   flex: 1 1 auto;
