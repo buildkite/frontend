@@ -66,20 +66,22 @@ class Header extends React.Component {
       <div>
         <div className="flex mb1 items-center flex-wrap" style={{ marginTop: -10 }}>
           <HeaderVitals>
-            <a
-              href={this.props.pipeline.url}
-              className="inline-block flex-auto line-height-1 color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent truncate"
-            >
-              <h4 className="semi-bold h3 m0 truncate">
-                <Emojify text={this.props.pipeline.name} />
-              </h4>
-              <span
-                className="truncate h5 regular m0 dark-gray hover-color-inherit line-height-3"
-                style={{ marginTop: 3 }}
+            <div className="flex-auto">
+              <a
+                href={this.props.pipeline.url}
+                className="inline-block line-height-1 color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent truncate"
               >
-                {this.renderDescription()}
-              </span>
-            </a>
+                <h4 className="semi-bold h3 m0 truncate">
+                  <Emojify text={this.props.pipeline.name} />
+                </h4>
+                <span
+                  className="truncate h5 regular m0 dark-gray hover-color-inherit line-height-3"
+                  style={{ marginTop: 3 }}
+                >
+                  {this.renderDescription()}
+                </span>
+              </a>
+            </div>
             {this.renderProviderBadge()}
             <Dropdown
               className="sm-hide md-hide lg-hide ml2"
