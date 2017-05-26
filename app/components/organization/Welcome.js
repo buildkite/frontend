@@ -13,7 +13,7 @@ class Welcome extends React.Component {
       <div className="center p4">
         <PipelineIcon />
         <h1 className="h2 m0 mt2 mb4">
-          Create your first pipeline
+          Create your first pipeline
         </h1>
         <p className="mx-auto" style={{ maxWidth: "30em" }}>
           Pipelines define the tasks to be run on your agents. It’s best to keep each pipeline focussed on a single part of your delivery pipeline, such as testing, deployments or infrastructure. Once created, you can connect your pipeline with your source control or trigger it via the API.
