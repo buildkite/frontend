@@ -12,8 +12,8 @@ import UserSessionStore from '../../stores/UserSessionStore';
 import Pipeline from './Pipeline';
 import Welcome from './Welcome';
 
-const INITIAL_PAGE_SIZE = 100;
-const PAGE_SIZE = 50;
+const INITIAL_PAGE_SIZE = 20;
+const PAGE_SIZE = 20;
 
 class OrganizationPipelines extends React.Component {
   static propTypes = {
@@ -255,7 +255,7 @@ export default Relay.createContainer(OrganizationPipelines, {
       fragment on Organization {
         id
         slug
-        pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, order: NAME) @include(if: $isMounted) {
+        pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, order: NAME_WITH_FAVORITES_FIRST) @include(if: $isMounted) {
           edges {
             node {
               id
