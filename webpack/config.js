@@ -1,6 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
-const AssetsPlugin = require('assets-webpack-plugin');
+const ManifestPlugin = require("webpack-manifest-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 // Ensure a FRONTEND_HOST is setup since we embed it in the assets.json file
@@ -53,10 +53,7 @@ var plugins = [
 
   // After Webpack compilation, spit out a 'manifest.json' file with a mapping
   // of file name, to compiled name.
-  new AssetsPlugin({
-    path: path.join(__dirname, '..', 'dist'),
-    filename: 'manifest.json'
-  }),
+  new ManifestPlugin(),
 
   // By default, Webpack uses numerical ID's for it's internal module
   // identification. When you add a module, everything gets shift by 1, which
