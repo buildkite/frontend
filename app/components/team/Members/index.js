@@ -47,16 +47,14 @@ class Members extends React.Component {
   render() {
     return (
       <div>
-        <div className="flex items-center">
-          <h2 className="h2 flex-auto">Members {this.renderMemberCount()}</h2>
-          <Chooser team={this.props.team} onChoose={this.handleTeamMemberChoose} />
-        </div>
-        <Panel className={this.props.className}>
+      <div className="border-left border-bottom border-right border-gray">
           {this.renderMemberSearch()}
           {this.renderMemberSearchInfo()}
+      </div>
+      <div className="border-left border-bottom border-right border-gray">
           {this.renderMembers()}
           {this.renderMemberFooter()}
-        </Panel>
+        </div>
       </div>
     );
   }
@@ -91,12 +89,14 @@ class Members extends React.Component {
 
     if (members.edges.length > 0 || memberSearch) {
       return (
-        <div className="py2 px3">
+        <div className="py2 px3 flex">
           <SearchField
             placeholder="Search members…"
             searching={this.state.searchingMembersIsSlow}
             onChange={this.handleMemberSearch}
+            className="flex-auto mr3"
           />
+          <Chooser team={this.props.team} onChoose={this.handleTeamMemberChoose} />
         </div>
       );
     } else {

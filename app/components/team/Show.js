@@ -7,6 +7,8 @@ import PageHeader from '../shared/PageHeader';
 import Emojify from '../shared/Emojify';
 import permissions from '../../lib/permissions';
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
+import Badge from '../shared/Badge';
+import Icon from '../shared/Icon';
 
 import Pipelines from './Pipelines';
 import Members from './Members';
@@ -58,8 +60,21 @@ class TeamShow extends React.Component {
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
-          <Members team={this.props.team} className="mb4" />
-          <Pipelines team={this.props.team} />
+          <div className="flex border-bottom border-gray">
+            <div className="rounded-top border-top border-left border-right border-gray px2 py2 mr3 flex relative bg-white" style={{top: 1}}>
+              <Icon icon="users" className="mr1" />
+              <span>Members</span>
+              <Badge>5</Badge>
+            </div>
+
+            <div className="rounded-top border-top border-bottom border-left border-right border-gray px2 py2 mr3 flex relative bg-white" style={{top: 1}}>
+              <Icon icon="pipeline" className="mr1" />
+              <span>Pipelines</span>
+              <Badge>23</Badge>
+            </div>
+          </div>
+
+          <Members team={this.props.team} />
         </div>
       </DocumentTitle>
     );
