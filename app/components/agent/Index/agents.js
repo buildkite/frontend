@@ -12,7 +12,7 @@ import { formatNumber } from '../../../lib/number';
 
 import PusherStore from '../../../stores/PusherStore';
 
-import AgentRow from './row';
+import AgentRow from './AgentRow';
 
 const PAGE_SIZE = 100;
 

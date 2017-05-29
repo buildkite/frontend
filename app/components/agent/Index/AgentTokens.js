@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+import {
+  createFragmentContainer,
+  graphql,
+} from 'react-relay/compat';
 
 import Panel from '../../shared/Panel';
 import Spinner from '../../shared/Spinner';
@@ -27,10 +30,6 @@ class AgentTokens extends React.Component {
     title: 'Agent Token',
     setupMode: false
   };
-
-  componentDidMount() {
-    this.props.relay.setVariables({ isMounted: true });
-  }
 
   render() {
     return (
@@ -91,29 +90,23 @@ class AgentTokens extends React.Component {
   }
 }
 
-export default Relay.createContainer(AgentTokens, {
-  initialVariables: {
-    isMounted: false
-  },
-
-  fragments: {
-    organization: () => Relay.QL`
-      fragment on Organization {
-        permissions @include(if: $isMounted) {
-          agentTokenView {
-            allowed
-          }
+export default createFragmentContainer(AgentTokens, {
+  organization: graphql`
+    fragment AgentTokens_organization on Organization {
+      permissions {
+        agentTokenView {
+          allowed
         }
-        agentTokens(first: 50, revoked: false) @include(if: $isMounted) {
-          edges {
-            node {
-              id
-              description
-              token
-            }
+      }
+      agentTokens(first: 50, revoked: false) {
+        edges {
+          node {
+            id
+            description
+            token
           }
         }
       }
-    `
-  }
+    }
+  `
 });
