@@ -60,7 +60,7 @@ class Index extends React.Component {
             <PageHeader.Description>Teams allow you to control who has access to this pipeline</PageHeader.Description>
           </PageHeader>
           <Panel>
-            <Panel.Section>
+            <div className="py2 px3">
               <AutocompleteField
                 onSearch={this.handleTeamSearch}
                 onSelect={this.handleTeamSelect}
@@ -68,7 +68,7 @@ class Index extends React.Component {
                 placeholder="Add a team…"
                 ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
               />
-            </Panel.Section>
+            </div>
 
             {this.renderRows()}
           </Panel>
