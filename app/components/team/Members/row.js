@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
+import Icon from '../../shared/Icon';
 import Spinner from '../../shared/Spinner';
 
 import FlashesStore from '../../../stores/FlashesStore';
@@ -65,9 +66,18 @@ export default class Row extends React.PureComponent {
         {
           allowed: "teamMemberDelete",
           render: (idx) => (
-            <Button key={idx} loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true} className="ml3"
+            <Button
+              key={idx}
+              loading={this.state.removing ? "Removing…" : false}
+              theme={"default"}
+              outline={true}
+              className="p0 ml3 flex circle items-center justify-center hover-black"
+              style={{
+                width: 30,
+                height: 30
+              }}
               onClick={this.handleMemberRemove}
-            >Remove</Button>
+            ><Icon icon="close" title="Remove" style={{width: 18, height: 18}} className="dark-gray hover-black-child" /></Button>
           )
         }
       );

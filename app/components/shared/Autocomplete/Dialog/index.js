@@ -59,6 +59,7 @@ class AutocompleteDialog extends React.PureComponent {
             ref={(_searchField) => this._searchField = _searchField}
             onChange={this.handleSearchChange}
             onKeyDown={this.handleKeyDown}
+            borderless={true}
             placeholder={this.props.placeholder}
             searching={this.state.searching}
           />

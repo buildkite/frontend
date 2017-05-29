@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import styled from 'styled-components';
 import { second } from 'metrick/duration';
 
 import Button from '../../shared/Button';
@@ -17,6 +18,20 @@ import Chooser from './chooser';
 import Row from './row';
 
 const PAGE_SIZE = 10;
+
+const FilterField = styled(SearchField)`
+  & > input {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+`;
+// NOTE: the large-screen margin-left is ~half right
+// to adjust for the position of SearchField's icon
+
+FilterField.defaultProps = {
+  className: 'light flex-auto'
+};
 
 class Members extends React.Component {
   static displayName = "Team.Members";
@@ -42,12 +57,20 @@ class Members extends React.Component {
 
   render() {
     return (
-      <Panel className={this.props.className}>
-        {this.renderMemberSearch()}
-        {this.renderMemberSearchInfo()}
-        {this.renderMembers()}
-        {this.renderMemberFooter()}
-      </Panel>
+      <div className="pt2">
+        <div className="mb2 flex">
+          <div className="flex-auto">
+            {this.renderMemberSearch()}
+          </div>
+          <Chooser team={this.props.team} onChoose={this.handleTeamMemberChoose} />
+        </div>
+
+        <Panel className={this.props.className}>
+          {this.renderMemberSearchInfo()}
+          {this.renderMembers()}
+          {this.renderMemberFooter()}
+        </Panel>
+      </div>
     );
   }
 
@@ -71,15 +94,13 @@ class Members extends React.Component {
 
     if (members.edges.length > 0 || memberSearch) {
       return (
-        <div className="py2 px3 flex items-stretch">
-          <SearchField
-            placeholder="Search members…"
-            searching={this.state.searchingMembersIsSlow}
-            onChange={this.handleMemberSearch}
-            className="flex flex-auto mr3"
-          />
-          <Chooser team={this.props.team} onChoose={this.handleTeamMemberChoose} />
-        </div>
+        <FilterField
+          borderless={true}
+          placeholder="Filter"
+          searching={this.state.searchingMembersIsSlow}
+          onChange={this.handleMemberSearch}
+          className="flex flex-auto mr3 h4"
+        />
       );
     } else {
       return null;

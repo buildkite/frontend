@@ -60,23 +60,23 @@ class TeamShow extends React.Component {
     return (
       <DocumentTitle title={`${this.props.team.name} · ${this.props.team.organization.name} Team`}>
         <div>
-          <PageHeader>
+          <PageHeader className="mb0">
             <div className="flex items-center"><h1 className="h1 m0 p0 block"><Emojify text={this.props.team.name} /></h1>{this.renderPrivacyLabel()}</div>
             <PageHeader.Description><Emojify text={this.props.team.description || "No description"} /></PageHeader.Description>
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
-          <div className="flex mb4">
-            <div className="px3 py2 mr3 flex relative bg-white border-bottom border-lime lime" style={{borderWidth: 2}}>
-              <Icon icon="users" className="mr1" />
-              <span>Members</span>
-              <Badge className="bg-lime">{this.props.team.members.count}</Badge>
-            </div>
+          <div className="border-bottom border-gray" style={{marginTop: -5}}>
+            <div className="flex relative" style={{top: 1}}>
+              <div className="px3 py2 flex items-center relative bg-white border-bottom border-lime lime" style={{borderWidth: 2}}>
+                <span>Members</span>
+                <span className="inline-block rounded ml2 small p1 line-height-1 tabular-numerals border border-light-lime lime">{this.props.team.members.count}</span>
+              </div>
 
-            <div className="px2 py2 mr3 flex relative bg-white">
-              <Icon icon="pipeline" className="mr1" />
-              <span>Pipelines</span>
-              <Badge>{this.props.team.pipelines.count}</Badge>
+              <div className="px3 py2 flex items-center relative bg-hover-lime">
+                <span>Pipelines</span>
+                <span className="inline-block bg-black rounded ml2 small p1 line-height-1 tabular-numerals bg-silver border-gray bg-white border dark-gray">{this.props.team.pipelines.count}</span>
+              </div>
             </div>
           </div>
 

@@ -11,11 +11,11 @@ class PageWithMenu extends React.Component {
 
     return (
       <div className="container">
-        <div className="clearfix mxn2">
-          <div className="md-col md-col-3 px2">
+        <div className="clearfix mxn3">
+          <div className="md-col md-col-3 px3">
             {children[0]}
           </div>
-          <div className="md-col md-col-9 px2">
+          <div className="md-col md-col-9 px3">
             {children.slice(1)}
           </div>
         </div>

@@ -4,6 +4,7 @@ import Relay from 'react-relay/classic';
 
 import AutocompleteDialog from '../../shared/Autocomplete/Dialog';
 import Button from '../../shared/Button';
+import Icon from '../../shared/Icon';
 import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
@@ -53,10 +54,13 @@ class Chooser extends React.Component {
           <div>
             <Button
               onClick={this.handleDialogOpen}
-              outline={true}
-              theme="default"
+              className="p0 ml-auto flex circle items-center justify-center"
+              style={{
+                width: 34,
+                height: 34
+              }}
             >
-              Add User…
+              <Icon icon="plus" title="New Pipeline"/>
             </Button>
             <AutocompleteDialog
               isOpen={this.state.showingDialog}
@@ -66,7 +70,7 @@ class Chooser extends React.Component {
               onSelect={this.handleUserSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.memberAddSearch)}
               placeholder="Find a user…"
-              selectLabel="Add User"
+              selectLabel="Add"
               popover={false}
               ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
             />

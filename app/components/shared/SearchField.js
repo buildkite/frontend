@@ -82,7 +82,7 @@ export default class SearchField extends React.PureComponent {
           className={classNames('input', { borderless: this.props.borderless })}
           style={{
             margin: 0,
-            paddingLeft: '2em'
+            paddingLeft: this.props.borderless ? '1.3em' : '2em'
           }}
           ref={(_inputNode) => this._inputNode = _inputNode}
           value={this.state.value}
@@ -99,7 +99,7 @@ export default class SearchField extends React.PureComponent {
   renderIcon() {
     const iconSize = '1em';
     const className = 'absolute pointer-events-none';
-    const style = { left: '.75em', marginTop: '-.5em', top: '50%' };
+    const style = { left: this.props.borderless ? 0 : '.75em', marginTop: '-.5em', top: '50%' };
 
     if (this.props.searching) {
       return (

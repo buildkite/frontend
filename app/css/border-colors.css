@@ -11,6 +11,7 @@
 .border-green { border-color: var(--green) }
 .border-olive { border-color: var(--olive) }
 .border-lime  { border-color: var(--lime) }
+.border-light-lime  { border-color: var(--light-lime) }
 
 .border-yellow    { border-color: var(--yellow) }
 .border-orange    { border-color: var(--orange) }

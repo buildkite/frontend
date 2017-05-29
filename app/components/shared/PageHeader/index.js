@@ -36,9 +36,9 @@ class PageHeader extends React.Component {
     });
 
     return (
-      <section className="flex flex-wrap items-top mb2">
+      <section className="flex flex-wrap items-top mb3">
         {this.renderAffix(pre)}
-        <div className="flex-auto mb2" style={{ flexBasis: 160 }}>{content}</div>
+        <div className="flex-auto" style={{ flexBasis: 160 }}>{content}</div>
         {this.renderAffix(post)}
       </section>
     );

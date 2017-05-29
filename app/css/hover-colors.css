@@ -64,7 +64,7 @@
 .hover-black:hover .hover-black-child,
 .hover-black:active .hover-black-child,
 .hover-black:focus .hover-black-child {
-  background-color: var(--black);
+  color: var(--black);
 }
 
 .hover-blue:hover {

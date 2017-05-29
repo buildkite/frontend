@@ -15,11 +15,11 @@ class SettingsSection extends React.Component {
     return (
       <div className="container">
         <Header pipeline={this.props.pipeline} />
-        <div className="clearfix mxn2">
-          <div className="md-col md-col-3 px2">
+        <div className="clearfix mxn3">
+          <div className="md-col md-col-3 px3">
             <SettingsMenu pipeline={this.props.pipeline} />
           </div>
-          <div className="md-col md-col-9 px2">
+          <div className="md-col md-col-9 px3">
             {this.props.children}
           </div>
         </div>
