@@ -266,8 +266,6 @@ class Navigation extends React.PureComponent {
 
             {this.renderTopOrganizationMenu()}
 
-            <span className="flex-auto" />
-
             {this.renderMyBuilds()}
             <NavigationButton className="py0 xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
             <NavigationButton className="py0 xs-hide sm-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
