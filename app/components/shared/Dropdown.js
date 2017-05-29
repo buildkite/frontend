@@ -10,7 +10,7 @@ export default class Dropdown extends React.PureComponent {
     children: PropTypes.node.isRequired,
     width: PropTypes.number.isRequired,
     className: PropTypes.string,
-    style: React.PropTypes.object,
+    style: PropTypes.object,
     onToggle: PropTypes.func,
     nibOffsetX: PropTypes.number.isRequired,
     offsetY: PropTypes.number.isRequired
