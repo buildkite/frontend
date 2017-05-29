@@ -12,7 +12,10 @@
       "presets": ["react-hmre"]
     },
     "test": {
-      "plugins": ["react-pure-components"]
+      "plugins": [
+        "react-pure-components",
+        "transform-es2015-modules-commonjs"
+      ]
     },
     "production": {
       "plugins": ["react-pure-components"]
