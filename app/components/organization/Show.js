@@ -16,6 +16,13 @@ import Teams from './Teams';
 const FilterField = styled(SearchField)`
   flex-basis: 100%;
   order: 3;
+  color: gray;
+
+  & > input {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+  }
 
   @media (min-width: 480px) {
     font-size: 16px;

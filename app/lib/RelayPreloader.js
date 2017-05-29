@@ -43,7 +43,7 @@ const QUERIES = {
     }
   `,
   "organization_show/organization": Relay.QL`
-    query PipelinesList($organization: ID!, $team: TeamSelector) {
+    query PipelinesList($organization: ID!, $team: TeamSelector, $pageSize: Int, $pipelineFilter: String) {
       organization(slug: $organization) {
         id
         slug
@@ -63,7 +63,7 @@ const QUERIES = {
             hasPreviousPage
           }
         }
-        pipelines(first: 500, team: $team, order: NAME) {
+        pipelines(first: $pageSize, search: $pipelineFilter, team: $team, order: NAME_WITH_FAVORITES_FIRST) {
           edges {
             node {
               id
