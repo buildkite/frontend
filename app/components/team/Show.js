@@ -27,6 +27,12 @@ class TeamShow extends React.Component {
         name: PropTypes.string.isRequired,
         slug: PropTypes.string.isRequired
       }).isRequired,
+      pipelines: PropTypes.shape({
+        count: PropTypes.number.isRequired
+      }).isRequired,
+      members: PropTypes.shape({
+        count: PropTypes.number.isRequired
+      }).isRequired,
       permissions: PropTypes.shape({
         teamUpdate: PropTypes.object.isRequired,
         teamDelete: PropTypes.object.isRequired
@@ -60,17 +66,17 @@ class TeamShow extends React.Component {
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
-          <div className="flex border-bottom border-gray">
-            <div className="rounded-top border-top border-left border-right border-gray px2 py2 mr3 flex relative bg-white" style={{top: 1}}>
+          <div className="flex mb4">
+            <div className="px3 py2 mr3 flex relative bg-white border-bottom border-lime lime" style={{borderWidth: 2}}>
               <Icon icon="users" className="mr1" />
               <span>Members</span>
-              <Badge>5</Badge>
+              <Badge className="bg-lime">{this.props.team.members.count}</Badge>
             </div>
 
-            <div className="rounded-top border-top border-bottom border-left border-right border-gray px2 py2 mr3 flex relative bg-white" style={{top: 1}}>
+            <div className="px2 py2 mr3 flex relative bg-white">
               <Icon icon="pipeline" className="mr1" />
               <span>Pipelines</span>
-              <Badge>23</Badge>
+              <Badge>{this.props.team.pipelines.count}</Badge>
             </div>
           </div>
 
@@ -158,6 +164,12 @@ export default Relay.createContainer(TeamShow, {
         organization {
           name
           slug
+        }
+        pipelines {
+          count
+        }
+        members {
+          count
         }
         permissions {
           teamUpdate {
