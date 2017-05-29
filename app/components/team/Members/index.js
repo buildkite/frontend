@@ -71,12 +71,12 @@ class Members extends React.Component {
 
     if (members.edges.length > 0 || memberSearch) {
       return (
-        <div className="py2 px3 flex">
+        <div className="py2 px3 flex items-stretch">
           <SearchField
             placeholder="Search members…"
             searching={this.state.searchingMembersIsSlow}
             onChange={this.handleMemberSearch}
-            className="flex-auto mr3"
+            className="flex flex-auto mr3"
           />
           <Chooser team={this.props.team} onChoose={this.handleTeamMemberChoose} />
         </div>
