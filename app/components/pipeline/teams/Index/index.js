@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import Panel from '../../../shared/Panel';
-import Emojify from '../../../shared/Emojify';
 import AutocompleteField from '../../../shared/Autocomplete/Field';
+import Emojify from '../../../shared/Emojify';
+import Icon from '../../../shared/Icon';
+import PageHeader from '../../../shared/PageHeader';
+import Panel from '../../../shared/Panel';
 
 import FlashesStore from '../../../../stores/FlashesStore';
 
@@ -45,21 +47,32 @@ class Index extends React.Component {
   render() {
     return (
       <DocumentTitle title={`Teams · ${this.props.pipeline.name}`}>
-        <Panel>
-          <Panel.Header>Teams</Panel.Header>
+        <div>
+          <PageHeader>
+            <PageHeader.Icon>
+              <Icon
+                icon="teams"
+                className="align-middle mr2"
+                style={{ height: 40, width: 40 }}
+              />
+            </PageHeader.Icon>
+            <PageHeader.Title>Teams</PageHeader.Title>
+            <PageHeader.Description>Teams allow you to control who has access to this pipeline</PageHeader.Description>
+          </PageHeader>
+          <Panel>
+            <Panel.Section>
+              <AutocompleteField
+                onSearch={this.handleTeamSearch}
+                onSelect={this.handleTeamSelect}
+                items={this.renderAutoCompleteSuggestions(this.props.relay.variables.search)}
+                placeholder="Add a team…"
+                ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
+              />
+            </Panel.Section>
 
-          <Panel.Section>
-            <AutocompleteField
-              onSearch={this.handleTeamSearch}
-              onSelect={this.handleTeamSelect}
-              items={this.renderAutoCompleteSuggestions(this.props.relay.variables.search)}
-              placeholder="Add a team…"
-              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-            />
-          </Panel.Section>
-
-          {this.renderRows()}
-        </Panel>
+            {this.renderRows()}
+          </Panel>
+        </div>
       </DocumentTitle>
     );
   }
