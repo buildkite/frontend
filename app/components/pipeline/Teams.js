@@ -1,8 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import Chooser from '../shared/Chooser';
 import Emojify from '../shared/Emojify';
+
+const PipelineChooser = styled(Chooser)`
+  margin: -5px;
+`;
 
 class PipelineTeams extends React.Component {
   static propTypes = {
@@ -18,7 +23,7 @@ class PipelineTeams extends React.Component {
 
   render() {
     return (
-      <Chooser selected={this.state.selected} multiple={true} onSelect={this.handleTeamSelect}>
+      <PipelineChooser selected={this.state.selected} multiple={true} onSelect={this.handleTeamSelect}>
         {
           this.props.organization.teams.edges.map((edge) => {
             return (
@@ -27,7 +32,7 @@ class PipelineTeams extends React.Component {
                 key={edge.node.id}
                 value={edge.node.id}
                 data={{ team: edge.node }}
-                className="btn border border-gray rounded mr2 regular user-select-none"
+                className="btn border border-gray rounded m1 regular user-select-none"
                 selectedClassName="border-lime"
               >
                 <Emojify text={edge.node.name} />
@@ -35,7 +40,7 @@ class PipelineTeams extends React.Component {
             );
           })
         }
-      </Chooser>
+      </PipelineChooser>
     );
   }
 
