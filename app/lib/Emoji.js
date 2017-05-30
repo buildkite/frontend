@@ -4,7 +4,7 @@ import BUILDKITE_EMOJI from '../emojis/buildkite';
 import UNICODE_EMOJI from '../emojis/apple';
 
 const UNICODE_REGEXP = emojiRegex();
-const COLON_REGEXP = new RegExp('\:[^\\s:]+\:', 'g');
+const COLON_REGEXP = /:[^\s:]+:(?::skin-tone-[2-6]:)?/g;
 
 class Emoji {
   parse(string, options = {}) {
@@ -18,77 +18,36 @@ class Emoji {
     }
 
     // Start with replacing BK emoji (which are more likely than Unicode emoji)
-    string = this._replaceColons(BUILDKITE_EMOJI, string);
+    string = this._replace(string, COLON_REGEXP, BUILDKITE_EMOJI);
 
     // Then do a Unicode emoji parse
     if (options.replaceUnicode !== false) {
-      string = this._replaceUnicode(UNICODE_EMOJI, string);
+      string = this._replace(string, UNICODE_REGEXP, UNICODE_EMOJI);
     }
 
-    string = this._replaceColons(UNICODE_EMOJI, string);
+    string = this._replace(string, COLON_REGEXP, UNICODE_EMOJI);
 
     return string;
   }
 
-  // replaces unicode emoji with images
-  _replaceUnicode(catalogue, string) {
-    return string.replace(UNICODE_REGEXP, (match) => {
+  _replace(string, regexp, catalogue) {
+    return string.replace(regexp, (match) => {
       const emojiIndex = catalogue.index[match];
 
       if ((typeof emojiIndex) === 'number') {
-        return this._image(catalogue, catalogue.emoji[emojiIndex], match);
+        return this._render(catalogue, catalogue.emoji[emojiIndex]);
       } else {
         return match;
       }
     });
   }
 
-  // replaces emoji shortcodes with images
-  _replaceColons(catalogue, string) {
-    // NOTE: replacements are done indirectly here, because the
-    // colon regexp will not catch modifiers in a single match
-    const matches = string.match(COLON_REGEXP);
-    const replacements = [];
-
-    // Bail if there aren't any emojis to replace
-    if (!matches || !matches.length) {
-      return string;
-    }
-
-    for (let matchIndex = 0, matchLength = matches.length; matchIndex < matchLength; matchIndex++) {
-      const match = matches[matchIndex];
-      const nextMatch = matches[matchIndex + 1];
-
-      // See if this match and the next one, makes a new emoji. For example,
-      // :fist::skin-tone-4:
-      if (nextMatch) {
-        const modifiedEmojiIndex = catalogue.index[`${match}${nextMatch}`];
-
-        if ((typeof modifiedEmojiIndex) === 'number') {
-          replacements.push(this._image(catalogue, catalogue.emoji[modifiedEmojiIndex]));
-          replacements.push("");
-          matchIndex += 1;
-
-          continue;
-        }
-      }
-
-      const emojiIndex = catalogue.index[match];
-
-      if ((typeof emojiIndex) === 'number') {
-        replacements.push(this._image(catalogue, catalogue.emoji[emojiIndex]));
-      } else {
-        replacements.push(match);
-      }
-    }
-
-    return string.replace(COLON_REGEXP, () => replacements.shift());
-  }
-
-  _image({ host }, emoji, match) {
+  _render({ host }, emoji) {
     // Emoji catalogue hosts have a normalized host that always end with a "/"
     const emojiUrl = `${host}${emoji.image}`;
-    const emojiCanonicalRepresentation = match || emoji.unicode || `:${emoji.name}:`;
+
+    // Prioritise unicode representation over shortcodes
+    const emojiCanonicalRepresentation = emoji.unicode || `:${emoji.name}:`;
 
     return `<img class="emoji" title="${emoji.name}" alt="${emojiCanonicalRepresentation}" src="${emojiUrl}" draggable="false" />`;
   }
