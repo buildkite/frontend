@@ -73,7 +73,7 @@
     "escape-html": "^1.0.3",
     "eventemitter3": "^2.0.2",
     "global": "^4.3.1",
-    "graphql": "^0.10.0",
+    "graphql": "^0.10.1",
     "graphql-relay": "^0.5.1",
     "markdown-component-loader": "^0.7.1",
     "metrick": "^0.2.0",
