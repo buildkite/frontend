@@ -14,7 +14,7 @@
     "lint-and-fix": "eslint --fix .",
     "build": "NODE_ENV=development webpack --config webpack/config.js --progress --bail",
     "build-production": "NODE_ENV=production webpack --config webpack/config.js --progress --bail",
-    "bundle-analyze": "webpack --config webpack/config.js --profile --json > bundle-analysis/stats.json && webpack-bundle-analyzer bundle-analysis/stats.json dist --no-open --mode static -r bundle-analysis/bundle-analyzer-report.html",
+    "bundle-analyze": "webpack --config webpack/config.js --profile --json > bundle-analysis/stats.json && cat bundle-analysis/stats.json | sed '/^Parsed default in/d' | sed '/^Writing default/d' > bundle-analysis/stats.json && webpack-bundle-analyzer bundle-analysis/stats.json dist --no-open --mode static -r bundle-analysis/bundle-analyzer-report.html",
     "relay": "relay-compiler --schema app/graph/schema.json --src app"
   },
   "devDependencies": {
