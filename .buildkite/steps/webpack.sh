@@ -9,6 +9,9 @@ echo "--- :information_desk_person: Appending SHA1 of webpack/config.js to \$FRO
 
 echo "\$FRONTEND_HOST is now $FRONTEND_HOST"
 
+echo "--- :relay: Compiling GraphQL Relay files"
+yarn run relay
+
 echo "--- :webpack: Building webpack assets for production"
 yarn run build-production
 
