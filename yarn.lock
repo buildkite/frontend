@@ -3401,9 +3401,9 @@ html-entities@^1.2.0:
     inherits "^2.0.1"
     readable-stream "^2.0.2"
 
-"htmltojsx@https://github.com/reactjs/react-magic#e63dabeefb87d4ce1e74ac2ddb73b0164c344219":
-  version "0.2.6-dev"
-  resolved "https://github.com/reactjs/react-magic#e63dabeefb87d4ce1e74ac2ddb73b0164c344219"
+htmltojsx@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/htmltojsx/-/htmltojsx-0.2.6.tgz#d0673630e5866b2454cc5aeae89fef8ed8c3b360"
   dependencies:
     jsdom-no-contextify "~3.1.0"
     react "~0.14.6"
@@ -4682,15 +4682,15 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-markdown-component-loader@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/markdown-component-loader/-/markdown-component-loader-0.7.1.tgz#0ab21a481bb5ea9fb5bb00efdf2baf9136e8afa9"
+markdown-component-loader@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/markdown-component-loader/-/markdown-component-loader-0.8.0.tgz#1e24dce19cdb783111c20bd2b5696714c57fab3a"
   dependencies:
     any-base "^1.0.0"
     doc-chomp "1.1.0"
     front-matter "^2.1.0"
     highlight.js "^9.6.0"
-    htmltojsx "https://github.com/reactjs/react-magic#e63dabeefb87d4ce1e74ac2ddb73b0164c344219"
+    htmltojsx "^0.2.6"
     jsesc "^2.2.0"
     loader-utils "^0.2.16"
     markdown-it "^8.1.0"
