@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import reffer from 'reffer';
 
 import SearchField from '../../SearchField';
 import Suggestion from './suggestion';
@@ -74,7 +75,7 @@ class AutocompleteField extends React.PureComponent {
     return (
       <div className="relative">
         <SearchField
-          ref={(_searchField) => this._searchField = _searchField}
+          ref={this::reffer('_searchField')}
           onChange={this.handleSearchChange}
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleFocus}

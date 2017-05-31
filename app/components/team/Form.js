@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import reffer from 'reffer';
 
 import FormCheckbox from '../shared/FormCheckbox';
 import FormInputLabel from '../shared/FormInputLabel';
@@ -33,7 +34,7 @@ class TeamForm extends React.Component {
           errors={errors.findForField("name")}
           value={this.props.name}
           onChange={this.handleTeamNameChange}
-          ref={(nameTextField) => this.nameTextField = nameTextField}
+          ref={this::reffer('nameTextField')}
         />
 
         <FormTextField

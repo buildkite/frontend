@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-import throttle from 'throttleit';
 import { seconds } from 'metrick/duration';
+import throttle from 'throttleit';
 
 import PusherStore from '../../stores/PusherStore';
 

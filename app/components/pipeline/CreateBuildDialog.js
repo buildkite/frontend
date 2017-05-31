@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { parse } from 'query-string';
+import reffer from 'reffer';
 
 import Button from '../shared/Button';
 import CollapsableArea from '../shared/CollapsableArea';
@@ -76,7 +77,7 @@ class CreateBuildDialog extends React.PureComponent {
           action={`/organizations/${this.props.pipeline.organization.slug}/pipelines/${this.props.pipeline.slug}/builds`}
           acceptCharset=""
           method="POST"
-          ref={(form) => this.form = form}
+          ref={this::reffer('form')}
         >
 
           <input type="hidden" name="utf8" value="✓" />
@@ -91,7 +92,7 @@ class CreateBuildDialog extends React.PureComponent {
               placeholder="Description of this build"
               required={true}
               value={this.state.defaultValues.message}
-              ref={(buildMessageTextField) => this.buildMessageTextField = buildMessageTextField}
+              ref={this::reffer('buildMessageTextField')}
             />
 
             <FormTextField

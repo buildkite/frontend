@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import reffer from 'reffer';
 
 import Dropdown from '../shared/Dropdown';
 import Icon from '../shared/Icon';
@@ -193,7 +194,7 @@ class AvatarWithUnknownEmailPrompt extends React.PureComponent {
         <div>
           <Dropdown
             width={440}
-            ref={(dropdown) => this._dropdown = dropdown}
+            ref={this::reffer('_dropdown')}
             offsetY={8}
           >
             <UserAvatar user={this.props.build.createdBy} style={{ width: 32, height: 32 }} className="cursor-pointer" />

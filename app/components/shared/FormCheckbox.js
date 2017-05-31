@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import reffer from 'reffer';
 
 import FormInputErrors from './FormInputErrors';
 
@@ -30,7 +31,7 @@ export default class FormCheckbox extends React.PureComponent {
               cursor: this.props.disabled ? "not-allowed" : "inherit"
             }}
             disabled={this.props.disabled}
-            ref={(_checkbox) => this._checkbox = _checkbox}
+            ref={this::reffer('_checkbox')}
           />
           <span className={classNames('semi-bold', { red: this._hasErrors() })}>{this.props.label}</span><br />
           {this._renderHelp()}

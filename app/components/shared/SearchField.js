@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import reffer from 'reffer';
 
 import Icon from './Icon';
 import Spinner from './Spinner';
@@ -84,7 +85,7 @@ export default class SearchField extends React.PureComponent {
             margin: 0,
             paddingLeft: '2em'
           }}
-          ref={(_inputNode) => this._inputNode = _inputNode}
+          ref={this::reffer('_inputNode')}
           value={this.state.value}
           onChange={this.handleInputChange}
           onKeyDown={this.props.onKeyDown}

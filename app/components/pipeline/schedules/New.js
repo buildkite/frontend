@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
+import reffer from 'reffer';
 
 import PipelineScheduleCreateMutation from '../../../mutations/PipelineScheduleCreate';
 import GraphQLErrors from '../../../constants/GraphQLErrors';
@@ -39,7 +40,7 @@ class New extends React.Component {
             <Panel.Header>New Schedule</Panel.Header>
 
             <Panel.Section>
-              <Form pipeline={this.props.pipeline} errors={this.state.errors} ref={(form) => this.form = form} />
+              <Form pipeline={this.props.pipeline} errors={this.state.errors} ref={this::reffer('form')} />
             </Panel.Section>
 
             <Panel.Footer>

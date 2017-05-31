@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import reffer from 'reffer';
 
 import CollapsableFormField from './CollapsableFormField';
 import FormInputHelp from './FormInputHelp';
@@ -100,7 +101,7 @@ class FormTextField extends React.Component {
         spellCheck={this.props.spellCheck}
         onChange={this.props.onChange}
         required={this.props.required}
-        ref={(input) => this.input = input}
+        ref={this::reffer('input')}
       />
     );
   }

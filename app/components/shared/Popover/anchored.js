@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import reffer from 'reffer';
 
 import Popover from '.';
 import calculateViewportOffsets from './calculate-viewport-offsets';
@@ -113,7 +114,7 @@ export default class AnchoredPopover extends React.PureComponent {
 
     return (
       <span
-        ref={(wrapperNode) => this.wrapperNode = wrapperNode}
+        ref={this::reffer('wrapperNode')}
         className={wrapperClassName}
         style={style}
         onMouseOver={this.handleMouseOver}

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-import { second } from 'metrick/duration';
 import DocumentTitle from 'react-document-title';
+import { second } from 'metrick/duration';
+import reffer from 'reffer';
 
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
@@ -90,7 +91,7 @@ class TeamIndex extends React.PureComponent {
                 />
 
                 <div className="flex-none pl3 flex">
-                  <Dropdown width={150} ref={(_teamPrivacyDropdown) => this._teamPrivacyDropdown = _teamPrivacyDropdown}>
+                  <Dropdown width={150} ref={this::reffer('_teamPrivacyDropdown')}>
                     <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{TEAM_PRIVACIES.find((privacy) => privacy.id === this.props.relay.variables.teamPrivacy).name}</div>
                     {this.renderTeamPrivacies()}
                   </Dropdown>

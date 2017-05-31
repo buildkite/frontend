@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import reffer from 'reffer';
 
 import AutocompleteDialog from '../../shared/Autocomplete/Dialog';
 import Button from '../../shared/Button';
@@ -66,7 +67,7 @@ class Chooser extends React.Component {
               placeholder="Find a pipeline…"
               selectLabel="Add Pipeline"
               popover={false}
-              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
+              ref={this::reffer('_autoCompletor')}
             />
           </div>
         )
