@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 
 import Panel from '../../shared/Panel';
 import RevealButton from '../../shared/RevealButton';
@@ -39,14 +39,12 @@ class AgentTokenItem extends React.Component {
   }
 }
 
-export default Relay.createContainer(AgentTokenItem, {
-  fragments: {
-    agentToken: () => Relay.QL`
-      fragment on AgentToken {
-        id
-        description
-        token
-      }
-    `
-  }
+export default createFragmentContainer(AgentTokenItem, {
+  agentToken: graphql`
+    fragment AgentTokenItem_agentToken on AgentToken {
+      id
+      description
+      token
+    }
+  `
 });
