@@ -49,7 +49,8 @@ class Remove extends React.PureComponent {
 
     return (
       <Button
-        theme="error"
+        theme="default"
+        outline={true}
         loading={loading}
         onClick={this.handleRemoveClick}
       >
