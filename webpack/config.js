@@ -2,7 +2,6 @@ const path = require("path");
 const webpack = require("webpack");
 const AssetsPlugin = require('assets-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-// const RelayCompilerPlugin = require("relay-compiler-webpack-plugin");
 
 // Ensure a FRONTEND_HOST is setup since we embed it in the assets.json file
 if (!process.env.FRONTEND_HOST) {
@@ -84,13 +83,7 @@ var plugins = [
     }
   }),
 
-  new ExtractTextPlugin("[name]-[contenthash].css"),
-
-  // Automatically compile GraphQL fragments for Relay
-  // new RelayCompilerPlugin({
-  //   schema: path.resolve(__dirname, "../app/graph/schema.json"),
-  //   src: path.resolve(__dirname, "../app")
-  // })
+  new ExtractTextPlugin("[name]-[contenthash].css")
 ];
 
 var vendor_modules = [
