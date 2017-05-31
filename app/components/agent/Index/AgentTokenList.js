@@ -4,9 +4,10 @@ import Relay from 'react-relay/classic';
 
 import Panel from '../../shared/Panel';
 import Spinner from '../../shared/Spinner';
-import RevealButton from '../../shared/RevealButton';
 
-class AgentTokens extends React.Component {
+import AgentTokenItem from './AgentTokenItem';
+
+class AgentTokenList extends React.Component {
   static propTypes = {
     organization: PropTypes.shape({
       agentTokens: PropTypes.shape({
@@ -50,7 +51,11 @@ class AgentTokens extends React.Component {
   renderBody() {
     if (this.props.organization.agentTokens) {
       if (this.props.organization.permissions.agentTokenView.allowed) {
-        return this.props.organization.agentTokens.edges.map((edge) => this.renderRow(edge.node));
+        return this.props.organization.agentTokens.edges.map((edge) => {
+          return (
+            <AgentTokenItem key={edge.node.id} agentToken={edge.node} showDescription={this.props.organization.agentTokens.edges.length > 1} />
+          )
+        });
       } else {
         return (
           <Panel.Section>
@@ -66,32 +71,9 @@ class AgentTokens extends React.Component {
       );
     }
   }
-
-  renderRow(token) {
-    return (
-      <Panel.Row key={token.id}>
-        {this.renderDescription(token)}
-        <RevealButton caption="Reveal Agent Token">
-          <code className="red monospace" style={{ wordWrap: "break-word" }}>
-            {token.token}
-          </code>
-        </RevealButton>
-      </Panel.Row>
-    );
-  }
-
-  renderDescription(token) {
-    if (this.props.organization.agentTokens.edges.length > 1) {
-      return (
-        <small className="dark-gray mb1 block">
-          {token.description}
-        </small>
-      );
-    }
-  }
 }
 
-export default Relay.createContainer(AgentTokens, {
+export default Relay.createContainer(AgentTokenList, {
   initialVariables: {
     isMounted: false
   },
@@ -108,8 +90,7 @@ export default Relay.createContainer(AgentTokens, {
           edges {
             node {
               id
-              description
-              token
+              ${AgentTokenItem.getFragment("agentToken")}
             }
           }
         }
