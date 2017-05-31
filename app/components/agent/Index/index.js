@@ -6,7 +6,7 @@ import DocumentTitle from 'react-document-title';
 import PageWithContainer from '../../shared/PageWithContainer';
 
 import Agents from './agents';
-import AgentTokens from './agent-tokens';
+import AgentTokenList from './AgentTokenList';
 import AgentInstallation from './installation';
 import QuickStart from './quick-start';
 
@@ -49,7 +49,7 @@ class AgentIndex extends React.Component {
           location={this.props.location}
         />
         <AgentInstallation organization={this.props.organization} />
-        <AgentTokens
+        <AgentTokenList
           title="Your agent token"
           organization={this.props.organization}
           setupMode={true}
@@ -70,7 +70,7 @@ class AgentIndex extends React.Component {
           <Agents organization={this.props.organization} />
         </div>
         <div className="sm-col sm-col-4 px3">
-          <AgentTokens organization={this.props.organization} />
+          <AgentTokenList organization={this.props.organization} />
         </div>
       </div>
     );
@@ -87,7 +87,7 @@ export default Relay.createContainer(AgentIndex, {
     organization: () => Relay.QL`
       fragment on Organization {
         ${Agents.getFragment('organization')}
-        ${AgentTokens.getFragment('organization')}
+        ${AgentTokenList.getFragment('organization')}
         ${AgentInstallation.getFragment('organization')}
         ${QuickStart.getFragment('organization')}
         name
