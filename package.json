@@ -14,7 +14,8 @@
     "lint-and-fix": "eslint --fix .",
     "build": "NODE_ENV=development webpack --config webpack/config.js --progress --bail",
     "build-production": "NODE_ENV=production webpack --config webpack/config.js --progress --bail",
-    "bundle-analyze": "webpack --config webpack/config.js --profile --json > bundle-analysis/stats.json && webpack-bundle-analyzer bundle-analysis/stats.json dist --no-open --mode static -r bundle-analysis/bundle-analyzer-report.html"
+    "bundle-analyze": "webpack --config webpack/config.js --profile --json > bundle-analysis/stats.json && webpack-bundle-analyzer bundle-analysis/stats.json dist --no-open --mode static -r bundle-analysis/bundle-analyzer-report.html",
+    "relay": "relay-compiler --schema app/graph/schema.json --src app"
   },
   "devDependencies": {
     "assets-webpack-plugin": "^3.4.0",
@@ -52,6 +53,7 @@
     "react-test-renderer": "^15.3.2",
     "react-transform-hmr": "^1.0.4",
     "react-type-snob": "^0.0.3",
+    "relay-compiler": "^1.0.0",
     "style-loader": "^0.18.1",
     "url-loader": "^0.5.7",
     "webpack": "2",
@@ -70,7 +72,7 @@
     "escape-html": "^1.0.3",
     "eventemitter3": "^2.0.2",
     "global": "^4.3.1",
-    "graphql": "^0.10.0",
+    "graphql": "^0.10.1",
     "graphql-relay": "^0.5.1",
     "markdown-component-loader": "^0.7.1",
     "metrick": "^0.2.0",

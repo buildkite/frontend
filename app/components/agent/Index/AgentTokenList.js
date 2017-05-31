@@ -54,7 +54,7 @@ class AgentTokenList extends React.Component {
         return this.props.organization.agentTokens.edges.map((edge) => {
           return (
             <AgentTokenItem key={edge.node.id} agentToken={edge.node} showDescription={this.props.organization.agentTokens.edges.length > 1} />
-          )
+          );
         });
       } else {
         return (
