@@ -9,28 +9,14 @@ import Icon from '../../../shared/Icon';
 import PageHeader from '../../../shared/PageHeader';
 import Panel from '../../../shared/Panel';
 
-import FlashesStore from '../../../../stores/FlashesStore';
-
-import TeamPipelineCreateMutation from '../../../../mutations/TeamPipelineCreate';
-
+import Chooser from './chooser';
 import Row from './row';
-import TeamSuggestion from '../../../team/Suggestion';
 
-class Index extends React.Component {
+class PipelineTeamIndex extends React.Component {
   static propTypes = {
     pipeline: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      organization: PropTypes.shape({
-        teams: PropTypes.shape({
-          edges: PropTypes.arrayOf(
-            PropTypes.shape({
-              node: PropTypes.shape({
-                id: PropTypes.string.isRequired
-              }).isRequired
-            }).isRequired
-          )
-        })
-      }),
+      organization: PropTypes.object.isRequired,
       teams: PropTypes.shape({
         edges: PropTypes.arrayOf(
           PropTypes.shape({
@@ -57,19 +43,17 @@ class Index extends React.Component {
               />
             </PageHeader.Icon>
             <PageHeader.Title>Teams</PageHeader.Title>
-            <PageHeader.Description>Teams allow you to control who has access to this pipeline</PageHeader.Description>
+            <PageHeader.Description>
+              Teams allow you to control who has access to this pipeline
+            </PageHeader.Description>
+            <PageHeader.Menu>
+              <Chooser
+                pipeline={this.props.pipeline}
+                onChoose={this.handleTeamChoose}
+              />
+            </PageHeader.Menu>
           </PageHeader>
           <Panel>
-            <div className="py2 px3">
-              <AutocompleteField
-                onSearch={this.handleTeamSearch}
-                onSelect={this.handleTeamSelect}
-                items={this.renderAutoCompleteSuggestions(this.props.relay.variables.search)}
-                placeholder="Add a team…"
-                ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
-              />
-            </div>
-
             {this.renderRows()}
           </Panel>
         </div>
@@ -81,7 +65,11 @@ class Index extends React.Component {
     if (this.props.pipeline.teams.edges.length > 0) {
       return this.props.pipeline.teams.edges.map((edge) => {
         return (
-          <Row key={edge.node.id} teamPipeline={edge.node} organization={this.props.pipeline.organization} />
+          <Row
+            key={edge.node.id}
+            teamPipeline={edge.node}
+            organization={this.props.pipeline.organization}
+          />
         );
       });
     }
@@ -95,98 +83,25 @@ class Index extends React.Component {
     );
   }
 
-  renderAutoCompleteSuggestions(search) {
-    // First filter out any teams that are already in this list
-    const suggestions = [];
-    this.props.pipeline.organization.teams.edges.forEach((teamEdge) => {
-      let found = false;
-      this.props.pipeline.teams.edges.forEach((teamPipelineEdge) => {
-        if (teamPipelineEdge.node.team.id === teamEdge.node.id) {
-          found = true;
-        }
-      });
-
-      if (!found) {
-        suggestions.push(teamEdge.node);
-      }
-    });
-
-    // Either render the suggestions, or show a "not found" error
-    if (suggestions.length > 0) {
-      return suggestions.map((team) => {
-        return [<TeamSuggestion key={team.id} team={team} />, team];
-      });
-    } else if (search !== "") {
-      return [
-        <AutocompleteField.ErrorMessage key="error">
-          Could not find a team with name <em>{search}</em>
-        </AutocompleteField.ErrorMessage>
-      ];
-    }
-
-    return [];
-  }
-
-  handleTeamSearch = (text) => {
-    // As a user types into the autocompletor field, perform a teams search
-    this.props.relay.setVariables({ search: text });
-  };
-
-  handleTeamSelect = (team) => {
-    // Reset the autocompletor and re-focus it
-    this._autoCompletor.clear();
-    this.props.relay.setVariables({ search: '' });
-    this._autoCompletor.focus();
-
-    // Create our mutation that will add the pipeline to the team
-    const mutation = new TeamPipelineCreateMutation({
-      team: team,
-      pipeline: this.props.pipeline
-    });
-
-    Relay.Store.commitUpdate(mutation, {
-      onFailure: (transaction) => {
-        // Show the error as a flash
-        FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
-
-        // Reload the entire list to reflect any changes from the server
+  handleTeamChoose = () => {
         this.props.relay.forceFetch();
-      }
-    });
   };
 }
 
-export default Relay.createContainer(Index, {
-  initialVariables: {
-    search: ''
-  },
-
+export default Relay.createContainer(PipelineTeamIndex, {
   fragments: {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
-        ${TeamPipelineCreateMutation.getFragment('pipeline')}
         name
+        ${Chooser.getFragment('pipeline')}
         organization {
-          ${Row.getFragment("organization")}
-          teams(search: $search, first: 10) {
-            edges {
-              node {
-                id
-                slug
-                ${TeamSuggestion.getFragment('team')}
-                ${TeamPipelineCreateMutation.getFragment('team')}
-              }
-            }
-          }
+          ${Row.getFragment('organization')}
         }
         teams(first: 500) {
           edges {
             node {
               id
-              team {
-                id
-              }
-              ${Row.getFragment("teamPipeline")}
+              ${Row.getFragment('teamPipeline')}
             }
           }
         }

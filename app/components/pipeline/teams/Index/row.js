@@ -17,6 +17,8 @@ import TeamPipelineUpdateMutation from '../../../../mutations/TeamPipelineUpdate
 import TeamPipelineDeleteMutation from '../../../../mutations/TeamPipelineDelete';
 
 class Row extends React.Component {
+  static displayName = "PipelineTeamIndex.Row";
+
   static propTypes = {
     teamPipeline: PropTypes.shape({
       team: PropTypes.shape({
