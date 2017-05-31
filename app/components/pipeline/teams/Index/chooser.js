@@ -4,7 +4,6 @@ import Relay from 'react-relay/classic';
 
 import AutocompleteDialog from '../../../shared/Autocomplete/Dialog';
 import Button from '../../../shared/Button';
-import permissions from '../../../../lib/permissions';
 
 import FlashesStore from '../../../../stores/FlashesStore';
 
@@ -22,6 +21,9 @@ class Chooser extends React.Component {
         teams: PropTypes.shape({
           edges: PropTypes.array.isRequired
         })
+      }),
+      teams: PropTypes.shape({
+        edges: PropTypes.array.isRequired
       })
     }).isRequired,
     relay: PropTypes.object.isRequired,
@@ -79,7 +81,7 @@ class Chooser extends React.Component {
     const relevantTeamEdges = organizationTeams.edges.filter(({ node: team }) => (
       team.permissions.teamPipelineCreate.allowed &&
       !pipelineTeams.edges.some(({ node: pipelineTeam }) => (
-        pipelineTeam.team.id == team.id
+        pipelineTeam.team.id === team.id
       ))
     ));
 
@@ -94,13 +96,13 @@ class Chooser extends React.Component {
           Could not find a team with name <em>{teamAddSearch}</em>
         </AutocompleteDialog.ErrorMessage>
       ];
-    } else {
-      return [
-        <AutocompleteDialog.ErrorMessage key="error">
-          Could not find any more teams to add
-        </AutocompleteDialog.ErrorMessage>
-      ];
     }
+
+    return [
+      <AutocompleteDialog.ErrorMessage key="error">
+        Could not find any more teams to add
+      </AutocompleteDialog.ErrorMessage>
+    ];
   }
 
   handleDialogOpen = () => {

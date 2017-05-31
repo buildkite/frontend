@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import AutocompleteField from '../../../shared/Autocomplete/Field';
 import Emojify from '../../../shared/Emojify';
 import Icon from '../../../shared/Icon';
 import PageHeader from '../../../shared/PageHeader';
@@ -84,7 +83,7 @@ class PipelineTeamIndex extends React.Component {
   }
 
   handleTeamChoose = () => {
-        this.props.relay.forceFetch();
+    this.props.relay.forceFetch();
   };
 }
 
