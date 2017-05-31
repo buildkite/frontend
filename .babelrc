@@ -5,7 +5,7 @@
     "stage-0"
   ],
   "plugins": [
-    ["relay", {"schema": "app/graph/schema.json"}]
+    ["relay", {"compat": true, "schema": "app/graph/schema.json"}]
   ],
   "env": {
     "development": {
