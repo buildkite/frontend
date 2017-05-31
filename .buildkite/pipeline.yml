@@ -43,6 +43,13 @@ steps:
       docker-compose#v1.3.1:
         run: frontend
 
+  - name: ":relay:"
+    command: "yarn run relay"
+    artifact_paths: "__generated__/*"
+    plugins:
+      docker-compose#v1.3.1:
+        run: frontend
+
   - wait
 
   - name: ":rocket: :docker:"
