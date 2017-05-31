@@ -244,9 +244,17 @@ class Navigation extends React.PureComponent {
               />
             </span>
 
-            <Dropdown width={250} className="flex flex-shrink" style={{ flex: '0 1 auto', minWidth: 0 }} onToggle={this.handleOrgDropdownToggle}>
+            <Dropdown
+              width={250}
+              className="flex"
+              style={{ flex: '0 1 auto', minWidth: 0 }}
+              onToggle={this.handleOrgDropdownToggle}
+            >
               <DropdownButton
-                className={classNames("py0", { "lime": this.state.showingOrgDropdown })}
+                className={classNames(
+                  'py0 flex-auto',
+                  { lime: this.state.showingOrgDropdown }
+                )}
                 style={{
                   backgroundImage: 'url(' + require('./nav-button-right-arrow.svg') + ')',
                   backgroundRepeat: 'no-repeat',
@@ -267,18 +275,48 @@ class Navigation extends React.PureComponent {
             {this.renderTopOrganizationMenu()}
 
             {this.renderMyBuilds()}
-            <NavigationButton className="py0 xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
-            <NavigationButton className="py0 xs-hide sm-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
+            <NavigationButton
+              className="py0 xs-hide sm-hide"
+              href={`/docs`}
+            >
+              Documentation
+            </NavigationButton>
+            <NavigationButton
+              className="py0 xs-hide sm-hide"
+              onClick={this.handleSupportClick}
+            >
+              Support
+            </NavigationButton>
 
-            <Dropdown width={170} className="flex" ref={(userDropdown) => this.userDropdown = userDropdown} onToggle={this.handleUserDropdownToggle}>
+            <Dropdown
+              width={170}
+              className="flex"
+              style={{ flex: '0 1 auto', minWidth: 0 }}
+              ref={(userDropdown) => this.userDropdown = userDropdown}
+              onToggle={this.handleUserDropdownToggle}
+            >
               <DropdownButton
-                className={classNames("py0 flex-auto", { "lime": this.state.showingUserDropdown })}
+                className={classNames(
+                  'py0 flex-auto',
+                  { lime: this.state.showingUserDropdown }
+                )}
                 style={{ paddingRight: 0 }}
               >
-                <UserAvatar user={this.props.viewer.user} className="flex-none flex items-center" style={{ width: 26, height: 26 }} />
-                <span className="flex items-center xs-hide sm-flex ml1 flex-auto"><span className="truncate" data-current-user-name={true}>{this.props.viewer.user.name}</span></span>
+                <UserAvatar
+                  user={this.props.viewer.user}
+                  className="flex-none flex items-center"
+                  style={{ width: 26, height: 26 }}
+                />
+                <span className="flex items-center xs-hide sm-flex ml1 flex-auto">
+                  <span className="truncate" data-current-user-name={true}>
+                    {this.props.viewer.user.name}
+                  </span>
+                </span>
                 <span className="flex items-center flex-none">
-                  <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
+                  <Icon
+                    icon="down-triangle"
+                    style={{ width: 7, height: 7, marginLeft: '.5em' }}
+                  />
                 </span>
               </DropdownButton>
 
