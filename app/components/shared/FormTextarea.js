@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autosize from 'autosize';
+import reffer from 'reffer';
 
 import CollapsableFormField from './CollapsableFormField';
 import FormInputHelp from './FormInputHelp';
@@ -124,7 +125,7 @@ class FormTextarea extends React.Component {
         onChange={this.props.onChange}
         rows={this.props.rows}
         style={style}
-        ref={(_textarea) => this._textarea = _textarea}
+        ref={this::reffer('_textarea')}
         tabIndex={this.props.tabIndex}
       />
     );

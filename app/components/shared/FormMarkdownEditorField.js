@@ -2,8 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autosize from 'autosize';
+import reffer from 'reffer';
+
 import MarkdownEditor from '../../lib/MarkdownEditor';
 import AssetUploader from '../../lib/AssetUploader';
+
 import Button from '../shared/Button';
 
 class FormMarkdownEdtiorField extends React.Component {
@@ -76,7 +79,7 @@ class FormMarkdownEdtiorField extends React.Component {
           onDragOver={this.handleOnDragOver}
           onDragLeave={this.handleOnDragLeave}
           onDrop={this.handleOnDrop}
-          ref={(textarea) => this.textarea = textarea}
+          ref={this::reffer('textarea')}
           style={{ overflowY: "hidden", resize: "vertical" }}
           className={"form-control"}
         />

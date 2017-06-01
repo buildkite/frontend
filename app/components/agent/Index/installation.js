@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-import { seconds } from 'metrick/duration';
 import Confetti from 'react-confetti';
+import { seconds } from 'metrick/duration';
 
 import Button from '../../shared/Button';
 import Dialog from '../../shared/Dialog';

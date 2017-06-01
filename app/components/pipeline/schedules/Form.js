@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import reffer from 'reffer';
 
 import FormTextField from '../../shared/FormTextField';
 import FormTextarea from '../../shared/FormTextarea';
@@ -35,7 +36,7 @@ class Form extends React.Component {
           required={true}
           errors={errors.findForField("label")}
           value={this.props.label}
-          ref={(labelTextField) => this.labelTextField = labelTextField}
+          ref={this::reffer('labelTextField')}
         />
 
         <FormTextField
@@ -44,7 +45,7 @@ class Form extends React.Component {
           required={true}
           errors={errors.findForField("cronline")}
           value={this.props.cronline}
-          ref={(cronlineTextField) => this.cronlineTextField = cronlineTextField}
+          ref={this::reffer('cronlineTextField')}
         />
 
         <FormTextField
@@ -53,7 +54,7 @@ class Form extends React.Component {
           errors={errors.findForField("message")}
           value={this.props.message || "Scheduled build"}
           required={true}
-          ref={(messageTextField) => this.messageTextField = messageTextField}
+          ref={this::reffer('messageTextField')}
         />
 
         <FormTextField
@@ -62,7 +63,7 @@ class Form extends React.Component {
           errors={errors.findForField("commit")}
           value={this.props.commit || "HEAD"}
           required={true}
-          ref={(commitTextField) => this.commitTextField = commitTextField}
+          ref={this::reffer('commitTextField')}
         />
 
         <FormTextField
@@ -71,7 +72,7 @@ class Form extends React.Component {
           errors={errors.findForField("branch")}
           value={this.props.branch || this.props.pipeline.defaultBranch}
           required={true}
-          ref={(branchTextField) => this.branchTextField = branchTextField}
+          ref={this::reffer('branchTextField')}
         />
 
         <FormTextarea
@@ -82,7 +83,7 @@ class Form extends React.Component {
           autoresize={true}
           errors={errors.findForField("env")}
           value={this.props.env}
-          ref={(envTextField) => this.envTextField = envTextField}
+          ref={this::reffer('envTextField')}
         />
       </div>
     );

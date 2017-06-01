@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
+import reffer from 'reffer';
 
 import PipelineScheduleUpdateMutation from '../../../mutations/PipelineScheduleUpdate';
 import GraphQLErrors from '../../../constants/GraphQLErrors';
@@ -56,7 +57,7 @@ class Edit extends React.Component {
                 branch={this.props.pipelineSchedule.branch}
                 message={this.props.pipelineSchedule.message}
                 env={this.props.pipelineSchedule.env.join("\n")}
-                ref={(form) => this.form = form}
+                ref={this::reffer('form')}
               />
             </Panel.Section>
 

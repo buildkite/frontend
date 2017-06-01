@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import classNames from 'classnames';
+import reffer from 'reffer';
 
 import UserAvatar from '../../shared/UserAvatar';
 import Dropdown from '../../shared/Dropdown';
@@ -270,7 +271,7 @@ class Navigation extends React.PureComponent {
             <NavigationButton className="py0 xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
             <NavigationButton className="py0 xs-hide sm-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
 
-            <Dropdown width={170} className="flex" ref={(userDropdown) => this.userDropdown = userDropdown} onToggle={this.handleUserDropdownToggle}>
+            <Dropdown width={170} className="flex" ref={this::reffer('userDropdown')} onToggle={this.handleUserDropdownToggle}>
               <DropdownButton className={classNames("py0", { "lime": this.state.showingUserDropdown })}
                 style={{ paddingRight: 0 }}
               >
@@ -288,7 +289,7 @@ class Navigation extends React.PureComponent {
                 <NavigationButton className="md-hide lg-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
               </div>
 
-              <form action="/logout" method="post" ref={(logoutFormNode) => this.logoutFormNode = logoutFormNode}>
+              <form action="/logout" method="post" ref={this::reffer('logoutFormNode')}>
                 <input type="hidden" name="_method" value={"delete"} />
                 <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
                 <NavigationButton href="#" onClick={this.handleLogoutClick}>

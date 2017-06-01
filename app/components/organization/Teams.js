@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import reffer from 'reffer';
 
 import Dropdown from '../shared/Dropdown';
 import Chooser from '../shared/Chooser';
@@ -20,7 +21,7 @@ class Teams extends React.Component {
     }
 
     return (
-      <Dropdown className="ml4" width={300} ref={(dropdownNode) => this.dropdownNode = dropdownNode}>
+      <Dropdown className="ml4" width={300} ref={this::reffer('dropdownNode')}>
         <button className="h3 px0 py1 m0 light dark-gray inline-block btn" style={{ fontSize: 16 }}>
           <div className="flex">
             <span className="flex items-center">

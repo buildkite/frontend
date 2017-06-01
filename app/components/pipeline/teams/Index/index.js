@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
+import reffer from 'reffer';
 
 import Panel from '../../../shared/Panel';
 import Emojify from '../../../shared/Emojify';
@@ -54,7 +55,7 @@ class Index extends React.Component {
               onSelect={this.handleTeamSelect}
               items={this.renderAutoCompleteSuggestions(this.props.relay.variables.search)}
               placeholder="Add a team…"
-              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
+              ref={this::reffer('_autoCompletor')}
             />
           </Panel.Section>
 

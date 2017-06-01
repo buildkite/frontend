@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import reffer from 'reffer';
 
 class FormYAMLEdtiorField extends React.Component {
   static propTypes = {
@@ -40,7 +41,7 @@ class FormYAMLEdtiorField extends React.Component {
   render() {
     return (
       <div>
-        <textarea name={this.props.name} value={this.props.value} ref={(node) => { this._textarea = node; }} />
+        <textarea name={this.props.name} value={this.props.value} ref={this::reffer('_textarea')} />
       </div>
     );
   }

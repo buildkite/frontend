@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import classNames from 'classnames';
+import reffer from 'reffer';
 
 import Popover, { calculateViewportOffsets } from './Popover';
 
@@ -135,7 +136,7 @@ export default class Dropdown extends React.PureComponent {
 
     return (
       <span
-        ref={(wrapperNode) => this.wrapperNode = wrapperNode}
+        ref={this::reffer('wrapperNode')}
         className={wrapperClassName}
       >
         {firstChild}

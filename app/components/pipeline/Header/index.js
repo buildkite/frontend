@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import reffer from 'reffer';
 import styled from 'styled-components';
 
 import Button from '../../shared/Button';
@@ -86,7 +87,7 @@ class Header extends React.Component {
             <Dropdown
               className="sm-hide md-hide lg-hide ml2"
               width={200}
-              ref={(_actionsDropdown) => this._actionsDropdown = _actionsDropdown}
+              ref={this::reffer('_actionsDropdown')}
               onToggle={this.handleActionsDropdownToggle}
             >
               <Button

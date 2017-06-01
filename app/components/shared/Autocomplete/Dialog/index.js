@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import reffer from 'reffer';
 
 import Dialog from '../../Dialog';
 import SearchField from '../../SearchField';
@@ -56,7 +57,7 @@ class AutocompleteDialog extends React.PureComponent {
       >
         <div className="px4 pt4 pb3">
           <SearchField
-            ref={(_searchField) => this._searchField = _searchField}
+            ref={this::reffer('_searchField')}
             onChange={this.handleSearchChange}
             onKeyDown={this.handleKeyDown}
             placeholder={this.props.placeholder}

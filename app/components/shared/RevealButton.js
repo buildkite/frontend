@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import reffer from 'reffer';
 
 import Button from './Button';
 
@@ -39,7 +40,7 @@ class RevealButton extends React.Component {
   render() {
     if (this.state.revealed) {
       return (
-        <div className="rounded border border-gray p1" ref={(element) => this._contentElement = element}>{this.props.children}</div>
+        <div className="rounded border border-gray p1" ref={this::reffer('_contentElement')}>{this.props.children}</div>
       );
     }
 
