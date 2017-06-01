@@ -316,6 +316,7 @@ export default Relay.createContainer(AgentShow, {
         operatingSystem {
           name
         }
+        priority
         permissions {
           agentStop {
             allowed
