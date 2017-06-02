@@ -120,12 +120,6 @@ class Navigation extends React.PureComponent {
     }
   }
 
-  renderMyBuilds() {
-    return (
-      <MyBuilds viewer={this.props.viewer} />
-    );
-  }
-
   renderOrganizationsList() {
     if (!this.props.viewer.organizations) {
       return <SectionLoader />;
@@ -274,7 +268,8 @@ class Navigation extends React.PureComponent {
 
             {this.renderTopOrganizationMenu()}
 
-            {this.renderMyBuilds()}
+            <MyBuilds viewer={this.props.viewer} />
+
             <NavigationButton
               className="py0 xs-hide sm-hide"
               href={`/docs`}
@@ -291,7 +286,7 @@ class Navigation extends React.PureComponent {
             <Dropdown
               width={170}
               className="flex"
-              style={{ flex: '0 1 auto', minWidth: 0 }}
+              style={{ flex: '0 1 auto', minWidth: 55 }}
               ref={(userDropdown) => this.userDropdown = userDropdown}
               onToggle={this.handleUserDropdownToggle}
             >
