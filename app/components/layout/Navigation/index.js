@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import classNames from 'classnames';
+import styled from 'styled-components';
 
 import UserAvatar from '../../shared/UserAvatar';
 import Dropdown from '../../shared/Dropdown';
@@ -18,6 +19,16 @@ import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
 import SupportDialog from './support-dialog';
 import MyBuilds from './MyBuilds';
+
+const ArrowDropdownButton = styled(DropdownButton)`
+  background-repeat: no-repeat;
+  background-position: center right;
+
+  @media (min-width: 1200px) {
+    background-image: url(${require('./nav-button-right-arrow.svg')});
+    padding-right: 20px;
+  }
+`;
 
 class Navigation extends React.PureComponent {
   static propTypes = {
@@ -244,25 +255,21 @@ class Navigation extends React.PureComponent {
               style={{ flex: '0 1 auto', minWidth: 0 }}
               onToggle={this.handleOrgDropdownToggle}
             >
-              <DropdownButton
+              <ArrowDropdownButton
                 className={classNames(
                   'py0 flex-auto',
                   { lime: this.state.showingOrgDropdown }
                 )}
                 style={{
-                  backgroundImage: 'url(' + require('./nav-button-right-arrow.svg') + ')',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center right',
                   flex: '0 1 auto',
-                  minWidth: 0,
-                  paddingRight: 20
+                  minWidth: 0
                 }}
               >
                 <span className="truncate">
                   {this.props.organization ? this.props.organization.name : 'Organizations'}
                 </span>
                 <Icon icon="down-triangle" className="flex-none" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
-              </DropdownButton>
+              </ArrowDropdownButton>
               {this.renderOrganizationsList()}
             </Dropdown>
 
