@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import Badge from '../Badge';
 import BaseButton from '../Button';
@@ -14,14 +15,51 @@ class Button extends React.Component {
     icon: PropTypes.string,
     badge: PropTypes.number,
     href: PropTypes.string,
-    active: PropTypes.bool,
+    forceActive: PropTypes.bool,
     link: PropTypes.string
   };
+
+  static contextTypes = {
+    router: PropTypes.object
+  };
+
+  state = {
+    lastPathname: null
+  };
+
+  componentWillMount() {
+    this.setState({
+      lastPathname: window.location.pathname
+    });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // This is a weird little perf hack;
+    //
+    // If we're in a router context, we allow window path
+    // changes to trigger a re-render and a state change &
+    // re-render, as this allows us to react to state changes
+    // correctly, while still remaining optimised the rest
+    // of the time.
+    if (this.context.router && nextState.lastPathname !== window.location.pathname) {
+      this.setState({
+        lastPathname: window.location.pathname
+      });
+
+      return true;
+    }
+
+    // Otherwise, we defer to shallowCompare rules!
+    return shallowCompare(this, nextProps, nextState);
+  }
 
   render() {
     return (
       <BaseButton
-        className={classNames('flex items-center hover-lime focus-lime border-none', { "lime": this._isActive() })}
+        className={classNames(
+          'flex items-center hover-lime focus-lime border-none',
+          { lime: this._isActive() }
+        )}
         style={{ minHeight: '3.1em' }}
         theme={false}
         href={this.props.href}
@@ -36,13 +74,24 @@ class Button extends React.Component {
     );
   }
 
+  _getLink({ link, href }) {
+    return link || href;
+  }
+
   _isActive() {
-    if (this.props.active !== undefined) {
-      return this.props.active;
-    } else {
-      // Use a super simple way of figuring out if the current href is active
-      return window.location.pathname.indexOf(this.props.link || this.props.href) === 0;
+    if (this.props.forceActive !== undefined) {
+      return this.props.forceActive;
     }
+
+    const href = this._getLink(this.props);
+
+    // If we're in a router context, defer to the router
+    if (this.context.router) {
+      return this.context.router.isActive(href);
+    }
+
+    // Otherwise, use a super simple way of figuring out if the current href is active
+    return this.state.lastPathname.indexOf(href) === 0;
   }
 
   _renderIcon() {
@@ -56,7 +105,12 @@ class Button extends React.Component {
   _renderBadge() {
     if (this.props.badge) {
       return (
-        <Badge className={classNames('flex-none hover-lime-child', { "bg-lime": this._isActive() })}>
+        <Badge
+          className={classNames(
+            'flex-none hover-lime-child',
+            { 'bg-lime': this._isActive() }
+          )}
+        >
           {this.props.badge}
         </Badge>
       );

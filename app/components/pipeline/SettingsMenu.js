@@ -46,7 +46,7 @@ class SettingsMenu extends React.Component {
             key={idx}
             icon="pipeline"
             href={`${url}`}
-            active={this.isPipelineButtonActive(url)}
+            forceActive={this.isPipelineButtonActive(url)}
             label="Pipeline"
           />
         )
