@@ -124,13 +124,13 @@ class TeamIndex extends React.PureComponent {
           <Row key={edge.node.id} team={edge.node} />
         );
       });
-    } else {
-      return (
-        <Panel.Section className="center">
-          <Spinner />
-        </Panel.Section>
-      );
     }
+
+    return (
+      <Panel.Section className="center">
+        <Spinner />
+      </Panel.Section>
+    );
   }
 
   renderTeamSearchInfo() {

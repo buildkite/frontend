@@ -118,9 +118,9 @@ class MyBuilds extends React.Component {
     // setup instructions.
     if (this.props.viewer.user.builds.edges.length > 0) {
       return this.renderBuilds();
-    } else {
-      return this.renderSetupInstructions();
     }
+
+    return this.renderSetupInstructions();
   }
 
   renderBuilds() {

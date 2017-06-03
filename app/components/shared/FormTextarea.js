@@ -57,17 +57,17 @@ class FormTextarea extends React.Component {
           {this._renderHelp()}
         </CollapsableFormField>
       );
-    } else {
-      return (
-        <div className="mb2">
-          <FormInputLabel label={this.props.label} errors={this._hasErrors()}>
-            {this._renderTextArea()}
-          </FormInputLabel>
-          {this._renderErrors()}
-          {this._renderHelp()}
-        </div>
-      );
     }
+
+    return (
+      <div className="mb2">
+        <FormInputLabel label={this.props.label} errors={this._hasErrors()}>
+          {this._renderTextArea()}
+        </FormInputLabel>
+        {this._renderErrors()}
+        {this._renderHelp()}
+      </div>
+    );
   }
 
   // In some cases the initial height can be incorrect and you need to explicit tell

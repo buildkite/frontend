@@ -58,11 +58,11 @@ const getMainQueries = ({ params }) => {
       viewer: ViewerQuery.query,
       organization: OrganizationQuery.query
     };
-  } else {
-    return {
-      viewer: ViewerQuery.query
-    };
   }
+
+  return {
+    viewer: ViewerQuery.query
+  };
 };
 
 // Since you can't pass `undefined` as a property to a Relay.Container, and

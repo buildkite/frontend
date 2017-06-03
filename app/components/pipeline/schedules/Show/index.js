@@ -112,9 +112,9 @@ class Show extends React.Component {
           <div className="mb2 dark-gray"><pre><code>{this.props.pipelineSchedule.env.join("\n")}</code></pre></div>
         </div>
       );
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   renderMenu() {

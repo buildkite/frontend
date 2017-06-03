@@ -56,9 +56,9 @@ class MarkdownEditor {
       // instead of just wrapping with a `
       if (selectedText.split(/\r\n|\r|\n/).length > 1) {
         return "```\n{s}{t}{s}\n```";
-      } else {
-        return "`{s}{t}{s}`";
       }
+
+      return "`{s}{t}{s}`";
     });
   }
 
@@ -70,9 +70,9 @@ class MarkdownEditor {
         return "[{s}text{s}]({t})";
       } else if (selectedText.length > 0) {
         return "[{t}]({s}url{s})";
-      } else {
-        return "[{s}text{s}](url)";
       }
+
+      return "[{s}text{s}](url)";
     });
   }
 

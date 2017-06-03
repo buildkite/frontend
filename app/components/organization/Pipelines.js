@@ -157,11 +157,11 @@ class OrganizationPipelines extends React.Component {
           {`No pipelines matching “${this.props.filter}”`}
         </p>
       );
-    } else {
-      return (
-        <Welcome organizationSlug={this.props.organization.slug} />
-      );
     }
+
+    return (
+      <Welcome organizationSlug={this.props.organization.slug} />
+    );
   }
 
   renderPipelines() {

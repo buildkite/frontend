@@ -78,12 +78,17 @@ class Members extends React.Component {
           <Row key={edge.node.id} teamMember={edge.node} onRemoveClick={this.handleTeamMemberRemove} onRoleChange={this.handleRoleChange} relay={this.props.relay} />
         );
       });
-    } else {
-      if (this.props.relay.variables.memberSearch) {
-        return null;
-      }
-      return <Panel.Section className="dark-gray">There are no users assigned to this team</Panel.Section>;
     }
+
+    if (this.props.relay.variables.memberSearch) {
+      return null;
+    }
+
+    return (
+      <Panel.Section className="dark-gray">
+        There are no users assigned to this team
+      </Panel.Section>
+    );
   }
 
   renderMemberSearch() {
@@ -99,9 +104,9 @@ class Members extends React.Component {
           />
         </div>
       );
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   renderMemberSearchInfo() {

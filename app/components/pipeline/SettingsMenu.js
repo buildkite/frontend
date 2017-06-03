@@ -126,9 +126,9 @@ class SettingsMenu extends React.Component {
   providerLabel() {
     if (this.provider.__typename === "RepositoryProviderUnknown") {
       return "Repository";
-    } else {
-      return this.provider.name;
     }
+
+    return this.provider.name;
   }
 
   isPipelineButtonActive(url) {

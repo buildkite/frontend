@@ -36,11 +36,11 @@ class Metric extends React.PureComponent {
       return (
         <span className={classNames(valueClasses, "truncate")}>{this.props.pipelineMetric.value}</span>
       );
-    } else {
-      return (
-        <span className={classNames(valueClasses, "gray")}>-</span>
-      );
     }
+
+    return (
+      <span className={classNames(valueClasses, "gray")}>-</span>
+    );
   }
 }
 

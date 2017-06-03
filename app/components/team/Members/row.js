@@ -54,24 +54,31 @@ export default class Row extends React.PureComponent {
       return (
         <Spinner size={18} color={false} />
       );
-    } else {
-      return permissions(this.props.teamMember.permissions).collect(
-        {
-          allowed: "teamMemberUpdate",
-          render: (idx) => (
-            <Role key={idx} teamMember={this.props.teamMember} onRoleChange={this.handleRoleChange} savingNewRole={this.state.savingNewRole} />
-          )
-        },
-        {
-          allowed: "teamMemberDelete",
-          render: (idx) => (
-            <Button key={idx} loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true} className="ml3"
-              onClick={this.handleMemberRemove}
-            >Remove</Button>
-          )
-        }
-      );
     }
+
+    return permissions(this.props.teamMember.permissions).collect(
+      {
+        allowed: "teamMemberUpdate",
+        render: (idx) => (
+          <Role key={idx} teamMember={this.props.teamMember} onRoleChange={this.handleRoleChange} savingNewRole={this.state.savingNewRole} />
+        )
+      },
+      {
+        allowed: "teamMemberDelete",
+        render: (idx) => (
+          <Button
+            key={idx}
+            loading={this.state.removing ? "Removing…" : false}
+            theme={"default"}
+            outline={true}
+            className="ml3"
+            onClick={this.handleMemberRemove}
+          >
+            Remove
+          </Button>
+        )
+      }
+    );
   }
 
   handleRoleChange = (role) => {

@@ -91,49 +91,49 @@ class Row extends React.Component {
       return (
         <div className="flex flex-auto" />
       );
-    } else {
-      const pipelines = this.props.teamPipeline.team.pipelines.count;
-      const members = this.props.teamPipeline.team.members.count;
-
-      return (
-        <div className="flex flex-auto items-center">
-          <div className="regular dark-gray">
-            {`${pipelines} Pipeline${pipelines === 1 ? '' : 's'}, ${members} Member${members === 1 ? '' : 's'}`}
-          </div>
-        </div>
-      );
     }
+
+    const pipelines = this.props.teamPipeline.team.pipelines.count;
+    const members = this.props.teamPipeline.team.members.count;
+
+    return (
+      <div className="flex flex-auto items-center">
+        <div className="regular dark-gray">
+          {`${pipelines} Pipeline${pipelines === 1 ? '' : 's'}, ${members} Member${members === 1 ? '' : 's'}`}
+        </div>
+      </div>
+    );
   }
 
   renderActions() {
     // Don't render any actions until the record has been created
     if (this.isCreating()) {
       return (
-        <Spinner size={18} color={false}/>
-      );
-    } else {
-      return permissions(this.props.teamPipeline.permissions).collect(
-        {
-          allowed: "teamPipelineUpdate",
-          render: (idx) => (
-            <AccessLevel key={idx} teamPipeline={this.props.teamPipeline} onAccessLevelChange={this.handleAccessLevelChange} saving={this.state.savingNewAccessLevel} />
-          )
-        },
-        {
-          allowed: "teamPipelineDelete",
-          render: (idx) => (
-            <Button
-              key={idx}
-              loading={this.state.removing ? "Removing…" : false}
-              theme={"default"}
-              outline={true}
-              className="ml3"
-              onClick={this.handleRemove}
-            >Remove</Button>
-          )
-        }
+        <Spinner size={18} color={false} />
       );
     }
+    return permissions(this.props.teamPipeline.permissions).collect(
+      {
+        allowed: "teamPipelineUpdate",
+        render: (idx) => (
+          <AccessLevel key={idx} teamPipeline={this.props.teamPipeline} onAccessLevelChange={this.handleAccessLevelChange} saving={this.state.savingNewAccessLevel} />
+          )
+      },
+      {
+        allowed: "teamPipelineDelete",
+        render: (idx) => (
+          <Button
+            key={idx}
+            loading={this.state.removing ? "Removing…" : false}
+            theme={"default"}
+            outline={true}
+            className="ml3"
+            onClick={this.handleRemove}
+          >Remove</Button>
+          )
+      }
+      );
+
   }
 
   // Returns true/false depending on whether or not this team pipeline record

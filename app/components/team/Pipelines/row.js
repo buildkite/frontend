@@ -51,26 +51,33 @@ export default class Row extends React.PureComponent {
 
     if (transaction) {
       return (
-        <Spinner size={18} color={false}/>
-      );
-    } else {
-      return permissions(this.props.teamPipeline.permissions).collect(
-        {
-          allowed: "teamPipelineUpdate",
-          render: (idx) => (
-            <AccessLevel key={idx} teamPipeline={this.props.teamPipeline} onAccessLevelChange={this.handleAccessLevelChange} saving={this.state.savingNewAccessLevel} />
-          )
-        },
-        {
-          allowed: "teamPipelineDelete",
-          render: (idx) => (
-            <Button key={idx} loading={this.state.removing ? "Removing…" : false} theme={"default"} outline={true} className="ml3"
-              onClick={this.handlePipelineRemove}
-            >Remove</Button>
-          )
-        }
+        <Spinner size={18} color={false} />
       );
     }
+
+    return permissions(this.props.teamPipeline.permissions).collect(
+      {
+        allowed: "teamPipelineUpdate",
+        render: (idx) => (
+          <AccessLevel key={idx} teamPipeline={this.props.teamPipeline} onAccessLevelChange={this.handleAccessLevelChange} saving={this.state.savingNewAccessLevel} />
+        )
+      },
+      {
+        allowed: "teamPipelineDelete",
+        render: (idx) => (
+          <Button
+            key={idx}
+            loading={this.state.removing ? "Removing…" : false}
+            theme={"default"}
+            outline={true}
+            className="ml3"
+            onClick={this.handlePipelineRemove}
+          >
+            Remove
+          </Button>
+        )
+      }
+    );
   }
 
   handleAccessLevelChange = (accessLevel) => {

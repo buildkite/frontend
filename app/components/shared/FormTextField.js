@@ -40,21 +40,21 @@ class FormTextField extends React.Component {
           {this._renderHelp()}
         </CollapsableFormField>
       );
-    } else {
-      return (
-        <div className="mb2">
-          <FormInputLabel
-            label={this.props.label}
-            errors={this._hasErrors()}
-            required={this.props.required}
-          >
-            {this._renderInput()}
-          </FormInputLabel>
-          {this._renderErrors()}
-          {this._renderHelp()}
-        </div>
-      );
     }
+
+    return (
+      <div className="mb2">
+        <FormInputLabel
+          label={this.props.label}
+          errors={this._hasErrors()}
+          required={this.props.required}
+        >
+          {this._renderInput()}
+        </FormInputLabel>
+        {this._renderErrors()}
+        {this._renderHelp()}
+      </div>
+    );
   }
 
   getValue() {

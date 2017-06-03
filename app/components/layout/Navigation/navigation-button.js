@@ -41,10 +41,10 @@ export default class NavigationButton extends React.PureComponent {
       return (
         <Link to={this.props.href} {...props}>{this.props.children}</Link>
       );
-    } else {
-      return (
-        <a href={this.props.href} {...props}>{this.props.children}</a>
-      );
     }
+
+    return (
+      <a href={this.props.href} {...props}>{this.props.children}</a>
+    );
   }
 }

@@ -90,13 +90,12 @@ class Chooser extends React.Component {
           Could not find a pipeline with name <em>{pipelineAddSearch}</em>
         </AutocompleteDialog.ErrorMessage>
       ];
-    } else {
-      return [
-        <AutocompleteDialog.ErrorMessage key={"error"}>
-          Could not find any more pipelines to add
-        </AutocompleteDialog.ErrorMessage>
-      ];
     }
+    return [
+      <AutocompleteDialog.ErrorMessage key={"error"}>
+        Could not find any more pipelines to add
+      </AutocompleteDialog.ErrorMessage>
+    ];
   }
 
   handleDialogOpen = () => {

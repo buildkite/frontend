@@ -110,20 +110,20 @@ export default class SearchField extends React.PureComponent {
           style={style}
         />
       );
-    } else {
-      return (
-        <Icon
-          icon="search"
-          className={className}
-          style={{
-            color: 'currentColor',
-            width: iconSize,
-            height: iconSize,
-            ...style
-          }}
-        />
-      );
     }
+
+    return (
+      <Icon
+        icon="search"
+        className={className}
+        style={{
+          color: 'currentColor',
+          width: iconSize,
+          height: iconSize,
+          ...style
+        }}
+      />
+    );
   }
 
   handleInputChange = (evt) => {

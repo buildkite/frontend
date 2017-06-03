@@ -92,13 +92,13 @@ class Chooser extends React.Component {
           Could not find a team with name <em>{teamAddSearch}</em>
         </AutocompleteDialog.ErrorMessage>
       ];
-    } else {
-      return [
-        <AutocompleteDialog.ErrorMessage key="error">
-          {`Could not find any more teams ${this.props.isSelf ? 'to join' : 'to add'}`}
-        </AutocompleteDialog.ErrorMessage>
-      ];
     }
+
+    return [
+      <AutocompleteDialog.ErrorMessage key="error">
+        {`Could not find any more teams ${this.props.isSelf ? 'to join' : 'to add'}`}
+      </AutocompleteDialog.ErrorMessage>
+    ];
   }
 
   handleDialogOpen = () => {

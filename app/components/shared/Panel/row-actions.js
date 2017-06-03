@@ -23,8 +23,8 @@ export default class RowActions extends React.PureComponent {
           {this.props.children}
         </div>
       );
-    } else {
-      return <noscript />;
     }
+
+    return <noscript />;
   }
 }
