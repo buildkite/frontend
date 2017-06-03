@@ -71,8 +71,10 @@ rules:
   linebreak-style: error
   no-const-assign: error
   no-duplicate-imports: error
+  no-else-return: warn
   no-eval: error
   no-implied-eval: error
+  no-multi-spaces: error
   no-new-require: error
   no-trailing-spaces: error
   no-unsafe-negation: error
@@ -127,6 +129,10 @@ rules:
     - error
     - never
 
+  react/jsx-first-prop-new-line:
+    - error
+    - multiline
+
   react/jsx-handler-names: error
 
   react/jsx-indent:
@@ -138,14 +144,18 @@ rules:
     - 2
 
   react/jsx-key: error
-  react/jsx-max-props-per-line: off
+  react/jsx-max-props-per-line:
+    - error
+    - when: multiline
 
   react/jsx-no-bind:
     - warn
     - ignoreRefs: true
 
+  react/jsx-no-comment-textnodes: error
   react/jsx-no-duplicate-props: error
   react/jsx-no-literals: off
+  react/jsx-no-target-blank: error
   react/jsx-no-undef: error
   react/jsx-pascal-case: error
   react/jsx-sort-prop-types: off
@@ -153,7 +163,9 @@ rules:
   react/jsx-uses-react: error
   react/jsx-uses-vars: error
   react/jsx-wrap-multilines: error
+  react/no-array-index-key: warn
   react/no-danger: off
+  react/no-danger-with-children: error
   react/no-deprecated: error
   react/no-did-mount-set-state: error
   react/no-did-update-set-state: error
@@ -166,17 +178,17 @@ rules:
 
   react/no-set-state: off
   react/no-string-refs: error
+  react/no-unescaped-entities: error
   react/no-unknown-property: error
-
-  react/no-unused-prop-types:
-    - error
-    - skipShapeProps: true
-
+  react/no-unused-prop-types: error
   react/prefer-es6-class: error
   react/prefer-stateless-function: off
   react/prop-types: error
   react/react-in-jsx-scope: error
   react/require-optimization: error
+  react/require-render-return: error
   react/self-closing-comp: warn
   react/sort-comp: off
   react/style-prop-object: warn
+  react/jsx-tag-spacing: error
+  react/void-dom-elements-no-children: error
