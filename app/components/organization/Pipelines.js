@@ -159,7 +159,7 @@ class OrganizationPipelines extends React.Component {
       );
     } else {
       return (
-        <Welcome organization={this.props.organization.slug} />
+        <Welcome organizationSlug={this.props.organization.slug} />
       );
     }
   }
