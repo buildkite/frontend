@@ -5,7 +5,7 @@ import { createFragmentContainer, graphql } from 'react-relay/compat';
 import Panel from '../../shared/Panel';
 import RevealButton from '../../shared/RevealButton';
 
-class AgentTokenItem extends React.Component {
+class AgentTokenItem extends React.PureComponent {
   static propTypes = {
     agentToken: PropTypes.shape({
       id: PropTypes.string.isRequired,

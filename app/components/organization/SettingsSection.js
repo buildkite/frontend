@@ -5,7 +5,7 @@ import Relay from 'react-relay/classic';
 import PageWithMenu from '../shared/PageWithMenu';
 import SettingsMenu from './SettingsMenu';
 
-class SettingsSection extends React.Component {
+class SettingsSection extends React.PureComponent {
   static propTypes = {
     organization: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired

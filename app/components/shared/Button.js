@@ -19,7 +19,7 @@ const OUTLINE_THEMES = {
   error: "btn-outline border-red red"
 };
 
-class Button extends React.Component {
+export default class Button extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -97,5 +97,3 @@ class Button extends React.Component {
     }
   }
 }
-
-export default Button;

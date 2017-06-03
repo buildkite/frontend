@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Pipeline extends React.Component {
+export default class Pipeline extends React.PureComponent {
   render() {
     return (
       <svg width="80px" height="80px" viewBox="0 0 90 90">
@@ -33,5 +33,3 @@ class Pipeline extends React.Component {
     );
   }
 }
-
-export default Pipeline;

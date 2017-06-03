@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class PageWithMenu extends React.Component {
+export default class PageWithMenu extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired
   };
@@ -23,5 +23,3 @@ class PageWithMenu extends React.Component {
     );
   }
 }
-
-export default PageWithMenu;

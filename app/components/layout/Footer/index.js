@@ -5,7 +5,7 @@ import Relay from 'react-relay/classic';
 import Link from './link';
 import Icon from '../../shared/Icon';
 
-class Footer extends React.Component {
+class Footer extends React.PureComponent {
   static propTypes = {
     viewer: PropTypes.shape({
       unreadChangelogs: PropTypes.shape({

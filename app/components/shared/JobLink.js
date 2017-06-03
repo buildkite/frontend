@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import Emojify from './Emojify';
 
-class JobLink extends React.Component {
+class JobLink extends React.PureComponent {
   static propTypes = {
     job: PropTypes.shape({
       label: PropTypes.string,

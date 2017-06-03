@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Link extends React.Component {
+export default class Link extends React.PureComponent {
   static displayName = "Footer.Link";
 
   static propTypes = {
@@ -15,5 +15,3 @@ class Link extends React.Component {
     );
   }
 }
-
-export default Link;

@@ -7,7 +7,7 @@ let _collapsableFormFieldCounter = 0;
 // Legacy bootstap collapsable field
 //
 // This should be replaced with something more akin to CollapsableArea
-class CollapsableFormField extends React.Component {
+export default class CollapsableFormField extends React.PureComponent {
   static propTypes = {
     label: PropTypes.string.isRequired,
     collapsed: PropTypes.bool.isRequired,
@@ -45,5 +45,3 @@ class CollapsableFormField extends React.Component {
     );
   }
 }
-
-export default CollapsableFormField;

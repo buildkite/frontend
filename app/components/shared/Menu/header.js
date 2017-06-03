@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Header extends React.Component {
+export default class Header extends React.PureComponent {
   static displayName = "Menu.Header";
 
   static propTypes = {
@@ -16,5 +16,3 @@ class Header extends React.Component {
     );
   }
 }
-
-export default Header;

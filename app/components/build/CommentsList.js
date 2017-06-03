@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay/classic';
 
-class CommentsList extends React.Component {
+class CommentsList extends React.PureComponent {
   render() {
     return (
       <span>Comments</span>

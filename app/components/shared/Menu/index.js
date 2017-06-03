@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import Header from './header';
 import Button from './button';
 
-class Menu extends React.Component {
+class Menu extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired
   };

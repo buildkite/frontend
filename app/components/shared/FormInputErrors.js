@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class FormInputErrors extends React.Component {
+export default class FormInputErrors extends React.PureComponent {
   static propTypes = {
     errors: PropTypes.array.isRequired
   };
@@ -12,5 +12,3 @@ class FormInputErrors extends React.Component {
     );
   }
 }
-
-export default FormInputErrors;

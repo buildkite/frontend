@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export default class UserAvatar extends React.Component {
+export default class UserAvatar extends React.PureComponent {
   static propTypes = {
     user: PropTypes.shape({
       name: PropTypes.string.isRequired,

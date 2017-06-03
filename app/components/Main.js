@@ -7,7 +7,7 @@ import Navigation from './layout/Navigation';
 import Footer from './layout/Footer';
 import Flashes from './layout/Flashes';
 
-class Main extends React.Component {
+class Main extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     viewer: PropTypes.object.isRequired,
@@ -16,7 +16,7 @@ class Main extends React.Component {
 
   render() {
     return (
-      <DocumentTitle title={`Buildkite`}>
+      <DocumentTitle title="Buildkite">
         <div>
           <Navigation organization={this.props.organization} viewer={this.props.viewer} />
           <Flashes />

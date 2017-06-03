@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import update from 'react-addons-update';
 import classNames from 'classnames';
 
-class Spinner extends React.Component {
+export default class Spinner extends React.PureComponent {
   static propTypes = {
     size: PropTypes.number,
     className: PropTypes.string,
@@ -55,5 +55,3 @@ class Spinner extends React.Component {
     );
   }
 }
-
-export default Spinner;

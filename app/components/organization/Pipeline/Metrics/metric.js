@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import classNames from 'classnames';
 
-class Metric extends React.Component {
+class Metric extends React.PureComponent {
   static propTypes = {
     pipelineMetric: PropTypes.shape({
       label: PropTypes.string.isRequired,
