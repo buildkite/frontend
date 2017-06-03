@@ -94,7 +94,7 @@ class FormTextarea extends React.Component {
   _renderErrors() {
     if (this._hasErrors()) {
       return (
-        <FormInputErrors errors={this.props.errors}/>
+        <FormInputErrors errors={this.props.errors} />
       );
     }
   }
@@ -102,7 +102,7 @@ class FormTextarea extends React.Component {
   _renderHelp() {
     if (this.props.help) {
       return (
-        <FormInputHelp html={this.props.help}/>
+        <FormInputHelp html={this.props.help} />
       );
     }
   }

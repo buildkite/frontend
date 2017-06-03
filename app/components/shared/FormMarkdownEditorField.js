@@ -44,7 +44,7 @@ class FormMarkdownEdtiorField extends React.Component {
             <i className="fa fa-warning mr2" />{this.state.error}
           </div>
           <div className="col-right">
-            <button className="btn m0 p0" onClick={this.handleErrorDismissClick}><i className="fa fa-close"/></button>
+            <button className="btn m0 p0" onClick={this.handleErrorDismissClick}><i className="fa fa-close" /></button>
           </div>
         </div>
       );

@@ -52,7 +52,7 @@ export default class Row extends React.PureComponent {
 
     if (transaction) {
       return (
-        <Spinner size={18} color={false}/>
+        <Spinner size={18} color={false} />
       );
     } else {
       return permissions(this.props.teamMember.permissions).collect(

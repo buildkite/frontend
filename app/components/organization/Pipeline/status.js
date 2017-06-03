@@ -36,7 +36,8 @@ class Status extends React.Component {
 
       return (
         <AnchoredPopover>
-          <a href={build.url}
+          <a
+            href={build.url}
             className="color-inherit relative"
             onMouseOver={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}

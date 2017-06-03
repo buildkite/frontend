@@ -70,11 +70,11 @@ class APIAccessTokenCodeAuthorize extends React.Component {
       return (
         <Spinner />
       );
-    } else {
-      return (
-        <Button onClick={this.handleAuthorizeButtonClick}>Authorize</Button>
-      );
     }
+
+    return (
+      <Button onClick={this.handleAuthorizeButtonClick}>Authorize</Button>
+    );
   }
 
   handleAuthorizeButtonClick = () => {

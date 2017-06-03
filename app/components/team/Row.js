@@ -107,7 +107,8 @@ class TeamRow extends React.PureComponent {
 
     if (extrasCount > 0) {
       return (
-        <div className="inline-block bg-gray bold center border border-white semi-bold px1"
+        <div
+          className="inline-block bg-gray bold center border border-white semi-bold px1"
           style={{ borderRadius: avatarSize / 2, minWidth: avatarSize, height: avatarSize, lineHeight: `${avatarSize - 4}px`, fontSize: 11, borderWidth: 2 }}
           title={`and another ${formatNumber(extrasCount)} member${extrasCount === 1 ? '' : 's'}`}
         >

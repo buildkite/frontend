@@ -86,14 +86,14 @@ export default class Button extends React.PureComponent {
       return (
         <Link to={this.props.link} {...props}>{children}</Link>
       );
-    } else {
-      props.href = this.props.link || this.props.href;
-
-      if (props.href) {
-        return React.DOM.a(props, children);
-      } else {
-        return React.DOM.button(props, children);
-      }
     }
+
+    props.href = this.props.link || this.props.href;
+
+    if (props.href) {
+      return React.DOM.a(props, children);
+    }
+
+    return React.DOM.button(props, children);
   }
 }

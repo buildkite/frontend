@@ -97,7 +97,7 @@ class Button extends React.Component {
   _renderIcon() {
     if (this.props.icon) {
       return (
-        <Icon className="flex-none icon-mr" icon={this.props.icon}/>
+        <Icon className="flex-none icon-mr" icon={this.props.icon} />
       );
     }
   }

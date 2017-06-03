@@ -80,7 +80,7 @@ class OrganizationShow extends React.Component {
                 href={`/organizations/${this.props.organization.slug}/pipelines/new`}
                 title="New Pipeline"
               >
-                <Icon icon="plus" title="New Pipeline"/>
+                <Icon icon="plus" title="New Pipeline" />
               </Button>
             </div>
 

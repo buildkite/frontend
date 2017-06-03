@@ -271,7 +271,8 @@ class Navigation extends React.PureComponent {
             <NavigationButton className="py0 xs-hide sm-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
 
             <Dropdown width={170} className="flex" ref={(userDropdown) => this.userDropdown = userDropdown} onToggle={this.handleUserDropdownToggle}>
-              <DropdownButton className={classNames("py0", { "lime": this.state.showingUserDropdown })}
+              <DropdownButton
+                className={classNames("py0", { "lime": this.state.showingUserDropdown })}
                 style={{ paddingRight: 0 }}
               >
                 <UserAvatar user={this.props.viewer.user} className="flex-none flex items-center" style={{ width: 26, height: 26 }} />

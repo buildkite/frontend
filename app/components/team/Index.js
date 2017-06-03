@@ -19,7 +19,7 @@ import Row from './Row';
 
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 
-const TEAM_PRIVACIES =  [
+const TEAM_PRIVACIES = [
   { name: 'All Teams', id: null },
   { name: 'Visible', id: TeamPrivacyConstants.VISIBLE },
   { name: 'Secret', id: TeamPrivacyConstants.SECRET }

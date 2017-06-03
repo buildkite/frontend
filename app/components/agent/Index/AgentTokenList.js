@@ -56,20 +56,20 @@ class AgentTokenList extends React.Component {
             <AgentTokenItem key={edge.node.id} agentToken={edge.node} showDescription={this.props.organization.agentTokens.edges.length > 1} />
           );
         });
-      } else {
-        return (
-          <Panel.Section>
-            <p className="dark-gray">You don’t have permission to see your organization’s Agent tokens.</p>
-          </Panel.Section>
-        );
       }
-    } else {
+
       return (
-        <Panel.Section className="center">
-          <Spinner />
+        <Panel.Section>
+          <p className="dark-gray">You don’t have permission to see your organization’s Agent tokens.</p>
         </Panel.Section>
       );
     }
+
+    return (
+      <Panel.Section className="center">
+        <Spinner />
+      </Panel.Section>
+    );
   }
 }
 

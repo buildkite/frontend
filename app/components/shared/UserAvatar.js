@@ -16,7 +16,8 @@ export default class UserAvatar extends React.PureComponent {
 
   render() {
     return (
-      <img src={this.props.user.avatar.url}
+      <img
+        src={this.props.user.avatar.url}
         className={classNames("circle border border-gray bg-white", this.props.className)}
         alt={this.props.user.name}
         title={this.props.user.name}

@@ -90,7 +90,8 @@ class SettingsMenu extends React.Component {
         render: (idx) => (
           <Menu.Button
             key={idx}
-            icon="teams" link={`${url}/teams`}
+            icon="teams"
+            link={`${url}/teams`}
             badge={this.props.pipeline.teams.count}
             label="Teams"
           />
@@ -101,7 +102,9 @@ class SettingsMenu extends React.Component {
         render: (idx) => (
           <Menu.Button
             key={idx}
-            icon="schedules" link={`${url}/schedules`} badge={this.props.pipeline.schedules.count}
+            icon="schedules"
+            link={`${url}/schedules`}
+            badge={this.props.pipeline.schedules.count}
             label="Schedules"
           />
         )
@@ -111,7 +114,8 @@ class SettingsMenu extends React.Component {
         render: (idx) => (
           <Menu.Button
             key={idx}
-            icon="badges" href={`${url}/badges`}
+            icon="badges"
+            href={`${url}/badges`}
             label="Build Badges"
           />
         )

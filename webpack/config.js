@@ -32,7 +32,7 @@ const IS_PRODUCTION = (process.env.NODE_ENV === "production");
 // folder with every hashed version of files we've changed (webpack doesn't
 // clean up after itself)
 const filenameFormat = IS_PRODUCTION ? "[name]-[chunkhash].js" : "[name].js";
-const chunkFilename  = IS_PRODUCTION ? "[id]-[chunkhash].js"   : "[id].js";
+const chunkFilename = IS_PRODUCTION ? "[id]-[chunkhash].js" : "[id].js";
 
 // Toggle between the devtool if on prod/dev since cheap-module-eval-source-map
 // is way faster for development.

@@ -263,9 +263,9 @@ class Agents extends React.PureComponent {
   handleSearch = (query) => {
     if (this.useLocalSearch) {
       return this.handleLocalSearch(query);
-    } else {
-      return this.handleRemoteSearch(query);
     }
+
+    return this.handleRemoteSearch(query);
   };
 
   handleLocalSearch = (query) => {
