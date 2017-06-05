@@ -8,7 +8,7 @@ import RowActions from './row-actions';
 import RowLink from './row-link';
 import Header from './header';
 
-class Panel extends React.Component {
+class Panel extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string

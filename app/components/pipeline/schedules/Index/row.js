@@ -5,7 +5,7 @@ import Relay from 'react-relay/classic';
 import Panel from '../../../shared/Panel';
 import Emojify from '../../../shared/Emojify';
 
-class Row extends React.Component {
+class Row extends React.PureComponent {
   static propTypes = {
     pipelineSchedule: PropTypes.shape({
       uuid: PropTypes.string.isRequired,

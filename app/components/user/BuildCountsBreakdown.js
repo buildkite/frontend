@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import PusherStore from '../../stores/PusherStore';
 import StateSwitcher from '../build/StateSwitcher';
 
-class BuildCountsBreakdown extends React.Component {
+export default class BuildCountsBreakdown extends React.PureComponent {
   static propTypes = {
     viewer: PropTypes.shape({
       builds: PropTypes.shape({
@@ -27,11 +27,11 @@ class BuildCountsBreakdown extends React.Component {
   };
 
   componentDidMount() {
-    PusherStore.on("user_stats:change", this._onStoreChange.bind(this));
+    PusherStore.on("user_stats:change", this.handleStoreChange);
   }
 
   componentWillUnmount() {
-    PusherStore.off("user_stats:change", this._onStoreChange.bind(this));
+    PusherStore.off("user_stats:change", this.handleStoreChange);
   }
 
   render() {
@@ -46,7 +46,7 @@ class BuildCountsBreakdown extends React.Component {
     );
   }
 
-  _onStoreChange(payload) {
+  handleStoreChange = (payload) => {
     this.setState({
       buildsCount: payload.buildsCount,
       scheduledBuildsCount: payload.scheduledBuildsCount,
@@ -54,5 +54,3 @@ class BuildCountsBreakdown extends React.Component {
     });
   }
 }
-
-export default BuildCountsBreakdown;

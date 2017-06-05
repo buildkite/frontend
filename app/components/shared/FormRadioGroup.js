@@ -56,7 +56,7 @@ class FormRadioGroup extends React.Component {
   _renderErrors() {
     if (this._hasErrors()) {
       return (
-        <FormInputErrors errors={this.props.errors}/>
+        <FormInputErrors errors={this.props.errors} />
       );
     }
   }

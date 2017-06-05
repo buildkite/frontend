@@ -10,7 +10,7 @@ import AgentTokenList from './AgentTokenList';
 import AgentInstallation from './installation';
 import QuickStart from './quick-start';
 
-class AgentIndex extends React.Component {
+class AgentIndex extends React.PureComponent {
   static propTypes = {
     location: PropTypes.shape({
       query: PropTypes.object

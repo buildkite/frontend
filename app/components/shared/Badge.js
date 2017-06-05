@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-class Badge extends React.Component {
+export default class Badge extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string
@@ -21,5 +21,3 @@ class Badge extends React.Component {
     );
   }
 }
-
-export default Badge;

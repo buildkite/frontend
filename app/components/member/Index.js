@@ -19,7 +19,7 @@ import Row from './Row';
 
 import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
 
-const ORGANIZATION_ROLES =  [
+const ORGANIZATION_ROLES = [
   { name: 'Everyone', id: null },
   { name: 'Administrators', id: OrganizationMemberRoleConstants.ADMIN },
   { name: 'Users', id: OrganizationMemberRoleConstants.MEMBER }
@@ -165,17 +165,17 @@ class MemberIndex extends React.PureComponent {
           <Spinner />
         </Panel.Section>
       );
-    } else {
-      return members.edges.map((edge) => {
-        return (
-          <Row
-            key={edge.node.id}
-            organization={this.props.organization}
-            organizationMember={edge.node}
-          />
-        );
-      });
     }
+
+    return members.edges.map((edge) => {
+      return (
+        <Row
+          key={edge.node.id}
+          organization={this.props.organization}
+          organizationMember={edge.node}
+        />
+      );
+    });
   }
 
   renderMemberFooter() {
@@ -276,9 +276,10 @@ class MemberIndex extends React.PureComponent {
           <Spinner />
         </Panel.Section>
       );
-    } else {
-      if (invitations.edges.length > 0) {
-        return (
+    }
+
+    if (invitations.edges.length > 0) {
+      return (
           invitations.edges.map((edge) => {
             return (
               <InvitationRow
@@ -288,15 +289,14 @@ class MemberIndex extends React.PureComponent {
               />
             );
           })
-        );
-      } else {
-        return (
-          <Panel.Section>
-            <div className="dark-gray">There are no pending invitations</div>
-          </Panel.Section>
-        );
-      }
+      );
     }
+
+    return (
+      <Panel.Section>
+        <div className="dark-gray">There are no pending invitations</div>
+      </Panel.Section>
+    );
   }
 
   renderInvitationFooter() {

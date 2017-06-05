@@ -19,7 +19,7 @@ import Row from './Row';
 
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 
-const TEAM_PRIVACIES =  [
+const TEAM_PRIVACIES = [
   { name: 'All Teams', id: null },
   { name: 'Visible', id: TeamPrivacyConstants.VISIBLE },
   { name: 'Secret', id: TeamPrivacyConstants.SECRET }
@@ -124,13 +124,13 @@ class TeamIndex extends React.PureComponent {
           <Row key={edge.node.id} team={edge.node} />
         );
       });
-    } else {
-      return (
-        <Panel.Section className="center">
-          <Spinner />
-        </Panel.Section>
-      );
     }
+
+    return (
+      <Panel.Section className="center">
+        <Spinner />
+      </Panel.Section>
+    );
   }
 
   renderTeamSearchInfo() {

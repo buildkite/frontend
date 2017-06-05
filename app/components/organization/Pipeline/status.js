@@ -36,7 +36,8 @@ class Status extends React.Component {
 
       return (
         <AnchoredPopover>
-          <a href={build.url}
+          <a
+            href={build.url}
             className="color-inherit relative"
             onMouseOver={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}
@@ -47,11 +48,11 @@ class Status extends React.Component {
           <BuildTooltip build={build} visible={this.state.hover} left={-8} top={44} />
         </AnchoredPopover>
       );
-    } else {
-      return (
-        <BuildState.Regular state={null} />
-      );
     }
+
+    return (
+      <BuildState.Regular state={null} />
+    );
   }
 
   handleMouseOver = () => {

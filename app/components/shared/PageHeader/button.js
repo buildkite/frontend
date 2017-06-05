@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import BaseButton from '../Button';
 
-class Button extends React.Component {
+export default class Button extends React.PureComponent {
   static displayName = "PageHeader.Button";
 
   static propTypes = {
@@ -16,5 +16,3 @@ class Button extends React.Component {
     );
   }
 }
-
-export default Button;

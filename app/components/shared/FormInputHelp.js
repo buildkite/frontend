@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class FormInputHelp extends React.Component {
+export default class FormInputHelp extends React.PureComponent {
   static propTypes = {
     html: PropTypes.string.isRequired
   };
@@ -12,5 +12,3 @@ class FormInputHelp extends React.Component {
     );
   }
 }
-
-export default FormInputHelp;

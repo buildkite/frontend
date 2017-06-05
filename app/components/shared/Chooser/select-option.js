@@ -40,13 +40,13 @@ function Icon(props) {
         <Spinner className="fit absolute" size={16} style={{ marginTop: 3 }} color={false} />
       </div>
     );
-  } else {
-    const tickColor = props.selected ? "green" : "gray";
-
-    return (
-      <div className={tickColor} style={{ fontSize: 16, width: width }}>✔</div>
-    );
   }
+
+  const tickColor = props.selected ? "green" : "gray";
+
+  return (
+    <div className={tickColor} style={{ fontSize: 16, width: width }}>✔</div>
+  );
 }
 
 Icon.propTypes = {

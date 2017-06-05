@@ -164,9 +164,9 @@ class Graph extends React.Component {
       return SKIPPED_COLOR;
     } else if (build.state === BuildStates.NOT_RUN) {
       return NOT_RUN_COLOR;
-    } else {
-      return FAILED_COLOR;
     }
+
+    return FAILED_COLOR;
   }
 
   hoverColorForBuild(build) {
@@ -180,9 +180,9 @@ class Graph extends React.Component {
       return SKIPPED_COLOR_HOVER;
     } else if (build.state === BuildStates.NOT_RUN) {
       return NOT_RUN_COLOR_HOVER;
-    } else {
-      return FAILED_COLOR_HOVER;
     }
+
+    return FAILED_COLOR_HOVER;
   }
 
   toggleRenderInterval(buildEdges) {

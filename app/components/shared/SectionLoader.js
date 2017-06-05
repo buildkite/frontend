@@ -2,14 +2,12 @@ import React from 'react';
 
 import Spinner from './Spinner';
 
-class SectionLoader extends React.Component {
+export default class SectionLoader extends React.PureComponent {
   render() {
     return (
       <div className="center my4">
-        <Spinner/>
+        <Spinner />
       </div>
     );
   }
 }
-
-export default SectionLoader;

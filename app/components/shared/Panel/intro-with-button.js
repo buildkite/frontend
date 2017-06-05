@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class IntroWithButton extends React.Component {
+export default class IntroWithButton extends React.PureComponent {
   static displayName = "Panel.IntroWithButton";
 
   static propTypes = {
@@ -36,5 +36,3 @@ class IntroWithButton extends React.Component {
     );
   }
 }
-
-export default IntroWithButton;

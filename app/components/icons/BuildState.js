@@ -78,7 +78,7 @@ class BuildState extends React.PureComponent {
             strokeWidth={strokeWidth * 2}
           />
           <clipPath id={strokeClipPathId}>
-            <use xlinkHref={`#${outerCircleId}`}/>
+            <use xlinkHref={`#${outerCircleId}`} />
           </clipPath>
           {defs}
         </defs>

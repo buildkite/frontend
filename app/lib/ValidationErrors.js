@@ -14,9 +14,9 @@ class ValidationErrors {
       });
 
       return messages;
-    } else {
-      return null;
     }
+
+    return null;
   }
 }
 

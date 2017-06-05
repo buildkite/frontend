@@ -110,9 +110,9 @@ class Flashes extends React.PureComponent {
           ))}
         </div>
       );
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   handleFlashRemove = (flash) => {

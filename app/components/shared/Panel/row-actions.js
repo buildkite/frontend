@@ -1,19 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import shallowCompare from 'react-addons-shallow-compare';
 
-export default class RowActions extends React.Component {
+export default class RowActions extends React.PureComponent {
   static displayName = "Panel.RowActions";
 
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
 
   render() {
     const children = React.Children.toArray(this.props.children);
@@ -28,8 +23,8 @@ export default class RowActions extends React.Component {
           {this.props.children}
         </div>
       );
-    } else {
-      return <noscript />;
     }
+
+    return <noscript />;
   }
 }

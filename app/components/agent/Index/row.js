@@ -7,7 +7,7 @@ import StateIcon from '../state-icon';
 import Panel from '../../shared/Panel';
 import JobLink from '../../shared/JobLink';
 
-class AgentRow extends React.Component {
+class AgentRow extends React.PureComponent {
   static propTypes = {
     agent: PropTypes.shape({
       id: PropTypes.string.isRequired,

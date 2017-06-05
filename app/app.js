@@ -91,9 +91,9 @@ window["Webpack"] = {
 
     if (exported) {
       return exported;
-    } else {
-      throw "No webpack module exported `" + module + "`";
     }
+
+    throw "No webpack module exported `" + module + "`";
   }
 };
 

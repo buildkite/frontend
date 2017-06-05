@@ -185,9 +185,9 @@ class Header extends React.Component {
   renderDescription() {
     if (this.props.pipeline.description) {
       return <Emojify text={this.props.pipeline.description} />;
-    } else {
-      return this.props.pipeline.repository.url;
     }
+
+    return this.props.pipeline.repository.url;
   }
 
   handleActionsDropdownToggle = (visible) => {

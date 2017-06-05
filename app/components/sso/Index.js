@@ -96,47 +96,47 @@ class SSOIndex extends React.PureComponent {
           <Panel.Section className="max-width-3">
             <p className="h4 bold">Single Sign On is enabled for this organization.</p>
             <p>To login, users can enter their their email address on the Buildkite login page and they will redirected to {this.props.organization.sso.provider.name} for authentication and sign-in.</p>
-            <p>If you have multiple organizations configured with SSO, users can login using this organization-specific login URL:<br/>{this.renderLoginLink()}</p>
+            <p>If you have multiple organizations configured with SSO, users can login using this organization-specific login URL:<br />{this.renderLoginLink()}</p>
           </Panel.Section>
         </Panel>
       );
-    } else {
-      return (
-        <div>
-          <Panel>
-            <Panel.Section className="max-width-3">
-              <p>Single Sign On (SSO) allows you to use your own authentication server for signing into Buildkite.</p>
-              <p>During the sign in process, new users will be automatically added to your organization.</p>
-              <p>Supported SSO systems:</p>
-              <ul>
-                <li>Bitium (<a className="semi-bold lime text-decoration-none hover-lime hover-underline" href="https://support.bitium.com/administration/saml-buildkite/">Instructions</a>)</li>
-                <li>Okta (<a className="semi-bold lime text-decoration-none hover-lime hover-underline" href="http://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Buildkite.html">Instructions</a>)</li>
-                <li>Google Apps (G Suite)</li>
-                <li>SAML</li>
-                <li>ADFS (SAML)</li>
-              </ul>
-              <p>To enable SSO for this organization, contact support with your authentication server details.</p>
-              <Button href={this.renderEmailURI()}>
-                Contact Support
-              </Button>
-            </Panel.Section>
-          </Panel>
-          <Panel className="mt4">
-            <Panel.Header>
-              Frequently Asked SSO Questions
-            </Panel.Header>
-            <Panel.Section className="max-width-2">
-              <h3 className="mt3 h4 bold">How does user billing work with SSO?</h3>
-              <p>When a user signs in with SSO, the additional user is added to your account and will be charged immediately, just as if you had invited them to the account.</p>
-              <h3 className="mt3 h4 bold">Can I use multiple email domains?</h3>
-              <p>We currently only support a single email domain (e.g. example.com) for an organization.</p>
-              <h3 className="mt3 h4 bold">Can I set up SSO for additional organizations?</h3>
-              <p>We support setting up SSO for additional organizations, but one of the organizations will be the default. To login to the secondary organizations, you can add ?asd to your organization’s login URL.</p>
-            </Panel.Section>
-          </Panel>
-        </div>
-      );
     }
+
+    return (
+      <div>
+        <Panel>
+          <Panel.Section className="max-width-3">
+            <p>Single Sign On (SSO) allows you to use your own authentication server for signing into Buildkite.</p>
+            <p>During the sign in process, new users will be automatically added to your organization.</p>
+            <p>Supported SSO systems:</p>
+            <ul>
+              <li>Bitium (<a className="semi-bold lime text-decoration-none hover-lime hover-underline" href="https://support.bitium.com/administration/saml-buildkite/">Instructions</a>)</li>
+              <li>Okta (<a className="semi-bold lime text-decoration-none hover-lime hover-underline" href="http://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Buildkite.html">Instructions</a>)</li>
+              <li>Google Apps (G Suite)</li>
+              <li>SAML</li>
+              <li>ADFS (SAML)</li>
+            </ul>
+            <p>To enable SSO for this organization, contact support with your authentication server details.</p>
+            <Button href={this.renderEmailURI()}>
+              Contact Support
+            </Button>
+          </Panel.Section>
+        </Panel>
+        <Panel className="mt4">
+          <Panel.Header>
+            Frequently Asked SSO Questions
+          </Panel.Header>
+          <Panel.Section className="max-width-2">
+            <h3 className="mt3 h4 bold">How does user billing work with SSO?</h3>
+            <p>When a user signs in with SSO, the additional user is added to your account and will be charged immediately, just as if you had invited them to the account.</p>
+            <h3 className="mt3 h4 bold">Can I use multiple email domains?</h3>
+            <p>We currently only support a single email domain (e.g. example.com) for an organization.</p>
+            <h3 className="mt3 h4 bold">Can I set up SSO for additional organizations?</h3>
+            <p>We support setting up SSO for additional organizations, but one of the organizations will be the default. To login to the secondary organizations, you can add ?asd to your organization’s login URL.</p>
+          </Panel.Section>
+        </Panel>
+      </div>
+    );
   }
 }
 

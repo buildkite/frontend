@@ -5,7 +5,7 @@ import Relay from 'react-relay/classic';
 import FriendlyTime from '../../../shared/FriendlyTime';
 import Panel from '../../../shared/Panel';
 
-class Build extends React.Component {
+class Build extends React.PureComponent {
   static propTypes = {
     build: PropTypes.shape({
       id: PropTypes.string.isRequired,

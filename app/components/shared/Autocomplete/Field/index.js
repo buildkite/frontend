@@ -104,24 +104,24 @@ class AutocompleteField extends React.PureComponent {
             {item}
           </div>
         );
-      } else {
-        const isSelected = item[1] && this.state.selected && (item[1].id === this.state.selected.id);
-
-        // `selected` needs to always return a boolean as it's a requirement of
-        // the Suggestion component
-        return (
-          <Suggestion
-            key={index}
-            className="rounded"
-            selected={!!isSelected}
-            suggestion={item[1]}
-            onMouseOver={this.handleSuggestionMouseOver}
-            onMouseDown={this.handleSuggestionMouseDown}
-          >
-            {item[0]}
-          </Suggestion>
-        );
       }
+
+      const isSelected = item[1] && this.state.selected && (item[1].id === this.state.selected.id);
+
+      // `selected` needs to always return a boolean as it's a requirement of
+      // the Suggestion component
+      return (
+        <Suggestion
+          key={index}
+          className="rounded"
+          selected={!!isSelected}
+          suggestion={item[1]}
+          onMouseOver={this.handleSuggestionMouseOver}
+          onMouseDown={this.handleSuggestionMouseDown}
+        >
+          {item[0]}
+        </Suggestion>
+      );
     });
 
     return (

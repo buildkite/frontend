@@ -92,13 +92,13 @@ class Chooser extends React.Component {
           Could not find a user with name <em>{memberAddSearch}</em>
         </AutocompleteDialog.ErrorMessage>
       ];
-    } else {
-      return [
-        <AutocompleteDialog.ErrorMessage key="error">
-          Could not find any more users to add
-        </AutocompleteDialog.ErrorMessage>
-      ];
     }
+
+    return [
+      <AutocompleteDialog.ErrorMessage key="error">
+        Could not find any more users to add
+      </AutocompleteDialog.ErrorMessage>
+    ];
   }
 
   handleDialogOpen = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class PageWithContainer extends React.Component {
+export default class PageWithContainer extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired
   };
@@ -12,5 +12,3 @@ class PageWithContainer extends React.Component {
     );
   }
 }
-
-export default PageWithContainer;

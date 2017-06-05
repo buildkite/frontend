@@ -66,9 +66,9 @@ class Index extends React.Component {
           <Row key={edge.node.id} pipelineSchedule={edge.node} />
         );
       });
-    } else {
-      return null;
     }
+
+    return null;
   }
 }
 

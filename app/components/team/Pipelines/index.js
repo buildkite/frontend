@@ -80,12 +80,16 @@ class Pipelines extends React.Component {
           <Row key={edge.node.id} teamPipeline={edge.node} onRemoveClick={this.handleTeamPipelineRemove} onAccessLevelChange={this.handleAccessLevelChange} relay={this.props.relay} />
         );
       });
-    } else {
-      if (this.props.relay.variables.pipelineSearch) {
-        return null;
-      }
-      return <Panel.Section className="dark-gray">There are no pipelines assigned to this team</Panel.Section>;
     }
+    if (this.props.relay.variables.pipelineSearch) {
+      return null;
+    }
+
+    return (
+      <Panel.Section className="dark-gray">
+        There are no pipelines assigned to this team
+      </Panel.Section>
+    );
   }
 
   renderPipelineSearch() {
@@ -101,9 +105,9 @@ class Pipelines extends React.Component {
           />
         </div>
       );
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   renderPipelineSearchInfo() {

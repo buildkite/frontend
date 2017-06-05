@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import PipelineIcon from '../icons/Pipeline';
 
-class Welcome extends React.Component {
+export default class Welcome extends React.PureComponent {
   static propTypes = {
-    organization: PropTypes.string.isRequired
+    organizationSlug: PropTypes.string.isRequired
   }
 
   render() {
@@ -24,7 +24,7 @@ class Welcome extends React.Component {
         <p>
           <a
             className="mt4 btn btn-primary bg-lime hover-white white rounded"
-            href={`/organizations/${this.props.organization}/pipelines/new`}
+            href={`/organizations/${this.props.organizationSlug}/pipelines/new`}
           >
             New Pipeline
           </a>
@@ -33,5 +33,3 @@ class Welcome extends React.Component {
     );
   }
 }
-
-export default Welcome;

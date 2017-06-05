@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
-class NavigationButton extends React.Component {
+export default class NavigationButton extends React.PureComponent {
   static displayName = "Navigation.NavigationButton";
 
   static propTypes = {
@@ -19,6 +19,9 @@ class NavigationButton extends React.Component {
     linkIf: false
   };
 
+  // NOTE: This uses PureComponent despite using `this.context`
+  // as it is *not* possible for a single component instance to
+  // move to or from a Router-controlled context in one lifetime
   static contextTypes = {
     router: PropTypes.object
   };
@@ -38,12 +41,10 @@ class NavigationButton extends React.Component {
       return (
         <Link to={this.props.href} {...props}>{this.props.children}</Link>
       );
-    } else {
-      return (
-        <a href={this.props.href} {...props}>{this.props.children}</a>
-      );
     }
+
+    return (
+      <a href={this.props.href} {...props}>{this.props.children}</a>
+    );
   }
 }
-
-export default NavigationButton;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { minute } from 'metrick/duration';
 import { getDateString, getRelativeDateString } from '../../lib/date';
 
-class FriendlyTime extends React.PureComponent {
+export default class FriendlyTime extends React.PureComponent {
   static propTypes = {
     value: PropTypes.string.isRequired,
     updateFrequency: PropTypes.number.isRequired,
@@ -71,5 +71,3 @@ class FriendlyTime extends React.PureComponent {
     );
   }
 }
-
-export default FriendlyTime;

@@ -40,21 +40,21 @@ class FormTextField extends React.Component {
           {this._renderHelp()}
         </CollapsableFormField>
       );
-    } else {
-      return (
-        <div className="mb2">
-          <FormInputLabel
-            label={this.props.label}
-            errors={this._hasErrors()}
-            required={this.props.required}
-          >
-            {this._renderInput()}
-          </FormInputLabel>
-          {this._renderErrors()}
-          {this._renderHelp()}
-        </div>
-      );
     }
+
+    return (
+      <div className="mb2">
+        <FormInputLabel
+          label={this.props.label}
+          errors={this._hasErrors()}
+          required={this.props.required}
+        >
+          {this._renderInput()}
+        </FormInputLabel>
+        {this._renderErrors()}
+        {this._renderHelp()}
+      </div>
+    );
   }
 
   getValue() {
@@ -76,7 +76,7 @@ class FormTextField extends React.Component {
   _renderErrors() {
     if (this._hasErrors()) {
       return (
-        <FormInputErrors errors={this.props.errors}/>
+        <FormInputErrors errors={this.props.errors} />
       );
     }
   }
@@ -84,7 +84,7 @@ class FormTextField extends React.Component {
   _renderHelp() {
     if (this.props.help) {
       return (
-        <FormInputHelp html={this.props.help}/>
+        <FormInputHelp html={this.props.help} />
       );
     }
   }

@@ -57,17 +57,17 @@ class FormTextarea extends React.Component {
           {this._renderHelp()}
         </CollapsableFormField>
       );
-    } else {
-      return (
-        <div className="mb2">
-          <FormInputLabel label={this.props.label} errors={this._hasErrors()}>
-            {this._renderTextArea()}
-          </FormInputLabel>
-          {this._renderErrors()}
-          {this._renderHelp()}
-        </div>
-      );
     }
+
+    return (
+      <div className="mb2">
+        <FormInputLabel label={this.props.label} errors={this._hasErrors()}>
+          {this._renderTextArea()}
+        </FormInputLabel>
+        {this._renderErrors()}
+        {this._renderHelp()}
+      </div>
+    );
   }
 
   // In some cases the initial height can be incorrect and you need to explicit tell
@@ -94,7 +94,7 @@ class FormTextarea extends React.Component {
   _renderErrors() {
     if (this._hasErrors()) {
       return (
-        <FormInputErrors errors={this.props.errors}/>
+        <FormInputErrors errors={this.props.errors} />
       );
     }
   }
@@ -102,7 +102,7 @@ class FormTextarea extends React.Component {
   _renderHelp() {
     if (this.props.help) {
       return (
-        <FormInputHelp html={this.props.help}/>
+        <FormInputHelp html={this.props.help} />
       );
     }
   }

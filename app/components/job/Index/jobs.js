@@ -110,28 +110,28 @@ class Jobs extends React.PureComponent {
           <Spinner />
         </Panel.Section>
       );
-    } else {
-      if (jobs.edges.length === 0) {
-        return (
-          <Panel.Section className="center">
-            <div>
+    }
+
+    if (jobs.edges.length === 0) {
+      return (
+        <Panel.Section className="center">
+          <div>
               No jobs could be found
             </div>
-          </Panel.Section>
-        );
-      } else {
-        return jobs.edges.map((edge) => {
-          return (
-            <Row
-              key={edge.node.id}
-              job={edge.node}
-              onConcurrencyGroupClick={this.handleConcurrencyGroupClick}
-              onAgentQueryRuleClick={this.handleAgentQueryRuleClick}
-            />
-          );
-        });
-      }
+        </Panel.Section>
+      );
     }
+
+    return jobs.edges.map((edge) => {
+      return (
+        <Row
+          key={edge.node.id}
+          job={edge.node}
+          onConcurrencyGroupClick={this.handleConcurrencyGroupClick}
+          onAgentQueryRuleClick={this.handleAgentQueryRuleClick}
+        />
+      );
+    });
   }
 
   renderFooter() {

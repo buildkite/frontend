@@ -70,7 +70,8 @@ class Bar extends React.PureComponent {
           style={{ height: '100%', left: this.props.left, bottom: 0 }}
           width={300}
         >
-          <a href={this.props.href}
+          <a
+            href={this.props.href}
             className="border-box inline-block color-inherit"
             style={{ height: '100%', width: BAR_WIDTH_WITH_SEPERATOR }}
             onMouseOver={this.handleMouseOver}
@@ -96,20 +97,20 @@ class Bar extends React.PureComponent {
           />
         </AnchoredPopover>
       );
-    } else {
-      return (
-        <div
-          className="border-box inline-block absolute"
-          style={{
-            height: BAR_HEIGHT_MINIMUM,
-            left: this.props.left,
-            width: BAR_WIDTH,
-            bottom: 0,
-            border: `1px solid ${backgroundColor}`
-          }}
-        />
-      );
     }
+
+    return (
+      <div
+        className="border-box inline-block absolute"
+        style={{
+          height: BAR_HEIGHT_MINIMUM,
+          left: this.props.left,
+          width: BAR_WIDTH,
+          bottom: 0,
+          border: `1px solid ${backgroundColor}`
+        }}
+      />
+    );
   }
 }
 

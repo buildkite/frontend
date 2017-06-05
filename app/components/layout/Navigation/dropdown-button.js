@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-class DropdownButton extends React.Component {
+export default class DropdownButton extends React.PureComponent {
   static displayName = "Navigation.DropdownButton";
 
   static propTypes = {
@@ -22,5 +22,3 @@ class DropdownButton extends React.Component {
     );
   }
 }
-
-export default DropdownButton;

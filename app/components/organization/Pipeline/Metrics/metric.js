@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import classNames from 'classnames';
 
-class Metric extends React.Component {
+class Metric extends React.PureComponent {
   static propTypes = {
     pipelineMetric: PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -36,11 +36,11 @@ class Metric extends React.Component {
       return (
         <span className={classNames(valueClasses, "truncate")}>{this.props.pipelineMetric.value}</span>
       );
-    } else {
-      return (
-        <span className={classNames(valueClasses, "gray")}>-</span>
-      );
     }
+
+    return (
+      <span className={classNames(valueClasses, "gray")}>-</span>
+    );
   }
 }
 

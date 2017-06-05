@@ -71,13 +71,15 @@ class Index extends React.Component {
           <Row key={edge.node.id} teamPipeline={edge.node} organization={this.props.pipeline.organization} />
         );
       });
-    } else {
-      return (
-        <Panel.Row>
-          <div className="dark-gray py2 center"><Emojify text="This Pipeline has not been added to any teams yet" /></div>
-        </Panel.Row>
-      );
     }
+
+    return (
+      <Panel.Row>
+        <div className="dark-gray py2 center">
+          <Emojify text="This Pipeline has not been added to any teams yet" />
+        </div>
+      </Panel.Row>
+    );
   }
 
   renderAutoCompleteSuggestions(search) {
@@ -107,9 +109,9 @@ class Index extends React.Component {
           Could not find a team with name <em>{search}</em>
         </AutocompleteField.ErrorMessage>
       ];
-    } else {
-      return [];
     }
+
+    return [];
   }
 
   handleTeamSearch = (text) => {
