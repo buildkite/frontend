@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import classNames from 'classnames';
+import styled from 'styled-components';
 
 import UserAvatar from '../../shared/UserAvatar';
 import Dropdown from '../../shared/Dropdown';
@@ -18,6 +19,16 @@ import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
 import SupportDialog from './support-dialog';
 import MyBuilds from './MyBuilds';
+
+const ArrowDropdownButton = styled(DropdownButton)`
+  background-repeat: no-repeat;
+  background-position: center right;
+
+  @media (min-width: 1200px) {
+    background-image: url(${require('./nav-button-right-arrow.svg')});
+    padding-right: 20px;
+  }
+`;
 
 class Navigation extends React.PureComponent {
   static propTypes = {
@@ -120,12 +131,6 @@ class Navigation extends React.PureComponent {
     }
   }
 
-  renderMyBuilds() {
-    return (
-      <MyBuilds viewer={this.props.viewer} />
-    );
-  }
-
   renderOrganizationsList() {
     if (!this.props.viewer.organizations) {
       return <SectionLoader />;
@@ -224,7 +229,7 @@ class Navigation extends React.PureComponent {
         data-tag={true}
       >
         <div className="container">
-          <div className="flex flex-stretch" style={{ height: 45 }}>
+          <div className="flex" style={{ height: 45 }}>
             <span className="flex relative border-right border-gray items-center">
               <NavigationButton href="/" className="px3 hover-faded-children" style={{ paddingLeft: 0 }}>
                 <img
@@ -244,41 +249,76 @@ class Navigation extends React.PureComponent {
               />
             </span>
 
-            <Dropdown width={250} className="flex" style={{ minWidth: "5em" }} onToggle={this.handleOrgDropdownToggle}>
-              <DropdownButton
-                className={classNames("py0", { "lime": this.state.showingOrgDropdown })}
+            <Dropdown
+              width={250}
+              className="flex"
+              style={{ flex: '0 1 auto', minWidth: 0 }}
+              onToggle={this.handleOrgDropdownToggle}
+            >
+              <ArrowDropdownButton
+                className={classNames(
+                  'py0 flex-auto',
+                  { lime: this.state.showingOrgDropdown }
+                )}
                 style={{
-                  backgroundImage: 'url(' + require('./nav-button-right-arrow.svg') + ')',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center right',
-                  paddingRight: 20
+                  flex: '0 1 auto',
+                  minWidth: 0
                 }}
               >
-                <span className="truncate" style={{ maxWidth: "7em" }}>
+                <span className="truncate">
                   {this.props.organization ? this.props.organization.name : 'Organizations'}
                 </span>
-                <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
-              </DropdownButton>
+                <Icon icon="down-triangle" className="flex-none" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
+              </ArrowDropdownButton>
               {this.renderOrganizationsList()}
             </Dropdown>
 
             {this.renderTopOrganizationMenu()}
 
-            <span className="flex-auto" />
+            <MyBuilds viewer={this.props.viewer} />
 
-            {this.renderMyBuilds()}
-            <NavigationButton className="py0 xs-hide sm-hide" href={`/docs`}>Documentation</NavigationButton>
-            <NavigationButton className="py0 xs-hide sm-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
+            <NavigationButton
+              className="py0 xs-hide sm-hide"
+              href={`/docs`}
+            >
+              Documentation
+            </NavigationButton>
+            <NavigationButton
+              className="py0 xs-hide sm-hide"
+              onClick={this.handleSupportClick}
+            >
+              Support
+            </NavigationButton>
 
-            <Dropdown width={170} className="flex" ref={(userDropdown) => this.userDropdown = userDropdown} onToggle={this.handleUserDropdownToggle}>
+            <Dropdown
+              width={170}
+              className="flex"
+              style={{ flex: '0 1 auto', minWidth: 55 }}
+              ref={(userDropdown) => this.userDropdown = userDropdown}
+              onToggle={this.handleUserDropdownToggle}
+            >
               <DropdownButton
-                className={classNames("py0", { "lime": this.state.showingUserDropdown })}
+                className={classNames(
+                  'py0 flex-auto',
+                  { lime: this.state.showingUserDropdown }
+                )}
                 style={{ paddingRight: 0 }}
               >
-                <UserAvatar user={this.props.viewer.user} className="flex-none flex items-center" style={{ width: 26, height: 26 }} />
-                <span className="flex items-center xs-hide sm-flex ml1"><span className="truncate" style={{ maxWidth: "8em" }} data-current-user-name={true}>{this.props.viewer.user.name}</span></span>
-                <span className="flex items-center">
-                  <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
+                <UserAvatar
+                  user={this.props.viewer.user}
+                  className="flex-none flex items-center"
+                  style={{ width: 26, height: 26 }}
+                />
+                <span className="flex items-center xs-hide sm-flex ml1 flex-auto">
+                  <span className="truncate" data-current-user-name={true}>
+                    {this.props.viewer.user.name}
+                  </span>
+                </span>
+                <span className="flex items-center flex-none">
+                  <Icon
+                    icon="down-triangle"
+                    style={{ width: 7, height: 7, marginLeft: '.5em' }}
+                  />
                 </span>
               </DropdownButton>
 

@@ -78,15 +78,23 @@ class MyBuilds extends React.Component {
 
   render() {
     return (
-      <Dropdown width={320} className="flex" onToggle={this.handleDropdownToggle}>
-        <DropdownButton className={classNames("py0", { "lime": this.state.isDropdownVisible })} onMouseEnter={this.handleButtonMouseEnter}>
+      <Dropdown width={320} className="flex ml-auto" onToggle={this.handleDropdownToggle}>
+        <DropdownButton className={classNames("flex-none py0", { "lime": this.state.isDropdownVisible })} onMouseEnter={this.handleButtonMouseEnter}>
           {'My Builds '}
           <div className="xs-hide">
             <CSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
               {this.renderBadge()}
             </CSSTransitionGroup>
           </div>
-          <Icon icon="down-triangle" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
+          <Icon
+            icon="down-triangle"
+            className="flex-none"
+            style={{
+              width: 7,
+              height: 7,
+              marginLeft: '.5em'
+            }}
+          />
         </DropdownButton>
 
         {this.renderDropdown()}
