@@ -1,7 +1,7 @@
 /* global describe, it, expect, jest */
 import Emoji from './Emoji';
 
-function mockLoadWebpackedEmojis(catalogue) {
+function mockLoadWebpackedCatalogue(catalogue) {
   process.env.EMOJI_HOST = 'emoji-host.com';
 
   const loader = require('../../webpack/emoji-loader');
@@ -11,22 +11,28 @@ function mockLoadWebpackedEmojis(catalogue) {
   return eval(loader.call(webpack, emojis)); // eslint-disable-line no-eval
 }
 
-jest.mock('../emojis/buildkite', () => mockLoadWebpackedEmojis('buildkite'));
-jest.mock('../emojis/apple', () => mockLoadWebpackedEmojis('apple'));
+jest.mock('../emoji/buildkite', () => mockLoadWebpackedCatalogue('buildkite'));
+jest.mock('../emoji/apple', () => mockLoadWebpackedCatalogue('apple'));
 
-const EMOJI_TESTS = [
+const SHORTCODE_EMOJI_TESTS = [
   ':buildkite:',
   ':wave::skin-tone-3:',
+  ':woman-woman-girl:',
+  'String with :rocket:'
+];
+
+const ESCAPED_SHORTCODE_EMOJI_TESTS = [
+  'String with \\:rocket\\:',
+  'arn\\:aws\\:s3:::bucket'
+];
+
+const UNICODE_EMOJI_TESTS = [
   '👋🏿',
   '👍 :buildkite:',
   '™',
   '👩‍👩‍👧',
-  ':woman-woman-girl:',
   '👩🏻‍🏫',
   '🇦🇺💜🇨🇦',
-  'String with :rocket:',
-  'String with \\:rocket\\:',
-  'arn\\:aws\\:s3:::bucket',
   '⛄',
   '💩 in the 💨',
   '©️©',
@@ -35,15 +41,27 @@ const EMOJI_TESTS = [
 
 describe('Emoji', () => {
   describe('parse', () => {
-    it('turns emojis into HTML', () => {
-      EMOJI_TESTS.forEach((testcase) => {
-        expect(Emoji.parse(testcase)).toMatchSnapshot();
+    describe('converts emoji shortcodes', () => {
+      SHORTCODE_EMOJI_TESTS.forEach((testcase) => {
+        it(`"${testcase}"`, () => {
+          expect(Emoji.parse(testcase)).toMatchSnapshot();
+        });
       });
     });
 
-    it('allows you to turn off unicode parsing of emojis', () => {
-      EMOJI_TESTS.forEach((testcase) => {
-        expect(Emoji.parse(testcase, { replaceUnicode: false })).toMatchSnapshot();
+    describe('ignores escaped shortcodes', () => {
+      ESCAPED_SHORTCODE_EMOJI_TESTS.forEach((testcase) => {
+        it(`"${testcase}"`, () => {
+          expect(Emoji.parse(testcase)).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('leaves Unicode emoji alone', () => {
+      UNICODE_EMOJI_TESTS.forEach((testcase) => {
+        it(`"${testcase}"`, () => {
+          expect(Emoji.parse(testcase)).toMatchSnapshot();
+        });
       });
     });
 

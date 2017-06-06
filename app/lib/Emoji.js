@@ -1,9 +1,7 @@
 import escape from 'escape-html';
-import emojiRegex from 'emoji-regex';
-import BUILDKITE_EMOJI from '../emojis/buildkite';
-import UNICODE_EMOJI from '../emojis/apple';
+import BUILDKITE_EMOJI from '../emoji/buildkite';
+import UNICODE_EMOJI from '../emoji/apple';
 
-const UNICODE_REGEXP = emojiRegex();
 const COLON_REGEXP = /:[^\s:]+:(?::skin-tone-[2-6]:)?/g;
 
 class Emoji {
@@ -17,39 +15,35 @@ class Emoji {
       string = escape(string);
     }
 
-    // Start with replacing BK emoji (which are more likely than Unicode emoji)
-    string = this._replace(string, COLON_REGEXP, BUILDKITE_EMOJI);
+    // Start with replacing Buildkite emoji with images
+    string = this._replace(string, BUILDKITE_EMOJI, (emoji, { host }) => {
+      // Emoji catalogue hosts have a normalized host that always end with a "/"
+      const emojiUrl = `${host}${emoji.image}`;
 
-    // Then do a Unicode emoji parse
-    if (options.replaceUnicode !== false) {
-      string = this._replace(string, UNICODE_REGEXP, UNICODE_EMOJI);
-    }
+      // Prioritise unicode representation over shortcodes
+      const emojiCanonicalRepresentation = emoji.unicode || `:${emoji.name}:`;
 
-    string = this._replace(string, COLON_REGEXP, UNICODE_EMOJI);
+      return `<img class="emoji" title="${emoji.name}" alt="${emojiCanonicalRepresentation}" src="${emojiUrl}" draggable="false" />`;
+    });
+
+    // Replace Unicode emoji shortcodes with real Unicode
+    string = this._replace(string, UNICODE_EMOJI, ({ unicode }) => {
+      return unicode;
+    });
 
     return string;
   }
 
-  _replace(string, regexp, catalogue) {
-    return string.replace(regexp, (match) => {
+  _replace(string, catalogue, renderer) {
+    return string.replace(COLON_REGEXP, (match) => {
       const emojiIndex = catalogue.index[match];
 
       if ((typeof emojiIndex) === 'number') {
-        return this._render(catalogue, catalogue.emoji[emojiIndex]);
+        return renderer(catalogue.emoji[emojiIndex], catalogue);
       } else {
         return match;
       }
     });
-  }
-
-  _render({ host }, emoji) {
-    // Emoji catalogue hosts have a normalized host that always end with a "/"
-    const emojiUrl = `${host}${emoji.image}`;
-
-    // Prioritise unicode representation over shortcodes
-    const emojiCanonicalRepresentation = emoji.unicode || `:${emoji.name}:`;
-
-    return `<img class="emoji" title="${emoji.name}" alt="${emojiCanonicalRepresentation}" src="${emojiUrl}" draggable="false" />`;
   }
 }
 
