@@ -145,7 +145,7 @@ class QuickStart extends React.PureComponent {
           }}
           elementProps={{
             'code': {
-              style: { fontFamily: 'Monaco, Consolas, monospace', fontSize: '.9em' }
+              style: { fontFamily: '"SFMono-Regular", Monaco, Menlo, Consolas, "Liberation Mono", Courier, monospace', fontSize: '.9em' }
             },
             'a': {
               className: 'blue hover-navy text-decoration-none hover-underline'

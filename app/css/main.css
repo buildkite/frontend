@@ -70,7 +70,7 @@
   --darken-4: rgba(0, 0, 0, .5);
 
   --font-family-system: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, sans-serif;
-  --font-family-mono: Monaco, Consolas, monospace;
+  --font-family-mono: "SFMono-Regular", Monaco, Menlo, Consolas, "Liberation Mono", Courier, monospace;
 
   --bold-font-weight: 600;
 
