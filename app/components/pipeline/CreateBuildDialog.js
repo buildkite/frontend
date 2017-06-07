@@ -163,6 +163,8 @@ class CreateBuildDialog extends React.PureComponent {
   }
 
   isValid() {
+    // Ideally these required fields should prevent themselves from being
+    // submitted… but somehow they don't?
     if (!this.buildMessageTextField.getValue()) {
       this.buildMessageTextField.focus();
       return false;
