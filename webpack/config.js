@@ -152,7 +152,7 @@ module.exports = {
 
   entry: {
     vendor: vendor_modules,
-    emojis: [path.join(__dirname, '../app/emojis/buildkite.js'), path.join(__dirname, '../app/emojis/apple.js')],
+    emojis: [path.join(__dirname, '../app/emoji/buildkite.js'), path.join(__dirname, '../app/emoji/apple.js')],
     app: path.join(__dirname, '../app/app.js'),
     public: path.join(__dirname, '../app/public.js')
   },
