@@ -91,7 +91,7 @@ class CreateBuildDialog extends React.PureComponent {
               placeholder="Description of this build"
               required={true}
               value={this.state.defaultValues.message}
-              ref={(buildMessageTextField) => this.buildMessageTextField = buildMessageTextField}
+              ref={(tf) => this.buildMessageTextField = tf}
             />
 
             <FormTextField
@@ -100,6 +100,7 @@ class CreateBuildDialog extends React.PureComponent {
               placeholder="HEAD"
               value={this.state.defaultValues.commit || 'HEAD'}
               required={true}
+              ref={(tf) => this.buildCommitTextField = tf}
             />
 
             <FormTextField
@@ -108,6 +109,7 @@ class CreateBuildDialog extends React.PureComponent {
               placeholder={this.props.pipeline.defaultBranch}
               value={this.state.defaultValues.branch || this.props.pipeline.defaultBranch}
               required={true}
+              ref={(tf) => this.buildBranchTextField = tf}
             />
 
             <CollapsableArea
@@ -154,8 +156,29 @@ class CreateBuildDialog extends React.PureComponent {
   handleCreateBuildButtonClick = (event) => {
     event.preventDefault();
 
-    this.setState({ creatingBuild: true });
-    this.form.submit();
+    if (this.isValid()) {
+      this.setState({ creatingBuild: true });
+      this.form.submit();
+    }
+  }
+
+  isValid() {
+    // Ideally these required fields should prevent themselves from being
+    // submitted… but somehow they don't?
+    if (!this.buildMessageTextField.getValue()) {
+      this.buildMessageTextField.focus();
+      return false;
+    }
+    if (!this.buildCommitTextField.getValue()) {
+      this.buildCommitTextField.focus();
+      return false;
+    }
+    if (!this.buildBranchTextField.getValue()) {
+      this.buildBranchTextField.focus();
+      return false;
+    }
+
+    return true;
   }
 
   handleOptionsToggle = () => {
