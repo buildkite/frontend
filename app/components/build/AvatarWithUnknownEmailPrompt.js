@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
+import Button from '../shared/Button';
 import Dropdown from '../shared/Dropdown';
 import Icon from '../shared/Icon';
 import Spinner from '../shared/Spinner';
@@ -11,6 +12,8 @@ import FlashesStore from '../../stores/FlashesStore';
 
 import EmailCreateMutation from '../../mutations/EmailCreate';
 import NoticeDismissMutation from '../../mutations/NoticeDismiss';
+
+const GITHUB_NOREPLY_DOMAIN = '@users.noreply.github.com';
 
 class AvatarWithUnknownEmailPrompt extends React.PureComponent {
   static propTypes = {
@@ -114,49 +117,90 @@ class AvatarWithUnknownEmailPrompt extends React.PureComponent {
       return {};
     }
 
+    const { email: authorEmail } = this.props.build.createdBy;
+
     let message;
     let buttons;
 
-    const userEmail = this.findUserEmailNode(this.props.build.createdBy.email);
+    const matchingUserEmail = this.findUserEmailNode(authorEmail);
 
-    if (!this.state.isAddingEmail && userEmail) {
-      if (userEmail.verified) {
+    const isPrivateGitHubAddress = authorEmail.endsWith(GITHUB_NOREPLY_DOMAIN);
+
+    if (!this.state.isAddingEmail && matchingUserEmail) {
+      if (matchingUserEmail.verified) {
         return {};
       }
 
       message = (
         <div>
           <h1 className="h4 m0 mb1 bold">Email verification needed</h1>
-          <p>We’ve sent a verification email to <strong className="semi-bold">{this.props.build.createdBy.email}</strong>. Click the link in that email to finish adding it to your account.</p>
+          <p>We’ve sent a verification email to <strong className="semi-bold">{authorEmail}</strong>. Click the link in that email to finish adding it to your account.</p>
           <p className="dark-gray mt0 dark-gray m0 h7">You can resend the verification email or remove this email address in your <a className="semi-bold lime hover-lime hover-underline" href="/user/emails">Personal Email Settings</a></p>
         </div>
       );
     } else {
       // Otherwise, we've got an unknown (to Buildkite) email address on our hands!
-      message = (
-        <div>
-          <h1 className="h4 m0 mb1 bold">Unknown build commit email</h1>
-          <p className="m0">The email <strong className="semi-bold">{this.props.build.createdBy.email}</strong> could not be matched to any users in your organization. If this email address belongs to you, add it to your personal list of email addresses.</p>
-        </div>
-      );
-      buttons = [
-        <button
-          key="add-email"
-          className="btn btn-primary flex-auto m1"
-          onClick={this.handleAddEmailClick}
-          disabled={loading}
-        >
-          Add Email Address
-        </button>,
-        <button
-          key="dismiss-email"
-          className="btn btn-outline border-gray flex-auto m1"
-          onClick={this.handleDismissClick}
-          disabled={loading}
-        >
-          Not My Email Address
-        </button>
-      ];
+      if (isPrivateGitHubAddress) {
+        // If this is a GitHub-generated private email address (https://git.io/jinr),
+        // let's prompt the user to connect their account!
+        //
+        // NOTE: `handleDismissClick` works the same for GitHub or non-GitHub emails!
+        message = (
+          <div>
+            <h1 className="h4 m0 mb1 bold">Unknown GitHub account</h1>
+            <p className="m0">
+              The GitHub account <strong className="semi-bold">@{authorEmail.split('@').shift()}</strong> could not be matched to any users in your organization. If this GitHub account belongs to you, connect it to your Buildkite account.
+            </p>
+          </div>
+        );
+        buttons = [
+          <Button
+            key="manage-apps"
+            theme="primary"
+            className="center flex-auto m1"
+            href="/user/connected-apps"
+            loading={loading && "Manage Connected Apps"}
+          >
+            Manage Connected Apps
+          </Button>,
+          <button
+            key="dismiss-github"
+            className="btn btn-outline border-gray flex-auto m1"
+            onClick={this.handleDismissClick}
+            disabled={loading}
+          >
+            Not My Account
+          </button>
+        ];
+      } else {
+        // Otherwise, this is just an email address, let's prompt them to add it!
+        message = (
+          <div>
+            <h1 className="h4 m0 mb1 bold">Unknown build commit email</h1>
+            <p className="m0">
+              The email <strong className="semi-bold">{authorEmail}</strong> could not be matched to any users in your organization. If this email address belongs to you, add it to your personal list of email addresses.
+            </p>
+          </div>
+        );
+        buttons = [
+          <button
+            key="add-email"
+            className="btn btn-primary flex-auto m1"
+            onClick={this.handleAddEmailClick}
+            disabled={loading}
+          >
+            Add Email Address
+          </button>,
+          <button
+            key="dismiss-email"
+            className="btn btn-outline border-gray flex-auto m1"
+            onClick={this.handleDismissClick}
+            disabled={loading}
+          >
+            Not My Email Address
+          </button>
+        ];
+      }
     }
 
     return { message, buttons, loading };
