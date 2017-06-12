@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.body.classList[isTiny ? 'add' : 'remove']('tiny-kitemoji');
 
   // Store the scale so we don't have to churn the DOM next time!
-  UserSessionStore.set('emoji-scale', JSON.stringify({ua, x: scale}));
+  UserSessionStore.set('emoji-scale', JSON.stringify({ ua, x: scale })); // eslint-disable-line id-length
 });
 
 // Only do the react-router gear on pages we've designated
