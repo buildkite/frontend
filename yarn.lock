@@ -4847,6 +4847,10 @@ mockdate@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-2.0.1.tgz#51bc309e2c4396600d56b6c23a6a0f4182943a36"
 
+"mojibaka@https://github.com/ticky/mojibaka.git#6a876575fe5bea78abb9ea32a84254a5f642dd1b":
+  version "0.0.1"
+  resolved "https://github.com/ticky/mojibaka.git#6a876575fe5bea78abb9ea32a84254a5f642dd1b"
+
 moment@^2.15.0:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"

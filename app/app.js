@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay/classic';
+import detectEmojiScale from 'mojibaka/src/detect/scale';
 
 import Routes from './routes';
 
@@ -124,6 +125,13 @@ if (window._pusher) {
     PusherStore.listen(channel);
   }
 }
+
+// Detect and adjust for emoji scaling
+document.addEventListener('DOMContentLoaded', () => {
+  if (detectEmojiScale() < 1.2) {
+    document.body.classList.add('tiny-kitemoji');
+  }
+});
 
 // Only do the react-router gear on pages we've designated
 window["initializeReactRouter"] = () => {
