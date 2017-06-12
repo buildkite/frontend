@@ -63,6 +63,7 @@
   "dependencies": {
     "autosize": "^3.0.17",
     "basscss": "^8.0.2",
+    "buffer-crc32": "^0.2.13",
     "bugsnag-js": "^3.0.4",
     "classnames": "^2.2.5",
     "codemirror": "^5.25.0",
