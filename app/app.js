@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Relay from 'react-relay/classic';
 import UserSessionStore from './stores/UserSessionStore';
 import crc32 from 'buffer-crc32';
-import detectEmojiScale from 'mojibaka/src/detect/scale';
+import detectEmojiScale from 'mojibaka/detect/scale';
 
 import Routes from './routes';
 
