@@ -8,7 +8,7 @@ import { getColourForConnectionState, getLabelForConnectionState } from './share
 
 import BuildStates from '../../constants/BuildStates';
 
-class AgentStateIcon extends React.Component {
+class AgentStateIcon extends React.PureComponent {
   static propTypes = {
     agent: PropTypes.shape({
       connectionState: PropTypes.string.isRequired,
