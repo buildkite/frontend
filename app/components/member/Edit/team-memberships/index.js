@@ -34,6 +34,10 @@ class TeamMemberships extends React.PureComponent {
     relay: PropTypes.object.isRequired
   };
 
+  state = {
+    loading: false
+  };
+
   render() {
     return (
       <div className="mb4">
