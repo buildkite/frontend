@@ -17,6 +17,7 @@ class Chooser extends React.Component {
   static propTypes = {
     pipeline: PropTypes.shape({
       id: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
       organization: PropTypes.shape({
         teams: PropTypes.shape({
           edges: PropTypes.array.isRequired
@@ -38,7 +39,8 @@ class Chooser extends React.Component {
 
   componentDidMount() {
     this.props.relay.setVariables({
-      isMounted: true
+      isMounted: true,
+      pipelineSelector: `!${this.props.pipeline.slug}`
     });
   }
 
@@ -76,13 +78,9 @@ class Chooser extends React.Component {
       return [];
     }
 
-    // Filter team edges by permission to add them,
-    // and not yet being added to this pipeline
-    const relevantTeamEdges = organizationTeams.edges.filter(({ node: team }) => (
-      team.permissions.teamPipelineCreate.allowed &&
-      !pipelineTeams.edges.some(({ node: pipelineTeam }) => (
-        pipelineTeam.team.id === team.id
-      ))
+    // Filter team edges by permission to add them
+    const relevantTeamEdges = organizationTeams.edges.filter(({ node }) => (
+      node.permissions.teamPipelineCreate.allowed
     ));
 
     // Either render the suggestions, or show a "not found" error
@@ -145,7 +143,8 @@ class Chooser extends React.Component {
 export default Relay.createContainer(Chooser, {
   initialVariables: {
     isMounted: false,
-    teamAddSearch: ''
+    teamAddSearch: '',
+    pipelineSelector: null
   },
 
   fragments: {
@@ -153,8 +152,9 @@ export default Relay.createContainer(Chooser, {
       fragment on Pipeline {
         ${TeamPipelineCreateMutation.getFragment('pipeline')}
         id
+        slug
         organization {
-          teams(search: $teamAddSearch, first: 10, order: RELEVANCE) @include (if: $isMounted) {
+          teams(search: $teamAddSearch, first: 10, order: RELEVANCE, pipeline: $pipelineSelector) @include (if: $isMounted) {
             edges {
               node {
                 id
