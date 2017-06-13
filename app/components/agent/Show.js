@@ -4,7 +4,7 @@ import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
-import StateIcon from './state-icon';
+import AgentStateIcon from './state-icon';
 import Button from '../shared/Button';
 import FlashesStore from '../../stores/FlashesStore';
 import FriendlyTime from '../shared/FriendlyTime';
@@ -87,7 +87,7 @@ class AgentShow extends React.Component {
 
     extras.push(this.renderExtraItem('State', (
       <span>
-        <StateIcon agent={agent} className="pr2" />
+        <AgentStateIcon agent={agent} className="pr2" />
         {getLabelForConnectionState(agent.connectionState)}
       </span>
     )));
@@ -120,8 +120,14 @@ class AgentShow extends React.Component {
       extras.push(this.renderExtraItem('Priority', agent.priority));
     }
 
-    if (agent.job) {
-      extras.push(this.renderExtraItem('Running', <JobLink job={agent.job} />));
+    if (agent.isRunningJob) {
+      extras.push(this.renderExtraItem(
+        'Running',
+        // if we have access to the job, show a link
+        agent.job
+          ? <JobLink job={agent.job} />
+          : 'A job owned by another team'
+      ));
     }
 
     if (agent.connectedAt) {
@@ -295,6 +301,7 @@ export default Relay.createContainer(AgentShow, {
   fragments: {
     agent: () => Relay.QL`
       fragment on Agent {
+        ${AgentStateIcon.getFragment('agent')}
         ${AgentStopMutation.getFragment('agent')}
         id
         name
@@ -311,6 +318,7 @@ export default Relay.createContainer(AgentShow, {
         job {
           ${JobLink.getFragment('job')}
         }
+        isRunningJob
         lostAt
         metaData
         operatingSystem {

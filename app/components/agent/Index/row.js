@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 
-import StateIcon from '../state-icon';
+import AgentStateIcon from '../state-icon';
 import Panel from '../../shared/Panel';
 import JobLink from '../../shared/JobLink';
 
@@ -11,7 +11,6 @@ class AgentRow extends React.PureComponent {
   static propTypes = {
     agent: PropTypes.shape({
       id: PropTypes.string.isRequired,
-      connectionState: PropTypes.string.isRequired,
       hostname: PropTypes.string.isRequired,
       job: PropTypes.shape({
         state: PropTypes.string
@@ -29,7 +28,11 @@ class AgentRow extends React.PureComponent {
   renderJob() {
     const { agent } = this.props;
 
-    if (agent.job) {
+    if (agent.isRunningJob) {
+      const job = agent.job
+        ? <JobLink job={agent.job} />
+        : 'a job owned by another team';
+
       return (
         <small
           className="block mt1 pt1 border border-gray"
@@ -39,7 +42,7 @@ class AgentRow extends React.PureComponent {
             borderBottom: 'none'
           }}
         >
-          Running <JobLink job={agent.job} />
+          Running {job}
         </small>
       );
     }
@@ -56,7 +59,7 @@ class AgentRow extends React.PureComponent {
     return (
       <Panel.Row>
         <div className="flex">
-          <StateIcon agent={agent} className="pr3 pt1" />
+          <AgentStateIcon agent={agent} className="pr3 pt1" />
           <div className="flex flex-auto flex-column">
             <div className="flex flex-auto">
               <div className="flex-auto">
@@ -87,14 +90,15 @@ export default Relay.createContainer(AgentRow, {
   fragments: {
     agent: () => Relay.QL`
       fragment on Agent {
+        ${AgentStateIcon.getFragment('agent')}
         id
-        connectionState
         hostname
         metaData
         name
         organization {
           slug
         }
+        isRunningJob
         job {
           ...on JobTypeCommand {
             state
