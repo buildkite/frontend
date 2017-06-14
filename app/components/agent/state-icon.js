@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay/classic';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -7,38 +8,57 @@ import { getColourForConnectionState, getLabelForConnectionState } from './share
 
 import BuildStates from '../../constants/BuildStates';
 
-export default function StateIcon(props) {
-  const title = getLabelForConnectionState(props.agent.connectionState);
-  const color = getColourForConnectionState(props.agent.connectionState, 'bg-');
-  let icon;
+class AgentStateIcon extends React.PureComponent {
+  static propTypes = {
+    agent: PropTypes.shape({
+      connectionState: PropTypes.string.isRequired,
+      isRunningJob: PropTypes.bool.isRequired
+    }),
+    className: PropTypes.string
+  };
 
-  // If we've got a job, we'll steal the "running" icon from the build state
-  // to show that the agent is doing something.
-  if (props.agent.job) {
-    icon = (
-      <BuildState.XSmall state={BuildStates.RUNNING} style={{ display: 'inline-block' }} />
-    );
-  } else {
-    icon = (
-      <div
-        className={classNames('inline-block circle', color)}
-        style={{ width: 13, height: 13 }}
-        title={getLabelForConnectionState(props.agent.connectionState)}
-      />
+  render() {
+    const { agent, className } = this.props;
+
+    const title = getLabelForConnectionState(agent.connectionState);
+    const color = getColourForConnectionState(agent.connectionState, 'bg-');
+
+    let icon;
+
+    // If the agent is running a job, we'll steal the "running" icon
+    // from the build state to show that the agent is doing something.
+    if (agent.isRunningJob) {
+      icon = (
+        <BuildState.XSmall
+          state={BuildStates.RUNNING}
+          style={{ display: 'inline-block' }}
+        />
+      );
+    } else {
+      icon = (
+        <div
+          className={classNames('inline-block circle', color)}
+          style={{ width: 13, height: 13 }}
+          title={getLabelForConnectionState(agent.connectionState)}
+        />
+      );
+    }
+
+    return (
+      <div title={title} className={classNames("inline align-middle", className)}>
+        {icon}
+      </div>
     );
   }
-
-  return (
-    <div title={title} className={classNames("inline align-middle", props.className)}>
-      {icon}
-    </div>
-  );
 }
 
-StateIcon.propTypes = {
-  className: PropTypes.string,
-  agent: PropTypes.shape({
-    connectionState: PropTypes.string.isRequired,
-    job: PropTypes.object
-  })
-};
+export default Relay.createContainer(AgentStateIcon, {
+  fragments: {
+    agent: () => Relay.QL`
+      fragment on Agent {
+        connectionState
+        isRunningJob
+      }
+    `
+  }
+});
