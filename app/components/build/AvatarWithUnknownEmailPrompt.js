@@ -13,8 +13,6 @@ import FlashesStore from '../../stores/FlashesStore';
 import EmailCreateMutation from '../../mutations/EmailCreate';
 import NoticeDismissMutation from '../../mutations/NoticeDismiss';
 
-const GITHUB_NOREPLY_DOMAIN = '@users.noreply.github.com';
-
 class AvatarWithUnknownEmailPrompt extends React.PureComponent {
   static propTypes = {
     build: PropTypes.shape({
@@ -34,6 +32,9 @@ class AvatarWithUnknownEmailPrompt extends React.PureComponent {
             })
           })
         )
+      }).isRequired,
+      githubAuthorizations: PropTypes.shape({
+        count: PropTypes.number.isRequired
       }).isRequired,
       notice: PropTypes.shape({
         dismissedAt: PropTypes.string
@@ -73,24 +74,42 @@ class AvatarWithUnknownEmailPrompt extends React.PureComponent {
     return userEmail && userEmail.verified;
   }
 
+  // Given an email address, returns whether it
+  // is a private GitHub address
+  isPrivateGitHubAddress(email) {
+    return email.endsWith('@users.noreply.github.com');
+  }
+
   // Determines if this paticular build should prompt the current user to add
   // it's associated email to their user account
-  isUnregisteredWithEmail(createdBy) {
+  isUnregisteredCreatorWithEmail(createdBy) {
     return (createdBy && createdBy.email && createdBy.__typename === "UnregisteredUser");
   }
 
   componentDidMount() {
     const createdBy = this.props.build.createdBy;
 
-    // Before showing the prompt, we should first check to see if we even
-    // should. The first check `isUnregisteredWithEmail` makes sure that the
-    // associated user on this build is not a Buildkite user and has an email
-    // we can link to.
+    // Before showing the prompt, we first check to see if we even should.
     //
-    // The second check makes sure that the user hasn't already added and
-    // verified the email, but is waiting for Buildkite's backend to link the
-    // user to the build.
-    if (this.isUnregisteredWithEmail(createdBy) && !this.isCurrentUsersValidatedEmail(createdBy.email)) {
+    // Make sure that the associated user on this build is not a Buildkite user
+    // and has an email we can link to.
+    if (this.isUnregisteredCreatorWithEmail(createdBy)) {
+      // Make sure that if this is a private  GitHub email address, we don't
+      // prompt the user about it unless they have no GitHub account authorized
+      if (this.isPrivateGitHubAddress(createdBy.email)) {
+        if (this.props.viewer.githubAuthorizations.count) {
+          return;
+        }
+      }
+
+      // Ensure that the user hasn't already added and verified the email, but
+      // is waiting for Buildkite's backend to link the user to the build.
+      if (this.isCurrentUsersValidatedEmail(createdBy.email)) {
+        return;
+      }
+
+      // Otherwise, query the backend to see if this user has already dismissed
+      // notices about this build's associated email address
       this.props.relay.setVariables(
         {
           isTryingToPrompt: true,
@@ -124,8 +143,6 @@ class AvatarWithUnknownEmailPrompt extends React.PureComponent {
 
     const matchingUserEmail = this.findUserEmailNode(authorEmail);
 
-    const isPrivateGitHubAddress = authorEmail.endsWith(GITHUB_NOREPLY_DOMAIN);
-
     if (!this.state.isAddingEmail && matchingUserEmail) {
       if (matchingUserEmail.verified) {
         return {};
@@ -140,7 +157,7 @@ class AvatarWithUnknownEmailPrompt extends React.PureComponent {
       );
     } else {
       // Otherwise, we've got an unknown (to Buildkite) email address on our hands!
-      if (isPrivateGitHubAddress) {
+      if (this.isPrivateGitHubAddress(authorEmail)) {
         // If this is a GitHub-generated private email address (https://git.io/jinr),
         // let's prompt the user to connect their account!
         //
@@ -339,6 +356,9 @@ export default Relay.createContainer(AvatarWithUnknownEmailPrompt, {
               verified
             }
           }
+        }
+        githubAuthorizations: authorizations(provider: GITHUB) {
+          count
         }
         notice(namespace: EMAIL_SUGGESTION, scope: $emailForPrompt) @include(if: $isTryingToPrompt) {
           ${NoticeDismissMutation.getFragment('notice')}
