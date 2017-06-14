@@ -149,7 +149,7 @@ class AvatarWithUnknownEmailPrompt extends React.PureComponent {
           <div>
             <h1 className="h4 m0 mb1 bold">Unknown GitHub account</h1>
             <p className="m0">
-              The GitHub account <strong className="semi-bold">@{authorEmail.split('@').shift()}</strong> could not be matched to any users in your organization. If this GitHub account belongs to you, connect it to your Buildkite account.
+              The GitHub account <strong className="semi-bold">{authorEmail.split('@').shift()}</strong> could not be matched to any users in your organization. If this GitHub account belongs to you, connect it to your Buildkite account.
             </p>
           </div>
         );
