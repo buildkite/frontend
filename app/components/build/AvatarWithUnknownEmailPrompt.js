@@ -159,9 +159,9 @@ class AvatarWithUnknownEmailPrompt extends React.PureComponent {
             theme="primary"
             className="center flex-auto m1"
             href="/user/connected-apps"
-            loading={loading && "Manage Connected Apps"}
+            loading={loading && "Connect GitHub Account"}
           >
-            Manage Connected Apps
+            Connect GitHub Account
           </Button>,
           <button
             key="dismiss-github"
