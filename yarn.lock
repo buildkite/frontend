@@ -4847,9 +4847,9 @@ mockdate@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-2.0.1.tgz#51bc309e2c4396600d56b6c23a6a0f4182943a36"
 
-mojibaka@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/mojibaka/-/mojibaka-1.0.0.tgz#2dbf3bf4bcc14b6779071cc6c96d51bed458df58"
+mojibaka@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/mojibaka/-/mojibaka-1.0.2.tgz#4005571f68467ddad708c00f5b666c6df040217e"
 
 moment@^2.15.0:
   version "2.18.1"

@@ -13,7 +13,7 @@ class EmojiStyleManager {
     const lastScale = localStorage.getItem(LOCALSTORAGE_KEY);
     if (lastScale) {
       const parsedScale = JSON.parse(lastScale);
-      if (parsedScale.userAgentHash === this.userAgentHash) {
+      if (parsedScale && parsedScale.userAgentHash === this.userAgentHash) {
         // Nice! Let's take it, and not churn the DOM!
         this.scale = parsedScale.scale;
       }
@@ -45,7 +45,7 @@ class EmojiStyleManager {
     const isTiny = this.scale < 1.2;
 
     // Set the body className as necessary!
-    document.body.classList[isTiny ? 'add' : 'remove'](SMALL_EMOJI_CLASSNAME);
+    document.documentElement.classList[isTiny ? 'add' : 'remove'](SMALL_EMOJI_CLASSNAME);
   }
 }
 

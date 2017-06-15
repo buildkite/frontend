@@ -1,9 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay/classic';
-import EmojiStyleManager from './lib/EmojiStyleManager';
 
 import Routes from './routes';
+
+import EmojiStyleManager from './lib/EmojiStyleManager';
+
+// Detect and adjust for custom emoji scaling
+EmojiStyleManager.apply();
 
 require("./css/main.css");
 
@@ -125,11 +129,6 @@ if (window._pusher) {
     PusherStore.listen(channel);
   }
 }
-
-// Detect and adjust for custom emoji scaling once the page is ready
-document.addEventListener('DOMContentLoaded', () => {
-  EmojiStyleManager.apply();
-});
 
 // Only do the react-router gear on pages we've designated
 window["initializeReactRouter"] = () => {
