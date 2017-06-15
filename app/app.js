@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay/classic';
-import UserSessionStore from './stores/UserSessionStore';
-import crc32 from 'buffer-crc32';
-import detectEmojiScale from 'mojibaka/detect/scale';
+import EmojiStyleManager from './lib/EmojiStyleManager';
 
 import Routes from './routes';
 
@@ -130,35 +128,7 @@ if (window._pusher) {
 
 // Detect and adjust for custom emoji scaling once the page is ready
 document.addEventListener('DOMContentLoaded', () => {
-  let scale;
-
-  // Hash the user agent so it's a smaller string to be passing 'round
-  const ua = crc32.unsigned(navigator.userAgent).toString(16);
-
-  // Let's see if we have a stored scale which matches this user agent!
-  const lastScale = UserSessionStore.get('emoji-scale');
-  if (lastScale) {
-    const parsedScale = JSON.parse(lastScale);
-    if (parsedScale.ua === ua) {
-      // Nice! Let's take it, and not churn the DOM!
-      scale = parsedScale.x;
-    }
-  }
-
-  if (!scale) {
-    // We didn't have a valid, saved scale. Let's see what it should be!
-    scale = detectEmojiScale();
-  }
-
-  // If the scale is > 1.2, we consider it "normal", as most
-  // browsers fall between 1.3 and 1.4 times
-  const isTiny = scale < 1.2;
-
-  // Set the body className as necessary!
-  document.body.classList[isTiny ? 'add' : 'remove']('tiny-kitemoji');
-
-  // Store the scale so we don't have to churn the DOM next time!
-  UserSessionStore.set('emoji-scale', JSON.stringify({ ua, x: scale })); // eslint-disable-line id-length
+  EmojiStyleManager.apply();
 });
 
 // Only do the react-router gear on pages we've designated
