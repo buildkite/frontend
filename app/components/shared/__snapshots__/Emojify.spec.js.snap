@@ -15,11 +15,11 @@ exports[`Emojify renders \`text\` with emoji as expected 1`] = `
   className="test-class-name"
   dangerouslySetInnerHTML={
     Object {
-      "__html": "This text has sparklesemojibuildkite, and should be reflected in the title attribute. The text content should contain different text, as processed by lib/Emoji!",
+      "__html": "This text has sparklesemojibuildkite, and should be reflected in the title attribute. The text content should contain different text, as processed by lib/parseEmoji!",
     }
   }
   style={undefined}
-  title="This text has :sparkles:emoji:buildkite:, and should be reflected in the title attribute. The text content should contain different text, as processed by lib/Emoji!"
+  title="This text has :sparkles:emoji:buildkite:, and should be reflected in the title attribute. The text content should contain different text, as processed by lib/parseEmoji!"
 />
 `;
 
@@ -28,6 +28,6 @@ exports[`Emojify renders plain \`text\` as expected 1`] = `
   className="test-class-name"
   style={undefined}
 >
-  This text should be reflected in the title attribute and text content, as well as in the call to lib/Emoji!
+  This text should be reflected in the title attribute and text content, as well as in the call to lib/parseEmoji!
 </span>
 `;

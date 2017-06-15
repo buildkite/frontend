@@ -5,12 +5,12 @@ import ReactTestRenderer from 'react-test-renderer';
 describe('Emojify', () => {
   const mockParse = jest.fn((text) => text.replace(/:/g, ''));
 
-  jest.mock('../../lib/Emoji', () => ({ parse: mockParse }));
+  jest.mock('../../lib/parseEmoji', () => mockParse);
 
   const { default: Emojify } = require('./Emojify');
 
   it('renders `text` with emoji as expected', () => {
-    const FIXTURE_TEXT = "This text has :sparkles:emoji:buildkite:, and should be reflected in the title attribute. The text content should contain different text, as processed by lib/Emoji!";
+    const FIXTURE_TEXT = "This text has :sparkles:emoji:buildkite:, and should be reflected in the title attribute. The text content should contain different text, as processed by lib/parseEmoji!";
 
     const component = ReactTestRenderer.create(
       <Emojify
@@ -26,7 +26,7 @@ describe('Emojify', () => {
   });
 
   it('renders plain `text` as expected', () => {
-    const FIXTURE_TEXT = "This text should be reflected in the title attribute and text content, as well as in the call to lib/Emoji!";
+    const FIXTURE_TEXT = "This text should be reflected in the title attribute and text content, as well as in the call to lib/parseEmoji!";
 
     const component = ReactTestRenderer.create(
       <Emojify

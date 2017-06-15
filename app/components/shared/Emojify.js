@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Emoji from '../../lib/Emoji';
+import parseEmoji from '../../lib/parseEmoji';
 
 export default class Emojify extends React.PureComponent {
   static propTypes = {
@@ -13,7 +13,7 @@ export default class Emojify extends React.PureComponent {
 
   render() {
     const spanProps = {};
-    const html = Emoji.parse(this.props.text);
+    const html = parseEmoji(this.props.text);
 
     if (html !== this.props.text) {
       spanProps.dangerouslySetInnerHTML = { __html: html };
