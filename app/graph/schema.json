@@ -987,6 +987,506 @@
         },
         {
           "kind": "OBJECT",
+          "name": "AuthorizationBitbucket",
+          "description": "A Bitbucket account authorized with a Buildkite account",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Authorization",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "ID",
+          "description": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "Authorization",
+          "description": null,
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationBitbucket",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationGitHub",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationGitHubEnterprise",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationGoogle",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationLIFX",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationSAML",
+              "ofType": null
+            }
+          ]
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "Node",
+          "description": "An object with an ID.",
+          "fields": [
+            {
+              "name": "id",
+              "description": "ID of the object.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "APIAccessToken",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "APIAccessTokenCode",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "APIApplication",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Agent",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AgentToken",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Annotation",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Artifact",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationBitbucket",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationGitHub",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationGitHubEnterprise",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationGoogle",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationLIFX",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationSAML",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Build",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Changelog",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Comment",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Email",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeBlock",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeCommand",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeTrigger",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeWait",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Organization",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationInvitation",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationMember",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Pipeline",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "PipelineMetric",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "PipelineSchedule",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Team",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamMember",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamPipeline",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Viewer",
+              "ofType": null
+            }
+          ]
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AuthorizationGitHub",
+          "description": "A GitHub account authorized with a Buildkite account",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Authorization",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AuthorizationGitHubEnterprise",
+          "description": "A GitHub Enterprise account authorized with a Buildkite account",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Authorization",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AuthorizationGoogle",
+          "description": "A Google account authorized with a Buildkite account",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Authorization",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AuthorizationLIFX",
+          "description": "A LIFX account authorized with a Buildkite account",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Authorization",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AuthorizationSAML",
+          "description": "A SAML account authorized with a Buildkite account",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Authorization",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "Query",
           "description": "The query root for this schema",
           "fields": [
@@ -1449,17 +1949,27 @@
               "args": [
                 {
                   "name": "first",
-                  "description": null,
+                  "description": "Returns the first _n_ elements from the list.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
                   "name": "last",
-                  "description": null,
+                  "description": "Returns the last _n_ elements from the list.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -1468,7 +1978,17 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "provider",
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "type",
                   "description": null,
                   "type": {
                     "kind": "LIST",
@@ -1478,7 +1998,7 @@
                       "name": null,
                       "ofType": {
                         "kind": "ENUM",
-                        "name": "AuthorizationProvider",
+                        "name": "AuthorizationType",
                         "ofType": null
                       }
                     }
@@ -1877,16 +2397,6 @@
           "possibleTypes": null
         },
         {
-          "kind": "SCALAR",
-          "name": "ID",
-          "description": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
           "kind": "OBJECT",
           "name": "User",
           "description": "A user",
@@ -2165,8 +2675,81 @@
           ],
           "inputFields": null,
           "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "PageInfo",
+          "description": "Metadata about a connection",
+          "fields": [
+            {
+              "name": "hasNextPage",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "hasPreviousPage",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
 
           ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "Boolean",
+          "description": "Represents `true` or `false` values.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "Int",
+          "description": "Represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -2819,16 +3402,6 @@
               "deprecationReason": null
             }
           ],
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
-          "name": "Int",
-          "description": "Represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
           "possibleTypes": null
         },
         {
@@ -3730,7 +4303,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -4401,16 +4978,6 @@
         },
         {
           "kind": "SCALAR",
-          "name": "Boolean",
-          "description": "Represents `true` or `false` values.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
           "name": "DateTime",
           "description": "An ISO-8601 encoded UTC date string",
           "fields": null,
@@ -4477,7 +5044,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -5626,171 +6197,6 @@
           "possibleTypes": null
         },
         {
-          "kind": "INTERFACE",
-          "name": "Node",
-          "description": "An object with an ID.",
-          "fields": [
-            {
-              "name": "id",
-              "description": "ID of the object.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "APIAccessToken",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "APIAccessTokenCode",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "APIApplication",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Agent",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AgentToken",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Annotation",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Artifact",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Authorization",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Build",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Changelog",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Comment",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Email",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "JobTypeBlock",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "JobTypeCommand",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "JobTypeTrigger",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "JobTypeWait",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Organization",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "OrganizationInvitation",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "OrganizationMember",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Pipeline",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "PipelineMetric",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "PipelineSchedule",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Team",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "TeamMember",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "TeamPipeline",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "User",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Viewer",
-              "ofType": null
-            }
-          ]
-        },
-        {
           "kind": "OBJECT",
           "name": "ArtifactConnection",
           "description": null,
@@ -5848,7 +6254,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -6056,12 +6466,12 @@
           "possibleTypes": null
         },
         {
-          "kind": "OBJECT",
-          "name": "PageInfo",
-          "description": "Metadata about a connection",
+          "kind": "INTERFACE",
+          "name": "Connection",
+          "description": null,
           "fields": [
             {
-              "name": "hasNextPage",
+              "name": "count",
               "description": null,
               "args": [
 
@@ -6071,7 +6481,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Boolean",
+                  "name": "Int",
                   "ofType": null
                 }
               },
@@ -6079,30 +6489,135 @@
               "deprecationReason": null
             },
             {
-              "name": "hasPreviousPage",
+              "name": "pageInfo",
               "description": null,
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "PageInfo",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": null,
           "enumValues": null,
-          "possibleTypes": null
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "APIAccessTokenConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AgentConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AgentTokenConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AnnotationConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "ArtifactConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "BuildConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "BuildMetaDataConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "ChangelogConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "CommentConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "EmailConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationInvitationConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationInvitationTeamAssignmentConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationMemberConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationMemberPipelineConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "PipelineConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "PipelineMetricConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "PipelineScheduleConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamMemberConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamPipelineConnection",
+              "ofType": null
+            }
+          ]
         },
         {
           "kind": "OBJECT",
@@ -6522,7 +7037,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -7260,7 +7779,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -7693,7 +8216,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -7882,7 +8409,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -8457,7 +8988,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -8594,7 +9129,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -8912,7 +9451,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -9069,7 +9612,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -9477,7 +10024,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -9686,7 +10237,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -10103,7 +10658,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -10540,7 +11099,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -10751,7 +11314,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -11076,7 +11643,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -11233,7 +11804,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -11448,7 +12023,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -11591,7 +12170,7 @@
 
               ],
               "type": {
-                "kind": "OBJECT",
+                "kind": "INTERFACE",
                 "name": "Authorization",
                 "ofType": null
               },
@@ -11607,62 +12186,9 @@
           "possibleTypes": null
         },
         {
-          "kind": "OBJECT",
-          "name": "Authorization",
-          "description": "An application authorized with a Buildkite account",
-          "fields": [
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "provider",
-              "description": "The provider of the authorization",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "AuthorizationProvider",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
           "kind": "ENUM",
-          "name": "AuthorizationProvider",
-          "description": "The provider of the authorization",
+          "name": "AuthorizationType",
+          "description": "The type of the authorization",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
@@ -11874,7 +12400,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
@@ -12158,7 +12688,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null

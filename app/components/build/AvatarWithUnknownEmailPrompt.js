@@ -357,7 +357,7 @@ export default Relay.createContainer(AvatarWithUnknownEmailPrompt, {
             }
           }
         }
-        githubAuthorizations: authorizations(provider: GITHUB) {
+        githubAuthorizations: authorizations(type: GITHUB) {
           count
         }
         notice(namespace: EMAIL_SUGGESTION, scope: $emailForPrompt) @include(if: $isTryingToPrompt) {
