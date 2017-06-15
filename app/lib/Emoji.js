@@ -40,9 +40,9 @@ class Emoji {
 
       if ((typeof emojiIndex) === 'number') {
         return renderer(catalogue.emoji[emojiIndex], catalogue);
-      } else {
-        return match;
       }
+      return match;
+
     });
   }
 }

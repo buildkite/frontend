@@ -24,7 +24,7 @@ class EmojiStyleManager {
     return JSON.stringify({
       userAgentHash: this.userAgentHash,
       scale: this.scale
-    })
+    });
   }
 
   calculate() {
