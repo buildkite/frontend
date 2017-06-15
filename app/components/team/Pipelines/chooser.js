@@ -118,10 +118,6 @@ class Chooser extends React.Component {
     const query = Relay.QL`mutation TeamPipelineCreateMutation {
       teamPipelineCreate(input: $input) {
         clientMutationId
-        pipeline {
-          id
-          name
-        }
       }
     }`;
 
@@ -140,8 +136,8 @@ class Chooser extends React.Component {
     mutation.commit();
   };
 
-  handleMutationSuccess = (response) => {
-    this.props.onChoose(response.teamPipelineCreate.pipeline);
+  handleMutationSuccess = () => {
+    this.props.onChoose();
   };
 
   handleMutationFailure = (transaction) => {

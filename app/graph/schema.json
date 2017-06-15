@@ -3535,6 +3535,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "pipeline",
+                  "description": "Filter teams by pipeline",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "PipelineSelector",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "user",
                   "description": "Filter teams by user membership",
                   "type": {
@@ -8893,6 +8903,16 @@
           "interfaces": [
 
           ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "PipelineSelector",
+          "description": "A Pipeline identifier using a slug, and optionally negated with a leading `!`",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },

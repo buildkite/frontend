@@ -5,7 +5,10 @@ import classNames from 'classnames';
 
 export default class Spinner extends React.PureComponent {
   static propTypes = {
-    size: PropTypes.number,
+    size: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ]),
     className: PropTypes.string,
     style: PropTypes.object,
     color: PropTypes.bool,

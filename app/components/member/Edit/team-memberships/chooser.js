@@ -10,8 +10,6 @@ import FlashesStore from '../../../../stores/FlashesStore';
 
 import Team from './team';
 
-const PAGE_SIZE = 10;
-
 class Chooser extends React.Component {
   static displayName = "Member.Edit.TeamMemberships.Chooser";
 
@@ -174,8 +172,7 @@ export default Relay.createContainer(Chooser, {
   initialVariables: {
     showingDialog: false,
     teamAddSearch: '',
-    userSelector: null,
-    pageSize: PAGE_SIZE
+    userSelector: null
   },
 
   fragments: {
