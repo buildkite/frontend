@@ -149,7 +149,7 @@ class MemberIndex extends React.PureComponent {
       return (
         <div className="bg-silver semi-bold py2 px3">
           <small className="dark-gray">
-            {formatNumber(members.count)} matching members
+            {formatNumber(members.count)} matching member{members.count !== 1 && 's'}
           </small>
         </div>
       );
