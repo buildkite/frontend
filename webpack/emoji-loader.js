@@ -50,7 +50,9 @@ module.exports = function(source) {
   var emojiIndex = {};
 
   source.forEach(function(emoji) {
-    var item = { name: emoji["name"], image: emoji["image"] };
+    var item = {
+      name: emoji["name"]
+    };
 
     emojiList.push(item);
     var itemIndex = emojiList.indexOf(item);
@@ -59,7 +61,8 @@ module.exports = function(source) {
 
     if (emojiUnicode) {
       item.unicode = emojiUnicode;
-      emojiIndex[emojiUnicode] = itemIndex;
+    } else {
+      item.image = emoji["image"];
     }
 
     emojiIndex[`:${emoji["name"]}:`] = itemIndex;
@@ -71,7 +74,9 @@ module.exports = function(source) {
     var modifiers = emoji["modifiers"];
     if (modifiers && modifiers.length > 0) {
       modifiers.forEach(function(modifier) {
-        var modified = { name: emoji["name"], image: modifier["image"] };
+        var modified = {
+          name: emoji["name"]
+        };
 
         emojiList.push(modified);
         var modifiedIndex = emojiList.indexOf(modified);
@@ -80,7 +85,8 @@ module.exports = function(source) {
 
         if (modifierUnicode) {
           modified.unicode = modifierUnicode;
-          emojiIndex[modifierUnicode] = modifiedIndex;
+        } else {
+          modified.image = modifier["image"];
         }
 
         emojiIndex[`:${emoji["name"]}::${modifier["name"]}:`] = modifiedIndex;
