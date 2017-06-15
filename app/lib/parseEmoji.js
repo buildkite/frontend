@@ -46,4 +46,4 @@ export default function parseEmoji(string, options = {}) {
 
     return match;
   });
-};
+}
