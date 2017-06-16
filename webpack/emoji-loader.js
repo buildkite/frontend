@@ -6,15 +6,38 @@
 //
 // {
 //   host: "http://assets.buildkite.com/emojis",
-//   emoji: [ { name: "smiley", image: "img-apple-64/1f603.png", unicode: "😃" } ],
+//   emoji: [
+//     {
+//       name: "+1",
+//       unicode: "👍"
+//     },
+//     {
+//       name: "+1",
+//       unicode: "👍🏼"
+//     }
+//   ],
 //   index: {
-//     "😃": 0,
-//     ":smiley:": 0,
-//     ":smiley::skin-tone-4:": 0
+//     ":+1:": 0,
+//     ":+1::skin-tone-3:": 1
 //   }
 // }
 //
-// Emoji unicode values, names and aliases are all indexed.
+// Or like this:
+//
+// {
+//   host: "http://assets.buildkite.com/emojis",
+//   emoji: [
+//     {
+//       name: "buildkite",
+//       image: "img-buildkite-64/buildkite.png"
+//     }
+//   ],
+//   index: {
+//     ":buildkite:": 0
+//   }
+// }
+//
+// Emoji names and aliases are all indexed.
 
 function convertToUnicode(code) {
   if (!code || !code.length) {
@@ -50,7 +73,9 @@ module.exports = function(source) {
   var emojiIndex = {};
 
   source.forEach(function(emoji) {
-    var item = { name: emoji["name"], image: emoji["image"] };
+    var item = {
+      name: emoji["name"]
+    };
 
     emojiList.push(item);
     var itemIndex = emojiList.indexOf(item);
@@ -59,7 +84,8 @@ module.exports = function(source) {
 
     if (emojiUnicode) {
       item.unicode = emojiUnicode;
-      emojiIndex[emojiUnicode] = itemIndex;
+    } else {
+      item.image = emoji["image"];
     }
 
     emojiIndex[`:${emoji["name"]}:`] = itemIndex;
@@ -71,7 +97,9 @@ module.exports = function(source) {
     var modifiers = emoji["modifiers"];
     if (modifiers && modifiers.length > 0) {
       modifiers.forEach(function(modifier) {
-        var modified = { name: emoji["name"], image: modifier["image"] };
+        var modified = {
+          name: emoji["name"]
+        };
 
         emojiList.push(modified);
         var modifiedIndex = emojiList.indexOf(modified);
@@ -80,7 +108,8 @@ module.exports = function(source) {
 
         if (modifierUnicode) {
           modified.unicode = modifierUnicode;
-          emojiIndex[modifierUnicode] = modifiedIndex;
+        } else {
+          modified.image = modifier["image"];
         }
 
         emojiIndex[`:${emoji["name"]}::${modifier["name"]}:`] = modifiedIndex;

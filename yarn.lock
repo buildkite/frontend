@@ -1348,7 +1348,7 @@ bser@^2.0.0:
   dependencies:
     node-int64 "^0.4.0"
 
-buffer-crc32@~0.2.3:
+buffer-crc32@^0.2.13, buffer-crc32@~0.2.3:
   version "0.2.13"
   resolved "https://registry.yarnpkg.com/buffer-crc32/-/buffer-crc32-0.2.13.tgz#0d333e3f00eac50aa1454abd30ef8c2a5d9a7242"
 
@@ -4846,6 +4846,10 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
 mockdate@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-2.0.1.tgz#51bc309e2c4396600d56b6c23a6a0f4182943a36"
+
+mojibaka@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/mojibaka/-/mojibaka-1.0.2.tgz#4005571f68467ddad708c00f5b666c6df040217e"
 
 moment@^2.15.0:
   version "2.18.1"

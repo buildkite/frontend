@@ -1,14 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Emojify renders as expected 1`] = `
+exports[`Emojify accepts a \`title\` override 1`] = `
+<span
+  className="another-test-class-name"
+  style={undefined}
+  title="This is the text I want to display, it has been truncated, so the title is used to show the rest on hover!"
+>
+  This is the text I want to display, it has bee...
+</span>
+`;
+
+exports[`Emojify renders \`text\` with emoji as expected 1`] = `
 <span
   className="test-class-name"
   dangerouslySetInnerHTML={
     Object {
-      "__html": "This text should be reflected in the title attribute and text content, as well as in the call to lib/Emoji!",
+      "__html": "This text has sparklesemojibuildkite, and should be reflected in the title attribute. The text content should contain different text, as processed by lib/parseEmoji!",
     }
   }
   style={undefined}
-  title="This text should be reflected in the title attribute and text content, as well as in the call to lib/Emoji!"
+  title="This text has :sparkles:emoji:buildkite:, and should be reflected in the title attribute. The text content should contain different text, as processed by lib/parseEmoji!"
 />
+`;
+
+exports[`Emojify renders plain \`text\` as expected 1`] = `
+<span
+  className="test-class-name"
+  style={undefined}
+>
+  This text should be reflected in the title attribute and text content, as well as in the call to lib/parseEmoji!
+</span>
 `;

@@ -4,6 +4,11 @@ import Relay from 'react-relay/classic';
 
 import Routes from './routes';
 
+import EmojiStyleManager from './lib/EmojiStyleManager';
+
+// Detect and adjust for custom emoji scaling
+EmojiStyleManager.apply();
+
 require("./css/main.css");
 
 // Setup Bugsnag for JS error tracking
@@ -69,11 +74,11 @@ window["Webpack"] = {
     "lib/builds": require("./lib/builds"),
     "lib/commits": require("./lib/commits"),
     "lib/date": require("./lib/date"),
-    "lib/Emoji": require("./lib/Emoji").default,
     "lib/jobCommandOneliner": require("./lib/jobCommandOneliner").default,
     "lib/jobs": require("./lib/jobs"),
     "lib/Logger": require("./lib/Logger").default,
     "lib/number": require("./lib/number"),
+    "lib/parseEmoji": require("./lib/parseEmoji").default,
     "lib/RelayPreloader": require("./lib/RelayPreloader").default,
     "queries/Agent": require("./queries/Agent"),
     "queries/Build": require("./queries/Build"),
