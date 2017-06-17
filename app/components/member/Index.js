@@ -7,6 +7,7 @@ import DocumentTitle from 'react-document-title';
 import Button from '../shared/Button';
 import Dropdown from '../shared/Dropdown';
 import Icon from '../shared/Icon';
+import LoadMoreFooter from '../shared/LoadMoreFooter';
 import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
 import SearchField from '../shared/SearchField';
@@ -110,7 +111,15 @@ class MemberIndex extends React.PureComponent {
             </div>
             {this.renderMemberSearchInfo()}
             {this.renderMembers()}
-            {this.renderMemberFooter()}
+            {this.props.relay.variables.isMounted && (
+              <LoadMoreFooter
+                label="Users"
+                loading={this.state.loadingMembers}
+                searching={this.state.searchingMembers}
+                onLoadMore={this.handleLoadMoreMembers}
+                connection={this.props.organization.members}
+              />
+            )}
           </Panel>
 
           {this.renderInvitationsPanel()}
@@ -178,35 +187,6 @@ class MemberIndex extends React.PureComponent {
     });
   }
 
-  renderMemberFooter() {
-    // don't show any footer if we haven't ever loaded
-    // any members, or if there's no next page
-    if (!this.props.organization.members || !this.props.organization.members.pageInfo.hasNextPage) {
-      return;
-    }
-
-    let footerContent = (
-      <Button
-        outline={true}
-        theme="default"
-        onClick={this.handleLoadMoreMembersClick}
-      >
-        Show more users…
-      </Button>
-    );
-
-    // show a spinner if we're loading more members
-    if (this.state.loadingMembers) {
-      footerContent = <Spinner style={{ margin: 9.5 }} />;
-    }
-
-    return (
-      <Panel.Footer className="center">
-        {footerContent}
-      </Panel.Footer>
-    );
-  }
-
   handleMemberSearch = (memberSearch) => {
     this.handleMemberFilterChange({ memberSearch });
   };
@@ -238,7 +218,7 @@ class MemberIndex extends React.PureComponent {
     );
   };
 
-  handleLoadMoreMembersClick = () => {
+  handleLoadMoreMembers = () => {
     this.setState({ loadingMembers: true });
 
     let { memberPageSize } = this.props.relay.variables;
@@ -367,15 +347,13 @@ export default Relay.createContainer(MemberIndex, {
           }
         }
         members(first: $memberPageSize, search: $memberSearch, role: $memberRole, order: NAME) @include(if: $isMounted) {
+          ${LoadMoreFooter.getFragment('connection')}
           count
           edges {
             node {
               id
               ${Row.getFragment('organizationMember')}
             }
-          }
-          pageInfo {
-            hasNextPage
           }
         }
         invitations(first: $invitationPageSize, state: PENDING) @include(if: $isMounted) {
