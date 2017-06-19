@@ -4,7 +4,6 @@ import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 import DocumentTitle from 'react-document-title';
 
-import Button from '../shared/Button';
 import Dropdown from '../shared/Dropdown';
 import Icon from '../shared/Icon';
 import ShowMoreFooter from '../shared/ShowMoreFooter';
@@ -233,12 +232,12 @@ class MemberIndex extends React.PureComponent {
         <Panel>
           <Panel.Header>Invitations</Panel.Header>
           {this.renderInvitations()}
-            <ShowMoreFooter
-              connection={this.props.organization.invitations}
-              label="invitations"
-              loading={this.state.loadingInvitations}
-              onShowMore={this.handleShowMoreInvitations}
-            />
+          <ShowMoreFooter
+            connection={this.props.organization.invitations}
+            label="invitations"
+            loading={this.state.loadingInvitations}
+            onShowMore={this.handleShowMoreInvitations}
+          />
         </Panel>
       );
     }
