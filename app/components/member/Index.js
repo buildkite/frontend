@@ -7,7 +7,7 @@ import DocumentTitle from 'react-document-title';
 import Button from '../shared/Button';
 import Dropdown from '../shared/Dropdown';
 import Icon from '../shared/Icon';
-import LoadMoreFooter from '../shared/LoadMoreFooter';
+import ShowMoreFooter from '../shared/ShowMoreFooter';
 import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
 import SearchField from '../shared/SearchField';
@@ -36,9 +36,6 @@ class MemberIndex extends React.PureComponent {
       permissions: PropTypes.object.isRequired,
       members: PropTypes.shape({
         count: PropTypes.number.isRequired,
-        pageInfo: PropTypes.shape({
-          hasNextPage: PropTypes.bool.isRequired
-        }).isRequired,
         edges: PropTypes.arrayOf(
           PropTypes.shape({
             node: PropTypes.object.isRequired
@@ -111,15 +108,13 @@ class MemberIndex extends React.PureComponent {
             </div>
             {this.renderMemberSearchInfo()}
             {this.renderMembers()}
-            {this.props.relay.variables.isMounted && (
-              <LoadMoreFooter
-                label="Users"
-                loading={this.state.loadingMembers}
-                searching={this.state.searchingMembers}
-                onLoadMore={this.handleLoadMoreMembers}
-                connection={this.props.organization.members}
-              />
-            )}
+            <ShowMoreFooter
+              label="Users"
+              loading={this.state.loadingMembers}
+              searching={this.state.searchingMembers}
+              onShowMore={this.handleShowMoreMembers}
+              connection={this.props.organization.members}
+            />
           </Panel>
 
           {this.renderInvitationsPanel()}
@@ -218,7 +213,7 @@ class MemberIndex extends React.PureComponent {
     );
   };
 
-  handleLoadMoreMembers = () => {
+  handleShowMoreMembers = () => {
     this.setState({ loadingMembers: true });
 
     let { memberPageSize } = this.props.relay.variables;
@@ -241,7 +236,12 @@ class MemberIndex extends React.PureComponent {
         <Panel>
           <Panel.Header>Invitations</Panel.Header>
           {this.renderInvitations()}
-          {this.renderInvitationFooter()}
+            <ShowMoreFooter
+              label="Invitations"
+              loading={this.state.loadingInvitations}
+              onShowMore={this.handleLoadMoreInvitationsClick}
+              connection={this.props.organization.invitations}
+            />
         </Panel>
       );
     }
@@ -347,7 +347,7 @@ export default Relay.createContainer(MemberIndex, {
           }
         }
         members(first: $memberPageSize, search: $memberSearch, role: $memberRole, order: NAME) @include(if: $isMounted) {
-          ${LoadMoreFooter.getFragment('connection')}
+          ${ShowMoreFooter.getFragment('connection')}
           count
           edges {
             node {
