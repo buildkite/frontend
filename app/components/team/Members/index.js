@@ -37,6 +37,7 @@ class Members extends React.Component {
 
   state = {
     loading: false,
+    searchingMembers: false,
     searchingMembersIsSlow: false
   };
 
