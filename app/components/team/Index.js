@@ -4,13 +4,14 @@ import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 import DocumentTitle from 'react-document-title';
 
-import Panel from '../shared/Panel';
 import Button from '../shared/Button';
-import Icon from '../shared/Icon';
-import Spinner from '../shared/Spinner';
-import PageHeader from '../shared/PageHeader';
-import SearchField from '../shared/SearchField';
 import Dropdown from '../shared/Dropdown';
+import Icon from '../shared/Icon';
+import PageHeader from '../shared/PageHeader';
+import Panel from '../shared/Panel';
+import SearchField from '../shared/SearchField';
+import ShowMoreFooter from '../shared/ShowMoreFooter';
+import Spinner from '../shared/Spinner';
 
 import { formatNumber } from '../../lib/number';
 import permissions from '../../lib/permissions';
@@ -39,10 +40,7 @@ class TeamIndex extends React.PureComponent {
           PropTypes.shape({
             node: PropTypes.object.isRequired
           }).isRequired
-        ).isRequired,
-        pageInfo: PropTypes.shape({
-          hasNextPage: PropTypes.bool.isRequired
-        }).isRequired
+        ).isRequired
       })
     }).isRequired,
     relay: PropTypes.object.isRequired
@@ -100,7 +98,12 @@ class TeamIndex extends React.PureComponent {
 
             {this.renderTeamSearchInfo()}
             {this.renderTeams()}
-            {this.renderTeamFooter()}
+            <ShowMoreFooter
+              connection={this.props.organization.teams}
+              label="teams"
+              loading={this.state.loadingMoreTeams}
+              onShowMore={this.handleShowMoreTeams}
+            />
           </Panel>
         </div>
       </DocumentTitle>
@@ -147,35 +150,6 @@ class TeamIndex extends React.PureComponent {
     }
   }
 
-  renderTeamFooter() {
-    // don't show any footer if we haven't ever loaded
-    // any teams, or if there's no next page
-    if (!this.props.organization.teams || !this.props.organization.teams.pageInfo.hasNextPage) {
-      return;
-    }
-
-    let footerContent = (
-      <Button
-        outline={true}
-        theme="default"
-        onClick={this.handleLoadMoreTeamsClick}
-      >
-        Show more teams…
-      </Button>
-    );
-
-    // show a spinner if we're loading more teams
-    if (this.state.loadingMoreTeams) {
-      footerContent = <Spinner style={{ margin: 9.5 }} />;
-    }
-
-    return (
-      <Panel.Footer className="center">
-        {footerContent}
-      </Panel.Footer>
-    );
-  }
-
   renderNewTeamButton() {
     return permissions(this.props.organization.permissions).check(
       {
@@ -185,7 +159,7 @@ class TeamIndex extends React.PureComponent {
     );
   }
 
-  handleLoadMoreTeamsClick = () => {
+  handleShowMoreTeams = () => {
     this.setState({ loadingMoreTeams: true });
 
     let { teamPageSize } = this.props.relay.variables;
@@ -257,15 +231,13 @@ export default Relay.createContainer(TeamIndex, {
           }
         }
         teams(first: $teamPageSize, search: $teamSearch, privacy: $teamPrivacy, order: NAME) @include(if: $isMounted) {
+          ${ShowMoreFooter.getFragment('connection')}
           count
           edges {
             node {
               id
               ${Row.getFragment('team')}
             }
-          }
-          pageInfo {
-            hasNextPage
           }
         }
       }
