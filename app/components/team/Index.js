@@ -4,7 +4,6 @@ import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 import DocumentTitle from 'react-document-title';
 
-import Button from '../shared/Button';
 import Dropdown from '../shared/Dropdown';
 import Icon from '../shared/Icon';
 import PageHeader from '../shared/PageHeader';

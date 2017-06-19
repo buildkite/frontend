@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 
-import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
 import SearchField from '../../shared/SearchField';
 import ShowMoreFooter from '../../shared/ShowMoreFooter';
-import Spinner from '../../shared/Spinner';
 
 import { formatNumber } from '../../../lib/number';
 

@@ -5,7 +5,6 @@ import { second, seconds } from 'metrick/duration';
 import throttle from 'throttleit';
 
 import Panel from '../../shared/Panel';
-import Button from '../../shared/Button';
 import SearchField from '../../shared/SearchField';
 import ShowMoreFooter from '../../shared/ShowMoreFooter';
 import Spinner from '../../shared/Spinner';
