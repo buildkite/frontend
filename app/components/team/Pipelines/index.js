@@ -4,10 +4,9 @@ import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 
 import Badge from '../../shared/Badge';
-import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
 import SearchField from '../../shared/SearchField';
-import Spinner from '../../shared/Spinner';
+import ShowMoreFooter from '../../shared/ShowMoreFooter';
 
 import FlashesStore from '../../../stores/FlashesStore';
 
@@ -31,9 +30,6 @@ class Pipelines extends React.Component {
       }).isRequired,
       pipelines: PropTypes.shape({
         count: PropTypes.number.isRequired,
-        pageInfo: PropTypes.shape({
-          hasNextPage: PropTypes.bool.isRequired
-        }).isRequired,
         edges: PropTypes.array.isRequired
       }).isRequired
     }).isRequired,
@@ -43,6 +39,7 @@ class Pipelines extends React.Component {
 
   state = {
     loading: false,
+    searchingPipelines: false,
     searchingPipelinesIsSlow: false
   };
 
@@ -57,7 +54,13 @@ class Pipelines extends React.Component {
           {this.renderPipelineSearch()}
           {this.renderPipelineSearchInfo()}
           {this.renderPipelines()}
-          {this.renderPipelineFooter()}
+          <ShowMoreFooter
+            connection={this.props.team.pipelines}
+            label="pipelines"
+            loading={this.state.loading}
+            searching={this.state.searchingPipelines}
+            onShowMore={this.handleShowMorePipelines}
+          />
         </Panel>
       </div>
     );
@@ -124,35 +127,6 @@ class Pipelines extends React.Component {
     }
   }
 
-  renderPipelineFooter() {
-    // don't show any footer if we haven't ever loaded
-    // any pipelines, or if there's no next page
-    if (!this.props.team.pipelines || !this.props.team.pipelines.pageInfo.hasNextPage) {
-      return;
-    }
-
-    let footerContent = (
-      <Button
-        outline={true}
-        theme="default"
-        onClick={this.handleLoadMorePipelinesClick}
-      >
-        Show more pipelines…
-      </Button>
-    );
-
-    // show a spinner if we're loading more pipelines
-    if (this.state.loading) {
-      footerContent = <Spinner style={{ margin: 9.5 }} />;
-    }
-
-    return (
-      <Panel.Footer className="center">
-        {footerContent}
-      </Panel.Footer>
-    );
-  }
-
   handleTeamPipelineChoose = () => {
     this.props.relay.forceFetch();
   };
@@ -184,7 +158,7 @@ class Pipelines extends React.Component {
     );
   };
 
-  handleLoadMorePipelinesClick = () => {
+  handleShowMorePipelines = () => {
     this.setState({ loading: true });
 
     let { pageSize } = this.props.relay.variables;
@@ -236,6 +210,7 @@ export default Relay.createContainer(Pipelines, {
         }
 
         pipelines(first: $pageSize, search: $pipelineSearch, order: NAME) {
+          ${ShowMoreFooter.getFragment('connection')}
           count
           edges {
             node {
@@ -259,9 +234,6 @@ export default Relay.createContainer(Pipelines, {
               ${TeamPipelineDeleteMutation.getFragment('teamPipeline')}
               ${TeamPipelineUpdateMutation.getFragment('teamPipeline')}
             }
-          }
-          pageInfo {
-            hasNextPage
           }
         }
       }
