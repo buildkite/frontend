@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Button from '../../../shared/Button';
 import Panel from '../../../shared/Panel';
 import ShowMoreFooter from '../../../shared/ShowMoreFooter';
-import Spinner from '../../../shared/Spinner';
 
 import Row from './row';
 import Chooser from './chooser';
