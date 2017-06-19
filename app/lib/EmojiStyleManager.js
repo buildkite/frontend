@@ -30,8 +30,13 @@ class EmojiStyleManager {
   calculate() {
     this.scale = detectEmojiScale();
 
-    // Store the scale so we don't have to churn the DOM next time!
-    localStorage.setItem(LOCALSTORAGE_KEY, this.toJson()); // eslint-disable-line id-length
+    try {
+      // Store the scale so we don't have to churn the DOM next time!
+      localStorage.setItem(LOCALSTORAGE_KEY, this.toJson());
+    } catch (error) {
+      // Swallow QuotaExceededErrors, which Safari notably throws in
+      // Private Browsing, as there's nothing we can really do about them.
+    }
   }
 
   apply() {
