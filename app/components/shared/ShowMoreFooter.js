@@ -6,12 +6,12 @@ import Button from './Button';
 import Panel from './Panel';
 import Spinner from './Spinner';
 
-class LoadMoreFooter extends React.PureComponent {
+class ShowMoreFooter extends React.PureComponent {
   static propTypes = {
     connection: PropTypes.shape({
       pageInfo: PropTypes.shape({
         hasNextPage: PropTypes.bool.isRequired
-      }).isRequiredk
+      }).isRequired
     }),
     onShowMore: PropTypes.func.isRequired,
     label: PropTypes.string,
@@ -29,13 +29,13 @@ class LoadMoreFooter extends React.PureComponent {
 
     // don't show any footer if we're searching
     if (searching) {
-      return;
+      return null;
     }
 
     // don't show any footer if we haven't ever loaded
-    // any agents, or if there's no next page
+    // any items, or if there's no next page
     if (!connection || !connection.pageInfo.hasNextPage) {
-      return;
+      return null;
     }
 
     let footerContent = (
@@ -61,7 +61,7 @@ class LoadMoreFooter extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(LoadMoreFooter, {
+export default Relay.createContainer(ShowMoreFooter, {
   fragments: {
     connection: () => Relay.QL`
       fragment on Connection {
