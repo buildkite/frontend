@@ -16,12 +16,17 @@ class ShowMoreFooter extends React.PureComponent {
     onShowMore: PropTypes.func.isRequired,
     label: PropTypes.string,
     loading: PropTypes.bool,
-    searching: PropTypes.bool
+    searching: PropTypes.bool,
+    wrappingElement: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string
+    ]).isRequired
   };
 
   static defaultProps = {
     loading: false,
-    searching: false
+    searching: false,
+    wrappingElement: Panel.Footer
   };
 
   render() {
@@ -53,10 +58,12 @@ class ShowMoreFooter extends React.PureComponent {
       footerContent = <Spinner style={{ margin: 9.5 }} />;
     }
 
+    const Wrapper = this.props.wrappingElement;
+
     return (
-      <Panel.Footer className="center">
+      <Wrapper className="center">
         {footerContent}
-      </Panel.Footer>
+      </Wrapper>
     );
   }
 }
