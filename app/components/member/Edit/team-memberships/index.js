@@ -4,6 +4,7 @@ import Relay from 'react-relay/classic';
 
 import Button from '../../../shared/Button';
 import Panel from '../../../shared/Panel';
+import ShowMoreFooter from '../../../shared/ShowMoreFooter';
 import Spinner from '../../../shared/Spinner';
 
 import Row from './row';
@@ -20,9 +21,6 @@ class TeamMemberships extends React.PureComponent {
       uuid: PropTypes.string.isRequired,
       teams: PropTypes.shape({
         count: PropTypes.number.isRequired,
-        pageInfo: PropTypes.shape({
-          hasNextPage: PropTypes.bool.isRequired
-        }).isRequired,
         edges: PropTypes.arrayOf(
           PropTypes.shape({
             node: PropTypes.object.isRequired
@@ -51,7 +49,12 @@ class TeamMemberships extends React.PureComponent {
         </div>
         <Panel>
           {this.renderTeams()}
-          {this.renderTeamsFooter()}
+          <ShowMoreFooter
+            connection={this.props.organizationMember.teams}
+            label="teams"
+            loading={this.state.loading}
+            onShowMore={this.handleShowMoreTeams}
+          />
         </Panel>
       </div>
     );
@@ -81,36 +84,7 @@ class TeamMemberships extends React.PureComponent {
     ));
   }
 
-  renderTeamsFooter() {
-    // don't show any footer if we haven't ever loaded
-    // any teams, or if there's no next page
-    if (!this.props.organizationMember.teams || !this.props.organizationMember.teams.pageInfo.hasNextPage) {
-      return;
-    }
-
-    let footerContent = (
-      <Button
-        outline={true}
-        theme="default"
-        onClick={this.handleLoadMoreTeamsClick}
-      >
-        Show more memberships…
-      </Button>
-    );
-
-    // show a spinner if we're loading more teams
-    if (this.state.loading) {
-      footerContent = <Spinner style={{ margin: 9.5 }} />;
-    }
-
-    return (
-      <Panel.Footer className="center">
-        {footerContent}
-      </Panel.Footer>
-    );
-  }
-
-  handleLoadMoreTeamsClick = () => {
+  handleShowMoreTeams = () => {
     this.setState({ loading: true });
 
     let { teamsPageSize } = this.props.relay.variables;
@@ -141,10 +115,8 @@ export default Relay.createContainer(TeamMemberships, {
           id
         }
         teams(first: $teamsPageSize, order: NAME) {
+          ${ShowMoreFooter.getFragment('connection')}
           count
-          pageInfo {
-            hasNextPage
-          }
           edges {
             node {
               id
