@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import classNames from 'classnames';
 
 import Button from './Button';
-import Panel from './Panel';
 import Spinner from './Spinner';
 
 class ShowMoreFooter extends React.PureComponent {
@@ -16,12 +16,14 @@ class ShowMoreFooter extends React.PureComponent {
     onShowMore: PropTypes.func.isRequired,
     label: PropTypes.string,
     loading: PropTypes.bool,
-    searching: PropTypes.bool
+    searching: PropTypes.bool,
+    className: PropTypes.string
   };
 
   static defaultProps = {
     loading: false,
-    searching: false
+    searching: false,
+    className: 'px3 py2'
   };
 
   render() {
@@ -54,9 +56,9 @@ class ShowMoreFooter extends React.PureComponent {
     }
 
     return (
-      <Panel.Footer className="center">
+      <div className={classNames('center', this.props.className)}>
         {footerContent}
-      </Panel.Footer>
+      </div>
     );
   }
 }
