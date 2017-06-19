@@ -7,6 +7,7 @@ import throttle from 'throttleit';
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
 import SearchField from '../../shared/SearchField';
+import ShowMoreFooter from '../../shared/ShowMoreFooter';
 import Spinner from '../../shared/Spinner';
 import { formatNumber } from '../../../lib/number';
 
@@ -24,9 +25,6 @@ class Agents extends React.PureComponent {
       }),
       agents: PropTypes.shape({
         count: PropTypes.number.isRequired,
-        pageInfo: PropTypes.shape({
-          hasNextPage: PropTypes.bool.isRequired
-        }).isRequired,
         edges: PropTypes.array.isRequired
       })
     }).isRequired,
@@ -107,7 +105,13 @@ class Agents extends React.PureComponent {
         </Panel.Row>
         {this.renderSearchInfo(agents)}
         {this.renderAgentList(agents)}
-        {this.renderFooter()}
+        <ShowMoreFooter
+          connection={this.props.organization.agents}
+          label="agents"
+          loading={this.state.loading}
+          searching={!!this.state.localSearchQuery}
+          onShowMore={this.handleShowMoreAgents}
+        />
       </Panel>
     );
   }
@@ -214,43 +218,6 @@ class Agents extends React.PureComponent {
     }
   }
 
-  renderFooter() {
-    const { organization } = this.props;
-    const { loading, localSearchQuery } = this.state;
-
-    // don't show any footer if we're searching locally
-    if (localSearchQuery) {
-      return;
-    }
-
-    // don't show any footer if we haven't ever loaded
-    // any agents, or if there's no next page
-    if (!organization.agents || !organization.agents.pageInfo.hasNextPage) {
-      return;
-    }
-
-    let footerContent = (
-      <Button
-        outline={true}
-        theme="default"
-        onClick={this.handleLoadMoreAgentsClick}
-      >
-        Load more agents…
-      </Button>
-    );
-
-    // show a spinner if we're loading more agents
-    if (loading) {
-      footerContent = <Spinner style={{ margin: 9.5 }} />;
-    }
-
-    return (
-      <Panel.Footer className="center">
-        {footerContent}
-      </Panel.Footer>
-    );
-  }
-
   get useLocalSearch() {
     return this.props.organization.agents &&
       this.props.organization.allAgents.count <= PAGE_SIZE;
@@ -329,7 +296,7 @@ class Agents extends React.PureComponent {
     );
   };
 
-  handleLoadMoreAgentsClick = () => {
+  handleShowMoreAgents = () => {
     this.setState({ loading: true });
 
     this.props.relay.setVariables(
@@ -359,6 +326,7 @@ export default Relay.createContainer(Agents, {
           count
         }
         agents(first: $pageSize, search: $search) @include(if: $isMounted) {
+          ${ShowMoreFooter.getFragment('connection')}
           count
           edges {
             node {
@@ -367,9 +335,6 @@ export default Relay.createContainer(Agents, {
               name
               ${AgentRow.getFragment('agent')}
             }
-          }
-          pageInfo {
-            hasNextPage
           }
         }
       }
