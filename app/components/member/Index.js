@@ -43,9 +43,6 @@ class MemberIndex extends React.PureComponent {
         ).isRequired
       }),
       invitations: PropTypes.shape({
-        pageInfo: PropTypes.shape({
-          hasNextPage: PropTypes.bool.isRequired
-        }).isRequired,
         edges: PropTypes.arrayOf(
           PropTypes.shape({
             node: PropTypes.object.isRequired
@@ -109,11 +106,11 @@ class MemberIndex extends React.PureComponent {
             {this.renderMemberSearchInfo()}
             {this.renderMembers()}
             <ShowMoreFooter
-              label="Users"
+              connection={this.props.organization.members}
+              label="users"
               loading={this.state.loadingMembers}
               searching={this.state.searchingMembers}
               onShowMore={this.handleShowMoreMembers}
-              connection={this.props.organization.members}
             />
           </Panel>
 
@@ -237,10 +234,10 @@ class MemberIndex extends React.PureComponent {
           <Panel.Header>Invitations</Panel.Header>
           {this.renderInvitations()}
             <ShowMoreFooter
-              label="Invitations"
-              loading={this.state.loadingInvitations}
-              onShowMore={this.handleLoadMoreInvitationsClick}
               connection={this.props.organization.invitations}
+              label="invitations"
+              loading={this.state.loadingInvitations}
+              onShowMore={this.handleShowMoreInvitations}
             />
         </Panel>
       );
@@ -279,36 +276,7 @@ class MemberIndex extends React.PureComponent {
     );
   }
 
-  renderInvitationFooter() {
-    // don't show any footer if we haven't ever loaded
-    // any invitations, or if there's no next page
-    if (!this.props.organization.invitations || !this.props.organization.invitations.pageInfo.hasNextPage) {
-      return;
-    }
-
-    let footerContent = (
-      <Button
-        outline={true}
-        theme="default"
-        onClick={this.handleLoadMoreInvitationsClick}
-      >
-        Show more invitations…
-      </Button>
-    );
-
-    // show a spinner if we're loading more invitations
-    if (this.state.loadingInvitations) {
-      footerContent = <Spinner style={{ margin: 9.5 }} />;
-    }
-
-    return (
-      <Panel.Footer className="center">
-        {footerContent}
-      </Panel.Footer>
-    );
-  }
-
-  handleLoadMoreInvitationsClick = () => {
+  handleShowMoreInvitations = () => {
     this.setState({ loadingInvitations: true });
 
     let { invitationPageSize } = this.props.relay.variables;
@@ -357,14 +325,12 @@ export default Relay.createContainer(MemberIndex, {
           }
         }
         invitations(first: $invitationPageSize, state: PENDING) @include(if: $isMounted) {
+          ${ShowMoreFooter.getFragment('connection')}
           edges {
             node {
               id
               ${InvitationRow.getFragment('organizationInvitation')}
             }
-          }
-          pageInfo {
-            hasNextPage
           }
         }
       }
