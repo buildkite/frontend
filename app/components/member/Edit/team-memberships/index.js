@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+import { createPaginationContainer, graphql } from 'react-relay';
 
 import Panel from '../../../shared/Panel';
 import ShowMoreFooter from '../../../shared/ShowMoreFooter';
@@ -100,30 +100,56 @@ class TeamMemberships extends React.PureComponent {
   };
 }
 
-export default Relay.createContainer(TeamMemberships, {
-  initialVariables: {
-    teamsPageSize: INITIAL_PAGE_SIZE
-  },
-
-  fragments: {
-    organizationMember: () => Relay.QL`
-      fragment on OrganizationMember {
+export default createPaginationContainer(
+  TeamMemberships,
+  {
+    organizationMember: graphql`
+      fragment team_memberships_organizationMember on OrganizationMember {
         uuid
         user {
           id
         }
-        teams(first: $teamsPageSize, order: NAME) {
-          ${ShowMoreFooter.getFragment('connection')}
+        teams(first: $count, after: $cursor, order: NAME) @connection(key: "team_memberships_teams") {
+          ...show_more_footer_connection
           count
           edges {
             node {
               id
-              ${Row.getFragment('teamMember')}
+              ...row_teamMember
             }
           }
         }
-        ${Chooser.getFragment('organizationMember')}
+        ...chooser_organizationMember
+      }
+    `
+  },
+  {
+    direction: 'forward',
+    getConnectionFromProps(props) {
+      return props.organizationMember && props.organizationMember.teams;
+    },
+    getFragmentVariables(prevVars, totalCount) {
+      return {
+        ...prevVars,
+        count: totalCount,
+      };
+    },
+    getVariables(props, {count, cursor}, fragmentVariables) {
+      return {
+        count,
+        cursor
+      };
+    },
+    query: graphql`
+      query team_memberships_paginationQuery(
+        $count: Int!
+        $cursor: String
+        $order: String!
+      ) {
+        organizationMember {
+          ...team_memberships_organizationMember
+        }
       }
     `
   }
-});
+);
