@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 
-import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
 import SearchField from '../../shared/SearchField';
@@ -26,9 +25,6 @@ class Pipelines extends React.Component {
 
   static propTypes = {
     team: PropTypes.shape({
-      allPipelines: PropTypes.shape({
-        count: PropTypes.number.isRequired
-      }).isRequired,
       pipelines: PropTypes.shape({
         count: PropTypes.number.isRequired,
         pageInfo: PropTypes.shape({
@@ -49,10 +45,10 @@ class Pipelines extends React.Component {
   render() {
     return (
       <div>
-        <div className="flex items-center">
-          <h2 className="h2 flex-auto">Pipelines {this.renderPipelineCount()}</h2>
-          <Chooser team={this.props.team} onChoose={this.handleTeamPipelineChoose} />
-        </div>
+        <Chooser
+          team={this.props.team}
+          onChoose={this.handleTeamPipelineChoose}
+        />
         <Panel className={this.props.className}>
           {this.renderPipelineSearch()}
           {this.renderPipelineSearchInfo()}
@@ -60,16 +56,6 @@ class Pipelines extends React.Component {
           {this.renderPipelineFooter()}
         </Panel>
       </div>
-    );
-  }
-
-  renderPipelineCount() {
-    if (!this.props.team.pipelines) {
-      return;
-    }
-
-    return (
-      <Badge>{formatNumber(this.props.team.allPipelines.count)}</Badge>
     );
   }
 
@@ -230,11 +216,6 @@ export default Relay.createContainer(Pipelines, {
     team: () => Relay.QL`
       fragment on Team {
         ${Chooser.getFragment('team')}
-
-        allPipelines: pipelines {
-          count
-        }
-
         pipelines(first: $pageSize, search: $pipelineSearch, order: NAME) {
           count
           edges {

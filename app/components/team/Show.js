@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title';
 import PageHeader from '../shared/PageHeader';
 import Emojify from '../shared/Emojify';
 import permissions from '../../lib/permissions';
+import TabControl from '../shared/TabControl';
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 
 import Pipelines from './Pipelines';
@@ -21,6 +22,12 @@ class TeamShow extends React.Component {
       description: PropTypes.string,
       slug: PropTypes.string.isRequired,
       privacy: PropTypes.string.isRequired,
+      members: PropTypes.shape({
+        count: PropTypes.number
+      }).isRequired,
+      pipelines: PropTypes.shape({
+        count: PropTypes.number
+      }).isRequired,
       organization: PropTypes.shape({
         name: PropTypes.string.isRequired,
         slug: PropTypes.string.isRequired
@@ -37,7 +44,8 @@ class TeamShow extends React.Component {
   };
 
   state = {
-    removing: false
+    removing: false,
+    selectedTab: 0
   };
 
   render() {
@@ -58,11 +66,42 @@ class TeamShow extends React.Component {
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
-          <Members team={this.props.team} className="mb4" />
-          <Pipelines team={this.props.team} />
+          <TabControl
+            selected={this.state.selectedTab}
+            onSelect={this.handleSelectedTabChange}
+          >
+            <TabControl.Tab badge={this.props.team.members.count}>
+              Members
+            </TabControl.Tab>
+            <TabControl.Tab badge={this.props.team.pipelines.count}>
+              Pipelines
+            </TabControl.Tab>
+            <TabControl.Tab>
+              Settings
+            </TabControl.Tab>
+          </TabControl>
+
+          {this.renderTabbedContent()}
         </div>
       </DocumentTitle>
     );
+  }
+
+  handleSelectedTabChange = (selectedTab) => {
+    this.setState({ selectedTab });
+  };
+
+  renderTabbedContent() {
+    switch (this.state.selectedTab) {
+      case 0:
+        return <Members team={this.props.team} />;
+      case 1:
+        return <Pipelines team={this.props.team} />;
+      case 2:
+        return (
+          <div>Settings go here!</div>
+        );
+    }
   }
 
   renderPrivacyLabel() {
@@ -136,6 +175,12 @@ export default Relay.createContainer(TeamShow, {
         ${Pipelines.getFragment('team')}
         ${Members.getFragment('team')}
         ${TeamDeleteMutation.getFragment('team')}
+        members {
+          count
+        }
+        pipelines {
+          count
+        }
         name
         description
         slug
