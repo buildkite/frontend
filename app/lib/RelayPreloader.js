@@ -395,6 +395,48 @@ const QUERIES = {
       }
     }
   `,
+  "pipeline/teams_settings": Relay.QL`
+    query($pipeline: ID!) {
+      pipeline(slug: $pipeline) {
+        id
+        slug
+        name
+        organization {
+          id
+          slug
+        }
+        teams(first: 500) {
+          count
+          edges {
+            node {
+              id
+              accessLevel
+              team {
+                id
+                name
+                description
+                slug
+                members {
+                  count
+                }
+                pipelines {
+                  count
+                }
+              }
+              permissions {
+                teamPipelineUpdate {
+                  allowed
+                }
+                teamPipelineDelete {
+                  allowed
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `,
   "build_show/annotations": Relay.QL`
     query BuildAnnotations($build: ID!) {
       build(slug: $build) {
