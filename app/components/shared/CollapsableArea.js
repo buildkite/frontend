@@ -11,7 +11,7 @@ const TransitionMaxHeight = styled.div`
 `;
 
 const RotatableIcon = styled(Icon)`
-  transform: rotate(${(props) => props.rotate}deg);
+  transform: rotate(${(props) => props.rotate ? -90 : 90}deg);
   trasform-origin: center 0;
   transition: transform 200ms;
 `;
@@ -56,7 +56,7 @@ export default class CollapsableArea extends React.Component {
           {this.props.label}
           <RotatableIcon
             icon="chevron-right"
-            rotate={this.props.collapsed ? 90 : -90}
+            rotate={!this.props.collapsed}
             style={{ width: 8, height: 8, marginLeft: 6, marginTop: -1 }}
           />
         </button>

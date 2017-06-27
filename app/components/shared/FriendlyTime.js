@@ -8,6 +8,7 @@ export default class FriendlyTime extends React.PureComponent {
     value: PropTypes.string.isRequired,
     updateFrequency: PropTypes.number.isRequired,
     capitalized: PropTypes.bool.isRequired,
+    className: PropTypes.string,
     seconds: PropTypes.bool.isRequired
   };
 
@@ -65,7 +66,11 @@ export default class FriendlyTime extends React.PureComponent {
 
   render() {
     return (
-      <time dateTime={this.props.value} title={getDateString(this.props.value)}>
+      <time
+        className={this.props.className}
+        dateTime={this.props.value}
+        title={getDateString(this.props.value)}
+      >
         {this.state.value}
       </time>
     );

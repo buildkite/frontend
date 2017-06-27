@@ -101,6 +101,17 @@ class SettingsMenu extends React.Component {
         )
       },
       {
+        always: true, // TODO: Actual Permissions
+        render: (idx) => (
+          <Menu.Button
+            key={idx}
+            icon="eye"
+            link={`/organizations/${this.props.organization.slug}/audit-log`}
+            label="Audit Log"
+          />
+        )
+      },
+      {
         allowed: "notificationServiceUpdate",
         render: (idx) => (
           <Menu.Button
