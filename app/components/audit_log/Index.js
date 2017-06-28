@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Relay, { graphql } from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 import { v4 as uuid } from 'uuid';
 
@@ -10,39 +10,18 @@ import Panel from '../shared/Panel';
 import PageHeader from '../shared/PageHeader';
 import Spinner from '../shared/Spinner';
 
-import garbage from '../../lib/garbage';
-
 import AuditLogRow from './row';
 
-const generateOrganization = () => {
-  const auditEventEdges = Array.apply(null, Array(Math.round(Math.random() * 10)))
-    .map((_, index) => ({
-      node: {
-        id: btoa("AuditEvent" + uuid()),
-        subject: garbage(),
-        occurredAt: new Date(+new Date() - Math.random() * index * 86400).toISOString()
-      }
-    }));
+const PAGE_SIZE = 25;
 
-  return {
-    name: 'Acme Inc.',
-    auditEvents: {
-      edges: auditEventEdges,
-      count: auditEventEdges.length
-    }
-  };
-};
-
-export default class AuditLogIndex extends React.PureComponent {
+class AuditLogIndex extends React.PureComponent {
   static propTypes = {
     organization: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      auditEvents: PropTypes.object.isRequired
+      auditEvents: PropTypes.shape({
+        edges: PropTypes.array
+      }).isRequired
     }).isRequired
-  };
-
-  static defaultProps = {
-    organization: generateOrganization()
   };
 
   render() {
@@ -78,58 +57,37 @@ export default class AuditLogIndex extends React.PureComponent {
           <span className="semi-bold">Controls and stuff go here</span>
         </Panel.Section>
         {this.props.organization.auditEvents.edges.map((edge) => (
-          <AuditLogRow key={edge.node.id} auditEvent={edge.node} />
+          <AuditLogRow
+            key={edge.node.id}
+            auditEvent={edge.node}
+          />
         ))}
       </Panel>
     );
   }
 };
 
-// export default Relay.createPaginationContainer(
-//   AuditLogIndex,
-//   {
-//     organization: graphql`
-//       fragment Index_organization on Organization {
-//         auditEvents(
-//           first: $count
-//           after: $cursor
-//         ) @connection(key: "Index_auditEvents") {
-//           edges {
-//             node {
-//               id
-//               subject
-//             }
-//           }
-//         }
-//       }
-//     `
-//   },
-//   {
-//     direction: 'forward',
-//     getConnectionFromProps(props) {
-//       return props.organization && props.organization.auditEvents;
-//     },
-//     getFragmentVariables(prevVars, totalCount) {
-//       return {
-//         ...prevVars,
-//         count: totalCount,
-//       };
-//     },
-//     getVariables(props, {count, cursor}, fragmentVariables) {
-//       return {
-//         count,
-//         cursor
-//       };
-//     },
-//     query: graphql`
-//       query IndexPaginationQuery(
-//         $count: Int!
-//         $cursor: String
-//       ) {
-//         organization {
-//           ...Index_organization
-//         }
-//       }
-//     `
-//   }
-// );
+export default Relay.createContainer(AuditLogIndex, {
+  initialVariables: {
+    pageSize: PAGE_SIZE
+  },
+
+  fragments: {
+    organization: () => Relay.QL`
+      fragment on Organization {
+        name
+        auditEvents(first: $pageSize) {
+          edges {
+            node {
+              id
+              ${AuditLogRow.getFragment('auditEvent')}
+            }
+          }
+          pageInfo {
+            hasNextPage
+          }
+        }
+      }
+    `
+  }
+});

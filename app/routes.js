@@ -117,7 +117,7 @@ export default (
           <Route path=":agent" component={AgentShow} queries={{ agent: AgentQuery.query }} prepareParams={AgentQuery.prepareParams} render={renderSectionLoading} />
         </Route>
         <Route path="audit-log" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
-          <IndexRoute component={AuditLogIndex} render={renderSectionLoading} />
+          <IndexRoute component={AuditLogIndex} render={renderSectionLoading} queries={{ organization: OrganizationQuery.query }} />
         </Route>
         <Route path="users" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
           <IndexRoute component={MemberIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />

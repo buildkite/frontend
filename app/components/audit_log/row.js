@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Relay, { graphql } from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 import styled from 'styled-components';
 
 import FriendlyTime from '../shared/FriendlyTime';
@@ -18,11 +18,13 @@ const RotatableIcon = styled(Icon)`
   transition: transform 200ms;
 `;
 
-export default class AuditLogRow extends React.PureComponent {
+class AuditLogRow extends React.PureComponent {
   static propTypes = {
-    auditEvents: PropTypes.shape({
-      subject: PropTypes.string.isRequired,
-      occurredAt: PropTypes.string.isRequired
+    auditEvent: PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      occurredAt: PropTypes.string.isRequired,
+      actor: PropTypes.object.isRequired,
+      subject: PropTypes.object.isRequired
     }).isRequired
   };
 
@@ -47,7 +49,7 @@ export default class AuditLogRow extends React.PureComponent {
                 className="inline-block rounded border border-gray black truncate semi-bold"
                 style={{ padding: '.1em .3em' }}
               >
-                {this.props.auditEvent.subject}
+                {this.props.auditEvent.__typename}
               </span>
             </span>
             <div className="flex-none">
@@ -84,7 +86,7 @@ export default class AuditLogRow extends React.PureComponent {
                       key={`dd:${property}`}
                       className="truncate"
                     >
-                      {this.props.auditEvent[property]}
+                      <pre>{JSON.stringify(this.props.auditEvent[property], null, '  ')}</pre>
                     </dd>
                   ])
                 ),
@@ -101,3 +103,41 @@ export default class AuditLogRow extends React.PureComponent {
     this.setState({ expanded: !this.state.expanded });
   };
 };
+
+export default Relay.createContainer(AuditLogRow, {
+  fragments: {
+    auditEvent: () => Relay.QL`
+      fragment on AuditEvent {
+        __typename
+        uuid
+        occurredAt
+        actor {
+          __typename
+          ...on User {
+            name
+            avatar {
+              url
+            }
+          }
+        }
+        subject {
+          __typename
+          ...on Organization {
+            id
+            name
+          }
+          ...on Pipeline {
+            id
+            name
+          }
+        }
+        context {
+          __typename
+          ...on AuditWebContext {
+            requestIpAddress
+          }
+        }
+      }
+    `
+  }
+});

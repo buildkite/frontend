@@ -101,7 +101,8 @@ class SettingsMenu extends React.Component {
         )
       },
       {
-        always: true, // TODO: Actual Permissions
+        allowed: "teamAdmin",
+        and: () => Features.AuditLogsLaunch,
         render: (idx) => (
           <Menu.Button
             key={idx}
