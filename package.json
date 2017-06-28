@@ -54,7 +54,7 @@
     "react-test-renderer": "^15.3.2",
     "react-transform-hmr": "^1.0.4",
     "react-type-snob": "^0.0.3",
-    "relay-compiler": "^1.0.0",
+    "relay-compiler": "^1.1.0",
     "style-loader": "^0.18.1",
     "url-loader": "^0.5.7",
     "webpack": "2",
