@@ -1,14 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 import styled from 'styled-components';
+
+import cssVariables from '../../../css';
 
 import { formatNumber } from '../../../lib/number';
 
-const TabButton = styled.a.attrs({
-  className: 'px3 pt2 pb1 border-bottom border-lime block text-decoration-none black'
+const ACTIVE_CLASS_NAME = 'active';
+
+const TabButton = styled(Link).attrs({
+  className: 'px3 pt2 pb1 border-bottom block text-decoration-none black',
+  activeClassName: ACTIVE_CLASS_NAME
 })`
   border-bottom-width: 4px;
-  ${(props) => props.selected ? '' : 'border-color: transparent;'}
+  border-color: transparent;
+
+  &.${ACTIVE_CLASS_NAME} {
+    border-color: ${cssVariables['--lime']};
+  }
 `;
 
 class Tab extends React.PureComponent {
@@ -18,17 +28,16 @@ class Tab extends React.PureComponent {
   };
 
   render() {
-    const affix = this.props.badge
-      ? <span className="dark-gray"> {formatNumber(this.props.badge)}</span>
+    const { badge, children, ...props } = this.props;
+
+    const affix = badge
+      ? <span className="dark-gray"> {formatNumber(badge)}</span>
       : null;
 
     return (
       <li>
-        <TabButton
-          href="#"
-          {...this.props}
-        >
-          <span className="semi-bold">{this.props.children}</span>{affix}
+        <TabButton {...props}>
+          <span className="semi-bold">{children}</span>{affix}
         </TabButton>
       </li>
     );

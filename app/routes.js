@@ -1,7 +1,11 @@
 import React from 'react';
 import Relay from 'react-relay/classic';
-import { Router, Route, IndexRoute, browserHistory, applyRouterMiddleware } from 'react-router';
 import useRelay from 'react-router-relay';
+import {
+  Router,
+  Route, Redirect, IndexRoute, IndexRedirect,
+  browserHistory, applyRouterMiddleware
+} from 'react-router';
 
 // The components used in the router
 import Main from './components/Main';
@@ -15,6 +19,8 @@ import AgentShow from './components/agent/Show';
 import TeamIndex from './components/team/Index';
 import TeamNew from './components/team/New';
 import TeamShow from './components/team/Show';
+import TeamMembers from './components/team/Members';
+import TeamPipelines from './components/team/Pipelines';
 import TeamEdit from './components/team/Edit';
 import MemberIndex from './components/member/Index';
 import MemberNew from './components/member/New';
@@ -110,8 +116,13 @@ export default (
         <Route path="teams" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
           <IndexRoute component={TeamIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
           <Route path="new" component={TeamNew} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
-          <Route path=":team" component={TeamShow} queries={{ team: TeamQuery.query }} prepareParams={TeamQuery.prepareParams} render={renderSectionLoading} />
-          <Route path=":team/edit" component={TeamEdit} queries={{ team: TeamQuery.query }} prepareParams={TeamQuery.prepareParams} render={renderSectionLoading} />
+          <Route path=":team" component={TeamShow} queries={{ team: TeamQuery.query }} prepareParams={TeamQuery.prepareParams} render={renderSectionLoading}>
+            <IndexRedirect to="members" />
+            <Redirect from="edit" to="settings" />
+            <Route path="settings" component={TeamEdit} queries={{ team: TeamQuery.query }} prepareParams={TeamQuery.prepareParams} render={renderSectionLoading} />
+            <Route path="members" component={TeamMembers} queries={{ team: TeamQuery.query }} prepareParams={TeamQuery.prepareParams} render={renderSectionLoading} />
+            <Route path="pipelines" component={TeamPipelines} queries={{ team: TeamQuery.query }} prepareParams={TeamQuery.prepareParams} render={renderSectionLoading} />
+          </Route>
         </Route>
         <Route path="sso" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
           <IndexRoute component={SSOIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />

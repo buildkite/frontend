@@ -66,42 +66,30 @@ class TeamShow extends React.Component {
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
-          <TabControl
-            selected={this.state.selectedTab}
-            onSelect={this.handleSelectedTabChange}
-          >
-            <TabControl.Tab badge={this.props.team.members.count}>
+          <TabControl>
+            <TabControl.Tab
+              to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}/members`}
+              badge={this.props.team.members.count}
+            >
               Members
             </TabControl.Tab>
-            <TabControl.Tab badge={this.props.team.pipelines.count}>
+            <TabControl.Tab
+              to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}/pipelines`}
+              badge={this.props.team.pipelines.count}
+            >
               Pipelines
             </TabControl.Tab>
-            <TabControl.Tab>
+            <TabControl.Tab
+              to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}/settings`}
+            >
               Settings
             </TabControl.Tab>
           </TabControl>
 
-          {this.renderTabbedContent()}
+          {this.props.children}
         </div>
       </DocumentTitle>
     );
-  }
-
-  handleSelectedTabChange = (selectedTab) => {
-    this.setState({ selectedTab });
-  };
-
-  renderTabbedContent() {
-    switch (this.state.selectedTab) {
-      case 0:
-        return <Members team={this.props.team} />;
-      case 1:
-        return <Pipelines team={this.props.team} />;
-      case 2:
-        return (
-          <div>Settings go here!</div>
-        );
-    }
   }
 
   renderPrivacyLabel() {

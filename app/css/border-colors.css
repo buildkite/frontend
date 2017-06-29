@@ -1,3 +1,5 @@
+.border-transparent { border-color: transparent; }
+
 .border-black     { border-color: var(--black) }
 .border-gray      { border-color: var(--gray) }
 .border-dark-gray { border-color: var(--dark-gray) }
