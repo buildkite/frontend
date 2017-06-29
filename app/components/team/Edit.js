@@ -44,30 +44,24 @@ class TeamEdit extends React.Component {
 
   render() {
     return (
-      <DocumentTitle title={`Edit ${this.props.team.organization.name} · ${this.props.team.organization.name} Team`}>
-        <form onSubmit={this.handleFormSubmit}>
-          <PageHeader>
-            <PageHeader.Title>Edit Team</PageHeader.Title>
-          </PageHeader>
+      <form onSubmit={this.handleFormSubmit}>
+        <Panel>
+          <Panel.Section>
+            <TeamForm
+              onChange={this.handleFormChange}
+              errors={this.state.errors}
+              name={this.state.name}
+              description={this.state.description}
+              privacy={this.state.privacy}
+              isDefaultTeam={this.state.isDefaultTeam}
+            />
+          </Panel.Section>
 
-          <Panel>
-            <Panel.Section>
-              <TeamForm
-                onChange={this.handleFormChange}
-                errors={this.state.errors}
-                name={this.state.name}
-                description={this.state.description}
-                privacy={this.state.privacy}
-                isDefaultTeam={this.state.isDefaultTeam}
-              />
-            </Panel.Section>
-
-            <Panel.Footer>
-              <Button loading={this.state.saving ? "Saving team…" : false} theme="success">Save Team</Button>
-            </Panel.Footer>
-          </Panel>
-        </form>
-      </DocumentTitle>
+          <Panel.Footer>
+            <Button loading={this.state.saving ? "Saving team…" : false} theme="success">Save Team</Button>
+          </Panel.Footer>
+        </Panel>
+      </form>
     );
   }
 
