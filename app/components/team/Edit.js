@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-import DocumentTitle from 'react-document-title';
 
-import PageHeader from '../shared/PageHeader';
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
 import TeamForm from './Form';
