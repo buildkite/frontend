@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 
-import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
 import SearchField from '../../shared/SearchField';
-import Spinner from '../../shared/Spinner';
+import ShowMoreFooter from '../../shared/ShowMoreFooter';
 
 import { formatNumber } from '../../../lib/number';
 
@@ -25,9 +24,6 @@ class Members extends React.Component {
     team: PropTypes.shape({
       members: PropTypes.shape({
         count: PropTypes.number.isRequired,
-        pageInfo: PropTypes.shape({
-          hasNextPage: PropTypes.bool.isRequired
-        }).isRequired,
         edges: PropTypes.array.isRequired
       }).isRequired
     }).isRequired,
@@ -37,6 +33,7 @@ class Members extends React.Component {
 
   state = {
     loading: false,
+    searchingMembers: false,
     searchingMembersIsSlow: false
   };
 
@@ -51,7 +48,13 @@ class Members extends React.Component {
           {this.renderMemberSearch()}
           {this.renderMemberSearchInfo()}
           {this.renderMembers()}
-          {this.renderMemberFooter()}
+          <ShowMoreFooter
+            connection={this.props.team.members}
+            label="members"
+            loading={this.state.loading}
+            searching={this.state.searchingMembers}
+            onShowMore={this.handleShowMoreMembers}
+          />
         </Panel>
       </div>
     );
@@ -109,35 +112,6 @@ class Members extends React.Component {
     }
   }
 
-  renderMemberFooter() {
-    // don't show any footer if we haven't ever loaded
-    // any members, or if there's no next page
-    if (!this.props.team.members || !this.props.team.members.pageInfo.hasNextPage) {
-      return;
-    }
-
-    let footerContent = (
-      <Button
-        outline={true}
-        theme="default"
-        onClick={this.handleLoadMoreMembersClick}
-      >
-        Show more members…
-      </Button>
-    );
-
-    // show a spinner if we're loading more members
-    if (this.state.loading) {
-      footerContent = <Spinner style={{ margin: 9.5 }} />;
-    }
-
-    return (
-      <Panel.Footer className="center">
-        {footerContent}
-      </Panel.Footer>
-    );
-  }
-
   handleMemberSearch = (memberSearch) => {
     this.setState({ searchingMembers: true });
 
@@ -165,7 +139,7 @@ class Members extends React.Component {
     );
   };
 
-  handleLoadMoreMembersClick = () => {
+  handleShowMoreMembers = () => {
     this.setState({ loading: true });
 
     let { pageSize } = this.props.relay.variables;
@@ -218,6 +192,7 @@ export default Relay.createContainer(Members, {
       fragment on Team {
         ${Chooser.getFragment('team')}
         members(first: $pageSize, search: $memberSearch, order: NAME) {
+          ${ShowMoreFooter.getFragment('connection')}
           count
           edges {
             node {
@@ -242,9 +217,6 @@ export default Relay.createContainer(Members, {
               ${TeamMemberDeleteMutation.getFragment('teamMember')}
               ${TeamMemberUpdateMutation.getFragment('teamMember')}
             }
-          }
-          pageInfo {
-            hasNextPage
           }
         }
       }

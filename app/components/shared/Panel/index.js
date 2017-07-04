@@ -1,12 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import styled from 'styled-components';
 
 import IntroWithButton from './intro-with-button';
 import Row from './row';
 import RowActions from './row-actions';
 import RowLink from './row-link';
 import Header from './header';
+
+const Separator = styled.hr.attrs({
+  className: 'p0 m0 bg-gray'
+})`
+  border: none;
+  height: 1px;
+
+  &:last-child {
+    display: none;
+  }
+`;
 
 class Panel extends React.PureComponent {
   static propTypes = {
@@ -22,7 +34,7 @@ class Panel extends React.PureComponent {
     let key = 0;
     for (let index = 0, length = children.length; index < length; index++) {
       if (index > 0) {
-        nodes.push(<hr key={key += 1} className="p0 m0 bg-gray" style={{ border: "none", height: 1 }} />);
+        nodes.push(<Separator key={key += 1} />);
       }
 
       nodes.push(children[index]);

@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Button from '../shared/Button';
 import SectionLoader from '../shared/SectionLoader';
-import Spinner from '../shared/Spinner';
+import ShowMoreFooter from '../shared/ShowMoreFooter';
 
 import FlashesStore from '../../stores/FlashesStore';
 import UserSessionStore from '../../stores/UserSessionStore';
@@ -27,10 +26,7 @@ class OrganizationPipelines extends React.Component {
               id: PropTypes.string.isRequired
             }).isRequired
           }).isRequired
-        ),
-        pageInfo: PropTypes.shape({
-          hasNextPage: PropTypes.bool.isRequired
-        }).isRequired
+        )
       })
     }),
     relay: PropTypes.object.isRequired,
@@ -148,7 +144,12 @@ class OrganizationPipelines extends React.Component {
       return (
         <div>
           {this.renderPipelines()}
-          {this.renderPipelineFooter()}
+          <ShowMoreFooter
+            connection={this.props.organization.pipelines}
+            label="pipelines"
+            loading={this.state.loadingMore}
+            onShowMore={this.handleShowMorePipelines}
+          />
         </div>
       );
     } else if (this.props.filter) {
@@ -193,39 +194,7 @@ class OrganizationPipelines extends React.Component {
     return [];
   }
 
-  renderPipelineFooter() {
-    const { organization } = this.props;
-    const { loadingMore } = this.state;
-
-    // don't show any footer if we haven't ever loaded
-    // any pipelines, or if there's no next page
-    if (!organization.pipelines || !organization.pipelines.pageInfo.hasNextPage) {
-      return;
-    }
-
-    let footerContent = (
-      <Button
-        outline={true}
-        theme="default"
-        onClick={this.handleLoadMorePipelinesClick}
-      >
-        Load more pipelines…
-      </Button>
-    );
-
-    // show a spinner if we're loading more pipelines
-    if (loadingMore) {
-      footerContent = <Spinner style={{ margin: 9.5 }} />;
-    }
-
-    return (
-      <div className="center">
-        {footerContent}
-      </div>
-    );
-  }
-
-  handleLoadMorePipelinesClick = () => {
+  handleShowMorePipelines = () => {
     this.setState({ loadingMore: true });
 
     this.props.relay.setVariables(
@@ -256,15 +225,13 @@ export default Relay.createContainer(OrganizationPipelines, {
         id
         slug
         pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, order: NAME_WITH_FAVORITES_FIRST) @include(if: $isMounted) {
+          ${ShowMoreFooter.getFragment('connection')}
           edges {
             node {
               id
               favorite
               ${Pipeline.getFragment('pipeline', { includeGraphData: variables.includeGraphData })}
             }
-          }
-          pageInfo {
-            hasNextPage
           }
         }
       }
