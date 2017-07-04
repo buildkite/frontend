@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 
-import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
 import Panel from '../../shared/Panel';
 import SearchField from '../../shared/SearchField';
@@ -24,9 +23,6 @@ class Members extends React.Component {
 
   static propTypes = {
     team: PropTypes.shape({
-      allMembers: PropTypes.shape({
-        count: PropTypes.number.isRequired
-      }).isRequired,
       members: PropTypes.shape({
         count: PropTypes.number.isRequired,
         pageInfo: PropTypes.shape({
@@ -47,10 +43,10 @@ class Members extends React.Component {
   render() {
     return (
       <div>
-        <div className="flex items-center">
-          <h2 className="h2 flex-auto">Members {this.renderMemberCount()}</h2>
-          <Chooser team={this.props.team} onChoose={this.handleTeamMemberChoose} />
-        </div>
+        <Chooser
+          team={this.props.team}
+          onChoose={this.handleTeamMemberChoose}
+        />
         <Panel className={this.props.className}>
           {this.renderMemberSearch()}
           {this.renderMemberSearchInfo()}
@@ -58,16 +54,6 @@ class Members extends React.Component {
           {this.renderMemberFooter()}
         </Panel>
       </div>
-    );
-  }
-
-  renderMemberCount() {
-    if (!this.props.team.members) {
-      return;
-    }
-
-    return (
-      <Badge>{formatNumber(this.props.team.allMembers.count)}</Badge>
     );
   }
 
@@ -231,11 +217,6 @@ export default Relay.createContainer(Members, {
     team: () => Relay.QL`
       fragment on Team {
         ${Chooser.getFragment('team')}
-
-        allMembers: members {
-          count
-        }
-
         members(first: $pageSize, search: $memberSearch, order: NAME) {
           count
           edges {

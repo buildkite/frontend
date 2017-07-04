@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title';
 import PageHeader from '../shared/PageHeader';
 import Emojify from '../shared/Emojify';
 import permissions from '../../lib/permissions';
+import TabControl from '../shared/TabControl';
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 
 import Pipelines from './Pipelines';
@@ -21,6 +22,12 @@ class TeamShow extends React.Component {
       description: PropTypes.string,
       slug: PropTypes.string.isRequired,
       privacy: PropTypes.string.isRequired,
+      members: PropTypes.shape({
+        count: PropTypes.number
+      }).isRequired,
+      pipelines: PropTypes.shape({
+        count: PropTypes.number
+      }).isRequired,
       organization: PropTypes.shape({
         name: PropTypes.string.isRequired,
         slug: PropTypes.string.isRequired
@@ -29,7 +36,8 @@ class TeamShow extends React.Component {
         teamUpdate: PropTypes.object.isRequired,
         teamDelete: PropTypes.object.isRequired
       }).isRequired
-    })
+    }),
+    children: PropTypes.node.isRequired
   };
 
   static contextTypes = {
@@ -37,7 +45,8 @@ class TeamShow extends React.Component {
   };
 
   state = {
-    removing: false
+    removing: false,
+    selectedTab: 0
   };
 
   render() {
@@ -58,10 +67,57 @@ class TeamShow extends React.Component {
             <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
           </PageHeader>
 
-          <Members team={this.props.team} className="mb4" />
-          <Pipelines team={this.props.team} />
+          {this.renderTabs()}
+
+          {this.props.children}
         </div>
       </DocumentTitle>
+    );
+  }
+
+  renderTabs() {
+    const tabContent = permissions(this.props.team.permissions).collect(
+      {
+        always: true,
+        render: (idx) => (
+          <TabControl.Tab
+            key={idx}
+            to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}/members`}
+            badge={this.props.team.members.count}
+          >
+            Members
+          </TabControl.Tab>
+        )
+      },
+      {
+        always: true,
+        render: (idx) => (
+          <TabControl.Tab
+            key={idx}
+            to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}/pipelines`}
+            badge={this.props.team.pipelines.count}
+          >
+            Pipelines
+          </TabControl.Tab>
+        )
+      },
+      {
+        allowed: "teamUpdate",
+        render: (idx) => (
+          <TabControl.Tab
+            key={idx}
+            to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}/settings`}
+          >
+            Settings
+          </TabControl.Tab>
+        )
+      }
+    );
+
+    return (
+      <TabControl>
+        {tabContent}
+      </TabControl>
     );
   }
 
@@ -75,12 +131,6 @@ class TeamShow extends React.Component {
 
   renderMenu() {
     return permissions(this.props.team.permissions).collect(
-      {
-        allowed: "teamUpdate",
-        render: (idx) => (
-          <PageHeader.Button key={idx} link={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}/edit`}>Edit</PageHeader.Button>
-        )
-      },
       {
         allowed: "teamDelete",
         render: (idx) => (
@@ -136,6 +186,12 @@ export default Relay.createContainer(TeamShow, {
         ${Pipelines.getFragment('team')}
         ${Members.getFragment('team')}
         ${TeamDeleteMutation.getFragment('team')}
+        members {
+          count
+        }
+        pipelines {
+          count
+        }
         name
         description
         slug
