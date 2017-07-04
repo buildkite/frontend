@@ -5,20 +5,22 @@ import styled from 'styled-components';
 
 import Emojify from '../shared/Emojify';
 
+import cssVariables from '../../css';
+
 const Label = styled.label`
   padding-left: 2.1em;
-  border-color: #dddddd;
+  border-color: ${cssVariables['--gray']};
 
   input[type=checkbox]:focus + & {
-    border-color: #888888;
+    border-color: ${cssVariables['--dark-gray']};
   }
 
   input[type=checkbox]:checked + & {
-    border-color: #7EAF25;
+    border-color: ${cssVariables['--lime']};
   }
 
   input[type=checkbox]:checked:focus + & {
-    border-color: #3D9970;
+    border-color: ${cssVariables['--olive']};
   }
 `;
 
