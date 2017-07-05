@@ -4,6 +4,7 @@ import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 import DocumentTitle from 'react-document-title';
 
+import Button from '../shared/Button';
 import Dropdown from '../shared/Dropdown';
 import Icon from '../shared/Icon';
 import PageHeader from '../shared/PageHeader';
@@ -48,7 +49,8 @@ class TeamIndex extends React.PureComponent {
   state = {
     searchingTeams: false,
     searchingTeamsIsSlow: false,
-    loadingMoreTeams: false
+    loadingMoreTeams: false,
+    teamsEnabled: false
   };
 
   componentDidMount() {
@@ -73,39 +75,78 @@ class TeamIndex extends React.PureComponent {
             <PageHeader.Description>
               Teams allow you to create groups of users, and assign fine-grained permissions for who can view builds and create builds or modify pipelines.
             </PageHeader.Description>
-            <PageHeader.Menu>{this.renderNewTeamButton()}</PageHeader.Menu>
+            {
+              this.state.teamsEnabled &&
+                <PageHeader.Menu>{this.renderNewTeamButton()}</PageHeader.Menu>
+            }
           </PageHeader>
 
-          <Panel className="mb4">
-            <div className="py2 px3">
-              <div className="flex flex-auto items-center">
-                <SearchField
-                  className="flex-auto"
-                  placeholder="Search teams…"
-                  searching={this.state.searchingTeamsIsSlow}
-                  onChange={this.handleTeamSearch}
-                />
+          {
+            !this.state.teamsEnabled ?
+              this.renderEnableTeams() :
+              <Panel className="mb4">
+                <div className="py2 px3">
+                  <div className="flex flex-auto items-center">
+                    <SearchField
+                      className="flex-auto"
+                      placeholder="Search teams…"
+                      searching={this.state.searchingTeamsIsSlow}
+                      onChange={this.handleTeamSearch}
+                    />
 
-                <div className="flex-none pl3 flex">
-                  <Dropdown width={150} ref={(_teamPrivacyDropdown) => this._teamPrivacyDropdown = _teamPrivacyDropdown}>
-                    <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{TEAM_PRIVACIES.find((privacy) => privacy.id === this.props.relay.variables.teamPrivacy).name}</div>
-                    {this.renderTeamPrivacies()}
-                  </Dropdown>
+                    <div className="flex-none pl3 flex">
+                      <Dropdown width={150} ref={(_teamPrivacyDropdown) => this._teamPrivacyDropdown = _teamPrivacyDropdown}>
+                        <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{TEAM_PRIVACIES.find((privacy) => privacy.id === this.props.relay.variables.teamPrivacy).name}</div>
+                        {this.renderTeamPrivacies()}
+                      </Dropdown>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {this.renderTeamSearchInfo()}
-            {this.renderTeams()}
-            <ShowMoreFooter
-              connection={this.props.organization.teams}
-              label="teams"
-              loading={this.state.loadingMoreTeams}
-              onShowMore={this.handleShowMoreTeams}
-            />
-          </Panel>
+                {this.renderTeamSearchInfo()}
+                {this.renderTeams()}
+                <ShowMoreFooter
+                  connection={this.props.organization.teams}
+                  label="teams"
+                  loading={this.state.loadingMoreTeams}
+                  onShowMore={this.handleShowMoreTeams}
+                />
+              </Panel>
+          }
         </div>
       </DocumentTitle>
+    );
+  }
+
+  renderEnableTeams() {
+    return (
+      <div>
+        <Panel>
+          <Panel.Header>
+            Enable Teams for this Organization
+          </Panel.Header>
+          <Panel.Section className="max-width-3">
+            <p>&lt;Screenshot&gt;</p>
+          </Panel.Section>
+          <Panel.Footer>
+            <Button theme="success">Enable Teams for this Organization</Button>
+          </Panel.Footer>
+        </Panel>
+
+        <Panel className="mt4">
+          <Panel.Header>
+            Frequently Asked Questions
+          </Panel.Header>
+          <Panel.Section className="max-width-2">
+            <h3 className="mt3 h4 bold">A question about teams?</h3>
+            <p>An answer about teams.</p>
+            <h3 className="mt3 h4 bold">A question about teams?</h3>
+            <p>An answer about teams.</p>
+            <h3 className="mt3 h4 bold">A question about teams?</h3>
+            <p>An answer about teams.</p>
+          </Panel.Section>
+        </Panel>
+      </div>
     );
   }
 
