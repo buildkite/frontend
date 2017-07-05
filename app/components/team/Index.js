@@ -50,7 +50,7 @@ class TeamIndex extends React.PureComponent {
     searchingTeams: false,
     searchingTeamsIsSlow: false,
     loadingMoreTeams: false,
-    teamsEnabled: false
+    enablingTeams: false
   };
 
   componentDidMount() {
@@ -91,10 +91,32 @@ class TeamIndex extends React.PureComponent {
           <Panel>
             <Panel.Section className="max-width-3">
               <p>Teams allows you to group people, pipelines and permissions together.</p>
-              <p><img src="//placekitten.com/800/480" width="400" height="240" /></p>
-              <Button theme="success">
-                Enable Teams for this Organization
-              </Button>
+              <p>
+                <img
+                  src="//placekitten.com/800/480"
+                  width="400"
+                  height="240"
+                  alt=""
+                  title="This tiny kitten uses Teams - shouldn't you?"
+                />
+              </p>
+              <form
+                action={`/organizations/${this.props.organization.slug}/teams`}
+                acceptCharset=""
+                method="POST"
+                ref={(form) => this.form = form}
+              >
+                <input type="hidden" name="utf8" value="✓" />
+                <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
+
+                <Button
+                  onClick={this.handleEnableTeamsClick}
+                  loading={this.state.enablingTeams ? "Setting up Teams…" : false}
+                  theme="success"
+                >
+                  Start using Teams
+                </Button>
+              </form>
             </Panel.Section>
           </Panel>
 
@@ -146,6 +168,12 @@ class TeamIndex extends React.PureComponent {
       </Panel>
     );
   }
+
+  handleEnableTeamsClick = () => {
+    event.preventDefault();
+    this.setState({ enablingTeams: true });
+    this.form.submit();
+  };
 
   renderTeamPrivacies() {
     return TEAM_PRIVACIES.map((role, index) => {
