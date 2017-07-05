@@ -85,7 +85,7 @@ class TeamIndex extends React.PureComponent {
   }
 
   renderContent() {
-    if (!this.state.teamsEnabled) {
+    if (!Features.organizationHasTeams) {
       return (
         <div>
           <Panel>
@@ -188,7 +188,7 @@ class TeamIndex extends React.PureComponent {
   }
 
   renderMenu() {
-    if (!this.state.teamsEnabled) {
+    if (!Features.organizationHasTeams) {
       return null;
     }
 
