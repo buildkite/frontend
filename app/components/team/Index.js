@@ -158,19 +158,31 @@ class TeamIndex extends React.PureComponent {
   }
 
   renderTeams() {
-    if (this.props.organization.teams) {
-      return this.props.organization.teams.edges.map((edge) => {
-        return (
-          <Row key={edge.node.id} team={edge.node} />
-        );
-      });
+    if (!this.props.organization.teams) {
+      return (
+        <Panel.Section className="center">
+          <Spinner />
+        </Panel.Section>
+      );
     }
 
-    return (
-      <Panel.Section className="center">
-        <Spinner />
-      </Panel.Section>
-    );
+    if (this.props.organization.teams.edges.length === 0) {
+      if (this.props.relay.variables.teamSearch) {
+        return null;
+      }
+
+      return (
+        <Panel.Section className="dark-gray">
+          There are no teams in this organization
+        </Panel.Section>
+      );
+    }
+
+    return this.props.organization.teams.edges.map((edge) => {
+      return (
+        <Row key={edge.node.id} team={edge.node} />
+      );
+    });
   }
 
   renderTeamSearchInfo() {
