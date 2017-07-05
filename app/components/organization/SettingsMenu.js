@@ -88,7 +88,6 @@ class SettingsMenu extends React.Component {
         )
       },
       {
-        always: Features.TeamsLaunch,
         allowed: "teamAdmin",
         render: (idx) => (
           <Menu.Button
