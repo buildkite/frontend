@@ -101,7 +101,7 @@ class TeamIndex extends React.PureComponent {
                 />
               </p>
               <form
-                action={`/organizations/${this.props.organization.slug}/teams`}
+                action={`/organizations/${this.props.organization.slug}/teams/enable`}
                 acceptCharset=""
                 method="POST"
                 ref={(form) => this.form = form}
