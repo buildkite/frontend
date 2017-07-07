@@ -138,35 +138,68 @@ class TeamIndex extends React.PureComponent {
     }
 
     return (
-      <Panel className="mb4">
-        <div className="py2 px3">
-          <div className="flex flex-auto items-center">
-            <SearchField
-              className="flex-auto"
-              placeholder="Search teams…"
-              searching={this.state.searchingTeamsIsSlow}
-              onChange={this.handleTeamSearch}
-            />
+      <div>
+        <Panel className="mb4">
+          <div className="py2 px3">
+            <div className="flex flex-auto items-center">
+              <SearchField
+                className="flex-auto"
+                placeholder="Search teams…"
+                searching={this.state.searchingTeamsIsSlow}
+                onChange={this.handleTeamSearch}
+              />
 
-            <div className="flex-none pl3 flex">
-              <Dropdown width={150} ref={(_teamPrivacyDropdown) => this._teamPrivacyDropdown = _teamPrivacyDropdown}>
-                <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{TEAM_PRIVACIES.find((privacy) => privacy.id === this.props.relay.variables.teamPrivacy).name}</div>
-                {this.renderTeamPrivacies()}
-              </Dropdown>
+              <div className="flex-none pl3 flex">
+                <Dropdown width={150} ref={(_teamPrivacyDropdown) => this._teamPrivacyDropdown = _teamPrivacyDropdown}>
+                  <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{TEAM_PRIVACIES.find((privacy) => privacy.id === this.props.relay.variables.teamPrivacy).name}</div>
+                  {this.renderTeamPrivacies()}
+                </Dropdown>
+              </div>
             </div>
           </div>
-        </div>
 
-        {this.renderTeamSearchInfo()}
-        {this.renderTeams()}
-        <ShowMoreFooter
-          connection={this.props.organization.teams}
-          label="teams"
-          loading={this.state.loadingMoreTeams}
-          onShowMore={this.handleShowMoreTeams}
-        />
-      </Panel>
+          {this.renderTeamSearchInfo()}
+          {this.renderTeams()}
+          <ShowMoreFooter
+            connection={this.props.organization.teams}
+            label="teams"
+            loading={this.state.loadingMoreTeams}
+            onShowMore={this.handleShowMoreTeams}
+          />
+        </Panel>
+
+        {this.renderDisableTeamsPanel()}
+      </div>
     );
+  }
+
+  renderDisableTeamsPanel() {
+    if(this.props.organization.allTeams && this.props.organization.allTeams.count == 0 && this.props.organization.permissions.teamCreate.allowed) {
+      return (
+        <Panel className="mb4">
+          <Panel.Section>
+            <form
+              action={`/organizations/${this.props.organization.slug}/teams/disable`}
+              acceptCharset=""
+              method="POST"
+              ref={(form) => this.form = form}
+            >
+              <input type="hidden" name="utf8" value="✓" />
+              <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
+
+              <Button
+                onClick={this.handleEnableTeamsClick}
+                loading={this.state.enablingTeams ? "Turning off Teams…" : false}
+                theme="default"
+                outline={true}
+              >
+                Stop using Teams
+              </Button>
+            </form>
+          </Panel.Section>
+        </Panel>
+      )
+    }
   }
 
   handleEnableTeamsClick = () => {
@@ -201,7 +234,7 @@ class TeamIndex extends React.PureComponent {
 
       return (
         <Panel.Section className="dark-gray">
-          There are no teams in this organization
+          <p>There are no teams in this organization</p>
         </Panel.Section>
       );
     }
@@ -323,6 +356,9 @@ export default Relay.createContainer(TeamIndex, {
           teamCreate {
             allowed
           }
+        }
+        allTeams: teams @include(if: $isMounted) {
+          count
         }
         teams(first: $teamPageSize, search: $teamSearch, privacy: $teamPrivacy, order: NAME) @include(if: $isMounted) {
           ${ShowMoreFooter.getFragment('connection')}
