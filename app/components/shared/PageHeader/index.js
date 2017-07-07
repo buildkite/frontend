@@ -49,7 +49,7 @@ PageHeader.Title = Title;
 PageHeader.Button = Button;
 
 const SIMPLE_COMPONENTS = {
-  Description: 'dark-gray mt1',
+  Description: 'dark-gray mt1 max-width-2',
   Icon: 'flex items-center',
   Menu: 'flex items-center'
 };

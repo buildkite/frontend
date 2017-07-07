@@ -4,6 +4,7 @@ import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 import DocumentTitle from 'react-document-title';
 
+import Button from '../shared/Button';
 import Dropdown from '../shared/Dropdown';
 import Icon from '../shared/Icon';
 import PageHeader from '../shared/PageHeader';
@@ -48,7 +49,8 @@ class TeamIndex extends React.PureComponent {
   state = {
     searchingTeams: false,
     searchingTeamsIsSlow: false,
-    loadingMoreTeams: false
+    loadingMoreTeams: false,
+    enablingTeams: false
   };
 
   componentDidMount() {
@@ -73,41 +75,105 @@ class TeamIndex extends React.PureComponent {
             <PageHeader.Description>
               Teams allow you to create groups of users, and assign fine-grained permissions for who can view builds and create builds or modify pipelines.
             </PageHeader.Description>
-            <PageHeader.Menu>{this.renderNewTeamButton()}</PageHeader.Menu>
+            {this.renderMenu()}
           </PageHeader>
 
-          <Panel className="mb4">
-            <div className="py2 px3">
-              <div className="flex flex-auto items-center">
-                <SearchField
-                  className="flex-auto"
-                  placeholder="Search teams…"
-                  searching={this.state.searchingTeamsIsSlow}
-                  onChange={this.handleTeamSearch}
-                />
-
-                <div className="flex-none pl3 flex">
-                  <Dropdown width={150} ref={(_teamPrivacyDropdown) => this._teamPrivacyDropdown = _teamPrivacyDropdown}>
-                    <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{TEAM_PRIVACIES.find((privacy) => privacy.id === this.props.relay.variables.teamPrivacy).name}</div>
-                    {this.renderTeamPrivacies()}
-                  </Dropdown>
-                </div>
-              </div>
-            </div>
-
-            {this.renderTeamSearchInfo()}
-            {this.renderTeams()}
-            <ShowMoreFooter
-              connection={this.props.organization.teams}
-              label="teams"
-              loading={this.state.loadingMoreTeams}
-              onShowMore={this.handleShowMoreTeams}
-            />
-          </Panel>
+          {this.renderContent()}
         </div>
       </DocumentTitle>
     );
   }
+
+  renderContent() {
+    if (!Features.organizationHasTeams) {
+      return (
+        <div>
+          <Panel>
+            <Panel.Section className="max-width-3">
+              <p>Teams allows you to group people, pipelines and permissions together.</p>
+              <p>
+                <img
+                  src="//placekitten.com/800/480"
+                  width="400"
+                  height="240"
+                  alt=""
+                  title="This tiny kitten uses Teams - shouldn't you?"
+                />
+              </p>
+              <form
+                action={`/organizations/${this.props.organization.slug}/teams/enable`}
+                acceptCharset=""
+                method="POST"
+                ref={(form) => this.form = form}
+              >
+                <input type="hidden" name="utf8" value="✓" />
+                <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
+
+                <Button
+                  onClick={this.handleEnableTeamsClick}
+                  loading={this.state.enablingTeams ? "Setting up Teams…" : false}
+                  theme="success"
+                >
+                  Start using Teams
+                </Button>
+              </form>
+            </Panel.Section>
+          </Panel>
+
+          <Panel className="mt4">
+            <Panel.Header>
+              Frequently Asked Team Questions
+            </Panel.Header>
+            <Panel.Section className="max-width-2">
+              <h3 className="mt3 h4 bold">How do teams work with SSO?</h3>
+              <p>When a user signs in to SSO, the additional user is added to your account, and will be charged immediately, just as if you had invited them to the account.</p>
+              <h3 className="mt3 h4 bold">A question about teams?</h3>
+              <p>An answer about teams.</p>
+              <h3 className="mt3 h4 bold">A question about teams?</h3>
+              <p>An answer about teams.</p>
+            </Panel.Section>
+          </Panel>
+        </div>
+      );
+    }
+
+    return (
+      <Panel className="mb4">
+        <div className="py2 px3">
+          <div className="flex flex-auto items-center">
+            <SearchField
+              className="flex-auto"
+              placeholder="Search teams…"
+              searching={this.state.searchingTeamsIsSlow}
+              onChange={this.handleTeamSearch}
+            />
+
+            <div className="flex-none pl3 flex">
+              <Dropdown width={150} ref={(_teamPrivacyDropdown) => this._teamPrivacyDropdown = _teamPrivacyDropdown}>
+                <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{TEAM_PRIVACIES.find((privacy) => privacy.id === this.props.relay.variables.teamPrivacy).name}</div>
+                {this.renderTeamPrivacies()}
+              </Dropdown>
+            </div>
+          </div>
+        </div>
+
+        {this.renderTeamSearchInfo()}
+        {this.renderTeams()}
+        <ShowMoreFooter
+          connection={this.props.organization.teams}
+          label="teams"
+          loading={this.state.loadingMoreTeams}
+          onShowMore={this.handleShowMoreTeams}
+        />
+      </Panel>
+    );
+  }
+
+  handleEnableTeamsClick = () => {
+    event.preventDefault();
+    this.setState({ enablingTeams: true });
+    this.form.submit();
+  };
 
   renderTeamPrivacies() {
     return TEAM_PRIVACIES.map((role, index) => {
@@ -120,19 +186,31 @@ class TeamIndex extends React.PureComponent {
   }
 
   renderTeams() {
-    if (this.props.organization.teams) {
-      return this.props.organization.teams.edges.map((edge) => {
-        return (
-          <Row key={edge.node.id} team={edge.node} />
-        );
-      });
+    if (!this.props.organization.teams) {
+      return (
+        <Panel.Section className="center">
+          <Spinner />
+        </Panel.Section>
+      );
     }
 
-    return (
-      <Panel.Section className="center">
-        <Spinner />
-      </Panel.Section>
-    );
+    if (this.props.organization.teams.edges.length === 0) {
+      if (this.props.relay.variables.teamSearch) {
+        return null;
+      }
+
+      return (
+        <Panel.Section className="dark-gray">
+          There are no teams in this organization
+        </Panel.Section>
+      );
+    }
+
+    return this.props.organization.teams.edges.map((edge) => {
+      return (
+        <Row key={edge.node.id} team={edge.node} />
+      );
+    });
   }
 
   renderTeamSearchInfo() {
@@ -149,13 +227,30 @@ class TeamIndex extends React.PureComponent {
     }
   }
 
-  renderNewTeamButton() {
-    return permissions(this.props.organization.permissions).check(
-      {
-        allowed: "teamCreate",
-        render: () => <PageHeader.Button link={`/organizations/${this.props.organization.slug}/teams/new`} theme="default" outline={true}>Create a Team</PageHeader.Button>
-      }
+  renderMenu() {
+    if (!Features.organizationHasTeams) {
+      return null;
+    }
+
+    return (
+      <PageHeader.Menu>
+        {permissions(this.props.organization.permissions).check(
+          {
+            allowed: "teamCreate",
+            render: () => (
+              <PageHeader.Button
+                link={`/organizations/${this.props.organization.slug}/teams/new`}
+                theme="default"
+                outline={true}
+              >
+                Create a Team
+              </PageHeader.Button>
+            )
+          }
+        )}
+      </PageHeader.Menu>
     );
+
   }
 
   handleShowMoreTeams = () => {
