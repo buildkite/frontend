@@ -36,8 +36,6 @@ class Form extends React.PureComponent {
   }
 
   render() {
-    let content;
-
     if (!this.props.organizationMember.permissions.organizationMemberUpdate.allowed) {
       return (
         <Panel>
@@ -46,28 +44,27 @@ class Form extends React.PureComponent {
           </Panel.Section>
         </Panel>
       );
-    } else {
-      return (
-        <Panel>
-          <Panel.Section>
-            <FormCheckbox
-              label="Administrator"
-              help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see agent registration tokens."
-              onChange={this.handleAdminChange}
-              checked={this.state.isAdmin}
-            />
-          </Panel.Section>
-          <Panel.Section>
-            <Button
-              onClick={this.handleUpdateOrganizationMemberClick}
-              loading={this.state.updating && 'Saving User…'}
-            >
+    }
+    return (
+      <Panel>
+        <Panel.Section>
+          <FormCheckbox
+            label="Administrator"
+            help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see agent registration tokens."
+            onChange={this.handleAdminChange}
+            checked={this.state.isAdmin}
+          />
+        </Panel.Section>
+        <Panel.Section>
+          <Button
+            onClick={this.handleUpdateOrganizationMemberClick}
+            loading={this.state.updating && 'Saving User…'}
+          >
               Save User
             </Button>
-          </Panel.Section>
-        </Panel>
-      );
-    }
+        </Panel.Section>
+      </Panel>
+    );
   }
 
   handleAdminChange = (evt) => {

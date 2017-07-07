@@ -18,6 +18,7 @@ class Show extends React.PureComponent {
     organizationMember: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
       organization: PropTypes.shape({
+        slug: PropTypes.string.isRequired,
         permissions: PropTypes.shape({
           teamAdmin: PropTypes.shape({
             allowed: PropTypes.bool.isRequired
@@ -31,6 +32,9 @@ class Show extends React.PureComponent {
         avatar: PropTypes.shape({
           url: PropTypes.string.isRequired
         }).isRequired
+      }).isRequired,
+      teams: PropTypes.shape({
+        count: PropTypes.number.isRequired
       }).isRequired
     })
   };

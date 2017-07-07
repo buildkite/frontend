@@ -19,7 +19,7 @@ class Edit extends React.PureComponent {
         <MemberEditForm organizationMember={this.props.organizationMember} />
         <MemberEditRemove viewer={this.props.viewer} organizationMember={this.props.organizationMember} />
       </div>
-    )
+    );
   }
 }
 
