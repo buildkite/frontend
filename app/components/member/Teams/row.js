@@ -3,20 +3,20 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 
-import Button from '../../../shared/Button';
-import Emojify from '../../../shared/Emojify';
-import Panel from '../../../shared/Panel';
+import Button from '../../shared/Button';
+import Emojify from '../../shared/Emojify';
+import Panel from '../../shared/Panel';
 
-import MemberRole from '../../../team/Members/role';
+import MemberRole from '../../team/Members/role';
 
-import permissions from '../../../../lib/permissions';
+import permissions from '../../../lib/permissions';
 
-import FlashesStore from '../../../../stores/FlashesStore';
+import FlashesStore from '../../../stores/FlashesStore';
 
-import TeamMemberUpdateMutation from '../../../../mutations/TeamMemberUpdate';
-import TeamMemberDeleteMutation from '../../../../mutations/TeamMemberDelete';
+import TeamMemberUpdateMutation from '../../../mutations/TeamMemberUpdate';
+import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
 
-import TeamPrivacyConstants from '../../../../constants/TeamPrivacyConstants';
+import TeamPrivacyConstants from '../../../constants/TeamPrivacyConstants';
 
 class Row extends React.PureComponent {
   static displayName = "Member.Edit.TeamMemberships.Row";

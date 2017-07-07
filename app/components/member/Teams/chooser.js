@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import AutocompleteDialog from '../../../shared/Autocomplete/Dialog';
-import Button from '../../../shared/Button';
+import AutocompleteDialog from '../../shared/Autocomplete/Dialog';
+import Button from '../../shared/Button';
 
-import FlashesStore from '../../../../stores/FlashesStore';
+import FlashesStore from '../../../stores/FlashesStore';
 
 import Team from './team';
 

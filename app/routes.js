@@ -22,9 +22,13 @@ import TeamShow from './components/team/Show';
 import TeamMembers from './components/team/Members';
 import TeamPipelines from './components/team/Pipelines';
 import TeamEdit from './components/team/Edit';
+
 import MemberIndex from './components/member/Index';
 import MemberNew from './components/member/New';
+import MemberShow from './components/member/Show';
 import MemberEdit from './components/member/Edit';
+import MemberTeams from './components/member/Teams';
+
 import SSOIndex from './components/sso/Index';
 import PipelineSettingsSection from './components/pipeline/SettingsSection';
 import PipelineScheduleIndex from './components/pipeline/schedules/Index';
@@ -111,7 +115,12 @@ export default (
         <Route path="users" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
           <IndexRoute component={MemberIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
           <Route path="new" component={MemberNew} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
-          <Route path=":organizationMember" component={MemberEdit} queries={{ viewer: ViewerQuery.query, organizationMember: OrganizationMemberQuery.query }} prepareParams={OrganizationMemberQuery.prepareParams} render={renderSectionLoading} />
+          <Route path=":organizationMember" component={MemberShow} queries={{ organizationMember: OrganizationMemberQuery.query }} prepareParams={OrganizationMemberQuery.prepareParams} render={renderSectionLoading}>
+            <IndexRedirect to="settings" />
+
+            <Route path="settings" component={MemberEdit} queries={{ viewer: ViewerQuery.query, organizationMember: OrganizationMemberQuery.query }} prepareParams={OrganizationMemberQuery.prepareParams} render={renderSectionLoading} />
+            <Route path="teams" component={MemberTeams} queries={{ organizationMember: OrganizationMemberQuery.query }} prepareParams={OrganizationMemberQuery.prepareParams} render={renderSectionLoading} />
+          </Route>
         </Route>
         <Route path="teams" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
           <IndexRoute component={TeamIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
