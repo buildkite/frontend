@@ -26,7 +26,6 @@ class TeamMemberships extends React.PureComponent {
         ).isRequired
       }).isRequired
     }),
-    isSelf: PropTypes.bool.isRequired,
     relay: PropTypes.object.isRequired
   };
 
@@ -73,7 +72,6 @@ class TeamMemberships extends React.PureComponent {
       <Row
         key={node.id}
         teamMember={node}
-        isSelf={this.props.isSelf}
       />
     ));
   }

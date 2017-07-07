@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
 import Button from '../../shared/Button';
+import Panel from '../../shared/Panel';
 
 import FlashesStore from '../../../stores/FlashesStore';
 
@@ -23,8 +24,7 @@ class Remove extends React.PureComponent {
       user: PropTypes.shape({
         id: PropTypes.string.isRequired
       }).isRequired
-    }),
-    isSelf: PropTypes.bool.isRequired
+    })
   };
 
   static contextTypes = {
@@ -41,32 +41,28 @@ class Remove extends React.PureComponent {
       return null;
     }
 
-    const loading = this.state.removing && (
-      this.props.isSelf
-        ? 'Leaving Organization…'
-        : 'Removing from Organization…'
-    );
+    const loading = this.state.removing && 'Removing from Organization…';
 
     return (
-      <Button
-        theme="default"
-        outline={true}
-        loading={loading}
-        onClick={this.handleRemoveClick}
-      >
-        {
-          this.props.isSelf
-            ? 'Leave Organization'
-            : 'Remove from Organization'
-        }
-      </Button>
+      <Panel className="mt3">
+        <Panel.Section>
+          <Button
+            theme="default"
+            outline={true}
+            loading={loading}
+            onClick={this.handleRemoveClick}
+          >
+            {
+              'Remove from Organization'
+            }
+          </Button>
+        </Panel.Section>
+      </Panel>
     );
   }
 
   handleRemoveClick = () => {
-    const message = this.props.isSelf
-      ? 'Removing yourself will immediately revoke your access to this organization.'
-      : 'Removing this user will immediately revoke their access to this organization.';
+    const message = 'Removing this user will immediately revoke their access to this organization.';
 
     if (confirm(message)) {
       this.performRemove();

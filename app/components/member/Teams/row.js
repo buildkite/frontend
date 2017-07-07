@@ -48,8 +48,7 @@ class Row extends React.PureComponent {
           message: PropTypes.string
         })
       })
-    }).isRequired,
-    isSelf: PropTypes.bool.isRequired
+    }).isRequired
   };
 
   state = {
@@ -128,13 +127,13 @@ class Row extends React.PureComponent {
         render: () => (
           <Button
             key="delete"
-            loading={this.state.removing && (this.props.isSelf ? 'Leaving…' : 'Removing…')}
+            loading={this.state.removing && 'Removing…'}
             theme={"default"}
             outline={true}
             className="ml3"
             onClick={this.handleRemove}
           >
-            {this.props.isSelf ? 'Leave' : 'Remove'}
+            Remove
           </Button>
           )
       }
@@ -162,7 +161,7 @@ class Row extends React.PureComponent {
   };
 
   handleRemove = (evt) => {
-    if (confirm(this.props.isSelf ? 'Leave this team?' : 'Remove this user from the team?')) {
+    if (confirm('Remove this user from the team?')) {
       evt.preventDefault();
 
       this.performRemove();

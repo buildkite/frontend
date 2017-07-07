@@ -12,8 +12,8 @@ import OrganizationMemberUpdateMutation from '../../../mutations/OrganizationMem
 
 import OrganizationMemberRoleConstants from '../../../constants/OrganizationMemberRoleConstants';
 
-class Role extends React.PureComponent {
-  static displayName = "Member.Edit.Role";
+class Form extends React.PureComponent {
+  static displayName = "Member.Edit.Form";
 
   static propTypes = {
     organizationMember: PropTypes.shape({
@@ -22,8 +22,7 @@ class Role extends React.PureComponent {
       user: PropTypes.shape({
         name: PropTypes.string.isRequired
       }).isRequired
-    }),
-    isSelf: PropTypes.bool.isRequired
+    })
   };
 
   state = {
@@ -39,53 +38,36 @@ class Role extends React.PureComponent {
   render() {
     let content;
 
-    // Don't show the remove panel if you can't actually update them
     if (!this.props.organizationMember.permissions.organizationMemberUpdate.allowed) {
-      content = (
+      return (
         <Panel>
-          <Panel.Row>
+          <Panel.Section>
             {this.props.organizationMember.permissions.organizationMemberUpdate.message}
-          </Panel.Row>
+          </Panel.Section>
         </Panel>
       );
     } else {
-      const saveRowContent = (
-        this.props.isSelf
-          ? <span className="dark-gray">You can’t edit your own roles</span>
-          : (
-            <Button
-              onClick={this.handleUpdateOrganizationMemberClick}
-              loading={this.state.updating && 'Saving…'}
-            >
-              Save
-            </Button>
-          )
-      );
-
-      content = (
+      return (
         <Panel>
-          <Panel.Row>
+          <Panel.Section>
             <FormCheckbox
               label="Administrator"
-              help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see the agent registration token."
-              disabled={this.props.isSelf}
+              help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see agent registration tokens."
               onChange={this.handleAdminChange}
               checked={this.state.isAdmin}
             />
-          </Panel.Row>
-          <Panel.Row>
-            {saveRowContent}
-          </Panel.Row>
+          </Panel.Section>
+          <Panel.Section>
+            <Button
+              onClick={this.handleUpdateOrganizationMemberClick}
+              loading={this.state.updating && 'Saving User…'}
+            >
+              Save User
+            </Button>
+          </Panel.Section>
         </Panel>
       );
     }
-
-    return (
-      <div className="mb4">
-        <h2 className="h2">Roles</h2>
-        {content}
-      </div>
-    );
   }
 
   handleAdminChange = (evt) => {
@@ -126,7 +108,7 @@ class Role extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(Role, {
+export default Relay.createContainer(Form, {
   fragments: {
     organizationMember: () => Relay.QL`
       fragment on OrganizationMember {
