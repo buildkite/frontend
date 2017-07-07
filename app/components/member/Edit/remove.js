@@ -45,16 +45,13 @@ class Remove extends React.PureComponent {
 
     return (
       <Panel className="mt3">
+        <Panel.Header>Remove from Organization</Panel.Header>
         <Panel.Section>
-          <Button
-            theme="default"
-            outline={true}
-            loading={loading}
-            onClick={this.handleRemoveClick}
-          >
-            {
-              'Remove from Organization'
-            }
+          <p>Removing this user will immediately revoke their access to this organization.</p>
+        </Panel.Section>
+        <Panel.Section>
+          <Button theme="default" outline={true} loading={loading} onClick={this.handleRemoveClick}>
+            Remove from Organization
           </Button>
         </Panel.Section>
       </Panel>
