@@ -27,8 +27,7 @@ class Chooser extends React.Component {
       }).isRequired
     }).isRequired,
     relay: PropTypes.object.isRequired,
-    onChoose: PropTypes.func.isRequired,
-    isSelf: PropTypes.bool.isRequired
+    onChoose: PropTypes.func.isRequired
   };
 
   state = {
@@ -46,11 +45,10 @@ class Chooser extends React.Component {
     return (
       <div>
         <Button
+          className="mb3"
           onClick={this.handleDialogOpen}
-          outline={true}
-          theme="default"
         >
-          {`${this.props.isSelf ? 'Join a' : 'Add to'} Team…`}
+          Add to Team
         </Button>
         <AutocompleteDialog
           isOpen={this.state.showingDialog}
@@ -60,7 +58,7 @@ class Chooser extends React.Component {
           onSelect={this.handleTeamSelect}
           items={this.renderAutoCompleteSuggstions(this.props.relay.variables.teamAddSearch)}
           placeholder="Find a team…"
-          selectLabel={`${this.props.isSelf ? 'Join' : 'Add to'} Team`}
+          selectLabel="Add Team"
           popover={false}
           ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
         />
@@ -94,7 +92,7 @@ class Chooser extends React.Component {
 
     return [
       <AutocompleteDialog.ErrorMessage key="error">
-        {`Could not find any more teams ${this.props.isSelf ? 'to join' : 'to add'}`}
+        {`Could not find any more teams to add`}
       </AutocompleteDialog.ErrorMessage>
     ];
   }

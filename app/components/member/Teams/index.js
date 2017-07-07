@@ -36,15 +36,11 @@ class TeamMemberships extends React.PureComponent {
 
   render() {
     return (
-      <div className="mb4">
-        <div className="flex items-center">
-          <h2 className="h2 flex-auto">Team Memberships</h2>
-          <Chooser
-            organizationMember={this.props.organizationMember}
-            onChoose={this.handleTeamMemberAdd}
-            isSelf={this.props.isSelf}
-          />
-        </div>
+      <div>
+        <Chooser
+          organizationMember={this.props.organizationMember}
+          onChoose={this.handleTeamMemberAdd}
+        />
         <Panel>
           {this.renderTeams()}
           <ShowMoreFooter
