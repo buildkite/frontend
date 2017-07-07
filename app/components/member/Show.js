@@ -89,7 +89,8 @@ class Show extends React.PureComponent {
         )
       },
       {
-        always: true,
+        always: "teamAdmin",
+        and: () => (Features.TeamsLaunch || Features.organizationHasTeams),
         render: (idx) => (
           <TabControl.Tab
             key={idx}
