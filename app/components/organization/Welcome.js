@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Relay from 'react-relay/classic';
 
 import PipelineIcon from '../icons/Pipeline';
 
-export default class Welcome extends React.PureComponent {
+class Welcome extends React.PureComponent {
   static propTypes = {
-    organizationSlug: PropTypes.string.isRequired
-  }
+    organization: PropTypes.shape({
+      slug: PropTypes.string.isRequired,
+    })
+  };
 
   render() {
     return (
@@ -24,7 +27,7 @@ export default class Welcome extends React.PureComponent {
         <p>
           <a
             className="mt4 btn btn-primary bg-lime hover-white white rounded"
-            href={`/organizations/${this.props.organizationSlug}/pipelines/new`}
+            href={`/organizations/${this.props.organization.slug}/pipelines/new`}
           >
             New Pipeline
           </a>
@@ -33,3 +36,20 @@ export default class Welcome extends React.PureComponent {
     );
   }
 }
+
+export default Relay.createContainer(Welcome, {
+  fragments: {
+    organization: (variables) => Relay.QL`
+      fragment on Organization {
+        slug
+        permissions {
+          pipelineCreate {
+            code
+            allowed
+            message
+          }
+        }
+      }
+    `
+  }
+});

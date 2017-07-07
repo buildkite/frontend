@@ -69,19 +69,7 @@ class OrganizationShow extends React.Component {
               {this.renderTeams()}
               {this.renderFilter()}
 
-              <Button
-                theme="default"
-                outline={true}
-                className="p0 ml-auto flex circle items-center justify-center"
-                style={{
-                  width: 34,
-                  height: 34
-                }}
-                href={`/organizations/${this.props.organization.slug}/pipelines/new`}
-                title="New Pipeline"
-              >
-                <Icon icon="plus" title="New Pipeline" />
-              </Button>
+              {this.renderNewPipelineButton()}
             </div>
 
             <Pipelines
@@ -93,6 +81,29 @@ class OrganizationShow extends React.Component {
         </div>
       </DocumentTitle>
     );
+  }
+
+  renderNewPipelineButton() {
+    // If the current user isn't allowed to create pipelines, and the error code is
+    if(this.props.organization.permissions.pipelineCreate.code == "role") {
+      return null;
+    }
+
+    return (
+      <Button
+        theme="default"
+        outline={true}
+        className="p0 ml-auto flex circle items-center justify-center"
+        style={{
+          width: 34,
+          height: 34
+        }}
+        href={`/organizations/${this.props.organization.slug}/pipelines/new`}
+        title="New Pipeline"
+      >
+        <Icon icon="plus" title="New Pipeline" />
+      </Button>
+    )
   }
 
   renderTeams() {
@@ -159,6 +170,13 @@ export default Relay.createContainer(OrganizationShow, {
         id
         slug
         name
+        permissions {
+          pipelineCreate {
+            code
+            allowed
+            message
+          }
+        }
       }
     `
   }
