@@ -89,7 +89,8 @@ class MemberNew extends React.PureComponent {
                 onChange={this.handleEmailsChange}
                 rows={3}
               />
-
+            </Panel.Section>
+            <Panel.Section>
               <FormRadioGroup
                 name="role"
                 label="Role"
@@ -101,7 +102,8 @@ class MemberNew extends React.PureComponent {
                   { label: "Administrator", value: OrganizationMemberRoleConstants.ADMIN, help: "Has full administrative access to all parts of the organization." }
                 ]}
               />
-
+            </Panel.Section>
+            <Panel.Section>
               {this.renderTeamSection()}
             </Panel.Section>
             <Panel.Section>

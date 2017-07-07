@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
+import TeamLabels from '../../../team/Labels';
+
 import Emojify from '../../../shared/Emojify';
 
 class Team extends React.PureComponent {
@@ -17,7 +19,10 @@ class Team extends React.PureComponent {
   render() {
     return (
       <div>
-        <Emojify className="semi-bold truncate block" text={this.props.team.name} />
+        <div className="flex items-center">
+          <Emojify text={this.props.team.name} className="semi-bold truncate" />
+          <TeamLabels team={this.props.team} />
+        </div>
         <div className="m0 p0 dark-gray truncate"><Emojify text={this.props.team.description || "n/a"} /></div>
       </div>
     );
@@ -30,6 +35,7 @@ export default Relay.createContainer(Team, {
       fragment on Team {
         name
         description
+        ${TeamLabels.getFragment('team')}
       }
     `
   }
