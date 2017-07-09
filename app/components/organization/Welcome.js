@@ -57,7 +57,7 @@ class Welcome extends React.PureComponent {
 
 export default Relay.createContainer(Welcome, {
   fragments: {
-    organization: (variables) => Relay.QL`
+    organization: () => Relay.QL`
       fragment on Organization {
         slug
         permissions {
