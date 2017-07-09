@@ -3,20 +3,20 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 
-import Button from '../../../shared/Button';
-import Emojify from '../../../shared/Emojify';
-import Panel from '../../../shared/Panel';
+import Button from '../../shared/Button';
+import Emojify from '../../shared/Emojify';
+import Panel from '../../shared/Panel';
 
-import MemberRole from '../../../team/Members/role';
+import MemberRole from '../../team/Members/role';
 
-import permissions from '../../../../lib/permissions';
+import permissions from '../../../lib/permissions';
 
-import FlashesStore from '../../../../stores/FlashesStore';
+import FlashesStore from '../../../stores/FlashesStore';
 
-import TeamMemberUpdateMutation from '../../../../mutations/TeamMemberUpdate';
-import TeamMemberDeleteMutation from '../../../../mutations/TeamMemberDelete';
+import TeamMemberUpdateMutation from '../../../mutations/TeamMemberUpdate';
+import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
 
-import TeamPrivacyConstants from '../../../../constants/TeamPrivacyConstants';
+import TeamPrivacyConstants from '../../../constants/TeamPrivacyConstants';
 
 class Row extends React.PureComponent {
   static displayName = "Member.Edit.TeamMemberships.Row";
@@ -48,8 +48,7 @@ class Row extends React.PureComponent {
           message: PropTypes.string
         })
       })
-    }).isRequired,
-    isSelf: PropTypes.bool.isRequired
+    }).isRequired
   };
 
   state = {
@@ -128,13 +127,13 @@ class Row extends React.PureComponent {
         render: () => (
           <Button
             key="delete"
-            loading={this.state.removing && (this.props.isSelf ? 'Leaving…' : 'Removing…')}
+            loading={this.state.removing && 'Removing…'}
             theme={"default"}
             outline={true}
             className="ml3"
             onClick={this.handleRemove}
           >
-            {this.props.isSelf ? 'Leave' : 'Remove'}
+            Remove
           </Button>
           )
       }
@@ -162,7 +161,7 @@ class Row extends React.PureComponent {
   };
 
   handleRemove = (evt) => {
-    if (confirm(this.props.isSelf ? 'Leave this team?' : 'Remove this user from the team?')) {
+    if (confirm('Remove this user from the team?')) {
       evt.preventDefault();
 
       this.performRemove();

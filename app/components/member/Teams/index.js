@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Panel from '../../../shared/Panel';
-import ShowMoreFooter from '../../../shared/ShowMoreFooter';
+import Panel from '../../shared/Panel';
+import ShowMoreFooter from '../../shared/ShowMoreFooter';
 
 import Row from './row';
 import Chooser from './chooser';
@@ -12,7 +12,7 @@ const INITIAL_PAGE_SIZE = 5;
 const PAGE_SIZE = 20;
 
 class TeamMemberships extends React.PureComponent {
-  static displayName = "Member.Edit.TeamMemberships";
+  static displayName = "Member.Teams";
 
   static propTypes = {
     organizationMember: PropTypes.shape({
@@ -26,7 +26,6 @@ class TeamMemberships extends React.PureComponent {
         ).isRequired
       }).isRequired
     }),
-    isSelf: PropTypes.bool.isRequired,
     relay: PropTypes.object.isRequired
   };
 
@@ -36,15 +35,11 @@ class TeamMemberships extends React.PureComponent {
 
   render() {
     return (
-      <div className="mb4">
-        <div className="flex items-center">
-          <h2 className="h2 flex-auto">Team Memberships</h2>
-          <Chooser
-            organizationMember={this.props.organizationMember}
-            onChoose={this.handleTeamMemberAdd}
-            isSelf={this.props.isSelf}
-          />
-        </div>
+      <div>
+        <Chooser
+          organizationMember={this.props.organizationMember}
+          onChoose={this.handleTeamMemberAdd}
+        />
         <Panel>
           {this.renderTeams()}
           <ShowMoreFooter
@@ -77,7 +72,6 @@ class TeamMemberships extends React.PureComponent {
       <Row
         key={node.id}
         teamMember={node}
-        isSelf={this.props.isSelf}
       />
     ));
   }
