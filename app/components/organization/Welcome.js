@@ -12,6 +12,23 @@ class Welcome extends React.PureComponent {
   };
 
   render() {
+    if(this.props.organization.permissions.pipelineCreate.code == "not_member_of_team") {
+      return this.renderNoPipelineCreatePermission();
+    } else {
+      return this.renderWelcomeMessage();
+    }
+  }
+
+  renderNoPipelineCreatePermission() {
+    return (
+      <div className="center p4">
+        <p>Since you've not been assigned a team in Buildkite, you don't have permission to create new pipelines.</p>
+        <p>Contact one of your team maintainers or organization administrators for help.</p>
+      </div>
+    );
+  }
+
+  renderWelcomeMessage() {
     return (
       <div className="center p4">
         <PipelineIcon />
