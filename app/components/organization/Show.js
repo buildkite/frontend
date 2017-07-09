@@ -45,7 +45,8 @@ class OrganizationShow extends React.Component {
     organization: PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      slug: PropTypes.string.isRequired
+      slug: PropTypes.string.isRequired,
+      permissions: PropTypes.object.isRequired
     }).isRequired,
     relay: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired
@@ -86,7 +87,7 @@ class OrganizationShow extends React.Component {
   renderNewPipelineButton() {
     // Don't render the "New Pipeline" button if they're not allowed to due to
     // a `not_member_of_team` permsission error.
-    if(this.props.organization.permissions.pipelineCreate.code == "not_member_of_team") {
+    if (this.props.organization.permissions.pipelineCreate.code === "not_member_of_team") {
       return null;
     }
 
@@ -104,7 +105,7 @@ class OrganizationShow extends React.Component {
       >
         <Icon icon="plus" title="New Pipeline" />
       </Button>
-    )
+    );
   }
 
   renderTeams() {
