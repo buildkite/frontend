@@ -84,8 +84,9 @@ class OrganizationShow extends React.Component {
   }
 
   renderNewPipelineButton() {
-    // If the current user isn't allowed to create pipelines, and the error code is
-    if(this.props.organization.permissions.pipelineCreate.code == "role") {
+    // Don't render the "New Pipeline" button if they're not allowed to due to
+    // a `not_member_of_team` permsission error.
+    if(this.props.organization.permissions.pipelineCreate.code == "not_member_of_team") {
       return null;
     }
 
