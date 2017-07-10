@@ -24,7 +24,7 @@ class FormTextarea extends React.Component {
     className: PropTypes.string,
     errors: PropTypes.array,
     tabIndex: PropTypes.number,
-    required: PropTypes.required
+    required: PropTypes.bool
   };
 
   static defaultProps = {
