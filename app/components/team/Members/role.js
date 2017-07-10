@@ -7,6 +7,27 @@ import Icon from '../../shared/Icon';
 
 import TeamMemberRoleConstants from '../../../constants/TeamMemberRoleConstants';
 
+const PermissionBlock = ({ children }) => (
+  <div className="pointer-events-none" style={{ marginTop: 8, marginLeft: -4 }}>
+    {children}
+  </div>
+);
+
+const Permission = ({ icon, children }) => (
+  <div className="flex mt1" style={{ lineHeight: 1.4 }}>
+    <Icon icon={icon} className="dark-gray flex-none mr1" style={{ marginTop: -3 }} />
+    {children}
+  </div>
+);
+
+const Can = ({ permission }) => (
+  <Permission icon="permission-small-tick" title="Tick">Can {permission}.</Permission>
+);
+
+const CanNot = ({ permission }) => (
+  <Permission icon="permission-small-cross" title="Cross">Can not {permission}.</Permission>
+);
+
 export default class MemberRole extends React.PureComponent {
   static displayName = "Team.Pipelines.Role";
 
@@ -20,27 +41,6 @@ export default class MemberRole extends React.PureComponent {
 
   render() {
     const saving = this.props.savingNewRole;
-
-    const PermissionBlock = ({ children }) => (
-      <div className="pointer-events-none" style={{ marginTop: 8, marginLeft: -4 }}>
-        {children}
-      </div>
-    );
-
-    const Permission = ({ icon, children }) => (
-      <div className="flex mt1" style={{ lineHeight: 1.4 }}>
-        <Icon icon={icon} className="dark-gray flex-none mr1" style={{ marginTop: -3 }} />
-        {children}
-      </div>
-    );
-
-    const Can = ({ permission }) => (
-      <Permission icon="permission-small-tick" title="Tick">Can {permission}.</Permission>
-    );
-
-    const CanNot = ({ permission }) => (
-      <Permission icon="permission-small-cross" title="Cross">Can not {permission}.</Permission>
-    );
 
     return (
       <Dropdown width={270}>
