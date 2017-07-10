@@ -100,7 +100,7 @@ class MemberNew extends React.PureComponent {
                 onChange={this.handleAdminChange}
                 options={[
                   { label: "User", value: OrganizationMemberRoleConstants.MEMBER, help: "Can view, create and manage pipelines and builds." },
-                  { label: "Administrator", value: OrganizationMemberRoleConstants.ADMIN, help: "Has full administrative access to all parts of the organization." }
+                  { label: "Administrator", value: OrganizationMemberRoleConstants.ADMIN, help: "Can view and edit everything in the organization." }
                 ]}
               />
             </Panel.Section>
