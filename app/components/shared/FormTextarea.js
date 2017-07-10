@@ -23,7 +23,8 @@ class FormTextarea extends React.Component {
     autoresize: PropTypes.bool,
     className: PropTypes.string,
     errors: PropTypes.array,
-    tabIndex: PropTypes.number
+    tabIndex: PropTypes.number,
+    required: PropTypes.required
   };
 
   static defaultProps = {
@@ -51,7 +52,11 @@ class FormTextarea extends React.Component {
   render() {
     if (this.props.collapsable) {
       return (
-        <CollapsableFormField label={this.props.label} collapsed={this.state.collapsed}>
+        <CollapsableFormField
+          label={this.props.label}
+          collapsed={this.state.collapsed}
+          required={this.props.required}
+        >
           {this._renderTextArea()}
           {this._renderErrors()}
           {this._renderHelp()}
@@ -61,7 +66,11 @@ class FormTextarea extends React.Component {
 
     return (
       <div className="mb2">
-        <FormInputLabel label={this.props.label} errors={this._hasErrors()}>
+        <FormInputLabel
+          label={this.props.label}
+          errors={this._hasErrors()}
+          required={this.props.required}
+        >
           {this._renderTextArea()}
         </FormInputLabel>
         {this._renderErrors()}
@@ -126,6 +135,7 @@ class FormTextarea extends React.Component {
         style={style}
         ref={(_textarea) => this._textarea = _textarea}
         tabIndex={this.props.tabIndex}
+        required={this.props.required}
       />
     );
   }

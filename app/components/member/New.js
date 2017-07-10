@@ -88,6 +88,7 @@ class MemberNew extends React.PureComponent {
                 errors={errors.findForField("emails")}
                 onChange={this.handleEmailsChange}
                 rows={3}
+                required={true}
               />
             </Panel.Section>
             <Panel.Section>
