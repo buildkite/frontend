@@ -5,6 +5,7 @@ import Relay from 'react-relay/classic';
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
 import TeamForm from './Form';
+import TeamDelete from './TeamDelete';
 
 import TeamUpdateMutation from '../../mutations/TeamUpdate';
 import GraphQLErrors from '../../constants/GraphQLErrors';
@@ -42,24 +43,28 @@ class TeamEdit extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleFormSubmit}>
-        <Panel>
-          <Panel.Section>
-            <TeamForm
-              onChange={this.handleFormChange}
-              errors={this.state.errors}
-              name={this.state.name}
-              description={this.state.description}
-              privacy={this.state.privacy}
-              isDefaultTeam={this.state.isDefaultTeam}
-            />
-          </Panel.Section>
+      <div>
+        <form onSubmit={this.handleFormSubmit}>
+          <Panel>
+            <Panel.Section>
+              <TeamForm
+                onChange={this.handleFormChange}
+                errors={this.state.errors}
+                name={this.state.name}
+                description={this.state.description}
+                privacy={this.state.privacy}
+                isDefaultTeam={this.state.isDefaultTeam}
+              />
+            </Panel.Section>
 
-          <Panel.Footer>
-            <Button loading={this.state.saving ? "Saving team…" : false} theme="success">Save Team</Button>
-          </Panel.Footer>
-        </Panel>
-      </form>
+            <Panel.Footer>
+              <Button loading={this.state.saving ? "Saving team…" : false} theme="success">Save Team</Button>
+            </Panel.Footer>
+          </Panel>
+        </form>
+
+        <TeamDelete team={this.props.team} />
+      </div>
     );
   }
 
@@ -113,6 +118,7 @@ export default Relay.createContainer(TeamEdit, {
     team: () => Relay.QL`
       fragment on Team {
         ${TeamUpdateMutation.getFragment('team')}
+        ${TeamDelete.getFragment('team')}
         name
         slug
         description
