@@ -32,7 +32,7 @@ export default class MemberRole extends React.PureComponent {
         <Icon icon={icon} className="dark-gray flex-none mr1" style={{ marginTop: -3 }} />
         {children}
       </div>
-    )
+    );
 
     const Can = ({ permission }) => (
       <Permission icon="permission-small-tick" title="Tick">Can {permission}.</Permission>
