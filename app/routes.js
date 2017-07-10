@@ -17,7 +17,7 @@ import OrganizationSettingsSection from './components/organization/SettingsSecti
 import AgentIndex from './components/agent/Index';
 import AgentShow from './components/agent/Show';
 import TeamIndex from './components/team/Index';
-import TeamNew from './components/team/New';
+import TeamNew from './components/team/TeamNew';
 import TeamShow from './components/team/Show';
 import TeamMembers from './components/team/Members';
 import TeamPipelines from './components/team/Pipelines';
