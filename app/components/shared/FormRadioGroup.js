@@ -66,17 +66,20 @@ class FormRadioGroup extends React.Component {
       (option, index) => (
         <div key={index} className="mt1">
           <label className="mt1 inline-block pl4">
-            <input
-              className={classNames('absolute', { "is-error": this._hasErrors() }, option.className)}
-              style={{ marginLeft: '-20px' }}
-              name={this.props.name}
-              type="radio"
-              defaultChecked={this.props.value === option.value}
-              value={option.value}
-              onChange={this.props.onChange}
-              ref={(input) => this.inputs[index] = input}
-            />
-            <span className="bold block" style={{ marginBottom: -5 }}> {option.label}</span>
+            <div className="flex">
+              <input
+                className={classNames('absolute', { "is-error": this._hasErrors() }, option.className)}
+                style={{ marginLeft: '-20px' }}
+                name={this.props.name}
+                type="radio"
+                defaultChecked={this.props.value === option.value}
+                value={option.value}
+                onChange={this.props.onChange}
+                ref={(input) => this.inputs[index] = input}
+              />
+              <span className="bold block" style={{ marginBottom: -5 }}> {option.label}</span>
+              {option.badge && <div className="ml1 regular small border border-gray rounded dark-gray px1">{option.badge}</div>}
+            </div>
             {option.help && <FormInputHelp html={option.help} />}
           </label>
         </div>
