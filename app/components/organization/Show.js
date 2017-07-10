@@ -45,7 +45,8 @@ class OrganizationShow extends React.Component {
     organization: PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      slug: PropTypes.string.isRequired
+      slug: PropTypes.string.isRequired,
+      permissions: PropTypes.object.isRequired
     }).isRequired,
     relay: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired
@@ -69,19 +70,7 @@ class OrganizationShow extends React.Component {
               {this.renderTeams()}
               {this.renderFilter()}
 
-              <Button
-                theme="default"
-                outline={true}
-                className="p0 ml-auto flex circle items-center justify-center"
-                style={{
-                  width: 34,
-                  height: 34
-                }}
-                href={`/organizations/${this.props.organization.slug}/pipelines/new`}
-                title="New Pipeline"
-              >
-                <Icon icon="plus" title="New Pipeline" />
-              </Button>
+              {this.renderNewPipelineButton()}
             </div>
 
             <Pipelines
@@ -92,6 +81,30 @@ class OrganizationShow extends React.Component {
           </PageWithContainer>
         </div>
       </DocumentTitle>
+    );
+  }
+
+  renderNewPipelineButton() {
+    // Don't render the "New Pipeline" button if they're not allowed to due to
+    // a `not_member_of_team` permsission error.
+    if (this.props.organization.permissions.pipelineCreate.code === "not_member_of_team") {
+      return null;
+    }
+
+    return (
+      <Button
+        theme="default"
+        outline={true}
+        className="p0 ml-auto flex circle items-center justify-center"
+        style={{
+          width: 34,
+          height: 34
+        }}
+        href={`/organizations/${this.props.organization.slug}/pipelines/new`}
+        title="New Pipeline"
+      >
+        <Icon icon="plus" title="New Pipeline" />
+      </Button>
     );
   }
 
@@ -159,6 +172,13 @@ export default Relay.createContainer(OrganizationShow, {
         id
         slug
         name
+        permissions {
+          pipelineCreate {
+            code
+            allowed
+            message
+          }
+        }
       }
     `
   }

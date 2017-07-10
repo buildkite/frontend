@@ -1,14 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Relay from 'react-relay/classic';
 
 import PipelineIcon from '../icons/Pipeline';
 
-export default class Welcome extends React.PureComponent {
+class Welcome extends React.PureComponent {
   static propTypes = {
-    organizationSlug: PropTypes.string.isRequired
-  }
+    organization: PropTypes.shape({
+      slug: PropTypes.string.isRequired,
+      permissions: PropTypes.object.isRequired
+    })
+  };
 
   render() {
+    if (this.props.organization.permissions.pipelineCreate.code === "not_member_of_team") {
+      return this.renderNoPipelineCreatePermission();
+    }
+    return this.renderWelcomeMessage();
+
+  }
+
+  renderNoPipelineCreatePermission() {
+    return (
+      <div className="center p4">
+        <p>You don’t have permission to view or create any pipelines because you’ve not been assigned to a team.</p>
+        <p>Please contact one of your team maintainers or organization administrators for help.</p>
+      </div>
+    );
+  }
+
+  renderWelcomeMessage() {
     return (
       <div className="center p4">
         <PipelineIcon />
@@ -24,7 +45,7 @@ export default class Welcome extends React.PureComponent {
         <p>
           <a
             className="mt4 btn btn-primary bg-lime hover-white white rounded"
-            href={`/organizations/${this.props.organizationSlug}/pipelines/new`}
+            href={`/organizations/${this.props.organization.slug}/pipelines/new`}
           >
             New Pipeline
           </a>
@@ -33,3 +54,20 @@ export default class Welcome extends React.PureComponent {
     );
   }
 }
+
+export default Relay.createContainer(Welcome, {
+  fragments: {
+    organization: () => Relay.QL`
+      fragment on Organization {
+        slug
+        permissions {
+          pipelineCreate {
+            code
+            allowed
+            message
+          }
+        }
+      }
+    `
+  }
+});

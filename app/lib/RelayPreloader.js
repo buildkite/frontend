@@ -48,6 +48,13 @@ const QUERIES = {
         id
         slug
         name
+        permissions {
+          pipelineCreate {
+            code
+            allowed
+            message
+          }
+        }
         teams(first: 500) {
           edges {
             node {
