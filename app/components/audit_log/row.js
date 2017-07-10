@@ -7,6 +7,9 @@ import FriendlyTime from '../shared/FriendlyTime';
 import Icon from '../shared/Icon';
 import Panel from '../shared/Panel';
 import Spinner from '../shared/Spinner';
+import User from '../shared/User';
+
+import { uncamelise } from '../../lib/strings';
 
 const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
@@ -49,9 +52,16 @@ class AuditLogRow extends React.PureComponent {
                 className="inline-block rounded border border-gray black truncate semi-bold"
                 style={{ padding: '.1em .3em' }}
               >
-                {this.props.auditEvent.__typename}
+                {uncamelise(this.props.auditEvent.__typename.replace(/^Audit|Event$/g, ''))}
               </span>
             </span>
+            {this.props.auditEvent.actor &&
+              <User
+                className="mr2"
+                align="right"
+                user={this.props.auditEvent.actor}
+              />
+            }
             <div className="flex-none">
               <RotatableIcon
                 icon="chevron-right"
@@ -114,10 +124,7 @@ export default Relay.createContainer(AuditLogRow, {
         actor {
           __typename
           ...on User {
-            name
-            avatar {
-              url
-            }
+            ${User.getFragment('user')}
           }
         }
         subject {
