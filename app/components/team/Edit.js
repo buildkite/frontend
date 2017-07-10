@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
 import TeamForm from './Form';
+import TeamDelete from './TeamDelete';
 
 import TeamUpdateMutation from '../../mutations/TeamUpdate';
 import GraphQLErrors from '../../constants/GraphQLErrors';
@@ -41,19 +42,22 @@ class TeamEdit extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleFormSubmit}>
-        <TeamForm
-          uuid={this.props.team.uuid}
-          onChange={this.handleFormChange}
-          errors={this.state.errors}
-          name={this.state.name}
-          description={this.state.description}
-          privacy={this.state.privacy}
-          isDefaultTeam={this.state.isDefaultTeam}
-          saving={this.state.saving}
-          button={this.state.saving ? "Saving team…" : "Save Team"}
-        />
-      </form>
+      <div>
+        <form onSubmit={this.handleFormSubmit}>
+          <TeamForm
+            uuid={this.props.team.uuid}
+            onChange={this.handleFormChange}
+            errors={this.state.errors}
+            name={this.state.name}
+            description={this.state.description}
+            privacy={this.state.privacy}
+            isDefaultTeam={this.state.isDefaultTeam}
+            saving={this.state.saving}
+            button={this.state.saving ? "Saving team…" : "Save Team"}
+          />
+        </form>
+        <TeamDelete team={this.props.team} />
+      </div>
     );
   }
 
