@@ -161,7 +161,7 @@ class OrganizationPipelines extends React.Component {
     }
 
     return (
-      <Welcome organization={this.props.organization} />
+      <Welcome organization={this.props.organization} team={this.props.team} />
     );
   }
 
