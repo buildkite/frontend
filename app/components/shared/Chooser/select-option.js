@@ -26,7 +26,7 @@ SelectOption.displayName = "Chooser.SelectOption";
 SelectOption.propTypes = {
   value: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.node.isRequired,
   saving: PropTypes.bool,
   selected: PropTypes.bool
 };
