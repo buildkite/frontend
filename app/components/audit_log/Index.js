@@ -19,7 +19,8 @@ class AuditLogIndex extends React.PureComponent {
       auditEvents: PropTypes.shape({
         edges: PropTypes.array
       }).isRequired
-    }).isRequired
+    }).isRequired,
+    relay: PropTypes.object.isRequired
   };
 
   state = {
