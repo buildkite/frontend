@@ -21,7 +21,6 @@ class TeamForm extends React.Component {
     onChange: PropTypes.func,
     saving: PropTypes.bool,
     button: PropTypes.string.isRequired,
-    uuid: PropTypes.string,
     autofocus: PropTypes.bool
   };
 
@@ -81,26 +80,11 @@ class TeamForm extends React.Component {
           />
         </Panel.Section>
 
-        {this.renderUUIDSection()}
-
         <Panel.Footer>
           <Button loading={this.props.saving ? this.props.button : false} theme="success">{this.props.button}</Button>
         </Panel.Footer>
       </Panel>
     );
-  }
-
-  renderUUIDSection() {
-    if (this.props.uuid) {
-      return (
-        <Panel.Section>
-          <FormInputLabel label="UUID" />
-
-          <code className="block bg-silver p2 rounded">{this.props.uuid}</code>
-          <p className="dark-gray p0 mt1"> You can use this <code>UUID</code> to reference this team when using the <a href="/docs/rest-api/pipelines#create-a-pipeline" className="blue hover-navy">Create a Pipeline</a> REST API</p>
-        </Panel.Section>
-      );
-    }
   }
 
   handleTeamNameChange = (evt) => {

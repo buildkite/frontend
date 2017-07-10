@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
+import Panel from '../shared/Panel';
+
 import TeamForm from './Form';
 import TeamDelete from './TeamDelete';
 
@@ -45,7 +47,6 @@ class TeamEdit extends React.Component {
       <div>
         <form onSubmit={this.handleFormSubmit}>
           <TeamForm
-            uuid={this.props.team.uuid}
             onChange={this.handleFormChange}
             errors={this.state.errors}
             name={this.state.name}
@@ -56,6 +57,15 @@ class TeamEdit extends React.Component {
             button={this.state.saving ? "Saving team…" : "Save Team"}
           />
         </form>
+
+        <Panel className="mt3">
+          <Panel.Header>REST API Integration</Panel.Header>
+          <Panel.Section>
+            <p>You can use this UUID to reference this team when using the <a href="/docs/rest-api/pipelines#create-a-pipeline" className="blue hover-navy">Create a Pipeline</a> REST API.</p>
+            <code className="block bg-silver p2 rounded">{this.props.team.uuid}</code>
+          </Panel.Section>
+        </Panel>
+
         <TeamDelete team={this.props.team} />
       </div>
     );
