@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FormCheckbox from '../shared/FormCheckbox';
-import FormInputLabel from '../shared/FormInputLabel';
 import FormRadioGroup from '../shared/FormRadioGroup';
 import FormTextField from '../shared/FormTextField';
 import Panel from '../shared/Panel';
