@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title';
 import Icon from '../shared/Icon';
 import Panel from '../shared/Panel';
 import PageHeader from '../shared/PageHeader';
+import ShowMoreFooter from '../shared/ShowMoreFooter';
 
 import AuditLogRow from './row';
 
@@ -19,6 +20,10 @@ class AuditLogIndex extends React.PureComponent {
         edges: PropTypes.array
       }).isRequired
     }).isRequired
+  };
+
+  state = {
+    loading: false
   };
 
   render() {
@@ -53,15 +58,37 @@ class AuditLogIndex extends React.PureComponent {
         <Panel.Section>
           <span className="semi-bold">Controls and stuff go here</span>
         </Panel.Section>
+
         {this.props.organization.auditEvents.edges.map((edge) => (
           <AuditLogRow
             key={edge.node.id}
             auditEvent={edge.node}
           />
         ))}
+
+        <ShowMoreFooter
+          connection={this.props.organization.auditEvents}
+          loading={this.state.loading}
+          onShowMore={this.handleShowMoreAuditEvents}
+        />
       </Panel>
     );
   }
+
+  handleShowMoreAuditEvents = () => {
+    this.setState({ loading: true });
+
+    this.props.relay.setVariables(
+      {
+        pageSize: this.props.relay.variables.pageSize + PAGE_SIZE
+      },
+      (readyState) => {
+        if (readyState.done) {
+          this.setState({ loading: false });
+        }
+      }
+    );
+  };
 }
 
 export default Relay.createContainer(AuditLogIndex, {
@@ -80,9 +107,7 @@ export default Relay.createContainer(AuditLogIndex, {
               ${AuditLogRow.getFragment('auditEvent')}
             }
           }
-          pageInfo {
-            hasNextPage
-          }
+          ${ShowMoreFooter.getFragment('connection')}
         }
       }
     `
