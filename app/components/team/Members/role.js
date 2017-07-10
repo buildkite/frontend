@@ -12,6 +12,7 @@ const PermissionBlock = ({ children }) => (
     {children}
   </div>
 );
+PermissionBlock.propTypes = { children: PropTypes.node };
 
 const Permission = ({ icon, children }) => (
   <div className="flex mt1" style={{ lineHeight: 1.4 }}>
@@ -19,14 +20,17 @@ const Permission = ({ icon, children }) => (
     {children}
   </div>
 );
+Permission.propTypes = { icon: PropTypes.string.isRequired, children: PropTypes.node };
 
 const Can = ({ permission }) => (
   <Permission icon="permission-small-tick" title="Tick">Can {permission}.</Permission>
 );
+Can.propTypes = { permission: PropTypes.node.isRequired };
 
 const CanNot = ({ permission }) => (
   <Permission icon="permission-small-cross" title="Cross">Can not {permission}.</Permission>
 );
+CanNot.propTypes = { permission: PropTypes.node.isRequired };
 
 export default class MemberRole extends React.PureComponent {
   static displayName = "Team.Pipelines.Role";
