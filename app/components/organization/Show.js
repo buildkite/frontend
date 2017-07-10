@@ -91,6 +91,12 @@ class OrganizationShow extends React.Component {
       return null;
     }
 
+    // Attach the current team to the "New Pipeline" URL
+    let newPipelineURL = `/organizations/${this.props.organization.slug}/pipelines/new`;
+    if (this.props.location.query.team) {
+      newPipelineURL += `?team=${this.props.location.query.team}`;
+    }
+
     return (
       <Button
         theme="default"
@@ -100,7 +106,7 @@ class OrganizationShow extends React.Component {
           width: 34,
           height: 34
         }}
-        href={`/organizations/${this.props.organization.slug}/pipelines/new`}
+        href={newPipelineURL}
         title="New Pipeline"
       >
         <Icon icon="plus" title="New Pipeline" />

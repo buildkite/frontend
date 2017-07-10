@@ -9,7 +9,8 @@ class Welcome extends React.PureComponent {
     organization: PropTypes.shape({
       slug: PropTypes.string.isRequired,
       permissions: PropTypes.object.isRequired
-    })
+    }),
+    team: PropTypes.string
   };
 
   render() {
@@ -30,6 +31,12 @@ class Welcome extends React.PureComponent {
   }
 
   renderWelcomeMessage() {
+    // Attach the current team to the "New Pipeline" URL
+    let newPipelineURL = `/organizations/${this.props.organization.slug}/pipelines/new`;
+    if (this.props.team) {
+      newPipelineURL += `?team=${this.props.team}`;
+    }
+
     return (
       <div className="center p4">
         <PipelineIcon />
@@ -45,7 +52,7 @@ class Welcome extends React.PureComponent {
         <p>
           <a
             className="mt4 btn btn-primary bg-lime hover-white white rounded"
-            href={`/organizations/${this.props.organization.slug}/pipelines/new`}
+            href={newPipelineURL}
           >
             New Pipeline
           </a>
