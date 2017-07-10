@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
+import TeamLabels from './Labels';
+
 import { formatNumber } from '../../lib/number';
 import Panel from '../shared/Panel';
 import UserAvatar from '../shared/UserAvatar';
 import Emojify from '../shared/Emojify';
-import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 
 const maxAvatars = 4;
 const avatarSize = 30;
@@ -18,8 +19,6 @@ class TeamRow extends React.PureComponent {
       name: PropTypes.string.isRequired,
       description: PropTypes.string,
       slug: PropTypes.string.isRequired,
-      privacy: PropTypes.string.isRequired,
-      isDefaultTeam: PropTypes.bool.isRequired,
       organization: PropTypes.shape({
         slug: PropTypes.string.isRequired
       }).isRequired,
@@ -42,7 +41,10 @@ class TeamRow extends React.PureComponent {
       <Panel.RowLink key={this.props.team.id} to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}`}>
         <div className="flex flex-stretch items-center line-height-1" style={{ minHeight: '3em' }}>
           <div className="flex-auto">
-            <div className="m0 flex items-center"><Emojify text={this.props.team.name} className="semi-bold" />{this._renderPrivacyLabel()}{this._renderDefaultLabel()}</div>
+            <div className="m0 flex items-center">
+              <Emojify text={this.props.team.name} className="semi-bold" />
+              <TeamLabels team={this.props.team} />
+            </div>
             {this._renderDescription()}
           </div>
           <div className="flex flex-none flex-stretch items-center my1">
@@ -52,22 +54,6 @@ class TeamRow extends React.PureComponent {
         </div>
       </Panel.RowLink>
     );
-  }
-
-  _renderPrivacyLabel() {
-    if (this.props.team.privacy === TeamPrivacyConstants.SECRET) {
-      return (
-        <div className="ml1 regular small border border-gray rounded dark-gray p1">Secret</div>
-      );
-    }
-  }
-
-  _renderDefaultLabel() {
-    if (this.props.team.isDefaultTeam) {
-      return (
-        <div className="ml1 regular small border border-gray rounded dark-gray p1">Default</div>
-      );
-    }
   }
 
   _renderPipelineCount() {
@@ -121,7 +107,7 @@ class TeamRow extends React.PureComponent {
   _renderDescription() {
     if (this.props.team.description) {
       return (
-        <div className="regular dark-gray mt1"><Emojify text={this.props.team.description} /></div>
+        <div className="regular dark-gray mt1 h5"><Emojify text={this.props.team.description} /></div>
       );
     }
   }
@@ -139,8 +125,7 @@ export default Relay.createContainer(TeamRow, {
         name
         description
         slug
-        privacy
-        isDefaultTeam
+        ${TeamLabels.getFragment('team')}
         organization {
           slug
         }

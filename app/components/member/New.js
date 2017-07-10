@@ -88,8 +88,10 @@ class MemberNew extends React.PureComponent {
                 errors={errors.findForField("emails")}
                 onChange={this.handleEmailsChange}
                 rows={3}
+                required={true}
               />
-
+            </Panel.Section>
+            <Panel.Section>
               <FormRadioGroup
                 name="role"
                 label="Role"
@@ -98,10 +100,11 @@ class MemberNew extends React.PureComponent {
                 onChange={this.handleAdminChange}
                 options={[
                   { label: "User", value: OrganizationMemberRoleConstants.MEMBER, help: "Can view, create and manage pipelines and builds." },
-                  { label: "Administrator", value: OrganizationMemberRoleConstants.ADMIN, help: "Has full administrative access to all parts of the organization." }
+                  { label: "Administrator", value: OrganizationMemberRoleConstants.ADMIN, help: "Can view and edit everything in the organization." }
                 ]}
               />
-
+            </Panel.Section>
+            <Panel.Section>
               {this.renderTeamSection()}
             </Panel.Section>
             <Panel.Section>

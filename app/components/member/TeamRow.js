@@ -1,28 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-import styled from 'styled-components';
 
 import Emojify from '../shared/Emojify';
 
-import cssVariables from '../../css';
-
-const Label = styled.label`
-  padding-left: 2.1em;
-  border-color: ${cssVariables['--gray']};
-
-  input[type=checkbox]:focus + & {
-    border-color: ${cssVariables['--dark-gray']};
-  }
-
-  input[type=checkbox]:checked + & {
-    border-color: ${cssVariables['--lime']};
-  }
-
-  input[type=checkbox]:checked:focus + & {
-    border-color: ${cssVariables['--olive']};
-  }
-`;
+import TeamLabels from '../team/Labels';
 
 class TeamRow extends React.Component {
   static propTypes = {
@@ -36,27 +18,26 @@ class TeamRow extends React.Component {
   };
 
   render() {
-    // this ain't great, but we do what we must
-    const rowName = `TeamRow-${this.props.team.id}`;
-
     return (
-      <div className="p1 col-12 md-col-6 lg-col-4">
-        <input
-          id={rowName}
-          type="checkbox"
-          checked={this.props.checked}
-          onChange={this.handleChange}
-          className="absolute"
-          style={{
-            marginTop: '1.4em',
-            marginLeft: '1.1em',
-            cursor: 'inherit'
-          }}
-        />
-        <Label htmlFor={rowName} className="p2 block cursor-pointer rounded border">
-          <Emojify className="semi-bold truncate block" text={this.props.team.name} />
-          <div className="m0 p0 dark-gray truncate"><Emojify text={this.props.team.description || "n/a"} /></div>
-        </Label>
+      <div className="col-12 md-col-6 lg-col-4 py1">
+        <label className="block cursor-pointer px1 pb1">
+          <div className="flex items-start">
+            <div className="pl2 pr2" style={{ lineHeight: 1.75 }}>
+              <input
+                type="checkbox"
+                checked={this.props.checked}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="flex flex-column">
+              <div className="flex items-center m0 relative" style={{ lineHeight: 1.75 }}>
+                <Emojify text={this.props.team.name} className="semi-bold truncate" />
+                <TeamLabels team={this.props.team} />
+              </div>
+              {this._renderDescription()}
+            </div>
+          </div>
+        </label>
       </div>
     );
   }
@@ -64,6 +45,18 @@ class TeamRow extends React.Component {
   handleChange = () => {
     this.props.onChange(this.props.team);
   };
+
+  _renderDescription() {
+    if (!this.props.team.description) {
+      return null;
+    }
+
+    return (
+      <div className="m0 p0 dark-gray h5">
+        <Emojify text={this.props.team.description} />
+      </div>
+    );
+  }
 }
 
 export default Relay.createContainer(TeamRow, {
@@ -73,6 +66,7 @@ export default Relay.createContainer(TeamRow, {
         id
         name
         description
+        ${TeamLabels.getFragment('team')}
       }
     `
   }

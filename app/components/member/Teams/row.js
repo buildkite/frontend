@@ -104,7 +104,7 @@ class Row extends React.PureComponent {
   renderDescription() {
     if (this.props.teamMember.team.description) {
       return (
-        <div className="regular dark-gray mt1"><Emojify text={this.props.teamMember.team.description} /></div>
+        <div className="regular dark-gray mt1 h5"><Emojify text={this.props.teamMember.team.description} /></div>
       );
     }
   }
