@@ -26,7 +26,7 @@ class TeamForm extends React.Component {
   };
 
   componentDidMount() {
-    if(this.props.autofocus) {
+    if (this.props.autofocus) {
       this.nameTextField.focus();
     }
   }
@@ -93,7 +93,7 @@ class TeamForm extends React.Component {
   }
 
   renderUUIDSection() {
-    if(this.props.uuid) {
+    if (this.props.uuid) {
       return (
         <Panel.Section>
           <FormInputLabel label="UUID" />
@@ -101,7 +101,7 @@ class TeamForm extends React.Component {
           <code className="block bg-silver p2 rounded">{this.props.uuid}</code>
           <p className="dark-gray p0 mt1"> You can use this <code>UUID</code> to reference this team when using the <a href="/docs/rest-api/pipelines#create-a-pipeline" className="blue hover-navy">Create a Pipeline</a> REST API</p>
         </Panel.Section>
-      )
+      );
     }
   }
 

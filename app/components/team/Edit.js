@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Panel from '../shared/Panel';
-import Button from '../shared/Button';
 import TeamForm from './Form';
 
 import TeamUpdateMutation from '../../mutations/TeamUpdate';
@@ -15,6 +13,7 @@ class TeamEdit extends React.Component {
     team: PropTypes.shape({
       name: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
       description: PropTypes.string,
       privacy: PropTypes.string.isRequired,
       isDefaultTeam: PropTypes.bool.isRequired,
@@ -101,7 +100,7 @@ class TeamEdit extends React.Component {
   handleMutationSuccess = (response) => {
     this.setState({ saving: false });
 
-    FlashesStore.flash(FlashesStore.SUCCESS, "Settings for this team have been saved successfully")
+    FlashesStore.flash(FlashesStore.SUCCESS, "Settings for this team have been saved successfully");
 
     // Update the URL with the latest version of the slug
     this.context.router.push(`/organizations/${this.props.team.organization.slug}/teams/${response.teamUpdate.team.slug}/settings`);

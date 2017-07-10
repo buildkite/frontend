@@ -4,8 +4,6 @@ import { createFragmentContainer, graphql, commitMutation } from 'react-relay/co
 import DocumentTitle from 'react-document-title';
 
 import PageHeader from '../shared/PageHeader';
-import Panel from '../shared/Panel';
-import Button from '../shared/Button';
 import TeamForm from './Form';
 
 import GraphQLErrors from '../../constants/GraphQLErrors';
