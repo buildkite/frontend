@@ -11,6 +11,37 @@ import User from '../shared/User';
 
 import { uncamelise } from '../../lib/strings';
 
+const renderData = (data, depth = 1) => {
+  if (typeof data === 'string') {
+    return data;
+  }
+
+  if (depth > 10) {
+    return <i>Nesting too deep!</i>;
+  }
+
+  return (
+    <dl>
+      {Object.keys(data).sort().reduce(
+        (accumulator, property) => (
+          accumulator.concat([
+            <dt
+              key={`dt:${property}`}
+              className="semi-bold"
+            >
+              {property}
+            </dt>,
+            <dd key={`dd:${property}`}>
+              {renderData(data[property], depth + 1)}
+            </dd>
+          ])
+        ),
+        []
+      )}
+    </dl>
+  );
+};
+
 const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
 `;
@@ -75,7 +106,8 @@ class AuditLogRow extends React.PureComponent {
           <TransitionMaxHeight
             className="mxn3 overflow-hidden"
             style={{
-              maxHeight: this.state.isExpanded ? 500 : 0
+              maxHeight: this.state.isExpanded ? 1000 : 0,
+              overflowY: 'auto'
             }}
           >
             <hr
@@ -103,29 +135,7 @@ class AuditLogRow extends React.PureComponent {
       );
     }
 
-    return (
-      <dl>
-        {Object.keys(this.props.auditEvent).sort().reduce(
-          (accumulator, property) => (
-            accumulator.concat([
-              <dt
-                key={`dt:${property}`}
-                className="semi-bold"
-              >
-                {property}
-              </dt>,
-              <dd
-                key={`dd:${property}`}
-                className="truncate"
-              >
-                <pre>{JSON.stringify(this.props.auditEvent[property], null, '  ')}</pre>
-              </dd>
-            ])
-          ),
-          []
-        )}
-      </dl>
-    );
+    return renderData(this.props.auditEvent);
   }
 
   handleHeaderClick = () => {
