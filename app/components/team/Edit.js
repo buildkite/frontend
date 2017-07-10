@@ -99,7 +99,9 @@ class TeamEdit extends React.Component {
   };
 
   handleMutationSuccess = (response) => {
-    this.context.router.push(`/organizations/${this.props.team.organization.slug}/teams/${response.teamUpdate.team.slug}`);
+    this.setState({ saving: false });
+
+    FlashesStore.flash(FlashesStore.SUCCESS, "Settings for this team have been saved successfully")
   };
 }
 
