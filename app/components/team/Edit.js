@@ -116,6 +116,7 @@ export default Relay.createContainer(TeamEdit, {
     team: () => Relay.QL`
       fragment on Team {
         ${TeamUpdateMutation.getFragment('team')}
+        ${TeamDelete.getFragment('team')}
         uuid
         name
         slug
