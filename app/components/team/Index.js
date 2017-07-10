@@ -180,7 +180,11 @@ class TeamIndex extends React.PureComponent {
     if (this.props.organization.allTeams && this.props.organization.allTeams.count === 0 && this.props.organization.permissions.teamCreate.allowed) {
       return (
         <Panel className="mb4">
-          <Panel.Section>
+          <Panel.Header>
+            Disable Teams for this Organization
+          </Panel.Header>
+          <Panel.Section className="max-width-3">
+            <p>Want to stop using teams for this organization? You can always enable it again later.</p>
             <form
               action={`/organizations/${this.props.organization.slug}/teams/disable`}
               acceptCharset=""
@@ -196,7 +200,7 @@ class TeamIndex extends React.PureComponent {
                 theme="default"
                 outline={true}
               >
-                Stop using Teams
+                Disable Teams
               </Button>
             </form>
           </Panel.Section>
