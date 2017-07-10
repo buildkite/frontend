@@ -33,8 +33,8 @@ class Welcome extends React.PureComponent {
   renderWelcomeMessage() {
     // Attach the current team to the "New Pipeline" URL
     let newPipelineURL = `/organizations/${this.props.organization.slug}/pipelines/new`;
-    if(this.props.team) {
-      newPipelineURL += `?team=${this.props.team}`
+    if (this.props.team) {
+      newPipelineURL += `?team=${this.props.team}`;
     }
 
     return (
