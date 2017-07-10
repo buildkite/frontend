@@ -161,7 +161,7 @@ class OrganizationPipelines extends React.Component {
     }
 
     return (
-      <Welcome organizationSlug={this.props.organization.slug} />
+      <Welcome organization={this.props.organization} />
     );
   }
 
@@ -222,6 +222,7 @@ export default Relay.createContainer(OrganizationPipelines, {
   fragments: {
     organization: (variables) => Relay.QL`
       fragment on Organization {
+        ${Welcome.getFragment('organization')}
         id
         slug
         pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, order: NAME_WITH_FAVORITES_FIRST) @include(if: $isMounted) {

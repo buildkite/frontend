@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
 
 import PageHeader from '../shared/PageHeader';
@@ -8,7 +8,6 @@ import Panel from '../shared/Panel';
 import Button from '../shared/Button';
 import TeamForm from './Form';
 
-import TeamCreateMutation from '../../mutations/TeamCreate';
 import GraphQLErrors from '../../constants/GraphQLErrors';
 import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
@@ -16,9 +15,11 @@ import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 class TeamNew extends React.Component {
   static propTypes = {
     organization: PropTypes.shape({
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    relay: PropTypes.object.isRequired
   };
 
   static contextTypes = {
@@ -76,26 +77,49 @@ class TeamNew extends React.Component {
 
     this.setState({ saving: true });
 
-    const mutation = new TeamCreateMutation({
-      organization: this.props.organization,
-      name: this.state.name,
-      description: this.state.description,
-      privacy: this.state.privacy,
-      isDefaultTeam: this.state.isDefaultTeam,
-      defaultMemberRole: this.state.defaultMemberRole
-    });
+    const mutation = graphql`mutation TeamNewMutation($input: TeamCreateInput!) {
+      teamCreate(input: $input) {
+        clientMutationId
+        organization {
+          id
+          teams {
+            count
+          }
+        }
+        teamEdge {
+          node {
+            slug
+          }
+        }
+      }
+    }`;
 
-    Relay.Store.commitUpdate(mutation, {
-      onSuccess: this.handleMutationSuccess,
-      onFailure: this.handleMutationError
-    });
+    const variables = {
+      input: {
+        organizationID: this.props.organization.id,
+        name: this.state.name,
+        description: this.state.description,
+        privacy: this.state.privacy,
+        isDefaultTeam: this.state.isDefaultTeam,
+        defaultMemberRole: this.state.defaultMemberRole
+      }
+    };
+
+    commitMutation(
+      this.props.relay.environment,
+      {
+        mutation: mutation,
+        variables: variables,
+        onCompleted: this.handleMutationComplete,
+        onError: this.handleMutationError
+      }
+    );
   };
 
-  handleMutationError = (transaction) => {
-    const error = transaction.getError();
+  handleMutationError = (error) => {
     if (error) {
       if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
-        this.setState({ errors: transaction.getError().source.errors });
+        this.setState({ errors: error.source.errors });
       } else {
         alert(error);
       }
@@ -104,20 +128,17 @@ class TeamNew extends React.Component {
     this.setState({ saving: false });
   };
 
-  handleMutationSuccess = (response) => {
-    // Redirect to the new team
+  handleMutationComplete = (response) => {
     this.context.router.push(`/organizations/${this.props.organization.slug}/teams/${response.teamCreate.teamEdge.node.slug}`);
   };
 }
 
-export default Relay.createContainer(TeamNew, {
-  fragments: {
-    organization: () => Relay.QL`
-      fragment on Organization {
-        ${TeamCreateMutation.getFragment('organization')}
-        name
-        slug
-      }
-    `
-  }
+export default createFragmentContainer(TeamNew, {
+  organization: graphql`
+    fragment TeamNew_organization on Organization {
+      id
+      name
+      slug
+    }
+  `
 });

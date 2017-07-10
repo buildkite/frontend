@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Emojify from '../../../shared/Emojify';
+import Emojify from '../../shared/Emojify';
 
 class Team extends React.PureComponent {
   static displayName = "Member.Edit.TeamMemberships.Chooser.Team";
