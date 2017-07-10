@@ -15,7 +15,16 @@ class Teams extends React.Component {
   };
 
   render() {
-    if (this.props.organization.teams.edges.length === 0) {
+    // Collect all the teams that we're allowed to see pipelines on
+    let teams = [];
+    for (const edge of this.props.organization.teams.edges) {
+      if (edge.node.permissions.pipelineView.allowed) {
+        teams.push(edge.node);
+      }
+    }
+
+    // Don't render the select if there aren't any teams that can be viewed
+    if (teams.length === 0) {
       return null;
     }
 
@@ -35,7 +44,7 @@ class Teams extends React.Component {
         </button>
 
         <Chooser selected={null} onSelect={this.handleDropdownSelect}>
-          {this.renderOptions()}
+          {this.renderOptions(teams)}
           <Chooser.Option value="" className="btn block hover-bg-silver">
             <div>All teams</div>
           </Chooser.Option>
@@ -58,11 +67,11 @@ class Teams extends React.Component {
     return "All teams";
   }
 
-  renderOptions() {
-    return this.props.organization.teams.edges.map((edge) =>
-      (<Chooser.Option key={edge.node.id} value={edge.node.slug} className="btn block hover-bg-silver line-height-3">
-        <Emojify className="block" text={edge.node.name} />
-        {edge.node.description ? <Emojify className="dark-gray light" text={edge.node.description} /> : null}
+  renderOptions(teams) {
+    return teams.map((team) =>
+      (<Chooser.Option key={team.id} value={team.slug} className="btn block hover-bg-silver line-height-3">
+        <Emojify className="block" text={team.name} />
+        {team.description ? <Emojify className="dark-gray light" text={team.description} /> : null}
       </Chooser.Option>)
     );
   }
@@ -84,6 +93,11 @@ export default Relay.createContainer(Teams, {
               name
               slug
               description
+              permissions {
+                pipelineView {
+                  allowed
+                }
+              }
             }
           }
         }
