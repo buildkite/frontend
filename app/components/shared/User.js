@@ -72,7 +72,7 @@ class User extends React.PureComponent {
       </div>
     );
   }
-};
+}
 
 export default Relay.createContainer(User, {
   fragments: {

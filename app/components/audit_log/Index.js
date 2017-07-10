@@ -2,13 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
-import { v4 as uuid } from 'uuid';
 
-import Button from '../shared/Button';
 import Icon from '../shared/Icon';
 import Panel from '../shared/Panel';
 import PageHeader from '../shared/PageHeader';
-import Spinner from '../shared/Spinner';
 
 import AuditLogRow from './row';
 
@@ -65,7 +62,7 @@ class AuditLogIndex extends React.PureComponent {
       </Panel>
     );
   }
-};
+}
 
 export default Relay.createContainer(AuditLogIndex, {
   initialVariables: {

@@ -24,15 +24,18 @@ const RotatableIcon = styled(Icon)`
 class AuditLogRow extends React.PureComponent {
   static propTypes = {
     auditEvent: PropTypes.shape({
+      __typename: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
       occurredAt: PropTypes.string.isRequired,
-      actor: PropTypes.object.isRequired,
-      subject: PropTypes.object.isRequired
-    }).isRequired
+      actor: PropTypes.object,
+      subject: PropTypes.object,
+      context: PropTypes.object
+    }).isRequired,
+    relay: PropTypes.object.isRequired
   };
 
   state = {
-    expanded: false
+    isExpanded: false
   };
 
   render() {
@@ -65,14 +68,14 @@ class AuditLogRow extends React.PureComponent {
             <div className="flex-none">
               <RotatableIcon
                 icon="chevron-right"
-                rotate={this.state.expanded}
+                rotate={this.state.isExpanded}
               />
             </div>
           </div>
           <TransitionMaxHeight
             className="mxn3 overflow-hidden"
             style={{
-              maxHeight: this.state.expanded ? 500 : 0
+              maxHeight: this.state.isExpanded ? 500 : 0
             }}
           >
             <hr
@@ -82,39 +85,75 @@ class AuditLogRow extends React.PureComponent {
                 height: 1
               }}
             />
-            <dl className="mx3 mt2 mb0">
-              {Object.keys(this.props.auditEvent).sort().reduce(
-                (accumulator, property) => (
-                  accumulator.concat([
-                    <dt
-                      key={`dt:${property}`}
-                      className="semi-bold"
-                    >
-                      {property}
-                    </dt>,
-                    <dd
-                      key={`dd:${property}`}
-                      className="truncate"
-                    >
-                      <pre>{JSON.stringify(this.props.auditEvent[property], null, '  ')}</pre>
-                    </dd>
-                  ])
-                ),
-                []
-              )}
-            </dl>
+            <div className="mx3 mt2 mb0">
+              {this.renderDetails()}
+            </div>
           </TransitionMaxHeight>
         </div>
       </Panel.Row>
     );
   }
 
+  renderDetails() {
+    if (this.state.loading) {
+      return (
+        <div className="center">
+          <Spinner style={{ margin: 9.5 }} />
+        </div>
+      );
+    }
+
+    return (
+      <dl>
+        {Object.keys(this.props.auditEvent).sort().reduce(
+          (accumulator, property) => (
+            accumulator.concat([
+              <dt
+                key={`dt:${property}`}
+                className="semi-bold"
+              >
+                {property}
+              </dt>,
+              <dd
+                key={`dd:${property}`}
+                className="truncate"
+              >
+                <pre>{JSON.stringify(this.props.auditEvent[property], null, '  ')}</pre>
+              </dd>
+            ])
+          ),
+          []
+        )}
+      </dl>
+    );
+  }
+
   handleHeaderClick = () => {
-    this.setState({ expanded: !this.state.expanded });
+    const isExpanded = !this.state.isExpanded;
+
+    this.setState({
+      loading: true,
+      isExpanded
+    }, () => {
+      this.props.relay.setVariables(
+        {
+          isExpanded
+        },
+        (readyState) => {
+          if (readyState.done) {
+            this.setState({ loading: false });
+          }
+        }
+      );
+    });
   };
-};
+}
 
 export default Relay.createContainer(AuditLogRow, {
+  initialVariables: {
+    isExpanded: false
+  },
+
   fragments: {
     auditEvent: () => Relay.QL`
       fragment on AuditEvent {
@@ -127,7 +166,7 @@ export default Relay.createContainer(AuditLogRow, {
             ${User.getFragment('user')}
           }
         }
-        subject {
+        subject @include(if: $isExpanded) {
           __typename
           ...on Organization {
             id
@@ -138,7 +177,7 @@ export default Relay.createContainer(AuditLogRow, {
             name
           }
         }
-        context {
+        context @include(if: $isExpanded) {
           __typename
           ...on AuditWebContext {
             requestIpAddress
