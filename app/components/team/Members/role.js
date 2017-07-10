@@ -30,14 +30,14 @@ export default class MemberRole extends React.PureComponent {
             saving={saving === TeamMemberRoleConstants.MAINTAINER}
             selected={this.props.teamMember.role === TeamMemberRoleConstants.MAINTAINER}
             label={this.label(TeamMemberRoleConstants.MAINTAINER)}
-            description="Manage members and pipelines with unrestricted access"
+            description="Create and access pipelines in this team, along with adding and removing users."
           />
           <Chooser.SelectOption
             value={TeamMemberRoleConstants.MEMBER}
             saving={saving === TeamMemberRoleConstants.MEMBER}
             selected={this.props.teamMember.role === TeamMemberRoleConstants.MEMBER}
             label={this.label(TeamMemberRoleConstants.MEMBER)}
-            description="Create and access pipelines based on each pipeline’s permissions"
+            description="Create and access pipelines in this team."
           />
         </Chooser>
       </Dropdown>
