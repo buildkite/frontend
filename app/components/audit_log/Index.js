@@ -12,7 +12,7 @@ import Spinner from '../shared/Spinner';
 
 import AuditLogRow from './row';
 
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 30;
 
 class AuditLogIndex extends React.PureComponent {
   static propTypes = {
