@@ -34,6 +34,9 @@ class TeamIndex extends React.PureComponent {
       name: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired,
       permissions: PropTypes.object.isRequired,
+      allTeams: PropTypes.shape({
+        count: PropTypes.number.isRequired
+      }),
       teams: PropTypes.shape({
         count: PropTypes.number.isRequired,
         edges: PropTypes.arrayOf(
@@ -174,7 +177,7 @@ class TeamIndex extends React.PureComponent {
   }
 
   renderDisableTeamsPanel() {
-    if(this.props.organization.allTeams && this.props.organization.allTeams.count == 0 && this.props.organization.permissions.teamCreate.allowed) {
+    if (this.props.organization.allTeams && this.props.organization.allTeams.count === 0 && this.props.organization.permissions.teamCreate.allowed) {
       return (
         <Panel className="mb4">
           <Panel.Section>
@@ -198,7 +201,7 @@ class TeamIndex extends React.PureComponent {
             </form>
           </Panel.Section>
         </Panel>
-      )
+      );
     }
   }
 
