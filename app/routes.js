@@ -36,6 +36,7 @@ import PipelineScheduleNew from './components/pipeline/schedules/New';
 import PipelineScheduleShow from './components/pipeline/schedules/Show';
 import PipelineScheduleEdit from './components/pipeline/schedules/Edit';
 import PipelineTeamIndex from './components/pipeline/teams/Index';
+import PipelineNewTeams from './components/pipeline/New/PipelineNewTeams';
 import JobIndex from './components/job/Index';
 
 import * as AgentQuery from './queries/Agent';
@@ -99,6 +100,8 @@ const onRouterUpdate = () => {
 export default (
   <Router history={browserHistory} onUpdate={onRouterUpdate} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
     <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery.query, build: BuildQuery.query }} prepareParams={BuildQuery.prepareParams} />
+    <Route path="/organizations/:organization/pipelines/new" component={PipelineNewTeams} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+    <Route path="/organizations/:organization/pipelines" component={PipelineNewTeams} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
     <Route path="/" component={Main} getQueries={getMainQueries} render={renderMain}>
       <Route path="authorize/:code" component={APIAccessTokenCodeAuthorize} queries={{ apiAccessTokenCode: APIAccessTokenCodeQuery.query }} />

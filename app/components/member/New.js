@@ -10,7 +10,7 @@ import FormInputLabel from '../shared/FormInputLabel';
 import FormInputHelp from '../shared/FormInputHelp';
 import Panel from '../shared/Panel';
 import PageHeader from '../shared/PageHeader';
-import TeamRow from './TeamRow';
+import MemberTeamRow from './MemberTeamRow';
 
 import FlashesStore from '../../stores/FlashesStore';
 import ValidationErrors from '../../lib/ValidationErrors';
@@ -207,7 +207,7 @@ class MemberNew extends React.PureComponent {
         <FormInputHelp html="You can give the invited users additional permissions by adding them to one or more teams." />
         <div className="flex flex-wrap content-around mxn1 mt1">
           {teamEdges.map(({ node }) => (
-            <TeamRow
+            <MemberTeamRow
               key={node.id}
               team={node}
               checked={this.state.teams.includes(node.id)}
@@ -253,7 +253,7 @@ export default Relay.createContainer(MemberNew, {
               id
               slug
               isDefaultTeam
-              ${TeamRow.getFragment('team')}
+              ${MemberTeamRow.getFragment('team')}
             }
           }
         }
