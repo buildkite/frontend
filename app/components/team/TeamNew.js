@@ -44,22 +44,17 @@ class TeamNew extends React.Component {
             <PageHeader.Title>Create a Team</PageHeader.Title>
           </PageHeader>
 
-          <Panel>
-            <Panel.Section>
-              <TeamForm
-                onChange={this.handleFormChange}
-                errors={this.state.errors}
-                name={this.state.name}
-                description={this.state.description}
-                privacy={this.state.privacy}
-                isDefaultTeam={this.state.isDefaultTeam}
-              />
-            </Panel.Section>
-
-            <Panel.Footer>
-              <Button loading={this.state.saving ? "Creating team…" : false} theme="success">Create Team</Button>
-            </Panel.Footer>
-          </Panel>
+          <TeamForm
+            onChange={this.handleFormChange}
+            errors={this.state.errors}
+            name={this.state.name}
+            description={this.state.description}
+            privacy={this.state.privacy}
+            isDefaultTeam={this.state.isDefaultTeam}
+            autofocus={true}
+            saving={this.state.saving}
+            button={this.state.saving ? "Creating team…" : "Create Team"}
+          />
         </form>
       </DocumentTitle>
     );

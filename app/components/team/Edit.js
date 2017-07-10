@@ -43,22 +43,17 @@ class TeamEdit extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleFormSubmit}>
-        <Panel>
-          <Panel.Section>
-            <TeamForm
-              onChange={this.handleFormChange}
-              errors={this.state.errors}
-              name={this.state.name}
-              description={this.state.description}
-              privacy={this.state.privacy}
-              isDefaultTeam={this.state.isDefaultTeam}
-            />
-          </Panel.Section>
-
-          <Panel.Footer>
-            <Button loading={this.state.saving ? "Saving team…" : false} theme="success">Save Team</Button>
-          </Panel.Footer>
-        </Panel>
+        <TeamForm
+          uuid={this.props.team.uuid}
+          onChange={this.handleFormChange}
+          errors={this.state.errors}
+          name={this.state.name}
+          description={this.state.description}
+          privacy={this.state.privacy}
+          isDefaultTeam={this.state.isDefaultTeam}
+          saving={this.state.saving}
+          button={this.state.saving ? "Saving team…" : "Save Team"}
+        />
       </form>
     );
   }
@@ -113,6 +108,7 @@ export default Relay.createContainer(TeamEdit, {
     team: () => Relay.QL`
       fragment on Team {
         ${TeamUpdateMutation.getFragment('team')}
+        uuid
         name
         slug
         description
