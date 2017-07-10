@@ -58,7 +58,7 @@ class TeamShow extends React.Component {
       <DocumentTitle title={`${this.props.team.name} · ${this.props.team.organization.name} Team`}>
         <div>
           <PageHeader>
-            <div className="flex items-center"><h1 className="h1 m0 p0 block"><Emojify text={this.props.team.name} /></h1>{this.renderPrivacyLabel()}</div>
+            <div className="flex items-center"><h1 className="h1 m0 p0 block"><Emojify text={this.props.team.name} /></h1>{this.renderPrivacyLabel()}{this.renderDefaultLabel()}</div>
             <PageHeader.Description><Emojify text={this.props.team.description || "No description"} /></PageHeader.Description>
           </PageHeader>
 
@@ -123,6 +123,14 @@ class TeamShow extends React.Component {
       );
     }
   }
+
+  renderDefaultLabel() {
+    if (this.props.team.isDefaultTeam) {
+      return (
+        <div className="ml1 regular small border border-gray rounded dark-gray p1">Default</div>
+      );
+    }
+  }
 }
 
 export default Relay.createContainer(TeamShow, {
@@ -141,6 +149,7 @@ export default Relay.createContainer(TeamShow, {
         description
         slug
         privacy
+        isDefaultTeam
         organization {
           name
           slug
