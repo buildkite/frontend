@@ -46,8 +46,8 @@ class PipelineNewTeams extends React.Component {
     return (
       <div>
         {this.state.teams.map((uuid) => <input key={uuid} type="hidden" name="project[team_ids][]" value={uuid} />)}
-        <FormInputLabel label="Teams" errors={this.state.errors} />
-        <FormInputHelp html="The teams who will be given access this pipeline." errors={this.state.errors} />
+        <FormInputLabel label="Teams" errors={this.state.errors && this.state.errors.length} />
+        <FormInputHelp html="The teams who will be given access this pipeline." />
         <div className="flex flex-wrap content-around mxn1 mt1">
           {teams.map((team) => (
             <MemberTeamRow
