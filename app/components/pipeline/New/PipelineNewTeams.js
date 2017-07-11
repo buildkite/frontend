@@ -4,6 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay/compat';
 
 import FormInputLabel from '../../shared/FormInputLabel';
 import FormInputHelp from '../../shared/FormInputHelp';
+import FormInputErrors from '../../shared/FormInputErrors';
 
 import MemberTeamRow from '../../member/MemberTeamRow';
 
@@ -13,7 +14,8 @@ class PipelineNewTeams extends React.Component {
   };
 
   state = {
-    teams: []
+    teams: [],
+    errors: []
   };
 
   constructor(initialProps) {
@@ -44,8 +46,8 @@ class PipelineNewTeams extends React.Component {
     return (
       <div>
         {this.state.teams.map((uuid) => <input key={uuid} type="hidden" name="project[team_ids][]" value={uuid} />)}
-        <FormInputLabel label="Teams" />
-        <FormInputHelp html="The teams who will be given access this pipeline." />
+        <FormInputLabel label="Teams" errors={this.state.errors} />
+        <FormInputHelp html="The teams who will be given access this pipeline." errors={this.state.errors} />
         <div className="flex flex-wrap content-around mxn1 mt1">
           {teams.map((team) => (
             <MemberTeamRow
@@ -56,6 +58,7 @@ class PipelineNewTeams extends React.Component {
             />
           ))}
         </div>
+        <FormInputErrors errors={this.state.errors} />
       </div>
     );
   }
