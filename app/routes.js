@@ -87,7 +87,7 @@ const renderMain = (route) => {
   }
 };
 
-browserHistory.listen(() => {
+const routeChangeHandler = () => {
   // Reset flashes on route changes
   FlashesStore.reset();
 
@@ -95,7 +95,7 @@ browserHistory.listen(() => {
   if (window.Bugsnag) {
     window.Bugsnag.refresh();
   }
-});
+};
 
 export default (
   <Router history={browserHistory} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
@@ -103,7 +103,7 @@ export default (
     <Route path="/organizations/:organization/pipelines/new" component={PipelineNewTeams} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
     <Route path="/organizations/:organization/pipelines" component={PipelineNewTeams} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
-    <Route path="/" component={Main} getQueries={getMainQueries} render={renderMain}>
+    <Route path="/" component={Main} getQueries={getMainQueries} render={renderMain} onChange={routeChangeHandler}>
       <Route path="authorize/:code" component={APIAccessTokenCodeAuthorize} queries={{ apiAccessTokenCode: APIAccessTokenCodeQuery.query }} />
       <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
