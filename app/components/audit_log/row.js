@@ -66,9 +66,19 @@ class AuditLogRow extends React.PureComponent {
       uuid: PropTypes.string.isRequired,
       occurredAt: PropTypes.string.isRequired,
       data: PropTypes.string,
-      actor: PropTypes.object.isRequired,
-      subject: PropTypes.object.isRequired,
-      context: PropTypes.object.isRequired
+      actor: PropTypes.shape({
+        name: PropTypes.string.isRequired
+      }).isRequired,
+      subject: PropTypes.shape({
+        __typename: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+      }).isRequired,
+      context: PropTypes.shape({
+        __typename: PropTypes.string.isRequired,
+        requestIpAddress: PropTypes.string,
+        requestUserAgent: PropTypes.string,
+        sessionCreatedAt: PropTypes.string
+      }).isRequired
     }).isRequired,
     relay: PropTypes.object.isRequired
   };
@@ -242,24 +252,17 @@ export default Relay.createContainer(AuditLogRow, {
         occurredAt
         data @include(if: $hasExpanded)
         actor {
-          __typename
           ...on User {
-            uuid
             name
           }
         }
         subject {
           __typename
           ...on Organization {
-            slug
             name
           }
           ...on Pipeline {
-            slug
             name
-            organization {
-              slug
-            }
           }
         }
         context {
