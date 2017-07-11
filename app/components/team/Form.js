@@ -73,7 +73,7 @@ class TeamForm extends React.Component {
           <FormCheckbox
             name="team-is-default-team"
             label="Automatically add new users to this team"
-            help="When new users join this organization either via email invitation or SSO they'll be automatically added to this team"
+            help="When new users join this organization, either via email invitation or SSO, they'll be automatically added to this team"
             checked={this.props.isDefaultTeam}
             onChange={this.handleIsDefaultTeamChange}
           />
