@@ -7,11 +7,8 @@ import FriendlyTime from '../shared/FriendlyTime';
 import Icon from '../shared/Icon';
 import Panel from '../shared/Panel';
 import Spinner from '../shared/Spinner';
-import User from '../shared/User';
 
-import { uncamelise } from '../../lib/strings';
-
-const renderData = (data, depth = 1) => {
+const renderData = (data, depth = 0) => {
   if (typeof data === 'string') {
     return data;
   }
@@ -20,9 +17,19 @@ const renderData = (data, depth = 1) => {
     return <i>Nesting too deep!</i>;
   }
 
+  if (!data) {
+    return "" + data;
+  }
+
+  const keys = Object.keys(data).sort();
+
+  if (!keys.length) {
+    return data.toStri;
+  }
+
   return (
     <dl>
-      {Object.keys(data).sort().reduce(
+      {keys.reduce(
         (accumulator, property) => (
           accumulator.concat([
             <dt
@@ -58,9 +65,10 @@ class AuditLogRow extends React.PureComponent {
       __typename: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
       occurredAt: PropTypes.string.isRequired,
-      actor: PropTypes.object,
-      subject: PropTypes.object,
-      context: PropTypes.object
+      data: PropTypes.string,
+      actor: PropTypes.object.isRequired,
+      subject: PropTypes.object.isRequired,
+      context: PropTypes.object.isRequired
     }).isRequired,
     relay: PropTypes.object.isRequired
   };
@@ -77,25 +85,11 @@ class AuditLogRow extends React.PureComponent {
             className="flex items-center"
             onClick={this.handleHeaderClick}
           >
-            <FriendlyTime
-              className="flex-none"
-              value={this.props.auditEvent.occurredAt}
-            />
-            <span className="flex-auto flex mx2">
-              <span
-                className="inline-block rounded border border-gray black truncate semi-bold"
-                style={{ padding: '.1em .3em' }}
-              >
-                {uncamelise(this.props.auditEvent.__typename.replace(/^Audit|Event$/g, ''))}
-              </span>
+            <span className="flex-auto flex mr2">
+              <FriendlyTime value={this.props.auditEvent.occurredAt} />
+              {` `}
+              {this.renderEventSentence()}
             </span>
-            {this.props.auditEvent.actor &&
-              <User
-                className="mr2"
-                align="right"
-                user={this.props.auditEvent.actor}
-              />
-            }
             <div className="flex-none">
               <RotatableIcon
                 icon="chevron-right"
@@ -126,6 +120,45 @@ class AuditLogRow extends React.PureComponent {
     );
   }
 
+  renderEventSentence() {
+    const {
+      __typename: eventTypeName,
+      actor,
+      subject,
+      context
+    } = this.props.auditEvent;
+
+    const eventVerb = eventTypeName
+      .replace(/^Audit|Event$/g, '')
+      .replace(/(^|[a-z0-9])([A-Z][a-z0-9])/g, '$1 $2')
+      .split(/\s+/)
+      .pop()
+      .toLowerCase();
+
+    let subjectName = subject.name;
+
+    if (eventTypeName === 'AuditOrganizationCreatedEvent') {
+      subjectName = `${subjectName} 🎉`;
+    }
+
+    const contextName = context.__typename.replace(/^Audit|Context$/g, '');
+
+    return (
+      <span>
+        <span className="semi-bold">{actor.name}</span>
+        {` ${eventVerb} `}
+        <span className="semi-bold">{subjectName}</span>
+        {` via `}
+        <span
+          title={context.requestIpAddress}
+          className="semi-bold"
+        >
+          {contextName}
+        </span>
+      </span>
+    );
+  }
+
   renderDetails() {
     if (this.state.loading) {
       return (
@@ -135,7 +168,11 @@ class AuditLogRow extends React.PureComponent {
       );
     }
 
-    return renderData(this.props.auditEvent);
+    if (!this.props.auditEvent.data) {
+      return;
+    }
+
+    return renderData(JSON.parse(this.props.auditEvent.data)) || <i>No changes</i>;
   }
 
   handleHeaderClick = () => {
@@ -147,7 +184,7 @@ class AuditLogRow extends React.PureComponent {
     }, () => {
       this.props.relay.setVariables(
         {
-          isExpanded
+          hasExpanded: true
         },
         (readyState) => {
           if (readyState.done) {
@@ -161,7 +198,7 @@ class AuditLogRow extends React.PureComponent {
 
 export default Relay.createContainer(AuditLogRow, {
   initialVariables: {
-    isExpanded: false
+    hasExpanded: false
   },
 
   fragments: {
@@ -170,24 +207,29 @@ export default Relay.createContainer(AuditLogRow, {
         __typename
         uuid
         occurredAt
+        data @include(if: $hasExpanded)
         actor {
           __typename
           ...on User {
-            ${User.getFragment('user')}
+            uuid
+            name
           }
         }
-        subject @include(if: $isExpanded) {
+        subject {
           __typename
           ...on Organization {
-            id
+            slug
             name
           }
           ...on Pipeline {
-            id
+            slug
             name
+            organization {
+              slug
+            }
           }
         }
-        context @include(if: $isExpanded) {
+        context {
           __typename
           ...on AuditWebContext {
             requestIpAddress
