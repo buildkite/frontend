@@ -129,9 +129,9 @@ class TeamIndex extends React.PureComponent {
               Frequently Asked Team Questions
             </Panel.Header>
             <Panel.Section className="max-width-3">
-              <h3 className="mt3 h4 bold">How do I disable teams?</h3>
+              <h3 className="mt3 h4 bold">How do I disable Teams?</h3>
               <p>To disable teams you need to delete all your teams, and then select "Disable Teams"</p>
-              <h3 className="mt3 h4 bold">How do teams work with SSO?</h3>
+              <h3 className="mt3 h4 bold">How does Teams work with SSO?</h3>
               <p>When a user joins the organization via SSO, they'll be automatically added to any teams that have "Automatically add new users" enabled. You can change this in each team’s settings.</p>
             </Panel.Section>
           </Panel>
