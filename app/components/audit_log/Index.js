@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
+import Dropdown from '../shared/Dropdown';
 import Icon from '../shared/Icon';
 import Panel from '../shared/Panel';
 import PageHeader from '../shared/PageHeader';
@@ -11,6 +12,12 @@ import ShowMoreFooter from '../shared/ShowMoreFooter';
 import AuditLogRow from './row';
 
 const PAGE_SIZE = 30;
+
+const EVENT_SUBJECTS = [
+  { name: 'Any Subject', id: null },
+  { name: 'Pipeline events', id: 'PIPELINE' },
+  { name: 'Organization events', id: 'ORGANIZATION' }
+];
 
 class AuditLogIndex extends React.PureComponent {
   static propTypes = {
@@ -57,7 +64,12 @@ class AuditLogIndex extends React.PureComponent {
     return (
       <Panel>
         <Panel.Section>
-          <span className="semi-bold">Controls and stuff go here</span>
+          <Dropdown width={180} ref={(_eventSubjectDropdown) => this._eventSubjectDropdown = _eventSubjectDropdown}>
+            <div className="underline-dotted cursor-pointer inline-block regular dark-gray">
+              {EVENT_SUBJECTS.find((subject) => subject.id === this.props.relay.variables.subjectType).name}
+            </div>
+            {this.renderEventSubjects()}
+          </Dropdown>
         </Panel.Section>
 
         {this.props.organization.auditEvents.edges.map((edge) => (
@@ -90,18 +102,52 @@ class AuditLogIndex extends React.PureComponent {
       }
     );
   };
+
+  renderEventSubjects() {
+    return EVENT_SUBJECTS.map((subject) => {
+      return (
+        <div
+          key={`subject-${subject.id}`}
+          className="btn block hover-bg-silver"
+          onClick={() => {
+            this._eventSubjectDropdown.setShowing(false);
+            this.handleEventSubjectSelect(subject.id);
+          }}
+        >
+          <span className="block">{subject.name}</span>
+        </div>
+      );
+    });
+  }
+
+  handleEventSubjectSelect = (subjectType) => {
+    this.setState({ loading: true });
+
+    this.props.relay.setVariables(
+      {
+        pageSize: PAGE_SIZE,
+        subjectType
+      },
+      (readyState) => {
+        if (readyState.done) {
+          this.setState({ loading: false });
+        }
+      }
+    );
+  };
 }
 
 export default Relay.createContainer(AuditLogIndex, {
   initialVariables: {
-    pageSize: PAGE_SIZE
+    pageSize: PAGE_SIZE,
+    subjectType: null
   },
 
   fragments: {
     organization: () => Relay.QL`
       fragment on Organization {
         name
-        auditEvents(first: $pageSize) {
+        auditEvents(first: $pageSize, subject_type: $subjectType) {
           edges {
             node {
               id
