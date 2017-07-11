@@ -86,7 +86,7 @@ const renderMain = (route) => {
   }
 };
 
-browserHistory.listen((location) => {
+browserHistory.listen(() => {
   // Reset flashes on route changes
   FlashesStore.reset();
 
