@@ -87,7 +87,7 @@ const renderMain = (route) => {
   }
 };
 
-const onRouterUpdate = () => {
+browserHistory.listen(() => {
   // Reset flashes on route changes
   FlashesStore.reset();
 
@@ -95,10 +95,10 @@ const onRouterUpdate = () => {
   if (window.Bugsnag) {
     window.Bugsnag.refresh();
   }
-};
+});
 
 export default (
-  <Router history={browserHistory} onUpdate={onRouterUpdate} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
+  <Router history={browserHistory} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
     <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery.query, build: BuildQuery.query }} prepareParams={BuildQuery.prepareParams} />
     <Route path="/organizations/:organization/pipelines/new" component={PipelineNewTeams} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
     <Route path="/organizations/:organization/pipelines" component={PipelineNewTeams} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />

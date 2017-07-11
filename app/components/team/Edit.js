@@ -114,10 +114,10 @@ class TeamEdit extends React.Component {
   handleMutationSuccess = (response) => {
     this.setState({ saving: false });
 
-    FlashesStore.flash(FlashesStore.SUCCESS, "Settings for this team have been saved successfully");
-
     // Update the URL with the latest version of the slug
-    this.context.router.push(`/organizations/${this.props.team.organization.slug}/teams/${response.teamUpdate.team.slug}/settings`);
+    this.context.router.replace(`/organizations/${this.props.team.organization.slug}/teams/${response.teamUpdate.team.slug}/settings`);
+
+    FlashesStore.flash(FlashesStore.SUCCESS, "Settings for this team have been saved successfully");
   };
 }
 
