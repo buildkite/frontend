@@ -480,11 +480,25 @@
         {
           "kind": "OBJECT",
           "name": "PageInfo",
-          "description": "Metadata about a connection",
+          "description": "Information about pagination in a connection.",
           "fields": [
             {
+              "name": "endCursor",
+              "description": "When paginating forwards, the cursor to continue.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "hasNextPage",
-              "description": null,
+              "description": "When paginating forwards, are there more items?",
               "args": [
 
               ],
@@ -502,7 +516,7 @@
             },
             {
               "name": "hasPreviousPage",
-              "description": null,
+              "description": "When paginating backwards, are there more items?",
               "args": [
 
               ],
@@ -514,6 +528,20 @@
                   "name": "Boolean",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "startCursor",
+              "description": "When paginating backwards, the cursor to continue.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4760,6 +4788,11 @@
             {
               "kind": "OBJECT",
               "name": "ArtifactConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationConnection",
               "ofType": null
             },
             {
@@ -13821,7 +13854,11 @@
           ],
           "inputFields": null,
           "interfaces": [
-
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
           ],
           "enumValues": null,
           "possibleTypes": null
