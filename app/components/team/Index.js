@@ -103,7 +103,7 @@ class TeamIndex extends React.PureComponent {
                   className="fit"
                 />
               </p>
-              <p>Once you’ve enabled teams, all your users and pipelines will be added to a new team called "Everyone" to ensure continued access to pipelines. You can customize, rename or delete the default "Everyone" team.</p>
+              <p>Once you’ve enabled teams, all your users and pipelines will be added to a new team called “Everyone” to ensure continued access to pipelines. You can customize, rename or delete the default “Everyone” team.</p>
               <form
                 action={`/organizations/${this.props.organization.slug}/teams/enable`}
                 acceptCharset=""
@@ -130,9 +130,9 @@ class TeamIndex extends React.PureComponent {
             </Panel.Header>
             <Panel.Section className="max-width-3">
               <h3 className="mt3 h4 bold">How do I disable Teams?</h3>
-              <p>To disable teams you need to delete all your teams, and then select "Disable Teams"</p>
+              <p>To disable teams you need to delete all your teams, and then select “Disable Teams”</p>
               <h3 className="mt3 h4 bold">How does Teams work with SSO?</h3>
-              <p>When a user joins the organization via SSO, they'll be automatically added to any teams that have "Automatically add new users" enabled. You can change this in each team’s settings.</p>
+              <p>When a user joins the organization via SSO, they’ll be automatically added to any teams that have the “Automatically add new users to this team” setting enabled.</p>
             </Panel.Section>
           </Panel>
         </div>
