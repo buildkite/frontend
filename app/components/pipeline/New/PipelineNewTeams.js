@@ -8,6 +8,17 @@ import FormInputErrors from '../../shared/FormInputErrors';
 
 import MemberTeamRow from '../../member/MemberTeamRow';
 
+const filterAllowedTeams = (connection) => {
+  const teams = [];
+  for (const edge of connection.edges) {
+    if (edge.node.permissions.pipelineView.allowed) {
+      teams.push(edge.node);
+    }
+  }
+
+  return teams;
+}
+
 class PipelineNewTeams extends React.Component {
   static propTypes = {
     organization: PropTypes.object.isRequired
@@ -15,7 +26,8 @@ class PipelineNewTeams extends React.Component {
 
   state = {
     teams: [],
-    errors: []
+    errors: [],
+    required: false
   };
 
   constructor(initialProps) {
@@ -26,17 +38,19 @@ class PipelineNewTeams extends React.Component {
     // this bridge in here so we can preselect teams when we load the page.
     if (window._pipelineNewTeamsState) {
       this.state = window._pipelineNewTeamsState;
+
+      // If this field has been marked as required, and there's only 1 possible
+      // option in the list, just pre-select it.
+      const teams = filterAllowedTeams(initialProps.organization.teams);
+      if (this.state.required && this.state.teams.length === 0 && teams.length == 1) {
+        this.state.teams = [ teams[0].uuid ];
+      }
     }
   }
 
   render() {
     // Collect all the teams that we're allowed to see pipelines on
-    const teams = [];
-    for (const edge of this.props.organization.teams.edges) {
-      if (edge.node.permissions.pipelineView.allowed) {
-        teams.push(edge.node);
-      }
-    }
+    const teams = filterAllowedTeams(this.props.organization.teams);
 
     // If there aren't any teams don't bother rendering anything!
     if (teams.length === 0) {
@@ -46,7 +60,7 @@ class PipelineNewTeams extends React.Component {
     return (
       <div>
         {this.state.teams.map((uuid) => <input key={uuid} type="hidden" name="project[team_ids][]" value={uuid} />)}
-        <FormInputLabel label="Teams" errors={this.state.errors && this.state.errors.length} />
+        <FormInputLabel label="Teams" errors={this.state.errors && this.state.errors.length > 0} required={this.state.required} />
         <FormInputHelp html="The teams who will be given access this pipeline." />
         <div className="flex flex-wrap content-around mxn1 mt1">
           {teams.map((team) => (
