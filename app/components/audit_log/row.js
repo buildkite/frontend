@@ -77,6 +77,10 @@ class AuditLogRow extends React.PureComponent {
     isExpanded: false
   };
 
+  getContextName() {
+    return this.props.auditEvent.context.__typename.replace(/^Audit|Context$/g, '')
+  }
+
   render() {
     return (
       <Panel.Row>
@@ -85,9 +89,9 @@ class AuditLogRow extends React.PureComponent {
             className="flex items-center"
             onClick={this.handleHeaderClick}
           >
-            <span className="flex-auto flex mr2">
+            <h2 className="flex-auto flex line-height-3 font-size-1 h4 regular m0 mr2">
               {this.renderEventSentence()}
-            </span>
+            </h2>
             <div className="flex-none">
               <RotatableIcon
                 icon="chevron-right"
@@ -98,8 +102,7 @@ class AuditLogRow extends React.PureComponent {
           <TransitionMaxHeight
             className="mxn3 overflow-hidden"
             style={{
-              maxHeight: this.state.isExpanded ? 1000 : 0,
-              overflowY: 'auto'
+              maxHeight: this.state.isExpanded ? 1000 : 0
             }}
           >
             <hr
@@ -109,9 +112,7 @@ class AuditLogRow extends React.PureComponent {
                 height: 1
               }}
             />
-            <div className="mx3 mt2 mb0">
-              {this.renderDetails()}
-            </div>
+            {this.renderEventDetails()}
           </TransitionMaxHeight>
         </div>
       </Panel.Row>
@@ -141,8 +142,6 @@ class AuditLogRow extends React.PureComponent {
       subjectName = `${subjectName} 🎉`;
     }
 
-    const contextName = context.__typename.replace(/^Audit|Context$/g, '');
-
     return (
       <span>
         <span className="semi-bold">{actor.name}</span>
@@ -153,7 +152,7 @@ class AuditLogRow extends React.PureComponent {
           title={context.requestIpAddress}
           className="semi-bold"
         >
-          {contextName}
+          {this.getContextName()}
         </span>
         {` `}
         <FriendlyTime
@@ -164,20 +163,39 @@ class AuditLogRow extends React.PureComponent {
     );
   }
 
-  renderDetails() {
+  renderEventDetails() {
     if (this.state.loading) {
       return (
-        <div className="center">
+        <div className="mx3 mt2 mb0 center">
           <Spinner style={{ margin: 9.5 }} />
         </div>
       );
     }
 
+    return (
+      <div className="mx3 mt2 mb0">
+        <h3>Changed Data</h3>
+        {this.renderEventData()}
+
+        <h3>{this.getContextName()} Context</h3>
+        <dl>
+          <dt className="semi-bold">IP Address</dt>
+          <dd>{this.props.auditEvent.context.requestIpAddress}</dd>
+          <dt className="semi-bold">User Agent</dt>
+          <dd>{this.props.auditEvent.context.requestUserAgent}</dd>
+          <dt className="semi-bold">Session Started</dt>
+          <dd><FriendlyTime value={this.props.auditEvent.context.sessionCreatedAt} /></dd>
+        </dl>
+      </div>
+    );
+  }
+
+  renderEventData() {
     if (!this.props.auditEvent.data) {
       return;
     }
 
-    return renderData(JSON.parse(this.props.auditEvent.data)) || <i>No changes</i>;
+    return renderData(JSON.parse(this.props.auditEvent.data)) || <i>No data changes were found</i>;
   }
 
   handleHeaderClick = () => {
@@ -238,6 +256,8 @@ export default Relay.createContainer(AuditLogRow, {
           __typename
           ...on AuditWebContext {
             requestIpAddress
+            requestUserAgent
+            sessionCreatedAt
           }
         }
       }
