@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
+import Badge from '../shared/Badge';
 
 class TeamLabels extends React.PureComponent {
   static propTypes = {
@@ -24,7 +25,7 @@ class TeamLabels extends React.PureComponent {
   _renderPrivacyLabel() {
     if (this.props.team.privacy === TeamPrivacyConstants.SECRET) {
       return (
-        <div className="ml1 regular small border border-gray rounded dark-gray p1 line-height-1">Secret</div>
+        <Badge outline={true}>Secret</Badge>
       );
     }
   }
@@ -32,7 +33,7 @@ class TeamLabels extends React.PureComponent {
   _renderDefaultLabel() {
     if (this.props.team.isDefaultTeam) {
       return (
-        <div className="ml1 regular small border border-gray rounded dark-gray p1 line-height-1">Default</div>
+        <Badge outline={true}>Default</Badge>
       );
     }
   }

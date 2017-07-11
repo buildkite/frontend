@@ -5,14 +5,16 @@ import classNames from 'classnames';
 export default class Badge extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node,
-    className: PropTypes.string
+    className: PropTypes.string,
+    outline: PropTypes.bool
   };
 
   render() {
     const { children, className } = this.props;
 
     const badgeClassName = classNames(
-      "inline-block bg-black white rounded ml1 small p1 line-height-1 tabular-numerals",
+      "inline-block rounded ml1 small p1 line-height-1 tabular-numerals",
+      (this.props.outline ? 'border border-gray dark-gray' : 'bg-black white'),
       className
     );
 
