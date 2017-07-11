@@ -86,8 +86,6 @@ class AuditLogRow extends React.PureComponent {
             onClick={this.handleHeaderClick}
           >
             <span className="flex-auto flex mr2">
-              <FriendlyTime value={this.props.auditEvent.occurredAt} />
-              {` `}
               {this.renderEventSentence()}
             </span>
             <div className="flex-none">
@@ -128,12 +126,14 @@ class AuditLogRow extends React.PureComponent {
       context
     } = this.props.auditEvent;
 
-    const eventVerb = eventTypeName
+    const eventTypeSplit = eventTypeName
       .replace(/^Audit|Event$/g, '')
       .replace(/(^|[a-z0-9])([A-Z][a-z0-9])/g, '$1 $2')
-      .split(/\s+/)
-      .pop()
-      .toLowerCase();
+      .split(/\s+/);
+
+    const eventVerb = eventTypeSplit.pop().toLowerCase();
+
+    const eventType = eventTypeSplit.join(' ');
 
     let subjectName = subject.name;
 
@@ -146,7 +146,7 @@ class AuditLogRow extends React.PureComponent {
     return (
       <span>
         <span className="semi-bold">{actor.name}</span>
-        {` ${eventVerb} `}
+        {` ${eventVerb} ${eventType} `}
         <span className="semi-bold">{subjectName}</span>
         {` via `}
         <span
@@ -155,6 +155,11 @@ class AuditLogRow extends React.PureComponent {
         >
           {contextName}
         </span>
+        {` `}
+        <FriendlyTime
+          capitalized={false}
+          value={this.props.auditEvent.occurredAt}
+        />
       </span>
     );
   }
