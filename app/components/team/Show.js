@@ -18,8 +18,6 @@ class TeamShow extends React.Component {
       name: PropTypes.string.isRequired,
       description: PropTypes.string,
       slug: PropTypes.string.isRequired,
-      privacy: PropTypes.string.isRequired,
-      isDefaultTeam: PropTypes.bool.isRequired,
       members: PropTypes.shape({
         count: PropTypes.number
       }).isRequired,
