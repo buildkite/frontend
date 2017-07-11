@@ -48,21 +48,17 @@
             },
             {
               "name": "data",
-              "description": "Temporary: will be replaced by meaningful fields on different graphql types",
+              "description": "The changed data in the event",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "JSON",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
               },
-              "isDeprecated": false,
-              "deprecationReason": null
+              "isDeprecated": true,
+              "deprecationReason": "Temporary: will be replaced by meaningful fields on different GraphQL types"
             },
             {
               "name": "id",
@@ -1557,6 +1553,42 @@
                     "kind": "SCALAR",
                     "name": "String",
                     "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "actor_type",
+                  "description": "Filter the events by the type of actor who initiated them",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "AuditEventActorType",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "subject_type",
+                  "description": "Filter the events by the type of subject they relate to",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "AuditEventSubjectType",
+                        "ofType": null
+                      }
+                    }
                   },
                   "defaultValue": null
                 },
@@ -9513,6 +9545,20 @@
               "deprecationReason": null
             },
             {
+              "name": "data",
+              "description": "The changed data in the event",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              },
+              "isDeprecated": true,
+              "deprecationReason": "Temporary: will be replaced by meaningful fields on different GraphQL types"
+            },
+            {
               "name": "id",
               "description": null,
               "args": [
@@ -9749,6 +9795,56 @@
 
           ],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "JSON",
+          "description": "A blob of JSON represented as a pretty formatted string",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "AuditEventActorType",
+          "description": "All the possible types of actors in an Audit Event",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "USER",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "AuditEventSubjectType",
+          "description": "All the possible types of subjects in an Audit Event",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "ORGANIZATION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "PIPELINE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -10474,16 +10570,6 @@
           "possibleTypes": null
         },
         {
-          "kind": "SCALAR",
-          "name": "JSON",
-          "description": "A blob of JSON represented as a pretty formatted string",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
           "kind": "OBJECT",
           "name": "AuditOrganizationUpdatedEvent",
           "description": null,
@@ -10522,21 +10608,17 @@
             },
             {
               "name": "data",
-              "description": "Temporary: will be replaced by meaningful fields on different graphql types",
+              "description": "The changed data in the event",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "JSON",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
               },
-              "isDeprecated": false,
-              "deprecationReason": null
+              "isDeprecated": true,
+              "deprecationReason": "Temporary: will be replaced by meaningful fields on different GraphQL types"
             },
             {
               "name": "id",
@@ -10665,6 +10747,20 @@
               "deprecationReason": null
             },
             {
+              "name": "data",
+              "description": "The changed data in the event",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              },
+              "isDeprecated": true,
+              "deprecationReason": "Temporary: will be replaced by meaningful fields on different GraphQL types"
+            },
+            {
               "name": "id",
               "description": null,
               "args": [
@@ -10789,6 +10885,20 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "data",
+              "description": "The changed data in the event",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              },
+              "isDeprecated": true,
+              "deprecationReason": "Temporary: will be replaced by meaningful fields on different GraphQL types"
             },
             {
               "name": "id",
@@ -10918,21 +11028,17 @@
             },
             {
               "name": "data",
-              "description": "Temporary: will be replaced by meaningful fields on different graphql types",
+              "description": "The changed data in the event",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "JSON",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
               },
-              "isDeprecated": false,
-              "deprecationReason": null
+              "isDeprecated": true,
+              "deprecationReason": "Temporary: will be replaced by meaningful fields on different GraphQL types"
             },
             {
               "name": "id",
@@ -11062,21 +11168,17 @@
             },
             {
               "name": "data",
-              "description": "Temporary: will be replaced by meaningful fields on different graphql types",
+              "description": "The changed data in the event",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "JSON",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
               },
-              "isDeprecated": false,
-              "deprecationReason": null
+              "isDeprecated": true,
+              "deprecationReason": "Temporary: will be replaced by meaningful fields on different GraphQL types"
             },
             {
               "name": "id",
@@ -11206,21 +11308,17 @@
             },
             {
               "name": "data",
-              "description": "Temporary: will be replaced by meaningful fields on different graphql types",
+              "description": "The changed data in the event",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "JSON",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
               },
-              "isDeprecated": false,
-              "deprecationReason": null
+              "isDeprecated": true,
+              "deprecationReason": "Temporary: will be replaced by meaningful fields on different GraphQL types"
             },
             {
               "name": "id",
@@ -11350,21 +11448,17 @@
             },
             {
               "name": "data",
-              "description": "Temporary: will be replaced by meaningful fields on different graphql types",
+              "description": "The changed data in the event",
               "args": [
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "JSON",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
               },
-              "isDeprecated": false,
-              "deprecationReason": null
+              "isDeprecated": true,
+              "deprecationReason": "Temporary: will be replaced by meaningful fields on different GraphQL types"
             },
             {
               "name": "id",
