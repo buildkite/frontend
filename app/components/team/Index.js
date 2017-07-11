@@ -16,6 +16,7 @@ import Spinner from '../shared/Spinner';
 import { formatNumber } from '../../lib/number';
 import permissions from '../../lib/permissions';
 
+import previewImage from './preview.png';
 import Row from './Row';
 
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
@@ -93,16 +94,16 @@ class TeamIndex extends React.PureComponent {
         <div>
           <Panel>
             <Panel.Section className="max-width-3">
-              <p>Teams allows you to group people, pipelines and permissions together.</p>
+              <p>Teams allows you to assign permissions to different groups of users and pipelines. You can create secret teams which are only visible to account admins and team members, or public teams that are visible to the your entire Buildkite organization.</p>
               <p>
                 <img
-                  src="//placekitten.com/800/480"
-                  width="400"
-                  height="240"
-                  alt=""
-                  title="This tiny kitten uses Teams - shouldn't you?"
+                  src={previewImage}
+                  alt="A screenshot of the teams functionality"
+                  title="Screenshot showing a list of 4 different teams, with different users and pipelines associated to each team."
+                  className="fit"
                 />
               </p>
+              <p>Once you’ve enabled teams, all your users and pipelines will be added to a new team called "Everyone" to ensure continued access to pipelines. You can customize, rename or delete the default "Everyone" team.</p>
               <form
                 action={`/organizations/${this.props.organization.slug}/teams/enable`}
                 acceptCharset=""
@@ -114,10 +115,10 @@ class TeamIndex extends React.PureComponent {
 
                 <Button
                   onClick={this.handleEnableTeamsClick}
-                  loading={this.state.enablingTeams ? "Setting up Teams…" : false}
+                  loading={this.state.enablingTeams ? "Enabling Teams…" : false}
                   theme="success"
                 >
-                  Start using Teams
+                  Enable Teams
                 </Button>
               </form>
             </Panel.Section>
@@ -127,13 +128,11 @@ class TeamIndex extends React.PureComponent {
             <Panel.Header>
               Frequently Asked Team Questions
             </Panel.Header>
-            <Panel.Section className="max-width-2">
+            <Panel.Section className="max-width-3">
+              <h3 className="mt3 h4 bold">How do I disable teams?</h3>
+              <p>To disable teams you need to delete all your teams, and then select "Disable Teams"</p>
               <h3 className="mt3 h4 bold">How do teams work with SSO?</h3>
-              <p>When a user signs in to SSO, the additional user is added to your account, and will be charged immediately, just as if you had invited them to the account.</p>
-              <h3 className="mt3 h4 bold">A question about teams?</h3>
-              <p>An answer about teams.</p>
-              <h3 className="mt3 h4 bold">A question about teams?</h3>
-              <p>An answer about teams.</p>
+              <p>When a user joins the organization via SSO, they'll be automatically added to any teams that have "Automatically add new users" enabled. You can change this in each team’s settings.</p>
             </Panel.Section>
           </Panel>
         </div>
