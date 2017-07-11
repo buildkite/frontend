@@ -7,7 +7,7 @@ import PageHeader from '../shared/PageHeader';
 import Emojify from '../shared/Emojify';
 import permissions from '../../lib/permissions';
 import TabControl from '../shared/TabControl';
-import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
+import TeamLabels from './Labels';
 
 import Pipelines from './Pipelines';
 import Members from './Members';
@@ -58,8 +58,11 @@ class TeamShow extends React.Component {
     return (
       <DocumentTitle title={`${this.props.team.name} · ${this.props.team.organization.name} Team`}>
         <div>
-          <PageHeader>
-            <div className="flex items-center"><h1 className="h1 m0 p0 block"><Emojify text={this.props.team.name} /></h1>{this.renderPrivacyLabel()}{this.renderDefaultLabel()}</div>
+          <PageHeader followedByTabs={true}>
+            <div className="flex items-center">
+              <h1 className="h1 m0 p0 block"><Emojify text={this.props.team.name} /></h1>
+              <TeamLabels team={this.props.team} />
+            </div>
             <PageHeader.Description><Emojify text={this.props.team.description || "No description"} /></PageHeader.Description>
           </PageHeader>
 
@@ -116,22 +119,6 @@ class TeamShow extends React.Component {
       </TabControl>
     );
   }
-
-  renderPrivacyLabel() {
-    if (this.props.team.privacy === TeamPrivacyConstants.SECRET) {
-      return (
-        <div className="ml1 regular small border border-gray rounded dark-gray p1">Secret</div>
-      );
-    }
-  }
-
-  renderDefaultLabel() {
-    if (this.props.team.isDefaultTeam) {
-      return (
-        <div className="ml1 regular small border border-gray rounded dark-gray p1">Default</div>
-      );
-    }
-  }
 }
 
 export default Relay.createContainer(TeamShow, {
@@ -149,8 +136,7 @@ export default Relay.createContainer(TeamShow, {
         name
         description
         slug
-        privacy
-        isDefaultTeam
+        ${TeamLabels.getFragment('team')}
         organization {
           name
           slug
