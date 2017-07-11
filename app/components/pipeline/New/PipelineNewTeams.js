@@ -17,7 +17,7 @@ const filterAllowedTeams = (connection) => {
   }
 
   return teams;
-}
+};
 
 class PipelineNewTeams extends React.Component {
   static propTypes = {
@@ -37,14 +37,16 @@ class PipelineNewTeams extends React.Component {
     // New Pipeline form becomes 100% Relay, we can ditch. But for now, we need
     // this bridge in here so we can preselect teams when we load the page.
     if (window._pipelineNewTeamsState) {
-      this.state = window._pipelineNewTeamsState;
+      const state = window._pipelineNewTeamsState;
 
       // If this field has been marked as required, and there's only 1 possible
       // option in the list, just pre-select it.
       const teams = filterAllowedTeams(initialProps.organization.teams);
-      if (this.state.required && this.state.teams.length === 0 && teams.length == 1) {
-        this.state.teams = [ teams[0].uuid ];
+      if (state.required && state.teams.length === 0 && teams.length === 1) {
+        state.teams = [teams[0].uuid];
       }
+
+      this.state = state;
     }
   }
 
