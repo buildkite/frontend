@@ -54,13 +54,13 @@ class AuditLogIndex extends React.PureComponent {
             </PageHeader.Description>
           </PageHeader>
 
-          {this.renderDetailsPanel()}
+          {this.renderLogPanel()}
         </div>
       </DocumentTitle>
     );
   }
 
-  renderDetailsPanel() {
+  renderLogPanel() {
     return (
       <Panel>
         <Panel.Section>
