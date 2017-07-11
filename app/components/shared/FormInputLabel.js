@@ -13,7 +13,7 @@ class FormInputLabel extends React.PureComponent {
   render() {
     return (
       <label>
-        <div className={classNames("bold mb1", { "red": this.props.errors })}>
+        <div className={classNames("bold mb1", { "red": (this.props.errors && this.props.errors.length) })}>
           {this.props.label}
           {this.props.required && <span className="dark-gray h6"> — Required</span>}
         </div>
