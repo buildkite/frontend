@@ -78,7 +78,7 @@ class AuditLogRow extends React.PureComponent {
   };
 
   getContextName() {
-    return this.props.auditEvent.context.__typename.replace(/^Audit|Context$/g, '')
+    return this.props.auditEvent.context.__typename.replace(/^Audit|Context$/g, '');
   }
 
   render() {
@@ -86,7 +86,11 @@ class AuditLogRow extends React.PureComponent {
       <Panel.Row>
         <div>
           <div
-            className="flex items-center"
+            className="flex items-center cursor-pointer hover-bg-silver mxn3 py2 px3"
+            style={{
+              marginTop: -10,
+              marginBottom: -10
+            }}
             onClick={this.handleHeaderClick}
           >
             <h2 className="flex-auto flex line-height-3 font-size-1 h4 regular m0 mr2">
@@ -195,7 +199,13 @@ class AuditLogRow extends React.PureComponent {
       return;
     }
 
-    return renderData(JSON.parse(this.props.auditEvent.data)) || <i>No data changes were found</i>;
+    const rendered = renderData(JSON.parse(this.props.auditEvent.data));
+
+    if (rendered) {
+      return rendered;
+    }
+
+    return <i>No data changes were found</i>;
   }
 
   handleHeaderClick = () => {
