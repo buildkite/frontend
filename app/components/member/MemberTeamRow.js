@@ -6,10 +6,11 @@ import Emojify from '../shared/Emojify';
 
 import TeamLabels from '../team/Labels';
 
-class TeamRow extends React.Component {
+class MemberTeamRow extends React.Component {
   static propTypes = {
     team: PropTypes.shape({
       id: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       description: PropTypes.string
     }).isRequired,
@@ -59,11 +60,12 @@ class TeamRow extends React.Component {
   }
 }
 
-export default Relay.createContainer(TeamRow, {
+export default Relay.createContainer(MemberTeamRow, {
   fragments: {
     team: () => Relay.QL`
       fragment on Team {
         id
+        uuid
         name
         description
         ${TeamLabels.getFragment('team')}
