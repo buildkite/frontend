@@ -112,7 +112,7 @@ class TeamEdit extends React.Component {
   };
 
   handleMutationSuccess = (response) => {
-    this.setState({ saving: false });
+    this.setState({ saving: false, errors: null });
 
     // Update the URL with the latest version of the slug
     this.context.router.replace(`/organizations/${this.props.team.organization.slug}/teams/${response.teamUpdate.team.slug}/settings`);

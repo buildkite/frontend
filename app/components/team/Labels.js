@@ -8,8 +8,7 @@ import Badge from '../shared/Badge';
 class TeamLabels extends React.PureComponent {
   static propTypes = {
     team: PropTypes.shape({
-      privacy: PropTypes.string.isRequired,
-      isDefaultTeam: PropTypes.bool.isRequired
+      privacy: PropTypes.string.isRequired
     })
   }
 
@@ -17,7 +16,6 @@ class TeamLabels extends React.PureComponent {
     return (
       <div className="flex ml1">
         {this._renderPrivacyLabel()}
-        {this._renderDefaultLabel()}
       </div>
     );
   }
@@ -29,14 +27,6 @@ class TeamLabels extends React.PureComponent {
       );
     }
   }
-
-  _renderDefaultLabel() {
-    if (this.props.team.isDefaultTeam) {
-      return (
-        <Badge outline={true}>Default</Badge>
-      );
-    }
-  }
 }
 
 export default Relay.createContainer(TeamLabels, {
@@ -44,7 +34,6 @@ export default Relay.createContainer(TeamLabels, {
     team: () => Relay.QL`
       fragment on Team {
         privacy
-        isDefaultTeam
       }
     `
   }
