@@ -7,7 +7,8 @@ import Button from './button';
 
 class PageHeader extends React.Component {
   static propTypes = {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    followedByTabs: PropTypes.bool
   };
 
   renderAffix(affixContent) {
@@ -36,7 +37,12 @@ class PageHeader extends React.Component {
     });
 
     return (
-      <section className="flex flex-wrap items-top mb2">
+      <section
+        className={classNames("flex flex-wrap items-top", {
+          "mb2": !this.props.followedByTabs,
+          "mb0": this.props.followedByTabs
+        })}
+      >
         {this.renderAffix(pre)}
         <div className="flex-auto mb2" style={{ flexBasis: 160 }}>{content}</div>
         {this.renderAffix(post)}

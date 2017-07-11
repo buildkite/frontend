@@ -51,7 +51,7 @@ class Show extends React.PureComponent {
     return (
       <DocumentTitle title={`Users · ${this.props.organizationMember.user.name}`}>
         <div>
-          <PageHeader>
+          <PageHeader followedByTabs={true}>
             <PageHeader.Icon>
               <UserAvatar
                 user={this.props.organizationMember.user}
