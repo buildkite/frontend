@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import Chooser from '../../shared/Chooser';
 import Dropdown from '../../shared/Dropdown';
+import PermissionSelectOptionDescriptions from '../../shared/PermissionSelectOptionDescriptions';
+import PermissionDescription from '../../shared/PermissionDescription';
 
 const MANAGE_BUILD_AND_READ = "MANAGE_BUILD_AND_READ";
 const BUILD_AND_READ = "BUILD_AND_READ";
@@ -33,21 +35,37 @@ export default class AccessLevel extends React.PureComponent {
             saving={saving === MANAGE_BUILD_AND_READ}
             selected={selected === MANAGE_BUILD_AND_READ}
             label={this.label(MANAGE_BUILD_AND_READ)}
-            description="Members can edit pipeline settings, view builds and create builds"
+            description={
+              <PermissionSelectOptionDescriptions>
+                <PermissionDescription allowed={true} permission="view and create builds" />
+                <PermissionDescription allowed={true} permission="edit pipeline settings" />
+              </PermissionSelectOptionDescriptions>
+            }
           />
           <Chooser.SelectOption
             value={BUILD_AND_READ}
             saving={saving === BUILD_AND_READ}
             selected={selected === BUILD_AND_READ}
             label={this.label(BUILD_AND_READ)}
-            description="Members can view builds and create builds"
+            description={
+              <PermissionSelectOptionDescriptions>
+                <PermissionDescription allowed={true} permission="view and create builds" />
+                <PermissionDescription allowed={false} permission="edit pipeline settings" />
+              </PermissionSelectOptionDescriptions>
+            }
           />
           <Chooser.SelectOption
             value={READ_ONLY}
             label={this.label(READ_ONLY)}
             saving={saving === READ_ONLY}
             selected={selected === READ_ONLY}
-            description="Members can only view builds"
+            description={
+              <PermissionSelectOptionDescriptions>
+                <PermissionDescription allowed={true} permission="view builds" />
+                <PermissionDescription allowed={false} permission="create builds" />
+                <PermissionDescription allowed={false} permission="edit pipeline settings" />
+              </PermissionSelectOptionDescriptions>
+            }
           />
         </Chooser>
       </Dropdown>

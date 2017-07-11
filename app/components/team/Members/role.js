@@ -3,34 +3,10 @@ import PropTypes from 'prop-types';
 
 import Chooser from '../../shared/Chooser';
 import Dropdown from '../../shared/Dropdown';
-import Icon from '../../shared/Icon';
+import PermissionSelectOptionDescriptions from '../../shared/PermissionSelectOptionDescriptions';
+import PermissionDescription from '../../shared/PermissionDescription';
 
 import TeamMemberRoleConstants from '../../../constants/TeamMemberRoleConstants';
-
-const PermissionBlock = ({ children }) => (
-  <div className="pointer-events-none" style={{ marginTop: 8, marginLeft: -4 }}>
-    {children}
-  </div>
-);
-PermissionBlock.propTypes = { children: PropTypes.node };
-
-const Permission = ({ icon, children }) => (
-  <div className="flex mt1" style={{ lineHeight: 1.4 }}>
-    <Icon icon={icon} className="dark-gray flex-none mr1" style={{ marginTop: -3 }} />
-    {children}
-  </div>
-);
-Permission.propTypes = { icon: PropTypes.string.isRequired, children: PropTypes.node };
-
-const Can = ({ permission }) => (
-  <Permission icon="permission-small-tick" title="Tick">Can {permission}.</Permission>
-);
-Can.propTypes = { permission: PropTypes.node.isRequired };
-
-const CanNot = ({ permission }) => (
-  <Permission icon="permission-small-cross" title="Cross">Can not {permission}.</Permission>
-);
-CanNot.propTypes = { permission: PropTypes.node.isRequired };
 
 export default class MemberRole extends React.PureComponent {
   static displayName = "Team.Pipelines.Role";
@@ -57,10 +33,10 @@ export default class MemberRole extends React.PureComponent {
             selected={this.props.teamMember.role === TeamMemberRoleConstants.MAINTAINER}
             label={this.label(TeamMemberRoleConstants.MAINTAINER)}
             description={
-              <PermissionBlock>
-                <Can permission="add and remove pipelines" />
-                <Can permission="add and remove users" />
-              </PermissionBlock>
+              <PermissionSelectOptionDescriptions>
+                <PermissionDescription allowed={true} permission="add and remove pipelines" />
+                <PermissionDescription allowed={true} permission="add and remove users" />
+              </PermissionSelectOptionDescriptions>
             }
           />
           <Chooser.SelectOption
@@ -69,10 +45,10 @@ export default class MemberRole extends React.PureComponent {
             selected={this.props.teamMember.role === TeamMemberRoleConstants.MEMBER}
             label={this.label(TeamMemberRoleConstants.MEMBER)}
             description={
-              <PermissionBlock>
-                <Can permission="and and remove pipelines" />
-                <CanNot permission="add or remove users" />
-              </PermissionBlock>
+              <PermissionSelectOptionDescriptions>
+                <PermissionDescription allowed={true} permission="and and remove pipelines" />
+                <PermissionDescription allowed={false} permission="add or remove users" />
+              </PermissionSelectOptionDescriptions>
             }
           />
         </Chooser>
