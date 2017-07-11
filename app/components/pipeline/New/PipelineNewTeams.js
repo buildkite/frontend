@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 
 import FormInputLabel from '../../shared/FormInputLabel';
 import FormInputHelp from '../../shared/FormInputHelp';
@@ -8,6 +8,10 @@ import FormInputHelp from '../../shared/FormInputHelp';
 import MemberTeamRow from '../../member/MemberTeamRow';
 
 class PipelineNewTeams extends React.Component {
+  static propTypes = {
+    organization: PropTypes.object.isRequired
+  };
+
   state = {
     teams: []
   };
@@ -25,7 +29,7 @@ class PipelineNewTeams extends React.Component {
 
   render() {
     // Collect all the teams that we're allowed to see pipelines on
-    let teams = [];
+    const teams = [];
     for (const edge of this.props.organization.teams.edges) {
       if (edge.node.permissions.pipelineView.allowed) {
         teams.push(edge.node);

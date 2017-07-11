@@ -16,7 +16,7 @@ class Teams extends React.Component {
 
   render() {
     // Collect all the teams that we're allowed to see pipelines on
-    let teams = [];
+    const teams = [];
     for (const edge of this.props.organization.teams.edges) {
       if (edge.node.permissions.pipelineView.allowed) {
         teams.push(edge.node);
