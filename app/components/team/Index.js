@@ -283,7 +283,7 @@ class TeamIndex extends React.PureComponent {
                 theme="default"
                 outline={true}
               >
-                Create a Team
+                New Team
               </PageHeader.Button>
             )
           }
