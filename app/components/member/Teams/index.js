@@ -62,9 +62,9 @@ class TeamMemberships extends React.PureComponent {
 
     if (!teams.length) {
       return (
-        <Panel.Row>
+        <div className="p3">
           This user is not a member of any teams.
-        </Panel.Row>
+        </div>
       );
     }
 
