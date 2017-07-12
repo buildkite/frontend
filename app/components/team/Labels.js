@@ -19,9 +19,9 @@ class TeamLabels extends React.PureComponent {
           <Badge outline={true}>Secret</Badge>
         </div>
       );
-    } else {
-      return null;
     }
+    return null;
+
   }
 }
 
