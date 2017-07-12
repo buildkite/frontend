@@ -56,10 +56,6 @@ class OrganizationShow extends React.Component {
     router: PropTypes.object.isRequired
   };
 
-  componentDidMount() {
-    this.props.relay.setVariables({ isMounted: true });
-  }
-
   render() {
     return (
       <DocumentTitle title={`${this.props.organization.name}`}>
@@ -67,7 +63,12 @@ class OrganizationShow extends React.Component {
           <PageWithContainer>
             <div className="flex flex-wrap items-start mb2">
               <h1 className="h1 p0 m0 regular line-height-1 inline-block">Pipelines</h1>
-              {this.renderTeams()}
+              <Teams
+                selected={this.props.location.query.team}
+                organization={this.props.organization}
+                onTeamChange={this.handleTeamChange}
+              />
+
               {this.renderFilter()}
 
               {this.renderNewPipelineButton()}
@@ -114,16 +115,6 @@ class OrganizationShow extends React.Component {
     );
   }
 
-  renderTeams() {
-    // Only render the teams dropdown once the `isMounted` Relay variable has
-    // been executed
-    if (this.props.relay.variables.isMounted) {
-      return (
-        <Teams selected={this.props.location.query.team} organization={this.props.organization} onTeamChange={this.handleTeamChange} />
-      );
-    }
-  }
-
   handleTeamChange = (team) => {
     this.updateRoute({ team });
   };
@@ -166,14 +157,10 @@ class OrganizationShow extends React.Component {
 }
 
 export default Relay.createContainer(OrganizationShow, {
-  initialVariables: {
-    isMounted: false
-  },
-
   fragments: {
-    organization: (variables) => Relay.QL`
+    organization: () => Relay.QL`
       fragment on Organization {
-        ${Teams.getFragment('organization').if(variables.isMounted)}
+        ${Teams.getFragment('organization')}
         ${Pipelines.getFragment('organization')}
         id
         slug
