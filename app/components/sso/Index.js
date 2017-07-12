@@ -31,7 +31,6 @@ class SSOIndex extends React.PureComponent {
             <PageHeader.Icon>
               <Icon
                 icon="sso"
-                className="align-middle mr2"
                 style={{ width: 40, height: 40 }}
               />
             </PageHeader.Icon>

@@ -55,7 +55,6 @@ class Show extends React.PureComponent {
             <PageHeader.Icon>
               <UserAvatar
                 user={this.props.organizationMember.user}
-                className="align-middle mr2"
                 style={{ width: AVATAR_SIZE, height: AVATAR_SIZE }}
               />
             </PageHeader.Icon>

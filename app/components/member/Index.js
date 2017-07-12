@@ -72,7 +72,6 @@ class MemberIndex extends React.PureComponent {
             <PageHeader.Icon>
               <Icon
                 icon="users"
-                className="align-middle mr2"
                 style={{ width: 40, height: 40 }}
               />
             </PageHeader.Icon>

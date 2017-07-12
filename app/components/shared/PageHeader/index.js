@@ -4,6 +4,9 @@ import classNames from 'classnames';
 
 import Title from './title';
 import Button from './button';
+import Description from './description';
+import Menu from './menu';
+import Icon from './icon';
 
 class PageHeader extends React.Component {
   static propTypes = {
@@ -53,29 +56,8 @@ class PageHeader extends React.Component {
 
 PageHeader.Title = Title;
 PageHeader.Button = Button;
-
-const SIMPLE_COMPONENTS = {
-  Description: 'dark-gray mt1 max-width-2',
-  Icon: 'flex items-center',
-  Menu: 'flex items-center'
-};
-
-Object.keys(SIMPLE_COMPONENTS).forEach((componentName) => {
-  const defaultStyle = SIMPLE_COMPONENTS[componentName];
-
-  const Component = (props) => (
-    <div className={classNames(defaultStyle, props.className)}>
-      {props.children}
-    </div>
-  );
-
-  Component.displayName = `PageHeader.${componentName}`;
-  Component.propTypes = {
-    children: PropTypes.node.isRequired,
-    className: PropTypes.string
-  };
-
-  PageHeader[componentName] = Component;
-});
+PageHeader.Description = Description;
+PageHeader.Menu = Menu;
+PageHeader.Icon = Icon;
 
 export default PageHeader;
