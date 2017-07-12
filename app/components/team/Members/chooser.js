@@ -101,14 +101,17 @@ class Chooser extends React.Component {
 
   handleDialogOpen = () => {
     // First switch the component into a "loading" mode and refresh the data in the chooser
-    this.setState({ loading: true });
-    this.props.relay.forceFetch({ isMounted: true, teamSelector: `!${this.props.team.slug}` }, () => {
-      this.setState({ loading: false });
-    });
+    this.setState({ loading: true }, () => {
+      this.props.relay.forceFetch({ isMounted: true, teamSelector: `!${this.props.team.slug}` }, (state) => {
+        if (state.done) {
+          this.setState({ loading: false });
+        }
+      });
 
-    // Now start showing the dialog, and when it's open, autofocus the first
-    // result.
-    this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
+      // Now start showing the dialog, and when it's open, autofocus the first
+      // result.
+      this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
+    });
   };
 
   handleDialogClose = () => {
