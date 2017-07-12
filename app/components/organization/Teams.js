@@ -71,7 +71,7 @@ class Teams extends React.Component {
     return teams.map((team) =>
       (<Chooser.Option key={team.id} value={team.slug} className="btn block hover-bg-silver line-height-3">
         <Emojify className="block" text={team.name} />
-        {team.description && <Emojify className="block dark-gray light mt1" text={team.description} />}
+        {team.description && <Emojify className="block dark-gray regular h5 mt1" text={team.description} />}
       </Chooser.Option>)
     );
   }
