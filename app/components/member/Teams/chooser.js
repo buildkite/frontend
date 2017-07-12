@@ -72,7 +72,7 @@ class Chooser extends React.Component {
     const teams = this.props.organizationMember.organization.teams;
 
     if (!teams || this.state.loading) {
-      return [ <AutocompleteDialog.Loader key="loading" /> ]
+      return [<AutocompleteDialog.Loader key="loading" />];
     }
 
     const relevantTeamEdges = teams.edges.filter(({ node }) => (

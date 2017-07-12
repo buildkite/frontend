@@ -76,7 +76,7 @@ class Chooser extends React.Component {
 
   renderAutoCompleteSuggstions(memberAddSearch) {
     if (!this.props.team.organization.members || this.state.loading) {
-      return [ <AutocompleteDialog.Loader key="loading" /> ]
+      return [<AutocompleteDialog.Loader key="loading" />];
     }
 
     // Either render the suggestions, or show a "not found" error

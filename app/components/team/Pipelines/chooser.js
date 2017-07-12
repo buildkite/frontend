@@ -76,7 +76,7 @@ class Chooser extends React.Component {
 
   renderAutoCompleteSuggstions(pipelineAddSearch) {
     if (!this.props.team.organization.pipelines || this.state.loading) {
-      return [ <AutocompleteDialog.Loader key="loading" /> ]
+      return [<AutocompleteDialog.Loader key="loading" />];
     }
 
     // Either render the sugggestions, or show a "not found" error

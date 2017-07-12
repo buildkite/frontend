@@ -76,7 +76,7 @@ class Chooser extends React.Component {
     const pipelineTeams = this.props.pipeline.teams;
 
     if (!organizationTeams || !pipelineTeams || this.state.loading) {
-      return [ <AutocompleteDialog.Loader key="loading" /> ]
+      return [<AutocompleteDialog.Loader key="loading" />];
     }
 
     // Filter team edges by permission to add them
