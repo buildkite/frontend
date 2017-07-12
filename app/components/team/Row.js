@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import classNames from 'classnames';
 
 import TeamLabels from './Labels';
 
@@ -37,13 +38,15 @@ class TeamRow extends React.PureComponent {
   };
 
   render() {
+    const { team } = this.props;
+
     return (
-      <Panel.RowLink key={this.props.team.id} to={`/organizations/${this.props.team.organization.slug}/teams/${this.props.team.slug}`}>
+      <Panel.RowLink key={team.id} to={`/organizations/${team.organization.slug}/teams/${team.slug}`}>
         <div className="flex flex-stretch items-center line-height-1" style={{ minHeight: '3em' }}>
           <div className="flex-auto">
-            <div className="m0 flex items-center">
-              <Emojify text={this.props.team.name} className="semi-bold" />
-              <TeamLabels team={this.props.team} />
+            <div className={classNames("m0 flex items-center", { "mb1": team.description })}>
+              <Emojify text={team.name} className="semi-bold" />
+              <TeamLabels team={team} />
             </div>
             {this._renderDescription()}
           </div>
