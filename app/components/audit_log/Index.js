@@ -72,12 +72,7 @@ class AuditLogIndex extends React.PureComponent {
           </Dropdown>
         </Panel.Section>
 
-        {this.props.organization.auditEvents.edges.map((edge) => (
-          <AuditLogRow
-            key={edge.node.id}
-            auditEvent={edge.node}
-          />
-        ))}
+        {this.renderEvents()}
 
         <ShowMoreFooter
           connection={this.props.organization.auditEvents}
@@ -85,6 +80,41 @@ class AuditLogIndex extends React.PureComponent {
           onShowMore={this.handleShowMoreAuditEvents}
         />
       </Panel>
+    );
+  }
+
+  renderEvents() {
+    const auditEvents = this.props.organization.auditEvents;
+
+    if (!auditEvents) {
+      return (
+        <Panel.Section className="center">
+          <Spinner />
+        </Panel.Section>
+      );
+    }
+
+    if (auditEvents.edges.length > 0) {
+      return auditEvents.edges.map(({ node: auditEvent }) => (
+        <AuditLogRow
+          key={auditEvent.id}
+          auditEvent={auditEvent}
+        />
+      ));
+    }
+
+    let message = 'There are no audit events';
+
+    if (this.props.relay.variables.subjectType) {
+      message = 'There are no matching audit events';
+    }
+
+    return (
+      <Panel.Section>
+        <div className="dark-gray">
+          {message}
+        </div>
+      </Panel.Section>
     );
   }
 
