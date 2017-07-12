@@ -58,6 +58,8 @@ class TeamEdit extends React.Component {
           />
         </form>
 
+        <TeamDelete team={this.props.team} />
+
         <Panel className="mt3">
           <Panel.Header>REST API Integration</Panel.Header>
           <Panel.Section>
@@ -65,8 +67,6 @@ class TeamEdit extends React.Component {
             <code className="block bg-silver p2 rounded">{this.props.team.uuid}</code>
           </Panel.Section>
         </Panel>
-
-        <TeamDelete team={this.props.team} />
       </div>
     );
   }
