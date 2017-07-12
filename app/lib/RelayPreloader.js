@@ -196,13 +196,7 @@ const QUERIES = {
         id
         name
         slug
-        members {
-          count
-        }
         invitations(state: PENDING) {
-          count
-        }
-        teams {
           count
         }
         permissions {
@@ -222,6 +216,9 @@ const QUERIES = {
             allowed
           }
           teamCreate {
+            allowed
+          }
+          agentTokenView {
             allowed
           }
         }

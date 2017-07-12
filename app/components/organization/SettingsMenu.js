@@ -34,6 +34,9 @@ class SettingsMenu extends React.Component {
         }).isRequired,
         organizationBillingUpdate: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
+        }).isRequired,
+        agentTokenView: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired
       })
     }),
@@ -97,6 +100,18 @@ class SettingsMenu extends React.Component {
             link={`/organizations/${this.props.organization.slug}/teams`}
             badge={this.props.organization.teams && this.props.organization.teams.count}
             label="Teams"
+          />
+        )
+      },
+      {
+        allowed: "agentTokenView",
+        and: () => Features.AuditLogsLaunch,
+        render: (idx) => (
+          <Menu.Button
+            key={idx}
+            icon="eye"
+            link={`/organizations/${this.props.organization.slug}/audit-log`}
+            label="Audit Log"
           />
         )
       },
@@ -176,6 +191,9 @@ export default Relay.createContainer(SettingsMenu, {
             allowed
           }
           teamAdmin {
+            allowed
+          }
+          agentTokenView {
             allowed
           }
         }
