@@ -93,7 +93,7 @@ class TeamIndex extends React.PureComponent {
         <div>
           <Panel>
             <Panel.Section className="max-width-3">
-              <p>Teams allows you to assign permissions to different groups of users and pipelines. You can create secret teams which are only visible to account admins and team members, or public teams that are visible to the your entire Buildkite organization.</p>
+              <p>Creating teams inside your organisation allows you to assign permissions to pipelines and groups of users.</p>
               <p>
                 <img
                   src={require('./preview.png')}
@@ -102,7 +102,7 @@ class TeamIndex extends React.PureComponent {
                   className="fit"
                 />
               </p>
-              <p>Once you’ve enabled teams, all your users and pipelines will be added to a new team called “Everyone” to ensure continued access to pipelines. You can customize, rename or delete the default “Everyone” team.</p>
+              <p>Once you’ve enabled teams, all your users and pipelines will be added to a new team called “Everyone” to maintain existing pipeline access. You can customize, rename or delete the default “Everyone” team.</p>
               <form
                 action={`/organizations/${this.props.organization.slug}/teams/enable`}
                 acceptCharset=""
@@ -133,7 +133,7 @@ class TeamIndex extends React.PureComponent {
               <h3 className="mt3 h4 bold">How does Teams work with SSO?</h3>
               <p>When a user joins the organization via SSO, they’ll be automatically added to any teams that have the “Automatically add new users to this team” setting enabled.</p>
               <h3 className="mt3 h4 bold">Can I delete the ”Everyone” team?</h3>
-              <p>You’re free to delete the default ”Everyone” team. To ensure uniterrupted access to pipelines we recommend creating new teams, and assigning access, before deleting the ”Everyone” team.</p>
+              <p>Yes you can delete or edit the ”Everyone” team. To ensure uniterrupted access to pipelines we recommend creating new teams before deleting the ”Everyone” team.</p>
               <h3 className="mt3 h4 bold">Once enabled, can I disable Teams?</h3>
               <p>You can disable teams by deleting all your teams, and then selecting “Disable Teams.”</p>
             </Panel.Section>
