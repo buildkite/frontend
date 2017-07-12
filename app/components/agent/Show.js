@@ -85,11 +85,21 @@ class AgentShow extends React.Component {
   renderExtras(agent) {
     const extras = [];
 
+    let extraStoppingInfo;
+    if (agent.connectionState == "stopping") {
+      extraStoppingInfo = (
+        <div className="dark-gray mt1">
+          If the agent doesn't respond to the "stop" signal within a few minutes, Buildkite will forcefully disconnect the agent and remove it from your pool of agents.
+        </div>
+      );
+    }
+
     extras.push(this.renderExtraItem('State', (
-      <span>
+      <div>
         <AgentStateIcon agent={agent} className="pr2" />
         {getLabelForConnectionState(agent.connectionState)}
-      </span>
+        {extraStoppingInfo}
+      </div>
     )));
 
     if (agent.version) {
