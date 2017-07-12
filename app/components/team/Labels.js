@@ -13,18 +13,14 @@ class TeamLabels extends React.PureComponent {
   }
 
   render() {
-    return (
-      <div className="flex ml1">
-        {this._renderPrivacyLabel()}
-      </div>
-    );
-  }
-
-  _renderPrivacyLabel() {
     if (this.props.team.privacy === TeamPrivacyConstants.SECRET) {
       return (
-        <Badge outline={true}>Secret</Badge>
+        <div className="flex ml1">
+          <Badge outline={true}>Secret</Badge>
+        </div>
       );
+    } else {
+      return null;
     }
   }
 }
