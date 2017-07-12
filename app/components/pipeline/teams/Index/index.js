@@ -4,7 +4,6 @@ import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
 import Emojify from '../../../shared/Emojify';
-import Icon from '../../../shared/Icon';
 import Panel from '../../../shared/Panel';
 
 import Chooser from './chooser';
