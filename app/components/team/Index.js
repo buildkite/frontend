@@ -93,16 +93,16 @@ class TeamIndex extends React.PureComponent {
         <div>
           <Panel>
             <Panel.Section className="max-width-3">
-              <p>Teams allows you to group people, pipelines and permissions together.</p>
+              <p>Creating teams inside your organisation allows you to assign permissions to pipelines and groups of users.</p>
               <p>
                 <img
-                  src="//placekitten.com/800/480"
-                  width="400"
-                  height="240"
-                  alt=""
-                  title="This tiny kitten uses Teams - shouldn't you?"
+                  src={require('./preview.png')}
+                  alt="A screenshot of the teams functionality"
+                  title="Screenshot showing a list of 4 different teams, with different users and pipelines associated to each team."
+                  className="fit"
                 />
               </p>
+              <p>Once you’ve enabled teams, all your users and pipelines will be added to a new team called “Everyone” to maintain existing pipeline access. You can customize, rename or delete the default “Everyone” team.</p>
               <form
                 action={`/organizations/${this.props.organization.slug}/teams/enable`}
                 acceptCharset=""
@@ -114,10 +114,10 @@ class TeamIndex extends React.PureComponent {
 
                 <Button
                   onClick={this.handleEnableTeamsClick}
-                  loading={this.state.enablingTeams ? "Setting up Teams…" : false}
+                  loading={this.state.enablingTeams ? "Enabling Teams…" : false}
                   theme="success"
                 >
-                  Start using Teams
+                  Enable Teams
                 </Button>
               </form>
             </Panel.Section>
@@ -127,13 +127,15 @@ class TeamIndex extends React.PureComponent {
             <Panel.Header>
               Frequently Asked Team Questions
             </Panel.Header>
-            <Panel.Section className="max-width-2">
-              <h3 className="mt3 h4 bold">How do teams work with SSO?</h3>
-              <p>When a user signs in to SSO, the additional user is added to your account, and will be charged immediately, just as if you had invited them to the account.</p>
-              <h3 className="mt3 h4 bold">A question about teams?</h3>
-              <p>An answer about teams.</p>
-              <h3 className="mt3 h4 bold">A question about teams?</h3>
-              <p>An answer about teams.</p>
+            <Panel.Section className="max-width-3">
+              <h3 className="mt3 h4 bold">Will users (and API tokens) still have access to their pipelines?</h3>
+              <p>When you enable Teams we’ll create a default team called ”Everyone”, containing all your users and pipelines. This ensures that users, and their API tokens, will still have access to their pipelines.</p>
+              <h3 className="mt3 h4 bold">How does Teams work with SSO?</h3>
+              <p>When a user joins the organization via SSO, they’ll be automatically added to any teams that have the “Automatically add new users to this team” setting enabled.</p>
+              <h3 className="mt3 h4 bold">Can I delete the ”Everyone” team?</h3>
+              <p>Yes you can delete or edit the ”Everyone” team. To ensure uniterrupted access to pipelines we recommend creating new teams before deleting the ”Everyone” team.</p>
+              <h3 className="mt3 h4 bold">Once enabled, can I disable Teams?</h3>
+              <p>You can disable teams by deleting all your teams, and then selecting “Disable Teams.”</p>
             </Panel.Section>
           </Panel>
         </div>
@@ -283,7 +285,7 @@ class TeamIndex extends React.PureComponent {
                 theme="default"
                 outline={true}
               >
-                Create a Team
+                New Team
               </PageHeader.Button>
             )
           }
