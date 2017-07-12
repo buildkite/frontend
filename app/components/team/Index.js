@@ -16,7 +16,6 @@ import Spinner from '../shared/Spinner';
 import { formatNumber } from '../../lib/number';
 import permissions from '../../lib/permissions';
 
-import previewImage from './preview.png';
 import Row from './Row';
 
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
@@ -97,7 +96,7 @@ class TeamIndex extends React.PureComponent {
               <p>Teams allows you to assign permissions to different groups of users and pipelines. You can create secret teams which are only visible to account admins and team members, or public teams that are visible to the your entire Buildkite organization.</p>
               <p>
                 <img
-                  src={previewImage}
+                  src={require('./preview.png')}
                   alt="A screenshot of the teams functionality"
                   title="Screenshot showing a list of 4 different teams, with different users and pipelines associated to each team."
                   className="fit"
