@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import AutocompleteDialog from '../../../shared/Autocomplete/Dialog';
 import Button from '../../../shared/Button';
 
 import FlashesStore from '../../../../stores/FlashesStore';
 
-import TeamSuggestion from '../../../team/Suggestion';
+import TeamSuggestion from './team-suggestion';
 
 import TeamPipelineCreateMutation from '../../../../mutations/TeamPipelineCreate';
 
@@ -74,8 +75,8 @@ class Chooser extends React.Component {
     const organizationTeams = this.props.pipeline.organization.teams;
     const pipelineTeams = this.props.pipeline.teams;
 
-    if (!organizationTeams || !pipelineTeams) {
-      return [];
+    if (!organizationTeams || !pipelineTeams || this.state.loading) {
+      return [ <AutocompleteDialog.Loader key="loading" /> ]
     }
 
     // Filter team edges by permission to add them
