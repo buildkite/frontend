@@ -63,8 +63,8 @@ class Chooser extends React.Component {
               onSearch={this.handleUserSearch}
               onSelect={this.handleUserSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.memberAddSearch)}
-              placeholder="Find a user…"
-              selectLabel="Add User"
+              placeholder="Search all users…"
+              selectLabel="Add"
               popover={false}
               ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
             />

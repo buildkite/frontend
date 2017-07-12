@@ -23,7 +23,7 @@ class MemberTeamRow extends React.Component {
       <div className="col-12 md-col-6 lg-col-4 py1">
         <label className="block cursor-pointer px1 pb1">
           <div className="flex items-start">
-            <div className="pl2 pr2" style={{ lineHeight: 1.75 }}>
+            <div className="pr2" style={{ lineHeight: 1.75 }}>
               <input
                 type="checkbox"
                 checked={this.props.checked}
@@ -53,7 +53,7 @@ class MemberTeamRow extends React.Component {
     }
 
     return (
-      <div className="m0 p0 dark-gray h5">
+      <div className="m0 p0 dark-gray h5 regular" style={{ lineHeight: 1.4 }}>
         <Emojify text={this.props.team.description} />
       </div>
     );
