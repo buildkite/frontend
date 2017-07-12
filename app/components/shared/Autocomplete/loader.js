@@ -9,7 +9,7 @@ export default class Loader extends React.PureComponent {
 
   render() {
     return (
-      <li className="center py4"><Spinner /></li>
+      <li className="center py3"><Spinner /></li>
     );
   }
 }
