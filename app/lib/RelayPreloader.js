@@ -55,13 +55,18 @@ const QUERIES = {
             message
           }
         }
-        teams(first: 500) {
+        teams(first: 100) {
           edges {
             node {
               id
               name
               slug
               description
+              permissions {
+                pipelineView {
+                  allowed
+                }
+              }
             }
             cursor
           }
