@@ -8,6 +8,7 @@ import Icon from '../shared/Icon';
 import Panel from '../shared/Panel';
 import PageHeader from '../shared/PageHeader';
 import ShowMoreFooter from '../shared/ShowMoreFooter';
+import Spinner from '../shared/Spinner';
 
 import AuditLogRow from './row';
 
