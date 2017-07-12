@@ -34,6 +34,9 @@ class SettingsMenu extends React.Component {
         }).isRequired,
         organizationBillingUpdate: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
+        }).isRequired,
+        agentTokenView: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
         }).isRequired
       })
     }),
