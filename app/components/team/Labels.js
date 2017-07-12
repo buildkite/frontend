@@ -16,7 +16,7 @@ class TeamLabels extends React.PureComponent {
     if (this.props.team.privacy === TeamPrivacyConstants.SECRET) {
       return (
         <div className="flex ml1">
-          <Badge outline={true}>Secret</Badge>
+          <Badge outline={true} className="regular">Secret</Badge>
         </div>
       );
     }

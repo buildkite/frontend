@@ -4,8 +4,6 @@ import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
 import Emojify from '../../../shared/Emojify';
-import Icon from '../../../shared/Icon';
-import PageHeader from '../../../shared/PageHeader';
 import Panel from '../../../shared/Panel';
 
 import Chooser from './chooser';
@@ -33,26 +31,15 @@ class PipelineTeamIndex extends React.Component {
     return (
       <DocumentTitle title={`Teams · ${this.props.pipeline.name}`}>
         <div>
-          <PageHeader>
-            <PageHeader.Icon>
-              <Icon
-                icon="teams"
-                className="align-middle mr2"
-                style={{ height: 40, width: 40 }}
-              />
-            </PageHeader.Icon>
-            <PageHeader.Title>Teams</PageHeader.Title>
-            <PageHeader.Description>
-              Teams allow you to control who has access to this pipeline
-            </PageHeader.Description>
-            <PageHeader.Menu>
+          <Panel>
+            <Panel.Header>Teams</Panel.Header>
+            <Panel.IntroWithButton>
+              <span>Teams allow you to control who has access to this pipeline.</span>
               <Chooser
                 pipeline={this.props.pipeline}
                 onChoose={this.handleTeamChoose}
               />
-            </PageHeader.Menu>
-          </PageHeader>
-          <Panel>
+            </Panel.IntroWithButton>
             {this.renderRows()}
           </Panel>
         </div>

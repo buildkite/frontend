@@ -54,7 +54,7 @@ class Index extends React.Component {
     return permissions(this.props.pipeline.permissions).check(
       {
         allowed: "pipelineScheduleCreate",
-        render: () => <Button link={`/${this.props.params.organization}/${this.props.params.pipeline}/settings/schedules/new`} theme={"default"} outline={true}>New Schedule</Button>
+        render: () => <Button link={`/${this.props.params.organization}/${this.props.params.pipeline}/settings/schedules/new`}>New Schedule</Button>
       }
     );
   }
