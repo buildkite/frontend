@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import AutocompleteDialog from '../../shared/Autocomplete/Dialog';
 import Button from '../../shared/Button';
@@ -32,15 +33,15 @@ class Chooser extends React.Component {
 
   state = {
     loading: false,
+    searching: false,
     removing: null,
     showingDialog: false
   };
 
-  componentDidMount() {
-    this.props.relay.setVariables({
-      isMounted: true,
-      teamSelector: `!${this.props.team.slug}`
-    });
+  shouldComponentUpdate(nextProps, nextState) {
+    // Only update when a forceFetch isn't pending, and we also meet the usual
+    // requirements to update. This avoids any re-use of old cached Team data.
+    return !nextState.searching && shallowCompare(this, nextProps, nextState);
   }
 
   render() {
@@ -74,8 +75,8 @@ class Chooser extends React.Component {
   }
 
   renderAutoCompleteSuggstions(pipelineAddSearch) {
-    if (!this.props.team.organization.pipelines) {
-      return [];
+    if (!this.props.team.organization.pipelines || this.state.loading) {
+      return [ <AutocompleteDialog.Loader key="loading" /> ]
     }
 
     // Either render the sugggestions, or show a "not found" error
@@ -98,15 +99,33 @@ class Chooser extends React.Component {
   }
 
   handleDialogOpen = () => {
+    // First switch the component into a "loading" mode and refresh the data in the chooser
+    this.setState({ loading: true });
+    this.props.relay.forceFetch({ isMounted: true, teamSelector: `!${this.props.team.slug}` }, () => {
+      this.setState({ loading: false });
+    });
+
+    // Now start showing the dialog, and when it's open, autofocus the first
+    // result.
     this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
   };
 
   handleDialogClose = () => {
     this.setState({ showingDialog: false });
+    this._autoCompletor.clear();
+    this.props.relay.setVariables({ pipelineAddSearch: '' });
   };
 
   handlePipelineSearch = (pipelineAddSearch) => {
-    this.props.relay.setVariables({ pipelineAddSearch });
+    this.setState({ searching: true });
+    this.props.relay.forceFetch(
+      { pipelineAddSearch },
+      (state) => {
+        if (state.done) {
+          this.setState({ searching: false });
+        }
+      }
+    );
   };
 
   handlePipelineSelect = (pipeline) => {
