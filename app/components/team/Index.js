@@ -128,10 +128,14 @@ class TeamIndex extends React.PureComponent {
               Frequently Asked Team Questions
             </Panel.Header>
             <Panel.Section className="max-width-3">
-              <h3 className="mt3 h4 bold">How do I disable Teams?</h3>
-              <p>To disable teams you need to delete all your teams, and then select “Disable Teams”</p>
+              <h3 className="mt3 h4 bold">Will users (and API tokens) still have access to their pipelines?</h3>
+              <p>When you enable Teams we’ll create a default team called ”Everyone”, containing all your users and pipelines. This ensures that users, and their API tokens, will still have access to their pipelines.</p>
               <h3 className="mt3 h4 bold">How does Teams work with SSO?</h3>
               <p>When a user joins the organization via SSO, they’ll be automatically added to any teams that have the “Automatically add new users to this team” setting enabled.</p>
+              <h3 className="mt3 h4 bold">Can I delete the ”Everyone” team?</h3>
+              <p>You’re free to delete the default ”Everyone” team. To ensure uniterrupted access to pipelines we recommend creating new teams, and assigning access, before deleting the ”Everyone” team.</p>
+              <h3 className="mt3 h4 bold">Once enabled, can I disable Teams?</h3>
+              <p>You can disable teams by deleting all your teams, and then selecting “Disable Teams.”</p>
             </Panel.Section>
           </Panel>
         </div>
