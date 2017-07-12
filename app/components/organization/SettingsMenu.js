@@ -101,7 +101,7 @@ class SettingsMenu extends React.Component {
         )
       },
       {
-        allowed: "teamAdmin",
+        allowed: "agentTokenView",
         and: () => Features.AuditLogsLaunch,
         render: (idx) => (
           <Menu.Button
@@ -188,6 +188,9 @@ export default Relay.createContainer(SettingsMenu, {
             allowed
           }
           teamAdmin {
+            allowed
+          }
+          agentTokenView {
             allowed
           }
         }
