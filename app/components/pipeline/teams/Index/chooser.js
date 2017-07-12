@@ -50,10 +50,8 @@ class Chooser extends React.Component {
       <div>
         <Button
           onClick={this.handleDialogOpen}
-          outline={true}
-          theme="default"
         >
-          Add Team…
+          Add to Team
         </Button>
         <AutocompleteDialog
           isOpen={this.state.showingDialog}
