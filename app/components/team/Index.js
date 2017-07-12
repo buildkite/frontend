@@ -68,8 +68,8 @@ class TeamIndex extends React.PureComponent {
             <PageHeader.Icon>
               <Icon
                 icon="teams"
-                className="align-middle mr2"
-                style={{ width: 40, height: 40 }}
+                // This icon needs to be slightly smaller
+                style={{ width: 34, height: 34, marginTop: 3, marginLeft: 3 }}
               />
             </PageHeader.Icon>
             <PageHeader.Title>
