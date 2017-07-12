@@ -57,8 +57,8 @@ class Chooser extends React.Component {
           onSearch={this.handleTeamSearch}
           onSelect={this.handleTeamSelect}
           items={this.renderAutoCompleteSuggstions(this.props.relay.variables.teamAddSearch)}
-          placeholder="Find a team…"
-          selectLabel="Add Team"
+          placeholder="Search all teams…"
+          selectLabel="Add"
           popover={false}
           ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
         />

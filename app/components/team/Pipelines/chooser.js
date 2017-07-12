@@ -62,8 +62,8 @@ class Chooser extends React.Component {
               onSearch={this.handlePipelineSearch}
               onSelect={this.handlePipelineSelect}
               items={this.renderAutoCompleteSuggstions(this.props.relay.variables.pipelineAddSearch)}
-              placeholder="Find a pipeline…"
-              selectLabel="Add Pipeline"
+              placeholder="Search all pipelines…"
+              selectLabel="Add"
               popover={false}
               ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
             />
