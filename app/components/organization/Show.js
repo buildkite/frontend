@@ -48,7 +48,6 @@ class OrganizationShow extends React.Component {
       slug: PropTypes.string.isRequired,
       permissions: PropTypes.object.isRequired
     }).isRequired,
-    relay: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired
   };
 
