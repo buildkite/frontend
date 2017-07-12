@@ -31,8 +31,10 @@ class Chooser extends React.Component {
   };
 
   state = {
-    showingDialog: false,
-    searching: false
+    loading: false,
+    searching: false,
+    removing: null,
+    showingDialog: false
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -69,8 +71,8 @@ class Chooser extends React.Component {
   renderAutoCompleteSuggstions(teamAddSearch) {
     const teams = this.props.organizationMember.organization.teams;
 
-    if (!teams) {
-      return [];
+    if (!teams || this.state.loading) {
+      return [<AutocompleteDialog.Loader key="loading" />];
     }
 
     const relevantTeamEdges = teams.edges.filter(({ node }) => (
@@ -98,25 +100,23 @@ class Chooser extends React.Component {
   }
 
   handleDialogOpen = () => {
-    // Fetch the teams list on first open by setting (if: $showingDialog) to true
-    // and force re-fetch on subsequent opens in case the teams list has changed
-    this.props.relay.forceFetch({
-      showingDialog: true,
-      userSelector: `!${this.props.organizationMember.user.uuid}`
-    }, (state) => {
-      // When we're finished re-fetching, show the dialog
+    // First switch the component into a "loading" mode and refresh the data in the chooser
+    this.setState({ loading: true });
+    this.props.relay.forceFetch({ isMounted: true, userSelector: `!${this.props.organizationMember.user.uuid}` }, (state) => {
       if (state.done) {
-        this.setState({
-          showingDialog: true
-        }, () => {
-          this._autoCompletor.focus();
-        });
+        this.setState({ loading: false });
       }
     });
+
+    // Now start showing the dialog, and when it's open, autofocus the first
+    // result.
+    this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
   };
 
   handleDialogClose = () => {
     this.setState({ showingDialog: false });
+    this._autoCompletor.clear();
+    this.props.relay.setVariables({ teamAddSearch: '' });
   };
 
   handleTeamSearch = (teamAddSearch) => {
@@ -168,7 +168,7 @@ class Chooser extends React.Component {
 
 export default Relay.createContainer(Chooser, {
   initialVariables: {
-    showingDialog: false,
+    isMounted: false,
     teamAddSearch: '',
     userSelector: null
   },
@@ -183,7 +183,7 @@ export default Relay.createContainer(Chooser, {
         }
         organization {
           id
-          teams(search: $teamAddSearch, first: 10, order: RELEVANCE, user: $userSelector) @include (if: $showingDialog) {
+          teams(search: $teamAddSearch, first: 10, order: RELEVANCE, user: $userSelector) @include (if: $isMounted) {
             edges {
               node {
                 id

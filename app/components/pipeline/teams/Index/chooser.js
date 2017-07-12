@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import AutocompleteDialog from '../../../shared/Autocomplete/Dialog';
 import Button from '../../../shared/Button';
 
 import FlashesStore from '../../../../stores/FlashesStore';
 
-import TeamSuggestion from '../../../team/Suggestion';
+import TeamSuggestion from './team-suggestion';
 
 import TeamPipelineCreateMutation from '../../../../mutations/TeamPipelineCreate';
 
@@ -33,15 +34,15 @@ class Chooser extends React.Component {
 
   state = {
     loading: false,
+    searching: false,
     removing: null,
     showingDialog: false
   };
 
-  componentDidMount() {
-    this.props.relay.setVariables({
-      isMounted: true,
-      pipelineSelector: `!${this.props.pipeline.slug}`
-    });
+  shouldComponentUpdate(nextProps, nextState) {
+    // Only update when a forceFetch isn't pending, and we also meet the usual
+    // requirements to update. This avoids any re-use of old cached Team data.
+    return !nextState.searching && shallowCompare(this, nextProps, nextState);
   }
 
   render() {
@@ -74,8 +75,8 @@ class Chooser extends React.Component {
     const organizationTeams = this.props.pipeline.organization.teams;
     const pipelineTeams = this.props.pipeline.teams;
 
-    if (!organizationTeams || !pipelineTeams) {
-      return [];
+    if (!organizationTeams || !pipelineTeams || this.state.loading) {
+      return [<AutocompleteDialog.Loader key="loading" />];
     }
 
     // Filter team edges by permission to add them
@@ -107,12 +108,36 @@ class Chooser extends React.Component {
     this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
   };
 
+  handleDialogOpen = () => {
+    // First switch the component into a "loading" mode and refresh the data in the chooser
+    this.setState({ loading: true });
+    this.props.relay.forceFetch({ isMounted: true, pipelineSelector: `!${this.props.pipeline.slug}` }, (state) => {
+      if (state.done) {
+        this.setState({ loading: false });
+      }
+    });
+
+    // Now start showing the dialog, and when it's open, autofocus the first
+    // result.
+    this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
+  };
+
   handleDialogClose = () => {
     this.setState({ showingDialog: false });
+    this._autoCompletor.clear();
+    this.props.relay.setVariables({ teamAddSearch: '' });
   };
 
   handleTeamSearch = (teamAddSearch) => {
-    this.props.relay.setVariables({ teamAddSearch });
+    this.setState({ searching: true });
+    this.props.relay.forceFetch(
+      { teamAddSearch },
+      (state) => {
+        if (state.done) {
+          this.setState({ searching: false });
+        }
+      }
+    );
   };
 
   handleTeamSelect = (team) => {

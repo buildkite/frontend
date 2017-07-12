@@ -5,6 +5,7 @@ import Dialog from '../../Dialog';
 import SearchField from '../../SearchField';
 import Suggestion from './suggestion';
 import ErrorMessage from '../error-message';
+import Loader from '../loader';
 
 class AutocompleteDialog extends React.PureComponent {
   static propTypes = {
@@ -43,8 +44,8 @@ class AutocompleteDialog extends React.PureComponent {
     this.props.onRequestClose();
   }
 
-  isErrorMessageComponent(node) {
-    return node && node.type && node.type.displayName === ErrorMessage.displayName;
+  isNonSuggestionComponent(node) {
+    return node && node.type && (node.type.displayName === ErrorMessage.displayName || node.type.displayName === Loader.displayName);
   }
 
   render() {
@@ -76,7 +77,7 @@ class AutocompleteDialog extends React.PureComponent {
     const suggestions = [];
     let key = 0;
     for (let index = 0, length = items.length; index < length; index++) {
-      if (this.isErrorMessageComponent(items[index])) {
+      if (this.isNonSuggestionComponent(items[index])) {
         suggestions.push(
           <div key={key += 1} className="px3 py2 center">
             {items[index]}
@@ -119,5 +120,6 @@ class AutocompleteDialog extends React.PureComponent {
 }
 
 AutocompleteDialog.ErrorMessage = ErrorMessage;
+AutocompleteDialog.Loader = Loader;
 
 export default AutocompleteDialog;
