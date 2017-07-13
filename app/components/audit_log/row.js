@@ -8,47 +8,6 @@ import Icon from '../shared/Icon';
 import Panel from '../shared/Panel';
 import Spinner from '../shared/Spinner';
 
-const renderData = (data, depth = 0) => {
-  if (typeof data === 'string') {
-    return data;
-  }
-
-  if (depth > 10) {
-    return <i>Nesting too deep!</i>;
-  }
-
-  if (!data) {
-    return "" + data;
-  }
-
-  const keys = Object.keys(data).sort();
-
-  if (!keys.length) {
-    return data.toStri;
-  }
-
-  return (
-    <dl>
-      {keys.reduce(
-        (accumulator, property) => (
-          accumulator.concat([
-            <dt
-              key={`dt:${property}`}
-              className="semi-bold"
-            >
-              {property}
-            </dt>,
-            <dd key={`dd:${property}`}>
-              {renderData(data[property], depth + 1)}
-            </dd>
-          ])
-        ),
-        []
-      )}
-    </dl>
-  );
-};
-
 const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
 `;
@@ -209,13 +168,25 @@ class AuditLogRow extends React.PureComponent {
       return;
     }
 
-    const rendered = renderData(JSON.parse(this.props.auditEvent.data));
+    const parsed = JSON.parse(this.props.auditEvent.data);
 
-    if (rendered) {
-      return rendered;
+    if (parsed) {
+      const rendered = JSON.stringify(parsed, null, '  ');
+
+      // if this renders to a string longer than `{}`, show it
+      if (rendered.length > 2) {
+        return (
+          <pre className="monospace">
+            {rendered}
+          </pre>
+        );
+      }
     }
 
-    return <i>No data changes were found</i>;
+    // otherwise, looks like there weren't any captured data changes!
+    return (
+      <i>No data changes were found</i>
+    );
   }
 
   handleHeaderClick = () => {

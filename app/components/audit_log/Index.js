@@ -8,6 +8,7 @@ import Icon from '../shared/Icon';
 import Panel from '../shared/Panel';
 import PageHeader from '../shared/PageHeader';
 import ShowMoreFooter from '../shared/ShowMoreFooter';
+import Spinner from '../shared/Spinner';
 
 import AuditLogRow from './row';
 
@@ -33,6 +34,10 @@ class AuditLogIndex extends React.PureComponent {
   state = {
     loading: false
   };
+
+  componentDidMount() {
+    this.props.relay.setVariables({ isMounted: true });
+  }
 
   render() {
     return (
@@ -72,12 +77,7 @@ class AuditLogIndex extends React.PureComponent {
           </Dropdown>
         </Panel.Section>
 
-        {this.props.organization.auditEvents.edges.map((edge) => (
-          <AuditLogRow
-            key={edge.node.id}
-            auditEvent={edge.node}
-          />
-        ))}
+        {this.renderEvents()}
 
         <ShowMoreFooter
           connection={this.props.organization.auditEvents}
@@ -85,6 +85,41 @@ class AuditLogIndex extends React.PureComponent {
           onShowMore={this.handleShowMoreAuditEvents}
         />
       </Panel>
+    );
+  }
+
+  renderEvents() {
+    const auditEvents = this.props.organization.auditEvents;
+
+    if (!auditEvents) {
+      return (
+        <Panel.Section className="center">
+          <Spinner />
+        </Panel.Section>
+      );
+    }
+
+    if (auditEvents.edges.length > 0) {
+      return auditEvents.edges.map(({ node: auditEvent }) => (
+        <AuditLogRow
+          key={auditEvent.id}
+          auditEvent={auditEvent}
+        />
+      ));
+    }
+
+    let message = 'There are no audit events';
+
+    if (this.props.relay.variables.subjectType) {
+      message = 'There are no matching audit events';
+    }
+
+    return (
+      <Panel.Section>
+        <div className="dark-gray">
+          {message}
+        </div>
+      </Panel.Section>
     );
   }
 
@@ -139,6 +174,7 @@ class AuditLogIndex extends React.PureComponent {
 
 export default Relay.createContainer(AuditLogIndex, {
   initialVariables: {
+    isMounted: false,
     pageSize: PAGE_SIZE,
     subjectType: null
   },
@@ -147,7 +183,7 @@ export default Relay.createContainer(AuditLogIndex, {
     organization: () => Relay.QL`
       fragment on Organization {
         name
-        auditEvents(first: $pageSize, subject_type: $subjectType) {
+        auditEvents(first: $pageSize, subject_type: $subjectType) @include (if: $isMounted) {
           edges {
             node {
               id
