@@ -35,6 +35,10 @@ class AuditLogIndex extends React.PureComponent {
     loading: false
   };
 
+  componentDidMount() {
+    this.props.relay.setVariables({ isMounted: true });
+  }
+
   render() {
     return (
       <DocumentTitle title={`Audit Log · ${this.props.organization.name}`}>
@@ -170,6 +174,7 @@ class AuditLogIndex extends React.PureComponent {
 
 export default Relay.createContainer(AuditLogIndex, {
   initialVariables: {
+    isMounted: false,
     pageSize: PAGE_SIZE,
     subjectType: null
   },
@@ -178,7 +183,7 @@ export default Relay.createContainer(AuditLogIndex, {
     organization: () => Relay.QL`
       fragment on Organization {
         name
-        auditEvents(first: $pageSize, subject_type: $subjectType) {
+        auditEvents(first: $pageSize, subject_type: $subjectType) @include (if: $isMounted) {
           edges {
             node {
               id
