@@ -102,14 +102,13 @@ class Chooser extends React.Component {
   handleDialogOpen = () => {
     // First switch the component into a "loading" mode and refresh the data in the chooser
     this.setState({ loading: true }, () => {
-      this.props.relay.forceFetch({ isMounted: true, teamSelector: `!${this.props.team.slug}` }, (state) => {
+      this.props.relay.forceFetch({ includeSearchResults: true, teamSelector: `!${this.props.team.slug}` }, (state) => {
         if (state.done) {
           this.setState({ loading: false });
         }
       });
 
-      // Now start showing the dialog, and when it's open, autofocus the first
-      // result.
+      // Now start showing the dialog, and when it's open autofocus on the search input
       this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
     });
   };
@@ -169,7 +168,7 @@ class Chooser extends React.Component {
 
 export default Relay.createContainer(Chooser, {
   initialVariables: {
-    isMounted: false,
+    includeSearchResults: false,
     memberAddSearch: '',
     teamSelector: null
   },
@@ -181,7 +180,7 @@ export default Relay.createContainer(Chooser, {
         slug
 
         organization {
-          members(search: $memberAddSearch, first: 10, order: RELEVANCE, team: $teamSelector) @include (if: $isMounted) {
+          members(search: $memberAddSearch, first: 10, order: RELEVANCE, team: $teamSelector) @include (if: $includeSearchResults) {
             edges {
               node {
                 user {

@@ -23,9 +23,6 @@ class Chooser extends React.Component {
         teams: PropTypes.shape({
           edges: PropTypes.array.isRequired
         })
-      }),
-      teams: PropTypes.shape({
-        edges: PropTypes.array.isRequired
       })
     }).isRequired,
     relay: PropTypes.object.isRequired,
@@ -71,9 +68,8 @@ class Chooser extends React.Component {
 
   renderAutoCompleteSuggstions(teamAddSearch) {
     const organizationTeams = this.props.pipeline.organization.teams;
-    const pipelineTeams = this.props.pipeline.teams;
 
-    if (!organizationTeams || !pipelineTeams || this.state.loading) {
+    if (!organizationTeams || this.state.loading) {
       return [<AutocompleteDialog.Loader key="loading" />];
     }
 
@@ -109,7 +105,7 @@ class Chooser extends React.Component {
   handleDialogOpen = () => {
     // First switch the component into a "loading" mode and refresh the data in the chooser
     this.setState({ loading: true });
-    this.props.relay.forceFetch({ isMounted: true, pipelineSelector: `!${this.props.pipeline.slug}` }, (state) => {
+    this.props.relay.forceFetch({ includeSearchResults: true, pipelineSelector: `!${this.props.pipeline.slug}` }, (state) => {
       if (state.done) {
         this.setState({ loading: false });
       }
@@ -166,6 +162,7 @@ class Chooser extends React.Component {
 export default Relay.createContainer(Chooser, {
   initialVariables: {
     isMounted: false,
+    includeSearchResults: false,
     teamAddSearch: '',
     pipelineSelector: null
   },
@@ -177,7 +174,7 @@ export default Relay.createContainer(Chooser, {
         id
         slug
         organization {
-          teams(search: $teamAddSearch, first: 10, order: RELEVANCE, pipeline: $pipelineSelector) @include (if: $isMounted) {
+          teams(search: $teamAddSearch, first: 10, order: RELEVANCE, pipeline: $pipelineSelector) @include (if: $includeSearchResults) {
             edges {
               node {
                 id
@@ -188,16 +185,6 @@ export default Relay.createContainer(Chooser, {
                 }
                 ${TeamSuggestion.getFragment('team')}
                 ${TeamPipelineCreateMutation.getFragment('team')}
-              }
-            }
-          }
-        }
-        teams(first: 500) @include (if: $isMounted) {
-          edges {
-            node {
-              id
-              team {
-                id
               }
             }
           }
