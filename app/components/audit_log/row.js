@@ -21,8 +21,8 @@ const RotatableIcon = styled(Icon)`
 class AuditLogRow extends React.PureComponent {
   static propTypes = {
     auditEvent: PropTypes.shape({
-      __typename: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
       occurredAt: PropTypes.string.isRequired,
       data: PropTypes.string,
       actor: PropTypes.shape({
@@ -98,16 +98,16 @@ class AuditLogRow extends React.PureComponent {
 
   renderEventSentence() {
     const {
-      __typename: eventTypeName,
+      type: eventTypeName,
       actor,
       subject,
       context
     } = this.props.auditEvent;
 
+    // "ORGANIZATION_CREATED" => ["Organization", "Created"]
     const eventTypeSplit = eventTypeName
-      .replace(/^Audit|Event$/g, '')
-      .replace(/(^|[a-z0-9])([A-Z][a-z0-9])/g, '$1 $2')
-      .split(/\s+/);
+      .split("_")
+      .map((word) => word.charAt(0) + word.slice(1).toLowerCase());
 
     const eventVerb = eventTypeSplit.pop().toLowerCase();
 
@@ -115,7 +115,7 @@ class AuditLogRow extends React.PureComponent {
 
     let subjectName = subject.node && subject.node.name;
 
-    if (eventTypeName === 'AuditOrganizationCreatedEvent') {
+    if (eventTypeName === 'ORGANIZATION_CREATED') {
       subjectName = `${subjectName} 🎉`;
     }
 
@@ -224,8 +224,8 @@ export default Relay.createContainer(AuditLogRow, {
   fragments: {
     auditEvent: () => Relay.QL`
       fragment on AuditEvent {
-        __typename
         uuid
+        type
         occurredAt
         data @include(if: $hasExpanded)
         actor {
