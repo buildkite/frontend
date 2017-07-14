@@ -26,11 +26,15 @@ class AuditLogRow extends React.PureComponent {
       occurredAt: PropTypes.string.isRequired,
       data: PropTypes.string,
       actor: PropTypes.shape({
-        name: PropTypes.string.isRequired
+        node: PropTypes.shape({
+          name: PropTypes.string.isRequired
+        }).isRequired
       }).isRequired,
       subject: PropTypes.shape({
-        __typename: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
+        node: PropTypes.shape({
+          __typename: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired
+        })
       }).isRequired,
       context: PropTypes.shape({
         __typename: PropTypes.string.isRequired,
@@ -109,7 +113,7 @@ class AuditLogRow extends React.PureComponent {
 
     const eventType = eventTypeSplit.join(' ');
 
-    let subjectName = subject.name;
+    let subjectName = subject.node.name;
 
     if (eventTypeName === 'AuditOrganizationCreatedEvent') {
       subjectName = `${subjectName} 🎉`;
@@ -117,7 +121,7 @@ class AuditLogRow extends React.PureComponent {
 
     return (
       <span>
-        <span className="semi-bold">{actor.name}</span>
+        <span className="semi-bold">{actor.node.name}</span>
         {` ${eventVerb} ${eventType} `}
         <span className="semi-bold">{subjectName}</span>
         {` via `}
@@ -223,17 +227,21 @@ export default Relay.createContainer(AuditLogRow, {
         occurredAt
         data @include(if: $hasExpanded)
         actor {
-          ...on User {
-            name
+          node {
+            ...on User {
+              name
+            }
           }
         }
         subject {
-          __typename
-          ...on Organization {
-            name
-          }
-          ...on Pipeline {
-            name
+          node {
+            __typename
+            ...on Organization {
+              name
+            }
+            ...on Pipeline {
+              name
+            }
           }
         }
         context {

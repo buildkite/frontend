@@ -21,13 +21,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditActor",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditActor",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -103,13 +99,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditSubject",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditSubject",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -160,8 +152,73 @@
           "possibleTypes": null
         },
         {
-          "kind": "UNION",
+          "kind": "OBJECT",
           "name": "AuditActor",
+          "description": "The actor who caused an AuditEvent",
+          "fields": [
+            {
+              "name": "node",
+              "description": "The node corresponding to this actor, if available",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "UNION",
+                "name": "AuditActorNode",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "type",
+              "description": "The type of this actor",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The public UUID of this actor",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "String",
+          "description": "Represents textual data as UTF-8 character sequences. This type is most often used by GraphQL to represent free-form human-readable text.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "UNION",
+          "name": "AuditActorNode",
           "description": "Kinds of actors which can perform audit events",
           "fields": null,
           "inputFields": null,
@@ -362,16 +419,6 @@
               "ofType": null
             }
           ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
-          "name": "String",
-          "description": "Represents textual data as UTF-8 character sequences. This type is most often used by GraphQL to represent free-form human-readable text.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -9519,13 +9566,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditActor",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditActor",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -9601,13 +9644,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditSubject",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditSubject",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -9678,8 +9717,63 @@
           ]
         },
         {
-          "kind": "UNION",
+          "kind": "OBJECT",
           "name": "AuditSubject",
+          "description": "The subject of an AuditEvent",
+          "fields": [
+            {
+              "name": "node",
+              "description": "The node corresponding to the subject, if available",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "UNION",
+                "name": "AuditSubjectNode",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "type",
+              "description": "The type of this subject",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The public UUID of this subject",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "UNION",
+          "name": "AuditSubjectNode",
           "description": "Kinds of subjects which can have audit events performed on them",
           "fields": null,
           "inputFields": null,
@@ -9784,6 +9878,20 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "sessionUserUuid",
+              "description": "The session's authenticated user's uuid",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -10581,13 +10689,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditActor",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditActor",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10663,13 +10767,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditSubject",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditSubject",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10721,13 +10821,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditActor",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditActor",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10803,13 +10899,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditSubject",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditSubject",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10861,13 +10953,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditActor",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditActor",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -10943,13 +11031,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditSubject",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditSubject",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -11001,13 +11085,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditActor",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditActor",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -11083,13 +11163,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditSubject",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditSubject",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -11141,13 +11217,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditActor",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditActor",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -11223,13 +11295,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditSubject",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditSubject",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -11281,13 +11349,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditActor",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditActor",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -11363,13 +11427,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditSubject",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditSubject",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -11421,13 +11481,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditActor",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditActor",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -11503,13 +11559,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "UNION",
-                  "name": "AuditSubject",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "AuditSubject",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
