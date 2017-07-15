@@ -11804,6 +11804,21 @@
               "kind": "OBJECT",
               "name": "Pipeline",
               "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Team",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamMember",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamPipeline",
+              "ofType": null
             }
           ]
         },
