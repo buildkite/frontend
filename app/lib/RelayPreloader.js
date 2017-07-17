@@ -223,7 +223,7 @@ const QUERIES = {
           teamCreate {
             allowed
           }
-          agentTokenView {
+          auditEventsView {
             allowed
           }
         }

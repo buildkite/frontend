@@ -35,7 +35,7 @@ class SettingsMenu extends React.Component {
         organizationBillingUpdate: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
         }).isRequired,
-        agentTokenView: PropTypes.shape({
+        auditEventsView: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
         }).isRequired
       })
@@ -104,7 +104,7 @@ class SettingsMenu extends React.Component {
         )
       },
       {
-        allowed: "agentTokenView",
+        allowed: "auditEventsView",
         and: () => Features.AuditLogsLaunch,
         render: (idx) => (
           <Menu.Button
@@ -193,7 +193,7 @@ export default Relay.createContainer(SettingsMenu, {
           teamAdmin {
             allowed
           }
-          agentTokenView {
+          auditEventsView {
             allowed
           }
         }

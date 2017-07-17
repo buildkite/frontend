@@ -11060,6 +11060,20 @@
               "deprecationReason": null
             },
             {
+              "name": "auditEventsView",
+              "description": "Whether the user can access audit events for the organization",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "notificationServiceUpdate",
               "description": "Whether the user can change the notification services for the organization",
               "args": [
