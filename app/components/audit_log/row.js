@@ -4,18 +4,12 @@ import Relay from 'react-relay/classic';
 import styled from 'styled-components';
 
 import FriendlyTime from '../shared/FriendlyTime';
-import Icon from '../shared/Icon';
+import RevealableDownChevron from '../shared/Icon/RevealableDownChevron';
 import Panel from '../shared/Panel';
 import Spinner from '../shared/Spinner';
 
 const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
-`;
-
-const RotatableIcon = styled(Icon)`
-  transform: rotate(${(props) => props.rotate ? -90 : 90}deg);
-  trasform-origin: center 0;
-  transition: transform 200ms;
 `;
 
 class AuditLogRow extends React.PureComponent {
@@ -70,9 +64,9 @@ class AuditLogRow extends React.PureComponent {
               {this.renderEventSentence()}
             </h2>
             <div className="flex-none">
-              <RotatableIcon
-                icon="chevron-right"
-                rotate={this.state.isExpanded}
+              <RevealableDownChevron
+                className="dark-gray"
+                revealed={this.state.isExpanded}
               />
             </div>
           </div>
