@@ -1,0 +1,27 @@
+.select {
+  display: block;
+  width: 100%;
+  padding: .43em .86em;
+  font-size: 14px;
+  line-height: 1.42857143;
+  height: 2.5em;
+  color: #555555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: .3em;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+
+  &:focus {
+    border-color: #888;
+    outline: none;
+  }
+
+  &.is-error {
+    border-color: var(--light-red);
+  }
+
+  &.is-error:focus {
+    border-color: var(--dark-red);
+  }
+}
