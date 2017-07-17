@@ -22,7 +22,8 @@ export default class RevealableDownChevron extends React.PureComponent {
     revealed: PropTypes.bool,
     size: PropTypes.number,
     strokeWidth: PropTypes.number,
-    className: PropTypes.string
+    className: PropTypes.string,
+    style: PropTypes.object
   };
 
   static defaultProps = {
@@ -39,6 +40,7 @@ export default class RevealableDownChevron extends React.PureComponent {
         size={this.props.size}
         strokeWidth={this.props.strokeWidth}
         className={this.props.className}
+        style={this.props.style}
       />
     );
   }
