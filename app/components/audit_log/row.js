@@ -26,15 +26,14 @@ class AuditLogRow extends React.PureComponent {
       occurredAt: PropTypes.string.isRequired,
       data: PropTypes.string,
       actor: PropTypes.shape({
-        node: PropTypes.shape({
-          name: PropTypes.string.isRequired
-        }).isRequired
+        type: PropTypes.string.isRequired,
+        uuid: PropTypes.string.isRequired,
+        name: PropTypes.string
       }).isRequired,
       subject: PropTypes.shape({
-        node: PropTypes.shape({
-          __typename: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired
-        })
+        type: PropTypes.string.isRequired,
+        uuid: PropTypes.string.isRequired,
+        name: PropTypes.string
       }).isRequired,
       context: PropTypes.shape({
         __typename: PropTypes.string.isRequired,
@@ -98,48 +97,53 @@ class AuditLogRow extends React.PureComponent {
 
   renderEventSentence() {
     const {
-      type: eventTypeName,
+      type,
       actor,
       subject,
       context
     } = this.props.auditEvent;
 
-    // "ORGANIZATION_CREATED" => ["Organization", "Created"]
-    const eventTypeSplit = eventTypeName
-      .split("_")
-      .map((word) => word.charAt(0) + word.slice(1).toLowerCase());
+    const actorName = this.renderActor(actor);
 
-    const eventVerb = eventTypeSplit.pop().toLowerCase();
+    const subjectName = this.renderSubject(subject);
 
-    const eventType = eventTypeSplit.join(' ');
-
-    let subjectName = subject.node && subject.node.name;
-
-    if (eventTypeName === 'ORGANIZATION_CREATED') {
-      subjectName = `${subjectName} 🎉`;
+    let verb = type.split('_').pop().toLowerCase();
+    if (type === 'ORGANIZATION_TEAMS_ENABLED') {
+      verb = 'enabled teams for';
+    } else if (type === 'ORGANIZATION_TEAMS_DISABLED') {
+      verb = 'disabled teams for';
     }
 
-    const actorName = actor.node && actor.node.name;
+    let cuteness;
+    if (type === 'ORGANIZATION_CREATED') {
+      cuteness = `🎉`;
+    }
 
-    return (
-      <span>
-        <span className="semi-bold">{actorName}</span>
-        {` ${eventVerb} ${eventType} `}
-        <span className="semi-bold">{subjectName}</span>
-        {` via `}
-        <span
-          title={context.requestIpAddress}
-          className="semi-bold"
-        >
-          {this.getContextName()}
-        </span>
-        {` `}
-        <FriendlyTime
-          capitalized={false}
-          value={this.props.auditEvent.occurredAt}
-        />
-      </span>
-    );
+    const contextName = <span title={context.requestIpAddress} className="semi-bold">{this.getContextName()}</span>;
+
+    const time = <FriendlyTime capitalized={false} value={this.props.auditEvent.occurredAt} />;
+
+    return <span>{actorName} {verb} {subjectName} {cuteness} via {contextName} {time}</span>;
+  }
+
+  renderActor({ type, uuid, name }) {
+    const prettyType = type.toLowerCase().replace('_', ' ');
+
+    if (name) {
+      return <span title={`${prettyType} ${uuid}`} className="semi-bold">{name}</span>;
+    } else {
+      return <em title={`${prettyType} ${uuid}`}>Somebody</em>;
+    }
+  }
+
+  renderSubject({ type, uuid, name }) {
+    const prettyType = type.toLowerCase().replace('_', ' ');
+
+    if (name) {
+      return <span title={`${prettyType} ${uuid}`}>{prettyType} <span className="semi-bold">{name}</span></span>;
+    } else {
+      return <span title={`${prettyType} ${uuid}`}>a {prettyType}</span>;
+    }
   }
 
   renderEventDetails() {
@@ -229,22 +233,10 @@ export default Relay.createContainer(AuditLogRow, {
         occurredAt
         data @include(if: $hasExpanded)
         actor {
-          node {
-            ...on User {
-              name
-            }
-          }
+          type, uuid, name
         }
         subject {
-          node {
-            __typename
-            ...on Organization {
-              name
-            }
-            ...on Pipeline {
-              name
-            }
-          }
+          type, uuid, name
         }
         context {
           __typename

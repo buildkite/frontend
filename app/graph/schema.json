@@ -11614,6 +11614,20 @@
           "description": "The actor who caused an AuditEvent",
           "fields": [
             {
+              "name": "name",
+              "description": "The name or short description of this actor",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "node",
               "description": "The node corresponding to this actor, if available",
               "args": [
@@ -11705,6 +11719,20 @@
           "name": "AuditSubject",
           "description": "The subject of an AuditEvent",
           "fields": [
+            {
+              "name": "name",
+              "description": "The name or short description of this subject",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "node",
               "description": "The node corresponding to the subject, if available",
