@@ -4,16 +4,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
-import Icon from './Icon';
+import RevealableDownChevron from './Icon/RevealableDownChevron';
 
 const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
-`;
-
-const RotatableIcon = styled(Icon)`
-  transform: rotate(${(props) => props.rotate ? -90 : 90}deg);
-  trasform-origin: center 0;
-  transition: transform 200ms;
 `;
 
 // Helps to create collapsable area's, such as optional sets of form fields.
@@ -54,10 +48,9 @@ export default class CollapsableArea extends React.Component {
           onClick={this.handleButtonClick}
         >
           {this.props.label}
-          <RotatableIcon
-            icon="chevron-right"
-            rotate={!this.props.collapsed}
-            style={{ width: 8, height: 8, marginLeft: 6, marginTop: -1 }}
+          <RevealableDownChevron
+            revealed={!this.props.collapsed}
+            style={{ marginLeft: 6, marginTop: -1 }}
           />
         </button>
         <TransitionMaxHeight
