@@ -5,19 +5,20 @@ import DocumentTitle from 'react-document-title';
 
 import Icon from '../shared/Icon';
 import PageHeader from '../shared/PageHeader';
+import TabControl from '../shared/TabControl';
 
 class AuditLogSection extends React.PureComponent {
   static propTypes = {
     organization: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      auditEvents: PropTypes.shape({
-        edges: PropTypes.array
-      }).isRequired
+      slug: PropTypes.string.isRequired
     }).isRequired,
     children: PropTypes.node.isRequired
   };
 
   render() {
+    const auditLogURI = `/organizations/${this.props.organization.slug}/audit-log`;
+
     return (
       <DocumentTitle title={`Audit Log · ${this.props.organization.name}`}>
         <div>
@@ -37,6 +38,15 @@ class AuditLogSection extends React.PureComponent {
             </PageHeader.Description>
           </PageHeader>
 
+          <TabControl>
+            <TabControl.Tab to={auditLogURI} onlyActiveOnIndex={true}>
+              Events
+            </TabControl.Tab>
+            <TabControl.Tab to={`${auditLogURI}/export`}>
+              Query & Export
+            </TabControl.Tab>
+          </TabControl>
+
           {this.props.children}
         </div>
       </DocumentTitle>
@@ -49,6 +59,7 @@ export default Relay.createContainer(AuditLogSection, {
     organization: () => Relay.QL`
       fragment on Organization {
         name
+        slug
       }
     `
   }
