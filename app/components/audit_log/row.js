@@ -7,6 +7,9 @@ import FriendlyTime from '../shared/FriendlyTime';
 import RevealableDownChevron from '../shared/Icon/RevealableDownChevron';
 import Panel from '../shared/Panel';
 import Spinner from '../shared/Spinner';
+import User from '../shared/User';
+
+import { indefiniteArticleFor } from '../../lib/words';
 
 const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
@@ -20,11 +23,17 @@ class AuditLogRow extends React.PureComponent {
       occurredAt: PropTypes.string.isRequired,
       data: PropTypes.string,
       actor: PropTypes.shape({
+        name: PropTypes.string,
         node: PropTypes.shape({
-          name: PropTypes.string.isRequired
-        }).isRequired
+          name: PropTypes.string.isRequired,
+          email: PropTypes.string.isRequired,
+          avatar: PropTypes.shape({
+            url: PropTypes.string.isRequired
+          }).isRequired
+        })
       }).isRequired,
       subject: PropTypes.shape({
+        name: PropTypes.string,
         node: PropTypes.shape({
           __typename: PropTypes.string.isRequired,
           name: PropTypes.string.isRequired
@@ -63,6 +72,19 @@ class AuditLogRow extends React.PureComponent {
             <h2 className="flex-auto flex line-height-3 font-size-1 h4 regular m0 mr2">
               {this.renderEventSentence()}
             </h2>
+            {this.props.auditEvent.actor.node && (
+              <div
+                className="flex-none mr2"
+                style={{
+                  maxWidth: '15em'
+                }}
+              >
+                <User
+                  user={this.props.auditEvent.actor.node}
+                  align="right"
+                />
+              </div>
+            )}
             <div className="flex-none">
               <RevealableDownChevron
                 className="dark-gray"
@@ -92,25 +114,37 @@ class AuditLogRow extends React.PureComponent {
 
   renderEventSentence() {
     const {
-      type: eventTypeName,
+      type,
       actor,
       subject,
       context
     } = this.props.auditEvent;
 
     // "ORGANIZATION_CREATED" => ["Organization", "Created"]
-    const eventTypeSplit = eventTypeName
+    const eventTypeSplit = type
       .split("_")
       .map((word) => word.charAt(0) + word.slice(1).toLowerCase());
 
     const eventVerb = eventTypeSplit.pop().toLowerCase();
 
-    const eventType = eventTypeSplit.join(' ');
+    const eventSubjectType = eventTypeSplit.join(' ');
 
     let subjectName = subject.name || subject.node && subject.node.name;
 
-    if (eventTypeName === 'ORGANIZATION_CREATED') {
-      subjectName = `${subjectName} 🎉`;
+    let renderedSubject = `${indefiniteArticleFor(eventSubjectType)} ${eventSubjectType}`;
+
+    if (subjectName) {
+      if (type === 'ORGANIZATION_CREATED') {
+        subjectName = `${subjectName} 🎉`;
+      }
+
+      renderedSubject = (
+        <span>
+          {`the `}
+          <span className="semi-bold">{subjectName}</span>
+          {` ${eventSubjectType}`}
+        </span>
+      );
     }
 
     const actorName = actor.name || actor.node && actor.node.name;
@@ -118,8 +152,8 @@ class AuditLogRow extends React.PureComponent {
     return (
       <span>
         <span className="semi-bold">{actorName}</span>
-        {` ${eventVerb} ${eventType} `}
-        <span className="semi-bold">{subjectName}</span>
+        {` ${eventVerb} `}
+        {renderedSubject}
         {` via `}
         <span
           title={context.requestIpAddress}
@@ -223,13 +257,19 @@ export default Relay.createContainer(AuditLogRow, {
         occurredAt
         data @include(if: $hasExpanded)
         actor {
+          name
           node {
             ...on User {
               name
+              email
+              avatar {
+                url
+              }
             }
           }
         }
         subject {
+          name
           node {
             __typename
             ...on Organization {

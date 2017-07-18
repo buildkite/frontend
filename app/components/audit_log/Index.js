@@ -15,8 +15,8 @@ class AuditLogList extends React.PureComponent {
     organization: PropTypes.shape({
       name: PropTypes.string.isRequired,
       auditEvents: PropTypes.shape({
-        edges: PropTypes.array
-      }).isRequired
+        edges: PropTypes.array.isRequired
+      })
     }).isRequired,
     relay: PropTypes.object.isRequired
   };
