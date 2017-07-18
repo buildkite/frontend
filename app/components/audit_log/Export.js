@@ -35,12 +35,16 @@ class AuditLogExport extends React.PureComponent {
 
     return (
       <div>
-        <p>Your organizationʼs audit log can be queried and exported using the <a href="/docs/graphql-api" className={linkClassName}>GraphQL API</a>.</p>
+        <p>
+          Your organizationʼs audit log can be queried and exported using the <a href="/docs/graphql-api" className={linkClassName}>GraphQL API</a>.
+        </p>
         <p>For example:</p>
         <pre className="border border-gray rounded bg-silver overflow-auto p2 monospace">
           {exampleQuery(this.props.organization.slug)}
         </pre>
-        <p>See the <a href="/docs/graphql-api" className={linkClassName}>GraphQL Documentation</a> for more information.</p>
+        <p>
+          See the <a href="/docs/graphql-api" className={linkClassName}>GraphQL Documentation</a> for more information.
+        </p>
       </div>
     );
   }
