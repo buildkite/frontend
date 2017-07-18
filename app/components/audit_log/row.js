@@ -7,6 +7,7 @@ import FriendlyTime from '../shared/FriendlyTime';
 import RevealableDownChevron from '../shared/Icon/RevealableDownChevron';
 import Panel from '../shared/Panel';
 import Spinner from '../shared/Spinner';
+import UserAvatar from '../shared/UserAvatar';
 import User from '../shared/User';
 
 import { indefiniteArticleFor } from '../../lib/words';
@@ -70,21 +71,33 @@ class AuditLogRow extends React.PureComponent {
             onClick={this.handleHeaderClick}
           >
             <div className="flex-auto flex items-center">
-              <h2 className="flex-auto flex line-height-3 font-size-1 h4 regular m0">
-                {this.renderEventSentence()}
-              </h2>
               {this.props.auditEvent.actor.node && (
-                <div
-                  className="flex-none ml1"
+                <div className="flex-none self-start icon-mr sm-hide md-hide lg-hide">
+                  <UserAvatar
+                    style={{ width: 39, height: 39 }}
+                    user={this.props.auditEvent.actor.node}
+                  />
+                </div>
+              )}
+              <div className="flex-auto flex flex-column">
+                <div className="flex-auto mb1">
+                  <span className="inline-block black bg-silver rounded border border-gray p1 monospace">
+                    {this.props.auditEvent.type}
+                  </span>
+                </div>
+                <h2 className="flex-auto flex items-center line-height-3 font-size-1 h4 regular m0">
+                  {this.renderEventSentence()}
+                </h2>
+              </div>
+              {this.props.auditEvent.actor.node && (
+                <User
+                  user={this.props.auditEvent.actor.node}
+                  align="right"
+                  className="flex-none ml1 xs-hide"
                   style={{
                     maxWidth: '15em'
                   }}
-                >
-                  <User
-                    user={this.props.auditEvent.actor.node}
-                    align="right"
-                  />
-                </div>
+                />
               )}
             </div>
             <div className="flex-none ml3">

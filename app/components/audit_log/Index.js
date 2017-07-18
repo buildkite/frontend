@@ -8,7 +8,7 @@ import Spinner from '../shared/Spinner';
 
 import AuditLogRow from './row';
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 5;
 
 class AuditLogList extends React.PureComponent {
   static propTypes = {

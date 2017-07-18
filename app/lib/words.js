@@ -1,5 +1,5 @@
 export const indefiniteArticleFor = (word) => {
-  const first = (''+word).toLowerCase()[0];
+  const first = ('' + word).toLowerCase()[0];
 
   if (!first) {
     return;
