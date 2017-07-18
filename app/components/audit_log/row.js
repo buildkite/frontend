@@ -27,7 +27,6 @@ class AuditLogRow extends React.PureComponent {
         name: PropTypes.string,
         node: PropTypes.shape({
           name: PropTypes.string.isRequired,
-          email: PropTypes.string.isRequired,
           avatar: PropTypes.shape({
             url: PropTypes.string.isRequired
           }).isRequired
@@ -275,8 +274,8 @@ export default Relay.createContainer(AuditLogRow, {
           name
           node {
             ...on User {
+              ${User.getFragment('user')}
               name
-              email
               avatar {
                 url
               }
