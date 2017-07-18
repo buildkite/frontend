@@ -69,23 +69,25 @@ class AuditLogRow extends React.PureComponent {
             }}
             onClick={this.handleHeaderClick}
           >
-            <h2 className="flex-auto flex line-height-3 font-size-1 h4 regular m0 mr2">
-              {this.renderEventSentence()}
-            </h2>
-            {this.props.auditEvent.actor.node && (
-              <div
-                className="flex-none mr2"
-                style={{
-                  maxWidth: '15em'
-                }}
-              >
-                <User
-                  user={this.props.auditEvent.actor.node}
-                  align="right"
-                />
-              </div>
-            )}
-            <div className="flex-none">
+            <div className="flex-auto flex items-center">
+              <h2 className="flex-auto flex line-height-3 font-size-1 h4 regular m0">
+                {this.renderEventSentence()}
+              </h2>
+              {this.props.auditEvent.actor.node && (
+                <div
+                  className="flex-none ml1"
+                  style={{
+                    maxWidth: '15em'
+                  }}
+                >
+                  <User
+                    user={this.props.auditEvent.actor.node}
+                    align="right"
+                  />
+                </div>
+              )}
+            </div>
+            <div className="flex-none ml3">
               <RevealableDownChevron
                 className="dark-gray"
                 revealed={this.state.isExpanded}
