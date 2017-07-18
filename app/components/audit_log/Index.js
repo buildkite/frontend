@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-import DocumentTitle from 'react-document-title';
 
-import Icon from '../shared/Icon';
 import Panel from '../shared/Panel';
-import PageHeader from '../shared/PageHeader';
 import ShowMoreFooter from '../shared/ShowMoreFooter';
 import Spinner from '../shared/Spinner';
 
@@ -13,13 +10,7 @@ import AuditLogRow from './row';
 
 const PAGE_SIZE = 30;
 
-const EVENT_SUBJECTS = [
-  { name: 'Any Subject', id: null },
-  { name: 'Pipeline events', id: 'PIPELINE' },
-  { name: 'Organization events', id: 'ORGANIZATION' }
-];
-
-class AuditLogIndex extends React.PureComponent {
+class AuditLogList extends React.PureComponent {
   static propTypes = {
     organization: PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -39,32 +30,6 @@ class AuditLogIndex extends React.PureComponent {
   }
 
   render() {
-    return (
-      <DocumentTitle title={`Audit Log · ${this.props.organization.name}`}>
-        <div>
-          <PageHeader>
-            <PageHeader.Icon>
-              <Icon
-                icon="eye"
-                className="align-middle mr2"
-                style={{ width: 40, height: 40 }}
-              />
-            </PageHeader.Icon>
-            <PageHeader.Title>
-              Audit Log
-            </PageHeader.Title>
-            <PageHeader.Description>
-              Event log of all organization activity
-            </PageHeader.Description>
-          </PageHeader>
-
-          {this.renderLogPanel()}
-        </div>
-      </DocumentTitle>
-    );
-  }
-
-  renderLogPanel() {
     return (
       <Panel>
         {this.renderEvents()}
@@ -122,7 +87,7 @@ class AuditLogIndex extends React.PureComponent {
   };
 }
 
-export default Relay.createContainer(AuditLogIndex, {
+export default Relay.createContainer(AuditLogList, {
   initialVariables: {
     isMounted: false,
     pageSize: PAGE_SIZE

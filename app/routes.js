@@ -37,6 +37,7 @@ import PipelineScheduleShow from './components/pipeline/schedules/Show';
 import PipelineScheduleEdit from './components/pipeline/schedules/Edit';
 import PipelineTeamIndex from './components/pipeline/teams/Index';
 import PipelineNewTeams from './components/pipeline/New/PipelineNewTeams';
+import AuditLogSection from './components/audit_log/Section';
 import AuditLogIndex from './components/audit_log/Index';
 import JobIndex from './components/job/Index';
 
@@ -117,7 +118,9 @@ export default (
           <Route path=":agent" component={AgentShow} queries={{ agent: AgentQuery.query }} prepareParams={AgentQuery.prepareParams} render={renderSectionLoading} />
         </Route>
         <Route path="audit-log" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
-          <IndexRoute component={AuditLogIndex} render={renderSectionLoading} queries={{ organization: OrganizationQuery.query }} />
+          <Route component={AuditLogSection} queries={{ organization: OrganizationQuery.query }}>
+            <IndexRoute component={AuditLogIndex} render={renderSectionLoading} queries={{ organization: OrganizationQuery.query }} />
+          </Route>
         </Route>
         <Route path="users" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
           <IndexRoute component={MemberIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
