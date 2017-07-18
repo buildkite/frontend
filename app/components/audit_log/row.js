@@ -107,13 +107,13 @@ class AuditLogRow extends React.PureComponent {
 
     const eventType = eventTypeSplit.join(' ');
 
-    let subjectName = subject.node && subject.node.name;
+    let subjectName = subject.name || subject.node && subject.node.name;
 
     if (eventTypeName === 'ORGANIZATION_CREATED') {
       subjectName = `${subjectName} 🎉`;
     }
 
-    const actorName = actor.node && actor.node.name;
+    const actorName = actor.name || actor.node && actor.node.name;
 
     return (
       <span>
