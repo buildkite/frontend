@@ -1,3 +1,5 @@
+const VOWELS = 'aeiou';
+
 export const indefiniteArticleFor = (word) => {
   const first = ('' + word).toLowerCase()[0];
 
@@ -5,7 +7,7 @@ export const indefiniteArticleFor = (word) => {
     return;
   }
 
-  return 'aeiou'.split('').indexOf(first) !== -1
+  return VOWELS.indexOf(first) !== -1
     ? 'an'
     : 'a';
 };

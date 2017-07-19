@@ -80,9 +80,10 @@ class AuditLogRow extends React.PureComponent {
                   />
                 </div>
               )}
-              <div className="flex-auto flex flex-wrap items-center">
+              <div className="flex-auto md-flex lg-flex items-center">
                 <h2 className="flex-auto line-height-3 font-size-1 h4 regular m0">
-                  <span className="semi-bold">{actorName}</span><br/>
+                  <span className="semi-bold">{actorName}</span>
+                  <br />
                   {this.renderEventSentence()}
                 </h2>
                 <FriendlyTime

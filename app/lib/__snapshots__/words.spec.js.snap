@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “ant” 1`] = `"an"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “ant” 2`] = `"an"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “cat” 1`] = `"a"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “cat” 2`] = `"a"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “clock” 1`] = `"a"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “clock” 2`] = `"a"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “dog” 1`] = `"a"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “dog” 2`] = `"a"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “organization” 1`] = `"an"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “organization” 2`] = `"an"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “pipeline” 1`] = `"a"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “pipeline” 2`] = `"a"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “request” 1`] = `"a"`;
+
+exports[`indefiniteArticleFor correctly identifies indefinite articles for “request” 2`] = `"a"`;
