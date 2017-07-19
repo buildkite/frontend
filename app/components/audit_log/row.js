@@ -12,6 +12,8 @@ import AuditLogDrawer from './Drawer';
 
 import { indefiniteArticleFor } from '../../lib/words';
 
+import cssVariables from '../../css';
+
 const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
 `;
@@ -62,7 +64,10 @@ class AuditLogRow extends React.PureComponent {
           <div
             className="flex items-center cursor-pointer hover-bg-silver mxn3 py2 px3"
             style={{
-              marginTop: -10
+              marginTop: -10,
+              // this is a hack to give the expandable section
+              // a top border, without it taking up any space
+              boxShadow: `0 1px 0 ${cssVariables['--gray']}`
             }}
             onClick={this.handleHeaderClick}
           >
@@ -98,11 +103,15 @@ class AuditLogRow extends React.PureComponent {
             className="mxn3 overflow-hidden"
             style={{
               marginBottom: -10,
-              maxHeight: this.state.isExpanded ? 1000 : 0
+              maxHeight: this.state.isExpanded ? '80vh' : 0,
+              overflowY: 'auto',
+              overflowScrolling: 'touch',
+              WebkitOverflowScrolling: 'touch'
             }}
           >
             <AuditLogDrawer
               auditEvent={this.props.auditEvent}
+              hasExpanded={this.props.relay.variables.hasExpanded}
               loading={this.state.loading}
             />
           </TransitionMaxHeight>
@@ -169,9 +178,9 @@ export default Relay.createContainer(AuditLogRow, {
   },
 
   fragments: {
-    auditEvent: (variables) => Relay.QL`
+    auditEvent: ({ hasExpanded }) => Relay.QL`
       fragment on AuditEvent {
-        ${AuditLogDrawer.getFragment('auditEvent', variables)}
+        ${AuditLogDrawer.getFragment('auditEvent', { hasExpanded })}
         uuid
         type
         occurredAt

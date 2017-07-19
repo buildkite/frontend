@@ -12,22 +12,29 @@ import AuditLogContextSection from './contextSection';
 class AuditLogDrawer extends React.PureComponent {
   static propTypes = {
     auditEvent: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    relay: PropTypes.object.isRequired
   };
 
   render() {
     if (this.props.loading) {
       return (
-        <div className="px3 pt3 pb2 border-top border-gray">
+        <div className="px3 pt3 pb2">
           <Spinner style={{ margin: 9.5 }} />
         </div>
       );
     }
 
     return (
-      <div className="px3 pt3 pb2 border-top border-gray">
+      <div
+        className="px3 pt3 pb2"
+        style={{
+          columnWidth: '20em'
+        }}
+      >
         <AuditLogEventSection
           auditEvent={this.props.auditEvent}
+          hasExpanded={this.props.relay.variables.hasExpanded}
         />
         <AuditLogSubjectSection
           auditEvent={this.props.auditEvent}
@@ -49,12 +56,12 @@ export default Relay.createContainer(AuditLogDrawer, {
   },
 
   fragments: {
-    auditEvent: (variables) => Relay.QL`
+    auditEvent: ({ hasExpanded }) => Relay.QL`
       fragment on AuditEvent {
-        ${AuditLogEventSection.getFragment('auditEvent', variables)}
-        ${AuditLogSubjectSection.getFragment('auditEvent', variables)}
-        ${AuditLogActorSection.getFragment('auditEvent', variables)}
-        ${AuditLogContextSection.getFragment('auditEvent', variables)}
+        ${AuditLogEventSection.getFragment('auditEvent', { hasExpanded })}
+        ${AuditLogSubjectSection.getFragment('auditEvent')}
+        ${AuditLogActorSection.getFragment('auditEvent')}
+        ${AuditLogContextSection.getFragment('auditEvent')}
       }
     `
   }

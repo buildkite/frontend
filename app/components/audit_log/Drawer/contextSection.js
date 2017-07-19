@@ -56,10 +56,6 @@ class AuditLogContextSection extends React.PureComponent {
 }
 
 export default Relay.createContainer(AuditLogContextSection, {
-  initialVariables: {
-    hasExpanded: false
-  },
-
   fragments: {
     auditEvent: () => Relay.QL`
       fragment on AuditEvent {
