@@ -41,6 +41,7 @@ class AuditLogRow extends React.PureComponent {
       subject: PropTypes.shape({
         name: PropTypes.string,
         type: PropTypes.string,
+        uuid: PropTypes.string,
         node: PropTypes.shape({
           name: PropTypes.string.isRequired
         })
@@ -161,6 +162,7 @@ class AuditLogRow extends React.PureComponent {
     return (
       <div className="px3 pt3 pb2 border-top border-gray">
         {this.renderEventSection()}
+        {this.renderSubjectSection()}
         {this.renderContextSection()}
       </div>
     );
@@ -196,34 +198,66 @@ class AuditLogRow extends React.PureComponent {
     }
 
     return (
-      <section>
-        <SectionHeading className="m0 mb1">
+      <section className="mb4">
+        <SectionHeading className="m0 mb2">
           Event
         </SectionHeading>
         <dl className="m0">
-          <dt className="dark-gray">
+          <dt className="mt1 dark-gray">
             Event Timestamp
           </dt>
-          <dd className="ml0 mb1">
+          <dd className="ml0">
             {auditEvent.occurredAt}
           </dd>
-          <dt className="dark-gray">
+          <dt className="mt1 dark-gray">
             Event UUID
           </dt>
-          <dd className="ml0 mb1">
+          <dd className="ml0">
             {auditEvent.uuid}
           </dd>
-          <dt className="dark-gray">
+          <dt className="mt1 dark-gray">
             Event Type
           </dt>
-          <dd className="ml0 mb1">
+          <dd className="ml0">
             {auditEvent.type}
           </dd>
-          <dt className="dark-gray">
+          <dt className="mt1 dark-gray">
             Event Data
           </dt>
-          <dd className="ml0 mb1">
+          <dd className="ml0">
             {eventData}
+          </dd>
+        </dl>
+      </section>
+    );
+  }
+
+  renderSubjectSection() {
+    const { subject } = this.props.auditEvent;
+
+    return (
+      <section className="mb4">
+        <SectionHeading className="m0 mb2">
+          Subject
+        </SectionHeading>
+        <dl className="m0">
+          <dt className="mt1 dark-gray">
+            Subject Type
+          </dt>
+          <dd className="ml0">
+            {subject.type}
+          </dd>
+          <dt className="mt1 dark-gray">
+            Subject Name
+          </dt>
+          <dd className="ml0">
+            {subject.name}
+          </dd>
+          <dt className="mt1 dark-gray">
+            Subject UUID
+          </dt>
+          <dd className="ml0">
+            {subject.uuid}
           </dd>
         </dl>
       </section>
@@ -234,27 +268,27 @@ class AuditLogRow extends React.PureComponent {
     const { context } = this.props.auditEvent;
 
     return (
-      <section>
-        <SectionHeading className="m0 mb1">
+      <section className="mb4">
+        <SectionHeading className="m0 mb2">
           {this.getContextName()} Context
         </SectionHeading>
         <dl className="m0">
-          <dt className="dark-gray">
+          <dt className="mt1 dark-gray">
             Request IP Address
           </dt>
-          <dd className="ml0 mb1">
+          <dd className="ml0">
             {context.requestIpAddress}
           </dd>
-          <dt className="dark-gray">
+          <dt className="mt1 dark-gray">
             Request User Agent
           </dt>
-          <dd className="ml0 mb1">
+          <dd className="ml0">
             {context.requestUserAgent}
           </dd>
-          <dt className="dark-gray">
+          <dt className="mt1 dark-gray">
             Session Started
           </dt>
-          <dd className="ml0 mb1">
+          <dd className="ml0">
             <FriendlyTime value={context.sessionCreatedAt} />
           </dd>
         </dl>
@@ -310,6 +344,7 @@ export default Relay.createContainer(AuditLogRow, {
         subject {
           name
           type
+          uuid
           node {
             ...on Organization {
               name
