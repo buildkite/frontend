@@ -10,6 +10,8 @@ import Spinner from '../shared/Spinner';
 import UserAvatar from '../shared/UserAvatar';
 import User from '../shared/User';
 
+import { indefiniteArticleFor } from '../../lib/words';
+
 const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
 `;
@@ -71,7 +73,7 @@ class AuditLogRow extends React.PureComponent {
           >
             <div className="flex-auto flex items-center">
               {this.props.auditEvent.actor.node && (
-                <div className="flex-none self-start icon-mr sm-hide md-hide lg-hide">
+                <div className="flex-none self-start icon-mr">
                   <UserAvatar
                     style={{ width: 39, height: 39 }}
                     user={this.props.auditEvent.actor.node}
@@ -79,34 +81,17 @@ class AuditLogRow extends React.PureComponent {
                 </div>
               )}
               <div className="flex-auto flex flex-wrap items-center">
-                <div className="mr2">
-                  <span className="inline-block black bg-white rounded border border-gray p1 monospace">
-                    {this.props.auditEvent.type}
-                  </span>
-                  {actorName && (
-                    <span className="icon-mr sm-hide md-hide lg-hide">
-                      {` by `}
-                      <span className="semi-bold">{actorName}</span>
-                    </span>
-                  )}
-                </div>
+                <h2 className="flex-auto line-height-3 font-size-1 h4 regular m0">
+                  <span className="semi-bold">{actorName}</span><br/>
+                  {this.renderEventSentence()}
+                </h2>
                 <FriendlyTime
-                  className="flex-auto dark-gray"
+                  className="flex-none dark-gray"
                   value={this.props.auditEvent.occurredAt}
                 />
               </div>
-              {this.props.auditEvent.actor.node && (
-                <User
-                  user={this.props.auditEvent.actor.node}
-                  align="right"
-                  className="flex-none ml1 xs-hide"
-                  style={{
-                    maxWidth: '15em'
-                  }}
-                />
-              )}
             </div>
-            <div className="flex-none ml3">
+            <div className="flex-none ml2">
               <RevealableDownChevron
                 className="dark-gray"
                 revealed={this.state.isExpanded}
@@ -131,6 +116,37 @@ class AuditLogRow extends React.PureComponent {
         </div>
       </Panel.Row>
     );
+  }
+
+  renderEventSentence() {
+    const { type, subject } = this.props.auditEvent;
+
+    // "ORGANIZATION_CREATED" => ["Organization", "Created"]
+    const eventTypeSplit = type
+      .split("_")
+      .map((word) => word.charAt(0) + word.slice(1).toLowerCase());
+
+    // Last word of event type is the verb
+    const eventVerb = eventTypeSplit.pop();
+
+    // The remainder is presumed to be the subject type
+    const eventSubjectType = eventTypeSplit.join(' ').toLowerCase();
+
+    // Default subject - something like "a pipeline," "an organization"
+    let renderedSubject = `${indefiniteArticleFor(eventSubjectType)} ${eventSubjectType}`;
+
+    // Check we have a name for the subject, with fallback to the node if present
+    let subjectName = subject.name || subject.node && subject.node.name;
+
+    if (subjectName) {
+      if (type === 'ORGANIZATION_CREATED') {
+        subjectName = `${subjectName} 🎉`;
+      }
+
+      renderedSubject = `${eventSubjectType} “${subjectName}”`;
+    }
+
+    return `${eventVerb} ${renderedSubject}`;
   }
 
   renderEventDetails() {
