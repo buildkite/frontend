@@ -41,16 +41,16 @@ class TeamDelete extends React.Component {
           </Panel.Section>
         </Panel>
       );
-    } else {
-      return (
-        <Panel className="mt3">
-          <Panel.Header>Delete Team</Panel.Header>
-          <Panel.Section>
-            <p>You're not allowed to delete this team. Please contact an Organization Administrator if you need it removed.</p>
-          </Panel.Section>
-        </Panel>
-      );
     }
+    return (
+      <Panel className="mt3">
+        <Panel.Header>Delete Team</Panel.Header>
+        <Panel.Section>
+          <p>You’re not allowed to delete this team. Please contact an Organization Administrator if you need it removed.</p>
+        </Panel.Section>
+      </Panel>
+    );
+
   }
 
   handleButtonClick = () => {
