@@ -40,8 +40,8 @@ class AuditLogRow extends React.PureComponent {
       }).isRequired,
       subject: PropTypes.shape({
         name: PropTypes.string,
+        type: PropTypes.string,
         node: PropTypes.shape({
-          __typename: PropTypes.string.isRequired,
           name: PropTypes.string.isRequired
         })
       }).isRequired,
@@ -160,74 +160,105 @@ class AuditLogRow extends React.PureComponent {
 
     return (
       <div className="px3 pt3 pb2 border-top border-gray">
-        <section>
-          <SectionHeading className="m0 mb1">
-            Event
-          </SectionHeading>
-          <dl className="m0">
-            <dt className="dark-gray">
-              Event Data
-            </dt>
-            <dd className="ml0 mb1">
-              {this.renderEventData()}
-            </dd>
-          </dl>
-        </section>
-
-        <section>
-          <SectionHeading className="m0 mb1">
-            {this.getContextName()} Context
-          </SectionHeading>
-          <dl className="m0">
-            <dt className="dark-gray">
-              IP Address
-            </dt>
-            <dd className="ml0 mb1">
-              {this.props.auditEvent.context.requestIpAddress}
-            </dd>
-            <dt className="dark-gray">
-              User Agent
-            </dt>
-            <dd className="ml0 mb1">
-              {this.props.auditEvent.context.requestUserAgent}
-            </dd>
-            <dt className="dark-gray">
-              Session Started
-            </dt>
-            <dd className="ml0 mb1">
-              <FriendlyTime
-                value={this.props.auditEvent.context.sessionCreatedAt}
-              />
-            </dd>
-          </dl>
-          </section>
+        {this.renderEventSection()}
+        {this.renderContextSection()}
       </div>
     );
   }
 
-  renderEventData() {
-    if (!this.props.auditEvent.data) {
-      return;
-    }
+  renderEventSection() {
+    const { auditEvent } = this.props;
 
-    const parsed = JSON.parse(this.props.auditEvent.data);
+    let eventData;
 
-    if (parsed) {
-      const rendered = JSON.stringify(parsed, null, '  ');
+    if (auditEvent.data) {
+      const parsed = JSON.parse(auditEvent.data);
 
-      // if this renders to a string longer than `{}`, show it
-      if (rendered.length > 2) {
-        return (
-          <pre className="border border-gray rounded bg-silver overflow-auto p2 monospace">
-            {rendered}
-          </pre>
-        );
+      if (parsed) {
+        const rendered = JSON.stringify(parsed, null, '  ');
+
+        // if this renders to a string longer than `{}`, show it
+        if (rendered.length > 2) {
+          eventData = (
+            <pre className="border border-gray rounded bg-silver overflow-auto p2 monospace">
+              {rendered}
+            </pre>
+          );
+        }
       }
     }
 
-    // otherwise, looks like there weren't any captured data changes!
+    if (!eventData) {
+      // otherwise, looks like there weren't any captured data changes!
+      eventData = (
+        <i>No data changes were found</i>
+      );
+    }
+
     return (
-      <i>No data changes were found</i>
+      <section>
+        <SectionHeading className="m0 mb1">
+          Event
+        </SectionHeading>
+        <dl className="m0">
+          <dt className="dark-gray">
+            Event Timestamp
+          </dt>
+          <dd className="ml0 mb1">
+            {auditEvent.occurredAt}
+          </dd>
+          <dt className="dark-gray">
+            Event UUID
+          </dt>
+          <dd className="ml0 mb1">
+            {auditEvent.uuid}
+          </dd>
+          <dt className="dark-gray">
+            Event Type
+          </dt>
+          <dd className="ml0 mb1">
+            {auditEvent.type}
+          </dd>
+          <dt className="dark-gray">
+            Event Data
+          </dt>
+          <dd className="ml0 mb1">
+            {eventData}
+          </dd>
+        </dl>
+      </section>
+    );
+  }
+
+  renderContextSection() {
+    const { context } = this.props.auditEvent;
+
+    return (
+      <section>
+        <SectionHeading className="m0 mb1">
+          {this.getContextName()} Context
+        </SectionHeading>
+        <dl className="m0">
+          <dt className="dark-gray">
+            Request IP Address
+          </dt>
+          <dd className="ml0 mb1">
+            {context.requestIpAddress}
+          </dd>
+          <dt className="dark-gray">
+            Request User Agent
+          </dt>
+          <dd className="ml0 mb1">
+            {context.requestUserAgent}
+          </dd>
+          <dt className="dark-gray">
+            Session Started
+          </dt>
+          <dd className="ml0 mb1">
+            <FriendlyTime value={context.sessionCreatedAt} />
+          </dd>
+        </dl>
+      </section>
     );
   }
 
@@ -278,8 +309,8 @@ export default Relay.createContainer(AuditLogRow, {
         }
         subject {
           name
+          type
           node {
-            __typename
             ...on Organization {
               name
             }
