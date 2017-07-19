@@ -133,11 +133,11 @@ class AuditLogRow extends React.PureComponent {
     let subjectName = subject.name || subject.node && subject.node.name;
 
     if (subjectName) {
-      if (type === 'ORGANIZATION_CREATED') {
-        subjectName = `${subjectName} 🎉`;
-      }
-
       renderedSubject = `${eventSubjectType} “${subjectName}”`;
+
+      if (type === 'ORGANIZATION_CREATED') {
+        renderedSubject = `${renderedSubject} 🎉`;
+      }
     }
 
     return `${eventVerb} ${renderedSubject}`;
