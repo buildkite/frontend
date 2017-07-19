@@ -10,8 +10,6 @@ import Spinner from '../shared/Spinner';
 import UserAvatar from '../shared/UserAvatar';
 import User from '../shared/User';
 
-import { indefiniteArticleFor } from '../../lib/words';
-
 const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
 `;
@@ -58,6 +56,8 @@ class AuditLogRow extends React.PureComponent {
   }
 
   render() {
+    const actorName = this.props.auditEvent.actor.name || this.props.auditEvent.actor.node && this.props.auditEvent.actor.node.name;
+
     return (
       <Panel.Row>
         <div>
@@ -78,26 +78,33 @@ class AuditLogRow extends React.PureComponent {
                   />
                 </div>
               )}
-              <div className="flex-auto flex flex-column">
-                <div className="flex-auto mb1">
-                  <span className="inline-block black bg-silver rounded border border-gray p1 monospace">
+              <div className="flex-auto flex flex-wrap items-center">
+                <div className="mr2">
+                  <span className="inline-block black bg-white rounded border border-gray p1 monospace">
                     {this.props.auditEvent.type}
                   </span>
+                  {actorName && (
+                    <span className="icon-mr sm-hide md-hide lg-hide">
+                      {` by `}
+                      <span className="semi-bold">{actorName}</span>
+                    </span>
+                  )}
                 </div>
-                <h2 className="flex-auto flex items-center line-height-3 font-size-1 h4 regular m0">
-                  {this.renderEventSentence()}
-                </h2>
-              </div>
-              {this.props.auditEvent.actor.node && (
-                <User
-                  user={this.props.auditEvent.actor.node}
-                  align="right"
-                  className="flex-none ml1 xs-hide"
-                  style={{
-                    maxWidth: '15em'
-                  }}
+                <FriendlyTime
+                  className="flex-auto dark-gray"
+                  value={this.props.auditEvent.occurredAt}
                 />
-              )}
+                {this.props.auditEvent.actor.node && (
+                  <User
+                    user={this.props.auditEvent.actor.node}
+                    align="right"
+                    className="flex-none ml1 xs-hide"
+                    style={{
+                      maxWidth: '15em'
+                    }}
+                  />
+                )}
+              </div>
             </div>
             <div className="flex-none ml3">
               <RevealableDownChevron
@@ -123,64 +130,6 @@ class AuditLogRow extends React.PureComponent {
           </TransitionMaxHeight>
         </div>
       </Panel.Row>
-    );
-  }
-
-  renderEventSentence() {
-    const {
-      type,
-      actor,
-      subject,
-      context
-    } = this.props.auditEvent;
-
-    // "ORGANIZATION_CREATED" => ["Organization", "Created"]
-    const eventTypeSplit = type
-      .split("_")
-      .map((word) => word.charAt(0) + word.slice(1).toLowerCase());
-
-    const eventVerb = eventTypeSplit.pop().toLowerCase();
-
-    const eventSubjectType = eventTypeSplit.join(' ');
-
-    let subjectName = subject.name || subject.node && subject.node.name;
-
-    let renderedSubject = `${indefiniteArticleFor(eventSubjectType)} ${eventSubjectType}`;
-
-    if (subjectName) {
-      if (type === 'ORGANIZATION_CREATED') {
-        subjectName = `${subjectName} 🎉`;
-      }
-
-      renderedSubject = (
-        <span>
-          {`the `}
-          <span className="semi-bold">{subjectName}</span>
-          {` ${eventSubjectType}`}
-        </span>
-      );
-    }
-
-    const actorName = actor.name || actor.node && actor.node.name;
-
-    return (
-      <span>
-        <span className="semi-bold">{actorName}</span>
-        {` ${eventVerb} `}
-        {renderedSubject}
-        {` via `}
-        <span
-          title={context.requestIpAddress}
-          className="semi-bold"
-        >
-          {this.getContextName()}
-        </span>
-        {` `}
-        <FriendlyTime
-          capitalized={false}
-          value={this.props.auditEvent.occurredAt}
-        />
-      </span>
     );
   }
 
