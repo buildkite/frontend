@@ -16,6 +16,12 @@ const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
 `;
 
+const SectionHeading = styled.h3`
+  font-size: 1em;
+  font-weight: 400;
+  text-transform: uppercase;
+`;
+
 class AuditLogRow extends React.PureComponent {
   static propTypes = {
     auditEvent: PropTypes.shape({
@@ -105,7 +111,7 @@ class AuditLogRow extends React.PureComponent {
               maxHeight: this.state.isExpanded ? 1000 : 0
             }}
           >
-            {this.renderEventDetails()}
+            {this.renderDetailsDrawer()}
           </TransitionMaxHeight>
         </div>
       </Panel.Row>
@@ -143,29 +149,58 @@ class AuditLogRow extends React.PureComponent {
     return `${eventVerb} ${renderedSubject}`;
   }
 
-  renderEventDetails() {
+  renderDetailsDrawer() {
     if (this.state.loading) {
       return (
-        <div className="mx3 mt2 mb0 center">
+        <div className="px3 pt3 pb2 border-top border-gray">
           <Spinner style={{ margin: 9.5 }} />
         </div>
       );
     }
 
     return (
-      <div className="px3 pt2 pb0 border-top border-gray">
-        <h3>Changed Data</h3>
-        {this.renderEventData()}
+      <div className="px3 pt3 pb2 border-top border-gray">
+        <section>
+          <SectionHeading className="m0 mb1">
+            Event
+          </SectionHeading>
+          <dl className="m0">
+            <dt className="dark-gray">
+              Event Data
+            </dt>
+            <dd className="ml0 mb1">
+              {this.renderEventData()}
+            </dd>
+          </dl>
+        </section>
 
-        <h3>{this.getContextName()} Context</h3>
-        <dl>
-          <dt className="semi-bold">IP Address</dt>
-          <dd>{this.props.auditEvent.context.requestIpAddress}</dd>
-          <dt className="semi-bold">User Agent</dt>
-          <dd>{this.props.auditEvent.context.requestUserAgent}</dd>
-          <dt className="semi-bold">Session Started</dt>
-          <dd><FriendlyTime value={this.props.auditEvent.context.sessionCreatedAt} /></dd>
-        </dl>
+        <section>
+          <SectionHeading className="m0 mb1">
+            {this.getContextName()} Context
+          </SectionHeading>
+          <dl className="m0">
+            <dt className="dark-gray">
+              IP Address
+            </dt>
+            <dd className="ml0 mb1">
+              {this.props.auditEvent.context.requestIpAddress}
+            </dd>
+            <dt className="dark-gray">
+              User Agent
+            </dt>
+            <dd className="ml0 mb1">
+              {this.props.auditEvent.context.requestUserAgent}
+            </dd>
+            <dt className="dark-gray">
+              Session Started
+            </dt>
+            <dd className="ml0 mb1">
+              <FriendlyTime
+                value={this.props.auditEvent.context.sessionCreatedAt}
+              />
+            </dd>
+          </dl>
+          </section>
       </div>
     );
   }
@@ -183,7 +218,7 @@ class AuditLogRow extends React.PureComponent {
       // if this renders to a string longer than `{}`, show it
       if (rendered.length > 2) {
         return (
-          <pre className="monospace">
+          <pre className="border border-gray rounded bg-silver overflow-auto p2 monospace">
             {rendered}
           </pre>
         );
