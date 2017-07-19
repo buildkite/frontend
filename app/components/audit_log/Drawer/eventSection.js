@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import { SectionHeading } from './shared';
+import { Section, SectionHeading } from './shared';
 
 class AuditLogEventSection extends React.PureComponent {
   static propTypes = {
@@ -44,7 +44,7 @@ class AuditLogEventSection extends React.PureComponent {
     }
 
     return (
-      <section className="mb4">
+      <Section>
         <SectionHeading className="m0 mb2">
           Event
         </SectionHeading>
@@ -74,7 +74,7 @@ class AuditLogEventSection extends React.PureComponent {
             {eventData}
           </dd>
         </dl>
-      </section>
+      </Section>
     );
   }
 }

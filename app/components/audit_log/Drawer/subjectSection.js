@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import { SectionHeading } from './shared';
+import { Section, SectionHeading } from './shared';
 
 class AuditLogSubjectSection extends React.PureComponent {
   static propTypes = {
@@ -22,7 +22,7 @@ class AuditLogSubjectSection extends React.PureComponent {
     const { subject } = this.props.auditEvent;
 
     return (
-      <section className="mb4">
+      <Section>
         <SectionHeading className="m0 mb2">
           Subject
         </SectionHeading>
@@ -46,7 +46,7 @@ class AuditLogSubjectSection extends React.PureComponent {
             {subject.uuid}
           </dd>
         </dl>
-      </section>
+      </Section>
     );
   }
 }

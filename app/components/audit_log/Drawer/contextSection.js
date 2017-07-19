@@ -4,7 +4,7 @@ import Relay from 'react-relay/classic';
 
 import FriendlyTime from '../../shared/FriendlyTime';
 
-import { SectionHeading } from './shared';
+import { Section, SectionHeading } from './shared';
 
 class AuditLogContextSection extends React.PureComponent {
   static propTypes = {
@@ -26,7 +26,7 @@ class AuditLogContextSection extends React.PureComponent {
     const { context } = this.props.auditEvent;
 
     return (
-      <section className="mb4">
+      <Section>
         <SectionHeading className="m0 mb2">
           {this.getContextName()} Context
         </SectionHeading>
@@ -50,7 +50,7 @@ class AuditLogContextSection extends React.PureComponent {
             <FriendlyTime value={context.sessionCreatedAt} />
           </dd>
         </dl>
-      </section>
+      </Section>
     );
   }
 }
