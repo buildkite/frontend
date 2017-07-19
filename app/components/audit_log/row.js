@@ -31,6 +31,8 @@ class AuditLogRow extends React.PureComponent {
       data: PropTypes.string,
       actor: PropTypes.shape({
         name: PropTypes.string,
+        type: PropTypes.string,
+        uuid: PropTypes.string,
         node: PropTypes.shape({
           name: PropTypes.string.isRequired,
           avatar: PropTypes.shape({
@@ -163,6 +165,7 @@ class AuditLogRow extends React.PureComponent {
       <div className="px3 pt3 pb2 border-top border-gray">
         {this.renderEventSection()}
         {this.renderSubjectSection()}
+        {this.renderActorSection()}
         {this.renderContextSection()}
       </div>
     );
@@ -264,6 +267,38 @@ class AuditLogRow extends React.PureComponent {
     );
   }
 
+  renderActorSection() {
+    const { actor } = this.props.auditEvent;
+
+    return (
+      <section className="mb4">
+        <SectionHeading className="m0 mb2">
+          Actor
+        </SectionHeading>
+        <dl className="m0">
+          <dt className="mt1 dark-gray">
+            Actor Type
+          </dt>
+          <dd className="ml0">
+            {actor.type}
+          </dd>
+          <dt className="mt1 dark-gray">
+            Actor Name
+          </dt>
+          <dd className="ml0">
+            {actor.name}
+          </dd>
+          <dt className="mt1 dark-gray">
+            Actor UUID
+          </dt>
+          <dd className="ml0">
+            {actor.uuid}
+          </dd>
+        </dl>
+      </section>
+    );
+  }
+
   renderContextSection() {
     const { context } = this.props.auditEvent;
 
@@ -331,6 +366,8 @@ export default Relay.createContainer(AuditLogRow, {
         data @include(if: $hasExpanded)
         actor {
           name
+          type
+          uuid
           node {
             ...on User {
               ${User.getFragment('user')}
