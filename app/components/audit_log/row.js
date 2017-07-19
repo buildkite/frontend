@@ -8,7 +8,6 @@ import RevealableDownChevron from '../shared/Icon/RevealableDownChevron';
 import Panel from '../shared/Panel';
 import Spinner from '../shared/Spinner';
 import UserAvatar from '../shared/UserAvatar';
-import User from '../shared/User';
 
 import { indefiniteArticleFor } from '../../lib/words';
 
@@ -370,7 +369,6 @@ export default Relay.createContainer(AuditLogRow, {
           uuid
           node {
             ...on User {
-              ${User.getFragment('user')}
               name
               avatar {
                 url
