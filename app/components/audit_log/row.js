@@ -94,17 +94,17 @@ class AuditLogRow extends React.PureComponent {
                   className="flex-auto dark-gray"
                   value={this.props.auditEvent.occurredAt}
                 />
-                {this.props.auditEvent.actor.node && (
-                  <User
-                    user={this.props.auditEvent.actor.node}
-                    align="right"
-                    className="flex-none ml1 xs-hide"
-                    style={{
-                      maxWidth: '15em'
-                    }}
-                  />
-                )}
               </div>
+              {this.props.auditEvent.actor.node && (
+                <User
+                  user={this.props.auditEvent.actor.node}
+                  align="right"
+                  className="flex-none ml1 xs-hide"
+                  style={{
+                    maxWidth: '15em'
+                  }}
+                />
+              )}
             </div>
             <div className="flex-none ml3">
               <RevealableDownChevron
