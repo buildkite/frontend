@@ -6,19 +6,14 @@ import styled from 'styled-components';
 import FriendlyTime from '../shared/FriendlyTime';
 import RevealableDownChevron from '../shared/Icon/RevealableDownChevron';
 import Panel from '../shared/Panel';
-import Spinner from '../shared/Spinner';
 import UserAvatar from '../shared/UserAvatar';
+
+import AuditLogDrawer from './Drawer';
 
 import { indefiniteArticleFor } from '../../lib/words';
 
 const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
-`;
-
-const SectionHeading = styled.h3`
-  font-size: 1em;
-  font-weight: 400;
-  text-transform: uppercase;
 `;
 
 class AuditLogRow extends React.PureComponent {
@@ -27,11 +22,8 @@ class AuditLogRow extends React.PureComponent {
       uuid: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       occurredAt: PropTypes.string.isRequired,
-      data: PropTypes.string,
       actor: PropTypes.shape({
         name: PropTypes.string,
-        type: PropTypes.string,
-        uuid: PropTypes.string,
         node: PropTypes.shape({
           name: PropTypes.string.isRequired,
           avatar: PropTypes.shape({
@@ -41,24 +33,20 @@ class AuditLogRow extends React.PureComponent {
       }).isRequired,
       subject: PropTypes.shape({
         name: PropTypes.string,
-        type: PropTypes.string,
-        uuid: PropTypes.string,
         node: PropTypes.shape({
           name: PropTypes.string.isRequired
         })
       }).isRequired,
       context: PropTypes.shape({
-        __typename: PropTypes.string.isRequired,
-        requestIpAddress: PropTypes.string,
-        requestUserAgent: PropTypes.string,
-        sessionCreatedAt: PropTypes.string
+        __typename: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
     relay: PropTypes.object.isRequired
   };
 
   state = {
-    isExpanded: false
+    isExpanded: false,
+    loading: false
   };
 
   getContextName() {
@@ -113,7 +101,10 @@ class AuditLogRow extends React.PureComponent {
               maxHeight: this.state.isExpanded ? 1000 : 0
             }}
           >
-            {this.renderDetailsDrawer()}
+            <AuditLogDrawer
+              auditEvent={this.props.auditEvent}
+              loading={this.state.loading}
+            />
           </TransitionMaxHeight>
         </div>
       </Panel.Row>
@@ -138,7 +129,7 @@ class AuditLogRow extends React.PureComponent {
     let renderedSubject = `${indefiniteArticleFor(eventSubjectType)} ${eventSubjectType}`;
 
     // Check we have a name for the subject, with fallback to the node if present
-    let subjectName = subject.name || subject.node && subject.node.name;
+    const subjectName = subject.name || subject.node && subject.node.name;
 
     if (subjectName) {
       renderedSubject = `${eventSubjectType} “${subjectName}”`;
@@ -149,185 +140,6 @@ class AuditLogRow extends React.PureComponent {
     }
 
     return `${eventVerb} ${renderedSubject}`;
-  }
-
-  renderDetailsDrawer() {
-    if (this.state.loading) {
-      return (
-        <div className="px3 pt3 pb2 border-top border-gray">
-          <Spinner style={{ margin: 9.5 }} />
-        </div>
-      );
-    }
-
-    return (
-      <div className="px3 pt3 pb2 border-top border-gray">
-        {this.renderEventSection()}
-        {this.renderSubjectSection()}
-        {this.renderActorSection()}
-        {this.renderContextSection()}
-      </div>
-    );
-  }
-
-  renderEventSection() {
-    const { auditEvent } = this.props;
-
-    let eventData;
-
-    if (auditEvent.data) {
-      const parsed = JSON.parse(auditEvent.data);
-
-      if (parsed) {
-        const rendered = JSON.stringify(parsed, null, '  ');
-
-        // if this renders to a string longer than `{}`, show it
-        if (rendered.length > 2) {
-          eventData = (
-            <pre className="border border-gray rounded bg-silver overflow-auto p2 monospace">
-              {rendered}
-            </pre>
-          );
-        }
-      }
-    }
-
-    if (!eventData) {
-      // otherwise, looks like there weren't any captured data changes!
-      eventData = (
-        <i>No data changes were found</i>
-      );
-    }
-
-    return (
-      <section className="mb4">
-        <SectionHeading className="m0 mb2">
-          Event
-        </SectionHeading>
-        <dl className="m0">
-          <dt className="mt1 dark-gray">
-            Event Timestamp
-          </dt>
-          <dd className="ml0">
-            {auditEvent.occurredAt}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Event UUID
-          </dt>
-          <dd className="ml0">
-            {auditEvent.uuid}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Event Type
-          </dt>
-          <dd className="ml0">
-            {auditEvent.type}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Event Data
-          </dt>
-          <dd className="ml0">
-            {eventData}
-          </dd>
-        </dl>
-      </section>
-    );
-  }
-
-  renderSubjectSection() {
-    const { subject } = this.props.auditEvent;
-
-    return (
-      <section className="mb4">
-        <SectionHeading className="m0 mb2">
-          Subject
-        </SectionHeading>
-        <dl className="m0">
-          <dt className="mt1 dark-gray">
-            Subject Type
-          </dt>
-          <dd className="ml0">
-            {subject.type}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Subject Name
-          </dt>
-          <dd className="ml0">
-            {subject.name}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Subject UUID
-          </dt>
-          <dd className="ml0">
-            {subject.uuid}
-          </dd>
-        </dl>
-      </section>
-    );
-  }
-
-  renderActorSection() {
-    const { actor } = this.props.auditEvent;
-
-    return (
-      <section className="mb4">
-        <SectionHeading className="m0 mb2">
-          Actor
-        </SectionHeading>
-        <dl className="m0">
-          <dt className="mt1 dark-gray">
-            Actor Type
-          </dt>
-          <dd className="ml0">
-            {actor.type}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Actor Name
-          </dt>
-          <dd className="ml0">
-            {actor.name}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Actor UUID
-          </dt>
-          <dd className="ml0">
-            {actor.uuid}
-          </dd>
-        </dl>
-      </section>
-    );
-  }
-
-  renderContextSection() {
-    const { context } = this.props.auditEvent;
-
-    return (
-      <section className="mb4">
-        <SectionHeading className="m0 mb2">
-          {this.getContextName()} Context
-        </SectionHeading>
-        <dl className="m0">
-          <dt className="mt1 dark-gray">
-            Request IP Address
-          </dt>
-          <dd className="ml0">
-            {context.requestIpAddress}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Request User Agent
-          </dt>
-          <dd className="ml0">
-            {context.requestUserAgent}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Session Started
-          </dt>
-          <dd className="ml0">
-            <FriendlyTime value={context.sessionCreatedAt} />
-          </dd>
-        </dl>
-      </section>
-    );
   }
 
   handleHeaderClick = () => {
@@ -357,16 +169,14 @@ export default Relay.createContainer(AuditLogRow, {
   },
 
   fragments: {
-    auditEvent: () => Relay.QL`
+    auditEvent: (variables) => Relay.QL`
       fragment on AuditEvent {
+        ${AuditLogDrawer.getFragment('auditEvent', variables)}
         uuid
         type
         occurredAt
-        data @include(if: $hasExpanded)
         actor {
           name
-          type
-          uuid
           node {
             ...on User {
               name
@@ -378,8 +188,6 @@ export default Relay.createContainer(AuditLogRow, {
         }
         subject {
           name
-          type
-          uuid
           node {
             ...on Organization {
               name
@@ -391,11 +199,6 @@ export default Relay.createContainer(AuditLogRow, {
         }
         context {
           __typename
-          ...on AuditWebContext {
-            requestIpAddress
-            requestUserAgent
-            sessionCreatedAt
-          }
         }
       }
     `
