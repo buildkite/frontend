@@ -66,8 +66,7 @@ class AuditLogRow extends React.PureComponent {
           <div
             className="flex items-center cursor-pointer hover-bg-silver mxn3 py2 px3"
             style={{
-              marginTop: -10,
-              marginBottom: -10
+              marginTop: -10
             }}
             onClick={this.handleHeaderClick}
           >
@@ -102,16 +101,10 @@ class AuditLogRow extends React.PureComponent {
           <TransitionMaxHeight
             className="mxn3 overflow-hidden"
             style={{
+              marginBottom: -10,
               maxHeight: this.state.isExpanded ? 1000 : 0
             }}
           >
-            <hr
-              className="p0 mt2 mb0 mx0 bg-gray"
-              style={{
-                border: 'none',
-                height: 1
-              }}
-            />
             {this.renderEventDetails()}
           </TransitionMaxHeight>
         </div>
@@ -160,7 +153,7 @@ class AuditLogRow extends React.PureComponent {
     }
 
     return (
-      <div className="mx3 mt2 mb0">
+      <div className="px3 pt2 pb0 border-top border-gray">
         <h3>Changed Data</h3>
         {this.renderEventData()}
 
