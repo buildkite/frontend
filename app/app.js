@@ -43,6 +43,7 @@ window["Webpack"] = {
     "react-relay": require("react-relay/classic"),
     "react-addons-pure-render-mixin": require("react-addons-pure-render-mixin"),
 
+    "components/billing/BillingHeader": require("./components/billing/BillingHeader").default,
     "components/build/AvatarWithUnknownEmailPrompt": require("./components/build/AvatarWithUnknownEmailPrompt").default,
     "components/build/StateSwitcher": require("./components/build/StateSwitcher").default,
     "components/build/AnnotationsList": require("./components/build/AnnotationsList").default,
