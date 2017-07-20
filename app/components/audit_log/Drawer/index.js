@@ -19,7 +19,7 @@ class AuditLogDrawer extends React.PureComponent {
   render() {
     if (this.props.loading) {
       return (
-        <div className="px3 pt3 pb2">
+        <div className="px3 pt3 pb2 center">
           <Spinner style={{ margin: 9.5 }} />
         </div>
       );
