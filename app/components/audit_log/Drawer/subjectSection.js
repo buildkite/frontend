@@ -94,6 +94,9 @@ export default Relay.createContainer(AuditLogSubjectSection, {
             ...on Pipeline {
               name
             }
+            ...on Team {
+              name
+            }
           }
         }
       }

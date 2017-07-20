@@ -204,6 +204,9 @@ export default Relay.createContainer(AuditLogRow, {
             ...on Pipeline {
               name
             }
+            ...on Team {
+              name
+            }
           }
         }
         context {
