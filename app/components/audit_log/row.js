@@ -129,6 +129,10 @@ class AuditLogRow extends React.PureComponent {
     if (type === 'ORGANIZATION_CREATED') {
       // Welcome!
       return `Created ${renderedSubject} 🎉`;
+    } else if (type === 'ORGANIZATION_TEAMS_ENABLED') {
+      return `Enabled teams for ${renderedSubject}`;
+    } else if (type === 'ORGANIZATION_TEAMS_DISABLED') {
+      return `Disabled teams for ${renderedSubject}`;
     } else {
       // Take a guess. Usually the event type is subject type + event verb, so
       // strip off the subject type if it matches or just take the last word,
