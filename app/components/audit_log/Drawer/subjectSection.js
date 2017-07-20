@@ -12,7 +12,7 @@ class AuditLogSubjectSection extends React.PureComponent {
         type: PropTypes.string,
         uuid: PropTypes.string,
         node: PropTypes.shape({
-          name: PropTypes.string.isRequired
+          name: PropTypes.string
         })
       }).isRequired
     }).isRequired

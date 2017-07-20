@@ -27,16 +27,16 @@ class AuditLogRow extends React.PureComponent {
       actor: PropTypes.shape({
         name: PropTypes.string,
         node: PropTypes.shape({
-          name: PropTypes.string.isRequired,
+          name: PropTypes.string,
           avatar: PropTypes.shape({
-            url: PropTypes.string.isRequired
-          }).isRequired
+            url: PropTypes.string
+          })
         })
       }).isRequired,
       subject: PropTypes.shape({
         name: PropTypes.string,
         node: PropTypes.shape({
-          name: PropTypes.string.isRequired
+          name: PropTypes.string
         })
       }).isRequired,
       context: PropTypes.shape({
