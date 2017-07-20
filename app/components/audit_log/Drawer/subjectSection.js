@@ -70,7 +70,7 @@ class AuditLogSubjectSection extends React.PureComponent {
           <dt className="mt1 dark-gray">
             Subject UUID
           </dt>
-          <dd className="ml0">
+          <dd className="ml0 monospace">
             {uuid}
           </dd>
         </dl>
