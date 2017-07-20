@@ -26,28 +26,56 @@ class AuditLogSubjectSection extends React.PureComponent {
         <SectionHeading className="m0 mb2">
           Subject
         </SectionHeading>
+        {this.renderSubjectType(subject)}
+        {this.renderSubjectName(subject)}
+        {this.renderSubjectUuid(subject)}
+      </Section>
+    );
+  }
+
+  renderSubjectType({type}) {
+    return (
+      <dl className="m0">
+        <dt className="mt1 dark-gray">
+          Subject Type
+        </dt>
+        <dd className="ml0">
+          {type}
+        </dd>
+      </dl>
+    );
+  }
+
+  renderSubjectName(subject) {
+    const name = (subject.node && subject.node.name) || subject.name;
+
+    if (name) {
+      return (
         <dl className="m0">
-          <dt className="mt1 dark-gray">
-            Subject Type
-          </dt>
-          <dd className="ml0">
-            {subject.type}
-          </dd>
           <dt className="mt1 dark-gray">
             Subject Name
           </dt>
           <dd className="ml0">
-            {subject.name}
+            {name}
           </dd>
+        </dl>
+      );
+    }
+  }
+
+  renderSubjectUuid({uuid}) {
+    if (uuid) {
+      return (
+        <dl className="m0">
           <dt className="mt1 dark-gray">
             Subject UUID
           </dt>
           <dd className="ml0">
-            {subject.uuid}
+            {uuid}
           </dd>
         </dl>
-      </Section>
-    );
+      );
+    }
   }
 }
 
