@@ -124,6 +124,22 @@ class AuditLogRow extends React.PureComponent {
   renderEventSentence() {
     const { type, subject } = this.props.auditEvent;
 
+    // Take a guess at the verb. Usually the event type is subject type + event
+    // verb, so strip off the subject type if it matches or just take the last
+    // word, then sentence case the verb.
+
+    let eventVerb;
+
+    if (type.indexOf(`${subject.type}_`) === 0) {
+      // "ORGANIZATION_TEAMS_ENABLED" with an "ORGANIZATION" subject => "TEAMS ENABLED"
+      eventVerb = type.slice(subject.type.length + 1).replace('_', ' ');
+    } else {
+      // "PIPELINE_CREATED" => "CREATED"
+      eventVerb = type.split('_').pop();
+    }
+
+    eventVerb = eventVerb.charAt(0).toUpperCase() + eventVerb.slice(1).toLowerCase();
+
     const renderedSubject = this.renderEventObject(subject);
 
     if (type === 'ORGANIZATION_CREATED') {
@@ -133,23 +149,29 @@ class AuditLogRow extends React.PureComponent {
       return `Enabled teams for ${renderedSubject}`;
     } else if (type === 'ORGANIZATION_TEAMS_DISABLED') {
       return `Disabled teams for ${renderedSubject}`;
-    } else {
-      // Take a guess. Usually the event type is subject type + event verb, so
-      // strip off the subject type if it matches or just take the last word,
-      // then sentence case the verb.
+    } else if (subject.type === 'TEAM_MEMBER') {
+      const renderedTeam = this.renderEventObject({ type: 'TEAM', node: subject.node && subject.node.team });
+      const renderedUser = this.renderEventObject({ type: 'USER', node: subject.node && subject.node.user });
 
-      let eventVerb;
-
-      if (type.indexOf(`${subject.type}_`) === 0) {
-        // "ORGANIZATION_TEAMS_ENABLED" with an "ORGANIZATION" subject => "TEAMS ENABLED"
-        eventVerb = type.slice(subject.type.length + 1).replace('_', ' ');
+      if (type === 'TEAM_MEMBER_CREATED') {
+        return `Added ${renderedUser} to ${renderedTeam}`
+      } else if (type === 'TEAM_MEMBER_DELETED') {
+        return `Removed ${renderedUser} from ${renderedTeam}`;
       } else {
-        // "PIPELINE_CREATED" => "CREATED"
-        eventVerb = type.split('_').pop();
+        return `${eventVerb} ${renderedUser} in ${renderedTeam}`;
       }
+    } else if (subject.type === 'TEAM_PIPELINE') {
+      const renderedTeam = this.renderEventObject({ type: 'TEAM', node: subject.node && subject.node.team });
+      const renderedPipeline = this.renderEventObject({ type: 'PIPELINE', node: subject.node && subject.node.pipeline });
 
-      eventVerb = eventVerb.charAt(0).toUpperCase() + eventVerb.slice(1).toLowerCase();
-
+      if (type === 'TEAM_PIPELINE_CREATED') {
+        return `Added ${renderedPipeline} to ${renderedTeam}`
+      } else if (type === 'TEAM_PIPELINE_DELETED') {
+        return `Removed ${renderedPipeline} from ${renderedTeam}`;
+      } else {
+        return `${eventVerb} ${renderedPipeline} in ${renderedTeam}`;
+      }
+    } else {
       return `${eventVerb} ${renderedSubject}`;
     }
   }
@@ -226,6 +248,14 @@ export default Relay.createContainer(AuditLogRow, {
             }
             ...on Team {
               name
+            }
+            ...on TeamMember {
+              team { name }
+              user { name }
+            }
+            ...on TeamPipeline {
+              team { name }
+              pipeline { name }
             }
           }
         }
