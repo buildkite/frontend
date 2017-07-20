@@ -34,6 +34,7 @@ class AuditLogRow extends React.PureComponent {
         })
       }).isRequired,
       subject: PropTypes.shape({
+        type: PropTypes.string.isRequired,
         name: PropTypes.string,
         node: PropTypes.shape({
           name: PropTypes.string
@@ -123,32 +124,46 @@ class AuditLogRow extends React.PureComponent {
   renderEventSentence() {
     const { type, subject } = this.props.auditEvent;
 
-    // "ORGANIZATION_CREATED" => ["Organization", "Created"]
-    const eventTypeSplit = type
-      .split("_")
-      .map((word) => word.charAt(0) + word.slice(1).toLowerCase());
+    const renderedSubject = this.renderEventObject(subject);
 
-    // Last word of event type is the verb
-    const eventVerb = eventTypeSplit.pop();
+    if (type === 'ORGANIZATION_CREATED') {
+      // Welcome!
+      return `Created ${renderedSubject} 🎉`;
+    } else {
+      // Take a guess. Usually the event type is subject type + event verb, so
+      // strip off the subject type if it matches or just take the last word,
+      // then sentence case the verb.
 
-    // The remainder is presumed to be the subject type
-    const eventSubjectType = eventTypeSplit.join(' ').toLowerCase();
+      let eventVerb;
 
-    // Default subject - something like "a pipeline," "an organization"
-    let renderedSubject = `${indefiniteArticleFor(eventSubjectType)} ${eventSubjectType}`;
-
-    // Check we have a name for the subject, with fallback to the node if present
-    const subjectName = subject.name || subject.node && subject.node.name;
-
-    if (subjectName) {
-      renderedSubject = `${eventSubjectType} “${subjectName}”`;
-
-      if (type === 'ORGANIZATION_CREATED') {
-        renderedSubject = `${renderedSubject} 🎉`;
+      if (type.indexOf(`${subject.type}_`) === 0) {
+        // "ORGANIZATION_TEAMS_ENABLED" with an "ORGANIZATION" subject => "TEAMS ENABLED"
+        eventVerb = type.slice(subject.type.length + 1).replace('_', ' ');
+      } else {
+        // "PIPELINE_CREATED" => "CREATED"
+        eventVerb = type.split('_').pop();
       }
-    }
 
-    return `${eventVerb} ${renderedSubject}`;
+      eventVerb = eventVerb.charAt(0).toUpperCase() + eventVerb.slice(1).toLowerCase();
+
+      return `${eventVerb} ${renderedSubject}`;
+    }
+  }
+
+  renderEventObject({ type, name, node }) {
+    // "ORGANIZATION_INVITATION" => "organzation invitation"
+    const friendlyType = type && type.split('_').pop().toLowerCase();
+
+    // Check if we can still see the node and its current name, fall back to
+    // the name recorded at the time of the event if present, or just an
+    // indefinite type name
+    if (node && node.name) {
+      return `${friendlyType} “${node.name}”`;
+    } else if (name) {
+      return `${friendlyType} “${name}”`;
+    } else {
+      return `${indefiniteArticleFor(friendlyType)} ${friendlyType}`;
+    }
   }
 
   handleHeaderClick = () => {
@@ -196,6 +211,7 @@ export default Relay.createContainer(AuditLogRow, {
           }
         }
         subject {
+          type
           name
           node {
             ...on Organization {
