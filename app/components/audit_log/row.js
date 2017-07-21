@@ -250,12 +250,20 @@ export default Relay.createContainer(AuditLogRow, {
               name
             }
             ...on TeamMember {
-              team { name }
-              user { name }
+              team {
+                name
+              }
+              user {
+                name
+              }
             }
             ...on TeamPipeline {
-              team { name }
-              pipeline { name }
+              team {
+                name
+              }
+              pipeline {
+                name
+              }
             }
           }
         }
