@@ -48,11 +48,35 @@ class BillingUpgrade extends React.Component {
               <Panel.Section>
                 <strong className="block mb2">Order summary</strong>
 
-                <div className="border border-gray rounded p3">
-                  <h3 className="h3 m0 p0 mb2 lime semi-bold">$49 per month</h3>
-                  <p className="m0 p0 dark-gray mb1">This includes the <strong>Standard Plan</strong> and <strong>12</strong> additional users at $7 each.</p>
-                  <p className="m0 p0 dark-gray">You’ll next invoice will be issued on the <strong>19th of July, 2017</strong></p>
+                <div className="border border-gray rounded mb2">
+                  <div className="border-bottom border-gray p3 flex items-center">
+                    <div className="flex-auto">
+                      <div className="bold">Standard Plan</div>
+                      <p className="m0 p0 dark-gray">Paying month-to-month</p>
+                    </div>
+                    <div>
+                      <h3 className="h3 m0 p0 semi-bold">$49</h3>
+                    </div>
+                  </div>
+
+                  <div className="border-bottom border-gray p3 flex items-center">
+                    <div className="flex-auto">
+                      <div className="bold">12 Users</div>
+                      <p className="m0 p0 dark-gray">Each additional user costs $7 each</p>
+                    </div>
+                    <div>
+                      <h3 className="h3 m0 p0 semi-bold">$84</h3>
+                    </div>
+                  </div>
+
+                  <div className="p3 flex items-center">
+                    <div className="right-align flex-auto">
+                      <h3 className="h3 m0 p0 semi-bold lime">$133 per month</h3>
+                      <p className="m0 p0 dark-gray">Your next invoice will be issued on the <strong>19th of July, 2017</strong></p>
+                    </div>
+                  </div>
                 </div>
+
               </Panel.Section>
 
               <BillingCreditCardForm />
