@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
+import FriendlyTime from '../../shared/FriendlyTime';
+
 import { Section, SectionHeading } from './shared';
 
 class AuditLogEventSection extends React.PureComponent {
@@ -27,7 +29,7 @@ class AuditLogEventSection extends React.PureComponent {
             Event Timestamp
           </dt>
           <dd className="ml0">
-            {auditEvent.occurredAt}
+            <FriendlyTime value={auditEvent.occurredAt} />
           </dd>
           <dt className="mt1 dark-gray">
             Event UUID
