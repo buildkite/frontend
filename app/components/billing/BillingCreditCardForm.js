@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import FormInputLabel from '../shared/FormInputLabel';
 import FormTextField from '../shared/FormTextField';
 
-class BillingCreditCardForm extends React.PureComponent {
+class BillingCreditCardForm extends React.Component {
   render() {
     return (
       <div>

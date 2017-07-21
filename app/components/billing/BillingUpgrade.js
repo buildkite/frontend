@@ -9,7 +9,7 @@ import FormRadioGroup from '../shared/FormRadioGroup';
 
 import BillingCreditCardForm from './BillingCreditCardForm';
 
-class BillingUpgrade extends React.PureComponent {
+class BillingUpgrade extends React.Component {
   render() {
     return (
       <DocumentTitle title={`Upgrade · ${this.props.organization.name}`}>
