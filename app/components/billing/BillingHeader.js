@@ -7,7 +7,7 @@ import Icon from '../shared/Icon';
 import PageHeader from '../shared/PageHeader';
 import TabControl from '../shared/TabControl';
 
-class BillingHeader extends React.Component {
+class BillingHeader extends React.PureComponent {
   static propTypes = {
     organization: PropTypes.shape({
       slug: PropTypes.string.isRequired

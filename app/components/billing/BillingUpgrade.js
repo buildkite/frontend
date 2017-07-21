@@ -12,6 +12,13 @@ import { formatNumber } from '../../lib/number';
 import BillingCreditCardForm from './BillingCreditCardForm';
 
 class BillingUpgrade extends React.Component {
+  static propTypes = {
+    organization: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired
+    }).isRequired
+  };
+
   state = {
     saving: false,
     plan: "standard",
@@ -105,8 +112,8 @@ class BillingUpgrade extends React.Component {
   }
 
   renderPlan(id, plan) {
-    let price = plan["price"] / 100;
-    let features = [];
+    const price = plan["price"] / 100;
+    const features = [];
 
     features.push(
       <span><strong>{formatNumber(plan.limits["agents"])}</strong> connected agents</span>,
@@ -117,25 +124,25 @@ class BillingUpgrade extends React.Component {
     if (plan.features["custom_retention"]) {
       features.push(
         <span><strong>Customizable</strong> retention</span>
-      )
+      );
     } else {
       features.push(
         <span><strong>{formatNumber(plan.limits["data_retention_days"])}</strong> days retention</span>
-      )
+      );
     }
 
     features.push(
       <span className={classNames({ "gray": !plan.features["sso"] })}>SSO</span>
-    )
+    );
 
     if (plan.features["chat_support"] && plan.features["priority_support"]) {
       features.push(
         <span>Priority email + chat support</span>
-      )
+      );
     } else {
       features.push(
         <span className={classNames({ "gray": !plan.features["priority_support"] })}>Priority email support</span>
-      )
+      );
     }
 
     features.push(
@@ -143,12 +150,12 @@ class BillingUpgrade extends React.Component {
       <span className={classNames({ "gray": !plan.features["audit_logging"] })}>Audit logging</span>,
       <span className={classNames({ "gray": !plan.features["uptime_sla"] })}>99.95% update SLA</span>,
       <span className={classNames({ "gray": !plan.features["bank_transfer"] })}>Invoice payment</span>
-    )
+    );
 
-    let selected = (this.state.plan === id);
-    let classes = classNames("p3", {
+    const selected = (this.state.plan === id);
+    const classes = classNames("p3", {
       "bg-silver": selected
-    })
+    });
 
     return (
       <div className={classes}>
@@ -166,17 +173,13 @@ class BillingUpgrade extends React.Component {
           </div>
         </label>
       </div>
-    )
+    );
   }
 
   handleFormSubmit = (event) => {
     event.preventDefault();
 
     this.setState({ saving: true });
-
-    console.log(this.state.plan);
-    console.log(this.state.interval);
-    console.log(this.creditCard);
   };
 
   handlePlanChange = (event) => {

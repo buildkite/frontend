@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import classNames from 'classnames';
 
 import FormInputLabel from '../shared/FormInputLabel';
 import FormTextField from '../shared/FormTextField';
@@ -104,22 +103,22 @@ class BillingCreditCardForm extends React.Component {
         <option value="11">11</option>
         <option value="12">12</option>
       </select>
-    )
+    );
   }
 
   renderYearSelect() {
-    let year = new Date().getFullYear();
+    const year = new Date().getFullYear();
 
-    let options = [];
-    for(let y = year; y <= (year + 10); y++) {
+    const options = [];
+    for (let yy = year; yy <= (year + 10); yy++) {
       options.push(
-        <option key={y} value={y}>{y - 2000}</option>
-      )
+        <option key={yy} value={yy}>{yy - 2000}</option>
+      );
     }
 
     return (
       <select className="select flex-auto" onChange={this.handleYearChange} disabled={this.props.disabled}>{options}</select>
-    )
+    );
   }
 
   renderCreditCardLogo(card, title) {
@@ -130,7 +129,7 @@ class BillingCreditCardForm extends React.Component {
         style={{ height: 30, width: 48, opacity: 0.3 }}
         className="ml1"
       />
-    )
+    );
   }
 
   handleNameChange = (event) => {
