@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import FormInputLabel from '../shared/FormInputLabel';
 import FormTextField from '../shared/FormTextField';
+import FormSelect from '../shared/FormSelect';
 
 class BillingCreditCardForm extends React.Component {
   render() {
@@ -37,9 +38,9 @@ class BillingCreditCardForm extends React.Component {
               <FormInputLabel label="Expiration" required={true} />
 
               <div className="flex items-center">
-                <select className="select flex-auto"></select>
+                {this.renderMonthSelect()}
                 <div className="dark-gray bold center" style={{ width: 50 }}>/</div>
-                <select className="select flex-auto"></select>
+                {this.renderYearSelect()}
               </div>
             </div>
           </div>
@@ -54,8 +55,9 @@ class BillingCreditCardForm extends React.Component {
 
         <div className="clearfix px2 mb2">
           <div className="lg-col lg-col-9 px1">
-            <FormTextField
+            <FormSelect
               label="Country"
+              options={window._countries}
               required={true}
             />
           </div>
@@ -69,6 +71,40 @@ class BillingCreditCardForm extends React.Component {
         </div>
       </div>
     );
+  }
+
+  renderMonthSelect() {
+    return (
+      <select className="select flex-auto">
+        <option value="1">01</option>
+        <option value="2">02</option>
+        <option value="3">03</option>
+        <option value="4">04</option>
+        <option value="5">05</option>
+        <option value="6">06</option>
+        <option value="7">07</option>
+        <option value="8">08</option>
+        <option value="9">09</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+      </select>
+    )
+  }
+
+  renderYearSelect() {
+    let year = new Date().getFullYear();
+
+    let options = [];
+    for(let y = year; y <= (year + 10); y++) {
+      options.push(
+        <option idx={y} value={y}>{y - 2000}</option>
+      )
+    }
+
+    return (
+      <select className="select flex-auto">{options}</select>
+    )
   }
 
   renderCreditCardLogo(card, title) {

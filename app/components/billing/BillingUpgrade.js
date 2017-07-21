@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
+import classNames from 'classnames';
 import DocumentTitle from 'react-document-title';
 
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
 import FormRadioGroup from '../shared/FormRadioGroup';
+import { formatNumber } from '../../lib/number';
 
 import BillingCreditCardForm from './BillingCreditCardForm';
 
@@ -23,10 +25,10 @@ class BillingUpgrade extends React.Component {
 
                 <div className="border border-gray rounded flex">
                   <div className="p3 border-right border-gray col-6">
-                    {this.renderPlan("standard", { "label": "Standard" })}
+                    {this.renderPlan("standard", window._billing["plans"]["standard"])}
                   </div>
                   <div className="p3 col-6">
-                    {this.renderPlan("enterprise", { "label": "Enterprise" })}
+                    {this.renderPlan("enterprise", window._billing["plans"]["enterprise"])}
                   </div>
                 </div>
               </Panel.Section>
@@ -37,8 +39,8 @@ class BillingUpgrade extends React.Component {
                   label="How often do you want to be billed?"
                   value={"monthly"}
                   options={[
-                    { label: "Monthly", value: "monthly", help: "We'll send you an invoice once a month" },
-                    { label: "Yearly", value: "yearly", help: "You'll be invoiced right away, and you won't hear from us for another year", badge: "Save 15%" }
+                    { label: "Monthly", value: "monthly", help: "Pay month-to-month" },
+                    { label: "Yearly", value: "yearly", help: "Save and pay for entire year up front", badge: "Save 15%" }
                   ]}
                 />
               </Panel.Section>
@@ -66,6 +68,46 @@ class BillingUpgrade extends React.Component {
   }
 
   renderPlan(id, plan) {
+    let price = plan["price"] / 100;
+    let features = [];
+
+    features.push(
+      <span><strong>{formatNumber(plan.limits["agents"])}</strong> connected agents</span>,
+      <span><strong>{formatNumber(plan.limits["users"])}</strong> included users</span>,
+      <span><strong>{plan.limits["builds_per_month"] ? formatNumber(plan.limits["builds_per_month"]) : "Unlimited"}</strong> builds</span>
+    );
+
+    if (plan.features["custom_retention"]) {
+      features.push(
+        <span><strong>Customizable</strong> retention</span>
+      )
+    } else {
+      features.push(
+        <span><strong>{formatNumber(plan.limits["data_retention_days"])}</strong> days retention</span>
+      )
+    }
+
+    features.push(
+      <span className={classNames({ "gray": !plan.features["sso"] })}>SSO</span>
+    )
+
+    if (plan.features["chat_support"] && plan.features["priority_support"]) {
+      features.push(
+        <span>Priority email + live chat support</span>
+      )
+    } else {
+      features.push(
+        <span className={classNames({ "gray": !plan.features["priority_support"] })}>Priority email support</span>
+      )
+    }
+
+    features.push(
+      <span className={classNames({ "gray": !plan.features["account_manager"] })}>Account manager</span>,
+      <span className={classNames({ "gray": !plan.features["audit_logging"] })}>Audit logging</span>,
+      <span className={classNames({ "gray": !plan.features["uptime_sla"] })}>99.95% update SLA</span>,
+      <span className={classNames({ "gray": !plan.features["bank_transfer"] })}>Invoice payment</span>
+    )
+
     return (
       <label className="flex">
         <div className="mr2">
@@ -73,19 +115,10 @@ class BillingUpgrade extends React.Component {
           </div>
           <div className="flex-auto">
             <h3 className="h3 m0 p0 mb1">{plan["label"]}</h3>
-            <h4 className="h4 m0 p0 mb2 dark-gray regular">$99 per month</h4>
+            <h4 className="h4 m0 p0 mb2 dark-gray regular">${price} per month</h4>
 
             <ul className="list-reset m0 p0" style={{ lineHeight: "23px" }}>
-              <li><strong>{123}</strong> connected agents</li>
-              <li><strong>{123}</strong> included users</li>
-              <li><strong>Unlimited</strong> builds</li>
-              <li><strong>Customizable</strong> retention</li>
-              <li>SSO</li>
-              <li>Priority email + live chat support</li>
-              <li>Account manager</li>
-              <li>Audit logging</li>
-              <li>99.95% uptime SLA</li>
-              <li>Invoice payment</li>
+              {features.map((el, idx) => <li key={idx}>{el}</li>)}
             </ul>
           </div>
       </label>
