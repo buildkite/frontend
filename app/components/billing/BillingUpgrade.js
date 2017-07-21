@@ -7,6 +7,7 @@ import DocumentTitle from 'react-document-title';
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
 import FormRadioGroup from '../shared/FormRadioGroup';
+import Icon from '../shared/Icon';
 import { formatNumber } from '../../lib/number';
 
 import BillingCreditCardForm from './BillingCreditCardForm';
@@ -122,43 +123,42 @@ class BillingUpgrade extends React.Component {
 
   renderPlan(id, plan) {
     const price = plan["price"] / 100;
+    const limits = [];
     const features = [];
 
-    features.push(
+    limits.push(
       <span><strong>{formatNumber(plan.limits["agents"])}</strong> connected agents</span>,
       <span><strong>{formatNumber(plan.limits["users"])}</strong> included users</span>,
       <span><strong>{plan.limits["builds_per_month"] ? formatNumber(plan.limits["builds_per_month"]) : "Unlimited"}</strong> builds</span>
     );
 
     if (plan.features["custom_retention"]) {
-      features.push(
+      limits.push(
         <span><strong>Customizable</strong> retention</span>
       );
     } else {
-      features.push(
+      limits.push(
         <span><strong>{formatNumber(plan.limits["data_retention_days"])}</strong> days retention</span>
       );
     }
 
-    features.push(
-      <span className={classNames({ "gray": !plan.features["sso"] })}>SSO</span>
-    );
+    features.push(this.renderFeature(plan, "sso", "Single Sign On"))
 
     if (plan.features["chat_support"] && plan.features["priority_support"]) {
       features.push(
-        <span>Priority email + chat support</span>
+        <span>{this.renderTick()}Priority email + chat support</span>
       );
     } else {
       features.push(
-        <span className={classNames({ "gray": !plan.features["priority_support"] })}>Priority email support</span>
+        <span className={classNames({ "gray": !plan.features["priority_support"] })}>{this.renderTick()}Priority email support</span>
       );
     }
 
     features.push(
-      <span className={classNames({ "gray": !plan.features["account_manager"] })}>Account manager</span>,
-      <span className={classNames({ "gray": !plan.features["audit_logging"] })}>Audit logging</span>,
-      <span className={classNames({ "gray": !plan.features["uptime_sla"] })}>99.95% update SLA</span>,
-      <span className={classNames({ "gray": !plan.features["bank_transfer"] })}>Invoice payment</span>
+      this.renderFeature(plan, "account_manager", "Account manager"),
+      this.renderFeature(plan, "audit_logging", "Audit logging"),
+      this.renderFeature(plan, "uptime_sla", "99.95% uptime SLA"),
+      this.renderFeature(plan, "bank_transfer", "Invoice payment")
     );
 
     const selected = (this.state.plan === id);
@@ -176,6 +176,10 @@ class BillingUpgrade extends React.Component {
             <h3 className="h3 m0 p0 mb1">{plan["label"]}</h3>
             <h4 className="h4 m0 p0 mb2 dark-gray regular">${price} per month</h4>
 
+            <ul className="list-reset m0 p0 mb2" style={{ lineHeight: "23px" }}>
+              {limits.map((el, idx) => <li key={idx}>{el}</li>)}
+            </ul>
+
             <ul className="list-reset m0 p0" style={{ lineHeight: "23px" }}>
               {features.map((el, idx) => <li key={idx}>{el}</li>)}
             </ul>
@@ -183,6 +187,24 @@ class BillingUpgrade extends React.Component {
         </label>
       </div>
     );
+  }
+
+  renderFeature(plan, feature, label) {
+    if(plan.features[feature]) {
+      return (
+        <span>{this.renderTick()}{label}</span>
+      )
+    } else {
+      return (
+        <span className="gray"><span className="mr1">✖</span>{label}</span>
+      )
+    }
+  }
+
+  renderTick() {
+    return (
+      <span className="lime mr1">✔</span>
+    )
   }
 
   handleFormSubmit = (event) => {
