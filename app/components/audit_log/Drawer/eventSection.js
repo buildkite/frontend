@@ -17,32 +17,6 @@ class AuditLogEventSection extends React.PureComponent {
   render() {
     const { auditEvent } = this.props;
 
-    let eventData;
-
-    if (auditEvent.data) {
-      const parsed = JSON.parse(auditEvent.data);
-
-      if (parsed) {
-        const rendered = JSON.stringify(parsed, null, '  ');
-
-        // if this renders to a string longer than `{}`, show it
-        if (rendered.length > 2) {
-          eventData = (
-            <pre className="border border-gray rounded bg-silver overflow-auto p2 monospace">
-              {rendered}
-            </pre>
-          );
-        }
-      }
-    }
-
-    if (!eventData) {
-      // otherwise, looks like there weren't any captured data changes!
-      eventData = (
-        <i>No data changes were found</i>
-      );
-    }
-
     return (
       <Section>
         <SectionHeading className="m0 mb2">
@@ -67,15 +41,26 @@ class AuditLogEventSection extends React.PureComponent {
           <dd className="ml0">
             {auditEvent.type}
           </dd>
-          <dt className="mt1 dark-gray">
-            Event Data
-          </dt>
-          <dd className="ml0">
-            {eventData}
-          </dd>
+          {this.renderEventData(auditEvent.data)}
         </dl>
       </Section>
     );
+  }
+
+  renderEventData(data) {
+    // Only render event data if there is any data
+    if (data && data != "{}") {
+      const prettyData = JSON.stringify(JSON.parse(data), null, '  ');
+
+      return [
+        <dt className="mt1 dark-gray" key="data-title">
+          Event Data
+        </dt>,
+        <dd className="ml0" key="data-definition">
+          <pre className="border border-gray rounded bg-silver overflow-auto p2 monospace">{prettyData}</pre>
+        </dd>,
+      ];
+    }
   }
 }
 

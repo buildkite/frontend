@@ -37,26 +37,26 @@ class AuditLogSubjectSection extends React.PureComponent {
 
   renderSubjectType({type}) {
     return [
-      <dt className="mt1 dark-gray">
+      <dt className="mt1 dark-gray" key="type-title">
         Subject Type
       </dt>,
-      <dd className="ml0">
+      <dd className="ml0" key="type-definition">
         {type}
       </dd>,
     ];
   }
 
-  renderSubjectName(subject) {
-    const name = (subject.node && subject.node.name) || subject.name;
+  renderSubjectName({name, node}) {
+    const renderedName = (node && node.name) || name;
 
-    if (name) {
+    if (renderedName) {
       return [
-        <dt className="mt1 dark-gray">
+        <dt className="mt1 dark-gray" key="name-title">
           Subject Name
         </dt>,
-        <dd className="ml0">
-          {name}
-        </dd>
+        <dd className="ml0" key="name-definition">
+          {renderedName}
+        </dd>,
       ];
     }
   }
@@ -64,12 +64,12 @@ class AuditLogSubjectSection extends React.PureComponent {
   renderSubjectUuid({uuid}) {
     if (uuid) {
       return [
-        <dt className="mt1 dark-gray">
+        <dt className="mt1 dark-gray" key="uuid-title">
           Subject UUID
         </dt>,
-        <dd className="ml0 monospace">
+        <dd className="ml0 monospace" key="uuid-definition">
           {uuid}
-        </dd>
+        </dd>,
       ];
     }
   }

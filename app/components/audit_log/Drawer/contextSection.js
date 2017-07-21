@@ -31,27 +31,51 @@ class AuditLogContextSection extends React.PureComponent {
           {this.getContextName()} Context
         </SectionHeading>
         <dl className="m0">
-          <dt className="mt1 dark-gray">
-            Request IP Address
-          </dt>
-          <dd className="ml0">
-            {context.requestIpAddress}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Request User Agent
-          </dt>
-          <dd className="ml0">
-            {context.requestUserAgent}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Session Started
-          </dt>
-          <dd className="ml0">
-            <FriendlyTime value={context.sessionCreatedAt} />
-          </dd>
+          {this.renderRequestIpAddress(context)}
+          {this.renderRequestUserAgent(context)}
+          {this.renderSessionCreatedAt(context)}
         </dl>
       </Section>
     );
+  }
+
+  renderRequestIpAddress({requestIpAddress}) {
+    if (requestIpAddress) {
+      return [
+        <dt className="mt1 dark-gray" key="requestIpAddress-title">
+          Request IP Address
+        </dt>,
+        <dd className="ml0" key="requestIpAddress-definition">
+          {requestIpAddress}
+        </dd>,
+      ];
+    }
+  }
+
+  renderRequestUserAgent({requestUserAgent}) {
+    if (requestUserAgent) {
+      return [
+        <dt className="mt1 dark-gray" key="requestUserAgent-title">
+          Request User Agent
+        </dt>,
+        <dd className="ml0" key="requestUserAgent-definition">
+          {requestUserAgent}
+        </dd>,
+      ];
+    }
+  }
+
+  renderSessionCreatedAt({sessionCreatedAt}) {
+    if (sessionCreatedAt) {
+      return [
+        <dt className="mt1 dark-gray" key="sessionCreatedAt-title">
+          Session Started
+        </dt>,
+        <dd className="ml0" key="sessionCreatedAt-definition">
+          <FriendlyTime value={sessionCreatedAt} />
+        </dd>,
+      ];
+    }
   }
 }
 
