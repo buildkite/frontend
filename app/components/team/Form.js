@@ -62,6 +62,7 @@ class TeamForm extends React.Component {
             value={this.props.privacy}
             errors={errors.findForField("privacy")}
             onChange={this.handlePrivacyChange}
+            required={true}
             options={[
               { label: "Visible", value: TeamPrivacyConstants.VISIBLE, help: "Can be seen by all members within the organization", badge: "Recommended" },
               { label: "Secret", value: TeamPrivacyConstants.SECRET, help: "Can only only be seen by organization administrators and members of this team" }
