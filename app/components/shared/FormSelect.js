@@ -21,7 +21,8 @@ class FormSelect extends React.Component {
     className: PropTypes.string,
     onChange: PropTypes.func,
     errors: PropTypes.array,
-    required: PropTypes.bool
+    required: PropTypes.bool,
+    disabled: PropTypes.bool
   };
 
   render() {
@@ -70,7 +71,7 @@ class FormSelect extends React.Component {
 
   _renderSelect() {
     return (
-      <select name={this.props.name} className="select" defaultValue={this.props.value} onChange={this.props.onChange}>
+      <select name={this.props.name} className="select" defaultValue={this.props.value} onChange={this.props.onChange} disabled={this.props.disabled}>
         <option />
         {this.props.options.map((option, idx) => {
           return (

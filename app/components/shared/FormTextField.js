@@ -18,6 +18,7 @@ class FormTextField extends React.Component {
     spellCheck: PropTypes.bool,
     onChange: PropTypes.func,
     collapsable: PropTypes.bool,
+    disabled: PropTypes.bool,
     errors: PropTypes.array,
     required: PropTypes.bool
   };
@@ -95,6 +96,7 @@ class FormTextField extends React.Component {
         className={classNames("input", { "is-error": this._hasErrors() }, this.props.className)}
         name={this.props.name}
         type="text"
+        disabled={this.props.disabled}
         defaultValue={this.props.value}
         placeholder={this.props.placeholder}
         spellCheck={this.props.spellCheck}
