@@ -24,7 +24,7 @@ class FormRadioGroup extends React.Component {
     ]),
     label: PropTypes.string,
     name: PropTypes.string,
-    reauired: PropTypes.bool,
+    required: PropTypes.bool,
     className: PropTypes.string,
     onChange: PropTypes.func,
     errors: PropTypes.array
@@ -55,13 +55,13 @@ class FormRadioGroup extends React.Component {
   }
 
   _renderLabel() {
-    if(this.props.label) {
+    if (this.props.label) {
       return (
         <label className={classNames("block bold", { "red": this._hasErrors() })}>
           {this.props.label}
           {this.props.required && <span className="dark-gray h6 semi-bold"> — Required</span>}
         </label>
-      )
+      );
     }
   }
 
