@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
+import FriendlyTime from '../../shared/FriendlyTime';
+
 import { Section, SectionHeading } from './shared';
 
 class AuditLogEventSection extends React.PureComponent {
@@ -17,32 +19,6 @@ class AuditLogEventSection extends React.PureComponent {
   render() {
     const { auditEvent } = this.props;
 
-    let eventData;
-
-    if (auditEvent.data) {
-      const parsed = JSON.parse(auditEvent.data);
-
-      if (parsed) {
-        const rendered = JSON.stringify(parsed, null, '  ');
-
-        // if this renders to a string longer than `{}`, show it
-        if (rendered.length > 2) {
-          eventData = (
-            <pre className="border border-gray rounded bg-silver overflow-auto p2 monospace">
-              {rendered}
-            </pre>
-          );
-        }
-      }
-    }
-
-    if (!eventData) {
-      // otherwise, looks like there weren't any captured data changes!
-      eventData = (
-        <i>No data changes were found</i>
-      );
-    }
-
     return (
       <Section>
         <SectionHeading className="m0 mb2">
@@ -53,29 +29,40 @@ class AuditLogEventSection extends React.PureComponent {
             Event Timestamp
           </dt>
           <dd className="ml0">
-            {auditEvent.occurredAt}
+            <FriendlyTime value={auditEvent.occurredAt} />
           </dd>
           <dt className="mt1 dark-gray">
             Event UUID
           </dt>
-          <dd className="ml0">
+          <dd className="ml0 monospace">
             {auditEvent.uuid}
           </dd>
           <dt className="mt1 dark-gray">
             Event Type
           </dt>
-          <dd className="ml0">
+          <dd className="ml0 monospace">
             {auditEvent.type}
           </dd>
-          <dt className="mt1 dark-gray">
-            Event Data
-          </dt>
-          <dd className="ml0">
-            {eventData}
-          </dd>
+          {this.renderEventData(auditEvent.data)}
         </dl>
       </Section>
     );
+  }
+
+  renderEventData(data) {
+    // Only render event data if there is any data
+    if (data && data !== "{}") {
+      const prettyData = JSON.stringify(JSON.parse(data), null, '  ');
+
+      return [
+        <dt className="mt1 dark-gray" key="data-title">
+          Event Data
+        </dt>,
+        <dd className="ml0" key="data-definition">
+          <pre className="border border-gray rounded bg-silver overflow-auto p2 monospace">{prettyData}</pre>
+        </dd>
+      ];
+    }
   }
 }
 
