@@ -154,7 +154,7 @@ class AuditLogRow extends React.PureComponent {
       const renderedUser = this.renderEventObject({ type: 'USER', node: subject.node && subject.node.user });
 
       if (type === 'TEAM_MEMBER_CREATED') {
-        return `Added ${renderedUser} to ${renderedTeam}`
+        return `Added ${renderedUser} to ${renderedTeam}`;
       } else if (type === 'TEAM_MEMBER_DELETED') {
         return `Removed ${renderedUser} from ${renderedTeam}`;
       } else {
@@ -165,7 +165,7 @@ class AuditLogRow extends React.PureComponent {
       const renderedPipeline = this.renderEventObject({ type: 'PIPELINE', node: subject.node && subject.node.pipeline });
 
       if (type === 'TEAM_PIPELINE_CREATED') {
-        return `Added ${renderedPipeline} to ${renderedTeam}`
+        return `Added ${renderedPipeline} to ${renderedTeam}`;
       } else if (type === 'TEAM_PIPELINE_DELETED') {
         return `Removed ${renderedPipeline} from ${renderedTeam}`;
       } else {
