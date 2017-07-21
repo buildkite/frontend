@@ -98,6 +98,7 @@ class MemberNew extends React.PureComponent {
                 help="What type of organization-wide permissions will the invited users have?"
                 value={this.state.role}
                 onChange={this.handleAdminChange}
+                required={true}
                 options={[
                   { label: "User", value: OrganizationMemberRoleConstants.MEMBER, help: "Can view, create and manage pipelines and builds." },
                   { label: "Administrator", value: OrganizationMemberRoleConstants.ADMIN, help: "Can view and edit everything in the organization." }
