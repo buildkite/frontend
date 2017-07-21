@@ -10,6 +10,6 @@ export const Section = styled.section.attrs({
 
 export const SectionHeading = styled.h3`
   font-size: 1em;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: uppercase;
 `;
