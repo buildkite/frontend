@@ -12,81 +12,87 @@ import { formatNumber } from '../../lib/number';
 import BillingCreditCardForm from './BillingCreditCardForm';
 
 class BillingUpgrade extends React.Component {
+  state = {
+    saving: false
+  }
+
   render() {
     return (
       <DocumentTitle title={`Upgrade · ${this.props.organization.name}`}>
-        <div className="container">
-          <div className="col-12 lg-col-8 mx-auto">
-            <h1 className="h1 mb4">Upgrade your Subscription</h1>
+        <form onSubmit={this.handleFormSubmit}>
+          <div className="container">
+            <div className="col-12 lg-col-8 mx-auto">
+              <h1 className="h1 mb4">Upgrade your Subscription</h1>
 
-            <Panel>
-              <Panel.Section>
-                <strong className="mb2 block">Choose your plan</strong>
+              <Panel>
+                <Panel.Section>
+                  <strong className="mb2 block">Choose your plan</strong>
 
-                <div className="border border-gray rounded flex">
-                  <div className="p3 border-right border-gray col-6">
-                    {this.renderPlan("standard", window._billing["plans"]["standard"])}
-                  </div>
-                  <div className="p3 col-6">
-                    {this.renderPlan("enterprise", window._billing["plans"]["enterprise"])}
-                  </div>
-                </div>
-              </Panel.Section>
-
-              <Panel.Section>
-                <FormRadioGroup
-                  name="interval"
-                  label="How often do you want to be billed?"
-                  value={"monthly"}
-                  options={[
-                    { label: "Monthly", value: "monthly", help: "Pay month-to-month" },
-                    { label: "Yearly", value: "yearly", help: "Save and pay for entire year up front", badge: "Save 15%" }
-                  ]}
-                />
-              </Panel.Section>
-
-              <Panel.Section>
-                <strong className="block mb2">Order summary</strong>
-
-                <div className="border border-gray rounded mb2">
-                  <div className="border-bottom border-gray p3 flex items-center">
-                    <div className="flex-auto">
-                      <div className="bold">Standard Plan</div>
-                      <p className="m0 p0 dark-gray">Paying month-to-month</p>
+                  <div className="border border-gray rounded flex">
+                    <div className="p3 border-right border-gray col-6 bg-silver">
+                      {this.renderPlan("standard", window._billing["plans"]["standard"])}
                     </div>
-                    <div>
-                      <h3 className="h3 m0 p0 semi-bold">$49</h3>
+                    <div className="p3 col-6">
+                      {this.renderPlan("enterprise", window._billing["plans"]["enterprise"])}
                     </div>
                   </div>
+                </Panel.Section>
 
-                  <div className="border-bottom border-gray p3 flex items-center">
-                    <div className="flex-auto">
-                      <div className="bold">12 Users</div>
-                      <p className="m0 p0 dark-gray">Each additional user costs $7 each</p>
+                <Panel.Section>
+                  <FormRadioGroup
+                    name="interval"
+                    label="How often do you want to be billed?"
+                    value={"monthly"}
+                    options={[
+                      { label: "Monthly", value: "monthly", help: "Pay month-to-month" },
+                      { label: "Yearly", value: "yearly", help: "Save and pay for entire year up front", badge: "Save 15%" }
+                    ]}
+                  />
+                </Panel.Section>
+
+                <Panel.Section>
+                  <strong className="block mb2">Order summary</strong>
+
+                  <div className="border border-gray rounded mb2">
+                    <div className="border-bottom border-gray p3 flex items-center">
+                      <div className="flex-auto">
+                        <div className="bold">Standard Plan</div>
+                        <p className="m0 p0 dark-gray">Paying month-to-month</p>
+                      </div>
+                      <div>
+                        <h3 className="h3 m0 p0 semi-bold">$49</h3>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="h3 m0 p0 semi-bold">$84</h3>
+
+                    <div className="border-bottom border-gray p3 flex items-center">
+                      <div className="flex-auto">
+                        <div className="bold">12 Users</div>
+                        <p className="m0 p0 dark-gray">Each additional user costs $7 each</p>
+                      </div>
+                      <div>
+                        <h3 className="h3 m0 p0 semi-bold">$84</h3>
+                      </div>
+                    </div>
+
+                    <div className="p3 flex items-center bg-silver">
+                      <div className="right-align flex-auto">
+                        <h3 className="h3 m0 p0 semi-bold">$133 per month</h3>
+                        <p className="m0 p0 dark-gray">Your next invoice will be issued on the <strong>19th of July, 2017</strong></p>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="p3 flex items-center">
-                    <div className="right-align flex-auto">
-                      <h3 className="h3 m0 p0 semi-bold lime">$133 per month</h3>
-                      <p className="m0 p0 dark-gray">Your next invoice will be issued on the <strong>19th of July, 2017</strong></p>
-                    </div>
-                  </div>
-                </div>
+                </Panel.Section>
 
-              </Panel.Section>
+                <BillingCreditCardForm disabled={this.state.saving} onChange={this.handleCreditCardFormChange} />
 
-              <BillingCreditCardForm />
-
-              <Panel.Footer>
-                <Button loading={false} theme="success">Upgrade</Button>
-              </Panel.Footer>
-            </Panel>
+                <Panel.Footer>
+                  <Button loading={this.state.saving && "Upgrading…"} theme="success">Upgrade</Button>
+                </Panel.Footer>
+              </Panel>
+            </div>
           </div>
-        </div>
+        </form>
       </DocumentTitle>
     );
   }
@@ -148,6 +154,16 @@ class BillingUpgrade extends React.Component {
       </label>
     )
   }
+
+  handleFormSubmit = (event) => {
+    event.preventDefault();
+
+    this.setState({ saving: true });
+  };
+
+  handleCreditCardFormChange = (field, value) => {
+    console.log(field, value);
+  };
 }
 
 export default Relay.createContainer(BillingUpgrade, {

@@ -7,6 +7,11 @@ import FormTextField from '../shared/FormTextField';
 import FormSelect from '../shared/FormSelect';
 
 class BillingCreditCardForm extends React.Component {
+  static propTypes = {
+    onChange: PropTypes.func,
+    disabled: PropTypes.bool
+  };
+
   render() {
     return (
       <div>
@@ -14,6 +19,8 @@ class BillingCreditCardForm extends React.Component {
           <FormTextField
             label="Name on Card"
             required={true}
+            disabled={this.props.disabled}
+            onChange={this.handleNameChange}
           />
         </div>
 
@@ -23,6 +30,8 @@ class BillingCreditCardForm extends React.Component {
               <FormTextField
                 label="Card Number"
                 required={true}
+                disabled={this.props.disabled}
+                onChange={this.handleCardNumberChange}
               />
             </div>
 
@@ -47,8 +56,10 @@ class BillingCreditCardForm extends React.Component {
 
           <div className="lg-col lg-col-2 px1">
             <FormTextField
-              label="CVV"
+              label="CVC"
               required={true}
+              disabled={this.props.disabled}
+              onChange={this.handleCVCChange}
             />
           </div>
         </div>
@@ -59,6 +70,8 @@ class BillingCreditCardForm extends React.Component {
               label="Country"
               options={window._countries}
               required={true}
+              disabled={this.props.disabled}
+              onChange={this.handleCountryChange}
             />
           </div>
 
@@ -66,6 +79,8 @@ class BillingCreditCardForm extends React.Component {
             <FormTextField
               label="Postal Code"
               required={true}
+              disabled={this.props.disabled}
+              onChange={this.handlePostCodeChange}
             />
           </div>
         </div>
@@ -75,7 +90,7 @@ class BillingCreditCardForm extends React.Component {
 
   renderMonthSelect() {
     return (
-      <select className="select flex-auto">
+      <select className="select flex-auto" onChange={this.handleMonthChange} disabled={this.props.disabled}>
         <option value="1">01</option>
         <option value="2">02</option>
         <option value="3">03</option>
@@ -98,12 +113,12 @@ class BillingCreditCardForm extends React.Component {
     let options = [];
     for(let y = year; y <= (year + 10); y++) {
       options.push(
-        <option idx={y} value={y}>{y - 2000}</option>
+        <option key={y} value={y}>{y - 2000}</option>
       )
     }
 
     return (
-      <select className="select flex-auto">{options}</select>
+      <select className="select flex-auto" onChange={this.handleYearChange} disabled={this.props.disabled}>{options}</select>
     )
   }
 
@@ -117,6 +132,34 @@ class BillingCreditCardForm extends React.Component {
       />
     )
   }
+
+  handleNameChange = (event) => {
+    this.props.onChange('name', event.target.value);
+  };
+
+  handleCardNumberChange = (event) => {
+    this.props.onChange('card_number', event.target.value);
+  };
+
+  handleMonthChange = (event) => {
+    this.props.onChange('expiry_month', event.target.value);
+  };
+
+  handleYearChange = (event) => {
+    this.props.onChange('expiry_year', event.target.value);
+  };
+
+  handleCVCChange = (event) => {
+    this.props.onChange('cvc', event.target.value);
+  };
+
+  handleCountryChange = (event) => {
+    this.props.onChange('address_country', event.target.value);
+  };
+
+  handlePostCodeChange = (event) => {
+    this.props.onChange('address_postcode', event.target.value);
+  };
 }
 
 export default BillingCreditCardForm;
