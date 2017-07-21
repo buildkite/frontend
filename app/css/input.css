@@ -39,4 +39,9 @@
   &.is-error:focus {
     border-color: var(--dark-red);
   }
+
+  &:disabled {
+    color: var(--dark-gray);
+    background-color: var(--silver);
+  }
 }
