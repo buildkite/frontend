@@ -9,6 +9,7 @@ import Button from '../shared/Button';
 import FormRadioGroup from '../shared/FormRadioGroup';
 import Icon from '../shared/Icon';
 import { formatNumber } from '../../lib/number';
+import FormInputLabel from '../shared/FormInputLabel';
 
 import BillingCreditCardForm from './BillingCreditCardForm';
 
@@ -41,6 +42,7 @@ class BillingUpgrade extends React.Component {
           onSubmit={this.handleFormSubmit}
         >
           <input type="hidden" name="utf8" value="✓" />
+          <input type="hidden" name="_method" value="put" />
           <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
 
           <div className="container">
@@ -49,9 +51,9 @@ class BillingUpgrade extends React.Component {
 
               <Panel>
                 <Panel.Section>
-                  <strong className="mb2 block">Choose your plan</strong>
+                  <FormInputLabel label="Choose your plan" required={true} />
 
-                  <div className="border border-gray rounded flex">
+                  <div className="border border-gray rounded flex mt2">
                     <div className="border-right border-gray col-6">
                       {this.renderPlan("standard", window._billing["plans"]["standard"])}
                     </div>
@@ -67,6 +69,7 @@ class BillingUpgrade extends React.Component {
                     label="How often do you want to be billed?"
                     value={this.state.interval}
                     onChange={this.handleIntervalChange}
+                    required={true}
                     options={[
                       { label: "Monthly", value: "monthly", help: "Pay month-to-month" },
                       { label: "Yearly", value: "yearly", help: "Save and pay for entire year up front", badge: "Save 15%" }
