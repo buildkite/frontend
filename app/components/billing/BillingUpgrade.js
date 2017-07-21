@@ -27,9 +27,16 @@ class BillingUpgrade extends React.Component {
     interval: "monthly"
   }
 
-  // Internal variable used to store the credit card attributes as we change
-  // them.
-  creditCard = {};
+
+  constructor(initialProps) {
+    super(initialProps);
+
+    // We'll store credit card details here as they change
+    this.creditCard = {};
+
+    // Set default form state from data boostrapped on the page
+    this.state = window._billing["form"];
+  }
 
   render() {
     return (
@@ -72,7 +79,7 @@ class BillingUpgrade extends React.Component {
                     required={true}
                     options={[
                       { label: "Monthly", value: "monthly", help: "Pay month-to-month" },
-                      { label: "Yearly", value: "yearly", help: "Save and pay for entire year up front", badge: "Save 15%" }
+                      { label: "Yearly", value: "yearly", help: "Save and pay for entire year up front", badge: `Save ${window._billing["intervals"]["yearly"]["discount"]}%` }
                     ]}
                   />
                 </Panel.Section>
