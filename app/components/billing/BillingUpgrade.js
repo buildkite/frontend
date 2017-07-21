@@ -13,8 +13,14 @@ import BillingCreditCardForm from './BillingCreditCardForm';
 
 class BillingUpgrade extends React.Component {
   state = {
-    saving: false
+    saving: false,
+    plan: "standard",
+    interval: "monthly"
   }
+
+  // Internal variable used to store the credit card attributes as we change
+  // them.
+  creditCard = {};
 
   render() {
     return (
@@ -29,10 +35,10 @@ class BillingUpgrade extends React.Component {
                   <strong className="mb2 block">Choose your plan</strong>
 
                   <div className="border border-gray rounded flex">
-                    <div className="p3 border-right border-gray col-6 bg-silver">
+                    <div className="border-right border-gray col-6">
                       {this.renderPlan("standard", window._billing["plans"]["standard"])}
                     </div>
-                    <div className="p3 col-6">
+                    <div className="col-6">
                       {this.renderPlan("enterprise", window._billing["plans"]["enterprise"])}
                     </div>
                   </div>
@@ -42,7 +48,8 @@ class BillingUpgrade extends React.Component {
                   <FormRadioGroup
                     name="interval"
                     label="How often do you want to be billed?"
-                    value={"monthly"}
+                    value={this.state.interval}
+                    onChange={this.handleIntervalChange}
                     options={[
                       { label: "Monthly", value: "monthly", help: "Pay month-to-month" },
                       { label: "Yearly", value: "yearly", help: "Save and pay for entire year up front", badge: "Save 15%" }
@@ -123,7 +130,7 @@ class BillingUpgrade extends React.Component {
 
     if (plan.features["chat_support"] && plan.features["priority_support"]) {
       features.push(
-        <span>Priority email + live chat support</span>
+        <span>Priority email + chat support</span>
       )
     } else {
       features.push(
@@ -138,10 +145,16 @@ class BillingUpgrade extends React.Component {
       <span className={classNames({ "gray": !plan.features["bank_transfer"] })}>Invoice payment</span>
     )
 
+    let selected = (this.state.plan === id);
+    let classes = classNames("p3", {
+      "bg-silver": selected
+    })
+
     return (
-      <label className="flex">
-        <div className="mr2">
-          <input type="radio" name="upgrade[form]" value={id} />
+      <div className={classes}>
+        <label className="flex">
+          <div className="mr2">
+            <input type="radio" value={id} onChange={this.handlePlanChange} checked={selected} />
           </div>
           <div className="flex-auto">
             <h3 className="h3 m0 p0 mb1">{plan["label"]}</h3>
@@ -151,7 +164,8 @@ class BillingUpgrade extends React.Component {
               {features.map((el, idx) => <li key={idx}>{el}</li>)}
             </ul>
           </div>
-      </label>
+        </label>
+      </div>
     )
   }
 
@@ -159,10 +173,22 @@ class BillingUpgrade extends React.Component {
     event.preventDefault();
 
     this.setState({ saving: true });
+
+    console.log(this.state.plan);
+    console.log(this.state.interval);
+    console.log(this.creditCard);
+  };
+
+  handlePlanChange = (event) => {
+    this.setState({ plan: event.target.value });
+  };
+
+  handleIntervalChange = (event) => {
+    this.setState({ interval: event.target.value });
   };
 
   handleCreditCardFormChange = (field, value) => {
-    console.log(field, value);
+    this.creditCard[field] = value;
   };
 }
 
