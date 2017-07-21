@@ -11650,6 +11650,24 @@
           "description": "The actor who caused an AuditEvent",
           "fields": [
             {
+              "name": "id",
+              "description": "The GraphQL ID for this actor",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "name",
               "description": "The name or short description of this actor",
               "args": [
@@ -11755,6 +11773,24 @@
           "name": "AuditSubject",
           "description": "The subject of an AuditEvent",
           "fields": [
+            {
+              "name": "id",
+              "description": "The GraphQL ID for the subject",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "name",
               "description": "The name or short description of this subject",
