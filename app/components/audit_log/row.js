@@ -157,9 +157,9 @@ class AuditLogRow extends React.PureComponent {
         return `Added ${renderedUser} to ${renderedTeam}`;
       } else if (type === 'TEAM_MEMBER_DELETED') {
         return `Removed ${renderedUser} from ${renderedTeam}`;
-      } else {
-        return `${eventVerb} ${renderedUser} in ${renderedTeam}`;
       }
+
+      return `${eventVerb} ${renderedUser} in ${renderedTeam}`;
     } else if (subject.type === 'TEAM_PIPELINE') {
       const renderedTeam = this.renderEventObject({ type: 'TEAM', node: subject.node && subject.node.team });
       const renderedPipeline = this.renderEventObject({ type: 'PIPELINE', node: subject.node && subject.node.pipeline });
@@ -168,12 +168,12 @@ class AuditLogRow extends React.PureComponent {
         return `Added ${renderedPipeline} to ${renderedTeam}`;
       } else if (type === 'TEAM_PIPELINE_DELETED') {
         return `Removed ${renderedPipeline} from ${renderedTeam}`;
-      } else {
-        return `${eventVerb} ${renderedPipeline} in ${renderedTeam}`;
       }
-    } else {
-      return `${eventVerb} ${renderedSubject}`;
+
+      return `${eventVerb} ${renderedPipeline} in ${renderedTeam}`;
     }
+
+    return `${eventVerb} ${renderedSubject}`;
   }
 
   renderEventObject({ type, name, node }) {
