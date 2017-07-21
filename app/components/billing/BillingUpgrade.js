@@ -8,8 +8,10 @@ import Panel from '../shared/Panel';
 import Button from '../shared/Button';
 import FormRadioGroup from '../shared/FormRadioGroup';
 import Icon from '../shared/Icon';
-import { formatNumber } from '../../lib/number';
 import FormInputLabel from '../shared/FormInputLabel';
+
+import { formatNumber } from '../../lib/number';
+import CreditCard from '../../lib/CreditCard';
 
 import BillingCreditCardForm from './BillingCreditCardForm';
 

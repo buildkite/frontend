@@ -5,11 +5,17 @@ import FormInputLabel from '../shared/FormInputLabel';
 import FormTextField from '../shared/FormTextField';
 import FormSelect from '../shared/FormSelect';
 
+import CreditCard from '../../lib/CreditCard';
+
 class BillingCreditCardForm extends React.Component {
   static propTypes = {
     onChange: PropTypes.func,
     disabled: PropTypes.bool
   };
+
+  state = {
+    type: null
+  }
 
   render() {
     return (
@@ -126,7 +132,7 @@ class BillingCreditCardForm extends React.Component {
       <img
         src={require(`./card-${card}.svg`)}
         alt={title}
-        style={{ height: 30, width: 48, opacity: 0.3 }}
+        style={{ height: 30, width: 48, opacity: (this.state.type == card) ? 1 : 0.3 }}
         className="ml1"
       />
     );
@@ -137,6 +143,8 @@ class BillingCreditCardForm extends React.Component {
   };
 
   handleCardNumberChange = (event) => {
+    this.setState({ type: CreditCard.calculateTypeFromNumber(event.target.value) });
+
     this.props.onChange('card_number', event.target.value);
   };
 
