@@ -44,7 +44,6 @@ window["Webpack"] = {
     "react-addons-pure-render-mixin": require("react-addons-pure-render-mixin"),
 
     "components/billing/BillingHeader": require("./components/billing/BillingHeader").default,
-    "components/billing/BillingCreditCardForm": require("./components/billing/BillingCreditCardForm").default,
     "components/build/AvatarWithUnknownEmailPrompt": require("./components/build/AvatarWithUnknownEmailPrompt").default,
     "components/build/StateSwitcher": require("./components/build/StateSwitcher").default,
     "components/build/AnnotationsList": require("./components/build/AnnotationsList").default,
