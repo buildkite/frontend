@@ -11,7 +11,7 @@ import Icon from '../shared/Icon';
 import FormInputLabel from '../shared/FormInputLabel';
 
 import { formatNumber } from '../../lib/number';
-import CreditCard from '../../lib/CreditCard';
+import { createCardToken } from '../../lib/credit-card';
 
 import BillingCreditCardForm from './BillingCreditCardForm';
 
@@ -25,10 +25,10 @@ class BillingUpgrade extends React.Component {
 
   state = {
     saving: false,
+    creditCardErrors: null,
     plan: "standard",
     interval: "monthly"
   }
-
 
   constructor(initialProps) {
     super(initialProps);
@@ -120,7 +120,7 @@ class BillingUpgrade extends React.Component {
 
                 </Panel.Section>
 
-                <BillingCreditCardForm disabled={this.state.saving} onChange={this.handleCreditCardFormChange} />
+                <BillingCreditCardForm disabled={this.state.saving} onChange={this.handleCreditCardFormChange} errors={this.state.creditCardErrors} />
 
                 <Panel.Footer>
                   <Button loading={this.state.saving && "Upgrading…"} theme="success">Upgrade</Button>
@@ -222,10 +222,15 @@ class BillingUpgrade extends React.Component {
   handleFormSubmit = (event) => {
     event.preventDefault();
 
-    this.setState({ saving: true });
-    setTimeout(() => {
-      this.form.submit();
-    }, 3000);
+    // Switch the form to "saving" and clear and errors
+    this.setState({ saving: true, creditCardErrors: [] });
+
+    createCardToken(this.creditCard)
+      .then((response) => {
+        console.log("card", response);
+      }).catch((exception) => {
+        this.setState({ creditCardErrors: exception.errors, saving: false });
+      });
   };
 
   handlePlanChange = (event) => {

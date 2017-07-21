@@ -14,6 +14,7 @@ class FormTextField extends React.Component {
     name: PropTypes.string,
     value: PropTypes.string,
     placeholder: PropTypes.string,
+    maxLength: PropTypes.number,
     help: PropTypes.string,
     spellCheck: PropTypes.bool,
     onChange: PropTypes.func,
@@ -98,6 +99,7 @@ class FormTextField extends React.Component {
         type="text"
         disabled={this.props.disabled}
         defaultValue={this.props.value}
+        maxLength={this.props.maxLength}
         placeholder={this.props.placeholder}
         spellCheck={this.props.spellCheck}
         onChange={this.props.onChange}
