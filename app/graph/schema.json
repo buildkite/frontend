@@ -11504,6 +11504,18 @@
           "interfaces": null,
           "enumValues": [
             {
+              "name": "AGENT_TOKEN_CREATED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "AGENT_TOKEN_REVOKED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "ORGANIZATION_CREATED",
               "description": null,
               "isDeprecated": false,
@@ -11511,6 +11523,30 @@
             },
             {
               "name": "ORGANIZATION_DELETED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION_INVITATION_ACCEPTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION_INVITATION_CREATED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION_INVITATION_RESENT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION_INVITATION_REVOKED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -11796,7 +11832,19 @@
           "interfaces": null,
           "enumValues": [
             {
+              "name": "AGENT_TOKEN",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "ORGANIZATION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION_INVITATION",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
