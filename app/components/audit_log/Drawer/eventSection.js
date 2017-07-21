@@ -60,7 +60,7 @@ class AuditLogEventSection extends React.PureComponent {
         </dt>,
         <dd className="ml0" key="data-definition">
           <pre className="border border-gray rounded bg-silver overflow-auto p2 monospace">{prettyData}</pre>
-        </dd>,
+        </dd>
       ];
     }
   }

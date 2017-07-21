@@ -45,7 +45,7 @@ class AuditLogActorSection extends React.PureComponent {
       </dt>,
       <dd className="ml0 monospace" key="type-definition">
         {type}
-      </dd>,
+      </dd>
     ];
   }
 
@@ -59,7 +59,7 @@ class AuditLogActorSection extends React.PureComponent {
         </dt>,
         <dd className="ml0" key="name-definition">
           {renderedName}
-        </dd>,
+        </dd>
       ];
     }
   }
@@ -72,7 +72,7 @@ class AuditLogActorSection extends React.PureComponent {
         </dt>,
         <dd className="ml0" key="uuid-definition">
           {uuid}
-        </dd>,
+        </dd>
       ];
     }
   }

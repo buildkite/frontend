@@ -47,7 +47,7 @@ class AuditLogContextSection extends React.PureComponent {
         </dt>,
         <dd className="ml0" key="requestIpAddress-definition">
           {requestIpAddress}
-        </dd>,
+        </dd>
       ];
     }
   }
@@ -60,7 +60,7 @@ class AuditLogContextSection extends React.PureComponent {
         </dt>,
         <dd className="ml0" key="requestUserAgent-definition">
           {requestUserAgent}
-        </dd>,
+        </dd>
       ];
     }
   }
@@ -73,7 +73,7 @@ class AuditLogContextSection extends React.PureComponent {
         </dt>,
         <dd className="ml0" key="sessionCreatedAt-definition">
           <FriendlyTime value={sessionCreatedAt} />
-        </dd>,
+        </dd>
       ];
     }
   }
