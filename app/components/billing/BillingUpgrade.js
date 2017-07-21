@@ -32,7 +32,16 @@ class BillingUpgrade extends React.Component {
   render() {
     return (
       <DocumentTitle title={`Upgrade · ${this.props.organization.name}`}>
-        <form onSubmit={this.handleFormSubmit}>
+        <form
+          action={`/organizations/${this.props.organization.slug}/billing/upgrade`}
+          acceptCharset=""
+          method="POST"
+          ref={(form) => this.form = form}
+          onSubmit={this.handleFormSubmit}
+        >
+          <input type="hidden" name="utf8" value="✓" />
+          <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
+
           <div className="container">
             <div className="col-12 lg-col-8 mx-auto">
               <h1 className="h1 mb4">Upgrade your Subscription</h1>
@@ -90,8 +99,8 @@ class BillingUpgrade extends React.Component {
 
                     <div className="p3 flex items-center bg-silver">
                       <div className="right-align flex-auto">
-                        <h3 className="h3 m0 p0 semi-bold">$133 per month</h3>
-                        <p className="m0 p0 dark-gray">Your next invoice will be issued on the <strong>19th of July, 2017</strong></p>
+                        <h3 className="h3 m0 p0 semi-bold mb1">$133 per month</h3>
+                        <p className="m0 p0">Your next invoice will be issued on the <strong>19th of July, 2017</strong></p>
                       </div>
                     </div>
                   </div>
@@ -180,6 +189,9 @@ class BillingUpgrade extends React.Component {
     event.preventDefault();
 
     this.setState({ saving: true });
+    setTimeout(() => {
+      this.form.submit();
+    }, 3000);
   };
 
   handlePlanChange = (event) => {
