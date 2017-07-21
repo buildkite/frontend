@@ -38,7 +38,7 @@ class AuditLogActorSection extends React.PureComponent {
     );
   }
 
-  renderActorType({type}) {
+  renderActorType({ type }) {
     return [
       <dt className="mt1 dark-gray" key="type-title">
         Actor Type
@@ -49,7 +49,7 @@ class AuditLogActorSection extends React.PureComponent {
     ];
   }
 
-  renderActorName({name, node}) {
+  renderActorName({ name, node }) {
     const renderedName = (node && node.name) || name;
 
     if (renderedName) {
@@ -64,7 +64,7 @@ class AuditLogActorSection extends React.PureComponent {
     }
   }
 
-  renderActorUuid({uuid}) {
+  renderActorUuid({ uuid }) {
     if (uuid) {
       return [
         <dt className="mt1 dark-gray" key="uuid-title">

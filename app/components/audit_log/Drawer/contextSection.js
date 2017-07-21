@@ -39,7 +39,7 @@ class AuditLogContextSection extends React.PureComponent {
     );
   }
 
-  renderRequestIpAddress({requestIpAddress}) {
+  renderRequestIpAddress({ requestIpAddress }) {
     if (requestIpAddress) {
       return [
         <dt className="mt1 dark-gray" key="requestIpAddress-title">
@@ -52,7 +52,7 @@ class AuditLogContextSection extends React.PureComponent {
     }
   }
 
-  renderRequestUserAgent({requestUserAgent}) {
+  renderRequestUserAgent({ requestUserAgent }) {
     if (requestUserAgent) {
       return [
         <dt className="mt1 dark-gray" key="requestUserAgent-title">
@@ -65,7 +65,7 @@ class AuditLogContextSection extends React.PureComponent {
     }
   }
 
-  renderSessionCreatedAt({sessionCreatedAt}) {
+  renderSessionCreatedAt({ sessionCreatedAt }) {
     if (sessionCreatedAt) {
       return [
         <dt className="mt1 dark-gray" key="sessionCreatedAt-title">

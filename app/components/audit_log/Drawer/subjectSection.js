@@ -35,7 +35,7 @@ class AuditLogSubjectSection extends React.PureComponent {
     );
   }
 
-  renderSubjectType({type}) {
+  renderSubjectType({ type }) {
     return [
       <dt className="mt1 dark-gray" key="type-title">
         Subject Type
@@ -46,7 +46,7 @@ class AuditLogSubjectSection extends React.PureComponent {
     ];
   }
 
-  renderSubjectName({name, node}) {
+  renderSubjectName({ name, node }) {
     const renderedName = (node && node.name) || name;
 
     if (renderedName) {
@@ -61,7 +61,7 @@ class AuditLogSubjectSection extends React.PureComponent {
     }
   }
 
-  renderSubjectUuid({uuid}) {
+  renderSubjectUuid({ uuid }) {
     if (uuid) {
       return [
         <dt className="mt1 dark-gray" key="uuid-title">
