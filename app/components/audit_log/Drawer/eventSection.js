@@ -32,13 +32,13 @@ class AuditLogEventSection extends React.PureComponent {
           <dt className="mt1 dark-gray">
             Event UUID
           </dt>
-          <dd className="ml0">
+          <dd className="ml0 monospace">
             {auditEvent.uuid}
           </dd>
           <dt className="mt1 dark-gray">
             Event Type
           </dt>
-          <dd className="ml0">
+          <dd className="ml0 monospace">
             {auditEvent.type}
           </dd>
           {this.renderEventData(auditEvent.data)}

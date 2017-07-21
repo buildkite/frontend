@@ -43,7 +43,7 @@ class AuditLogActorSection extends React.PureComponent {
       <dt className="mt1 dark-gray" key="type-title">
         Actor Type
       </dt>,
-      <dd className="ml0" key="type-definition">
+      <dd className="ml0 monospace" key="type-definition">
         {type}
       </dd>,
     ];
