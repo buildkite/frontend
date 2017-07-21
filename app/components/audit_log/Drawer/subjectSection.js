@@ -26,55 +26,51 @@ class AuditLogSubjectSection extends React.PureComponent {
         <SectionHeading className="m0 mb2">
           Subject
         </SectionHeading>
-        {this.renderSubjectType(subject)}
-        {this.renderSubjectName(subject)}
-        {this.renderSubjectUuid(subject)}
+        <dl className="m0">
+          {this.renderSubjectType(subject)}
+          {this.renderSubjectName(subject)}
+          {this.renderSubjectUuid(subject)}
+        </dl>
       </Section>
     );
   }
 
   renderSubjectType({type}) {
-    return (
-      <dl className="m0">
-        <dt className="mt1 dark-gray">
-          Subject Type
-        </dt>
-        <dd className="ml0">
-          {type}
-        </dd>
-      </dl>
-    );
+    return [
+      <dt className="mt1 dark-gray">
+        Subject Type
+      </dt>,
+      <dd className="ml0">
+        {type}
+      </dd>,
+    ];
   }
 
   renderSubjectName(subject) {
     const name = (subject.node && subject.node.name) || subject.name;
 
     if (name) {
-      return (
-        <dl className="m0">
-          <dt className="mt1 dark-gray">
-            Subject Name
-          </dt>
-          <dd className="ml0">
-            {name}
-          </dd>
-        </dl>
-      );
+      return [
+        <dt className="mt1 dark-gray">
+          Subject Name
+        </dt>,
+        <dd className="ml0">
+          {name}
+        </dd>
+      ];
     }
   }
 
   renderSubjectUuid({uuid}) {
     if (uuid) {
-      return (
-        <dl className="m0">
-          <dt className="mt1 dark-gray">
-            Subject UUID
-          </dt>
-          <dd className="ml0 monospace">
-            {uuid}
-          </dd>
-        </dl>
-      );
+      return [
+        <dt className="mt1 dark-gray">
+          Subject UUID
+        </dt>,
+        <dd className="ml0 monospace">
+          {uuid}
+        </dd>
+      ];
     }
   }
 }
