@@ -187,6 +187,9 @@ class AuditLogRow extends React.PureComponent {
       return `${friendlyType} “${node.name}”`;
     } else if (name) {
       return `${friendlyType} “${name}”`;
+    } else if (type === "USER") {
+      // "an user" feels weird
+      return 'a user';
     } else {
       return `${indefiniteArticleFor(friendlyType)} ${friendlyType}`;
     }
