@@ -11887,7 +11887,17 @@
           "possibleTypes": [
             {
               "kind": "OBJECT",
+              "name": "AgentToken",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Organization",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationInvitation",
               "ofType": null
             },
             {
