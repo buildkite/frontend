@@ -51,7 +51,7 @@ class AuditLogEventSection extends React.PureComponent {
 
   renderEventData(data) {
     // Only render event data if there is any data
-    if (data && data != "{}") {
+    if (data && data !== "{}") {
       const prettyData = JSON.stringify(JSON.parse(data), null, '  ');
 
       return [
