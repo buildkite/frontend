@@ -60,7 +60,7 @@ class BillingUpgrade extends React.Component {
 
               <Panel>
                 <Panel.Section>
-                  <FormInputLabel label="Choose your plan" required={true} />
+                  <FormInputLabel label="Which plan do you want?" required={true} />
 
                   <div className="border border-gray rounded flex mt2">
                     <div className="border-right border-gray col-6">
@@ -81,13 +81,13 @@ class BillingUpgrade extends React.Component {
                     required={true}
                     options={[
                       { label: "Monthly", value: "monthly", help: "Pay month-to-month" },
-                      { label: "Yearly", value: "yearly", help: "Save and pay for entire year up front", badge: `Save ${window._billing["intervals"]["yearly"]["discount"]}%` }
+                      { label: "Yearly", value: "yearly", help: "Pay for a year up front and get a discount", badge: `Save ${window._billing["intervals"]["yearly"]["discount"]}%` }
                     ]}
                   />
                 </Panel.Section>
 
                 <Panel.Section>
-                  <strong className="block mb2">Order summary</strong>
+                  <strong className="block mb2">Subscription Summary</strong>
 
                   <div className="border border-gray rounded mb2">
                     <div className="border-bottom border-gray p3 flex items-center">
@@ -112,8 +112,7 @@ class BillingUpgrade extends React.Component {
 
                     <div className="p3 flex items-center bg-silver">
                       <div className="right-align flex-auto">
-                        <h3 className="h3 m0 p0 semi-bold mb1">$133 per month</h3>
-                        <p className="m0 p0">Your next invoice will be issued on the <strong>19th of July, 2017</strong></p>
+                        <h3 className="h3 m0 py1 semi-bold">$133 per month</h3>
                       </div>
                     </div>
                   </div>
@@ -141,7 +140,7 @@ class BillingUpgrade extends React.Component {
     limits.push(
       <span><strong>{formatNumber(plan.limits["agents"])}</strong> connected agents</span>,
       <span><strong>{formatNumber(plan.limits["users"])}</strong> included users</span>,
-      <span><strong>{plan.limits["builds_per_month"] ? formatNumber(plan.limits["builds_per_month"]) : "Unlimited"}</strong> builds</span>
+      <span><strong>{plan.limits["builds_per_month"] ? formatNumber(plan.limits["builds_per_month"]) : "Unlimited"}</strong> builds per month</span>
     );
 
     if (plan.features["custom_retention"]) {
