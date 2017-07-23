@@ -153,8 +153,6 @@ class BillingUpgrade extends React.Component {
       );
     }
 
-    features.push(this.renderFeature(plan, "sso", "Single Sign On"))
-
     if (plan.features["chat_support"] && plan.features["priority_support"]) {
       features.push(
         <span>{this.renderTick()}Priority email + chat support</span>
