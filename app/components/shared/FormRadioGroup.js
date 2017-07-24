@@ -73,7 +73,7 @@ class FormRadioGroup extends React.Component {
           <label className="mt1 inline-block pl4">
             <div className="flex">
               <input
-                className={classNames('absolute', { "is-error": this._hasErrors() }, option.className)}
+                className={classNames("absolute radio", { "is-error": this._hasErrors() }, option.className)}
                 style={{ marginLeft: '-20px' }}
                 name={this.props.name}
                 type="radio"

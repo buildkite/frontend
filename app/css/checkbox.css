@@ -1,0 +1,6 @@
+/* This prevents a weird flicker when clicking Radio buttons in Safari... I
+ * found this answer randomly on StackOverflow. No idea how/why it works... but
+ * it does! #programming */
+.checkbox {
+  -webkit-transform: translateZ(0);
+}
