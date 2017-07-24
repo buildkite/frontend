@@ -196,7 +196,7 @@ class BillingUpgrade extends React.Component {
       <div className={classes}>
         <label className="flex">
           <div className="mr2">
-            <input type="radio" name="upgrade[plan]" value={id} onChange={this.handlePlanChange} checked={selected} />
+            <input type="radio" name="upgrade[plan]" value={id} onChange={this.handlePlanChange} checked={selected} className="radio" />
           </div>
           <div className="flex-auto">
             <h3 className="h3 m0 p0 mb1">{plan["label"]}</h3>
