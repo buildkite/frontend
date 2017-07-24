@@ -41,6 +41,7 @@ import AuditLogSection from './components/audit_log/Section';
 import AuditLogIndex from './components/audit_log/Index';
 import AuditLogExport from './components/audit_log/Export';
 import JobIndex from './components/job/Index';
+import BillingUpgrade from './components/billing/BillingUpgrade';
 
 import * as AgentQuery from './queries/Agent';
 import * as BuildQuery from './queries/Build';
@@ -109,6 +110,7 @@ export default (
     <Route path="/" component={Main} getQueries={getMainQueries} render={renderMain} onChange={routeChangeHandler}>
       <Route path="authorize/:code" component={APIAccessTokenCodeAuthorize} queries={{ apiAccessTokenCode: APIAccessTokenCodeQuery.query }} />
       <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+      <Route path="organizations/:organization/billing/upgrade" component={BillingUpgrade} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
       <Route path="organizations/:organization">
         <Route path="jobs">
