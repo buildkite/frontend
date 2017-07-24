@@ -41,10 +41,6 @@ class FormSelect extends React.Component {
     );
   }
 
-  getValue() {
-    return this.input.checked;
-  }
-
   focus() {
     this.input.focus();
   }
