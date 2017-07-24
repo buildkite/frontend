@@ -30,8 +30,6 @@ class FormRadioGroup extends React.Component {
     errors: PropTypes.array
   };
 
-  inputs = []
-
   render() {
     return (
       <div className={classNames("mb2", this.props.className)}>
@@ -40,14 +38,6 @@ class FormRadioGroup extends React.Component {
         {this._renderErrors()}
       </div>
     );
-  }
-
-  getValue() {
-    return this.input.checked;
-  }
-
-  focus() {
-    this.input.focus();
   }
 
   _hasErrors() {
@@ -74,20 +64,22 @@ class FormRadioGroup extends React.Component {
   }
 
   _renderInputs() {
+    // Radio boxes need to be "managed" inputs (i.e. we can't use
+    // defaultChecked) so we can use onChange event handlers. `onChange` never
+    // fires for subsequent changes if you use `defaultChecked`
     return this.props.options.map(
       (option, index) => (
         <div key={index} className="mt1">
           <label className="mt1 inline-block pl4">
             <div className="flex">
               <input
-                className={classNames('absolute', { "is-error": this._hasErrors() }, option.className)}
+                className={classNames("absolute radio", { "is-error": this._hasErrors() }, option.className)}
                 style={{ marginLeft: '-20px' }}
                 name={this.props.name}
                 type="radio"
-                defaultChecked={this.props.value === option.value}
+                checked={this.props.value === option.value}
                 value={option.value}
                 onChange={this.props.onChange}
-                ref={(input) => this.inputs[index] = input}
               />
               <span className="bold block" style={{ marginBottom: -5 }}> {option.label}</span>
               {option.badge && <div className="ml1 regular small border border-gray rounded dark-gray px1">{option.badge}</div>}

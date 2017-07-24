@@ -12,7 +12,7 @@ class AuditLogSubjectSection extends React.PureComponent {
         type: PropTypes.string,
         uuid: PropTypes.string,
         node: PropTypes.shape({
-          name: PropTypes.string.isRequired
+          name: PropTypes.string
         })
       }).isRequired
     }).isRequired
@@ -27,27 +27,51 @@ class AuditLogSubjectSection extends React.PureComponent {
           Subject
         </SectionHeading>
         <dl className="m0">
-          <dt className="mt1 dark-gray">
-            Subject Type
-          </dt>
-          <dd className="ml0">
-            {subject.type}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Subject Name
-          </dt>
-          <dd className="ml0">
-            {subject.name}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Subject UUID
-          </dt>
-          <dd className="ml0">
-            {subject.uuid}
-          </dd>
+          {this.renderSubjectType(subject)}
+          {this.renderSubjectName(subject)}
+          {this.renderSubjectUuid(subject)}
         </dl>
       </Section>
     );
+  }
+
+  renderSubjectType({ type }) {
+    return [
+      <dt className="mt1 dark-gray" key="type-title">
+        Subject Type
+      </dt>,
+      <dd className="ml0 monospace" key="type-definition">
+        {type}
+      </dd>
+    ];
+  }
+
+  renderSubjectName({ name, node }) {
+    const renderedName = (node && node.name) || name;
+
+    if (renderedName) {
+      return [
+        <dt className="mt1 dark-gray" key="name-title">
+          Subject Name
+        </dt>,
+        <dd className="ml0" key="name-definition">
+          {renderedName}
+        </dd>
+      ];
+    }
+  }
+
+  renderSubjectUuid({ uuid }) {
+    if (uuid) {
+      return [
+        <dt className="mt1 dark-gray" key="uuid-title">
+          Subject UUID
+        </dt>,
+        <dd className="ml0 monospace" key="uuid-definition">
+          {uuid}
+        </dd>
+      ];
+    }
   }
 }
 
@@ -64,6 +88,9 @@ export default Relay.createContainer(AuditLogSubjectSection, {
               name
             }
             ...on Pipeline {
+              name
+            }
+            ...on Team {
               name
             }
           }

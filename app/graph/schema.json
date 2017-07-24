@@ -11504,6 +11504,18 @@
           "interfaces": null,
           "enumValues": [
             {
+              "name": "AGENT_TOKEN_CREATED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "AGENT_TOKEN_REVOKED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "ORGANIZATION_CREATED",
               "description": null,
               "isDeprecated": false,
@@ -11511,6 +11523,30 @@
             },
             {
               "name": "ORGANIZATION_DELETED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION_INVITATION_ACCEPTED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION_INVITATION_CREATED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION_INVITATION_RESENT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION_INVITATION_REVOKED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -11613,6 +11649,24 @@
           "name": "AuditActor",
           "description": "The actor who caused an AuditEvent",
           "fields": [
+            {
+              "name": "id",
+              "description": "The GraphQL ID for this actor",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "name",
               "description": "The name or short description of this actor",
@@ -11720,6 +11774,24 @@
           "description": "The subject of an AuditEvent",
           "fields": [
             {
+              "name": "id",
+              "description": "The GraphQL ID for the subject",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "name",
               "description": "The name or short description of this subject",
               "args": [
@@ -11796,7 +11868,19 @@
           "interfaces": null,
           "enumValues": [
             {
+              "name": "AGENT_TOKEN",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "ORGANIZATION",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION_INVITATION",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -11839,7 +11923,17 @@
           "possibleTypes": [
             {
               "kind": "OBJECT",
+              "name": "AgentToken",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Organization",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationInvitation",
               "ofType": null
             },
             {

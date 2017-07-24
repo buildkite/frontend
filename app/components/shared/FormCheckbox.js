@@ -24,7 +24,7 @@ export default class FormCheckbox extends React.PureComponent {
             type="checkbox"
             checked={this.props.checked}
             onChange={this.props.onChange}
-            className="absolute"
+            className="absolute checkbox"
             style={{
               marginLeft: "-20px",
               cursor: this.props.disabled ? "not-allowed" : "inherit"

@@ -27,16 +27,17 @@ class AuditLogRow extends React.PureComponent {
       actor: PropTypes.shape({
         name: PropTypes.string,
         node: PropTypes.shape({
-          name: PropTypes.string.isRequired,
+          name: PropTypes.string,
           avatar: PropTypes.shape({
-            url: PropTypes.string.isRequired
-          }).isRequired
+            url: PropTypes.string
+          })
         })
       }).isRequired,
       subject: PropTypes.shape({
+        type: PropTypes.string.isRequired,
         name: PropTypes.string,
         node: PropTypes.shape({
-          name: PropTypes.string.isRequired
+          name: PropTypes.string
         })
       }).isRequired,
       context: PropTypes.shape({
@@ -123,32 +124,75 @@ class AuditLogRow extends React.PureComponent {
   renderEventSentence() {
     const { type, subject } = this.props.auditEvent;
 
-    // "ORGANIZATION_CREATED" => ["Organization", "Created"]
-    const eventTypeSplit = type
-      .split("_")
-      .map((word) => word.charAt(0) + word.slice(1).toLowerCase());
+    // Take a guess at the verb. Usually the event type is subject type + event
+    // verb, so strip off the subject type if it matches or just take the last
+    // word, then sentence case the verb.
 
-    // Last word of event type is the verb
-    const eventVerb = eventTypeSplit.pop();
+    let eventVerb;
 
-    // The remainder is presumed to be the subject type
-    const eventSubjectType = eventTypeSplit.join(' ').toLowerCase();
+    if (type.indexOf(`${subject.type}_`) === 0) {
+      // "ORGANIZATION_TEAMS_ENABLED" with an "ORGANIZATION" subject => "TEAMS ENABLED"
+      eventVerb = type.slice(subject.type.length + 1).replace('_', ' ');
+    } else {
+      // "PIPELINE_CREATED" => "CREATED"
+      eventVerb = type.split('_').pop();
+    }
 
-    // Default subject - something like "a pipeline," "an organization"
-    let renderedSubject = `${indefiniteArticleFor(eventSubjectType)} ${eventSubjectType}`;
+    eventVerb = eventVerb.charAt(0).toUpperCase() + eventVerb.slice(1).toLowerCase();
 
-    // Check we have a name for the subject, with fallback to the node if present
-    const subjectName = subject.name || subject.node && subject.node.name;
+    const renderedSubject = this.renderEventObject(subject);
 
-    if (subjectName) {
-      renderedSubject = `${eventSubjectType} “${subjectName}”`;
+    if (type === 'ORGANIZATION_CREATED') {
+      // Welcome!
+      return `Created ${renderedSubject} 🎉`;
+    } else if (type === 'ORGANIZATION_TEAMS_ENABLED') {
+      return `Enabled teams for ${renderedSubject}`;
+    } else if (type === 'ORGANIZATION_TEAMS_DISABLED') {
+      return `Disabled teams for ${renderedSubject}`;
+    } else if (subject.type === 'TEAM_MEMBER') {
+      const renderedTeam = this.renderEventObject({ type: 'TEAM', node: subject.node && subject.node.team });
+      const renderedUser = this.renderEventObject({ type: 'USER', node: subject.node && subject.node.user });
 
-      if (type === 'ORGANIZATION_CREATED') {
-        renderedSubject = `${renderedSubject} 🎉`;
+      if (type === 'TEAM_MEMBER_CREATED') {
+        return `Added ${renderedUser} to ${renderedTeam}`;
+      } else if (type === 'TEAM_MEMBER_DELETED') {
+        return `Removed ${renderedUser} from ${renderedTeam}`;
       }
+
+      return `${eventVerb} ${renderedUser} in ${renderedTeam}`;
+    } else if (subject.type === 'TEAM_PIPELINE') {
+      const renderedTeam = this.renderEventObject({ type: 'TEAM', node: subject.node && subject.node.team });
+      const renderedPipeline = this.renderEventObject({ type: 'PIPELINE', node: subject.node && subject.node.pipeline });
+
+      if (type === 'TEAM_PIPELINE_CREATED') {
+        return `Added ${renderedPipeline} to ${renderedTeam}`;
+      } else if (type === 'TEAM_PIPELINE_DELETED') {
+        return `Removed ${renderedPipeline} from ${renderedTeam}`;
+      }
+
+      return `${eventVerb} ${renderedPipeline} in ${renderedTeam}`;
     }
 
     return `${eventVerb} ${renderedSubject}`;
+  }
+
+  renderEventObject({ type, name, node }) {
+    // "ORGANIZATION_INVITATION" => "organzation invitation"
+    const friendlyType = type && type.split('_').pop().toLowerCase();
+
+    // Check if we can still see the node and its current name, fall back to
+    // the name recorded at the time of the event if present, or just an
+    // indefinite type name
+    if (node && node.name) {
+      return `${friendlyType} “${node.name}”`;
+    } else if (name) {
+      return `${friendlyType} “${name}”`;
+    } else if (type === "USER") {
+      // "an user" feels weird
+      return 'a user';
+    } else {
+      return `${indefiniteArticleFor(friendlyType)} ${friendlyType}`;
+    }
   }
 
   handleHeaderClick = () => {
@@ -196,6 +240,7 @@ export default Relay.createContainer(AuditLogRow, {
           }
         }
         subject {
+          type
           name
           node {
             ...on Organization {
@@ -203,6 +248,25 @@ export default Relay.createContainer(AuditLogRow, {
             }
             ...on Pipeline {
               name
+            }
+            ...on Team {
+              name
+            }
+            ...on TeamMember {
+              team {
+                name
+              }
+              user {
+                name
+              }
+            }
+            ...on TeamPipeline {
+              team {
+                name
+              }
+              pipeline {
+                name
+              }
             }
           }
         }

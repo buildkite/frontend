@@ -25,6 +25,7 @@ class MemberTeamRow extends React.Component {
           <div className="flex items-start">
             <div className="pr2" style={{ lineHeight: 1.75 }}>
               <input
+                className="checkbox"
                 type="checkbox"
                 checked={this.props.checked}
                 onChange={this.handleChange}

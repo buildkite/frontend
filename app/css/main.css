@@ -24,6 +24,8 @@
 @import 'icons';
 @import 'input';
 @import 'select';
+@import 'radio';
+@import 'checkbox';
 @import 'colors';
 @import 'outline';
 @import 'annotation-body';

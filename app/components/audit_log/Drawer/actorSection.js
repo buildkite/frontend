@@ -30,27 +30,51 @@ class AuditLogActorSection extends React.PureComponent {
           Actor
         </SectionHeading>
         <dl className="m0">
-          <dt className="mt1 dark-gray">
-            Actor Type
-          </dt>
-          <dd className="ml0">
-            {actor.type}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Actor Name
-          </dt>
-          <dd className="ml0">
-            {actor.name}
-          </dd>
-          <dt className="mt1 dark-gray">
-            Actor UUID
-          </dt>
-          <dd className="ml0">
-            {actor.uuid}
-          </dd>
+          {this.renderActorType(actor)}
+          {this.renderActorName(actor)}
+          {this.renderActorUuid(actor)}
         </dl>
       </Section>
     );
+  }
+
+  renderActorType({ type }) {
+    return [
+      <dt className="mt1 dark-gray" key="type-title">
+        Actor Type
+      </dt>,
+      <dd className="ml0 monospace" key="type-definition">
+        {type}
+      </dd>
+    ];
+  }
+
+  renderActorName({ name, node }) {
+    const renderedName = (node && node.name) || name;
+
+    if (renderedName) {
+      return [
+        <dt className="mt1 dark-gray" key="name-title">
+          Actor Name
+        </dt>,
+        <dd className="ml0" key="name-definition">
+          {renderedName}
+        </dd>
+      ];
+    }
+  }
+
+  renderActorUuid({ uuid }) {
+    if (uuid) {
+      return [
+        <dt className="mt1 dark-gray" key="uuid-title">
+          Actor UUID
+        </dt>,
+        <dd className="ml0" key="uuid-definition">
+          {uuid}
+        </dd>
+      ];
+    }
   }
 }
 
