@@ -11552,6 +11552,24 @@
               "deprecationReason": null
             },
             {
+              "name": "ORGANIZATION_MEMBER_CREATED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION_MEMBER_DELETED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ORGANIZATION_MEMBER_UPDATED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "ORGANIZATION_TEAMS_DISABLED",
               "description": null,
               "isDeprecated": false,
@@ -11577,6 +11595,24 @@
             },
             {
               "name": "PIPELINE_DELETED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "PIPELINE_SCHEDULE_CREATED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "PIPELINE_SCHEDULE_DELETED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "PIPELINE_SCHEDULE_UPDATED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -11886,7 +11922,19 @@
               "deprecationReason": null
             },
             {
+              "name": "ORGANIZATION_MEMBER",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "PIPELINE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "PIPELINE_SCHEDULE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -11938,7 +11986,17 @@
             },
             {
               "kind": "OBJECT",
+              "name": "OrganizationMember",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Pipeline",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "PipelineSchedule",
               "ofType": null
             },
             {
