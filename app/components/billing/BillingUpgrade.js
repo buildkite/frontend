@@ -56,7 +56,8 @@ class BillingUpgrade extends React.Component {
 
           <div className="container">
             <div className="col-12 lg-col-8 mx-auto">
-              <h1 className="h1 mb4">Upgrade your Subscription</h1>
+              <h1 className="h1 p0 m0 mb1">Upgrade your Subscription</h1>
+              <p className="dark-gray m0 p0 mb4">You can learn more about the different plans on the <a href="/pricing" className="blue hover-navy text-decoration-none hover-underline">pricing page</a>.</p>
 
               <Panel>
                 <Panel.Section>
@@ -189,7 +190,7 @@ class BillingUpgrade extends React.Component {
               {limits.map((el, idx) => <li key={idx}>{el}</li>)}
             </ul>
 
-            <ul className="list-reset m0 p0" style={{ lineHeight: "23px" }}>
+            <ul className="list-reset m0 p0 mb2" style={{ lineHeight: "23px" }}>
               {features.map((el, idx) => <li key={idx}>{el}</li>)}
             </ul>
           </div>
