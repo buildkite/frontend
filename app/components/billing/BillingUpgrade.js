@@ -37,7 +37,7 @@ class BillingUpgrade extends React.Component {
     this.creditCard = {};
 
     // Set default form state from data boostrapped on the page
-    this.state = window._billing["form"];
+    this.state = { form: window._billing["form"], summary: window._billing["summary"] }
   }
 
   render() {
@@ -77,7 +77,7 @@ class BillingUpgrade extends React.Component {
                   <FormRadioGroup
                     name="upgrade[interval]"
                     label="How often do you want to be billed?"
-                    value={this.state.interval}
+                    value={this.state.form.interval}
                     onChange={this.handleIntervalChange}
                     required={true}
                     options={[
@@ -90,33 +90,8 @@ class BillingUpgrade extends React.Component {
                 <Panel.Section>
                   <strong className="block mb2">Subscription Summary</strong>
 
-                  <div className="border border-gray rounded mb2">
-                    <div className="border-bottom border-gray p3 flex items-center">
-                      <div className="flex-auto">
-                        <div className="bold">Standard Plan</div>
-                        <p className="m0 p0 dark-gray">Paying month-to-month</p>
-                      </div>
-                      <div>
-                        <h3 className="h3 m0 p0 semi-bold">$49</h3>
-                      </div>
-                    </div>
+                  {this.renderSummary()}
 
-                    <div className="border-bottom border-gray p3 flex items-center">
-                      <div className="flex-auto">
-                        <div className="bold">12 Users</div>
-                        <p className="m0 p0 dark-gray">Each additional user costs $7 each</p>
-                      </div>
-                      <div>
-                        <h3 className="h3 m0 p0 semi-bold">$84</h3>
-                      </div>
-                    </div>
-
-                    <div className="p3 flex items-center bg-silver">
-                      <div className="right-align flex-auto">
-                        <h3 className="h3 m0 py1 semi-bold">$133 per month</h3>
-                      </div>
-                    </div>
-                  </div>
 
                 </Panel.Section>
 
@@ -147,6 +122,33 @@ class BillingUpgrade extends React.Component {
     }
 
     return inputs;
+  }
+
+  renderSummary() {
+    return (
+      <div className="border border-gray rounded mb2">
+
+        {this.state.summary.items.map((item, index) => {
+          return (
+            <div key={index} className="border-bottom border-gray p3 flex items-center">
+              <div className="flex-auto">
+                <div className="bold">{item["label"]}</div>
+                <p className="m0 p0 dark-gray">{item["description"]}</p>
+              </div>
+              <div>
+                <h3 className="h3 m0 p0 semi-bold">${item["price"] / 100}</h3>
+              </div>
+            </div>
+          )
+        })}
+
+        <div className="p3 flex items-center bg-silver">
+          <div className="right-align flex-auto">
+            <h3 className="h3 m0 py1 semi-bold">${this.state.summary.price / 100} per month</h3>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   renderPlan(id, plan) {
@@ -187,10 +189,8 @@ class BillingUpgrade extends React.Component {
       this.renderFeature(plan, "bank_transfer", "Invoice payment")
     );
 
-    const selected = (this.state.plan === id);
-    const classes = classNames("p3", {
-      "bg-silver": selected
-    });
+    const selected = (this.state.form.plan === id);
+    const classes = classNames("p3", { "bg-silver": selected });
 
     return (
       <div className={classes}>
@@ -233,6 +233,24 @@ class BillingUpgrade extends React.Component {
     )
   }
 
+  refetchSummaryData() {
+    console.log("fetch");
+    fetch(`/organizations/${this.props.organization.slug}/billing/upgrade/preview`, {
+      credentials: 'same-origin',
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': window._csrf.token
+      },
+      body: JSON.stringify({ upgrade: this.state.form })
+    }).then((response) => {
+      response.json().then((json) => {
+        this.setState({ refreshing: false, summary: json });
+      });
+    });
+  }
+
   handleFormSubmit = (event) => {
     event.preventDefault();
 
@@ -253,11 +271,19 @@ class BillingUpgrade extends React.Component {
   };
 
   handlePlanChange = (event) => {
-    this.setState({ plan: event.target.value });
+    let form = this.state.form
+    form.plan = event.target.value;
+
+    this.setState({ refreshing: true, form: form });
+    this.refetchSummaryData();
   };
 
   handleIntervalChange = (event) => {
-    this.setState({ interval: event.target.value });
+    let form = this.state.form
+    form.interval = event.target.value;
+
+    this.setState({ refreshing: true, form: form });
+    this.refetchSummaryData();
   };
 
   handleCreditCardFormChange = (field, value) => {
