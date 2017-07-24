@@ -65,6 +65,11 @@ const createPinPaymentsCard = (config, card, resolve, reject) => {
           provider: "pin_payments",
           token: json["response"]["token"],
           scheme: json["response"]["scheme"],
+          name: card.name,
+          month: card.month,
+          year: card.year,
+          postcode: card.postcode,
+          country: card.country,
           last4: last4
         })
       }
@@ -117,6 +122,11 @@ const createStripeCard = (config, card, resolve, reject) => {
       // Yay, we made it!
       resolve({
         provider: "stripe",
+        name: card.name,
+        month: card.month,
+        year: card.year,
+        postcode: card.postcode,
+        country: card.country,
         token: response["id"],
         scheme: response['card']['brand'],
         last4: response['card']['last4']

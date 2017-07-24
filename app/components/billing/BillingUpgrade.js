@@ -75,7 +75,7 @@ class BillingUpgrade extends React.Component {
 
                 <Panel.Section>
                   <FormRadioGroup
-                    name="interval"
+                    name="upgrade[interval]"
                     label="How often do you want to be billed?"
                     value={this.state.interval}
                     onChange={this.handleIntervalChange}
@@ -128,9 +128,25 @@ class BillingUpgrade extends React.Component {
               </Panel>
             </div>
           </div>
+
+          {this.renderCreditCardHiddenInputs()}
         </form>
       </DocumentTitle>
     );
+  }
+
+  renderCreditCardHiddenInputs() {
+    let inputs = [];
+
+    if (this.state.creditCardResponse) {
+      for(let key in this.state.creditCardResponse) {
+        inputs.push(
+          <input type="hidden" name={`upgrade[credit_card][${key}]`} value={this.state.creditCardResponse[key]} key={key} />
+        )
+      }
+    }
+
+    return inputs;
   }
 
   renderPlan(id, plan) {
@@ -180,7 +196,7 @@ class BillingUpgrade extends React.Component {
       <div className={classes}>
         <label className="flex">
           <div className="mr2">
-            <input type="radio" value={id} onChange={this.handlePlanChange} checked={selected} />
+            <input type="radio" name="upgrade[plan]" value={id} onChange={this.handlePlanChange} checked={selected} />
           </div>
           <div className="flex-auto">
             <h3 className="h3 m0 p0 mb1">{plan["label"]}</h3>
@@ -225,7 +241,12 @@ class BillingUpgrade extends React.Component {
 
     createCardToken(this.creditCard)
       .then((response) => {
-        console.log("card", response);
+        // Setting `creditCardResponse` render in a bunch of hidden fields that
+        // contain all the credit card information we're allowed to save. Once
+        // the render has finished, we can finally submit the form.
+        this.setState({ creditCardResponse: response }, () => {
+          this.form.submit();
+        })
       }).catch((exception) => {
         this.setState({ creditCardErrors: exception.errors, saving: false });
       });
