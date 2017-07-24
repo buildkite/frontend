@@ -10,6 +10,7 @@ globals:
   require: true
   Features: true
   process: true
+  Stripe: true
 
 env:
   es6: true

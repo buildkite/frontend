@@ -12,34 +12,34 @@ const PIN_PAYMENTS_ATTRIBUTE_MAP = {
   year: "expiry_year",
   postcode: "address_postcode",
   country: "address_country"
-}
+};
 
 const createPinPaymentsCard = (config, card, resolve, reject) => {
   // Copy all the card attributes to the body
-  let body = { publishable_api_key: config.key }
-  for(let field in PIN_PAYMENTS_ATTRIBUTE_MAP) {
+  const body = { publishable_api_key: config.key };
+  for (const field in PIN_PAYMENTS_ATTRIBUTE_MAP) {
     body[PIN_PAYMENTS_ATTRIBUTE_MAP[field]] = card[field];
   }
 
   // Add all the attributes to the end of the URL since this is a JSONP
   // request, and all the attributes need to be in the URL
-  let url = `${config.endpoint}/1/cards.json?_method=POST`
-  for(let key in body) {
-    url = `${url}&${key}=${encodeURI(body[key])}`
+  let url = `${config.endpoint}/1/cards.json?_method=POST`;
+  for (const key in body) {
+    url = `${url}&${key}=${encodeURI(body[key])}`;
   }
 
   fetchJsonp(url)
     .then(function(response) {
-      return response.json()
+      return response.json();
     }).then(function(json) {
       // Aww nuu, Pin returned an error!
       if (json["error"]) {
-        let errors = [];
+        const errors = [];
 
-        if (json["error"] == "invalid_resource") {
+        if (json["error"] === "invalid_resource") {
           // Translate each error message from Pin to our own field names
-          for(let message of json["messages"]) {
-            for(let field in PIN_PAYMENTS_ATTRIBUTE_MAP) {
+          for (const message of json["messages"]) {
+            for (const field in PIN_PAYMENTS_ATTRIBUTE_MAP) {
               if (PIN_PAYMENTS_ATTRIBUTE_MAP[field] === message["param"]) {
                 errors.push({ field: field, message: message["message"] });
               }
@@ -56,8 +56,8 @@ const createPinPaymentsCard = (config, card, resolve, reject) => {
       } else {
         // Figure out the last 4 digits of the display number and just return that.
         let last4;
-        if(json["response"]["display_number"]) {
-          last4 = json["response"]["display_number"].replace(/[^0-9]/g, "")
+        if (json["response"]["display_number"]) {
+          last4 = json["response"]["display_number"].replace(/[^0-9]/g, "");
         }
 
         // Woo, it worked!
@@ -71,13 +71,13 @@ const createPinPaymentsCard = (config, card, resolve, reject) => {
           postcode: card.postcode,
           country: card.country,
           last4: last4
-        })
+        });
       }
     }).catch(function(exception) {
       // Something went really wrong, so we'll just throw the error on `number` here as well
-      return({ errors: [ { field: "number", message: exception.message } ] });
-    })
-}
+      return ({ errors: [{ field: "number", message: exception.message }] });
+    });
+};
 
 const STRIPE_ATTRIBUTE_MAP = {
   name: "name",
@@ -87,34 +87,34 @@ const STRIPE_ATTRIBUTE_MAP = {
   year: "exp_year",
   postcode: "address_zip",
   country: "address_country"
-}
+};
 
 const createStripeCard = (config, card, resolve, reject) => {
-  Stripe.setPublishableKey(config.key)
+  Stripe.setPublishableKey(config.key);
 
   // Copy all the card attributes to the body
-  let body = { }
-  for(let field in STRIPE_ATTRIBUTE_MAP) {
+  const body = { };
+  for (const field in STRIPE_ATTRIBUTE_MAP) {
     body[STRIPE_ATTRIBUTE_MAP[field]] = card[field];
   }
 
   // Create the stripe token
   Stripe.card.createToken(body, (status, response) => {
-    var error = response['error'];
+    const error = response['error'];
 
     if (error) {
-      let errors;
+      const errors = [];
 
       // Translate the Stripe param into a local attribute
-      for(let field in STRIPE_ATTRIBUTE_MAP) {
-        if (STRIPE_ATTRIBUTE_MAP[field] === errors["param"]) {
-          errors.push({ field: field, message: message["message"] });
+      for (const field in STRIPE_ATTRIBUTE_MAP) {
+        if (STRIPE_ATTRIBUTE_MAP[field] === error["param"]) {
+          errors.push({ field: field, message: error["message"] });
         }
       }
 
       // If no params matched, just dump the error on the `number` attribute
       if (!errors.length) {
-        errors.push({ field: "card", message: message["message"] });
+        errors.push({ field: "card", message: error["message"] });
       }
 
       reject({ errors: errors });
@@ -130,16 +130,16 @@ const createStripeCard = (config, card, resolve, reject) => {
         token: response["id"],
         scheme: response['card']['brand'],
         last4: response['card']['last4']
-      })
+      });
     }
   });
-}
+};
 
 export function calculateTypeFromNumber(number) {
   if (number) {
-    if (number.match(VISA_REGEXP)) { return "visa"; };
-    if (number.match(AMEX_REGEXP)) { return "amex"; };
-    if (number.match(MASTERCARD_REGEXP)) { return "mastercard"; };
+    if (number.match(VISA_REGEXP)) { return "visa"; }
+    if (number.match(AMEX_REGEXP)) { return "amex"; }
+    if (number.match(MASTERCARD_REGEXP)) { return "mastercard"; }
   }
 }
 

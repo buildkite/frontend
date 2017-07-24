@@ -7,7 +7,6 @@ import DocumentTitle from 'react-document-title';
 import Panel from '../shared/Panel';
 import Button from '../shared/Button';
 import FormRadioGroup from '../shared/FormRadioGroup';
-import Icon from '../shared/Icon';
 import FormInputLabel from '../shared/FormInputLabel';
 
 import { formatNumber } from '../../lib/number';
@@ -37,7 +36,7 @@ class BillingUpgrade extends React.Component {
     this.creditCard = {};
 
     // Set default form state from data boostrapped on the page
-    this.state = { form: window._billing["form"], summary: window._billing["summary"] }
+    this.state = { form: window._billing["form"], summary: window._billing["summary"] };
   }
 
   render() {
@@ -111,13 +110,13 @@ class BillingUpgrade extends React.Component {
   }
 
   renderCreditCardHiddenInputs() {
-    let inputs = [];
+    const inputs = [];
 
     if (this.state.creditCardResponse) {
-      for(let key in this.state.creditCardResponse) {
+      for (const key in this.state.creditCardResponse) {
         inputs.push(
           <input type="hidden" name={`upgrade[credit_card][${key}]`} value={this.state.creditCardResponse[key]} key={key} />
-        )
+        );
       }
     }
 
@@ -139,7 +138,7 @@ class BillingUpgrade extends React.Component {
                 <h3 className="h3 m0 p0 semi-bold">${item["price"] / 100}</h3>
               </div>
             </div>
-          )
+          );
         })}
 
         <div className="p3 flex items-center bg-silver">
@@ -148,7 +147,7 @@ class BillingUpgrade extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   renderPlan(id, plan) {
@@ -216,25 +215,24 @@ class BillingUpgrade extends React.Component {
   }
 
   renderFeature(plan, feature, label) {
-    if(plan.features[feature]) {
+    if (plan.features[feature]) {
       return (
         <span>{this.renderTick()}{label}</span>
-      )
-    } else {
-      return (
-        <span className="gray"><span className="mr1">✖</span>{label}</span>
-      )
+      );
     }
+    return (
+      <span className="gray"><span className="mr1">✖</span>{label}</span>
+    );
+
   }
 
   renderTick() {
     return (
       <span className="lime mr1">✔</span>
-    )
+    );
   }
 
   refetchSummaryData() {
-    console.log("fetch");
     fetch(`/organizations/${this.props.organization.slug}/billing/upgrade/preview`, {
       credentials: 'same-origin',
       method: 'post',
@@ -264,14 +262,14 @@ class BillingUpgrade extends React.Component {
         // the render has finished, we can finally submit the form.
         this.setState({ creditCardResponse: response }, () => {
           this.form.submit();
-        })
+        });
       }).catch((exception) => {
         this.setState({ creditCardErrors: exception.errors, saving: false });
       });
   };
 
   handlePlanChange = (event) => {
-    let form = this.state.form
+    const form = this.state.form;
     form.plan = event.target.value;
 
     this.setState({ refreshing: true, form: form });
@@ -279,7 +277,7 @@ class BillingUpgrade extends React.Component {
   };
 
   handleIntervalChange = (event) => {
-    let form = this.state.form
+    const form = this.state.form;
     form.interval = event.target.value;
 
     this.setState({ refreshing: true, form: form });

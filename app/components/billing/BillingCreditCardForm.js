@@ -3,7 +3,6 @@ import React from 'react';
 
 import FormInputLabel from '../shared/FormInputLabel';
 import FormTextField from '../shared/FormTextField';
-import FormInputErrors from '../shared/FormInputErrors';
 import FormSelect from '../shared/FormSelect';
 
 import { calculateTypeFromNumber } from '../../lib/credit-card';
@@ -109,19 +108,19 @@ class BillingCreditCardForm extends React.Component {
   }
 
   renderExpiryError(errors, field) {
-    let errorMessages = errors.findForField(field);
+    const errorMessages = errors.findForField(field);
     if (errorMessages) {
       return (
         <div className="p0 red">{errorMessages.join(", ")}</div>
-      )
+      );
     }
   }
 
-  renderMonthSelect(errors) {
+  renderMonthSelect() {
     return (
       <div className="flex-auto flex">
         <select className="select flex-auto" onChange={this.handleMonthChange} disabled={this.props.disabled}>
-          <option></option>
+          <option />
           <option value="1">01</option>
           <option value="2">02</option>
           <option value="3">03</option>
@@ -139,7 +138,7 @@ class BillingCreditCardForm extends React.Component {
     );
   }
 
-  renderYearSelect(errors) {
+  renderYearSelect() {
     const year = new Date().getFullYear();
 
     const options = [];
@@ -152,7 +151,7 @@ class BillingCreditCardForm extends React.Component {
     return (
       <div className="flex-auto flex">
         <select className="select flex-auto" onChange={this.handleYearChange} disabled={this.props.disabled}>
-          <option></option>
+          <option />
           {options}
         </select>
       </div>
@@ -164,7 +163,7 @@ class BillingCreditCardForm extends React.Component {
       <img
         src={require(`./card-${card}.svg`)}
         alt={title}
-        style={{ height: 30, width: 48, opacity: (this.state.type == card) ? 1 : 0.3 }}
+        style={{ height: 30, width: 48, opacity: (this.state.type === card) ? 1 : 0.3 }}
         className="ml1"
       />
     );
