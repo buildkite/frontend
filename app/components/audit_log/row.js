@@ -190,9 +190,9 @@ class AuditLogRow extends React.PureComponent {
     } else if (type === "USER") {
       // "an user" feels weird
       return 'a user';
-    } else {
-      return `${indefiniteArticleFor(friendlyType)} ${friendlyType}`;
     }
+    return `${indefiniteArticleFor(friendlyType)} ${friendlyType}`;
+
   }
 
   handleHeaderClick = () => {

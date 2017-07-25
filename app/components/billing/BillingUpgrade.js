@@ -124,7 +124,7 @@ class BillingUpgrade extends React.Component {
   }
 
   renderSummary() {
-    let interval = this.state.summary.interval === "monthly" ? "per month" : "per year";
+    const interval = this.state.summary.interval === "monthly" ? "per month" : "per year";
 
     return (
       <div className="border border-gray rounded mb2">
