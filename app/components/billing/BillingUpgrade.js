@@ -243,7 +243,7 @@ class BillingUpgrade extends React.Component {
         'Content-Type': 'application/json',
         'X-CSRF-Token': window._csrf.token
       },
-      body: JSON.stringify({ upgrade: this.state.form })
+      body: JSON.stringify(this.state.form)
     }).then((response) => {
       response.json().then((json) => {
         this.setState({ refreshing: false, summary: json });
