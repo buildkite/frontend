@@ -124,6 +124,8 @@ class BillingUpgrade extends React.Component {
   }
 
   renderSummary() {
+    let interval = this.state.summary.interval === "monthly" ? "per month" : "per year";
+
     return (
       <div className="border border-gray rounded mb2">
 
@@ -143,7 +145,7 @@ class BillingUpgrade extends React.Component {
 
         <div className="p3 flex items-center bg-silver">
           <div className="right-align flex-auto">
-            <h3 className="h3 m0 py1 semi-bold">${this.state.summary.price / 100} per month</h3>
+            <h3 className="h3 m0 py1 semi-bold">${formatNumber(this.state.summary.price / 100)} {interval}</h3>
           </div>
         </div>
       </div>
