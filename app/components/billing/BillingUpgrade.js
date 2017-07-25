@@ -137,7 +137,7 @@ class BillingUpgrade extends React.Component {
                 <p className="m0 p0 dark-gray">{item["description"]}</p>
               </div>
               <div>
-                <h3 className="h3 m0 p0 semi-bold">${item["price"] / 100}</h3>
+                <h3 className="h3 m0 p0 semi-bold">${formatNumber(item["price"] / 100)}</h3>
               </div>
             </div>
           );
@@ -235,7 +235,7 @@ class BillingUpgrade extends React.Component {
   }
 
   refetchSummaryData() {
-    fetch(`/organizations/${this.props.organization.slug}/billing/upgrade/preview`, {
+    fetch(`/organizations/${this.props.organization.slug}/billing/upgrade/summary`, {
       credentials: 'same-origin',
       method: 'post',
       headers: {
