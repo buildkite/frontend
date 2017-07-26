@@ -1811,6 +1811,10 @@ create-react-class@^15.5.1, create-react-class@^15.5.3, create-react-class@^15.6
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
+credit-card-type@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/credit-card-type/-/credit-card-type-5.0.3.tgz#2122f0191920e278c15518dd43ef3abb3f69359d"
+
 cross-spawn@^4.0.0:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-4.0.2.tgz#7b9247621c23adfdd3856004a823cbe397424d41"

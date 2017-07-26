@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import FormInputLabel from '../shared/FormInputLabel';
+import FormCreditCardField from '../shared/FormCreditCardField';
 import FormTextField from '../shared/FormTextField';
 import FormSelect from '../shared/FormSelect';
 
@@ -37,13 +38,12 @@ class BillingCreditCardForm extends React.Component {
         <div className="clearfix px2">
           <div className="lg-col lg-col-7 px1 flex items-top">
             <div className="flex-auto">
-              <FormTextField
+              <FormCreditCardField
                 label="Card Number"
                 required={true}
                 disabled={this.props.disabled}
                 onChange={this.handleCardNumberChange}
                 errors={errors.findForField("number")}
-                maxLength={16}
               />
             </div>
 
@@ -54,7 +54,7 @@ class BillingCreditCardForm extends React.Component {
             </div>
           </div>
 
-          <div className="lg-col lg-col-3 px1">
+          <div className="sm-col sm-col-8 lg-col lg-col-3 px1">
             <div className="mb2">
               <FormInputLabel label="Expiration" required={true} />
 
@@ -69,7 +69,7 @@ class BillingCreditCardForm extends React.Component {
             </div>
           </div>
 
-          <div className="lg-col lg-col-2 px1">
+          <div className="sm-col sm-col-4 lg-col lg-col-2 px1">
             <FormTextField
               label="CVC"
               required={true}
@@ -173,10 +173,10 @@ class BillingCreditCardForm extends React.Component {
     this.props.onChange('name', event.target.value);
   };
 
-  handleCardNumberChange = (event) => {
-    this.setState({ type: calculateTypeFromNumber(event.target.value) });
+  handleCardNumberChange = (cardNumber) => {
+    this.setState({ type: calculateTypeFromNumber(cardNumber) });
 
-    this.props.onChange('number', event.target.value);
+    this.props.onChange('number', cardNumber);
   };
 
   handleMonthChange = (event) => {
