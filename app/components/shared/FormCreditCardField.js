@@ -14,6 +14,7 @@ export default class FormCreditCardField extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
     className: PropTypes.string,
+    acceptedTypes: PropTypes.arrayOf(Object.values(CardType)).isRequired,
     name: PropTypes.string,
     defaultValue: PropTypes.string,
     placeholder: PropTypes.string,
@@ -22,6 +23,14 @@ export default class FormCreditCardField extends React.Component {
     disabled: PropTypes.bool,
     errors: PropTypes.array,
     required: PropTypes.bool
+  };
+
+  static defaultProps = {
+    acceptedTypes: [
+      CardType.VISA,
+      CardType.MASTERCARD,
+      CardType.AMERICAN_EXPRESS
+    ]
   };
 
   state = {
@@ -108,9 +117,7 @@ export default class FormCreditCardField extends React.Component {
     if (processedValue.length > 0) {
 
       matchingCardType = creditCardType(processedValue)
-        .filter((card) => (
-          card.type === CardType.VISA || card.type === CardType.MASTERCARD || card.type === CardType.AMERICAN_EXPRESS
-        ))
+        .filter((card) => this.props.acceptedTypes.indexOf(card.type) !== -1)
         .shift();
 
       if (matchingCardType) {
