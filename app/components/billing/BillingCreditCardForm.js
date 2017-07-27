@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { getTypeInfo, types as CardType } from 'credit-card-type';
 
 import FormInputLabel from '../shared/FormInputLabel';
 import FormCreditCardField from '../shared/FormCreditCardField';
@@ -47,9 +48,9 @@ class BillingCreditCardForm extends React.Component {
             </div>
 
             <div style={{ marginTop: 27 }} className="ml1">
-              {this.renderCreditCardLogo("visa", "VISA")}
-              {this.renderCreditCardLogo("master-card", "MasterCard")}
-              {this.renderCreditCardLogo("american-express", "American Express")}
+              {this.renderCreditCardLogo(CardType.VISA)}
+              {this.renderCreditCardLogo(CardType.MASTERCARD)}
+              {this.renderCreditCardLogo(CardType.AMERICAN_EXPRESS)}
             </div>
           </div>
 
@@ -157,12 +158,17 @@ class BillingCreditCardForm extends React.Component {
     );
   }
 
-  renderCreditCardLogo(card, title) {
+  renderCreditCardLogo(type) {
     return (
       <img
-        src={require(`./card-${card}.svg`)}
-        alt={title}
-        style={{ height: 30, width: 48, opacity: (this.state.type === card) ? 1 : 0.3 }}
+        src={require(`./card-${type}.svg`)}
+        alt={getTypeInfo(type).niceType}
+        style={{
+          height: 30,
+          width: 48,
+          transition: 'opacity 200ms ease-in-out',
+          opacity: (this.state.type === type) ? 1 : 0.3
+        }}
         className="ml1"
       />
     );
