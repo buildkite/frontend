@@ -6,7 +6,6 @@ import FormCreditCardField from '../shared/FormCreditCardField';
 import FormTextField from '../shared/FormTextField';
 import FormSelect from '../shared/FormSelect';
 
-import { calculateTypeFromNumber } from '../../lib/credit-card';
 import ValidationErrors from '../../lib/ValidationErrors';
 
 class BillingCreditCardForm extends React.Component {
@@ -49,8 +48,8 @@ class BillingCreditCardForm extends React.Component {
 
             <div style={{ marginTop: 27 }} className="ml1">
               {this.renderCreditCardLogo("visa", "VISA")}
-              {this.renderCreditCardLogo("mastercard", "MasterCard")}
-              {this.renderCreditCardLogo("amex", "American Express")}
+              {this.renderCreditCardLogo("master-card", "MasterCard")}
+              {this.renderCreditCardLogo("american-express", "American Express")}
             </div>
           </div>
 
@@ -173,8 +172,8 @@ class BillingCreditCardForm extends React.Component {
     this.props.onChange('name', event.target.value);
   };
 
-  handleCardNumberChange = (cardNumber) => {
-    this.setState({ type: calculateTypeFromNumber(cardNumber) });
+  handleCardNumberChange = (cardNumber, type) => {
+    this.setState({ type });
 
     this.props.onChange('number', cardNumber);
   };

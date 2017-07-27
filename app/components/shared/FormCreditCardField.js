@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import creditCardType, { getTypeInfo, types as CardType } from 'credit-card-type';
+import creditCardType, { types as CardType } from 'credit-card-type';
 
 import FormInputHelp from './FormInputHelp';
 import FormInputErrors from './FormInputErrors';
@@ -97,34 +97,40 @@ export default class FormCreditCardField extends React.Component {
 
   handleInputChange = (evt) => {
     const { value } = evt.target;
+    let matchingCardType;
 
-    let processedValue = value.replace(/[^0-9]+/g, '');
+    let processedValue = value.replace(/[^0-9]+/g, (match, offset) => {
+      console.debug(match, match.length, offset);
+      return '';
+    });
 
-    const matchingCardType = creditCardType(processedValue)
-      .filter((card) => (
-        card.type == CardType.VISA || card.type == CardType.MASTERCARD || card.type == CardType.AMERICAN_EXPRESS
-      ))
-      .shift();
+    if (processedValue.length > 0) {
 
-    console.debug('matchingCardType', matchingCardType && matchingCardType.niceType);
+      matchingCardType = creditCardType(processedValue)
+        .filter((card) => (
+          card.type === CardType.VISA || card.type === CardType.MASTERCARD || card.type === CardType.AMERICAN_EXPRESS
+        ))
+        .shift();
 
-    if (matchingCardType) {
-      const offsets = [0].concat(matchingCardType.gaps).concat([processedValue.length]);
-      const components = [];
+      if (matchingCardType) {
+        const offsets = [0].concat(matchingCardType.gaps).concat([processedValue.length]);
+        const components = [];
 
-      for (var i = 0; offsets[i] < processedValue.length; i++) {
-        var start = offsets[i];
-        var end = Math.min(offsets[i + 1], processedValue.length);
-        components.push(processedValue.substring(start, end));
+        for (let idx = 0; offsets[idx] < processedValue.length; idx++) {
+          const start = offsets[idx];
+          const end = Math.min(offsets[idx + 1], processedValue.length);
+          components.push(processedValue.substring(start, end));
+        }
+
+        processedValue = components.join(CARD_GAP_STRING);
       }
 
-      processedValue = components.join(CARD_GAP_STRING);
     }
 
     this.setState(
       { value: processedValue, matchingCardType },
       () => {
-        this.props.onChange(processedValue);
+        this.props.onChange(processedValue, matchingCardType ? matchingCardType.type : null);
       }
     );
   };
@@ -142,7 +148,7 @@ export default class FormCreditCardField extends React.Component {
   }
 
   _hasEmptyValue() {
-    return !this.props.value || this.props.value.length === 0;
+    return !this.state.value || this.state.value.length === 0;
   }
 
   _renderErrors() {
