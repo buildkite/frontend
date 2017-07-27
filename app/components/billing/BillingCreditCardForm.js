@@ -21,6 +21,7 @@ class BillingCreditCardForm extends React.Component {
   }
 
   render() {
+    const cardInfo = getTypeInfo(this.state.type);
     const errors = new ValidationErrors(this.props.errors);
 
     return (
@@ -71,12 +72,13 @@ class BillingCreditCardForm extends React.Component {
 
           <div className="sm-col sm-col-4 lg-col lg-col-2 px1">
             <FormTextField
-              label="CVC"
+              label={cardInfo ? cardInfo.code.name : 'Code'}
+              maxLength={cardInfo ? cardInfo.code.length : 4}
+              name="cvc"
               required={true}
               disabled={this.props.disabled}
               onChange={this.handleCVCChange}
               errors={errors.findForField("cvc")}
-              maxLength={4}
             />
           </div>
         </div>
