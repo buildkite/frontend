@@ -74,7 +74,7 @@ class BillingCreditCardForm extends React.Component {
           <div className="sm-col sm-col-4 lg-col lg-col-2 px1">
             <FormTextField
               label={cardInfo ? cardInfo.code.name : 'Code'}
-              maxLength={cardInfo ? cardInfo.code.length : 4}
+              maxLength={cardInfo ? cardInfo.code.size : 4}
               autocomplete="cc-csc"
               type="tel"
               name="cvc"
