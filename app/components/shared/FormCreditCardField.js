@@ -7,24 +7,18 @@ import FormInputHelp from './FormInputHelp';
 import FormInputErrors from './FormInputErrors';
 import FormInputLabel from './FormInputLabel';
 
-const FALLBACK_CARD_LENGTH = 20;
+// 19 is the longest length of any
+// accepted card type as of July 2017
+const FALLBACK_CARD_LENGTH = 19;
 const CARD_GAP_STRING = ' ';
-
-const cursorDebug = (string, selectionStart, selectionEnd) => {
-  if (selectionStart === selectionEnd) {
-    return `${string.substring(0, selectionStart)}|${string.substring(selectionStart)}`;
-  } else if (selectionStart < selectionEnd) {
-    return `${string.substring(0, selectionStart)}[${string.substring(selectionStart, selectionEnd)}]${string.substring(selectionEnd)}`
-  } else {
-    return `${string.substring(0, selectionEnd)}]${string.substring(selectionEnd, selectionStart)}[${string.substring(selectionStart)}`
-  }
-};
 
 export default class FormCreditCardField extends React.PureComponent {
   static propTypes = {
     label: PropTypes.string.isRequired,
     className: PropTypes.string,
-    acceptedTypes: PropTypes.arrayOf(PropTypes.oneOf(Object.values(CardType))).isRequired,
+    acceptedTypes: PropTypes.arrayOf(
+      PropTypes.oneOf(Object.values(CardType))
+    ).isRequired,
     name: PropTypes.string,
     defaultValue: PropTypes.string,
     placeholder: PropTypes.string,
@@ -75,8 +69,8 @@ export default class FormCreditCardField extends React.PureComponent {
     // in the text field, after processing
     //
     // NOTE: This is only done when the input's state
-    // isn't what's expected, to avoid triggering buggy
-    // mouse selection behaviour
+    // isn't what's expected, to avoid triggering weird
+    // mouse selection behaviour!
     if (selectionStart !== this.input.selectionStart) {
       this.input.selectionStart = selectionStart;
     }
@@ -107,13 +101,12 @@ export default class FormCreditCardField extends React.PureComponent {
   }
 
   getMaxLength() {
+    // Calculate the maximum card length for the identified type
     const { matchingCardType } = this.state;
 
     if (!matchingCardType) {
       return FALLBACK_CARD_LENGTH;
     }
-
-    // Calculate the maximum card length for the identified type
 
     // We take the maximum length the card type presents
     const maxLength = Math.max(...matchingCardType.lengths);
@@ -144,103 +137,160 @@ export default class FormCreditCardField extends React.PureComponent {
   }
 
   handleSelectionChange = () => {
+    // Update the state with the input's selection when we hear
+    // from the DOM that the selection has changed *somewhere*
     const { selectionStart, selectionEnd } = this.input;
     this.setState({ selectionStart, selectionEnd });
   };
 
   handleInputChange = (evt) => {
-    const { value } = evt.target;
-    let { selectionStart, selectionEnd } = evt.target;
+    // This handler might look scary, but has 3 simple phases;
+    //
+    //  1. Compensate for deletions which deleted only whitespace
+    //  2. Convert the input's value into a raw numeric string
+    //  3. Format the number to match the detected card type's format
+    //
+    // At each phase, it adjusts `selectionStart` and `selectionEnd`
+    // to maintain continuity for the user.
+    //
+    // Let's go!
+
+    let { value, selectionStart, selectionEnd } = evt.target;
     const { value: prevValue, selectionStart: prevSelectionStart } = this.state;
 
-    console.log(`[handleInputChange] initial cursor: "${cursorDebug(value, selectionStart, selectionEnd)}"`);
-
-    let matchingCardType;
-    let processedValue = value;
+    // PHASE 1: Compensate for deletions which deleted only whitespace
+    //
+    // This phase only changes things if there's a *negative* change in
+    // value length. This means that if the user has backspaced (or deleted)
+    // only a non-numeric character, we push the cursor one character further
+    // so that they don't get stuck in a whitespace trough.
 
     const valueDifference = value.length - prevValue.length;
 
-    console.debug(`[handleInputChange] ${ selectionStart < prevSelectionStart ? 'back' : 'for' }wards ${ valueDifference < 0 ? 'dele' : 'inser' }tion`);
+    // for future reference:
+    //
+    // * if `selectionStart < prevSelectionStart`, we're moving backwards,
+    //   otherwise forwards (always twirling, twirling, twirling, etc.)
+    // * if `valueDifference < 0`, we're deleting one or more characters
+    //
+    // this is useful debug info!
 
+    // if the value's length has changed negatively, but not
+    // by more than the length of our gap string
     if (valueDifference < 0 && valueDifference >= -(CARD_GAP_STRING.length)) {
+      // grab the deleted part of the string
       const deleted = prevValue.substring(selectionStart, selectionStart - valueDifference);
 
+      // and check it's only whitespace
       if (/[^0-9]+/g.test(deleted)) {
-        // the user has deleted something, but they've managed
-        // to only delete something we're ignoring, let's
-        // delete the character they *expected* to delete
+        // so here, we know the user has deleted something, but
+        // only something we're ignoring. let's delete the
+        // character they likely *expected* to delete
 
         if (selectionStart < prevSelectionStart) {
-          // they pressed "backspace"
-          processedValue = processedValue.substring(0, selectionStart - 1) + processedValue.substring(selectionStart);
+          // if they pressed "backspace," delete the character before the cursor
+          value = value.substring(0, selectionStart - 1) + value.substring(selectionStart);
 
-          // cursor position needs updating, as we're travelling backwards
+          // the cursor position needs updating, as we're travelling backwards
           selectionStart -= 1;
           selectionEnd -= 1;
         } else {
-          // they pressed "delete"
-          processedValue = processedValue.substring(0, selectionStart) + processedValue.substring(selectionStart + 1);
-          // cursor doesn't need updating as we're not moving
+          // if they pressed "delete," delete the character after the cursor
+          value = value.substring(0, selectionStart) + value.substring(selectionStart + 1);
+          // cursor doesn't need updating as we're not moving it!
         }
       }
     }
 
-    console.log(`[handleInputChange] post-backspace cursor: "${cursorDebug(processedValue, selectionStart, selectionEnd)}"`);
+    // PHASE 2: Convert the input's value into a raw numeric string
+    //
+    // This phase applies when we've formatted the string, and if the
+    // user enters characters we don't accept. Anything that isn't 0-9
+    // is stripped, and the cursor positions updated to match.
+    // This is done so that the card type can be determined, and so we
+    // have a known-good place to start friendly-formatting the number.
 
-    // pre-adjust selection positions to fit processed value
-    processedValue = processedValue.replace(/[^0-9]+/g, (match, offset) => {
-      const offsetEnd = offset + match.length;
+    // We calculate compensation values separately from applying because
+    // offsets within the `replace` callback are based on the original value!
+    let selectionEndPreCompensation = 0;
+    let selectionStartPreCompensation = 0;
 
-      if (selectionEnd <= offsetEnd) {
-        selectionEnd -= Math.max(0, selectionStart - offset);
+    value = value.replace(
+      /[^0-9]+/g,
+      (match, offset) => {
+        if (selectionEnd > offset) {
+          selectionEndPreCompensation -= match.length;
+        }
+
+        if (selectionStart > offset) {
+          selectionStartPreCompensation -= match.length;
+        }
+
+        return '';
       }
+    );
 
-      if (selectionStart > offset && selectionStart <= offsetEnd) {
-        selectionStart = offset;
-      }
+    selectionEnd += selectionEndPreCompensation;
+    selectionStart += selectionStartPreCompensation;
 
-      return '';
-    });
+    // PHASE 3: Format the number to match the detected card type's format
+    //
+    // This phase always applies if the value is not currently empty, and
+    // if we find a matching card type. We split the card number into chunks
+    // to match each gap in the format specified by 'credit-card-type'.
+    // For each gap we're going to add, we bump the cursor position to compensate.
 
-    console.log(`[handleInputChange] post-ignore cursor: "${cursorDebug(processedValue, selectionStart, selectionEnd)}"`);
+    // Again, we calculate these values separate from applying because
+    // offsets within the loop are based upon the original value!
+    let selectionEndPostCompensation = 0;
+    let selectionStartPostCompensation = 0;
 
-    if (processedValue.length > 0) {
+    let matchingCardType;
 
-      matchingCardType = creditCardType(processedValue)
+    if (value.length > 0) {
+
+      // Filter the possible card types by those we accept, then grab the first
+      matchingCardType = creditCardType(value)
         .filter((card) => this.props.acceptedTypes.indexOf(card.type) !== -1)
         .shift();
 
       if (matchingCardType) {
-        const offsets = [0, ...matchingCardType.gaps, processedValue.length];
-        const components = [];
+        const offsets = [0, ...matchingCardType.gaps, value.length];
+        const chunks = [];
 
-        for (let idx = 0; offsets[idx] < processedValue.length; idx++) {
+        for (let idx = 0; offsets[idx] < value.length; idx++) {
           const start = offsets[idx];
-          const end = Math.min(offsets[idx + 1], processedValue.length);
+          const end = Math.min(offsets[idx + 1], value.length);
 
           if (start > 0) {
-            if (selectionStart > start) {
-              selectionStart += CARD_GAP_STRING.length;
+            if (selectionEnd >= start) {
+              selectionEndPostCompensation += CARD_GAP_STRING.length;
             }
-            if (selectionEnd > start) {
-              selectionEnd += CARD_GAP_STRING.length;
+
+            if (selectionStart >= start) {
+              selectionStartPostCompensation += CARD_GAP_STRING.length;
             }
           }
 
-          components.push(processedValue.substring(start, end));
+          chunks.push(value.substring(start, end));
         }
 
-        processedValue = components.join(CARD_GAP_STRING);
+        value = chunks.join(CARD_GAP_STRING);
       }
 
     }
 
-    console.log(`[handleInputChange] reformatted cursor: "${cursorDebug(processedValue, selectionStart, selectionEnd)}"`);
+    selectionEnd += selectionEndPostCompensation;
+    selectionStart += selectionStartPostCompensation;
+
+    // after we've done all this, we setState with the new value, as well
+    // as the card type (so that the field can adjust to fit its values),
+    // and the selection region, so that the field can be updated with it
 
     this.setState(
-      { value: processedValue, matchingCardType, selectionStart, selectionEnd },
+      { value, matchingCardType, selectionStart, selectionEnd },
       () => {
-        this.props.onChange(processedValue, matchingCardType ? matchingCardType.type : null);
+        this.props.onChange(value, matchingCardType ? matchingCardType.type : null);
       }
     );
   };
