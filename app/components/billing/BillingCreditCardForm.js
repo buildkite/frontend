@@ -42,6 +42,7 @@ class BillingCreditCardForm extends React.Component {
             <div className="flex-auto">
               <FormCreditCardField
                 label="Card Number"
+                className="tabular-numerals"
                 required={true}
                 disabled={this.props.disabled}
                 onChange={this.handleCardNumberChange}
@@ -75,6 +76,7 @@ class BillingCreditCardForm extends React.Component {
             <FormTextField
               label={cardInfo ? cardInfo.code.name : 'Code'}
               maxLength={cardInfo ? cardInfo.code.size : 4}
+              className="tabular-numerals"
               autoComplete="cc-csc"
               type="tel"
               name="cvc"
