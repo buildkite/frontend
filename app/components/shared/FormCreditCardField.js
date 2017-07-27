@@ -24,7 +24,7 @@ export default class FormCreditCardField extends React.PureComponent {
   static propTypes = {
     label: PropTypes.string.isRequired,
     className: PropTypes.string,
-    acceptedTypes: PropTypes.arrayOf(Object.values(CardType)).isRequired,
+    acceptedTypes: PropTypes.arrayOf(PropTypes.oneOf(Object.values(CardType))).isRequired,
     name: PropTypes.string,
     defaultValue: PropTypes.string,
     placeholder: PropTypes.string,
