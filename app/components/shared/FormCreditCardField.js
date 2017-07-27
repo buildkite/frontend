@@ -81,6 +81,7 @@ export default class FormCreditCardField extends React.Component {
     return (
       <input
         className={classNames("input", { "is-error": this._hasErrors() }, this.props.className)}
+        autocomplete="cc-number"
         name={this.props.name}
         type="tel"
         disabled={this.props.disabled}

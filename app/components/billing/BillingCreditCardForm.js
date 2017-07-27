@@ -29,6 +29,7 @@ class BillingCreditCardForm extends React.Component {
         <div className="ml3 mt3 mr3 mb2">
           <FormTextField
             label="Name on Card"
+            autocomplete="cc-name"
             required={true}
             disabled={this.props.disabled}
             onChange={this.handleNameChange}
@@ -74,6 +75,8 @@ class BillingCreditCardForm extends React.Component {
             <FormTextField
               label={cardInfo ? cardInfo.code.name : 'Code'}
               maxLength={cardInfo ? cardInfo.code.length : 4}
+              autocomplete="cc-csc"
+              type="tel"
               name="cvc"
               required={true}
               disabled={this.props.disabled}
@@ -121,7 +124,7 @@ class BillingCreditCardForm extends React.Component {
   renderMonthSelect() {
     return (
       <div className="flex-auto flex">
-        <select className="select flex-auto" onChange={this.handleMonthChange} disabled={this.props.disabled}>
+        <select className="select flex-auto" autocomplete="cc-exp-month" onChange={this.handleMonthChange} disabled={this.props.disabled}>
           <option />
           <option value="1">01</option>
           <option value="2">02</option>
@@ -152,7 +155,7 @@ class BillingCreditCardForm extends React.Component {
 
     return (
       <div className="flex-auto flex">
-        <select className="select flex-auto" onChange={this.handleYearChange} disabled={this.props.disabled}>
+        <select className="select flex-auto" autocomplete="cc-exp-year" onChange={this.handleYearChange} disabled={this.props.disabled}>
           <option />
           {options}
         </select>
