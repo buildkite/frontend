@@ -165,7 +165,7 @@ export default class FormCreditCardField extends React.PureComponent {
     if (valueDifference < 0 && valueDifference >= -(CARD_GAP_STRING.length)) {
       const deleted = prevValue.substring(selectionStart, selectionStart - valueDifference);
 
-      if (/[^0-9]+/g.test()) {
+      if (/[^0-9]+/g.test(deleted)) {
         // the user has deleted something, but they've managed
         // to only delete something we're ignoring, let's
         // delete the character they *expected* to delete
