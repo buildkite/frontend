@@ -22,7 +22,7 @@ class FormTextField extends React.Component {
     disabled: PropTypes.bool,
     errors: PropTypes.array,
     type: PropTypes.string.isRequired,
-    autocomplete: PropTypes.string,
+    autoComplete: PropTypes.string,
     required: PropTypes.bool
   };
 
@@ -108,7 +108,7 @@ class FormTextField extends React.Component {
         onChange={this.props.onChange}
         required={this.props.required}
         ref={(input) => this.input = input}
-        autocomplete={this.props.autocomplete}
+        autoComplete={this.props.autoComplete}
       />
     );
   }
