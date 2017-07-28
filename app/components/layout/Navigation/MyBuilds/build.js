@@ -60,9 +60,10 @@ class BuildsDropdownBuild extends React.PureComponent {
               text={shortMessage(this.props.build.message)}
             />
             {' in '}
-            <span className="build-link-message semi-bold black">
-              {this.props.build.pipeline.name}
-            </span>
+            <Emojify
+              className="build-link-message semi-bold black"
+              text={shortMessage(this.props.build.pipeline.name)}
+            />
           </span>
           <span className="block" title={buildTimeAbsolute}>
             <Duration.Full from={buildTime} overrides={{ length: 1 }} tabularNumerals={false} /> ago
