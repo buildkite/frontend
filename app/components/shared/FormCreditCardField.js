@@ -45,6 +45,7 @@ export default class FormCreditCardField extends React.PureComponent {
   };
 
   static defaultProps = {
+    label: 'Card Number',
     acceptedTypes: [
       CardType.VISA,
       CardType.MASTERCARD,
