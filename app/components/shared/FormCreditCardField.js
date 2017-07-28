@@ -71,12 +71,8 @@ export default class FormCreditCardField extends React.PureComponent {
     // NOTE: This is only done when the input's state
     // isn't what's expected, to avoid triggering weird
     // mouse selection behaviour!
-    if (selectionStart !== this.input.selectionStart) {
-      this.input.selectionStart = selectionStart;
-    }
-
-    if (selectionEnd !== this.input.selectionEnd) {
-      this.input.selectionEnd = selectionEnd;
+    if (selectionStart !== this.input.selectionStart || selectionEnd !== this.input.selectionEnd) {
+      this.input.setSelectionRange(selectionStart, selectionEnd);
     }
   }
 
