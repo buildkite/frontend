@@ -7,10 +7,25 @@ import FormInputHelp from './FormInputHelp';
 import FormInputErrors from './FormInputErrors';
 import FormInputLabel from './FormInputLabel';
 
-// 19 is the longest length of any
-// accepted card type as of July 2017
+// 19 is the longest (unformatted) length of
+// any accepted card type as of July 2017
 const FALLBACK_CARD_LENGTH = 19;
 const CARD_GAP_STRING = ' ';
+
+const maxLengthForCardType = (cardType) => {
+  // Calculate the maximum card length for the supplied type
+  if (!cardType) {
+    return FALLBACK_CARD_LENGTH;
+  }
+
+  // We take the maximum length the card type presents
+  const maxLength = Math.max(...cardType.lengths);
+
+  // And add one for each possible gap character
+  const cardGaps = cardType.gaps.length * CARD_GAP_STRING.length;
+
+  return maxLength + cardGaps;
+};
 
 export default class FormCreditCardField extends React.PureComponent {
   static propTypes = {
@@ -54,6 +69,7 @@ export default class FormCreditCardField extends React.PureComponent {
 
   componentDidMount() {
     document.addEventListener('selectionchange', this.handleSelectionChange);
+    this.input.addEventListener('paste', this.handlePaste);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -78,6 +94,7 @@ export default class FormCreditCardField extends React.PureComponent {
 
   componentWillUnmount() {
     document.removeEventListener('selectionchange', this.handleSelectionChange);
+    this.input.removeEventListener('paste', this.handlePaste);
   }
 
   render() {
@@ -97,20 +114,7 @@ export default class FormCreditCardField extends React.PureComponent {
   }
 
   getMaxLength() {
-    // Calculate the maximum card length for the identified type
-    const { matchingCardType } = this.state;
-
-    if (!matchingCardType) {
-      return FALLBACK_CARD_LENGTH;
-    }
-
-    // We take the maximum length the card type presents
-    const maxLength = Math.max(...matchingCardType.lengths);
-
-    // And add one for each possible gap character
-    const cardGaps = matchingCardType.gaps.length * CARD_GAP_STRING.length;
-
-    return maxLength + cardGaps;
+    return maxLengthForCardType(this.state.matchingCardType);
   }
 
   _renderInput() {
@@ -140,6 +144,37 @@ export default class FormCreditCardField extends React.PureComponent {
   };
 
   handleInputChange = (evt) => {
+    const { value, selectionStart, selectionEnd } = evt.target;
+    this.processInputChange(value, selectionStart, selectionEnd);
+  };
+
+  handlePaste = (evt) => {
+    if (!evt.clipboardData) {
+      // we can't do anything in this situation, alas
+      return;
+    }
+
+    // When pasting, we need extra handling so pastes aren't truncated,
+    // because the HTML form's length limit will prevent the full pasted
+    // value from reaching the handler.
+    // To fix this, we'll instead update the data ourselves!
+    const { value, selectionStart, selectionEnd } = evt.target;
+
+    // We grab the pasted string from the clipboard
+    const pastedValue = evt.clipboardData.getData('text');
+
+    // Splice the new value into the old one
+    const newValue = `${value.slice(0, selectionStart)}${pastedValue}${value.slice(selectionEnd)}`;
+    const newCursorPosition = selectionStart + pastedValue.length;
+
+    // And pass it on to our usual handler
+    this.processInputChange(newValue, newCursorPosition, newCursorPosition);
+
+    // And then, once all that's worked, we cancel the original paste event
+    evt.preventDefault();
+  };
+
+  processInputChange(value, selectionStart, selectionEnd) {
     // This handler might look scary, but has 3 simple phases;
     //
     //  1. Compensate for deletions which deleted only whitespace
@@ -151,7 +186,6 @@ export default class FormCreditCardField extends React.PureComponent {
     //
     // Let's go!
 
-    let { value, selectionStart, selectionEnd } = evt.target;
     const { value: prevValue, selectionStart: prevSelectionStart } = this.state;
 
     // PHASE 1: Compensate for deletions which deleted only whitespace
@@ -276,8 +310,13 @@ export default class FormCreditCardField extends React.PureComponent {
 
     }
 
-    selectionEnd += selectionEndPostCompensation;
-    selectionStart += selectionStartPostCompensation;
+    // after that we truncate the value to fit the card's maximum length
+    const cardLength = maxLengthForCardType(matchingCardType);
+    value = value.slice(0, cardLength);
+
+    // and clamp selection region to the extents of the value
+    selectionEnd = Math.min(cardLength, selectionEnd + selectionEndPostCompensation);
+    selectionStart = Math.min(cardLength, selectionStart + selectionStartPostCompensation);
 
     // after we've done all this, we setState with the new value, as well
     // as the card type (so that the field can adjust to fit its values),
@@ -289,7 +328,7 @@ export default class FormCreditCardField extends React.PureComponent {
         this.props.onChange(value, matchingCardType ? matchingCardType.type : null);
       }
     );
-  };
+  }
 
   getValue() {
     return this.state.value;
