@@ -161,7 +161,7 @@ export default class FormCreditCardField extends React.PureComponent {
     const { value, selectionStart, selectionEnd } = evt.target;
 
     // We grab the pasted string from the clipboard
-    const pastedValue = evt.clipboardData.getData('text');
+    const pastedValue = evt.clipboardData.getData('text/plain');
 
     // Splice the new value into the old one
     const newValue = `${value.slice(0, selectionStart)}${pastedValue}${value.slice(selectionEnd)}`;
