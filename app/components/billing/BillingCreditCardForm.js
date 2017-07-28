@@ -189,6 +189,7 @@ class BillingCreditCardForm extends React.Component {
     this.setState({ type });
 
     this.props.onChange('number', cardNumber);
+    this.props.onChange('type', type);
   };
 
   handleMonthChange = (event) => {
