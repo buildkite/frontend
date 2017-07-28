@@ -164,7 +164,7 @@ export default class FormCreditCardField extends React.PureComponent {
     const pastedValue = evt.clipboardData.getData('text/plain');
 
     // Splice the new value into the old one
-    const newValue = `${value.slice(0, selectionStart)}${pastedValue}${value.slice(selectionEnd)}`;
+    const newValue = `${value.substring(0, selectionStart)}${pastedValue}${value.substring(selectionEnd)}`;
     const newCursorPosition = selectionStart + pastedValue.length;
 
     // And pass it on to our usual handler
@@ -312,7 +312,7 @@ export default class FormCreditCardField extends React.PureComponent {
 
     // after that we truncate the value to fit the card's maximum length
     const cardLength = maxLengthForCardType(matchingCardType);
-    value = value.slice(0, cardLength);
+    value = value.substring(0, cardLength);
 
     // and clamp selection region to the extents of the value
     selectionEnd = Math.min(cardLength, selectionEnd + selectionEndPostCompensation);
