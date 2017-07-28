@@ -32,7 +32,7 @@ export default class FormCreditCardField extends React.PureComponent {
     label: PropTypes.string.isRequired,
     className: PropTypes.string,
     acceptedTypes: PropTypes.arrayOf(
-      PropTypes.oneOf(Object.values(CardType))
+      PropTypes.oneOf(Object.keys(CardType).map((name) => CardType[name]))
     ).isRequired,
     name: PropTypes.string,
     defaultValue: PropTypes.string,
