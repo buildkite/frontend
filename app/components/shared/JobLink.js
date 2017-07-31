@@ -35,7 +35,7 @@ class JobLink extends React.PureComponent {
         style={style}
       >
         <Emojify text={job.build.pipeline.name} />
-        {' '}- Build #{job.build.number} /{' '}
+        {` - Build #${job.build.number} / `}
         <Emojify text={job.label || job.command} />
       </a>
     );
