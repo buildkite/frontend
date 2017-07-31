@@ -21,10 +21,13 @@ class FormTextField extends React.Component {
     collapsable: PropTypes.bool,
     disabled: PropTypes.bool,
     errors: PropTypes.array,
+    type: PropTypes.string.isRequired,
+    autoComplete: PropTypes.string,
     required: PropTypes.bool
   };
 
   static defaultProps = {
+    type: 'text',
     spellCheck: false,
     collapsable: false
   };
@@ -96,7 +99,7 @@ class FormTextField extends React.Component {
       <input
         className={classNames("input", { "is-error": this._hasErrors() }, this.props.className)}
         name={this.props.name}
-        type="text"
+        type={this.props.type}
         disabled={this.props.disabled}
         defaultValue={this.props.value}
         maxLength={this.props.maxLength}
@@ -105,6 +108,7 @@ class FormTextField extends React.Component {
         onChange={this.props.onChange}
         required={this.props.required}
         ref={(input) => this.input = input}
+        autoComplete={this.props.autoComplete}
       />
     );
   }
