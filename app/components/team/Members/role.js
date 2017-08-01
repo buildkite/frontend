@@ -46,7 +46,7 @@ export default class MemberRole extends React.PureComponent {
             label={this.label(TeamMemberRoleConstants.MEMBER)}
             description={
               <PermissionSelectOptionDescriptions>
-                <PermissionDescription allowed={true} permission="and add remove pipelines" />
+                <PermissionDescription allowed={true} permission="add and remove pipelines" />
                 <PermissionDescription allowed={false} permission="add or remove users" />
               </PermissionSelectOptionDescriptions>
             }
