@@ -125,10 +125,19 @@ if (window._graphql) {
 
 // Setup the PusherStore
 if (window._pusher) {
-  const PusherStore = require("./stores/PusherStore").default;
-  PusherStore.configure(window._pusher["key"], window._pusher["options"]);
+  const pusherStore = require("./stores/PusherStore").default;
+  pusherStore.configure(window._pusher["key"], window._pusher["options"]);
   for (const channel of window._pusher["channels"]) {
-    PusherStore.listen(channel);
+    pusherStore.listen(channel);
+  }
+}
+
+// Also subscribe slanger if we've been asked
+if (window._slanger) {
+  const slangerStore = require("./stores/PusherStore").slanger;
+  slangerStore.configure(window._slanger["key"], window._slanger["options"]);
+  for (const channel of window._slanger["channels"]) {
+    slangerStore.listen(channel);
   }
 }
 
