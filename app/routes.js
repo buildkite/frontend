@@ -8,6 +8,7 @@ import {
 } from 'react-router';
 
 // The components used in the router
+import Login from './components/Login';
 import Main from './components/Main';
 import SectionLoader from './components/shared/SectionLoader';
 import APIAccessTokenCodeAuthorize from './components/api_access_token_code/APIAccessTokenCodeAuthorize';
@@ -103,6 +104,8 @@ const routeChangeHandler = () => {
 
 export default (
   <Router history={browserHistory} render={applyRouterMiddleware(useRelay)} environment={Relay.Store}>
+    <Route path="/login" component={Login} />
+
     <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery.query, build: BuildQuery.query }} prepareParams={BuildQuery.prepareParams} />
     <Route path="/organizations/:organization/pipelines/new" component={PipelineNewTeams} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
     <Route path="/organizations/:organization/pipelines" component={PipelineNewTeams} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
