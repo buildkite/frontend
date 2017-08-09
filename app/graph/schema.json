@@ -11,1497 +11,16 @@
       "types": [
         {
           "kind": "OBJECT",
-          "name": "RepositoryProviderGithub",
-          "description": "A pipeline's repository is being provided by GitHub",
-          "fields": [
-            {
-              "name": "name",
-              "description": "The name of the provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "url",
-              "description": "This URL to the provider’s web interface",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "RepositoryProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
-          "name": "String",
-          "description": "Represents textual data as UTF-8 character sequences. This type is most often used by GraphQL to represent free-form human-readable text.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INTERFACE",
-          "name": "RepositoryProvider",
-          "description": null,
-          "fields": [
-            {
-              "name": "name",
-              "description": "The name of the provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "url",
-              "description": "This URL to the provider’s web interface",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "RepositoryProviderBitbucket",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "RepositoryProviderBitbucketServer",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "RepositoryProviderCodebase",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "RepositoryProviderGithub",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "RepositoryProviderGithubEnterprise",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "RepositoryProviderGitlab",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "RepositoryProviderGitlabCommunity",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "RepositoryProviderGitlabEnterprise",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "RepositoryProviderUnknown",
-              "ofType": null
-            }
-          ]
-        },
-        {
-          "kind": "OBJECT",
-          "name": "RepositoryProviderGithubEnterprise",
-          "description": "A pipeline's repository is being provided by GitHub Enterprise",
-          "fields": [
-            {
-              "name": "name",
-              "description": "The name of the provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "url",
-              "description": "This URL to the provider’s web interface",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "RepositoryProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "RepositoryProviderBitbucket",
-          "description": "A pipeline's repository is being provided by Bitbucket",
-          "fields": [
-            {
-              "name": "name",
-              "description": "The name of the provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "url",
-              "description": "This URL to the provider’s web interface",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "RepositoryProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "RepositoryProviderBitbucketServer",
-          "description": "A pipeline's repository is being provided by Bitbucket Server",
-          "fields": [
-            {
-              "name": "name",
-              "description": "The name of the provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "url",
-              "description": "This URL to the provider’s web interface",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "RepositoryProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "RepositoryProviderGitlab",
-          "description": "A pipeline's repository is being provided by Gitlab",
-          "fields": [
-            {
-              "name": "name",
-              "description": "The name of the provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "url",
-              "description": "This URL to the provider’s web interface",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "RepositoryProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "RepositoryProviderGitlabCommunity",
-          "description": "A pipeline's repository is being provided by Gitlab Community Edition",
-          "fields": [
-            {
-              "name": "name",
-              "description": "The name of the provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "url",
-              "description": "This URL to the provider’s web interface",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "RepositoryProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "RepositoryProviderGitlabEnterprise",
-          "description": "A pipeline's repository is being provided by Gitlab Enterprise Edition",
-          "fields": [
-            {
-              "name": "name",
-              "description": "The name of the provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "url",
-              "description": "This URL to the provider’s web interface",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "RepositoryProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "RepositoryProviderCodebase",
-          "description": "A pipeline's repository is being provided by Codebase",
-          "fields": [
-            {
-              "name": "name",
-              "description": "The name of the provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "url",
-              "description": "This URL to the provider’s web interface",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "RepositoryProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "RepositoryProviderUnknown",
-          "description": "A pipeline's repository is being provided by a service unknown to Buildkite",
-          "fields": [
-            {
-              "name": "name",
-              "description": "The name of the provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "url",
-              "description": "This URL to the provider’s web interface",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "RepositoryProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "SSOProviderGoogle",
-          "description": "Single sign-on provided by Google",
-          "fields": [
-            {
-              "name": "emailDomain",
-              "description": "Email domain which triggers this single sign-on provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "SSOProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INTERFACE",
-          "name": "SSOProvider",
-          "description": null,
-          "fields": [
-            {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "SSOProviderGoogle",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "SSOProviderSAML",
-              "ofType": null
-            }
-          ]
-        },
-        {
-          "kind": "OBJECT",
-          "name": "SSOProviderSAML",
-          "description": "Single sign-on provided via SAML",
-          "fields": [
-            {
-              "name": "emailDomain",
-              "description": "Email domain which triggers this single sign-on provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "SSOProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "BuildSourceAPI",
-          "description": "A build was triggered via an API",
-          "fields": [
-            {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "BuildSource",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INTERFACE",
-          "name": "BuildSource",
-          "description": null,
-          "fields": [
-            {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "BuildSourceAPI",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "BuildSourceFrontend",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "BuildSourceSchedule",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "BuildSourceTriggerJob",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "BuildSourceWebhook",
-              "ofType": null
-            }
-          ]
-        },
-        {
-          "kind": "OBJECT",
-          "name": "BuildSourceFrontend",
-          "description": "A build was triggered manually via the frontend",
-          "fields": [
-            {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "BuildSource",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "BuildSourceWebhook",
-          "description": "A build was triggered via a Webhook",
-          "fields": [
-            {
-              "name": "headers",
-              "description": "Provider specific headers sent along with the webhook. This will return null if the webhook has been purged by Buildkite.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "payload",
-              "description": "The body of the webhook. Buildkite only webhook data for a short period of time, so if this returns null - then the webhook data has been purged by Buildkite",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "JSON",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "uuid",
-              "description": "The UUID for this webhook. This will return null if the webhook has been purged by Buildkite",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "BuildSource",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
-          "name": "JSON",
-          "description": "A blob of JSON represented as a pretty formatted string",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "BuildSourceTriggerJob",
-          "description": "A build was triggered via a trigger job",
-          "fields": [
-            {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "BuildSource",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "BuildSourceSchedule",
-          "description": "A build was triggered via a schedule",
-          "fields": [
-            {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "BuildSource",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "AuthorizationBitbucket",
-          "description": "A Bitbucket account authorized with a Buildkite account",
-          "fields": [
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Authorization",
-              "ofType": null
-            },
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
-          "name": "ID",
-          "description": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INTERFACE",
-          "name": "Authorization",
-          "description": null,
-          "fields": [
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationBitbucket",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationGitHub",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationGitHubEnterprise",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationGoogle",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationLIFX",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationSAML",
-              "ofType": null
-            }
-          ]
-        },
-        {
-          "kind": "INTERFACE",
-          "name": "Node",
-          "description": "An object with an ID.",
-          "fields": [
-            {
-              "name": "id",
-              "description": "ID of the object.",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "APIAccessToken",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "APIAccessTokenCode",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "APIApplication",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Agent",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AgentToken",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Annotation",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Artifact",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuditEvent",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationBitbucket",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationGitHub",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationGitHubEnterprise",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationGoogle",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationLIFX",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationSAML",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Build",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Changelog",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Comment",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Email",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "JobTypeBlock",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "JobTypeCommand",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "JobTypeTrigger",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "JobTypeWait",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Organization",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "OrganizationInvitation",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "OrganizationMember",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Pipeline",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "PipelineMetric",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "PipelineSchedule",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Team",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "TeamMember",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "TeamPipeline",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "User",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Viewer",
-              "ofType": null
-            }
-          ]
-        },
-        {
-          "kind": "OBJECT",
-          "name": "AuthorizationGitHub",
-          "description": "A GitHub account authorized with a Buildkite account",
-          "fields": [
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Authorization",
-              "ofType": null
-            },
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "AuthorizationGitHubEnterprise",
-          "description": "A GitHub Enterprise account authorized with a Buildkite account",
-          "fields": [
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Authorization",
-              "ofType": null
-            },
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "AuthorizationGoogle",
-          "description": "A Google account authorized with a Buildkite account",
-          "fields": [
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Authorization",
-              "ofType": null
-            },
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "AuthorizationLIFX",
-          "description": "A LIFX account authorized with a Buildkite account",
-          "fields": [
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Authorization",
-              "ofType": null
-            },
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "AuthorizationSAML",
-          "description": "A SAML account authorized with a Buildkite account",
-          "fields": [
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Authorization",
-              "ofType": null
-            },
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
           "name": "Query",
           "description": "The query root for this schema",
           "fields": [
             {
               "name": "agent",
-              "description": "Find an agent by it's slug",
+              "description": "Find an agent by its slug",
               "args": [
                 {
                   "name": "slug",
-                  "description": "The UUID for the agent, prefixed by it's organization's slug i.e. `acme-inc/0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
+                  "description": "The UUID for the agent, prefixed by its organization's slug i.e. `acme-inc/0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1524,11 +43,11 @@
             },
             {
               "name": "agentToken",
-              "description": "Find an agent token by it's slug",
+              "description": "Find an agent token by its slug",
               "args": [
                 {
                   "name": "slug",
-                  "description": "The UUID for the agent token, prefixed by it's organization's slug i.e. `acme-inc/0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
+                  "description": "The UUID for the agent token, prefixed by its organization's slug i.e. `acme-inc/0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1578,7 +97,7 @@
             },
             {
               "name": "artifact",
-              "description": "Find an artifact by it's UUID",
+              "description": "Find an artifact by its UUID",
               "args": [
                 {
                   "name": "uuid",
@@ -1605,7 +124,7 @@
             },
             {
               "name": "auditEvent",
-              "description": "Find an audit event via it's uuid",
+              "description": "Find an audit event via its uuid",
               "args": [
                 {
                   "name": "uuid",
@@ -1632,11 +151,11 @@
             },
             {
               "name": "build",
-              "description": "Find a build by it's slug or UUID",
+              "description": "Find a build by its slug or UUID",
               "args": [
                 {
                   "name": "slug",
-                  "description": "The number of the build, prefixed with it's organization and pipeline. i.e. `acme-inc/my-pipeline/123`",
+                  "description": "The number of the build, prefixed with its organization and pipeline. i.e. `acme-inc/my-pipeline/123`",
                   "type": {
                     "kind": "SCALAR",
                     "name": "ID",
@@ -1665,7 +184,7 @@
             },
             {
               "name": "job",
-              "description": "Find a build job by it's UUID",
+              "description": "Find a build job by its UUID",
               "args": [
                 {
                   "name": "uuid",
@@ -1718,8 +237,35 @@
               "deprecationReason": null
             },
             {
+              "name": "notificationService",
+              "description": "Find a notification service via its UUID",
+              "args": [
+                {
+                  "name": "uuid",
+                  "description": "The UUID for the notification service i.e. `0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "INTERFACE",
+                "name": "NotificationService",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "organization",
-              "description": "Find an organization by it's slug",
+              "description": "Find an organization by its slug",
               "args": [
                 {
                   "name": "slug",
@@ -1746,11 +292,11 @@
             },
             {
               "name": "organizationInvitation",
-              "description": "Find an organization invitation via it's slug",
+              "description": "Find an organization invitation via its slug",
               "args": [
                 {
                   "name": "slug",
-                  "description": "The UUID for the invitation, prefixed by it's organization's slug i.e. `acme-inc/0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
+                  "description": "The UUID for the invitation, prefixed by its organization's slug i.e. `acme-inc/0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1773,11 +319,11 @@
             },
             {
               "name": "organizationMember",
-              "description": "Find an organization membership via it's slug",
+              "description": "Find an organization membership via its slug",
               "args": [
                 {
                   "name": "slug",
-                  "description": "The UUID for the membership, prefixed by it's organization's slug i.e. `acme-inc/0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
+                  "description": "The UUID for the membership, prefixed by its organization's slug i.e. `acme-inc/0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1800,11 +346,11 @@
             },
             {
               "name": "pipeline",
-              "description": "Find a pipeline by it's slug",
+              "description": "Find a pipeline by its slug",
               "args": [
                 {
                   "name": "slug",
-                  "description": "The slug of the pipeline, prefixed with it's organization. i.e. `acme-inc/my-pipeline`",
+                  "description": "The slug of the pipeline, prefixed with its organization. i.e. `acme-inc/my-pipeline`",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1827,11 +373,11 @@
             },
             {
               "name": "pipelineSchedule",
-              "description": "Find a pipeline schedule by it's slug",
+              "description": "Find a pipeline schedule by its slug",
               "args": [
                 {
                   "name": "slug",
-                  "description": "The UUID for the pipeline schedule, prefixed by it's organization and pipeline's slug i.e. `acme-inc/my-pipeline/0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
+                  "description": "The UUID for the pipeline schedule, prefixed by its organization and pipeline's slug i.e. `acme-inc/my-pipeline/0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1854,11 +400,11 @@
             },
             {
               "name": "team",
-              "description": "Find a team by it's UUID",
+              "description": "Find a team by its UUID",
               "args": [
                 {
                   "name": "slug",
-                  "description": "The slug of the team, prefixed with it's organization. i.e. `acme-inc/awesome-team`",
+                  "description": "The slug of the team, prefixed with its organization. i.e. `acme-inc/awesome-team`",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -2404,7 +950,7 @@
             },
             {
               "name": "user",
-              "description": "The authenticated user",
+              "description": "The current user",
               "args": [
 
               ],
@@ -2425,6 +971,221 @@
               "ofType": null
             }
           ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "Node",
+          "description": "An object with an ID.",
+          "fields": [
+            {
+              "name": "id",
+              "description": "ID of the object.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "APIAccessToken",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "APIAccessTokenCode",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "APIApplication",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Agent",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AgentToken",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Annotation",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Artifact",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuditEvent",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationBitbucket",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationGitHub",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationGitHubEnterprise",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationGoogle",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationLIFX",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationSAML",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Build",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Changelog",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Comment",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Email",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeBlock",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeCommand",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeTrigger",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobTypeWait",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceCampfire",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceSlack",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Organization",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationInvitation",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationMember",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Pipeline",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "PipelineMetric",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "PipelineSchedule",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Team",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamMember",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamPipeline",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Viewer",
+              "ofType": null
+            }
+          ]
+        },
+        {
+          "kind": "SCALAR",
+          "name": "ID",
+          "description": "Represents a unique identifier that is Base64 obfuscated. It is often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"VXNlci0xMA==\"`) or integer (such as `4`) input value will be accepted as an ID.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -2619,6 +1380,16 @@
           "possibleTypes": null
         },
         {
+          "kind": "SCALAR",
+          "name": "String",
+          "description": "Represents textual data as UTF-8 character sequences. This type is most often used by GraphQL to represent free-form human-readable text.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "OBJECT",
           "name": "Avatar",
           "description": "An avatar belonging to a user",
@@ -2715,6 +1486,170 @@
           ],
           "enumValues": null,
           "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "Connection",
+          "description": null,
+          "fields": [
+            {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pageInfo",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "PageInfo",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "APIAccessTokenConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AgentConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AgentTokenConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AnnotationConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "ArtifactConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "BuildConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "BuildMetaDataConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "ChangelogConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "CommentConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "EmailConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "JobConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationAuditEventConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationInvitationConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationInvitationTeamAssignmentConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationMemberConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OrganizationMemberPipelineConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "PipelineConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "PipelineMetricConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "PipelineScheduleConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamMemberConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamPipelineConnection",
+              "ofType": null
+            }
+          ]
         },
         {
           "kind": "OBJECT",
@@ -3465,6 +2400,61 @@
           "possibleTypes": null
         },
         {
+          "kind": "INTERFACE",
+          "name": "BuildSource",
+          "description": null,
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "BuildSourceAPI",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "BuildSourceFrontend",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "BuildSourceSchedule",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "BuildSourceTriggerJob",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "BuildSourceWebhook",
+              "ofType": null
+            }
+          ]
+        },
+        {
           "kind": "OBJECT",
           "name": "PullRequest",
           "description": "A pull request on a provider",
@@ -3519,7 +2509,7 @@
         {
           "kind": "OBJECT",
           "name": "UnregisteredUser",
-          "description": "A name and email address of a person who hasn't signed up to Buildkite",
+          "description": "A person who hasn’t signed up to Buildkite",
           "fields": [
             {
               "name": "avatar",
@@ -3745,7 +2735,45 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "actor_type",
+                  "name": "occurredAtFrom",
+                  "description": "Filter events which occurred from the given date and time",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "DateTime",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "occurredAtTo",
+                  "description": "Filter events which occurred until the given date and time",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "DateTime",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "type",
+                  "description": "Filter the events by type",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "ENUM",
+                        "name": "AuditEventType",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "actorType",
                   "description": "Filter the events by the type of actor who initiated them",
                   "type": {
                     "kind": "LIST",
@@ -3763,7 +2791,25 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "subject_type",
+                  "name": "actor",
+                  "description": "Filter the events by the IDs of the actors who initiated them",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "ID",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "subjectType",
                   "description": "Filter the events by the type of subject they relate to",
                   "type": {
                     "kind": "LIST",
@@ -3774,6 +2820,24 @@
                       "ofType": {
                         "kind": "ENUM",
                         "name": "AuditSubjectType",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "subject",
+                  "description": "Filter the events by the IDs of the subject they relate to",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "ID",
                         "ofType": null
                       }
                     }
@@ -5136,6 +4200,95 @@
           "possibleTypes": null
         },
         {
+          "kind": "INTERFACE",
+          "name": "RepositoryProvider",
+          "description": null,
+          "fields": [
+            {
+              "name": "name",
+              "description": "The name of the provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "url",
+              "description": "This URL to the provider’s web interface",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "RepositoryProviderBitbucket",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "RepositoryProviderBitbucketServer",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "RepositoryProviderCodebase",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "RepositoryProviderGithub",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "RepositoryProviderGithubEnterprise",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "RepositoryProviderGitlab",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "RepositoryProviderGitlabCommunity",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "RepositoryProviderGitlabEnterprise",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "RepositoryProviderUnknown",
+              "ofType": null
+            }
+          ]
+        },
+        {
           "kind": "SCALAR",
           "name": "DateTime",
           "description": "An ISO-8601 encoded UTC date string",
@@ -5524,6 +4677,24 @@
                 "kind": "SCALAR",
                 "name": "String",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "passed",
+              "description": "If the job has finished and passed",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -6623,170 +5794,6 @@
           ],
           "enumValues": null,
           "possibleTypes": null
-        },
-        {
-          "kind": "INTERFACE",
-          "name": "Connection",
-          "description": null,
-          "fields": [
-            {
-              "name": "count",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "pageInfo",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "PageInfo",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "APIAccessTokenConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AgentConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AgentTokenConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AnnotationConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "ArtifactConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "BuildConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "BuildMetaDataConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "ChangelogConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "CommentConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "EmailConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "JobConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "OrganizationAuditEventConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "OrganizationConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "OrganizationInvitationConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "OrganizationInvitationTeamAssignmentConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "OrganizationMemberConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "OrganizationMemberPipelineConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "PipelineConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "PipelineMetricConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "PipelineScheduleConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "TeamConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "TeamMemberConnection",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "TeamPipelineConnection",
-              "ofType": null
-            }
-          ]
         },
         {
           "kind": "OBJECT",
@@ -11239,6 +10246,46 @@
           "possibleTypes": null
         },
         {
+          "kind": "INTERFACE",
+          "name": "SSOProvider",
+          "description": null,
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "SSOProviderGoogle",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "SSOProviderSAML",
+              "ofType": null
+            }
+          ]
+        },
+        {
           "kind": "OBJECT",
           "name": "OrganizationAuditEventConnection",
           "description": null,
@@ -11511,6 +10558,42 @@
             },
             {
               "name": "AGENT_TOKEN_REVOKED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NOTIFICATION_SERVICE_BROKEN",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NOTIFICATION_SERVICE_CREATED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NOTIFICATION_SERVICE_DELETED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NOTIFICATION_SERVICE_DISABLED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NOTIFICATION_SERVICE_ENABLED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NOTIFICATION_SERVICE_UPDATED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -11910,6 +10993,12 @@
               "deprecationReason": null
             },
             {
+              "name": "NOTIFICATION_SERVICE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "ORGANIZATION",
               "description": null,
               "isDeprecated": false,
@@ -11976,6 +11065,36 @@
             },
             {
               "kind": "OBJECT",
+              "name": "NotificationServiceCampfire",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceFlowdock",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceHipchat",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceLIFX",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceSlack",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceWebhook",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Organization",
               "ofType": null
             },
@@ -12015,6 +11134,538 @@
               "ofType": null
             }
           ]
+        },
+        {
+          "kind": "OBJECT",
+          "name": "NotificationServiceCampfire",
+          "description": "Deliver notifications to Campfire",
+          "fields": [
+            {
+              "name": "description",
+              "description": "The description of this service",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the service provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "NotificationService",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "NotificationService",
+          "description": null,
+          "fields": [
+            {
+              "name": "description",
+              "description": "The description of this service",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the service provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceCampfire",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceFlowdock",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceHipchat",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceLIFX",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceSlack",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "NotificationServiceWebhook",
+              "ofType": null
+            }
+          ]
+        },
+        {
+          "kind": "OBJECT",
+          "name": "NotificationServiceFlowdock",
+          "description": "Deliver notifications to Flowdock",
+          "fields": [
+            {
+              "name": "description",
+              "description": "The description of this service",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the service provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "NotificationService",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "NotificationServiceHipchat",
+          "description": "Deliver notifications to Hipchat",
+          "fields": [
+            {
+              "name": "description",
+              "description": "The description of this service",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the service provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "NotificationService",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "NotificationServiceLIFX",
+          "description": "Deliver notifications to LIFX",
+          "fields": [
+            {
+              "name": "description",
+              "description": "The description of this service",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the service provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "NotificationService",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "NotificationServiceSlack",
+          "description": "Deliver notifications to Slack",
+          "fields": [
+            {
+              "name": "description",
+              "description": "The description of this service",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the service provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "NotificationService",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "NotificationServiceWebhook",
+          "description": "Deliver notifications to a custom URL",
+          "fields": [
+            {
+              "name": "description",
+              "description": "The description of this service",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the service provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "NotificationService",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
         },
         {
           "kind": "UNION",
@@ -12126,6 +11777,16 @@
           "interfaces": [
 
           ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "JSON",
+          "description": "A blob of JSON represented as a pretty formatted string",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -13293,6 +12954,66 @@
           ],
           "enumValues": null,
           "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "Authorization",
+          "description": null,
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationBitbucket",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationGitHub",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationGitHubEnterprise",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationGoogle",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationLIFX",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "AuthorizationSAML",
+              "ofType": null
+            }
+          ]
         },
         {
           "kind": "ENUM",
@@ -19322,6 +19043,1018 @@
               "deprecationReason": null
             }
           ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AuthorizationBitbucket",
+          "description": "A Bitbucket account authorized with a Buildkite account",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Authorization",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AuthorizationGitHubEnterprise",
+          "description": "A GitHub Enterprise account authorized with a Buildkite account",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Authorization",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AuthorizationGitHub",
+          "description": "A GitHub account authorized with a Buildkite account",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Authorization",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AuthorizationGoogle",
+          "description": "A Google account authorized with a Buildkite account",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Authorization",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AuthorizationLIFX",
+          "description": "A LIFX account authorized with a Buildkite account",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Authorization",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "AuthorizationSAML",
+          "description": "A SAML account authorized with a Buildkite account",
+          "fields": [
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Authorization",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "BuildSourceAPI",
+          "description": "A build was triggered via an API",
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "BuildSource",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "BuildSourceFrontend",
+          "description": "A build was triggered manually via the frontend",
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "BuildSource",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "BuildSourceSchedule",
+          "description": "A build was triggered via a schedule",
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "BuildSource",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "BuildSourceTriggerJob",
+          "description": "A build was triggered via a trigger job",
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "BuildSource",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "BuildSourceWebhook",
+          "description": "A build was triggered via a Webhook",
+          "fields": [
+            {
+              "name": "headers",
+              "description": "Provider specific headers sent along with the webhook. This will return null if the webhook has been purged by Buildkite.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "payload",
+              "description": "The body of the webhook. Buildkite only webhook data for a short period of time, so if this returns null - then the webhook data has been purged by Buildkite",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID for this webhook. This will return null if the webhook has been purged by Buildkite",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "BuildSource",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RepositoryProviderBitbucketServer",
+          "description": "A pipeline's repository is being provided by Bitbucket Server",
+          "fields": [
+            {
+              "name": "name",
+              "description": "The name of the provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "url",
+              "description": "This URL to the provider’s web interface",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "RepositoryProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RepositoryProviderBitbucket",
+          "description": "A pipeline's repository is being provided by Bitbucket",
+          "fields": [
+            {
+              "name": "name",
+              "description": "The name of the provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "url",
+              "description": "This URL to the provider’s web interface",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "RepositoryProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RepositoryProviderCodebase",
+          "description": "A pipeline's repository is being provided by Codebase",
+          "fields": [
+            {
+              "name": "name",
+              "description": "The name of the provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "url",
+              "description": "This URL to the provider’s web interface",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "RepositoryProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RepositoryProviderGithubEnterprise",
+          "description": "A pipeline's repository is being provided by GitHub Enterprise",
+          "fields": [
+            {
+              "name": "name",
+              "description": "The name of the provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "url",
+              "description": "This URL to the provider’s web interface",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "RepositoryProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RepositoryProviderGithub",
+          "description": "A pipeline's repository is being provided by GitHub",
+          "fields": [
+            {
+              "name": "name",
+              "description": "The name of the provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "url",
+              "description": "This URL to the provider’s web interface",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "RepositoryProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RepositoryProviderGitlabCommunity",
+          "description": "A pipeline's repository is being provided by Gitlab Community Edition",
+          "fields": [
+            {
+              "name": "name",
+              "description": "The name of the provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "url",
+              "description": "This URL to the provider’s web interface",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "RepositoryProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RepositoryProviderGitlabEnterprise",
+          "description": "A pipeline's repository is being provided by Gitlab Enterprise Edition",
+          "fields": [
+            {
+              "name": "name",
+              "description": "The name of the provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "url",
+              "description": "This URL to the provider’s web interface",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "RepositoryProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RepositoryProviderGitlab",
+          "description": "A pipeline's repository is being provided by Gitlab",
+          "fields": [
+            {
+              "name": "name",
+              "description": "The name of the provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "url",
+              "description": "This URL to the provider’s web interface",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "RepositoryProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RepositoryProviderUnknown",
+          "description": "A pipeline's repository is being provided by a service unknown to Buildkite",
+          "fields": [
+            {
+              "name": "name",
+              "description": "The name of the provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "url",
+              "description": "This URL to the provider’s web interface",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "RepositoryProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "SSOProviderGoogle",
+          "description": "Single sign-on provided by Google",
+          "fields": [
+            {
+              "name": "emailDomain",
+              "description": "Email domain which triggers this single sign-on provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "SSOProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "SSOProviderSAML",
+          "description": "Single sign-on provided via SAML",
+          "fields": [
+            {
+              "name": "emailDomain",
+              "description": "Email domain which triggers this single sign-on provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "SSOProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
           "possibleTypes": null
         }
       ],

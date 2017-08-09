@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import styled from 'styled-components';
 import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
@@ -15,6 +16,13 @@ import permissions from '../../lib/permissions';
 import { getLabelForConnectionState } from './shared';
 
 import AgentStopMutation from '../../mutations/AgentStop';
+
+const JobList = styled.ul.attrs({
+  className: 'm0 p0'
+})`
+  list-style: none;
+  list-style-type: none;
+`;
 
 class AgentShow extends React.Component {
   static propTypes = {
@@ -76,7 +84,7 @@ class AgentShow extends React.Component {
   renderExtraItem(title, content) {
     return (
       <tr key={title} style={{ marginTop: 3 }} className="border-gray border-bottom">
-        <th className="h4 p2 semi-bold left-align align-top" width={100}>{title}</th>
+        <th className="h4 p2 semi-bold left-align align-top" width={120}>{title}</th>
         <td className="h4 p2">{content}</td>
       </tr>
     );
@@ -96,7 +104,7 @@ class AgentShow extends React.Component {
 
     extras.push(this.renderExtraItem('State', (
       <div>
-        <AgentStateIcon agent={agent} className="pr2" />
+        <AgentStateIcon agent={agent} style={{ marginRight: '.4em' }} />
         {getLabelForConnectionState(agent.connectionState)}
         {extraStoppingInfo}
       </div>
@@ -135,8 +143,25 @@ class AgentShow extends React.Component {
         'Running',
         // if we have access to the job, show a link
         agent.job
-          ? <JobLink job={agent.job} />
+          ? <JobLink job={agent.job} showState={true} />
           : 'A job owned by another team'
+      ));
+    }
+
+    if (agent.jobs.edges.length) {
+      extras.push(this.renderExtraItem(
+        'Recent Jobs',
+        <JobList>
+          {agent.jobs.edges.map(({ node: job }) => (
+              <li key={job.uuid}>
+                {job
+                  ? <JobLink job={job} showState={true} />
+                  : 'A job owned by another team'
+                }
+              </li>
+            ))
+          }
+        </JobList>
       ));
     }
 
@@ -327,6 +352,16 @@ export default Relay.createContainer(AgentShow, {
         ipAddress
         job {
           ${JobLink.getFragment('job')}
+        }
+        jobs(first: 5) {
+          edges {
+            node {
+              ...on JobTypeCommand {
+                uuid
+              }
+              ${JobLink.getFragment('job')}
+            }
+          }
         }
         isRunningJob
         lostAt
