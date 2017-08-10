@@ -5,6 +5,8 @@ import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
 import AgentStateIcon from './state-icon';
+import BuildState from '../icons/BuildState';
+import BuildStates from '../../constants/BuildStates';
 import Button from '../shared/Button';
 import FlashesStore from '../../stores/FlashesStore';
 import FriendlyTime from '../shared/FriendlyTime';
@@ -73,6 +75,50 @@ class AgentShow extends React.Component {
     );
   };
 
+  getBuildStateForJob(job) {
+    // Naïvely transliterate Job state to Build state
+    switch (job.state) {
+      case "FINISHED":
+        return (
+          job.passed
+            ? BuildStates.PASSED
+            : BuildStates.FAILED
+        );
+      case "PENDING":
+      case "WAITING":
+      case "UNBLOCKED":
+      case "LIMITED":
+      case "ASSIGNED":
+      case "ACCEPTED":
+        return BuildStates.SCHEDULED;
+      case "TIMING_OUT":
+      case "TIMED_OUT":
+      case "WAITING_FAILED":
+      case "BLOCKED_FAILED":
+      case "UNBLOCKED_FAILED":
+      case "BROKEN":
+        return BuildStates.FAILED;
+      default:
+        return job.state;
+    }
+  }
+
+  renderJob(job) {
+    if (!job) {
+      return 'A job owned by another team';
+    }
+
+    return (
+      <span>
+        <BuildState.XSmall
+          state={this.getBuildStateForJob(job)}
+          style={{ marginRight: '.4em' }}
+        />
+        <JobLink job={job} />
+      </span>
+    );
+  }
+
   renderExtraItem(title, content) {
     return (
       <tr key={title} style={{ marginTop: 3 }} className="border-gray border-bottom">
@@ -134,9 +180,7 @@ class AgentShow extends React.Component {
       extras.push(this.renderExtraItem(
         'Running',
         // if we have access to the job, show a link
-        agent.job
-          ? <JobLink job={agent.job} showState={true} />
-          : 'A job owned by another team'
+        this.renderJob(agent.job)
       ));
     }
 
@@ -147,10 +191,7 @@ class AgentShow extends React.Component {
           {
             agent.jobs.edges.map(({ node: job }) => (
               <li key={job.uuid}>
-                {job
-                  ? <JobLink job={job} showState={true} />
-                  : 'A job owned by another team'
-                }
+                {this.renderJob(job)}
               </li>
             ))
           }
@@ -202,6 +243,7 @@ class AgentShow extends React.Component {
     }
 
     let metaDataContent = 'None';
+
     if (agent.metaData && agent.metaData.length) {
       metaDataContent = agent.metaData.sort().map((metaData) => {
         return (
@@ -344,6 +386,10 @@ export default Relay.createContainer(AgentShow, {
         id
         ipAddress
         job {
+          ...on JobTypeCommand {
+            state
+            passed
+          }
           ${JobLink.getFragment('job')}
         }
         jobs(first: 5) {
@@ -351,6 +397,8 @@ export default Relay.createContainer(AgentShow, {
             node {
               ...on JobTypeCommand {
                 uuid
+                state
+                passed
               }
               ${JobLink.getFragment('job')}
             }
