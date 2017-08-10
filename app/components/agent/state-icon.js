@@ -14,7 +14,8 @@ class AgentStateIcon extends React.PureComponent {
       connectionState: PropTypes.string.isRequired,
       isRunningJob: PropTypes.bool.isRequired
     }),
-    className: PropTypes.string
+    className: PropTypes.string,
+    style: PropTypes.object
   };
 
   render() {
@@ -45,7 +46,11 @@ class AgentStateIcon extends React.PureComponent {
     }
 
     return (
-      <div title={title} className={classNames("inline align-middle", className)}>
+      <div
+        title={title}
+        className={classNames("inline align-middle", className)}
+        style={this.props.style}
+      >
         {icon}
       </div>
     );

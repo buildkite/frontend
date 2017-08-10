@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import styled from 'styled-components';
 import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
 import AgentStateIcon from './state-icon';
+import BuildState from '../icons/BuildState';
+import BuildStates from '../../constants/BuildStates';
 import Button from '../shared/Button';
 import FlashesStore from '../../stores/FlashesStore';
 import FriendlyTime from '../shared/FriendlyTime';
@@ -15,6 +18,22 @@ import permissions from '../../lib/permissions';
 import { getLabelForConnectionState } from './shared';
 
 import AgentStopMutation from '../../mutations/AgentStop';
+
+const ExtrasTable = styled.table`
+  @media (max-width: 720px) {
+    &, tbody {
+      display: block;
+    }
+
+    tr {
+      display: flex;
+    }
+
+    th {
+      padding-bottom: 0;
+    }
+  }
+`;
 
 class AgentShow extends React.Component {
   static propTypes = {
@@ -73,11 +92,55 @@ class AgentShow extends React.Component {
     );
   };
 
+  getBuildStateForJob(job) {
+    // Naïvely transliterate Job state to Build state
+    switch (job.state) {
+      case "FINISHED":
+        return (
+          job.passed
+            ? BuildStates.PASSED
+            : BuildStates.FAILED
+        );
+      case "PENDING":
+      case "WAITING":
+      case "UNBLOCKED":
+      case "LIMITED":
+      case "ASSIGNED":
+      case "ACCEPTED":
+        return BuildStates.SCHEDULED;
+      case "TIMING_OUT":
+      case "TIMED_OUT":
+      case "WAITING_FAILED":
+      case "BLOCKED_FAILED":
+      case "UNBLOCKED_FAILED":
+      case "BROKEN":
+        return BuildStates.FAILED;
+      default:
+        return job.state;
+    }
+  }
+
+  renderJob(job) {
+    if (!job) {
+      return 'A job owned by another team';
+    }
+
+    return (
+      <span style={{ display: 'inline-block', marginLeft: '1.4em' }}>
+        <BuildState.XSmall
+          state={this.getBuildStateForJob(job)}
+          style={{ marginLeft: '-1.4em', marginRight: '.4em' }}
+        />
+        <JobLink job={job} />
+      </span>
+    );
+  }
+
   renderExtraItem(title, content) {
     return (
-      <tr key={title} style={{ marginTop: 3 }} className="border-gray border-bottom">
-        <th className="h4 p2 semi-bold left-align align-top" width={100}>{title}</th>
-        <td className="h4 p2">{content}</td>
+      <tr key={title} style={{ marginTop: 3 }} className="border-gray border-bottom flex-wrap">
+        <th className="h4 p2 semi-bold left-align align-top" width={120}>{title}</th>
+        <td className="h4 p2" style={{ flexGrow: 1 }}>{content}</td>
       </tr>
     );
   }
@@ -96,7 +159,7 @@ class AgentShow extends React.Component {
 
     extras.push(this.renderExtraItem('State', (
       <div>
-        <AgentStateIcon agent={agent} className="pr2" />
+        <AgentStateIcon agent={agent} style={{ marginRight: '.4em' }} />
         {getLabelForConnectionState(agent.connectionState)}
         {extraStoppingInfo}
       </div>
@@ -134,9 +197,22 @@ class AgentShow extends React.Component {
       extras.push(this.renderExtraItem(
         'Running',
         // if we have access to the job, show a link
-        agent.job
-          ? <JobLink job={agent.job} />
-          : 'A job owned by another team'
+        this.renderJob(agent.job)
+      ));
+    }
+
+    if (agent.jobs.edges.length) {
+      extras.push(this.renderExtraItem(
+        'Recent Jobs',
+        <ul className="m0 list-reset">
+          {
+            agent.jobs.edges.map(({ node: job }) => (
+              <li key={job.uuid}>
+                {this.renderJob(job)}
+              </li>
+            ))
+          }
+        </ul>
       ));
     }
 
@@ -184,10 +260,11 @@ class AgentShow extends React.Component {
     }
 
     let metaDataContent = 'None';
+
     if (agent.metaData && agent.metaData.length) {
-      metaDataContent = agent.metaData.sort().map((metaData, index) => {
+      metaDataContent = agent.metaData.sort().map((metaData) => {
         return (
-          <div className="mb1" key={index}>{metaData}</div>
+          <div className="mb1" key={metaData}>{metaData}</div>
         );
       });
     }
@@ -196,7 +273,13 @@ class AgentShow extends React.Component {
       <pre className="black bg-silver rounded border border-gray p2 m0 mb1 monospace" style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{metaDataContent}</pre>
     ));
 
-    return extras;
+    return (
+      <ExtrasTable className="col-12">
+        <tbody>
+          {extras}
+        </tbody>
+      </ExtrasTable>
+    );
   }
 
   handleStopButtonClick = (evt) => {
@@ -252,11 +335,7 @@ class AgentShow extends React.Component {
             <Panel.Header>{this.props.agent.name}</Panel.Header>
 
             <Panel.Row key="info">
-              <table className="col-12">
-                <tbody>
-                  {this.renderExtras(agent)}
-                </tbody>
-              </table>
+              {this.renderExtras(agent)}
               <p>
                 You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
                 See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/queues">Agent Queues Documentation</a> for more details.
@@ -326,7 +405,23 @@ export default Relay.createContainer(AgentShow, {
         id
         ipAddress
         job {
+          ...on JobTypeCommand {
+            state
+            passed
+          }
           ${JobLink.getFragment('job')}
+        }
+        jobs(first: 10) {
+          edges {
+            node {
+              ...on JobTypeCommand {
+                uuid
+                state
+                passed
+              }
+              ${JobLink.getFragment('job')}
+            }
+          }
         }
         isRunningJob
         lostAt
