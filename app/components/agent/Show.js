@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-import styled from 'styled-components';
 import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
@@ -16,13 +15,6 @@ import permissions from '../../lib/permissions';
 import { getLabelForConnectionState } from './shared';
 
 import AgentStopMutation from '../../mutations/AgentStop';
-
-const JobList = styled.ul.attrs({
-  className: 'm0 p0'
-})`
-  list-style: none;
-  list-style-type: none;
-`;
 
 class AgentShow extends React.Component {
   static propTypes = {
@@ -151,8 +143,9 @@ class AgentShow extends React.Component {
     if (agent.jobs.edges.length) {
       extras.push(this.renderExtraItem(
         'Recent Jobs',
-        <JobList>
-          {agent.jobs.edges.map(({ node: job }) => (
+        <ul className="m0 list-reset">
+          {
+            agent.jobs.edges.map(({ node: job }) => (
               <li key={job.uuid}>
                 {job
                   ? <JobLink job={job} showState={true} />
@@ -161,7 +154,7 @@ class AgentShow extends React.Component {
               </li>
             ))
           }
-        </JobList>
+        </ul>
       ));
     }
 
@@ -210,9 +203,9 @@ class AgentShow extends React.Component {
 
     let metaDataContent = 'None';
     if (agent.metaData && agent.metaData.length) {
-      metaDataContent = agent.metaData.sort().map((metaData, index) => {
+      metaDataContent = agent.metaData.sort().map((metaData) => {
         return (
-          <div className="mb1" key={index}>{metaData}</div>
+          <div className="mb1" key={metaData}>{metaData}</div>
         );
       });
     }

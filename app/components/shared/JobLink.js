@@ -32,7 +32,7 @@ class JobLink extends React.PureComponent {
 
   getBuildStateForJob(job) {
     // Naïvely transliterate Job state to Build state
-    switch(job.state) {
+    switch (job.state) {
       case "FINISHED":
         return (
           job.passed
@@ -52,7 +52,7 @@ class JobLink extends React.PureComponent {
       case "BLOCKED_FAILED":
       case "UNBLOCKED_FAILED":
       case "BROKEN":
-        return BuildStstes.FAILED;
+        return BuildStates.FAILED;
       default:
         return job.state;
     }
