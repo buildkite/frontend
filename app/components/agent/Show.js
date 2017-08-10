@@ -20,7 +20,7 @@ import { getLabelForConnectionState } from './shared';
 import AgentStopMutation from '../../mutations/AgentStop';
 
 const ExtrasTable = styled.table`
-  @media (max-width: 768px) {
+  @media (max-width: 720px) {
     &, tbody {
       display: block;
     }
