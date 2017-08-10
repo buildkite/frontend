@@ -129,7 +129,7 @@ class AgentShow extends React.Component {
       <span style={{ display: 'inline-block', marginLeft: '1.4em' }}>
         <BuildState.XSmall
           state={this.getBuildStateForJob(job)}
-          style={{  marginLeft: '-1.4em', marginRight: '.4em' }}
+          style={{ marginLeft: '-1.4em', marginRight: '.4em' }}
         />
         <JobLink job={job} />
       </span>
