@@ -392,7 +392,7 @@ export default Relay.createContainer(AgentShow, {
           }
           ${JobLink.getFragment('job')}
         }
-        jobs(first: 5) {
+        jobs(first: 10) {
           edges {
             node {
               ...on JobTypeCommand {
