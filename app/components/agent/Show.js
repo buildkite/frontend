@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import styled from 'styled-components';
 import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
@@ -17,6 +18,22 @@ import permissions from '../../lib/permissions';
 import { getLabelForConnectionState } from './shared';
 
 import AgentStopMutation from '../../mutations/AgentStop';
+
+const ExtrasTable = styled.table`
+  @media (max-width: 768px) {
+    &, tbody {
+      display: block;
+    }
+
+    tr {
+      display: flex;
+    }
+
+    th {
+      padding-bottom: 0;
+    }
+  }
+`;
 
 class AgentShow extends React.Component {
   static propTypes = {
@@ -121,9 +138,9 @@ class AgentShow extends React.Component {
 
   renderExtraItem(title, content) {
     return (
-      <tr key={title} style={{ marginTop: 3 }} className="border-gray border-bottom">
+      <tr key={title} style={{ marginTop: 3 }} className="border-gray border-bottom flex-wrap">
         <th className="h4 p2 semi-bold left-align align-top" width={120}>{title}</th>
-        <td className="h4 p2">{content}</td>
+        <td className="h4 p2" style={{ flexGrow: 1 }}>{content}</td>
       </tr>
     );
   }
@@ -256,7 +273,13 @@ class AgentShow extends React.Component {
       <pre className="black bg-silver rounded border border-gray p2 m0 mb1 monospace" style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{metaDataContent}</pre>
     ));
 
-    return extras;
+    return (
+      <ExtrasTable className="col-12">
+        <tbody>
+          {extras}
+        </tbody>
+      </ExtrasTable>
+    );
   }
 
   handleStopButtonClick = (evt) => {
@@ -312,11 +335,7 @@ class AgentShow extends React.Component {
             <Panel.Header>{this.props.agent.name}</Panel.Header>
 
             <Panel.Row key="info">
-              <table className="col-12">
-                <tbody>
-                  {this.renderExtras(agent)}
-                </tbody>
-              </table>
+              {this.renderExtras(agent)}
               <p>
                 You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
                 See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/queues">Agent Queues Documentation</a> for more details.
