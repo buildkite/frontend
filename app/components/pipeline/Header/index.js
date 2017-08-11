@@ -29,12 +29,15 @@ const HeaderBuilds = styled(Builds)`
   flex: 1 1 auto;
   margin-bottom: 5px;
 
+  @media (min-width: 768px) {
+    margin-left: 10px;
+  }
+
   @media (min-width: 768px) and (max-width: 991px) {
     order: 3;
   }
 
   @media (min-width: 992px) {
-    margin-left: 10px;
     flex: 0 1 auto;
     margin-bottom: 0;
   }
@@ -83,30 +86,13 @@ class Header extends React.Component {
               </a>
             </div>
             {this.renderProviderBadge()}
-            <Dropdown
-              className="sm-hide md-hide lg-hide ml2"
-              width={200}
-              ref={(_actionsDropdown) => this._actionsDropdown = _actionsDropdown}
-              onToggle={this.handleActionsDropdownToggle}
-            >
-              <Button
-                outline={true}
-                theme="default"
-                className={classNames({ lime: this.state.showingActionsDropdown })}
-                iconOnly={true}
-              >
-                <Icon icon="down-triangle" style={{ width: 7, height: 7 }} className="flex-none" />
-              </Button>
-              {this.renderDropdownItemsForActions(actions)}
-            </Dropdown>
+            {this.renderDropdownForActions(actions)}
           </HeaderVitals>
           <HeaderBuilds
             pipeline={this.props.pipeline}
             buildState={this.props.buildState}
           />
-          <div className="flex xs-hide">
-            {this.renderButtonsForActions(actions)}
-          </div>
+          {this.renderButtonsForActions(actions)}
         </div>
         <CreateBuildDialog
           isOpen={this.state.showingCreateBuildDialog}
@@ -145,6 +131,7 @@ class Header extends React.Component {
       {
         allowed: "buildCreate",
         render: () => ({
+          key: 'newBuild',
           onClick: this.handleBuildCreateClick,
           children: 'New Build'
         })
@@ -152,6 +139,7 @@ class Header extends React.Component {
       {
         allowed: "pipelineUpdate",
         render: () => ({
+          key: 'pipelineSettings',
           href: `${this.props.pipeline.url}/settings`,
           children: 'Pipeline Settings'
         })
@@ -159,27 +147,60 @@ class Header extends React.Component {
     );
   }
 
-  renderDropdownItemsForActions(actions) {
-    return actions.map((action, index) => (
+  renderDropdownForActions(actions) {
+    if (actions.length < 1) {
+      return;
+    }
+
+    const content = actions.map(({ key, ...action }) => (
       <a
-        key={index}
+        key={key}
         className="btn black hover-lime focus-lime flex items-center flex-none semi-bold"
         {...action}
         href={action.href || '#'}
       />
     ));
+
+    return (
+      <Dropdown
+        className="sm-hide md-hide lg-hide"
+        width={200}
+        ref={(_actionsDropdown) => this._actionsDropdown = _actionsDropdown}
+        onToggle={this.handleActionsDropdownToggle}
+      >
+        <Button
+          outline={true}
+          theme="default"
+          className={classNames({ lime: this.state.showingActionsDropdown })}
+          iconOnly={true}
+        >
+          <Icon icon="down-triangle" style={{ width: 7, height: 7 }} className="flex-none" />
+        </Button>
+        {content}
+      </Dropdown>
+    );
   }
 
   renderButtonsForActions(actions) {
-    return actions.map((action, index) => (
+    if (actions.length < 1) {
+      return;
+    }
+
+    const content = actions.map(({ key, ...action }) => (
       <Button
-        key={index}
+        key={key}
         outline={true}
         theme="default"
         className="ml2 flex items-center"
         {...action}
       />
     ));
+
+    return (
+      <div className="flex xs-hide">
+        {content}
+      </div>
+    );
   }
 
   renderDescription() {
