@@ -342,8 +342,4 @@ export default class FormCreditCardField extends React.PureComponent {
   _hasErrors() {
     return this.props.errors && this.props.errors.length > 0;
   }
-
-  _hasEmptyValue() {
-    return !this.state.value || this.state.value.length === 0;
-  }
 }
