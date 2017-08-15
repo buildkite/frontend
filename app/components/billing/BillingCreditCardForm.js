@@ -3,6 +3,7 @@ import React from 'react';
 import { getTypeInfo, types as CardType } from 'credit-card-type';
 
 import FormInputLabel from '../shared/FormInputLabel';
+import FormInputErrors from '../shared/FormInputErrors';
 import FormCreditCardField from '../shared/FormCreditCardField';
 import FormTextField from '../shared/FormTextField';
 import FormSelect from '../shared/FormSelect';
@@ -67,8 +68,7 @@ class BillingCreditCardForm extends React.Component {
                 {this.renderYearSelect(errors)}
               </div>
 
-              {this.renderExpiryError(errors, "month")}
-              {this.renderExpiryError(errors, "year")}
+              {this.renderExpiryError(errors)}
             </div>
           </div>
 
@@ -115,12 +115,14 @@ class BillingCreditCardForm extends React.Component {
   }
 
   renderExpiryError(errors, field) {
-    const errorMessages = errors.findForField(field);
-    if (errorMessages) {
-      return (
-        <div className="p0 red">{errorMessages.join(", ")}</div>
-      );
-    }
+    const errorMessages = ['month', 'year'].reduce(
+      (acc, field) => (acc.concat(errors.findForField(field))),
+      []
+    );
+
+    return (
+      <FormInputErrors errors={errorMessages} />
+    );
   }
 
   renderMonthSelect() {

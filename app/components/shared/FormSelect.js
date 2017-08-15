@@ -35,7 +35,7 @@ class FormSelect extends React.Component {
         >
           {this._renderSelect()}
         </FormInputLabel>
-        {this._renderErrors()}
+        <FormInputErrors errors={this.props.errors} />
         <FormInputHelp>{this.props.help}</FormInputHelp>
       </div>
     );
@@ -47,14 +47,6 @@ class FormSelect extends React.Component {
 
   _hasErrors() {
     return this.props.errors && this.props.errors.length > 0;
-  }
-
-  _renderErrors() {
-    if (this._hasErrors()) {
-      return (
-        <FormInputErrors errors={this.props.errors} />
-      );
-    }
   }
 
   _renderSelect() {

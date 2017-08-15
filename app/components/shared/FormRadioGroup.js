@@ -35,7 +35,7 @@ class FormRadioGroup extends React.Component {
       <div className={classNames("mb2", this.props.className)}>
         {this._renderLabel()}
         {this._renderInputs()}
-        {this._renderErrors()}
+        <FormInputErrors errors={this.props.errors} />
       </div>
     );
   }
@@ -51,14 +51,6 @@ class FormRadioGroup extends React.Component {
           {this.props.label}
           {this.props.required && <span className="dark-gray h6 semi-bold"> — Required</span>}
         </label>
-      );
-    }
-  }
-
-  _renderErrors() {
-    if (this._hasErrors()) {
-      return (
-        <FormInputErrors errors={this.props.errors} />
       );
     }
   }

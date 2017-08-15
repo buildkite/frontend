@@ -58,7 +58,7 @@ class FormTextarea extends React.Component {
           required={this.props.required}
         >
           {this._renderTextArea()}
-          {this._renderErrors()}
+          <FormInputErrors errors={this.props.errors} />
           <FormInputHelp>{this.props.help}</FormInputHelp>
         </CollapsableFormField>
       );
@@ -73,7 +73,7 @@ class FormTextarea extends React.Component {
         >
           {this._renderTextArea()}
         </FormInputLabel>
-        {this._renderErrors()}
+        <FormInputErrors errors={this.props.errors} />
         <FormInputHelp>{this.props.help}</FormInputHelp>
       </div>
     );
@@ -98,14 +98,6 @@ class FormTextarea extends React.Component {
 
   _hasEmptyValue() {
     return !this.props.value || this.props.value.length === 0;
-  }
-
-  _renderErrors() {
-    if (this._hasErrors()) {
-      return (
-        <FormInputErrors errors={this.props.errors} />
-      );
-    }
   }
 
   _renderTextArea() {

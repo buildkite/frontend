@@ -36,20 +36,12 @@ export default class FormCheckbox extends React.PureComponent {
           <span className={classNames('semi-bold', { red: this._hasErrors() })}>{this.props.label}</span><br />
           <FormInputHelp>{this.props.help}</FormInputHelp>
         </label>
-        {this._renderErrors()}
+        <FormInputErrors errors={this.props.errors} />
       </div>
     );
   }
 
   _hasErrors() {
     return this.props.errors && this.props.errors.length > 0;
-  }
-
-  _renderErrors() {
-    if (this._hasErrors()) {
-      return (
-        <FormInputErrors errors={this.props.errors} />
-      );
-    }
   }
 }

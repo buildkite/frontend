@@ -108,7 +108,7 @@ export default class FormCreditCardField extends React.PureComponent {
         >
           {this._renderInput()}
         </FormInputLabel>
-        {this._renderErrors()}
+        <FormInputErrors errors={this.props.errors} />
         <FormInputHelp>{this.props.help}</FormInputHelp>
       </div>
     );
@@ -345,13 +345,5 @@ export default class FormCreditCardField extends React.PureComponent {
 
   _hasEmptyValue() {
     return !this.state.value || this.state.value.length === 0;
-  }
-
-  _renderErrors() {
-    if (this._hasErrors()) {
-      return (
-        <FormInputErrors errors={this.props.errors} />
-      );
-    }
   }
 }

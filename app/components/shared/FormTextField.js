@@ -41,7 +41,7 @@ class FormTextField extends React.Component {
       return (
         <CollapsableFormField label={this.props.label} collapsed={this.state.collapsed}>
           {this._renderInput()}
-          {this._renderErrors()}
+          <FormInputErrors errors={this.props.errors} />
           <FormInputHelp>{this.props.help}</FormInputHelp>
         </CollapsableFormField>
       );
@@ -56,7 +56,7 @@ class FormTextField extends React.Component {
         >
           {this._renderInput()}
         </FormInputLabel>
-        {this._renderErrors()}
+        <FormInputErrors errors={this.props.errors} />
         <FormInputHelp>{this.props.help}</FormInputHelp>
       </div>
     );
@@ -76,14 +76,6 @@ class FormTextField extends React.Component {
 
   _hasEmptyValue() {
     return !this.props.value || this.props.value.length === 0;
-  }
-
-  _renderErrors() {
-    if (this._hasErrors()) {
-      return (
-        <FormInputErrors errors={this.props.errors} />
-      );
-    }
   }
 
   _renderInput() {
