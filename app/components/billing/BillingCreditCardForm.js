@@ -114,7 +114,7 @@ class BillingCreditCardForm extends React.Component {
     );
   }
 
-  renderExpiryError(errors, field) {
+  renderExpiryError(errors) {
     const errorMessages = ['month', 'year'].reduce(
       (acc, field) => (acc.concat(errors.findForField(field))),
       []

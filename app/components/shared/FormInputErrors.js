@@ -10,7 +10,7 @@ const FormInputErrors = ({ className, errors, ...props }) => {
   return (
     <p className={classNames('mt1 mb2 p0 red', className)} {...props}>
       {errors.reduce(
-        (acc, item, index, arr) => {
+        (acc, item, index) => {
           const separator = (
             index > 0
               ? [', ']
