@@ -26,6 +26,7 @@ const FormInputErrors = ({ className, errors, ...props }) => {
 };
 
 FormInputErrors.propTypes = {
+  className: PropTypes.string,
   errors: PropTypes.arrayOf(PropTypes.node.isRequired)
 };
 
