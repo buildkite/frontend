@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import FormInputErrors from './FormInputErrors';
+import FormInputHelp from './FormInputHelp';
 
 export default class FormCheckbox extends React.PureComponent {
   static propTypes = {
@@ -55,8 +56,7 @@ export default class FormCheckbox extends React.PureComponent {
   _renderHelp() {
     if (this.props.help) {
       return (
-        // NOTE: This replaces FormInputHelp
-        <p className="mt1 mb0 p0 dark-gray">{this.props.help}</p>
+        <FormInputHelp>{this.props.help}</FormInputHelp>
       );
     }
   }

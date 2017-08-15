@@ -76,7 +76,7 @@ class Form extends React.Component {
 
         <FormTextarea
           label="Build Environment Variables"
-          help="The environment variables to use for the build, each on a new line. e.g. <code>FOO=bar</code>"
+          help={<span>The environment variables to use for the build, each on a new line. e.g. <code>FOO=bar</code></span>}
           className="input"
           rows={2}
           autoresize={true}

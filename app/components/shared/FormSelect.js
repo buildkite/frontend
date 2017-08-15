@@ -17,7 +17,7 @@ class FormSelect extends React.Component {
     value: PropTypes.string,
     label: PropTypes.string,
     name: PropTypes.string,
-    help: PropTypes.string,
+    help: PropTypes.node,
     className: PropTypes.string,
     onChange: PropTypes.func,
     errors: PropTypes.array,
@@ -60,7 +60,7 @@ class FormSelect extends React.Component {
   _renderHelp() {
     if (this.props.help) {
       return (
-        <FormInputHelp html={this.props.help} />
+        <FormInputHelp>{this.props.help}</FormInputHelp>
       );
     }
   }

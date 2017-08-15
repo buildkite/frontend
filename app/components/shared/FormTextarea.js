@@ -15,7 +15,7 @@ class FormTextarea extends React.Component {
     name: PropTypes.string,
     value: PropTypes.string,
     placeholder: PropTypes.string,
-    help: PropTypes.string,
+    help: PropTypes.node,
     spellCheck: PropTypes.bool,
     onChange: PropTypes.func,
     collapsable: PropTypes.bool,
@@ -111,7 +111,7 @@ class FormTextarea extends React.Component {
   _renderHelp() {
     if (this.props.help) {
       return (
-        <FormInputHelp html={this.props.help} />
+        <FormInputHelp>{this.props.help}</FormInputHelp>
       );
     }
   }

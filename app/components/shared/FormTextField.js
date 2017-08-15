@@ -15,7 +15,7 @@ class FormTextField extends React.Component {
     value: PropTypes.string,
     placeholder: PropTypes.string,
     maxLength: PropTypes.number,
-    help: PropTypes.string,
+    help: PropTypes.node,
     spellCheck: PropTypes.bool,
     onChange: PropTypes.func,
     collapsable: PropTypes.bool,
@@ -89,7 +89,7 @@ class FormTextField extends React.Component {
   _renderHelp() {
     if (this.props.help) {
       return (
-        <FormInputHelp html={this.props.help} />
+        <FormInputHelp>{this.props.help}</FormInputHelp>
       );
     }
   }

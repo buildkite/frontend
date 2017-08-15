@@ -1,14 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-export default class FormInputHelp extends React.PureComponent {
-  static propTypes = {
-    html: PropTypes.string.isRequired
-  };
+const FormInputHelp = ({ className, children, ...props }) => (
+  <p
+    className={classNames('mt1 mb0 p0 dark-gray', className)}
+    {...props}
+  >
+    {children}
+  </p>
+);
 
-  render() {
-    return (
-      <p className="mt1 mb0 p0 dark-gray" dangerouslySetInnerHTML={{ __html: this.props.html }} />
-    );
-  }
-}
+FormInputHelp.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node
+};
+
+export default FormInputHelp;

@@ -121,7 +121,7 @@ class CreateBuildDialog extends React.PureComponent {
               <FormTextarea
                 name="build[env]"
                 label="Environment Variables"
-                help="Place each environment variable on a new line, in the format <code>KEY=value</code>"
+                help={<span>Place each environment variable on a new line, in the format <code>KEY=value</code></span>}
                 rows={3}
                 value={this.state.defaultValues.env}
                 tabIndex={this.state.showingOptions ? 0 : -1}

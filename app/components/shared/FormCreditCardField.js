@@ -37,7 +37,7 @@ export default class FormCreditCardField extends React.PureComponent {
     name: PropTypes.string,
     defaultValue: PropTypes.string,
     placeholder: PropTypes.string,
-    help: PropTypes.string,
+    help: PropTypes.node,
     onChange: PropTypes.func,
     disabled: PropTypes.bool,
     errors: PropTypes.array,
@@ -358,7 +358,7 @@ export default class FormCreditCardField extends React.PureComponent {
   _renderHelp() {
     if (this.props.help) {
       return (
-        <FormInputHelp html={this.props.help} />
+        <FormInputHelp>{this.props.help}</FormInputHelp>
       );
     }
   }
