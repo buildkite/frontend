@@ -22,6 +22,8 @@ exports[`<FormCreditCardField /> correctly accepts a \`defaultValue\` prop 1`] =
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -47,6 +49,8 @@ exports[`<FormCreditCardField /> key input backspacing character after whitespac
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -88,6 +92,8 @@ exports[`<FormCreditCardField /> key input backspacing character after whitespac
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -113,6 +119,8 @@ exports[`<FormCreditCardField /> key input backspacing character before whitespa
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -154,6 +162,8 @@ exports[`<FormCreditCardField /> key input backspacing character before whitespa
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -179,6 +189,8 @@ exports[`<FormCreditCardField /> key input backspacing whitespace deletes the ch
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -220,6 +232,8 @@ exports[`<FormCreditCardField /> key input backspacing whitespace deletes the ch
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -245,6 +259,8 @@ exports[`<FormCreditCardField /> key input deleting character after whitespace p
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -286,6 +302,8 @@ exports[`<FormCreditCardField /> key input deleting character after whitespace p
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -311,6 +329,8 @@ exports[`<FormCreditCardField /> key input deleting character before whitespace 
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -352,6 +372,8 @@ exports[`<FormCreditCardField /> key input deleting character before whitespace 
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -377,6 +399,8 @@ exports[`<FormCreditCardField /> key input deleting whitespace deletes the chara
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -418,6 +442,8 @@ exports[`<FormCreditCardField /> key input deleting whitespace deletes the chara
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -443,6 +469,8 @@ exports[`<FormCreditCardField /> key input handles empty values 1`] = `
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -484,6 +512,8 @@ exports[`<FormCreditCardField /> key input handles empty values 4`] = `
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -509,6 +539,8 @@ exports[`<FormCreditCardField /> key input handles typing as expected 1`] = `
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -686,6 +718,8 @@ exports[`<FormCreditCardField /> key input handles typing as expected 21`] = `
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -711,6 +745,8 @@ exports[`<FormCreditCardField /> key input handles typing at the start of a valu
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -888,6 +924,8 @@ exports[`<FormCreditCardField /> key input handles typing at the start of a valu
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -913,6 +951,8 @@ exports[`<FormCreditCardField /> key input unformats unknown cards 1`] = `
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -1074,6 +1114,8 @@ exports[`<FormCreditCardField /> key input unformats unknown cards 19`] = `
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -1099,6 +1141,8 @@ exports[`<FormCreditCardField /> pasting doesn't call preventDefault if the past
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -1124,6 +1168,8 @@ exports[`<FormCreditCardField /> pasting doesn't call preventDefault if the past
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -1149,6 +1195,8 @@ exports[`<FormCreditCardField /> pasting handles inputs which are longer than cu
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -1174,6 +1222,8 @@ exports[`<FormCreditCardField /> pasting handles inputs which are longer than cu
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -1199,6 +1249,8 @@ exports[`<FormCreditCardField /> pasting handles values being pased into the mid
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -1224,6 +1276,8 @@ exports[`<FormCreditCardField /> pasting handles values being pased into the mid
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -1249,6 +1303,8 @@ exports[`<FormCreditCardField /> pasting handles values being pased over an exis
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -1274,6 +1330,8 @@ exports[`<FormCreditCardField /> pasting handles values being pased over an exis
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
 
@@ -1299,5 +1357,7 @@ exports[`<FormCreditCardField /> renders as expected with no arguments 1`] = `
       spellcheck="false"
     />
   </label>
+  <!-- react-empty: 6 -->
+  <!-- react-empty: 7 -->
 </div>
 `;
