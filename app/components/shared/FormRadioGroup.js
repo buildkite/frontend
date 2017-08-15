@@ -84,7 +84,7 @@ class FormRadioGroup extends React.Component {
               <span className="bold block" style={{ marginBottom: -5 }}> {option.label}</span>
               {option.badge && <div className="ml1 regular small border border-gray rounded dark-gray px1">{option.badge}</div>}
             </div>
-            {option.help && <FormInputHelp>{option.help}</FormInputHelp>}
+            <FormInputHelp>{option.help}</FormInputHelp>
           </label>
         </div>
       )
