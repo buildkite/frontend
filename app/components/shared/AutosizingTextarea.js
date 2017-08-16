@@ -31,10 +31,6 @@ export default class AutosizingTextarea extends React.PureComponent {
     return this._textarea.value;
   }
 
-  set value(value) {
-    return this._textarea.value = value;
-  }
-
   focus() {
     return this._textarea.focus();
   }
