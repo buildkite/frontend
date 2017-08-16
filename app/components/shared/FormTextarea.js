@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import autosize from 'autosize';
+
+import AutosizingTextarea from './AutosizingTextarea';
 
 import CollapsableFormField from './CollapsableFormField';
 import FormInputHelp from './FormInputHelp';
@@ -37,18 +38,6 @@ class FormTextarea extends React.Component {
     collapsed: this.props.collapsable && this._hasEmptyValue() && !this._hasErrors() && this._hasEmptyValue()
   };
 
-  componentDidMount() {
-    if (this.props.autoresize) {
-      autosize(this._textarea);
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.props.autoresize) {
-      autosize.destroy(this._textarea);
-    }
-  }
-
   render() {
     if (this.props.collapsable) {
       return (
@@ -79,12 +68,9 @@ class FormTextarea extends React.Component {
     );
   }
 
-  // In some cases the initial height can be incorrect and you need to explicit tell
-  // us to autosize the textarea for you. See:
-  // http://www.jacklmoore.com/autosize/#faq-hidden
   updateAutoresize() {
     if (this.props.autoresize) {
-      autosize.update(this._textarea);
+      this._textarea.updateAutoresize();
     }
   }
 
@@ -101,27 +87,27 @@ class FormTextarea extends React.Component {
   }
 
   _renderTextArea() {
-    const style = {};
-    if (this.props.resizable) {
-      style.resize = this.props.resizable;
+    const props = {
+      className: classNames("input", this.props.className),
+      name: this.props.name,
+      defaultValue: this.props.value,
+      placeholder: this.props.placeholder,
+      spellCheck: this.props.spellCheck,
+      onChange: this.props.onChange,
+      rows: this.props.rows,
+      ref: (_textarea) => this._textarea = _textarea,
+      style: {
+        resize: this.props.resizable
+      },
+      tabIndex: this.props.tabIndex,
+      required: this.props.required
+    };
+
+    if (this.props.autoresize) {
+      return <AutosizingTextarea {...props} />;
     }
 
-    return (
-      <textarea
-        className={classNames("input", this.props.className)}
-        name={this.props.name}
-        type="text"
-        defaultValue={this.props.value}
-        placeholder={this.props.placeholder}
-        spellCheck={this.props.spellCheck}
-        onChange={this.props.onChange}
-        rows={this.props.rows}
-        style={style}
-        ref={(_textarea) => this._textarea = _textarea}
-        tabIndex={this.props.tabIndex}
-        required={this.props.required}
-      />
-    );
+    return <textarea {...props} />;
   }
 }
 
