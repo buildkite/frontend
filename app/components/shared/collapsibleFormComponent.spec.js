@@ -1,4 +1,4 @@
-/* global describe, it, jest, expect */
+/* global describe, it, expect */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
@@ -47,7 +47,7 @@ describe('collapsibleFormComponent', () => {
     );
 
     expect(Object.getOwnPropertyDescriptor(CollapsibleFormComponent.prototype, 'value')).toMatchSnapshot();
-    expect(component.value).toBe("meow")
+    expect(component.value).toBe("meow");
   });
 
   it('exposes specified proxy methods', () => {
