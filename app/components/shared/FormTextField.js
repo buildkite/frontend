@@ -65,14 +65,6 @@ class FormTextField extends React.Component {
     );
   }
 
-  getValue() {
-    return this.input.value;
-  }
-
-  focus() {
-    this.input.focus();
-  }
-
   _hasErrors() {
     return this.props.errors && this.props.errors.length > 0;
   }
@@ -98,6 +90,15 @@ class FormTextField extends React.Component {
         autoComplete={this.props.autoComplete}
       />
     );
+  }
+
+  // DOM Proxy Zone
+  get value() {
+    return this.input.value;
+  }
+
+  focus() {
+    this.input.focus();
   }
 }
 

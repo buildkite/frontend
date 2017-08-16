@@ -90,12 +90,12 @@ class Form extends React.Component {
 
   getFormData() {
     return {
-      cronline: this.cronlineTextField.getValue(),
-      label: this.labelTextField.getValue(),
-      message: this.messageTextField.getValue(),
-      commit: this.commitTextField.getValue(),
-      branch: this.branchTextField.getValue(),
-      env: this.envTextField.getValue()
+      cronline: this.cronlineTextField.value,
+      label: this.labelTextField.value,
+      message: this.messageTextField.value,
+      commit: this.commitTextField.value,
+      branch: this.branchTextField.value,
+      env: this.envTextField.value
     };
   }
 }

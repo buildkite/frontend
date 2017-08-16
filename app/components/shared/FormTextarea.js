@@ -67,16 +67,6 @@ class FormTextarea extends React.Component {
     );
   }
 
-  updateAutoresize() {
-    if (this.props.autoresize) {
-      this._textarea.updateAutoresize();
-    }
-  }
-
-  getValue() {
-    return this._textarea.value;
-  }
-
   _hasErrors() {
     return this.props.errors && this.props.errors.length > 0;
   }
@@ -107,6 +97,21 @@ class FormTextarea extends React.Component {
     }
 
     return <textarea {...props} />;
+  }
+
+  updateAutoresize() {
+    if (this.props.autoresize) {
+      this._textarea.updateAutoresize();
+    }
+  }
+
+  // DOM Proxy Zone
+  get value() {
+    return this._textarea.value;
+  }
+
+  focus() {
+    this._textarea.focus();
   }
 }
 

@@ -331,15 +331,16 @@ export default class FormCreditCardField extends React.PureComponent {
     );
   }
 
-  getValue() {
+  _hasErrors() {
+    return this.props.errors && this.props.errors.length > 0;
+  }
+
+  // DOM Proxy Zone
+  get value() {
     return this.state.value;
   }
 
   focus() {
     this.input.focus();
-  }
-
-  _hasErrors() {
-    return this.props.errors && this.props.errors.length > 0;
   }
 }
