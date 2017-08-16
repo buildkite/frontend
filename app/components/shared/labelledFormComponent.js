@@ -32,16 +32,18 @@ export default function labelledFormComponent(FormComponent) {
     render() {
       const { className, errors, label, help, ...props } = this.props;
 
+      const hasErrors = this.props.errors && this.props.errors.length > 0;
+
       return (
         <div className="mb2">
           <FormInputLabel
             label={label}
-            errors={this._hasErrors()}
+            errors={hasErrors}
             required={props.required}
           >
             <FormComponent
               {...props}
-              className={classNames("input", { "is-error": this._hasErrors() }, className)}
+              className={classNames('input', { 'is-error': hasErrors }, className)}
               ref={(input) => this.input = input}
             />
           </FormInputLabel>
@@ -49,14 +51,6 @@ export default function labelledFormComponent(FormComponent) {
           <FormInputHelp>{help}</FormInputHelp>
         </div>
       );
-    }
-
-    _hasErrors() {
-      return this.props.errors && this.props.errors.length > 0;
-    }
-
-    _hasEmptyValue() {
-      return !this.value || this.value.length === 0;
     }
 
     // DOM Proxy Zone

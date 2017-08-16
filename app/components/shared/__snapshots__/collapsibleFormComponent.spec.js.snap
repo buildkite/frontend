@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`collapsibleFormComponent exposes a \`focus\` function 1`] = `
+Object {
+  "configurable": true,
+  "enumerable": false,
+  "value": [Function],
+  "writable": true,
+}
+`;
+
+exports[`collapsibleFormComponent exposes a \`value\` getter 1`] = `
+Object {
+  "configurable": true,
+  "enumerable": false,
+  "get": [Function],
+  "set": undefined,
+}
+`;
+
+exports[`collapsibleFormComponent exposes specified proxy methods 1`] = `
+Object {
+  "configurable": true,
+  "enumerable": true,
+  "value": [Function],
+  "writable": true,
+}
+`;
+
+exports[`collapsibleFormComponent renders DOM element children as expected 1`] = `
+<div
+  data-reactroot=""
+  class="CollapsableFormComponent form-group CollapsableFormComponent--collapsed"
+>
+  <button
+    type="button"
+    class="CollapseExpandLinkComponent twbs-btn twbs-btn-link collapsed"
+    data-toggle="collapse"
+    data-target="#collapsable-form-1"
+    aria-expanded="false"
+    aria-controls="collapsable-form-1"
+    style="padding-left: 0px;"
+  >
+    <strong
+      class="semi-bold"
+    >
+      Test Input Field
+    </strong>
+    <i
+      class="fa fa-angle-down"
+      style="margin-left: 6px;"
+    />
+  </button>
+  <div
+    class="CollapsableFormComponent__content collapse"
+    id="collapsable-form-1"
+    aria-expanded="false"
+  >
+    <input
+      class="input"
+    />
+    <!-- react-empty: 7 -->
+    <!-- react-empty: 8 -->
+  </div>
+</div>
+`;
+
+exports[`collapsibleFormComponent renders React component children as expected 1`] = `
+<div
+  data-reactroot=""
+  class="CollapsableFormComponent form-group CollapsableFormComponent--collapsed"
+>
+  <button
+    type="button"
+    class="CollapseExpandLinkComponent twbs-btn twbs-btn-link collapsed"
+    data-toggle="collapse"
+    data-target="#collapsable-form-2"
+    aria-expanded="false"
+    aria-controls="collapsable-form-2"
+    style="padding-left: 0px;"
+  >
+    <strong
+      class="semi-bold"
+    >
+      Test Input Field
+    </strong>
+    <i
+      class="fa fa-angle-down"
+      style="margin-left: 6px;"
+    />
+  </button>
+  <div
+    class="CollapsableFormComponent__content collapse"
+    id="collapsable-form-2"
+    aria-expanded="false"
+  >
+    <pre>
+      {"this-should-be":"passed through","className":"input"}
+    </pre>
+    <!-- react-empty: 7 -->
+    <!-- react-empty: 8 -->
+  </div>
+</div>
+`;
