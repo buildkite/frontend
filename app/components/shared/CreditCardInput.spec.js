@@ -4,12 +4,12 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
 import { types as CardType } from 'credit-card-type';
 
-import FormCreditCardField from './FormCreditCardField';
+import CreditCardInput from './CreditCardInput';
 
-// Render FormCreditCardField into the document with supplied props
+// Render CreditCardInput into the document with supplied props
 const renderWithProps = (props = {}) => (
   TestUtils.renderIntoDocument(
-    <FormCreditCardField {...props} />
+    <CreditCardInput {...props} />
   )
 );
 
@@ -28,7 +28,7 @@ const MASTERCARD_TEST_FORMATTED = '2227 7727 2727 2727';
 const VISA_LONG_TEST_UNFORMATTED = '4434 43443 44444 34434';
 const VISA_LONG_TEST_FORMATTED = '4434 4344 3444 4434434';
 
-describe('<FormCreditCardField />', () => {
+describe('<CreditCardInput />', () => {
   let fakeOnChange;
   let fakePreventDefault;
 

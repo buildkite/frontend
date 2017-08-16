@@ -2,9 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { getTypeInfo, types as CardType } from 'credit-card-type';
 
+import CreditCardInput from '../shared/CreditCardInput';
+import labelledFormComponent from '../shared/labelledFormComponent';
+const FormCreditCardField = labelledFormComponent(CreditCardInput);
+
 import FormInputLabel from '../shared/FormInputLabel';
 import FormInputErrors from '../shared/FormInputErrors';
-import FormCreditCardField from '../shared/FormCreditCardField';
 import FormTextField from '../shared/FormTextField';
 import FormSelect from '../shared/FormSelect';
 

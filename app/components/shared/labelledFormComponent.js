@@ -14,6 +14,7 @@ export default function labelledFormComponent(FormComponent, { defaultProps, pro
     static propTypes = {
       className: PropTypes.string,
       collapsable: PropTypes.bool,
+      defaultValue: PropTypes.string,
       errors: PropTypes.array,
       help: PropTypes.node,
       label: PropTypes.string.isRequired,
@@ -40,12 +41,12 @@ export default function labelledFormComponent(FormComponent, { defaultProps, pro
     };
 
     render() {
-      const { className, collapsable, errors, help, ...props } = this.props;
+      const { className, collapsable, errors, label, help, ...props } = this.props;
 
       if (collapsable) {
         return (
           <CollapsableFormField
-            label={props.label}
+            label={label}
             collapsed={this.state.collapsed}
           >
             <FormComponent
@@ -62,7 +63,7 @@ export default function labelledFormComponent(FormComponent, { defaultProps, pro
       return (
         <div className="mb2">
           <FormInputLabel
-            label={props.label}
+            label={label}
             errors={this._hasErrors()}
             required={props.required}
           >
@@ -97,4 +98,4 @@ export default function labelledFormComponent(FormComponent, { defaultProps, pro
   }
 
   return LabelledFormComponent;
-};
+}

@@ -1,11 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import creditCardType, { types as CardType } from 'credit-card-type';
-
-import FormInputHelp from './FormInputHelp';
-import FormInputErrors from './FormInputErrors';
-import FormInputLabel from './FormInputLabel';
 
 // 19 is the longest (unformatted) length of
 // any accepted card type as of July 2017
@@ -27,25 +22,16 @@ const maxLengthForCardType = (cardType) => {
   return maxLength + cardGaps;
 };
 
-export default class FormCreditCardField extends React.PureComponent {
+export default class CreditCardInput extends React.PureComponent {
   static propTypes = {
-    label: PropTypes.string.isRequired,
-    className: PropTypes.string,
     acceptedTypes: PropTypes.arrayOf(
       PropTypes.oneOf(Object.keys(CardType).map((name) => CardType[name]))
     ).isRequired,
-    name: PropTypes.string,
     defaultValue: PropTypes.string,
-    placeholder: PropTypes.string,
-    help: PropTypes.node,
-    onChange: PropTypes.func,
-    disabled: PropTypes.bool,
-    errors: PropTypes.array,
-    required: PropTypes.bool
+    onChange: PropTypes.func
   };
 
   static defaultProps = {
-    label: 'Card Number',
     acceptedTypes: [
       CardType.VISA,
       CardType.MASTERCARD,
@@ -99,42 +85,31 @@ export default class FormCreditCardField extends React.PureComponent {
   }
 
   render() {
+    // We're pulling out these props because they're used
+    // internally and shouldn't be passed on to the input itself
+    const {
+      acceptedTypes, // eslint-disable-line no-unused-vars
+      defaultValue,  // eslint-disable-line no-unused-vars
+      onChange,      // eslint-disable-line no-unused-vars
+      ...props
+    } = this.props;
+
     return (
-      <div className="mb2">
-        <FormInputLabel
-          label={this.props.label}
-          errors={this._hasErrors()}
-          required={this.props.required}
-        >
-          {this._renderInput()}
-        </FormInputLabel>
-        <FormInputErrors errors={this.props.errors} />
-        <FormInputHelp>{this.props.help}</FormInputHelp>
-      </div>
+      <input
+        autoComplete="cc-number"
+        type="tel"
+        maxLength={this.getMaxLength()}
+        spellCheck={false}
+        value={this.state.value}
+        onChange={this.handleInputChange}
+        ref={(input) => this.input = input}
+        {...props}
+      />
     );
   }
 
   getMaxLength() {
     return maxLengthForCardType(this.state.matchingCardType);
-  }
-
-  _renderInput() {
-    return (
-      <input
-        className={classNames("input", { "is-error": this._hasErrors() }, this.props.className)}
-        autoComplete="cc-number"
-        name={this.props.name}
-        type="tel"
-        disabled={this.props.disabled}
-        value={this.state.value}
-        maxLength={this.getMaxLength()}
-        placeholder={this.props.placeholder}
-        spellCheck={false}
-        onChange={this.handleInputChange}
-        required={this.props.required}
-        ref={(input) => this.input = input}
-      />
-    );
   }
 
   handleSelectionChange = () => {
@@ -329,10 +304,6 @@ export default class FormCreditCardField extends React.PureComponent {
         this.props.onChange(value, matchingCardType ? matchingCardType.type : null);
       }
     );
-  }
-
-  _hasErrors() {
-    return this.props.errors && this.props.errors.length > 0;
   }
 
   // DOM Proxy Zone
