@@ -44,7 +44,6 @@ class FormTextarea extends React.Component {
         <CollapsableFormField
           label={this.props.label}
           collapsed={this.state.collapsed}
-          required={this.props.required}
         >
           {this._renderTextArea()}
           <FormInputErrors errors={this.props.errors} />

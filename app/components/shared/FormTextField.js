@@ -39,7 +39,10 @@ class FormTextField extends React.Component {
   render() {
     if (this.props.collapsable) {
       return (
-        <CollapsableFormField label={this.props.label} collapsed={this.state.collapsed}>
+        <CollapsableFormField
+          label={this.props.label}
+          collapsed={this.state.collapsed}
+        >
           {this._renderInput()}
           <FormInputErrors errors={this.props.errors} />
           <FormInputHelp>{this.props.help}</FormInputHelp>
