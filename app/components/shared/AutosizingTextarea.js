@@ -1,7 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import autosize from 'autosize';
 
 export default class AutosizingTextarea extends React.PureComponent {
+  static propTypes = {
+    style: PropTypes.object
+  };
+
   componentDidMount() {
     autosize(this._textarea);
   }
@@ -11,10 +16,16 @@ export default class AutosizingTextarea extends React.PureComponent {
   }
 
   render() {
+    const { style, ...props } = this.props;
+
     return (
       <textarea
-        {...this.props}
+        {...props}
         ref={(_textarea) => this._textarea = _textarea}
+        style={{
+          ...style,
+          resize: 'none'
+        }}
       />
     );
   }

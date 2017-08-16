@@ -34,7 +34,7 @@ class Form extends React.Component {
           help="The description for the schedule (supports :emoji:)"
           required={true}
           errors={errors.findForField("label")}
-          value={this.props.label}
+          defaultValue={this.props.label}
           ref={(labelTextField) => this.labelTextField = labelTextField}
         />
 
@@ -43,7 +43,7 @@ class Form extends React.Component {
           help={<span>The interval for when builds will be created, in UTC, using crontab format. See the <a className="lime" href="/docs/builds/scheduled-builds">Scheduled Builds</a> documentation for more information and examples.</span>}
           required={true}
           errors={errors.findForField("cronline")}
-          value={this.props.cronline}
+          defaultValue={this.props.cronline}
           ref={(cronlineTextField) => this.cronlineTextField = cronlineTextField}
         />
 
@@ -51,7 +51,7 @@ class Form extends React.Component {
           label="Build Message"
           help="The message to use for the build."
           errors={errors.findForField("message")}
-          value={this.props.message || "Scheduled build"}
+          defaultValue={this.props.message || "Scheduled build"}
           required={true}
           ref={(messageTextField) => this.messageTextField = messageTextField}
         />
@@ -60,7 +60,7 @@ class Form extends React.Component {
           label="Build Commit"
           help="The commit ref to use for the build."
           errors={errors.findForField("commit")}
-          value={this.props.commit || "HEAD"}
+          defaultValue={this.props.commit || "HEAD"}
           required={true}
           ref={(commitTextField) => this.commitTextField = commitTextField}
         />
@@ -69,19 +69,18 @@ class Form extends React.Component {
           label="Build Branch"
           help="The branch to use for the build."
           errors={errors.findForField("branch")}
-          value={this.props.branch || this.props.pipeline.defaultBranch}
+          defaultValue={this.props.branch || this.props.pipeline.defaultBranch}
           required={true}
           ref={(branchTextField) => this.branchTextField = branchTextField}
         />
 
-        <FormTextarea
+        <FormTextarea.Autosize
           label="Build Environment Variables"
           help={<span>The environment variables to use for the build, each on a new line. e.g. <code>FOO=bar</code></span>}
           className="input"
           rows={2}
-          autoresize={true}
           errors={errors.findForField("env")}
-          value={this.props.env}
+          defaultValue={this.props.env}
           ref={(envTextField) => this.envTextField = envTextField}
         />
       </div>
