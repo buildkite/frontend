@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import CollapsableFormField from './CollapsableFormField';
 import FormInputHelp from './FormInputHelp';
 import FormInputErrors from './FormInputErrors';
-import FormInputLabel from './FormInputLabel';
 
-export default function labelledFormComponent(FormComponent) {
-  return class LabelledFormComponent extends React.Component {
-    static displayName = `Labelled(${FormComponent.displayName || FormComponent.name || FormComponent})`;
+export default function collapsibleFormComponent(FormComponent) {
+  return class CollapsibleFormComponent extends React.Component {
+    static displayName = `Collapsible(${FormComponent.displayName || FormComponent.name || FormComponent})`;
 
     static propTypes = {
       className: PropTypes.string,
@@ -29,25 +29,26 @@ export default function labelledFormComponent(FormComponent) {
       }
     }
 
+    state = {
+      collapsed: this._hasEmptyValue() && !this._hasErrors() && this._hasEmptyValue()
+    };
+
     render() {
       const { className, errors, label, help, ...props } = this.props;
 
       return (
-        <div className="mb2">
-          <FormInputLabel
-            label={label}
-            errors={this._hasErrors()}
-            required={props.required}
-          >
-            <FormComponent
-              {...props}
-              className={classNames("input", { "is-error": this._hasErrors() }, className)}
-              ref={(input) => this.input = input}
-            />
-          </FormInputLabel>
+        <CollapsableFormField
+          label={label}
+          collapsed={this.state.collapsed}
+        >
+          <FormComponent
+            {...props}
+            className={classNames("input", { "is-error": this._hasErrors() }, className)}
+            ref={(input) => this.input = input}
+          />
           <FormInputErrors errors={errors} />
           <FormInputHelp>{help}</FormInputHelp>
-        </div>
+        </CollapsableFormField>
       );
     }
 
