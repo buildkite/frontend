@@ -56,6 +56,7 @@ class New extends React.Component {
 
     this.setState({ saving: true });
 
+    // NOTE: `this.form.refs.component` is used because `this.form` is a RelayContainer!
     const data = this.form.refs.component.getFormData();
     const mutation = new PipelineScheduleCreateMutation({ ...data, pipeline: this.props.pipeline });
 
