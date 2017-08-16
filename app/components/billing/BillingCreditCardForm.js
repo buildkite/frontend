@@ -3,8 +3,8 @@ import React from 'react';
 import { getTypeInfo, types as CardType } from 'credit-card-type';
 
 import CreditCardInput from '../shared/CreditCardInput';
-import labelledFormComponent from '../shared/labelledFormComponent';
-const FormCreditCardField = labelledFormComponent(CreditCardInput);
+import labelled from '../shared/labelledFormComponent';
+const FormCreditCardField = labelled(CreditCardInput);
 
 import FormInputLabel from '../shared/FormInputLabel';
 import FormInputErrors from '../shared/FormInputErrors';
