@@ -1,14 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-export default class FormInputErrors extends React.PureComponent {
-  static propTypes = {
-    errors: PropTypes.array.isRequired
-  };
-
-  render() {
-    return (
-      <p className="mt1 mb2 p0 red">{this.props.errors.join(", ")}</p>
-    );
+const FormInputErrors = ({ className, errors, ...props }) => {
+  if (errors.length < 1) {
+    return null;
   }
-}
+
+  return (
+    <p className={classNames('mt1 mb2 p0 red', className)} {...props}>
+      {errors.reduce(
+        (acc, item, index) => {
+          const separator = (
+            index > 0
+              ? [', ']
+              : []
+          );
+
+          return acc.concat(separator).concat([item]);
+        },
+        []
+      )}
+    </p>
+  );
+};
+
+FormInputErrors.propTypes = {
+  className: PropTypes.string,
+  errors: PropTypes.arrayOf(PropTypes.node.isRequired)
+};
+
+FormInputErrors.defaultProps = {
+  errors: []
+};
+
+export default FormInputErrors;

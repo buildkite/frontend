@@ -11,7 +11,7 @@ class FormRadioGroup extends React.Component {
       PropTypes.shape({
         className: PropTypes.string,
         label: PropTypes.string.isRequired,
-        help: PropTypes.string,
+        help: PropTypes.node,
         value: PropTypes.oneOfType([
           PropTypes.bool,
           PropTypes.string
@@ -35,7 +35,7 @@ class FormRadioGroup extends React.Component {
       <div className={classNames("mb2", this.props.className)}>
         {this._renderLabel()}
         {this._renderInputs()}
-        {this._renderErrors()}
+        <FormInputErrors errors={this.props.errors} />
       </div>
     );
   }
@@ -51,14 +51,6 @@ class FormRadioGroup extends React.Component {
           {this.props.label}
           {this.props.required && <span className="dark-gray h6 semi-bold"> — Required</span>}
         </label>
-      );
-    }
-  }
-
-  _renderErrors() {
-    if (this._hasErrors()) {
-      return (
-        <FormInputErrors errors={this.props.errors} />
       );
     }
   }
@@ -84,7 +76,7 @@ class FormRadioGroup extends React.Component {
               <span className="bold block" style={{ marginBottom: -5 }}> {option.label}</span>
               {option.badge && <div className="ml1 regular small border border-gray rounded dark-gray px1">{option.badge}</div>}
             </div>
-            {option.help && <FormInputHelp html={option.help} />}
+            <FormInputHelp>{option.help}</FormInputHelp>
           </label>
         </div>
       )

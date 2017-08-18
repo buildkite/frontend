@@ -1,23 +1,15 @@
-class ValidationErrors {
+export default class ValidationErrors {
   constructor(errors) {
     this.errors = errors;
   }
 
   findForField(field) {
     if (this.errors && this.errors.length > 0) {
-      const messages = [];
-
-      this.errors.forEach((error) => {
-        if (error.field === field) {
-          messages.push(error.message);
-        }
-      });
-
-      return messages;
+      return this.errors
+        .filter((error) => error.field === field)
+        .map((error) => error.message);
     }
 
-    return null;
+    return [];
   }
 }
-
-export default ValidationErrors;

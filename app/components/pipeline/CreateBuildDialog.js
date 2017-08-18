@@ -90,7 +90,7 @@ class CreateBuildDialog extends React.PureComponent {
               label="Message"
               placeholder="Description of this build"
               required={true}
-              value={this.state.defaultValues.message}
+              defaultValue={this.state.defaultValues.message}
               ref={(tf) => this.buildMessageTextField = tf}
             />
 
@@ -98,7 +98,7 @@ class CreateBuildDialog extends React.PureComponent {
               name="build[commit]"
               label="Commit"
               placeholder="HEAD"
-              value={this.state.defaultValues.commit || 'HEAD'}
+              defaultValue={this.state.defaultValues.commit || 'HEAD'}
               required={true}
               ref={(tf) => this.buildCommitTextField = tf}
             />
@@ -107,7 +107,7 @@ class CreateBuildDialog extends React.PureComponent {
               name="build[branch]"
               label="Branch"
               placeholder={this.props.pipeline.defaultBranch}
-              value={this.state.defaultValues.branch || this.props.pipeline.defaultBranch}
+              defaultValue={this.state.defaultValues.branch || this.props.pipeline.defaultBranch}
               required={true}
               ref={(tf) => this.buildBranchTextField = tf}
             />
@@ -121,9 +121,9 @@ class CreateBuildDialog extends React.PureComponent {
               <FormTextarea
                 name="build[env]"
                 label="Environment Variables"
-                help="Place each environment variable on a new line, in the format <code>KEY=value</code>"
+                help={<span>Place each environment variable on a new line, in the format <code>KEY=value</code></span>}
                 rows={3}
-                value={this.state.defaultValues.env}
+                defaultValue={this.state.defaultValues.env}
                 tabIndex={this.state.showingOptions ? 0 : -1}
               />
               <div className="relative">
@@ -165,15 +165,15 @@ class CreateBuildDialog extends React.PureComponent {
   isValid() {
     // Ideally these required fields should prevent themselves from being
     // submitted… but somehow they don't?
-    if (!this.buildMessageTextField.getValue()) {
+    if (!this.buildMessageTextField.value) {
       this.buildMessageTextField.focus();
       return false;
     }
-    if (!this.buildCommitTextField.getValue()) {
+    if (!this.buildCommitTextField.value) {
       this.buildCommitTextField.focus();
       return false;
     }
-    if (!this.buildBranchTextField.getValue()) {
+    if (!this.buildBranchTextField.value) {
       this.buildBranchTextField.focus();
       return false;
     }

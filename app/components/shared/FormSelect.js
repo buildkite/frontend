@@ -17,7 +17,7 @@ class FormSelect extends React.Component {
     value: PropTypes.string,
     label: PropTypes.string,
     name: PropTypes.string,
-    help: PropTypes.string,
+    help: PropTypes.node,
     className: PropTypes.string,
     onChange: PropTypes.func,
     errors: PropTypes.array,
@@ -35,8 +35,8 @@ class FormSelect extends React.Component {
         >
           {this._renderSelect()}
         </FormInputLabel>
-        {this._renderErrors()}
-        {this._renderHelp()}
+        <FormInputErrors errors={this.props.errors} />
+        <FormInputHelp>{this.props.help}</FormInputHelp>
       </div>
     );
   }
@@ -47,22 +47,6 @@ class FormSelect extends React.Component {
 
   _hasErrors() {
     return this.props.errors && this.props.errors.length > 0;
-  }
-
-  _renderErrors() {
-    if (this._hasErrors()) {
-      return (
-        <FormInputErrors errors={this.props.errors} />
-      );
-    }
-  }
-
-  _renderHelp() {
-    if (this.props.help) {
-      return (
-        <FormInputHelp html={this.props.help} />
-      );
-    }
   }
 
   _renderSelect() {
