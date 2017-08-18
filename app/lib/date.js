@@ -39,6 +39,13 @@ export function getRelativeDateString(time, options = {}) {
           .replace('LT', timeFormat);
       }
     });
+  } else {
+    Object.keys(formats).forEach((calendarString) => {
+      if ((typeof formats[calendarString]) === 'string') {
+        formats[calendarString] = formats[calendarString]
+          .replace('LT', timeFormat);
+      }
+    });
   }
 
   return moment(time).calendar(moment(), formats);

@@ -900,15 +900,15 @@ exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"cap
 
 exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":false}\` renders a correct time in the past or present (now: 2018-01-01T04:34:17-07:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Sat 7th May 16 at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T16:45:16+10:00) 1`] = `"Today at 4:45 PM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T16:45:16+10:00) 1`] = `"Today at 4:45:16 PM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T20:59:03+10:00) 1`] = `"Today at 8:59 PM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T20:59:03+10:00) 1`] = `"Today at 8:59:03 PM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-08T16:03:21+10:00) 1`] = `"Tomorrow at 4:03 PM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-08T16:03:21+10:00) 1`] = `"Tomorrow at 4:03:21 PM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-10T18:11:05+12:00) 1`] = `"Next Tuesday at 6:11 PM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-10T18:11:05+12:00) 1`] = `"Next Tuesday at 6:11:05 PM"`;
 
 exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-14T18:11:05+10:00) 1`] = `"Sat 14th May at 6:11:05 PM"`;
 
@@ -918,15 +918,15 @@ exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"cap
 
 exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2018-01-01T04:34:17-07:00) 1`] = `"Mon 1st Jan 18 at 4:34:17 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the past or present (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the past or present (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the past or present (now: 2016-05-07T16:45:16+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the past or present (now: 2016-05-07T16:45:16+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the past or present (now: 2016-05-07T20:59:03+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the past or present (now: 2016-05-07T20:59:03+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the past or present (now: 2016-05-08T16:03:21+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Yesterday at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the past or present (now: 2016-05-08T16:03:21+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Yesterday at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the past or present (now: 2016-05-10T18:11:05+12:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Saturday at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the past or present (now: 2016-05-10T18:11:05+12:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Saturday at 9:00:00 AM"`;
 
 exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the past or present (now: 2016-05-14T18:11:05+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Sat 7th May at 9:00:00 AM"`;
 
@@ -936,15 +936,15 @@ exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"cap
 
 exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":false}\` renders a correct time in the past or present (now: 2018-01-01T04:34:17-07:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Sat 7th May 16 at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T16:45:16+10:00) 1`] = `"Today at 4:45 PM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T16:45:16+10:00) 1`] = `"Today at 4:45:16 PM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T20:59:03+10:00) 1`] = `"Today at 8:59 PM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T20:59:03+10:00) 1`] = `"Today at 8:59:03 PM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-08T16:03:21+10:00) 1`] = `"Tomorrow at 4:03 PM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-08T16:03:21+10:00) 1`] = `"Tomorrow at 4:03:21 PM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-10T18:11:05+12:00) 1`] = `"Tuesday at 6:11 PM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-10T18:11:05+12:00) 1`] = `"Tuesday at 6:11:05 PM"`;
 
 exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-14T18:11:05+10:00) 1`] = `"Sat 14th May at 6:11:05 PM"`;
 
@@ -954,15 +954,15 @@ exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"cap
 
 exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2018-01-01T04:34:17-07:00) 1`] = `"Mon 1st Jan 18 at 4:34:17 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the past or present (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the past or present (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the past or present (now: 2016-05-07T16:45:16+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the past or present (now: 2016-05-07T16:45:16+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the past or present (now: 2016-05-07T20:59:03+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the past or present (now: 2016-05-07T20:59:03+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the past or present (now: 2016-05-08T16:03:21+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Yesterday at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the past or present (now: 2016-05-08T16:03:21+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Yesterday at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the past or present (now: 2016-05-10T18:11:05+12:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Last Saturday at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the past or present (now: 2016-05-10T18:11:05+12:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Last Saturday at 9:00:00 AM"`;
 
 exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the past or present (now: 2016-05-14T18:11:05+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Sat 7th May at 9:00:00 AM"`;
 
@@ -972,15 +972,15 @@ exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"cap
 
 exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true,"inPast":true}\` renders a correct time in the past or present (now: 2018-01-01T04:34:17-07:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Sat 7th May 16 at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T16:45:16+10:00) 1`] = `"Today at 4:45 PM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T16:45:16+10:00) 1`] = `"Today at 4:45:16 PM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T20:59:03+10:00) 1`] = `"Today at 8:59 PM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T20:59:03+10:00) 1`] = `"Today at 8:59:03 PM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-08T16:03:21+10:00) 1`] = `"Tomorrow at 4:03 PM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-08T16:03:21+10:00) 1`] = `"Tomorrow at 4:03:21 PM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-10T18:11:05+12:00) 1`] = `"Next Tuesday at 6:11 PM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-10T18:11:05+12:00) 1`] = `"Next Tuesday at 6:11:05 PM"`;
 
 exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2016-05-14T18:11:05+10:00) 1`] = `"Sat 14th May at 6:11:05 PM"`;
 
@@ -990,15 +990,15 @@ exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"cap
 
 exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the future (now: 2016-05-07T09:00:00+10:00, date: 2018-01-01T04:34:17-07:00) 1`] = `"Mon 1st Jan 18 at 4:34:17 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the past or present (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the past or present (now: 2016-05-07T09:00:00+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the past or present (now: 2016-05-07T16:45:16+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the past or present (now: 2016-05-07T16:45:16+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the past or present (now: 2016-05-07T20:59:03+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the past or present (now: 2016-05-07T20:59:03+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Today at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the past or present (now: 2016-05-08T16:03:21+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Yesterday at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the past or present (now: 2016-05-08T16:03:21+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Yesterday at 9:00:00 AM"`;
 
-exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the past or present (now: 2016-05-10T18:11:05+12:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Saturday at 9:00 AM"`;
+exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the past or present (now: 2016-05-10T18:11:05+12:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Saturday at 9:00:00 AM"`;
 
 exports[`getRelativeDateString when supplied with options=\`{"seconds":true,"capitalized":true}\` renders a correct time in the past or present (now: 2016-05-14T18:11:05+10:00, date: 2016-05-07T09:00:00+10:00) 1`] = `"Sat 7th May at 9:00:00 AM"`;
 
