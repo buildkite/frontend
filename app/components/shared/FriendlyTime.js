@@ -69,7 +69,7 @@ export default class FriendlyTime extends React.PureComponent {
       <time
         className={this.props.className}
         dateTime={this.props.value}
-        title={getDateString(this.props.value)}
+        title={getDateString(this.props.value, true)}
       >
         {this.state.value}
       </time>
