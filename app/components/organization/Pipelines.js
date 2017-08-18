@@ -19,11 +19,15 @@ class OrganizationPipelines extends React.Component {
     organization: PropTypes.shape({
       id: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired,
+      allPipelines: PropTypes.shape({
+        count: PropTypes.number.isRequired
+      }),
       pipelines: PropTypes.shape({
         edges: PropTypes.arrayOf(
           PropTypes.shape({
             node: PropTypes.shape({
-              id: PropTypes.string.isRequired
+              id: PropTypes.string.isRequired,
+              name: PropTypes.string.isRequired
             }).isRequired
           }).isRequired
         )
@@ -39,8 +43,18 @@ class OrganizationPipelines extends React.Component {
   };
 
   state = {
-    fetching: false,
+    loading: false,
     loadingMore: false
+  };
+
+  get useLocalSearch() {
+    return this.props.organization.pipelines &&
+      this.props.organization.allPipelines.count <= INITIAL_PAGE_SIZE &&
+      !this.props.relay.variables.pipelineFilter;
+  }
+
+  get useRemoteSearch() {
+    return !this.useLocalSearch;
   }
 
   componentDidMount() {
@@ -87,23 +101,31 @@ class OrganizationPipelines extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // Are we switching teams or filtering?
-    if (this.props.team !== nextProps.team || this.props.filter !== nextProps.filter) {
-      // Start by changing the `fetching` state to show the spinner
+    const nextRelayVariables = {};
+
+    // Are we switching teams?
+    if (this.props.team !== nextProps.team) {
+      nextRelayVariables.teamSearch = nextProps.team;
+    }
+
+    // Are we filtering, and can we do this locally?
+    if (this.props.filter !== nextProps.filter && this.useRemoteSearch) {
+      // if not, go to the server
+      nextRelayVariables.pipelineFilter = nextProps.filter;
+    }
+
+    if (Object.keys(nextRelayVariables).length > 0) {
+      // Start by changing the `loading` state to show the spinner
       this.setState(
-        { fetching: true },
+        { loading: true },
         () => {
-          // Once state has been set, force a full re-fetch of the pipelines in
-          // the new team
+          // Once state has been set, force a full re-fetch of the pipelines
           this.props.relay.forceFetch(
-            {
-              teamSearch: nextProps.team,
-              pipelineFilter: nextProps.filter
-            },
-            (readyState) => {
+            nextRelayVariables,
+            ({ done }) => {
               // Now that we've got the data, turn off the spinner
-              if (readyState.done) {
-                this.setState({ fetching: false });
+              if (done) {
+                this.setState({ loading: false });
               }
             }
           );
@@ -129,21 +151,38 @@ class OrganizationPipelines extends React.Component {
     }
   }
 
+  getRelevantPipelines() {
+    const filter = (this.props.filter || '').toLowerCase().trim();
+
+    // if we're searching remotely, or there's no filter, it's all of 'em, baby
+    if (this.useRemoteSearch || this.props.relay.variables.pipelineFilter || !filter) {
+      return this.props.organization.pipelines.edges;
+    }
+
+    // otherwise, let's filter 'em
+    return this.props.organization.pipelines.edges.filter(({ node }) => (
+      node.name.toLowerCase().indexOf(filter) !== -1 ||
+      node.description && node.description.toLowerCase().indexOf(filter) !== -1
+    ));
+  }
+
   render() {
     // Are we switching teams or getting the first set of data? Lets bail out
     // early and show the spinner.
-    if (this.state.fetching || !this.props.organization.pipelines) {
+    if (this.state.loading || !this.props.organization.pipelines) {
       return (
         <SectionLoader />
       );
     }
 
+    const relevantPipelines = this.getRelevantPipelines();
+
     // Switch between rendering the actual teams, or showing the "Welcome"
     // message
-    if (this.props.organization.pipelines.edges.length > 0) {
+    if (relevantPipelines.length > 0) {
       return (
         <div>
-          {this.renderPipelines()}
+          {this.renderPipelines(relevantPipelines)}
           <ShowMoreFooter
             connection={this.props.organization.pipelines}
             label="pipelines"
@@ -165,12 +204,12 @@ class OrganizationPipelines extends React.Component {
     );
   }
 
-  renderPipelines() {
+  renderPipelines(relevantPipelines) {
     // Split the pipelines into "favorited" and non "favorited". We don't
     // user a `sort` method so we preserve the current order the pipelines.
     const favorited = [];
     const remainder = [];
-    for (const edge of this.props.organization.pipelines.edges) {
+    for (const edge of relevantPipelines) {
       // Put the favorites in the own section
       if (edge.node.favorite) {
         favorited.push(<Pipeline key={edge.node.id} pipeline={edge.node} includeGraphData={this.props.relay.variables.includeGraphData} />);
@@ -225,11 +264,15 @@ export default Relay.createContainer(OrganizationPipelines, {
         ${Welcome.getFragment('organization')}
         id
         slug
+        allPipelines: pipelines(team: $teamSearch) @include(if: $isMounted) {
+          count
+        }
         pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, order: NAME_WITH_FAVORITES_FIRST) @include(if: $isMounted) {
           ${ShowMoreFooter.getFragment('connection')}
           edges {
             node {
               id
+              name
               favorite
               ${Pipeline.getFragment('pipeline', { includeGraphData: variables.includeGraphData })}
             }
