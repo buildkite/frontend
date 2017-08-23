@@ -21,6 +21,7 @@ class Members extends React.Component {
 
   static propTypes = {
     team: PropTypes.shape({
+      id: PropTypes.string.isRequired,
       members: PropTypes.shape({
         count: PropTypes.number.isRequired,
         edges: PropTypes.array.isRequired
@@ -178,7 +179,7 @@ class Members extends React.Component {
 
     const variables = {
       input: {
-	id: teamMember.id
+        id: teamMember.id
       }
     };
 

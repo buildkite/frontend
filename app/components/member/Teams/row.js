@@ -47,7 +47,8 @@ class Row extends React.PureComponent {
           message: PropTypes.string
         })
       })
-    }).isRequired
+    }).isRequired,
+    relay: PropTypes.object.isRequired
   };
 
   state = {
@@ -178,7 +179,7 @@ class Row extends React.PureComponent {
 
     const variables = {
       input: {
-	id: this.props.teamMember.id
+        id: this.props.teamMember.id
       }
     };
 
