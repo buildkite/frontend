@@ -4,10 +4,6 @@ services:
   frontend:
     image: index.docker.io/buildkite/frontend
     build: .
-    volumes:
-      - "./bundle-analysis:/frontend/bundle-analysis"
-      - "./dist:/frontend/dist"
-      - "./coverage:/frontend/coverage"
     extra_hosts:
      - "buildkite.dev:0.0.0.0" # fix for hostname checking in webpack-dev-server
     environment:
@@ -18,3 +14,5 @@ services:
       - BUILDKITE_ORGANIZATION_SLUG
       - BUILDKITE_PIPELINE_SLUG
       - CI
+    ports:
+      - "4890:4890"

@@ -3,10 +3,7 @@ version: '2.1'
 services:
   frontend:
     volumes:
-      - ".:/frontend:cached"
       - "./bundle-analysis:/frontend/bundle-analysis"
-      - "./dist:/frontend/dist"
       - "./coverage:/frontend/coverage"
-      - /frontend/node_modules
     ports:
       - "4890:4890"
