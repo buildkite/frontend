@@ -204,11 +204,17 @@ class Header extends React.Component {
   }
 
   renderDescription() {
-    if (this.props.pipeline.description) {
-      return <Emojify text={this.props.pipeline.description} />;
+    const { pipeline } = this.props;
+
+    if (pipeline.description) {
+      return <Emojify text={pipeline.description} />;
     }
 
-    return this.props.pipeline.repository.url;
+    // Hide passwords and limit to 8 dots in repository URLs
+    return pipeline.repository.url.replace(
+      /:([^\/@]{1,8})[^\/@]*@/,
+      (match, password) => `:${password.replace(/./g, '•')}@`
+    );
   }
 
   handleActionsDropdownToggle = (visible) => {
