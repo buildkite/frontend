@@ -17,6 +17,8 @@ import Panel from '../shared/Panel';
 import permissions from '../../lib/permissions';
 import { getLabelForConnectionState } from './shared';
 
+import { formatNumber } from '../../lib/number';
+
 import AgentStopMutation from '../../mutations/AgentStop';
 
 const ExtrasTable = styled.table`
@@ -292,7 +294,7 @@ class AgentShow extends React.Component {
       content = (
         <div>
           {content}
-          (and {remainder} more)
+          (and {formatNumber(remainder)} more)
         </div>
       );
     }
