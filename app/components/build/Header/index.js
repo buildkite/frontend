@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import CreateReactClass from 'create-react-class';
+import createReactClass from 'create-react-class';
 import { RootContainer } from 'react-relay';
 
 import * as BuildQuery from '../../../queries/Build';
@@ -18,11 +18,11 @@ import { shortCommit } from '../../../lib/commits';
 
 import Pipeline from './pipeline';
 
-const BuildHeaderComponent = CreateReactClass({
+const BuildHeaderComponent = createReactClass({
   displayName: 'BuildHeaderComponent',
 
   propTypes: {
-    build: PropTypes.object.isRequired,
+    build: PropTypes.shape({}).isRequired,
     showRebuild: PropTypes.bool,
     showProject: PropTypes.bool,
     showUnknownEmailPrompt: PropTypes.bool

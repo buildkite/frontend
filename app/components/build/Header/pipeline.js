@@ -2,14 +2,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import CreateReactClass from 'create-react-class';
+import createReactClass from 'create-react-class';
 
 import Emojify from '../../shared/Emojify';
 import Icon from '../../shared/Icon';
 
 import jobCommandOneliner from '../../../lib/jobCommandOneliner';
 
-const BuildHeaderPipelineComponent = CreateReactClass({
+const BuildHeaderPipelineComponent = createReactClass({
   displayName: 'BuildHeaderPipelineComponent',
 
   mixins: [Buildkite.BootstrapTooltipMixin],
@@ -19,7 +19,7 @@ const BuildHeaderPipelineComponent = CreateReactClass({
   },
 
   propTypes: {
-    build: PropTypes.object.isRequired
+    build: PropTypes.shape({}).isRequired
   },
 
   render() {
