@@ -75,7 +75,7 @@ const BuildHeaderPipelineComponent = CreateReactClass({
 
     const jobs = this.state.showBroken
       ? this.props.build.jobs
-      : this.props.build.jobs.filter(({ state }) => state !== "broken");
+      : this.props.build.jobs.filter(({ state }) => state !== 'broken');
 
     return jobs.map((job) => this.pipelineStep(job));
   },
@@ -85,15 +85,15 @@ const BuildHeaderPipelineComponent = CreateReactClass({
 
     const { BuildHeaderPipelineManualStepComponent, BuildHeaderPipelineTriggerStepComponent } = Buildkite;
 
-    if (job.type === "script") {
-      if (job.state === "broken") {
+    if (job.type === 'script') {
+      if (job.state === 'broken') {
         return (
           <div
             key={job.id}
             data-toggle="tooltip"
             title={job.tooltip}
             className={stepClassName}
-            style={{ maxWidth: "15em" }}
+            style={{ maxWidth: '15em' }}
           >
             {this.jobName(job)}
           </div>
@@ -108,12 +108,12 @@ const BuildHeaderPipelineComponent = CreateReactClass({
           href={href}
           onClick={this.handleScriptJobClick(job)}
           className={stepClassName}
-          style={{ maxWidth: "15em" }}
+          style={{ maxWidth: '15em' }}
         >
           {this.jobName(job)}
         </a>
       );
-    } else if (job.type === "waiter") {
+    } else if (job.type === 'waiter') {
       if (job.continueOnFailure) {
         return (
           <div
@@ -139,7 +139,7 @@ const BuildHeaderPipelineComponent = CreateReactClass({
           <Icon icon="chevron-right" style={{ height: 15, width: 15 }} />
         </div>
       );
-    } else if (job.type === "manual") {
+    } else if (job.type === 'manual') {
       return (
         <BuildHeaderPipelineManualStepComponent
           key={job.id}
@@ -148,7 +148,7 @@ const BuildHeaderPipelineComponent = CreateReactClass({
           stepClassName={stepClassName}
         />
       );
-    } else if (job.type === "trigger") {
+    } else if (job.type === 'trigger') {
       return (
         <BuildHeaderPipelineTriggerStepComponent
           key={job.id}
@@ -203,7 +203,7 @@ const BuildHeaderPipelineComponent = CreateReactClass({
     }
 
     return (
-      <span className="monospace" style={{ fontSize: "0.9em" }}>
+      <span className="monospace" style={{ fontSize: '0.9em' }}>
         {jobCommandOneliner(job.command)}
       </span>
     );
@@ -217,3 +217,4 @@ const BuildHeaderPipelineComponent = CreateReactClass({
 });
 
 export default BuildHeaderPipelineComponent;
+
