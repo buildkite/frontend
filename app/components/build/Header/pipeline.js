@@ -9,9 +9,9 @@ import Icon from '../../shared/Icon';
 
 import jobCommandOneliner from '../../../lib/jobCommandOneliner';
 
-const { BuildHeaderPipelineManualStepComponent, BuildHeaderPipelineTriggerStepComponent } = Buildkite;
-
 const BuildHeaderPipelineComponent = CreateReactClass({
+  displayName: 'BuildHeaderPipelineComponent',
+
   mixins: [Buildkite.BootstrapTooltipMixin],
 
   getInitialState() {
@@ -82,6 +82,8 @@ const BuildHeaderPipelineComponent = CreateReactClass({
 
   pipelineStep(job) {
     const stepClassName = this.stepClassName(job);
+
+    const { BuildHeaderPipelineManualStepComponent, BuildHeaderPipelineTriggerStepComponent } = Buildkite;
 
     if (job.type === "script") {
       if (job.state === "broken") {
