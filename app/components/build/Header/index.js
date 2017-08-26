@@ -17,7 +17,7 @@ import { shortCommit } from '../../../lib/commits';
 
 import Pipeline from './pipeline';
 
-class BuildHeaderComponent extends React.Component {
+class BuildHeaderComponent extends React.PureComponent {
   static propTypes = {
     build: PropTypes.shape({
       number: PropTypes.number.isRequired,
