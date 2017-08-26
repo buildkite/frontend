@@ -9,7 +9,7 @@ import Icon from '../../shared/Icon';
 
 import jobCommandOneliner from '../../../lib/jobCommandOneliner';
 
-const BuildHeaderPipelineComponent = createReactClass({
+const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line react/prefer-es6-class
   displayName: 'BuildHeaderPipelineComponent',
 
   mixins: [Buildkite.BootstrapTooltipMixin],
@@ -19,7 +19,12 @@ const BuildHeaderPipelineComponent = createReactClass({
   },
 
   propTypes: {
-    build: PropTypes.shape({}).isRequired
+    build: PropTypes.shape({
+      path: PropTypes.string.isRequired,
+      jobs: PropTypes.arrayOf(PropTypes.shape({
+        state: PropTypes.string.isRequired
+      }))
+    }).isRequired
   },
 
   render() {

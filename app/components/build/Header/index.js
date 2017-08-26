@@ -18,11 +18,42 @@ import { shortCommit } from '../../../lib/commits';
 
 import Pipeline from './pipeline';
 
-const BuildHeaderComponent = createReactClass({
+const BuildHeaderComponent = createReactClass({ // eslint-disable-line react/prefer-es6-class
   displayName: 'BuildHeaderComponent',
 
   propTypes: {
-    build: PropTypes.shape({}).isRequired,
+    build: PropTypes.shape({
+      number: PropTypes.number.isRequired,
+      state: PropTypes.string.isRequired,
+      source: PropTypes.string.isRequired,
+      authorName: PropTypes.string.isRequired,
+      authorAvatar: PropTypes.string.isRequired,
+      authorUuid: PropTypes.string,
+      project: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+        slug: PropTypes.string.isRequired
+      }).isRequired,
+      account: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        slug: PropTypes.string.isRequired
+      }).isRequired,
+      rebuiltFrom: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        number: PropTypes.number.isRequired
+      }),
+      triggeredFrom: PropTypes.shape({
+        uuid: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        project: PropTypes.shape({
+          name: PropTypes.string.isRequired
+        }).isRequired,
+        build: PropTypes.shape({
+          number: PropTypes.number.isRequired
+        }).isRequired
+      })
+    }).isRequired,
     showRebuild: PropTypes.bool,
     showProject: PropTypes.bool,
     showUnknownEmailPrompt: PropTypes.bool
