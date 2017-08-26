@@ -83,6 +83,7 @@ window["Webpack"] = {
     "lib/number": require("./lib/number"),
     "lib/parseEmoji": require("./lib/parseEmoji").default,
     "lib/RelayPreloader": require("./lib/RelayPreloader").default,
+    "lib/BootstrapTooltipMixin": require('./lib/BootstrapTooltipMixin').default,
     "queries/Agent": require("./queries/Agent"),
     "queries/Build": require("./queries/Build"),
     "queries/Organization": require("./queries/Organization"),

@@ -8,11 +8,12 @@ import Emojify from '../../shared/Emojify';
 import Icon from '../../shared/Icon';
 
 import jobCommandOneliner from '../../../lib/jobCommandOneliner';
+import BootstrapTooltipMixin from '../../../lib/BootstrapTooltipMixin';
 
 const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line react/prefer-es6-class
   displayName: 'BuildHeaderPipelineComponent',
 
-  mixins: [Buildkite.BootstrapTooltipMixin],
+  mixins: [BootstrapTooltipMixin],
 
   getInitialState() {
     return { showBroken: false };
