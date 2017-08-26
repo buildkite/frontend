@@ -3,7 +3,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import createReactClass from 'create-react-class';
 import { RootContainer } from 'react-relay';
 
 import * as BuildQuery from '../../../queries/Build';
@@ -18,10 +17,8 @@ import { shortCommit } from '../../../lib/commits';
 
 import Pipeline from './pipeline';
 
-const BuildHeaderComponent = createReactClass({ // eslint-disable-line react/prefer-es6-class
-  displayName: 'BuildHeaderComponent',
-
-  propTypes: {
+class BuildHeaderComponent extends React.Component {
+  static propTypes = {
     build: PropTypes.shape({
       number: PropTypes.number.isRequired,
       state: PropTypes.string.isRequired,
@@ -57,23 +54,23 @@ const BuildHeaderComponent = createReactClass({ // eslint-disable-line react/pre
     showRebuild: PropTypes.bool,
     showProject: PropTypes.bool,
     showUnknownEmailPrompt: PropTypes.bool
-  },
+  };
 
   componentDidMount() {
     jQuery(ReactDOM.findDOMNode(this)).on('ajax:error', this._onAjaxError);   // eslint-disable-line react/no-find-dom-node
-  },
+  }
 
   componentWillUnmount() {
     jQuery(ReactDOM.findDOMNode(this)).off('ajax:error', this._onAjaxError);  // eslint-disable-line react/no-find-dom-node
-  },
+  }
 
-  _onAjaxError(event, xhr) {
+  _onAjaxError = (event, xhr) => {
     if (xhr.responseJSON != null) {
       alert(xhr.responseJSON['message']);
     }
-  },
+  };
 
-  bootstrapState() {
+  bootstrapState = () => {
     switch (this.props.build.state) {
       case 'failed':
       case 'danger':
@@ -88,9 +85,9 @@ const BuildHeaderComponent = createReactClass({ // eslint-disable-line react/pre
       default:
         return 'default';
     }
-  },
+  };
 
-  icon() {
+  icon = () => {
     switch (this.props.build.state) {
       case 'failed':
         return 'fa fa-times';
@@ -110,9 +107,9 @@ const BuildHeaderComponent = createReactClass({ // eslint-disable-line react/pre
       case 'not_run':
         return 'fa fa-minus-square';
     }
-  },
+  };
 
-  buildInfoNode() {
+  buildInfoNode = () => {
     const { build } = this.props;
 
     return (
@@ -124,9 +121,9 @@ const BuildHeaderComponent = createReactClass({ // eslint-disable-line react/pre
         </span>
       </span>
     );
-  },
+  };
 
-  commitInfoNode() {
+  commitInfoNode = () => {
     let branchNode, commitNode, pullRequestNode;
     const { build } = this.props;
 
@@ -204,17 +201,17 @@ const BuildHeaderComponent = createReactClass({ // eslint-disable-line react/pre
     }
 
     return null;
-  },
+  };
 
-  timeAgoNode() {
+  timeAgoNode = () => {
     return (
       <small className="build-secondary-time text-muted">
         <BuildStatusDescription build={this.props.build} />
       </small>
     );
-  },
+  };
 
-  sourceLabel(source) {
+  sourceLabel = (source) => {
     switch (source) {
       case 'webhook':
         return 'Webhook';
@@ -229,9 +226,9 @@ const BuildHeaderComponent = createReactClass({ // eslint-disable-line react/pre
       default:
         return 'Unknown';
     }
-  },
+  };
 
-  metaInformation() {
+  metaInformation = () => {
     let rebuiltFromNode;
     let triggeredFromNode;
 
@@ -285,7 +282,7 @@ const BuildHeaderComponent = createReactClass({ // eslint-disable-line react/pre
         {triggeredFromNode}
       </div>
     );
-  },
+  };
 
   render() {
     const { build } = this.props;
@@ -409,9 +406,9 @@ const BuildHeaderComponent = createReactClass({ // eslint-disable-line react/pre
         </div>
       </div>
     );
-  },
+  }
 
-  _projectNode() {
+  _projectNode = () => {
     if (this.props.showProject) {
       return (
         <div style={{ marginBottom: 10 }}>
@@ -422,9 +419,9 @@ const BuildHeaderComponent = createReactClass({ // eslint-disable-line react/pre
       );
 
     }
-  },
+  };
 
-  _avatarNode() {
+  _avatarNode = () => {
     // Only show the avatar node if `showUnknownEmailPrompt` has been turned on,
     // and we don't have an associated authorUuid (which is only present if
     // there's an actual user on the build)
@@ -459,8 +456,8 @@ const BuildHeaderComponent = createReactClass({ // eslint-disable-line react/pre
         style={{ width: 32, height: 32 }}
       />
     );
-  }
-});
+  };
+}
 
 export default BuildHeaderComponent;
 
