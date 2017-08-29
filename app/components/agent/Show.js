@@ -17,6 +17,8 @@ import Panel from '../shared/Panel';
 import permissions from '../../lib/permissions';
 import { getLabelForConnectionState } from './shared';
 
+import { formatNumber } from '../../lib/number';
+
 import AgentStopMutation from '../../mutations/AgentStop';
 
 const ExtrasTable = styled.table`
@@ -201,20 +203,7 @@ class AgentShow extends React.Component {
       ));
     }
 
-    if (agent.jobs.edges.length) {
-      extras.push(this.renderExtraItem(
-        'Recent Jobs',
-        <ul className="m0 list-reset">
-          {
-            agent.jobs.edges.map(({ node: job }) => (
-              <li key={job.uuid}>
-                {this.renderJob(job)}
-              </li>
-            ))
-          }
-        </ul>
-      ));
-    }
+    this.renderExtraJobs(agent, extras);
 
     if (agent.connectedAt) {
       extras.push(this.renderExtraItem(
@@ -280,6 +269,37 @@ class AgentShow extends React.Component {
         </tbody>
       </ExtrasTable>
     );
+  }
+
+  renderExtraJobs(agent, extras) {
+    if (agent.jobs.edges.length < 1) {
+      return;
+    }
+
+    let content = (
+      <ul className="m0 list-reset">
+        {
+          agent.jobs.edges.map(({ node: job }) => (
+            <li key={job.uuid}>
+              {this.renderJob(job)}
+            </li>
+          ))
+        }
+      </ul>
+    );
+
+    const remainder = agent.jobs.count - agent.jobs.edges.length;
+
+    if (remainder) {
+      content = (
+        <div>
+          {content}
+          (and {formatNumber(remainder)} more)
+        </div>
+      );
+    }
+
+    extras.push(this.renderExtraItem('Recent Jobs', content));
   }
 
   handleStopButtonClick = (evt) => {
@@ -387,6 +407,10 @@ class AgentShow extends React.Component {
 }
 
 export default Relay.createContainer(AgentShow, {
+  initialVariables: {
+    jobPageSize: 10
+  },
+
   fragments: {
     agent: () => Relay.QL`
       fragment on Agent {
@@ -411,7 +435,7 @@ export default Relay.createContainer(AgentShow, {
           }
           ${JobLink.getFragment('job')}
         }
-        jobs(first: 10) {
+        jobs(first: $jobPageSize) {
           edges {
             node {
               ...on JobTypeCommand {
@@ -422,6 +446,7 @@ export default Relay.createContainer(AgentShow, {
               ${JobLink.getFragment('job')}
             }
           }
+          count
         }
         isRunningJob
         lostAt
