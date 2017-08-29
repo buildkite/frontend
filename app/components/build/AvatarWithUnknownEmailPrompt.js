@@ -206,7 +206,7 @@ class AvatarWithUnknownEmailPrompt extends React.PureComponent {
             onClick={this.handleAddEmailClick}
             disabled={loading}
           >
-            It's Mine
+            It&quot;s Mine
           </button>,
           <button
             key="dismiss-email"
