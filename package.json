@@ -7,7 +7,7 @@
   },
   "scripts": {
     "env": "env",
-    "start": "NODE_ENV=development webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --host buildkite.dev --port 4890",
+    "start": "yarn run relay && yarn run webpack-dev-server",
     "test": "jest",
     "test-with-coverage": "jest --coverage",
     "lint": "eslint .",
@@ -15,6 +15,8 @@
     "build": "NODE_ENV=development webpack --config webpack/config.js --progress --bail",
     "build-production": "NODE_ENV=production webpack --config webpack/config.js --progress --bail",
     "bundle-analyze": "webpack --config webpack/config.js --profile --json > bundle-analysis/stats.json && webpack-bundle-analyzer bundle-analysis/stats.json dist --no-open --mode static -r bundle-analysis/bundle-analyzer-report.html",
+    "webpack-dev-server": "NODE_ENV=development webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --host buildkite.dev --port 4890",
+    "static-server": "node_modules/.bin/http-server -p 4890 -a buildkite.dev ./dist",
     "relay": "relay-compiler --schema app/graph/schema.json --src app"
   },
   "devDependencies": {
@@ -39,6 +41,7 @@
     "exports-loader": "^0.6.3",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
+    "http-server": "^0.10.0",
     "image-webpack-loader": "^3.0.0",
     "imports-loader": "^0.7.0",
     "jest": "^20.0.4",
