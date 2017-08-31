@@ -15,4 +15,4 @@ services:
       - BUILDKITE_PIPELINE_SLUG
       - CI
     ports:
-      - "4890:4890"
+      - "4890"
