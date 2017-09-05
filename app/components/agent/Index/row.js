@@ -4,6 +4,8 @@ import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 
 import AgentStateIcon from '../state-icon';
+
+import Badge from '../../shared/Badge';
 import Panel from '../../shared/Panel';
 import JobLink from '../../shared/JobLink';
 
@@ -20,6 +22,7 @@ class AgentRow extends React.PureComponent {
       organization: PropTypes.shape({
         slug: PropTypes.string.isRequired
       }).isRequired,
+      public: PropTypes.bool.isRequired,
       uuid: PropTypes.string.isRequired,
       version: PropTypes.string.isRequired
     })
@@ -70,6 +73,7 @@ class AgentRow extends React.PureComponent {
                   >
                     {agent.name}
                   </Link>
+                  {this.renderPublicBadge()}
                 </div>
                 <small className="dark-gray">{metaDataContent}</small>
               </div>
@@ -83,6 +87,14 @@ class AgentRow extends React.PureComponent {
         </div>
       </Panel.Row>
     );
+  }
+
+  renderPublicBadge() {
+    if (this.props.agent.public) {
+      return (
+        <Badge outline={true} className="regular" title="Visible to everyone, including people outside this organization">Public</Badge>
+      );
+    }
   }
 }
 
@@ -98,6 +110,7 @@ export default Relay.createContainer(AgentRow, {
         organization {
           slug
         }
+        public
         isRunningJob
         job {
           ...on JobTypeCommand {

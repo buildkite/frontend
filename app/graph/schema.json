@@ -5310,6 +5310,24 @@
               "deprecationReason": null
             },
             {
+              "name": "public",
+              "description": "Whether this agent is visible to everyone, including people outside this organization",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "stoppedAt",
               "description": "The time the agent was stopped by a user",
               "args": [
