@@ -7,19 +7,18 @@
   },
   "scripts": {
     "env": "env",
-    "start": "yarn run relay && yarn run webpack-dev-server",
+    "start": "yarn run webpack-dev-server",
     "test": "jest",
     "test-with-coverage": "jest --coverage",
     "lint": "eslint .",
     "lint-and-fix": "eslint --fix .",
-    "build": "NODE_ENV=development webpack --config webpack/config.js --progress --bail",
+    "build": "NODE_ENV=development webpack --config webpack/config.js --progress --bail --cache",
     "build-production": "NODE_ENV=production webpack --config webpack/config.js --progress --bail",
     "bundle-analyze": "webpack --config webpack/config.js --profile --json > bundle-analysis/stats.json && webpack-bundle-analyzer bundle-analysis/stats.json dist --no-open --mode static -r bundle-analysis/bundle-analyzer-report.html",
-    "webpack-dev-server": "NODE_ENV=development webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --host buildkite.dev --port 4890",
-    "static-server": "node_modules/.bin/http-server -p 4890 -a buildkite.dev ./dist",
-    "relay": "relay-compiler --schema app/graph/schema.json --src app"
+    "webpack-dev-server": "NODE_ENV=development webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --host buildkite.dev --port 4890"
   },
   "devDependencies": {
+    "@dhau/relay-compiler-webpack-plugin": "^0.5.1",
     "assets-webpack-plugin": "^3.4.0",
     "babel-core": "^6.24.0",
     "babel-eslint": "^7.1.0",
@@ -79,7 +78,7 @@
     "eventemitter3": "^2.0.2",
     "fetch-jsonp": "^1.1.1",
     "global": "^4.3.1",
-    "graphql": "^0.10.1",
+    "graphql": "^0.10.5",
     "graphql-relay": "^0.5.1",
     "markdown-component-loader": "^0.8.0",
     "metrick": "^0.2.0",
