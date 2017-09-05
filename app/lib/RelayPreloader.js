@@ -244,6 +244,7 @@ const QUERIES = {
             node {
               id
               description
+              public
               token
             }
             cursor
