@@ -304,6 +304,7 @@ const QUERIES = {
         }
         pid
         pingedAt
+        public
         stoppedAt
         stoppedBy {
           name
