@@ -10,7 +10,7 @@ export default class Badge extends React.PureComponent {
   };
 
   render() {
-    const { children, className } = this.props;
+    const { children, className, title } = this.props;
 
     const badgeClassName = classNames(
       "inline-block rounded ml1 small p1 line-height-1 tabular-numerals",
@@ -19,7 +19,7 @@ export default class Badge extends React.PureComponent {
     );
 
     return (
-      <span className={badgeClassName}>{children}</span>
+      <span className={badgeClassName} title={title}>{children}</span>
     );
   }
 }

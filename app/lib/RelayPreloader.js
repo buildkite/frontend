@@ -244,6 +244,7 @@ const QUERIES = {
             node {
               id
               description
+              public
               token
             }
             cursor
@@ -303,6 +304,7 @@ const QUERIES = {
         }
         pid
         pingedAt
+        public
         stoppedAt
         stoppedBy {
           name

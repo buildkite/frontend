@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
 import AgentStateIcon from './state-icon';
+import Badge from '../shared/Badge';
 import BuildState from '../icons/BuildState';
 import BuildStates from '../../constants/BuildStates';
 import Button from '../shared/Button';
@@ -52,7 +53,8 @@ class AgentShow extends React.Component {
       organization: PropTypes.shape({
         name: PropTypes.string,
         slug: PropTypes.string
-      })
+      }),
+      public: PropTypes.bool.isRequired
     }),
     relay: PropTypes.object.isRequired
   };
@@ -352,7 +354,10 @@ class AgentShow extends React.Component {
       <DocumentTitle title={`Agents / ${this.props.agent.name} · ${this.props.agent.organization.name}`}>
         <PageWithContainer>
           <Panel className="sm-col-9 lg-col-6 mx-auto">
-            <Panel.Header>{this.props.agent.name}</Panel.Header>
+            <Panel.Header>
+              {this.props.agent.name}
+              {this.renderPublicBadge()}
+            </Panel.Header>
 
             <Panel.Row key="info">
               {this.renderExtras(agent)}
@@ -401,6 +406,14 @@ class AgentShow extends React.Component {
         <span className="dark-gray pl3">
           The running job will be canceled.
         </span>
+      );
+    }
+  }
+
+  renderPublicBadge() {
+    if (this.props.agent.public) {
+      return (
+        <Badge outline={true} className="regular bg-white" title="Visible to everyone, including people outside this organization">Public</Badge>
       );
     }
   }
@@ -464,6 +477,7 @@ export default Relay.createContainer(AgentShow, {
         }
         pid
         pingedAt
+        public
         stoppedAt
         stoppedBy {
           name
