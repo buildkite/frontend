@@ -6,6 +6,7 @@ export default class Badge extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
+    title: PropTypes.string,
     outline: PropTypes.bool
   };
 
