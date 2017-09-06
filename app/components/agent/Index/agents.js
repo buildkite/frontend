@@ -126,10 +126,12 @@ class Agents extends React.PureComponent {
     // Parse the search. We only want to do this once, outside of the agent
     // loop, in case they have lots of agents
     const queries = localSearchQuery.map((string) => {
+      const [key, value] = string.split('=');
+
       return {
         string: string.toLowerCase(),
-        metaDataKey: string.split('=')[0],
-        metaDataValue: string.split('=')[1] // may be undefined
+        metaDataKey: key,
+        metaDataValue: value // may be undefined
       };
     });
 
@@ -141,7 +143,7 @@ class Agents extends React.PureComponent {
 
     const anyQueryMatchesMetaData = (agent) => {
       return agent.metaData.some((metaDataKeyValue) => {
-        const [key, value] = metaDataKeyValue.toLowerCase().split('=');
+        const [key, value] = metaDataKeyValue.split('=');
 
         return queries.some((query) => {
           // Simple string match
