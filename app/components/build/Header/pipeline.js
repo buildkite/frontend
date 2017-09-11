@@ -21,10 +21,12 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
 
   propTypes: {
     build: PropTypes.shape({
+      id: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
       jobs: PropTypes.arrayOf(PropTypes.shape({
         state: PropTypes.string.isRequired
-      }))
+      })),
+      jobsCount: PropTypes.number.isRequired
     }).isRequired
   },
 
