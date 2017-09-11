@@ -83,7 +83,24 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
       ? this.props.build.jobs
       : this.props.build.jobs.filter(({ state }) => state !== 'broken');
 
-    return jobs.map((job) => this.pipelineStep(job));
+    const renderedJobs = jobs.map((job) => this.pipelineStep(job));
+
+    // If the build has hidden jobs (such as on the project show / build index
+    // page, we want to add a "..." build step that links to the build so you
+    // can see all the steps)
+    if (this.props.build.jobs.length !== this.props.build.jobsCount) {
+      renderedJobs.push(
+        <a
+          key={`${this.props.build.id}-more-jobs`}
+          href={this.props.build.path}
+          className="build-pipeline-job truncate align-middle"
+        >
+          ...
+        </a>
+      );
+    }
+
+    return renderedJobs;
   },
 
   pipelineStep(job) {
