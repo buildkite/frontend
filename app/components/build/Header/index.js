@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { RootContainer } from 'react-relay';
+import { RootContainer } from 'react-relay/classic';
 
 import * as BuildQuery from '../../../queries/Build';
 import * as ViewerQuery from '../../../queries/Viewer';
