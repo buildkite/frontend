@@ -5,6 +5,7 @@ extends:
   - plugin:import/react
   - plugin:import/recommended
   - plugin:react/recommended
+  - plugin:flowtype/recommended
 
 globals:
   require: true
@@ -19,6 +20,7 @@ env:
 plugins:
   - import
   - react
+  - flowtype
 
 ecmaFeatures:
   modules: true
