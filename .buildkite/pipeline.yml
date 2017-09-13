@@ -36,6 +36,12 @@ steps:
       docker-compose#v1.3.1:
         run: frontend
 
+  - name: ":flowtype:"
+    command: ".buildkite/steps/flow.sh"
+    plugins:
+      docker-compose#v1.3.1:
+        run: frontend
+
   - name: ":webpack:"
     command: ".buildkite/steps/webpack.sh"
     artifact_paths: "dist/*"
