@@ -1,0 +1,11 @@
+[ignore]
+.*/node_modules/.*
+.*/__generated__/.*
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
