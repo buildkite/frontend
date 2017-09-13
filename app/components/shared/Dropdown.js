@@ -68,7 +68,7 @@ export default class Dropdown extends React.PureComponent {
   componentWillUnmount() {
     document.documentElement.removeEventListener('click', this.handleDocumentClick);
     document.documentElement.removeEventListener('keydown', this.handleDocumentKeyDown);
-    window.removeEventListener('resize', this.handlewindowResize);
+    window.removeEventListener('resize', this.handleWindowResize);
     this._resizeDebounceTimeout = clearTimeout(this._resizeDebounceTimeout); // just in case
   }
 
