@@ -1,3 +1,5 @@
+// @flow
+
 import crc32 from 'buffer-crc32';
 import detectEmojiScale from 'mojibaka/detect/scale';
 
@@ -5,8 +7,8 @@ const LOCALSTORAGE_KEY = 'EmojiStyleManager';
 const SMALL_EMOJI_CLASSNAME = 'tiny-kitemoji';
 
 class EmojiStyleManager {
-  scale = null;
-  userAgentHash = crc32.unsigned(navigator.userAgent).toString(16);
+  scale: number;
+  userAgentHash: string = crc32.unsigned(navigator.userAgent).toString(16);
 
   constructor() {
     // Let's see if we have a stored scale which matches this user agent!
@@ -50,7 +52,13 @@ class EmojiStyleManager {
     const isTiny = this.scale < 1.2;
 
     // Set the body className as necessary!
-    document.documentElement.classList[isTiny ? 'add' : 'remove'](SMALL_EMOJI_CLASSNAME);
+    if (document.documentElement) {
+      if (isTiny) {
+        document.documentElement.classList.add(SMALL_EMOJI_CLASSNAME);
+      } else {
+        document.documentElement.classList.remove(SMALL_EMOJI_CLASSNAME);
+      }
+    }
   }
 }
 
