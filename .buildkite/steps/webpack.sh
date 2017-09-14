@@ -17,3 +17,6 @@ yarn run build-production
 
 echo "--- :javascript: Checking valid JS"
 node --check dist/*.js && echo "👍 Javascript looks valid!"
+
+echo "--- :docker: Copying to the host for artifact upload"
+cp -a dist/* /host/dist

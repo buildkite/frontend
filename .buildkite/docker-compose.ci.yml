@@ -5,5 +5,4 @@ services:
     volumes:
       - "./bundle-analysis:/frontend/bundle-analysis"
       - "./coverage:/frontend/coverage"
-    ports:
-      - "4890:4890"
+      - "./dist:/host/dist"

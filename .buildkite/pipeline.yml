@@ -41,6 +41,9 @@ steps:
     artifact_paths: "dist/*"
     plugins:
       docker-compose#v1.3.1:
+        config: 
+          - docker-compose.yml
+          - .buildkite/docker-compose.ci.yml
         run: frontend
 
   - wait

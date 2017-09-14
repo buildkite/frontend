@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
 import AgentStateIcon from './state-icon';
+import Badge from '../shared/Badge';
 import BuildState from '../icons/BuildState';
 import BuildStates from '../../constants/BuildStates';
 import Button from '../shared/Button';
@@ -16,6 +17,8 @@ import PageWithContainer from '../shared/PageWithContainer';
 import Panel from '../shared/Panel';
 import permissions from '../../lib/permissions';
 import { getLabelForConnectionState } from './shared';
+
+import { formatNumber } from '../../lib/number';
 
 import AgentStopMutation from '../../mutations/AgentStop';
 
@@ -50,7 +53,8 @@ class AgentShow extends React.Component {
       organization: PropTypes.shape({
         name: PropTypes.string,
         slug: PropTypes.string
-      })
+      }),
+      public: PropTypes.bool.isRequired
     }),
     relay: PropTypes.object.isRequired
   };
@@ -201,20 +205,7 @@ class AgentShow extends React.Component {
       ));
     }
 
-    if (agent.jobs.edges.length) {
-      extras.push(this.renderExtraItem(
-        'Recent Jobs',
-        <ul className="m0 list-reset">
-          {
-            agent.jobs.edges.map(({ node: job }) => (
-              <li key={job.uuid}>
-                {this.renderJob(job)}
-              </li>
-            ))
-          }
-        </ul>
-      ));
-    }
+    this.renderExtraJobs(agent, extras);
 
     if (agent.connectedAt) {
       extras.push(this.renderExtraItem(
@@ -282,6 +273,37 @@ class AgentShow extends React.Component {
     );
   }
 
+  renderExtraJobs(agent, extras) {
+    if (agent.jobs.edges.length < 1) {
+      return;
+    }
+
+    let content = (
+      <ul className="m0 list-reset">
+        {
+          agent.jobs.edges.map(({ node: job }) => (
+            <li key={job.uuid}>
+              {this.renderJob(job)}
+            </li>
+          ))
+        }
+      </ul>
+    );
+
+    const remainder = agent.jobs.count - agent.jobs.edges.length;
+
+    if (remainder) {
+      content = (
+        <div>
+          {content}
+          (and {formatNumber(remainder)} more)
+        </div>
+      );
+    }
+
+    extras.push(this.renderExtraItem('Recent Jobs', content));
+  }
+
   handleStopButtonClick = (evt) => {
     evt.preventDefault();
 
@@ -332,7 +354,10 @@ class AgentShow extends React.Component {
       <DocumentTitle title={`Agents / ${this.props.agent.name} · ${this.props.agent.organization.name}`}>
         <PageWithContainer>
           <Panel className="sm-col-9 lg-col-6 mx-auto">
-            <Panel.Header>{this.props.agent.name}</Panel.Header>
+            <Panel.Header>
+              {this.props.agent.name}
+              {this.renderPublicBadge()}
+            </Panel.Header>
 
             <Panel.Row key="info">
               {this.renderExtras(agent)}
@@ -384,9 +409,21 @@ class AgentShow extends React.Component {
       );
     }
   }
+
+  renderPublicBadge() {
+    if (this.props.agent.public) {
+      return (
+        <Badge outline={true} className="regular bg-white" title="Visible to everyone, including people outside this organization">Public</Badge>
+      );
+    }
+  }
 }
 
 export default Relay.createContainer(AgentShow, {
+  initialVariables: {
+    jobPageSize: 10
+  },
+
   fragments: {
     agent: () => Relay.QL`
       fragment on Agent {
@@ -411,7 +448,7 @@ export default Relay.createContainer(AgentShow, {
           }
           ${JobLink.getFragment('job')}
         }
-        jobs(first: 10) {
+        jobs(first: $jobPageSize) {
           edges {
             node {
               ...on JobTypeCommand {
@@ -422,6 +459,7 @@ export default Relay.createContainer(AgentShow, {
               ${JobLink.getFragment('job')}
             }
           }
+          count
         }
         isRunningJob
         lostAt
@@ -439,6 +477,7 @@ export default Relay.createContainer(AgentShow, {
         }
         pid
         pingedAt
+        public
         stoppedAt
         stoppedBy {
           name
