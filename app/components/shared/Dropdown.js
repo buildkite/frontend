@@ -101,6 +101,7 @@ export default class Dropdown extends React.PureComponent<Props, State> {
 
   handleDocumentClick = (event: MouseEvent) => {
     // NOTE: We have to cast `event.target` to a Node to use with `contains`
+    //       see <https://github.com/facebook/flow/issues/4645>
     const target: Node = (event.target: any);
 
     const clickWasInComponent = this.wrapperNode && this.wrapperNode.contains(target);
