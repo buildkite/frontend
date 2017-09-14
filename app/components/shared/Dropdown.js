@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import classNames from 'classnames';
 
-import Popover, { calculateViewportOffsets } from './Popover';
+import Popover from './Popover';
+import calculateViewportOffsets from './Popover/calculate-viewport-offsets';
 
 type Props = {
   children: React$Node,
@@ -96,7 +97,9 @@ export default class Dropdown extends React.PureComponent<Props, State> {
   }
 
   calculateViewportOffsets = () => {
-    this.setState(calculateViewportOffsets(this.props.width, this.wrapperNode));
+    if (this.wrapperNode) {
+      this.setState(calculateViewportOffsets(this.props.width, this.wrapperNode));
+    }
   }
 
   handleDocumentClick = (event: MouseEvent) => {

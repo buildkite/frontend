@@ -75,4 +75,3 @@ export default class Popover extends React.PureComponent {
 }
 
 export AnchoredPopover from './anchored';
-export calculateViewportOffsets from './calculate-viewport-offsets';
