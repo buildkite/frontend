@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import Relay from 'react-relay/classic';
 import useRelay from 'react-router-relay';

@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
@@ -7,7 +9,13 @@ import Navigation from './layout/Navigation';
 import Footer from './layout/Footer';
 import Flashes from './layout/Flashes';
 
-class Main extends React.PureComponent {
+type Props = {
+  children: React$Node,
+  viewer: Object,
+  organization?: Object
+};
+
+class Main extends React.PureComponent<Props> {
   static propTypes = {
     children: PropTypes.node.isRequired,
     viewer: PropTypes.object.isRequired,
