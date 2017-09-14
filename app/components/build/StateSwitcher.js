@@ -8,21 +8,21 @@ import { formatNumber } from '../../lib/number';
 
 type Props = {
   buildsCount: number,
-  className: string,
   runningBuildsCount: number,
   scheduledBuildsCount: number,
-  state: string,
+  className?: string,
+  state?: string,
   path: string
 };
 
 class StateSwitcher extends React.PureComponent<Props> {
   static propTypes = {
-    buildsCount: PropTypes.number,
+    buildsCount: PropTypes.number.isRequired,
+    runningBuildsCount: PropTypes.number.isRequired,
+    scheduledBuildsCount: PropTypes.number.isRequired,
     className: PropTypes.string,
-    runningBuildsCount: PropTypes.number,
-    scheduledBuildsCount: PropTypes.number,
     state: PropTypes.string,
-    path: PropTypes.string
+    path: PropTypes.string.isRequired
   };
 
   renderLink(label: React$Node, state: ?string, count: number) {
