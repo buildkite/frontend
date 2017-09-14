@@ -1,3 +1,5 @@
+// @flow
+
 import Relay from 'react-relay/classic';
 import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
@@ -474,7 +476,7 @@ const QUERIES = {
 };
 
 class RelayPreloader {
-  preload(id, payload, variables) {
+  preload(id: string, payload: Object, variables: Object) {
     // Get the concrete query
     const concrete = QUERIES[id];
     if (!concrete) {

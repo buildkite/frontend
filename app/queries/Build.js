@@ -1,3 +1,5 @@
+// @flow
+
 import Relay from 'react-relay/classic';
 
 // Note: Ensure whatever variable you use as the $slug is unique and doesn't
@@ -14,7 +16,7 @@ export const query = () => Relay.QL`
 // parameters, it means we can't have queries like: build(org: "...",
 // pipeline: "...", number: "12"), so we have to do this hacky thing where we
 // include them all in the `buildSlug` param.
-export const prepareParams = (params) => {
+export const prepareParams = (params: Object) => {
   return {
     ...params,
     buildSlug: [params.organization, params.pipeline, params.number].join("/")

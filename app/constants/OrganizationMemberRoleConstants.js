@@ -1,3 +1,5 @@
+// @flow
+
 const OrganizationMemberRoleConstants = {
   ADMIN: "ADMIN",
   MEMBER: "MEMBER"

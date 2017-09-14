@@ -1,3 +1,5 @@
+// @flow
+
 const JobStates = {
   PENDING: "PENDING",
   WAITING: "WAITING",

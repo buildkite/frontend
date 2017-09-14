@@ -1,3 +1,5 @@
+// @flow
+
 const TeamMemberRoleConstants = {
   MAINTAINER: "MAINTAINER",
   MEMBER: "MEMBER"
