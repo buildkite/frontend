@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -19,7 +21,17 @@ const Nib = styled.img.attrs({
   z-index: 3;
 `;
 
-export default class Popover extends React.PureComponent {
+type Props = {
+  children: React$Node,
+  nibOffsetX: number,
+  offsetX: number,
+  offsetY: number,
+  style: Object,
+  innerRef: Function,
+  width: number
+};
+
+export default class Popover extends React.PureComponent<Props> {
   static propTypes = {
     children: PropTypes.node.isRequired,
     nibOffsetX: PropTypes.number.isRequired,
@@ -73,5 +85,3 @@ export default class Popover extends React.PureComponent {
     );
   }
 }
-
-export AnchoredPopover from './anchored';
