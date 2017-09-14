@@ -14,6 +14,7 @@ import permissions from '../../../lib/permissions';
 import FlashesStore from '../../../stores/FlashesStore';
 
 import TeamMemberUpdateMutation from '../../../mutations/TeamMemberUpdate';
+import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
 
 import TeamPrivacyConstants from '../../../constants/TeamPrivacyConstants';
 
@@ -47,8 +48,7 @@ class Row extends React.PureComponent {
           message: PropTypes.string
         })
       })
-    }).isRequired,
-    relay: PropTypes.object.isRequired
+    }).isRequired
   };
 
   state = {
@@ -171,37 +171,20 @@ class Row extends React.PureComponent {
   performRemove = () => {
     this.setState({ removing: true });
 
-    const query = Relay.QL`mutation TeamMemberDeleteMutation {
-      teamMemberDelete(input: $input) {
-	clientMutationId
-      }
-    }`;
-
-    const variables = {
-      input: {
-        id: this.props.teamMember.id
-      }
-    };
-
-    const mutation = new Relay.GraphQLMutation(query, variables, null, Relay.Store, {
-      onFailure: this.handleMutationFailure,
-      onSuccess: this.handleMutationSuccess
+    const mutation = new TeamMemberDeleteMutation({
+      teamMember: this.props.teamMember
     });
 
-    mutation.commit();
+    Relay.Store.commitUpdate(mutation, {
+      onFailure: (transaction) => {
+        // Remove the "removing" spinner
+        this.setState({ removing: false });
+
+        // Show the mutation error
+        FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
+      }
+    });
   }
-
-  handleMutationSuccess = () => {
-    this.props.relay.forceFetch();
-
-    this.setState({ removing: false });
-  };
-
-  handleMutationFailure = (transaction) => {
-    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
-
-    this.setState({ removing: false });
-  };
 }
 
 export default Relay.createContainer(Row, {
@@ -234,6 +217,7 @@ export default Relay.createContainer(Row, {
           }
         }
         ${TeamMemberUpdateMutation.getFragment('teamMember')}
+        ${TeamMemberDeleteMutation.getFragment('teamMember')}
       }
     `
   }
