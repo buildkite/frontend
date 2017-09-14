@@ -10,7 +10,6 @@ import ShowMoreFooter from '../../shared/ShowMoreFooter';
 import { formatNumber } from '../../../lib/number';
 
 import TeamMemberUpdateMutation from '../../../mutations/TeamMemberUpdate';
-import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
 
 import Chooser from './chooser';
 import Row from './row';
@@ -22,6 +21,7 @@ class Members extends React.Component {
 
   static propTypes = {
     team: PropTypes.shape({
+      id: PropTypes.string.isRequired,
       members: PropTypes.shape({
         count: PropTypes.number.isRequired,
         edges: PropTypes.array.isRequired
@@ -165,9 +165,36 @@ class Members extends React.Component {
   };
 
   handleTeamMemberRemove = (teamMember, callback) => {
-    Relay.Store.commitUpdate(new TeamMemberDeleteMutation({
-      teamMember: teamMember
-    }), { onSuccess: () => callback(null), onFailure: (transaction) => callback(transaction.getError()) });
+    const query = Relay.QL`mutation TeamMemberDeleteMutation {
+      teamMemberDelete(input: $input) {
+	clientMutationId
+        deletedTeamMemberID
+        team {
+          members {
+            count
+          }
+        }
+      }
+    }`;
+
+    const variables = {
+      input: {
+        id: teamMember.id
+      }
+    };
+
+    const mutation = new Relay.GraphQLMutation(query, variables, null, Relay.Store, {
+      onFailure: (transaction) => callback(transaction.getError()),
+      onSuccess: () => callback(null)
+    });
+
+    mutation.commit([{
+      type: 'NODE_DELETE',
+      parentName: 'team',
+      parentID: this.props.team.id,
+      connectionName: 'members',
+      deletedIDFieldName: 'deletedTeamMemberID'
+    }]);
   };
 
   handleRoleChange = (teamMember, role, callback) => {
@@ -191,6 +218,7 @@ export default Relay.createContainer(Members, {
     team: () => Relay.QL`
       fragment on Team {
         ${Chooser.getFragment('team')}
+        id
         members(first: $pageSize, search: $memberSearch, order: NAME) {
           ${ShowMoreFooter.getFragment('connection')}
           count
@@ -214,7 +242,6 @@ export default Relay.createContainer(Members, {
                   allowed
                 }
               }
-              ${TeamMemberDeleteMutation.getFragment('teamMember')}
               ${TeamMemberUpdateMutation.getFragment('teamMember')}
             }
           }
