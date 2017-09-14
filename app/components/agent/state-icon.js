@@ -13,7 +13,7 @@ import BuildStates from '../../constants/BuildStates';
 type Props = {
   agent: {
     connectionState: string,
-    isRunningJob: bool
+    isRunningJob: boolean
   },
   className?: string,
   style?: Object
