@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
@@ -9,7 +11,25 @@ import Badge from '../../shared/Badge';
 import Panel from '../../shared/Panel';
 import JobLink from '../../shared/JobLink';
 
-class AgentRow extends React.PureComponent {
+type Props = {
+  agent: {
+    id: string,
+    hostname: string,
+    job?: {
+      state: string
+    },
+    metaData: Array<Object>,
+    name: string,
+    organization: {
+      slug: string
+    },
+    public: boolean,
+    uuid: string,
+    version: string
+  }
+};
+
+class AgentRow extends React.PureComponent<Props> {
   static propTypes = {
     agent: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -25,7 +45,7 @@ class AgentRow extends React.PureComponent {
       public: PropTypes.bool.isRequired,
       uuid: PropTypes.string.isRequired,
       version: PropTypes.string.isRequired
-    })
+    }).isRequired
   };
 
   renderJob() {

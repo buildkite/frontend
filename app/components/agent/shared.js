@@ -1,4 +1,6 @@
-export function getColourForConnectionState(connectionState, prefix = '') {
+// @flow
+
+export function getColourForConnectionState(connectionState: string, prefix: string = '') {
   switch (connectionState) {
     case 'connected':
       return `${prefix}lime`;
@@ -21,6 +23,6 @@ const CONNECTION_STATE_LABELS = {
   'lost': 'Lost Connection'
 };
 
-export function getLabelForConnectionState(connectionState) {
+export function getLabelForConnectionState(connectionState: string) {
   return CONNECTION_STATE_LABELS[connectionState];
 }

@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
@@ -10,7 +12,21 @@ import AuditLogRow from './row';
 
 const PAGE_SIZE = 30;
 
-class AuditLogList extends React.PureComponent {
+type Props = {
+  organization: {
+    name: string,
+    auditEvents?: {
+      edges: Array<Object>
+    }
+  },
+  relay: Object
+};
+
+type State = {
+  loading: boolean
+};
+
+class AuditLogList extends React.PureComponent<Props, State> {
   static propTypes = {
     organization: PropTypes.shape({
       name: PropTypes.string.isRequired,

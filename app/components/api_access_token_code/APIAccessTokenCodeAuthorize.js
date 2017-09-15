@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
@@ -11,7 +13,20 @@ import APIAccessTokenCodeAuthorizeMutation from '../../mutations/APIAccessTokenC
 
 import FlashesStore from '../../stores/FlashesStore';
 
-class APIAccessTokenCodeAuthorize extends React.Component {
+type Props = {
+  apiAccessTokenCode?: {
+    authorizedAt?: string,
+    application: {
+      name: string
+    }
+  }
+};
+
+type State = {
+  authorizing: boolean
+};
+
+class APIAccessTokenCodeAuthorize extends React.Component<Props, State> {
   static propTypes = {
     apiAccessTokenCode: PropTypes.shape({
       authorizedAt: PropTypes.string,
