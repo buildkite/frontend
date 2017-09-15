@@ -13,7 +13,7 @@ type ViewportOffsets = {
   offsetX: number,
   offsetY: number,
   width: number
-}
+};
 
 export default (requestedWidth: number = 250, offsetNode: HTMLElement): ViewportOffsets => {
   const windowWidth = window.innerWidth;

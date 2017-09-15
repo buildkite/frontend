@@ -112,6 +112,13 @@ rules:
   strict: error
   unicode-bom: error
 
+  flowtype/delimiter-dangle: error
+  flowtype/no-dupe-keys: error
+  flowtype/no-primitive-constructor-types: error
+  flowtype/object-type-delimiter: error
+  flowtype/require-valid-file-annotation: error
+  flowtype/semi: error
+
   import/extensions: error
   import/unambiguous: off
 
