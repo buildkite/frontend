@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import { getTypeInfo, types as CardType } from 'credit-card-type';
@@ -13,9 +15,19 @@ import FormSelect from '../shared/FormSelect';
 
 import ValidationErrors from '../../lib/ValidationErrors';
 
-class BillingCreditCardForm extends React.Component {
+type Props = {
+  onChange: Function,
+  errors?: Array<Object>,
+  disabled?: boolean
+};
+
+type State = {
+  type: ?string
+};
+
+class BillingCreditCardForm extends React.Component<Props, State> {
   static propTypes = {
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
     errors: PropTypes.array,
     disabled: PropTypes.bool
   };
@@ -66,9 +78,9 @@ class BillingCreditCardForm extends React.Component {
               <FormInputLabel label="Expiration" required={true} />
 
               <div className="flex items-center">
-                {this.renderMonthSelect(errors)}
+                {this.renderMonthSelect()}
                 <div className="dark-gray bold center" style={{ width: 25 }}>/</div>
-                {this.renderYearSelect(errors)}
+                {this.renderYearSelect()}
               </div>
 
               {this.renderExpiryError(errors)}
@@ -117,7 +129,7 @@ class BillingCreditCardForm extends React.Component {
     );
   }
 
-  renderExpiryError(errors) {
+  renderExpiryError(errors: Object) {
     const errorMessages = ['month', 'year'].reduce(
       (acc, field) => (acc.concat(errors.findForField(field))),
       []
@@ -170,7 +182,7 @@ class BillingCreditCardForm extends React.Component {
     );
   }
 
-  renderCreditCardLogo(type) {
+  renderCreditCardLogo(type: string) {
     return (
       <img
         src={require(`./card-${type}.svg`)}
@@ -186,34 +198,34 @@ class BillingCreditCardForm extends React.Component {
     );
   }
 
-  handleNameChange = (event) => {
+  handleNameChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this.props.onChange('name', event.target.value);
   };
 
-  handleCardNumberChange = (cardNumber, type) => {
+  handleCardNumberChange = (cardNumber: string, type: string) => {
     this.setState({ type });
 
     this.props.onChange('number', cardNumber);
     this.props.onChange('type', type);
   };
 
-  handleMonthChange = (event) => {
+  handleMonthChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this.props.onChange('month', event.target.value);
   };
 
-  handleYearChange = (event) => {
+  handleYearChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this.props.onChange('year', event.target.value);
   };
 
-  handleCVCChange = (event) => {
+  handleCVCChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this.props.onChange('cvc', event.target.value);
   };
 
-  handleCountryChange = (event) => {
+  handleCountryChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this.props.onChange('country', event.target.value);
   };
 
-  handlePostCodeChange = (event) => {
+  handlePostCodeChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this.props.onChange('postcode', event.target.value);
   };
 }
