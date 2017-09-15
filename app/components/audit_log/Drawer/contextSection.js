@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
@@ -6,7 +8,18 @@ import FriendlyTime from '../../shared/FriendlyTime';
 
 import { Section, SectionHeading } from './shared';
 
-class AuditLogContextSection extends React.PureComponent {
+type Props = {
+  auditEvent: {
+    context: {
+      __typename: string,
+      requestIpAddress?: string,
+      requestUserAgent?: string,
+      sessionCreatedAt?: string
+    }
+  }
+};
+
+class AuditLogContextSection extends React.PureComponent<Props> {
   static propTypes = {
     auditEvent: PropTypes.shape({
       context: PropTypes.shape({

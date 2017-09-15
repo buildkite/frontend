@@ -14,7 +14,7 @@ import APIAccessTokenCodeAuthorizeMutation from '../../mutations/APIAccessTokenC
 import FlashesStore from '../../stores/FlashesStore';
 
 type Props = {
-  apiAccessTokenCode?: {
+  apiAccessTokenCode: {
     authorizedAt?: string,
     application: {
       name: string
@@ -33,7 +33,7 @@ class APIAccessTokenCodeAuthorize extends React.Component<Props, State> {
       application: PropTypes.shape({
         name: PropTypes.string.isRequired
       }).isRequired
-    })
+    }).isRequired
   };
 
   state = {

@@ -1,10 +1,25 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
 import { Section, SectionHeading } from './shared';
 
-class AuditLogSubjectSection extends React.PureComponent {
+type Props = {
+  auditEvent: {
+    subject: {
+      name?: string,
+      type?: string,
+      uuid?: string,
+      node?: {
+        name?: string
+      }
+    }
+  }
+};
+
+class AuditLogSubjectSection extends React.PureComponent<Props> {
   static propTypes = {
     auditEvent: PropTypes.shape({
       subject: PropTypes.shape({

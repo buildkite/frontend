@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
@@ -9,7 +11,13 @@ import AuditLogSubjectSection from './subjectSection';
 import AuditLogActorSection from './actorSection';
 import AuditLogContextSection from './contextSection';
 
-class AuditLogDrawer extends React.PureComponent {
+type Props = {
+  auditEvent: Object,
+  loading: boolean,
+  relay: Object
+};
+
+class AuditLogDrawer extends React.PureComponent<Props> {
   static propTypes = {
     auditEvent: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
