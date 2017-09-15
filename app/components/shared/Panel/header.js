@@ -1,8 +1,15 @@
+// @flow
+
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import React from 'react';
 
-export default class Header extends PureComponent {
+type Props = {
+  children: React$Node,
+  className?: string
+};
+
+export default class Header extends React.PureComponent<Props> {
   static propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string

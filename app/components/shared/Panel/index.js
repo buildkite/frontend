@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -20,11 +22,24 @@ const Separator = styled.hr.attrs({
   }
 `;
 
-class Panel extends React.PureComponent {
+type Props = {
+  children: React$Node,
+  className?: string
+};
+
+class Panel extends React.PureComponent<Props> {
   static propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string
   };
+
+  static Header: Object = Header;
+  static IntroWithButton: Object = IntroWithButton;
+  static Row: Object = Row;
+  static RowActions: Object = RowActions;
+  static RowLink: Object = RowLink;
+  static Footer: Object;
+  static Section: Object;
 
   render() {
     const children = React.Children.toArray(this.props.children);
@@ -48,12 +63,6 @@ class Panel extends React.PureComponent {
   }
 }
 
-Panel.IntroWithButton = IntroWithButton;
-Panel.Row = Row;
-Panel.RowActions = RowActions;
-Panel.RowLink = RowLink;
-Panel.Header = Header;
-
 const SIMPLE_COMPONENTS = {
   Footer: 'py2 px3',
   Section: 'm3'
@@ -74,7 +83,10 @@ Object.keys(SIMPLE_COMPONENTS).forEach((componentName) => {
     className: PropTypes.string
   };
 
-  Panel[componentName] = Component;
+  // NOTE: We have to cast Panel to Object so we can assign
+  //       in this way. We should probably do this a better way.
+  //       see <https://github.com/facebook/flow/issues/1323>
+  (Panel: Object)[componentName] = Component;
 });
 
 export default Panel;

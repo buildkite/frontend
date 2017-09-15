@@ -1,8 +1,15 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export default class RowActions extends React.PureComponent {
+type Props = {
+  children?: React$Node,
+  className?: string
+};
+
+export default class RowActions extends React.PureComponent<Props> {
   static displayName = "Panel.RowActions";
 
   static propTypes = {

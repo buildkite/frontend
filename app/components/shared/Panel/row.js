@@ -1,7 +1,13 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Row extends React.Component {
+type Props = {
+  children: React$Node
+};
+
+class Row extends React.Component<Props> {
   static displayName = "Panel.Row";
 
   static propTypes = {

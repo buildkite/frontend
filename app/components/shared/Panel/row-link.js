@@ -1,10 +1,18 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import Icon from '../../shared/Icon';
 
-export default class RowLink extends React.PureComponent {
+type Props = {
+  children: React$Node,
+  to?: string,
+  href?: string
+};
+
+export default class RowLink extends React.PureComponent<Props> {
   static displayName = "Panel.RowLink";
 
   static propTypes = {

@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
@@ -29,7 +31,12 @@ const TabButton = styled(Link).attrs({
   }
 `;
 
-class Tab extends React.PureComponent {
+type Props = {
+  badge?: number,
+  children: React$Node
+};
+
+class Tab extends React.PureComponent<Props> {
   static propTypes = {
     badge: PropTypes.number,
     children: PropTypes.node.isRequired
