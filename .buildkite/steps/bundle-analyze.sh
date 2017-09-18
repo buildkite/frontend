@@ -7,9 +7,6 @@ export FRONTEND_HOST=https://example.com/
 export EMOJI_HOST=https://example.com/
 export NODE_ENV=production
 
-echo "--- :relay: Compiling GraphQL Relay files"
-yarn run relay
-
 echo "+++ :package::mag: Running webpack-bundle-analyzer on a production bundle"
 yarn run bundle-analyze
 
