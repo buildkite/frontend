@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@dhau/relay-compiler-webpack-plugin@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@dhau/relay-compiler-webpack-plugin/-/relay-compiler-webpack-plugin-0.5.1.tgz#ac9a584874f85717e5bb0f4430e956dff7a5168f"
+"@dhau/relay-compiler-webpack-plugin@^0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@dhau/relay-compiler-webpack-plugin/-/relay-compiler-webpack-plugin-0.5.3.tgz#6880e4ff008e353cb8cc707d5e478b29ae80912a"
 
 abab@^1.0.3:
   version "1.0.3"
