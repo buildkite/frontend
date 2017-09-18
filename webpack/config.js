@@ -43,8 +43,8 @@ var plugins = [
   // Forked version of the RelayCompilerWebpackPlugin that supports
   // relay-compiler 1.1.0
   new RelayCompilerPlugin({
-    schema: path.join(__dirname, '../app/graph/schema.json'), 
-    src: path.resolve(__dirname, '../app'),
+    schema: path.join(__dirname, '../app/graph/schema.json'),
+    src: path.resolve(__dirname, '../app')
   }),
 
   // Only add the 'whatwg-fetch' plugin if the browser doesn't support it
