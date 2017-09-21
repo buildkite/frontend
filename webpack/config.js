@@ -144,6 +144,11 @@ if (IS_PRODUCTION) {
   }));
 }
 
+if (process.env.COLLECT_BUNDLE_STATS === 'true') {
+  var StatsPlugin = require('stats-webpack-plugin');
+  plugins.push(new StatsPlugin('../bundle-analysis/stats.json'));
+}
+
 if (IS_PRODUCTION || process.env['BUGSNAG_JS_API_KEY']) {
   // Only load Bugsnag if configured, or we're in Production
   vendor_modules.unshift("bugsnag-js");
