@@ -2,8 +2,8 @@ FROM node:6
 
 EXPOSE 4890
 
-ENV FRONTEND_HOST=http://buildkite.dev:4890/_frontend/dist/ \
-    EMOJI_HOST=http://buildkite.dev/_frontend/vendor/emojis
+ENV FRONTEND_HOST=http://buildkite.localhost:4890/_frontend/dist/ \
+    EMOJI_HOST=http://buildkite.localhost/_frontend/vendor/emojis
 
 WORKDIR /frontend
 
