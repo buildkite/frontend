@@ -81,7 +81,7 @@
     "global": "^4.3.1",
     "graphql": "^0.10.5",
     "graphql-relay": "^0.5.1",
-    "markdown-component-loader": "^0.8.0",
+    "markdown-component-loader": "^1.0.0-beta.1",
     "metrick": "^0.2.0",
     "mojibaka": "^1.0.2",
     "moment": "^2.15.0",
