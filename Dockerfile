@@ -16,4 +16,4 @@ ADD . /frontend/
 RUN yarn build
 
 # Serve via webpack-dev-server
-CMD ["yarn", "start"]
+CMD ["yarn", "run", "webpack-dev-server"]
