@@ -5054,8 +5054,8 @@ map-visit@^0.1.5:
     object-visit "^0.3.4"
 
 markdown-component-loader@^1.0.0-beta.1:
-  version "1.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/markdown-component-loader/-/markdown-component-loader-1.0.0-beta.1.tgz#a41843ce8ccbca2378f6cacdf5d0793b96eb6de7"
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/markdown-component-loader/-/markdown-component-loader-1.0.0-beta.4.tgz#177ababcba26f5d8183521a42ad3e378fa041233"
   dependencies:
     any-base "^1.0.0"
     doc-chomp "1.1.0"
@@ -5064,7 +5064,7 @@ markdown-component-loader@^1.0.0-beta.1:
     he "^1.1.1"
     highlight.js "^9.6.0"
     jsesc "^2.2.0"
-    loader-utils "^0.2.16"
+    loader-utils "^1.1.0"
     markdown-it "^8.1.0"
     sha.js "^2.4.5"
 
