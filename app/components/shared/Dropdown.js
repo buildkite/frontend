@@ -1,11 +1,31 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import classNames from 'classnames';
 
-import Popover, { calculateViewportOffsets } from './Popover';
+import Popover from './Popover';
+import calculateViewportOffsets from './Popover/calculate-viewport-offsets';
 
-export default class Dropdown extends React.PureComponent {
+type Props = {
+  children: React$Node,
+  width: number,
+  className?: string,
+  style?: Object,
+  onToggle?: Function,
+  nibOffsetX: number,
+  offsetY: number
+};
+
+type State = {
+  showing: boolean,
+  offsetX: number,
+  offsetY: number,
+  width: number
+};
+
+export default class Dropdown extends React.PureComponent<Props, State> {
   static propTypes = {
     children: PropTypes.node.isRequired,
     width: PropTypes.number.isRequired,
@@ -28,6 +48,10 @@ export default class Dropdown extends React.PureComponent {
     offsetY: 35,
     width: 250
   };
+
+  wrapperNode: ?HTMLSpanElement;
+  popupNode: ?HTMLElement;
+  _resizeDebounceTimeout: ?number;
 
   handleWindowResize = () => {
     // when hidden, we wait for the resize to be finished!
@@ -59,27 +83,31 @@ export default class Dropdown extends React.PureComponent {
   };
 
   componentDidMount() {
-    document.documentElement.addEventListener('click', this.handleDocumentClick, false);
-    document.documentElement.addEventListener('keydown', this.handleDocumentKeyDown, false);
+    document.documentElement && document.documentElement.addEventListener('click', this.handleDocumentClick);
+    document.documentElement && document.documentElement.addEventListener('keydown', this.handleDocumentKeyDown);
     window.addEventListener('resize', this.handleWindowResize, false);
     this.calculateViewportOffsets();
   }
 
   componentWillUnmount() {
-    document.documentElement.removeEventListener('click', this.handleDocumentClick);
-    document.documentElement.removeEventListener('keydown', this.handleDocumentKeyDown);
+    document.documentElement && document.documentElement.removeEventListener('click', this.handleDocumentClick);
+    document.documentElement && document.documentElement.removeEventListener('keydown', this.handleDocumentKeyDown);
     window.removeEventListener('resize', this.handleWindowResize);
     this._resizeDebounceTimeout = clearTimeout(this._resizeDebounceTimeout); // just in case
   }
 
   calculateViewportOffsets = () => {
-    this.setState(calculateViewportOffsets(this.props.width, this.wrapperNode));
+    if (this.wrapperNode) {
+      this.setState(calculateViewportOffsets(this.props.width, this.wrapperNode));
+    }
   }
 
-  handleDocumentClick = (event) => {
-    const target = event.target;
+  handleDocumentClick = (event: MouseEvent) => {
+    // NOTE: We have to cast `event.target` to a Node to use with `contains`
+    //       see <https://github.com/facebook/flow/issues/4645>
+    const target: Node = (event.target: any);
 
-    const clickWasInComponent = this.wrapperNode.contains(target);
+    const clickWasInComponent = this.wrapperNode && this.wrapperNode.contains(target);
 
     // We don't have a ref to the popup button, so to detect a click on the
     // button we detect that it "wasn't" in the popup node, leaving only the
@@ -93,14 +121,14 @@ export default class Dropdown extends React.PureComponent {
     }
   };
 
-  handleDocumentKeyDown = (event) => {
+  handleDocumentKeyDown = (event: KeyboardEvent) => {
     // Handle the escape key
     if (this.state.showing && event.keyCode === 27) {
       this.setShowing(false);
     }
   };
 
-  setShowing(showing) {
+  setShowing(showing: boolean) {
     this.setState({ showing: showing });
 
     if (this.props.onToggle) {
@@ -108,7 +136,7 @@ export default class Dropdown extends React.PureComponent {
     }
   }
 
-  renderPopover(children) {
+  renderPopover(children: React$Node): React$Node {
     if (!this.state.showing) {
       return;
     }

@@ -1,3 +1,5 @@
+// @flow
+
 import escapeHtml from 'escape-html';
 
 import BUILDKITE_EMOJI from '../emoji/buildkite';
@@ -10,7 +12,11 @@ const EMOJI_CATALOGUES = [
 
 const COLON_REGEXP = /:[^\s:]+:(?::skin-tone-[2-6]:)?/g;
 
-export default function parseEmoji(string, options = {}) {
+type ParseEmojiOptions = {
+  escape?: boolean
+};
+
+export default function parseEmoji(string: string, options: ParseEmojiOptions = {}): string {
   if (!string || string.length === 0) {
     return '';
   }

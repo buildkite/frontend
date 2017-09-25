@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
@@ -10,10 +12,20 @@ import AgentTokenList from './AgentTokenList';
 import AgentInstallation from './installation';
 import QuickStart from './quick-start';
 
-class AgentIndex extends React.PureComponent {
+type Props = {
+  location: {
+    query: Object
+  },
+  organization: {
+    name: string
+  },
+  viewer: Object
+};
+
+class AgentIndex extends React.PureComponent<Props> {
   static propTypes = {
     location: PropTypes.shape({
-      query: PropTypes.object
+      query: PropTypes.object.isRequired
     }).isRequired,
     organization: PropTypes.shape({
       name: PropTypes.string.isRequired

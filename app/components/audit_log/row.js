@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
@@ -18,7 +20,49 @@ const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
 `;
 
-class AuditLogRow extends React.PureComponent {
+type Props = {
+  auditEvent: {
+    uuid: string,
+    type: string,
+    occurredAt: string,
+    actor: {
+      name?: string,
+      node?: {
+        name?: string,
+        avatar?: {
+          url?: string
+        }
+      }
+    },
+    subject: {
+      type: string,
+      name?: string,
+      node?: {
+        name?: string,
+        team?: {
+          name?: string
+        },
+        user?: {
+          name?: string
+        },
+        pipeline?: {
+          name?: string
+        }
+      }
+    },
+    context: {
+      __typename: string
+    }
+  },
+  relay: Object
+};
+
+type State = {
+  isExpanded: boolean,
+  loading: boolean
+};
+
+class AuditLogRow extends React.PureComponent<Props, State> {
   static propTypes = {
     auditEvent: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
@@ -37,7 +81,16 @@ class AuditLogRow extends React.PureComponent {
         type: PropTypes.string.isRequired,
         name: PropTypes.string,
         node: PropTypes.shape({
-          name: PropTypes.string
+          name: PropTypes.string,
+          team: PropTypes.shape({
+            name: PropTypes.string
+          }),
+          user: PropTypes.shape({
+            name: PropTypes.string
+          }),
+          pipeline: PropTypes.shape({
+            name: PropTypes.string
+          })
         })
       }).isRequired,
       context: PropTypes.shape({
@@ -150,8 +203,8 @@ class AuditLogRow extends React.PureComponent {
     } else if (type === 'ORGANIZATION_TEAMS_DISABLED') {
       return `Disabled teams for ${renderedSubject}`;
     } else if (subject.type === 'TEAM_MEMBER') {
-      const renderedTeam = this.renderEventObject({ type: 'TEAM', node: subject.node && subject.node.team });
-      const renderedUser = this.renderEventObject({ type: 'USER', node: subject.node && subject.node.user });
+      const renderedTeam = this.renderEventObject({ type: 'TEAM', node: subject.node && subject.node.team, name: null });
+      const renderedUser = this.renderEventObject({ type: 'USER', node: subject.node && subject.node.user, name: null });
 
       if (type === 'TEAM_MEMBER_CREATED') {
         return `Added ${renderedUser} to ${renderedTeam}`;
@@ -161,8 +214,8 @@ class AuditLogRow extends React.PureComponent {
 
       return `${eventVerb} ${renderedUser} in ${renderedTeam}`;
     } else if (subject.type === 'TEAM_PIPELINE') {
-      const renderedTeam = this.renderEventObject({ type: 'TEAM', node: subject.node && subject.node.team });
-      const renderedPipeline = this.renderEventObject({ type: 'PIPELINE', node: subject.node && subject.node.pipeline });
+      const renderedTeam = this.renderEventObject({ type: 'TEAM', node: subject.node && subject.node.team, name: null });
+      const renderedPipeline = this.renderEventObject({ type: 'PIPELINE', node: subject.node && subject.node.pipeline, name: null });
 
       if (type === 'TEAM_PIPELINE_CREATED') {
         return `Added ${renderedPipeline} to ${renderedTeam}`;

@@ -1,5 +1,9 @@
+// @flow
+
 class MarkdownEditor {
-  constructor(textarea) {
+  textarea: HTMLTextAreaElement;
+
+  constructor(textarea: HTMLTextAreaElement) {
     this.textarea = textarea;
   }
 
@@ -82,7 +86,7 @@ class MarkdownEditor {
   }
 
   // Replaces text in the text area and retains the users cursor
-  replace(before, after) {
+  replace(before: string, after: string) {
     // Grab the start/end of the currently selected text
     let selectionStart = this.textarea.selectionStart;
     let selectionEnd = this.textarea.selectionEnd;
@@ -104,12 +108,12 @@ class MarkdownEditor {
   }
 
   // Convenice method to append text to the textarea
-  append(text) {
+  append(text: string) {
     this.textarea.value += text;
   }
 
   // Insert text at the current cursor position
-  insert(text) {
+  insert(text: string) {
     // Grab the start/end of the currently selected text
     const selectionStart = this.textarea.selectionStart;
     const selectionEnd = this.textarea.selectionEnd;
@@ -136,7 +140,7 @@ class MarkdownEditor {
   // For example a modification instruction such as "__{s}{t}{s}__" will surround
   // the highlighted text with `__` and then select the original text. If the rule
   // was "{s}__{t}__{s}", the entire text would be highlighted after the modification.
-  modify(instruction) {
+  modify(instruction: string | Function) {
     // Get the value current length of the string in the text area
     const value = this.textarea.value;
     const length = value.length;

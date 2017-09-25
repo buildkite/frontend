@@ -1,7 +1,13 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class IntroWithButton extends React.PureComponent {
+type Props = {
+  children: React$Node
+};
+
+export default class IntroWithButton extends React.PureComponent<Props> {
   static displayName = "Panel.IntroWithButton";
 
   static propTypes = {

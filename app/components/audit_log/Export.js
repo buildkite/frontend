@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
@@ -23,7 +25,13 @@ const exampleQuery = (slug) => `query {
   }
 }`;
 
-class AuditLogExport extends React.PureComponent {
+type Props = {
+  organization: {
+    slug: string
+  }
+};
+
+class AuditLogExport extends React.PureComponent<Props> {
   static propTypes = {
     organization: PropTypes.shape({
       slug: PropTypes.string.isRequired

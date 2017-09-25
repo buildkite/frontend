@@ -1,4 +1,12 @@
+// @flow
+
 class Logger {
+  enabled: boolean;
+  console: {
+    log: Function,
+    error: Function
+  };
+
   enable() {
     this.enabled = true;
 
@@ -9,9 +17,8 @@ class Logger {
     this.info("[Logger] Enabled...");
   }
 
-  info() {
+  info(...args: Array<string>) {
     if (this.enabled) {
-      const args = Array.prototype.slice.call(arguments);
       const msg = args.shift();
 
       if (args.length === 0) {
@@ -24,9 +31,8 @@ class Logger {
     }
   }
 
-  error() {
+  error(...args: Array<string>) {
     if (this.enabled) {
-      const args = Array.prototype.slice.call(arguments);
       const msg = args.shift();
 
       if (args.length === 0) {

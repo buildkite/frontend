@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import update from 'react-addons-update';
@@ -17,9 +19,20 @@ const svgContent = ((icon_context) => (
 
     return (title ? `<title>${escape(title)}</title>` : '') + icon;
   }
-))(require.context('!raw-loader!./', false, /\.svg$/));
+))(
+  // NOTE: We cast `require` to an Object here so we can call `context`,
+  //       as Flow doesn't understand Webpack's require extensions.
+  (require: Object).context('!raw-loader!./', false, /\.svg$/)
+);
 
-function Icon(props) {
+type Props = {
+  style?: Object,
+  className?: string,
+  icon: string,
+  title?: string
+};
+
+function Icon(props: Props) {
   const style = update(props.style || {}, {
     fill: {
       $set: "currentColor"

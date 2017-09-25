@@ -1,3 +1,5 @@
+// @flow
+
 import styled from 'styled-components';
 
 // <Section/> is inline-block with `width: 100%`

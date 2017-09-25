@@ -1,22 +1,45 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import PusherStore from '../../stores/PusherStore';
 import StateSwitcher from '../build/StateSwitcher';
 
-export default class BuildCountsBreakdown extends React.PureComponent {
+type Props = {
+  viewer: {
+    builds: {
+      count: number
+    },
+    scheduledBuilds: {
+      count: number
+    },
+    runningBuilds: {
+      count: number
+    }
+  },
+  state?: string
+};
+
+type State = {
+  buildsCount: number,
+  scheduledBuildsCount: number,
+  runningBuildsCount: number
+};
+
+export default class BuildCountsBreakdown extends React.PureComponent<Props, State> {
   static propTypes = {
     viewer: PropTypes.shape({
       builds: PropTypes.shape({
         count: PropTypes.number.isRequired
-      }),
+      }).isRequired,
       scheduledBuilds: PropTypes.shape({
         count: PropTypes.number.isRequired
-      }),
+      }).isRequired,
       runningBuilds: PropTypes.shape({
         count: PropTypes.number.isRequired
-      })
-    }),
+      }).isRequired
+    }).isRequired,
     state: PropTypes.string
   };
 
@@ -46,7 +69,7 @@ export default class BuildCountsBreakdown extends React.PureComponent {
     );
   }
 
-  handleStoreChange = (payload) => {
+  handleStoreChange = (payload: State) => {
     this.setState({
       buildsCount: payload.buildsCount,
       scheduledBuildsCount: payload.scheduledBuildsCount,

@@ -1,9 +1,19 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import Menu from '../shared/Menu';
 
-class SettingsMenu extends React.Component {
+type Props = {
+  viewer: {
+    organizations: {
+      edges: Array<Object>
+    }
+  }
+};
+
+class SettingsMenu extends React.Component<Props> {
   static propTypes = {
     viewer: PropTypes.shape({
       organizations: PropTypes.shape({

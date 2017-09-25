@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
@@ -6,7 +8,16 @@ import FriendlyTime from '../../shared/FriendlyTime';
 
 import { Section, SectionHeading } from './shared';
 
-class AuditLogEventSection extends React.PureComponent {
+type Props = {
+  auditEvent: {
+    uuid: string,
+    type: string,
+    occurredAt: string,
+    data?: string
+  }
+};
+
+class AuditLogEventSection extends React.PureComponent<Props> {
   static propTypes = {
     auditEvent: PropTypes.shape({
       uuid: PropTypes.string.isRequired,

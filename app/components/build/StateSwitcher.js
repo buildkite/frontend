@@ -1,20 +1,31 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { formatNumber } from '../../lib/number';
 
-class StateSwitcher extends React.PureComponent {
+type Props = {
+  buildsCount: number,
+  runningBuildsCount: number,
+  scheduledBuildsCount: number,
+  className?: string,
+  state?: string,
+  path: string
+};
+
+class StateSwitcher extends React.PureComponent<Props> {
   static propTypes = {
-    buildsCount: PropTypes.number,
+    buildsCount: PropTypes.number.isRequired,
+    runningBuildsCount: PropTypes.number.isRequired,
+    scheduledBuildsCount: PropTypes.number.isRequired,
     className: PropTypes.string,
-    runningBuildsCount: PropTypes.number,
-    scheduledBuildsCount: PropTypes.number,
     state: PropTypes.string,
-    path: PropTypes.string
+    path: PropTypes.string.isRequired
   };
 
-  renderLink(label, state, count) {
+  renderLink(label: React$Node, state: ?string, count: number) {
     const url = state ? `${this.props.path}?state=${state}` : this.props.path;
     const active = this.props.state === state;
     const classes = classNames("block center hover-black hover-bg-silver text-decoration-none", {

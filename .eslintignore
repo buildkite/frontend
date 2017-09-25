@@ -4,5 +4,8 @@ dist
 # Jest Snapshots
 **/__snapshots__
 
+# Flow Type Definitions
+flow-typed
+
 # Jest coverage output
 coverage

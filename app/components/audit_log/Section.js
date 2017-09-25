@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
@@ -7,7 +9,15 @@ import Icon from '../shared/Icon';
 import PageHeader from '../shared/PageHeader';
 import TabControl from '../shared/TabControl';
 
-class AuditLogSection extends React.PureComponent {
+type Props = {
+  organization: {
+    name: string,
+    slug: string
+  },
+  children: React$Node
+};
+
+class AuditLogSection extends React.PureComponent<Props> {
   static propTypes = {
     organization: PropTypes.shape({
       name: PropTypes.string.isRequired,

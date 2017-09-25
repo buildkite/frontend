@@ -1,6 +1,8 @@
+// @flow
+
 import BuildStates from '../constants/BuildStates';
 
-export function buildTime(build) {
+export function buildTime(build: Object) {
   const { state, startedAt, canceledAt, finishedAt, scheduledAt } = build;
   const buildTime = {};
 
@@ -45,7 +47,7 @@ export function buildTime(build) {
   return buildTime;
 }
 
-export function buildStatus(build) {
+export function buildStatus(build: Object) {
   const { state, createdAt, canceledAt, finishedAt } = build;
 
   if (state === BuildStates.SCHEDULED) {

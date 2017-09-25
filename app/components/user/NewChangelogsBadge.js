@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
@@ -6,7 +8,18 @@ import classNames from 'classnames';
 
 import PusherStore from '../../stores/PusherStore';
 
-class NewChangelogsBadge extends React.PureComponent {
+type Props = {
+  className?: string,
+  relay: Relay,
+  style?: Object,
+  viewer?: {
+    unreadChangelogs?: {
+      count: number
+    }
+  }
+};
+
+class NewChangelogsBadge extends React.PureComponent<Props> {
   static propTypes = {
     className: PropTypes.string,
     relay: PropTypes.object.isRequired,
@@ -31,7 +44,7 @@ class NewChangelogsBadge extends React.PureComponent {
   };
 
   render() {
-    if (!this.props.viewer.unreadChangelogs || !this.props.viewer.unreadChangelogs.count) {
+    if (!this.props.viewer || !this.props.viewer.unreadChangelogs || !this.props.viewer.unreadChangelogs.count) {
       return null;
     }
 

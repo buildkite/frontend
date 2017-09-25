@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -5,7 +7,23 @@ import classNames from 'classnames';
 import Popover from '.';
 import calculateViewportOffsets from './calculate-viewport-offsets';
 
-export default class AnchoredPopover extends React.PureComponent {
+type Props = {
+  children: React$Node,
+  className?: string,
+  nibOffsetX: number,
+  position: 'relative' | 'absolute',
+  style?: Object,
+  width: number
+};
+
+type State = {
+  offsetX: number,
+  offsetY: number,
+  showing: boolean,
+  width: number
+};
+
+export default class AnchoredPopover extends React.PureComponent<Props, State> {
   static propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
@@ -28,6 +46,10 @@ export default class AnchoredPopover extends React.PureComponent {
     showing: false,
     width: 250
   };
+
+  wrapperNode: ?HTMLSpanElement;
+  popupNode: ?HTMLElement;
+  _resizeDebounceTimeout: ?number;
 
   handleWindowResize = () => {
     // when hidden, we wait for the resize to be finished!
@@ -69,22 +91,36 @@ export default class AnchoredPopover extends React.PureComponent {
   }
 
   calculateViewportOffsets = () => {
-    this.setState(calculateViewportOffsets(this.props.width, this.wrapperNode));
+    if (this.wrapperNode) {
+      this.setState(calculateViewportOffsets(this.props.width, this.wrapperNode));
+    }
   };
 
-  handleMouseOver = (evt) => {
-    if (this.wrapperNode.firstElementChild.contains(evt.target)) {
+  handleMouseOver = (event: MouseEvent) => {
+    // NOTE: We have to cast `event.target` to a Node to use with `contains`
+    //       see <https://github.com/facebook/flow/issues/4645>
+    const target: Node = (event.target: any);
+
+    if (this.wrapperNode
+      && this.wrapperNode.firstElementChild
+      && this.wrapperNode.firstElementChild.contains(target)) {
       this.setState({ showing: true });
     }
   };
 
-  handleMouseOut = (evt) => {
-    if (this.wrapperNode.firstElementChild.contains(evt.target)) {
+  handleMouseOut = (event: MouseEvent) => {
+    // NOTE: We have to cast `event.target` to a Node to use with `contains`
+    //       see <https://github.com/facebook/flow/issues/4645>
+    const target: Node = (event.target: any);
+
+    if (this.wrapperNode
+      && this.wrapperNode.firstElementChild
+      && this.wrapperNode.firstElementChild.contains(target)) {
       this.setState({ showing: false });
     }
   };
 
-  renderPopover(children) {
+  renderPopover(children: React$Node) {
     if (!this.state.showing) {
       return;
     }

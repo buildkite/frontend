@@ -1,3 +1,5 @@
+// @flow
+
 const BuildStates = {
   SKIPPED: "SKIPPED",
   SCHEDULED: "SCHEDULED",

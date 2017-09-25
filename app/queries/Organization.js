@@ -1,3 +1,5 @@
+// @flow
+
 import Relay from 'react-relay/classic';
 
 // Note: Ensure whatever variable you use as the $slug is unique and doesn't

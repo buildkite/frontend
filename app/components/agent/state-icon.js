@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import Relay from 'react-relay/classic';
 import PropTypes from 'prop-types';
@@ -8,12 +10,21 @@ import { getColourForConnectionState, getLabelForConnectionState } from './share
 
 import BuildStates from '../../constants/BuildStates';
 
-class AgentStateIcon extends React.PureComponent {
+type Props = {
+  agent: {
+    connectionState: string,
+    isRunningJob: boolean
+  },
+  className?: string,
+  style?: Object
+};
+
+class AgentStateIcon extends React.PureComponent<Props> {
   static propTypes = {
     agent: PropTypes.shape({
       connectionState: PropTypes.string.isRequired,
       isRunningJob: PropTypes.bool.isRequired
-    }),
+    }).isRequired,
     className: PropTypes.string,
     style: PropTypes.object
   };

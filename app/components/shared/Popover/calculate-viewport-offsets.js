@@ -1,3 +1,5 @@
+// @flow
+
 const { abs, min, max } = Math;
 
 // margin (in pixels) to maintain around automatically-positioned dropdowns
@@ -7,7 +9,13 @@ const combineAxisOffsets = (lowOffset, highOffset) => (
   abs(min(lowOffset - SCREEN_MARGIN, 0)) - abs(max(highOffset + SCREEN_MARGIN, 0))
 );
 
-export default (requestedWidth = 250, offsetNode) => {
+type ViewportOffsets = {
+  offsetX: number,
+  offsetY: number,
+  width: number
+};
+
+export default (requestedWidth: number = 250, offsetNode: HTMLElement): ViewportOffsets => {
   const windowWidth = window.innerWidth;
   const { left: offsetNodeLeft, width: offsetNodeWidth, height: offsetNodeHeight } = offsetNode.getBoundingClientRect();
 
