@@ -1,3 +1,5 @@
+// @flow
+
 import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -43,9 +45,23 @@ const HeaderBuilds = styled(Builds)`
   }
 `;
 
-class Header extends React.Component {
+type Props = {
+  pipeline: Object,
+  viewer?: {
+    id: string
+  },
+  buildState?: string
+};
+
+type State = {
+  showingActionsDropdown: boolean,
+  showingCreateBuildDialog: boolean
+};
+
+class Header extends React.Component<Props, State> {
   static propTypes = {
     pipeline: PropTypes.object.isRequired,
+    viewer: PropTypes.object,
     buildState: PropTypes.string
   };
 
@@ -53,6 +69,8 @@ class Header extends React.Component {
     showingActionsDropdown: false,
     showingCreateBuildDialog: false
   };
+
+  actionsDropdown: ?Dropdown;
 
   componentWillMount() {
     if (window.location.hash.split('?').shift() === '#new') {
@@ -74,9 +92,7 @@ class Header extends React.Component {
                 href={this.props.pipeline.url}
                 className="inline-block line-height-1 color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent truncate"
               >
-                <h4 className="semi-bold h3 m0 truncate">
-                  <Emojify text={this.props.pipeline.name} />
-                </h4>
+                {this.renderPipelineName()}
                 <span
                   className="truncate h5 regular m0 dark-gray hover-color-inherit line-height-3"
                   style={{ marginTop: 3 }}
@@ -100,6 +116,18 @@ class Header extends React.Component {
           pipeline={this.props.pipeline}
         />
       </div>
+    );
+  }
+
+  renderPipelineName() {
+    const isAnonymous = !this.props.viewer;
+
+    return (
+      <h4 className="semi-bold h3 m0 truncate">
+        {isAnonymous && <Emojify text={this.props.pipeline.organization.name} />}
+        {isAnonymous && <span className="dark-gray hover-color-inherit"> / </span>}
+        <Emojify text={this.props.pipeline.name} />
+      </h4>
     );
   }
 
@@ -165,7 +193,7 @@ class Header extends React.Component {
       <Dropdown
         className="sm-hide md-hide lg-hide"
         width={200}
-        ref={(_actionsDropdown) => this._actionsDropdown = _actionsDropdown}
+        ref={(actionsDropdown) => this.actionsDropdown = actionsDropdown}
         onToggle={this.handleActionsDropdownToggle}
       >
         <Button
@@ -222,8 +250,8 @@ class Header extends React.Component {
   };
 
   handleBuildCreateClick = () => {
-    if (this.state.showingActionsDropdown) {
-      this._actionsDropdown.setShowing(false);
+    if (this.state.showingActionsDropdown && this.actionsDropdown) {
+      this.actionsDropdown.setShowing(false);
     }
 
     this.setState({ showingCreateBuildDialog: true });
@@ -244,6 +272,9 @@ export default Relay.createContainer(Header, {
         name
         url
         description
+        organization {
+          name
+        }
         repository {
           url
           provider {
@@ -263,6 +294,11 @@ export default Relay.createContainer(Header, {
             message
           }
         }
+      }
+    `,
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        __typename
       }
     `
   }
