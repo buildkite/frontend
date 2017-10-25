@@ -5063,9 +5063,9 @@ map-visit@^0.1.5:
     lazy-cache "^2.0.1"
     object-visit "^0.3.4"
 
-markdown-component-loader@^1.0.0-beta.1:
-  version "1.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/markdown-component-loader/-/markdown-component-loader-1.0.0-beta.4.tgz#177ababcba26f5d8183521a42ad3e378fa041233"
+markdown-component-loader@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/markdown-component-loader/-/markdown-component-loader-1.0.0.tgz#4404d1f5e6cc80d82dbc37b5935a7ad700604776"
   dependencies:
     any-base "^1.0.0"
     doc-chomp "1.1.0"
