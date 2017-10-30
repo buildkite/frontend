@@ -1,5 +1,5 @@
 /* global describe, it, expect */
-import { jobTime } from './jobs';
+import { jobTime, jobWaitTime } from './jobs';
 
 const JOB_STATES = [
   'PENDING',
@@ -44,6 +44,23 @@ describe('jobTime', () => {
         timedOutAt: new Date(1475644466920),
         canceledAt: new Date(1475643467000),
         finishedAt: new Date(1475643467000)
+      })).toMatchSnapshot();
+    });
+  });
+});
+
+describe('jobWaitTime', () => {
+  JOB_STATES.forEach((state) => {
+    it(`returns correct time properties for the \`${state}\` state`, () => {
+      expect(jobWaitTime({
+        state,
+        scheduledAt: "2017-10-29T00:32:23.479Z",
+        startedAt: "2017-10-29T00:34:37.000Z"
+      })).toMatchSnapshot();
+
+      expect(jobWaitTime({
+        state,
+        scheduledAt: "2017-10-29T00:32:23.479Z"
       })).toMatchSnapshot();
     });
   });
