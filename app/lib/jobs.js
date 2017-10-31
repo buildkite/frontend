@@ -31,21 +31,3 @@ export function jobTime(job: Object) {
 
   return time;
 }
-
-export function jobWaitTime(job: Object) {
-  const { state, scheduledAt, startedAt } = job;
-  const time = {};
-
-  // job is blocked, don't bother to calculate
-  if (state === JobStates.BLOCKED) {
-    return time;
-  }
-
-  time.from = scheduledAt;
-
-  if (startedAt) {
-    time.to = startedAt;
-  }
-
-  return time;
-}
