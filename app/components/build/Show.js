@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { RootContainer } from 'react-relay/classic';
 import CreateReactClass from 'create-react-class';
@@ -6,8 +7,40 @@ import * as BuildQuery from '../../queries/Build';
 import AnnotationsList from './AnnotationsList';
 import Header from './Header';
 
-export default class BuildShow extends React.PureComponent {
-  constructor(initialProps) {
+declare var Buildkite: {
+  JobComponent: Object,
+  BuildManualJobSummaryComponent: Object,
+  BuildTriggerJobSummaryComponent: Object,
+  BuildWaiterJobSummaryComponent: Object,
+};
+
+type Props = {
+  store: {
+    on: Function,
+    off: Function,
+    getBuild: Function
+  }
+};
+
+type State = {
+  build: {
+    number: number,
+    account: {
+      slug: string
+    },
+    project: {
+      slug: string
+    },
+    jobs: Array<{
+      id: string,
+      type: string,
+      state: string,
+    }>
+  }
+};
+
+export default class BuildShow extends React.PureComponent<Props, State> {
+  constructor(initialProps: Props) {
     super(initialProps);
 
     this.state = {
@@ -58,9 +91,7 @@ export default class BuildShow extends React.PureComponent {
             })
           }}
         />
-        <div className="job-list-pipeline">
-          {this.renderJobList()}
-        </div>
+        {this.renderJobList()}
       </div>
     );
   }
@@ -68,36 +99,37 @@ export default class BuildShow extends React.PureComponent {
   renderJobList() {
     let lastManualJob;
 
-    return this.state.build.jobs.map((job) => {
-      if (job.state === 'broken') {
-        return null;
-      }
+    // job-list-pipeline is needed by the job components' styles
+    return (
+      <div className="job-list-pipeline">
+        {this.state.build.jobs.map((job) => {
+          if (job.state === 'broken') {
+            return null;
+          }
 
-      const jobProps = {
-        key: job.id,
-        job: job
-      };
+          switch (job.type) {
+            case 'script':
+              return (
+                <Buildkite.JobComponent
+                  key={job.id}
+                  job={job}
+                  build={this.state.build}
+                  lastManualJob={lastManualJob}
+                />
+              );
 
-      switch (job.type) {
-        case 'script':
-          return (
-            <Buildkite.JobComponent
-              {...jobProps}
-              build={this.state.build}
-              lastManualJob={lastManualJob}
-            />
-          );
+            case 'manual':
+              lastManualJob = job;
+              return <Buildkite.BuildManualJobSummaryComponent key={job.id} job={job} />;
 
-        case 'manual':
-          lastManualJob = job;
-          return <Buildkite.BuildManualJobSummaryComponent {...jobProps} />;
+            case 'trigger':
+              return <Buildkite.BuildTriggerJobSummaryComponent key={job.id} job={job} />;
 
-        case 'trigger':
-          return <Buildkite.BuildTriggerJobSummaryComponent {...jobProps} />;
-
-        case 'waiter':
-          return <Buildkite.BuildWaiterJobSummaryComponent {...jobProps} />;
-      }
-    });
+            case 'waiter':
+              return <Buildkite.BuildWaiterJobSummaryComponent key={job.id} job={job} />;
+          }
+        })}
+      </div>
+    );
   }
 };
