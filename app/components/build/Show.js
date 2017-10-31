@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import { RootContainer } from 'react-relay/classic';
-import CreateReactClass from 'create-react-class';
 
 import * as BuildQuery from '../../queries/Build';
 import AnnotationsList from './AnnotationsList';
@@ -11,7 +11,7 @@ declare var Buildkite: {
   JobComponent: Object,
   BuildManualJobSummaryComponent: Object,
   BuildTriggerJobSummaryComponent: Object,
-  BuildWaiterJobSummaryComponent: Object,
+  BuildWaiterJobSummaryComponent: Object
 };
 
 type Props = {
@@ -34,12 +34,20 @@ type State = {
     jobs: Array<{
       id: string,
       type: string,
-      state: string,
+      state: string
     }>
   }
 };
 
 export default class BuildShow extends React.PureComponent<Props, State> {
+  static propTypes = {
+    store: PropTypes.shape({
+      on: PropTypes.func.isRequired,
+      off: PropTypes.func.isRequired,
+      getBuild: PropTypes.func.isRequired
+    }).isRequired
+  };
+
   constructor(initialProps: Props) {
     super(initialProps);
 
@@ -132,4 +140,4 @@ export default class BuildShow extends React.PureComponent<Props, State> {
       </div>
     );
   }
-};
+}
