@@ -31,10 +31,6 @@ const HeaderBuilds = styled(Builds)`
   flex: 1 1 auto;
   margin-bottom: 5px;
 
-  @media (min-width: 768px) {
-    margin-left: 10px;
-  }
-
   @media (min-width: 768px) and (max-width: 991px) {
     order: 3;
   }
@@ -42,6 +38,7 @@ const HeaderBuilds = styled(Builds)`
   @media (min-width: 992px) {
     flex: 0 1 auto;
     margin-bottom: 0;
+    margin-left: 10px;
   }
 `;
 
@@ -191,7 +188,7 @@ class Header extends React.Component<Props, State> {
 
     return (
       <Dropdown
-        className="sm-hide md-hide lg-hide"
+        className="sm-hide md-hide lg-hide ml2"
         width={200}
         ref={(actionsDropdown) => this.actionsDropdown = actionsDropdown}
         onToggle={this.handleActionsDropdownToggle}
