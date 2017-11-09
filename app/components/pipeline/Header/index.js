@@ -267,8 +267,8 @@ export default Relay.createContainer(Header, {
         ${Builds.getFragment('pipeline')}
         id
         name
-        url
         description
+        url
         organization {
           name
         }
