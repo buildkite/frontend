@@ -44,7 +44,7 @@ const HeaderBuilds = styled(Builds)`
 
 type Props = {
   pipeline: Object,
-  isMember: boolean,
+  isCurrentAccountMember: boolean,
   buildState?: string
 };
 
@@ -56,7 +56,7 @@ type State = {
 class Header extends React.Component<Props, State> {
   static propTypes = {
     pipeline: PropTypes.object.isRequired,
-    isMember: PropTypes.bool,
+    isCurrentAccountMember: PropTypes.bool,
     buildState: PropTypes.string
   };
 
@@ -117,8 +117,8 @@ class Header extends React.Component<Props, State> {
   renderPipelineName() {
     return (
       <h4 className="semi-bold h3 m0 truncate">
-        {this.props.isMember || <Emojify text={this.props.pipeline.organization.name} />}
-        {this.props.isMember || <span className="dark-gray hover-color-inherit"> / </span>}
+        {this.props.isCurrentAccountMember || <Emojify text={this.props.pipeline.organization.name} />}
+        {this.props.isCurrentAccountMember || <span className="dark-gray hover-color-inherit"> / </span>}
         <Emojify text={this.props.pipeline.name} />
       </h4>
     );
