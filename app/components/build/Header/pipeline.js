@@ -95,7 +95,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
         <a
           key={`${this.props.build.id}-more-jobs`}
           href={this.props.build.path}
-          className="build-pipeline-job truncate align-middle"
+          className="build-pipeline-job text-decoration-none truncate align-middle"
         >
           ...
         </a>
