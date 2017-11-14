@@ -355,15 +355,17 @@ const QUERIES = {
         url
         slug
         defaultBranch
+        organization {
+          name
+          slug
+          id
+        }
         repository {
           url
           provider {
+            __typename
             url
           }
-        }
-        organization {
-          slug
-          id
         }
         builds {
           count

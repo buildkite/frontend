@@ -44,9 +44,7 @@ const HeaderBuilds = styled(Builds)`
 
 type Props = {
   pipeline: Object,
-  viewer?: {
-    id: string
-  },
+  isCurrentOrganizationMember: boolean,
   buildState?: string
 };
 
@@ -58,7 +56,7 @@ type State = {
 class Header extends React.Component<Props, State> {
   static propTypes = {
     pipeline: PropTypes.object.isRequired,
-    viewer: PropTypes.object,
+    isCurrentOrganizationMember: PropTypes.bool,
     buildState: PropTypes.string
   };
 
@@ -117,12 +115,10 @@ class Header extends React.Component<Props, State> {
   }
 
   renderPipelineName() {
-    const isAnonymous = !this.props.viewer;
-
     return (
       <h4 className="semi-bold h3 m0 truncate">
-        {isAnonymous && <Emojify text={this.props.pipeline.organization.name} />}
-        {isAnonymous && <span className="dark-gray hover-color-inherit"> / </span>}
+        {this.props.isCurrentOrganizationMember || <Emojify text={this.props.pipeline.organization.name} />}
+        {this.props.isCurrentOrganizationMember || <span className="dark-gray hover-color-inherit"> / </span>}
         <Emojify text={this.props.pipeline.name} />
       </h4>
     );
@@ -267,8 +263,8 @@ export default Relay.createContainer(Header, {
         ${Builds.getFragment('pipeline')}
         id
         name
-        url
         description
+        url
         organization {
           name
         }
@@ -291,11 +287,6 @@ export default Relay.createContainer(Header, {
             message
           }
         }
-      }
-    `,
-    viewer: () => Relay.QL`
-      fragment on Viewer {
-        __typename
       }
     `
   }
