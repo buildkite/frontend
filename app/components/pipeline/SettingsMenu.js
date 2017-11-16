@@ -110,7 +110,7 @@ class SettingsMenu extends React.Component {
         )
       },
       {
-        allowed: "pipelineUpdate",
+        always: true,
         render: (idx) => (
           <Menu.Button
             key={idx}
