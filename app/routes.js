@@ -18,6 +18,7 @@ import OrganizationShow from './components/organization/Show';
 import OrganizationSettingsSection from './components/organization/SettingsSection';
 import AgentIndex from './components/agent/Index';
 import AgentShow from './components/agent/Show';
+import AgentJobs from './components/agent/Jobs';
 import TeamIndex from './components/team/Index';
 import TeamNew from './components/team/TeamNew';
 import TeamShow from './components/team/Show';
@@ -121,6 +122,7 @@ export default (
         <Route path="agents">
           <IndexRoute component={AgentIndex} queries={{ viewer: ViewerQuery.query, organization: OrganizationQuery.query }} render={renderSectionLoading} />
           <Route path=":agent" component={AgentShow} queries={{ agent: AgentQuery.query }} prepareParams={AgentQuery.prepareParams} render={renderSectionLoading} />
+          <Route path=":agent/jobs" component={AgentJobs} queries={{ agent: AgentQuery.query }} prepareParams={AgentQuery.prepareParams} render={renderSectionLoading} />
         </Route>
         <Route path="audit-log" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
           <Route component={AuditLogSection} queries={{ organization: OrganizationQuery.query }}>
