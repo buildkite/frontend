@@ -1,31 +1,33 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import BuildStates from '../../constants/BuildStates';
+import JobStates from '../../constants/JobStates';
 
 import BuildState from './BuildState';
 
 const getBuildStateForJob = (job) => {
   // Naïvely transliterate Job state to Build state
   switch (job.state) {
-    case 'FINISHED':
+    case JobStates.FINISHED:
       return (
         job.passed
           ? BuildStates.PASSED
           : BuildStates.FAILED
       );
-    case 'PENDING':
-    case 'WAITING':
-    case 'UNBLOCKED':
-    case 'LIMITED':
-    case 'ASSIGNED':
-    case 'ACCEPTED':
+    case JobStates.PENDING:
+    case JobStates.WAITING:
+    case JobStates.UNBLOCKED:
+    case JobStates.LIMITED:
+    case JobStates.ASSIGNED:
+    case JobStates.ACCEPTED:
       return BuildStates.SCHEDULED;
-    case 'TIMING_OUT':
-    case 'TIMED_OUT':
-    case 'WAITING_FAILED':
-    case 'BLOCKED_FAILED':
-    case 'UNBLOCKED_FAILED':
-    case 'BROKEN':
+    case JobStates.TIMING_OUT:
+    case JobStates.TIMED_OUT:
+    case JobStates.WAITING_FAILED:
+    case JobStates.BLOCKED_FAILED:
+    case JobStates.UNBLOCKED_FAILED:
+    case JobStates.BROKEN:
       return BuildStates.FAILED;
     default:
       return job.state;
@@ -44,6 +46,12 @@ Object.keys(BuildState).forEach((size) => {
     />
   );
   component.displayName = `JobState.${size}`;
+  component.propTypes = {
+    job: PropTypes.shape({
+      state: PropTypes.oneOf(Object.keys(JobStates)).isRequired,
+      passed: PropTypes.bool.isRequired
+    }).isRequired
+  };
 
   exported[size] = component;
 });

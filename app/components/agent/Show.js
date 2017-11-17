@@ -41,7 +41,7 @@ const ExtrasTable = styled.table`
 class AgentShow extends React.Component {
   static propTypes = {
     agent: PropTypes.shape({
-      id: PropTypes.string,
+      uuid: PropTypes.string,
       name: PropTypes.string,
       connectionState: PropTypes.string,
       job: PropTypes.object,
@@ -66,7 +66,7 @@ class AgentShow extends React.Component {
   componentDidMount() {
     // Only bother setting up the delayed load and refresher if we've got an
     // actual agent to play with.
-    if (this.props.agent && this.props.agent.id) {
+    if (this.props.agent && this.props.agent.uuid) {
       // This will cause a full refresh of the data every 3 seconds. This seems
       // very low, but chances are people aren't really looking at this page
       // for long periods of time.
@@ -315,7 +315,7 @@ class AgentShow extends React.Component {
     // If we don't have an agent object, or we do but it doesn't have an id
     // (perhaps Relay gave us an object but it's empty) then we can safely
     // assume that it's a 404.
-    if (!this.props.agent || !this.props.agent.id) {
+    if (!this.props.agent || !this.props.agent.uuid) {
       return (
         <DocumentTitle title={`Agents / No Agent Found`}>
           <PageWithContainer>
@@ -406,7 +406,7 @@ export default Relay.createContainer(AgentShow, {
       fragment on Agent {
         ${AgentStateIcon.getFragment('agent')}
         ${AgentStopMutation.getFragment('agent')}
-        id
+        uuid
         name
         organization {
           name
@@ -416,7 +416,6 @@ export default Relay.createContainer(AgentShow, {
         connectionState
         disconnectedAt
         hostname
-        id
         ipAddress
         job {
           ...on JobTypeCommand {

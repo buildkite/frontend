@@ -1,7 +1,7 @@
 // @flow
+/* eslint-disable react/prop-types */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
@@ -40,7 +40,7 @@ type Props = {
 
 type State = {
   loading: boolean
-}
+};
 
 class AgentJobs extends React.PureComponent<Props, State> {
   state = {
