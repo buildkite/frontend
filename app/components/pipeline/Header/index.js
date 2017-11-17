@@ -158,7 +158,7 @@ class Header extends React.Component<Props, State> {
         })
       },
       {
-        allowed: "pipelineUpdate",
+        always: true,
         render: () => ({
           key: 'pipelineSettings',
           href: `${this.props.pipeline.url}/settings`,
