@@ -159,6 +159,7 @@ class Header extends React.Component<Props, State> {
       },
       {
         always: true,
+        and: this.props.isCurrentOrganizationMember,
         render: () => ({
           key: 'pipelineSettings',
           href: `${this.props.pipeline.url}/settings`,
