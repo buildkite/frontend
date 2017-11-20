@@ -6,9 +6,6 @@ import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
 
-import FriendlyTime from '../../shared/FriendlyTime';
-import JobLink from '../../shared/JobLink';
-import JobState from '../../icons/JobState';
 import PageWithContainer from '../../shared/PageWithContainer';
 import Panel from '../../shared/Panel';
 import ShowMoreFooter from '../../shared/ShowMoreFooter';
@@ -79,17 +76,20 @@ class AgentJobs extends React.PureComponent<Props, State> {
   renderJobList() {
     const jobs = this.props.agent.jobs.edges;
 
-    if (jobs.length > 0) {
-      return jobs.map(({ node }) => (
-        <AgentJobRow job={node} key={node.uuid}/>
-      ));
-    } else {
+    if (jobs.length < 1) {
       return (
         <Panel.Section className="dark-gray">
           This agent has not run any jobs
         </Panel.Section>
       );
     }
+
+    return jobs.map((edge) => (
+      <AgentJobRow
+        job={edge.node}
+        key={edge.node.uuid}
+      />
+    ));
   }
 
   handleShowMoreJobs = () => {

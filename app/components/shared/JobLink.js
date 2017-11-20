@@ -2,11 +2,9 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import classNames from 'classnames';
 
-import Emojify from './Emojify';
 import JobTitle from './JobTitle';
 
 type Props = {

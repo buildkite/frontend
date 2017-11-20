@@ -3,7 +3,6 @@
 
 import React from 'react';
 import Relay from 'react-relay/classic';
-import { Link } from 'react-router';
 
 import FriendlyTime from '../../shared/FriendlyTime';
 import JobState from '../../icons/JobState';
