@@ -6,12 +6,14 @@ import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
 
-import FriendlyTime from '../shared/FriendlyTime';
-import JobLink from '../shared/JobLink';
-import JobState from '../icons/JobState';
-import PageWithContainer from '../shared/PageWithContainer';
-import Panel from '../shared/Panel';
-import ShowMoreFooter from '../shared/ShowMoreFooter';
+import FriendlyTime from '../../shared/FriendlyTime';
+import JobLink from '../../shared/JobLink';
+import JobState from '../../icons/JobState';
+import PageWithContainer from '../../shared/PageWithContainer';
+import Panel from '../../shared/Panel';
+import ShowMoreFooter from '../../shared/ShowMoreFooter';
+
+import AgentJobRow from './row';
 
 const PAGE_SIZE = 25;
 
@@ -61,20 +63,7 @@ class AgentJobs extends React.PureComponent<Props, State> {
               </Link>
               {` / Recent Jobs`}
             </Panel.Header>
-            {this.props.agent.jobs.edges.map(({ node: job }) => (
-              <Panel.Row key={job.uuid}>
-                <div className="flex">
-                  <JobState.Small
-                    job={job}
-                    className="flex-none mr2"
-                  />
-                  <div className="flex-auto md-flex">
-                    <JobLink className="block flex-auto" job={job} />
-                    <FriendlyTime className="flex-none dark-gray" value={job.startedAt} />
-                  </div>
-                </div>
-              </Panel.Row>
-            ))}
+            {this.renderJobs()}
             <ShowMoreFooter
               connection={this.props.agent.jobs}
               label="jobs"
@@ -85,6 +74,12 @@ class AgentJobs extends React.PureComponent<Props, State> {
         </PageWithContainer>
       </DocumentTitle>
     );
+  }
+
+  renderJobs() {
+    return this.props.agent.jobs.edges.map(({ node }) => (
+      <AgentJobRow job={node} key={node.uuid}/>
+    ));
   }
 
   handleShowMoreJobs = () => {
@@ -121,13 +116,7 @@ export default Relay.createContainer(AgentJobs, {
           ${ShowMoreFooter.getFragment('connection')}
           edges {
             node {
-              ...on JobTypeCommand {
-                uuid
-                state
-                passed
-                startedAt
-              }
-              ${JobLink.getFragment('job')}
+              ${AgentJobRow.getFragment('job')}
             }
           }
           count
