@@ -63,7 +63,7 @@ class AgentJobs extends React.PureComponent<Props, State> {
               </Link>
               {` / Recent Jobs`}
             </Panel.Header>
-            {this.renderJobs()}
+            {this.renderJobList()}
             <ShowMoreFooter
               connection={this.props.agent.jobs}
               label="jobs"
@@ -76,10 +76,20 @@ class AgentJobs extends React.PureComponent<Props, State> {
     );
   }
 
-  renderJobs() {
-    return this.props.agent.jobs.edges.map(({ node }) => (
-      <AgentJobRow job={node} key={node.uuid}/>
-    ));
+  renderJobList() {
+    const jobs = this.props.agent.jobs.edges;
+
+    if (jobs.length > 0) {
+      return jobs.map(({ node }) => (
+        <AgentJobRow job={node} key={node.uuid}/>
+      ));
+    } else {
+      return (
+        <Panel.Section className="dark-gray">
+          This agent has not run any jobs
+        </Panel.Section>
+      );
+    }
   }
 
   handleShowMoreJobs = () => {
