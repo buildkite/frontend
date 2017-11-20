@@ -8,6 +8,8 @@
 
 .annotation-body details summary {
   outline: none !important;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .annotation-body details[open] summary {
