@@ -278,7 +278,15 @@ class AgentShow extends React.Component {
       );
     }
 
-    extras.push(this.renderExtraItem('Recent Jobs', content));
+    extras.push(this.renderExtraItem(
+      <Link
+        to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}/jobs`}
+        className="blue hover-navy text-decoration-none hover-underline"
+      >
+        Recent Jobs
+      </Link>,
+      content
+    ));
   }
 
   handleStopButtonClick = (evt) => {
