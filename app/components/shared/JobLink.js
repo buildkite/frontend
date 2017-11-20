@@ -1,27 +1,23 @@
+// @flow
+/* eslint-disable react/prop-types */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import classNames from 'classnames';
 
 import Emojify from './Emojify';
+import JobTitle from './JobTitle';
 
-class JobLink extends React.PureComponent {
-  static propTypes = {
-    job: PropTypes.shape({
-      label: PropTypes.string,
-      command: PropTypes.string,
-      url: PropTypes.string,
-      build: PropTypes.shape({
-        number: PropTypes.number,
-        pipeline: PropTypes.shape({
-          name: PropTypes.string
-        })
-      })
-    }),
-    className: PropTypes.string,
-    style: PropTypes.object
-  };
+type Props = {
+  job: {
+    url: string
+  },
+  className: string,
+  style: Object
+};
 
+class JobLink extends React.PureComponent<Props> {
   render() {
     const { job, className, style } = this.props;
 
@@ -34,9 +30,7 @@ class JobLink extends React.PureComponent {
         )}
         style={style}
       >
-        <Emojify text={job.build.pipeline.name} />
-        {` - Build #${job.build.number} / `}
-        <Emojify text={job.label || job.command} />
+        <JobTitle job={job} />
       </a>
     );
   }
@@ -46,15 +40,8 @@ export default Relay.createContainer(JobLink, {
   fragments: {
     job: () => Relay.QL`
       fragment on JobTypeCommand {
-        label
-        command
+        ${JobTitle.getFragment('job')}
         url
-        build {
-          number
-          pipeline {
-            name
-          }
-        }
       }
     `
   }
