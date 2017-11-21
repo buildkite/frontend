@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import { Link } from 'react-router';
 import styled from 'styled-components';
 import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
 import AgentStateIcon from './state-icon';
 import Badge from '../shared/Badge';
-import BuildState from '../icons/BuildState';
-import BuildStates from '../../constants/BuildStates';
 import Button from '../shared/Button';
 import FlashesStore from '../../stores/FlashesStore';
 import FriendlyTime from '../shared/FriendlyTime';
 import JobLink from '../shared/JobLink';
+import JobState from '../icons/JobState';
 import PageWithContainer from '../shared/PageWithContainer';
 import Panel from '../shared/Panel';
 import permissions from '../../lib/permissions';
@@ -41,7 +41,7 @@ const ExtrasTable = styled.table`
 class AgentShow extends React.Component {
   static propTypes = {
     agent: PropTypes.shape({
-      id: PropTypes.string,
+      uuid: PropTypes.string,
       name: PropTypes.string,
       connectionState: PropTypes.string,
       job: PropTypes.object,
@@ -66,7 +66,7 @@ class AgentShow extends React.Component {
   componentDidMount() {
     // Only bother setting up the delayed load and refresher if we've got an
     // actual agent to play with.
-    if (this.props.agent && this.props.agent.id) {
+    if (this.props.agent && this.props.agent.uuid) {
       // This will cause a full refresh of the data every 3 seconds. This seems
       // very low, but chances are people aren't really looking at this page
       // for long periods of time.
@@ -96,34 +96,6 @@ class AgentShow extends React.Component {
     );
   };
 
-  getBuildStateForJob(job) {
-    // Naïvely transliterate Job state to Build state
-    switch (job.state) {
-      case "FINISHED":
-        return (
-          job.passed
-            ? BuildStates.PASSED
-            : BuildStates.FAILED
-        );
-      case "PENDING":
-      case "WAITING":
-      case "UNBLOCKED":
-      case "LIMITED":
-      case "ASSIGNED":
-      case "ACCEPTED":
-        return BuildStates.SCHEDULED;
-      case "TIMING_OUT":
-      case "TIMED_OUT":
-      case "WAITING_FAILED":
-      case "BLOCKED_FAILED":
-      case "UNBLOCKED_FAILED":
-      case "BROKEN":
-        return BuildStates.FAILED;
-      default:
-        return job.state;
-    }
-  }
-
   renderJob(job) {
     if (!job) {
       return 'A job owned by another team';
@@ -131,8 +103,8 @@ class AgentShow extends React.Component {
 
     return (
       <span style={{ display: 'inline-block', marginLeft: '1.4em' }}>
-        <BuildState.XSmall
-          state={this.getBuildStateForJob(job)}
+        <JobState.XSmall
+          job={job}
           style={{ marginLeft: '-1.4em', marginRight: '.4em' }}
         />
         <JobLink job={job} />
@@ -195,14 +167,6 @@ class AgentShow extends React.Component {
 
     if (agent.priority) {
       extras.push(this.renderExtraItem('Priority', agent.priority));
-    }
-
-    if (agent.isRunningJob) {
-      extras.push(this.renderExtraItem(
-        'Running',
-        // if we have access to the job, show a link
-        this.renderJob(agent.job)
-      ));
     }
 
     this.renderExtraJobs(agent, extras);
@@ -296,12 +260,25 @@ class AgentShow extends React.Component {
       content = (
         <div>
           {content}
-          (and {formatNumber(remainder)} more)
+          <Link
+            to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}/jobs`}
+            className="blue hover-navy text-decoration-none hover-underline"
+          >
+            (and {formatNumber(remainder)} more)
+          </Link>
         </div>
       );
     }
 
-    extras.push(this.renderExtraItem('Recent Jobs', content));
+    extras.push(this.renderExtraItem(
+      <Link
+        to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}/jobs`}
+        className="blue hover-navy text-decoration-none hover-underline"
+      >
+        Jobs
+      </Link>,
+      content
+    ));
   }
 
   handleStopButtonClick = (evt) => {
@@ -338,7 +315,7 @@ class AgentShow extends React.Component {
     // If we don't have an agent object, or we do but it doesn't have an id
     // (perhaps Relay gave us an object but it's empty) then we can safely
     // assume that it's a 404.
-    if (!this.props.agent || !this.props.agent.id) {
+    if (!this.props.agent || !this.props.agent.uuid) {
       return (
         <DocumentTitle title={`Agents / No Agent Found`}>
           <PageWithContainer>
@@ -429,7 +406,7 @@ export default Relay.createContainer(AgentShow, {
       fragment on Agent {
         ${AgentStateIcon.getFragment('agent')}
         ${AgentStopMutation.getFragment('agent')}
-        id
+        uuid
         name
         organization {
           name
@@ -439,7 +416,6 @@ export default Relay.createContainer(AgentShow, {
         connectionState
         disconnectedAt
         hostname
-        id
         ipAddress
         job {
           ...on JobTypeCommand {

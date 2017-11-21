@@ -172,4 +172,3 @@ Object.keys(SIZE_DEFINITIONS).forEach((size) => {
 });
 
 export default exported;
-
