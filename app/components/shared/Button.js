@@ -84,16 +84,26 @@ export default class Button extends React.PureComponent {
     // react-router link - otherwise, just fallback to a regular href.
     if (this.props.link && this.context.router) {
       return (
-        <Link to={this.props.link} {...props}>{children}</Link>
+        <Link to={this.props.link} {...props}>
+          {children}
+        </Link>
       );
     }
 
     props.href = this.props.link || this.props.href;
 
     if (props.href) {
-      return React.DOM.a(props, children);
+      return (
+        <a {...props}>
+          {children}
+        </a>
+      );
     }
 
-    return React.DOM.button(props, children);
+    return (
+      <button {...props}>
+        {children}
+      </button>
+    );
   }
 }
