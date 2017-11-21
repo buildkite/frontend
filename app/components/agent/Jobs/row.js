@@ -14,6 +14,7 @@ type Props = {
     uuid: string,
     state: string,
     passed: boolean,
+    scheduledAt: string,
     startedAt?: string,
     url: string
   }
@@ -32,7 +33,10 @@ class AgentJobRow extends React.PureComponent<Props> {
           />
           <div className="flex-auto">
             <JobTitle className="block flex-auto" job={job} />
-            <FriendlyTime className="flex-none dark-gray" value={job.startedAt} />
+            <FriendlyTime
+              className="flex-none dark-gray"
+              value={job.startedAt || job.scheduledAt}
+            />
           </div>
         </div>
       </Panel.RowLink>
@@ -48,6 +52,7 @@ export default Relay.createContainer(AgentJobRow, {
         uuid
         state
         passed
+        scheduledAt
         startedAt
         url
       }
