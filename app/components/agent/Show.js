@@ -169,14 +169,6 @@ class AgentShow extends React.Component {
       extras.push(this.renderExtraItem('Priority', agent.priority));
     }
 
-    if (agent.isRunningJob) {
-      extras.push(this.renderExtraItem(
-        'Running',
-        // if we have access to the job, show a link
-        this.renderJob(agent.job)
-      ));
-    }
-
     this.renderExtraJobs(agent, extras);
 
     if (agent.connectedAt) {
@@ -283,7 +275,7 @@ class AgentShow extends React.Component {
         to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}/jobs`}
         className="blue hover-navy text-decoration-none hover-underline"
       >
-        Recent Jobs
+        Jobs
       </Link>,
       content
     ));
