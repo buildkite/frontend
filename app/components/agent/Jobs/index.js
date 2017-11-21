@@ -5,6 +5,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
+import { seconds } from 'metrick/duration';
 
 import PageWithContainer from '../../shared/PageWithContainer';
 import Panel from '../../shared/Panel';
@@ -46,9 +47,44 @@ class AgentJobs extends React.PureComponent<Props, State> {
     loading: false
   };
 
+  _agentRefreshTimeout: number;
+
+  componentDidMount() {
+    // Only bother setting up the delayed load and refresher if we've got an
+    // actual agent to play with.
+    if (this.props.agent && this.props.agent.uuid) {
+      // This will cause a full refresh of the data every 3 seconds. This seems
+      // very low, but chances are people aren't really looking at this page
+      // for long periods of time.
+      this.startTimeout();
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this._agentRefreshTimeout);
+  }
+
+  startTimeout = () => {
+    this._agentRefreshTimeout = setTimeout(
+      this.fetchUpdatedData,
+      seconds.bind(3)
+    );
+  };
+
+  fetchUpdatedData = () => {
+    this.props.relay.forceFetch(
+      true,
+      (readyState) => {
+        if (readyState.done) {
+          this.startTimeout();
+        }
+      }
+    );
+  };
+
   render() {
     return (
-      <DocumentTitle title={`${this.props.agent.name} / Recent Jobs · ${this.props.agent.organization.name}`}>
+      <DocumentTitle title={`${this.props.agent.name} / Jobs · ${this.props.agent.organization.name}`}>
         <PageWithContainer>
           <Panel className="sm-col-9 lg-col-6 mx-auto">
             <Panel.Header>
@@ -58,7 +94,7 @@ class AgentJobs extends React.PureComponent<Props, State> {
               >
                 {this.props.agent.name}
               </Link>
-              {` / Recent Jobs`}
+              {` / Jobs`}
             </Panel.Header>
             {this.renderJobList()}
             <ShowMoreFooter
