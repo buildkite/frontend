@@ -7,7 +7,7 @@
 }
 
 .annotation-body details summary {
-  outline: none !important;
+  cursor: pointer;
 }
 
 .annotation-body details[open] summary {
