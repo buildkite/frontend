@@ -1,4 +1,7 @@
 @import 'reset';
+
+@import 'basscss';
+
 @import 'btn';
 @import 'btn-primary';
 @import 'btn-outline';
@@ -29,8 +32,6 @@
 @import 'colors';
 @import 'outline';
 @import 'annotation-body';
-
-@import 'basscss';
 
 @import 'container';
 @import 'cursor';
