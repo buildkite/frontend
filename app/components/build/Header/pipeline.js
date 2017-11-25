@@ -218,7 +218,8 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
       }
 
       evt.preventDefault();
-      return Buildkite.NewDispatcher.handleViewAction({ actionType: "JOB_TOGGLE", job, source: "BUILD_HEADER" });
+
+      Buildkite.dispatcher.emit("job:toggle", {job, source: "BUILD_HEADER"});
     };
   },
 
