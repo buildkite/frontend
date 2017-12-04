@@ -4,67 +4,83 @@ import ReactTestRenderer from 'react-test-renderer';
 
 import Duration from './Duration';
 
-const DATE_FIXTURES = [
-  { from: "2016-05-07T09:00:00.000+10:00", to: "2016-05-07T09:00:00.000+10:00" },
-  { from: "2016-05-07T09:00:00.000+10:00", to: "2016-05-07T09:00:05.000+10:00" },
-  { from: "2016-05-07T09:00:00.000+10:00", to: "2016-05-07T09:15:07.000+10:00" },
-  { from: "2016-05-07T09:00:00.000+10:00", to: "2016-05-07T10:45:16.000+10:00" },
-  { from: "2016-05-07T09:00:00.000+10:00", to: "2016-05-07T13:59:03.000+10:00" },
-  { from: "2016-05-07T09:00:00.000+10:00", to: "2016-05-08T16:03:21.000+10:00" },
-  { from: "2016-05-07T09:00:00.000+10:00", to: "2016-05-21T01:22:12.000+10:00" },
-  { from: "2016-05-07T09:00:00.000+10:00", to: "2016-07-10T04:34:17.000+10:00" }
-];
+jest.mock('../../lib/date', () => {
+  const getDurationString = jest.fn(() => 'MOCKED-DURATION');
+  getDurationString.formats = ['expected'];
+  return { getDurationString };
+});
 
 describe('Duration', () => {
   const componentList = Object.keys(Duration);
+  const DurationComponent = Duration.Expected;
 
-  it('stateless Components are accessible', () => {
-    expect(componentList).toMatchSnapshot();
+  it('provides stateless Components named after `getDurationString.formats`', () => {
+    expect(componentList).toEqual(['Expected']);
   });
 
-  componentList.forEach((componentName) => {
-    describe(`Duration.${componentName}`, () => {
-      const DurationComponent = Duration[componentName];
+  it('calls through to `getDurationString`', () => {
+    const getDurationString = require('../../lib/date').getDurationString;
+    const from = new Date();
+    const to = new Date();
 
-      it('renders as expected', () => {
-        DATE_FIXTURES.forEach((fixtureData) => {
-          const component = ReactTestRenderer.create(
-            <DurationComponent {...fixtureData} updateFrequency={0} />
-          );
+    const component = ReactTestRenderer.create(
+      <DurationComponent
+        from={from}
+        to={to}
+        updateFrequency={0}
+      />
+    );
 
-          const tree = component.toJSON();
-          expect(tree).toMatchSnapshot();
-        });
-      });
+    const tree = component.toJSON();
+    expect(getDurationString).toHaveBeenCalledWith(from, to, 'expected');
+    expect(tree).toMatchSnapshot();
+  });
 
-      describe('tabularNumerals', () => {
-        it('can be disabled', () => {
-          const component = ReactTestRenderer.create(
-            <DurationComponent tabularNumerals={false} from="2016-05-07T09:00:00.000Z" to="2016-05-07T09:00:00.000Z" updateFrequency={0} />
-          );
+  describe('tabularNumerals', () => {
+    it('can be disabled', () => {
+      const getDurationString = require('../../lib/date').getDurationString;
+      const from = new Date();
+      const to = new Date();
 
-          const tree = component.toJSON();
-          expect(tree).toMatchSnapshot();
-        });
-      });
+      const component = ReactTestRenderer.create(
+        <DurationComponent
+          tabularNumerals={false}
+          from={from}
+          to={to}
+          updateFrequency={0}
+        />
+      );
 
-      xdescribe('updateFrequency', () => {
-        // TODO: Need to be able to instrument updating and interactions
-        it('sets an interval if supplied with a frequency greater than zero', () => {
-          const component = (<DurationComponent from="2016-05-07T09:00:00.000Z" to="2016-05-07T09:00:00.000Z" updateFrequency={10} />);
-          const rendered = ReactTestRenderer.create(component);
+      const tree = component.toJSON();
+      expect(getDurationString).toHaveBeenCalledWith(from, to, 'expected');
+      expect(tree).toMatchSnapshot();
+    });
+  });
 
-          expect(rendered.toJSON()).toMatchSnapshot();
-        });
+  xdescribe('updateFrequency', () => {
+    // TODO: Need to be able to instrument updating and interactions
+    it('sets an interval if supplied with a frequency greater than zero', () => {
+      const rendered = ReactTestRenderer.create(
+        <DurationComponent
+          from="2016-05-07T09:00:00.000Z"
+          to="2016-05-07T09:00:00.000Z"
+          updateFrequency={10}
+        />
+      );
 
-        it('sets no interval if supplied with a frequency of zero', () => {
-          const rendered = ReactTestRenderer.create(
-            <DurationComponent from="2016-05-07T09:00:00.000Z" to="2016-05-07T09:00:00.000Z" updateFrequency={0} />
-          );
+      expect(rendered.toJSON()).toMatchSnapshot();
+    });
 
-          expect(rendered.toJSON()).toMatchSnapshot();
-        });
-      });
+    it('sets no interval if supplied with a frequency of zero', () => {
+      const rendered = ReactTestRenderer.create(
+        <DurationComponent
+          from="2016-05-07T09:00:00.000Z"
+          to="2016-05-07T09:00:00.000Z"
+          updateFrequency={0}
+        />
+      );
+
+      expect(rendered.toJSON()).toMatchSnapshot();
     });
   });
 });
