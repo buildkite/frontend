@@ -92,7 +92,7 @@ class SettingsMenu extends React.Component {
       },
       {
         allowed: "teamAdmin",
-        and: () => (Features.TeamsLaunch || Features.organizationHasTeams),
+        and: () => Features.organizationHasTeams,
         render: (idx) => (
           <Menu.Button
             key={idx}
