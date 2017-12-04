@@ -70,11 +70,14 @@ export function getDurationString(from, to = moment(), format = 'full') {
 
   const [template, options] = DURATION_FORMATS[format];
 
+  let duration;
   if (to === undefined || from === undefined) {
-    return '0s';
+    duration = moment.duration(0);
+  } else {
+    duration = moment.duration(moment(to).diff(from));
   }
 
-  return moment.duration(moment(to).diff(from)).format(template, options);
+  return duration.format(template, options);
 }
 
 getDurationString.formats = Object.keys(DURATION_FORMATS);

@@ -20,13 +20,13 @@ exports[`getDurationString correctly handles \`full\` dates when given \`2017-01
 
 exports[`getDurationString correctly handles \`full\` dates when given \`2017-01-17T17:28:11.000-08:00\` and \`2017-01-17T17:28:12.712-08:00\` and no format override 1`] = `"2 second"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:09:25.000+10:00\` and no format override 1`] = `"0s"`;
+exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:09:25.000+10:00\` and no format override 1`] = `"0 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:09:55.000+10:00\` and no format override 1`] = `"0s"`;
+exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:09:55.000+10:00\` and no format override 1`] = `"0 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:10:25.000+10:00\` and no format override 1`] = `"0s"`;
+exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:10:25.000+10:00\` and no format override 1`] = `"0 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`undefined\` and no format override 1`] = `"0s"`;
+exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`undefined\` and no format override 1`] = `"0 seconds"`;
 
 exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:00.000+10:00\` and no format override 1`] = `"0s"`;
 
