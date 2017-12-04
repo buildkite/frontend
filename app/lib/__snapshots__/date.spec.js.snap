@@ -1,170 +1,86 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:00.000+10:00\` and a length of 5 in a format override 1`] = `"0 seconds"`;
-
 exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:00.000+10:00\` and no format override 1`] = `"0 seconds"`;
-
-exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:05.000+10:00\` and a length of 5 in a format override 1`] = `"5 seconds"`;
 
 exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:05.000+10:00\` and no format override 1`] = `"5 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:15:07.000+10:00\` and a length of 5 in a format override 1`] = `"15 minutes, 7 seconds"`;
-
 exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:15:07.000+10:00\` and no format override 1`] = `"15 minutes, 7 seconds"`;
-
-exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T10:45:16.000+10:00\` and a length of 5 in a format override 1`] = `"1 hour, 45 minutes, 16 seconds"`;
 
 exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T10:45:16.000+10:00\` and no format override 1`] = `"1 hour, 45 minutes, 16 seconds"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T13:59:03.000+10:00\` and a length of 5 in a format override 1`] = `"4 hours, 59 minutes, 3 seconds"`;
-
 exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T13:59:03.000+10:00\` and no format override 1`] = `"4 hours, 59 minutes, 3 seconds"`;
-
-exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-08T16:03:21.000+10:00\` and a length of 5 in a format override 1`] = `"1 day, 7 hours, 3 minutes, 21 seconds"`;
 
 exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-08T16:03:21.000+10:00\` and no format override 1`] = `"1 day, 7 hours, 3 minutes"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-21T01:22:12.000+10:00\` and a length of 5 in a format override 1`] = `"13 days, 16 hours, 22 minutes, 12 seconds"`;
+exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-21T01:22:12.000+10:00\` and no format override 1`] = `"1 week, 6 days, 16 hours"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-21T01:22:12.000+10:00\` and no format override 1`] = `"13 days, 16 hours, 22 minutes"`;
+exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-07-10T04:34:17.000+10:00\` and no format override 1`] = `"9 weeks, 0 days, 19 hours"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-07-10T04:34:17.000+10:00\` and a length of 5 in a format override 1`] = `"8 weeks, 2 days, 19 hours, 34 minutes, 17 seconds"`;
+exports[`getDurationString correctly handles \`full\` dates when given \`2017-01-17T08:57:30.994-08:00\` and \`2017-02-01T17:28:11.712-08:00\` and no format override 1`] = `"2 weeks, 1 day, 8 hours"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-07-10T04:34:17.000+10:00\` and no format override 1`] = `"8 weeks, 2 days, 20 hours"`;
+exports[`getDurationString correctly handles \`full\` dates when given \`2017-01-17T17:28:11.000-08:00\` and \`2017-01-17T17:28:12.712-08:00\` and no format override 1`] = `"2 second"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`2017-01-17T08:57:30.994-08:00\` and \`2017-02-01T17:28:11.712-08:00\` and a length of 5 in a format override 1`] = `"15 days, 8 hours, 30 minutes, 40 seconds"`;
+exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:09:25.000+10:00\` and no format override 1`] = `"0s"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`2017-01-17T08:57:30.994-08:00\` and \`2017-02-01T17:28:11.712-08:00\` and no format override 1`] = `"15 days, 8 hours, 31 minutes"`;
+exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:09:55.000+10:00\` and no format override 1`] = `"0s"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`2017-01-17T17:28:11.000-08:00\` and \`2017-01-17T17:28:12.712-08:00\` and a length of 5 in a format override 1`] = `"2 seconds"`;
+exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:10:25.000+10:00\` and no format override 1`] = `"0s"`;
 
-exports[`getDurationString correctly handles \`full\` dates when given \`2017-01-17T17:28:11.000-08:00\` and \`2017-01-17T17:28:12.712-08:00\` and no format override 1`] = `"2 seconds"`;
-
-exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:09:25.000+10:00\` and a length of 5 in a format override 1`] = `"0 seconds"`;
-
-exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:09:25.000+10:00\` and no format override 1`] = `"0 seconds"`;
-
-exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:09:55.000+10:00\` and a length of 5 in a format override 1`] = `"0 seconds"`;
-
-exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:09:55.000+10:00\` and no format override 1`] = `"0 seconds"`;
-
-exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:10:25.000+10:00\` and a length of 5 in a format override 1`] = `"0 seconds"`;
-
-exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`2016-10-06T08:10:25.000+10:00\` and no format override 1`] = `"0 seconds"`;
-
-exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`undefined\` and a length of 5 in a format override 1`] = `"0 seconds"`;
-
-exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`undefined\` and no format override 1`] = `"0 seconds"`;
-
-exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:00.000+10:00\` and a length of 5 in a format override 1`] = `"0s"`;
+exports[`getDurationString correctly handles \`full\` dates when given \`undefined\` and \`undefined\` and no format override 1`] = `"0s"`;
 
 exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:00.000+10:00\` and no format override 1`] = `"0s"`;
 
-exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:05.000+10:00\` and a length of 5 in a format override 1`] = `"5s"`;
-
 exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:05.000+10:00\` and no format override 1`] = `"5s"`;
-
-exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:15:07.000+10:00\` and a length of 5 in a format override 1`] = `"15m 7s"`;
 
 exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:15:07.000+10:00\` and no format override 1`] = `"15m"`;
 
-exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T10:45:16.000+10:00\` and a length of 5 in a format override 1`] = `"1h 45m 16s"`;
+exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T10:45:16.000+10:00\` and no format override 1`] = `"1h"`;
 
-exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T10:45:16.000+10:00\` and no format override 1`] = `"2h"`;
-
-exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T13:59:03.000+10:00\` and a length of 5 in a format override 1`] = `"4h 59m 3s"`;
-
-exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T13:59:03.000+10:00\` and no format override 1`] = `"5h"`;
-
-exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-08T16:03:21.000+10:00\` and a length of 5 in a format override 1`] = `"1d 7h 3m 21s"`;
+exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T13:59:03.000+10:00\` and no format override 1`] = `"4h"`;
 
 exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-08T16:03:21.000+10:00\` and no format override 1`] = `"1d"`;
 
-exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-21T01:22:12.000+10:00\` and a length of 5 in a format override 1`] = `"13d 16h 22m 12s"`;
-
-exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-21T01:22:12.000+10:00\` and no format override 1`] = `"2w"`;
-
-exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-07-10T04:34:17.000+10:00\` and a length of 5 in a format override 1`] = `"8w 2d 19h 34m 17s"`;
+exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-21T01:22:12.000+10:00\` and no format override 1`] = `"1w"`;
 
 exports[`getDurationString correctly handles \`micro\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-07-10T04:34:17.000+10:00\` and no format override 1`] = `"9w"`;
 
-exports[`getDurationString correctly handles \`micro\` dates when given \`2017-01-17T08:57:30.994-08:00\` and \`2017-02-01T17:28:11.712-08:00\` and a length of 5 in a format override 1`] = `"15d 8h 30m 40s"`;
-
 exports[`getDurationString correctly handles \`micro\` dates when given \`2017-01-17T08:57:30.994-08:00\` and \`2017-02-01T17:28:11.712-08:00\` and no format override 1`] = `"2w"`;
-
-exports[`getDurationString correctly handles \`micro\` dates when given \`2017-01-17T17:28:11.000-08:00\` and \`2017-01-17T17:28:12.712-08:00\` and a length of 5 in a format override 1`] = `"2s"`;
 
 exports[`getDurationString correctly handles \`micro\` dates when given \`2017-01-17T17:28:11.000-08:00\` and \`2017-01-17T17:28:12.712-08:00\` and no format override 1`] = `"2s"`;
 
-exports[`getDurationString correctly handles \`micro\` dates when given \`undefined\` and \`2016-10-06T08:09:25.000+10:00\` and a length of 5 in a format override 1`] = `"0s"`;
-
 exports[`getDurationString correctly handles \`micro\` dates when given \`undefined\` and \`2016-10-06T08:09:25.000+10:00\` and no format override 1`] = `"0s"`;
-
-exports[`getDurationString correctly handles \`micro\` dates when given \`undefined\` and \`2016-10-06T08:09:55.000+10:00\` and a length of 5 in a format override 1`] = `"0s"`;
 
 exports[`getDurationString correctly handles \`micro\` dates when given \`undefined\` and \`2016-10-06T08:09:55.000+10:00\` and no format override 1`] = `"0s"`;
 
-exports[`getDurationString correctly handles \`micro\` dates when given \`undefined\` and \`2016-10-06T08:10:25.000+10:00\` and a length of 5 in a format override 1`] = `"0s"`;
-
 exports[`getDurationString correctly handles \`micro\` dates when given \`undefined\` and \`2016-10-06T08:10:25.000+10:00\` and no format override 1`] = `"0s"`;
-
-exports[`getDurationString correctly handles \`micro\` dates when given \`undefined\` and \`undefined\` and a length of 5 in a format override 1`] = `"0s"`;
 
 exports[`getDurationString correctly handles \`micro\` dates when given \`undefined\` and \`undefined\` and no format override 1`] = `"0s"`;
 
-exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:00.000+10:00\` and a length of 5 in a format override 1`] = `"0s"`;
-
 exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:00.000+10:00\` and no format override 1`] = `"0s"`;
-
-exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:05.000+10:00\` and a length of 5 in a format override 1`] = `"5s"`;
 
 exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:00:05.000+10:00\` and no format override 1`] = `"5s"`;
 
-exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:15:07.000+10:00\` and a length of 5 in a format override 1`] = `"15m 7s"`;
-
 exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T09:15:07.000+10:00\` and no format override 1`] = `"15m 7s"`;
-
-exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T10:45:16.000+10:00\` and a length of 5 in a format override 1`] = `"1h 45m 16s"`;
 
 exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T10:45:16.000+10:00\` and no format override 1`] = `"1h 45m"`;
 
-exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T13:59:03.000+10:00\` and a length of 5 in a format override 1`] = `"4h 59m 3s"`;
-
 exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-07T13:59:03.000+10:00\` and no format override 1`] = `"4h 59m"`;
-
-exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-08T16:03:21.000+10:00\` and a length of 5 in a format override 1`] = `"1d 7h 3m 21s"`;
 
 exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-08T16:03:21.000+10:00\` and no format override 1`] = `"1d 7h"`;
 
-exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-21T01:22:12.000+10:00\` and a length of 5 in a format override 1`] = `"13d 16h 22m 12s"`;
+exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-21T01:22:12.000+10:00\` and no format override 1`] = `"1w 6d"`;
 
-exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-05-21T01:22:12.000+10:00\` and no format override 1`] = `"13d 16h"`;
+exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-07-10T04:34:17.000+10:00\` and no format override 1`] = `"9w 0d"`;
 
-exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-07-10T04:34:17.000+10:00\` and a length of 5 in a format override 1`] = `"8w 2d 19h 34m 17s"`;
-
-exports[`getDurationString correctly handles \`short\` dates when given \`2016-05-07T09:00:00.000+10:00\` and \`2016-07-10T04:34:17.000+10:00\` and no format override 1`] = `"8w 3d"`;
-
-exports[`getDurationString correctly handles \`short\` dates when given \`2017-01-17T08:57:30.994-08:00\` and \`2017-02-01T17:28:11.712-08:00\` and a length of 5 in a format override 1`] = `"15d 8h 30m 40s"`;
-
-exports[`getDurationString correctly handles \`short\` dates when given \`2017-01-17T08:57:30.994-08:00\` and \`2017-02-01T17:28:11.712-08:00\` and no format override 1`] = `"15d 9h"`;
-
-exports[`getDurationString correctly handles \`short\` dates when given \`2017-01-17T17:28:11.000-08:00\` and \`2017-01-17T17:28:12.712-08:00\` and a length of 5 in a format override 1`] = `"2s"`;
+exports[`getDurationString correctly handles \`short\` dates when given \`2017-01-17T08:57:30.994-08:00\` and \`2017-02-01T17:28:11.712-08:00\` and no format override 1`] = `"2w 1d"`;
 
 exports[`getDurationString correctly handles \`short\` dates when given \`2017-01-17T17:28:11.000-08:00\` and \`2017-01-17T17:28:12.712-08:00\` and no format override 1`] = `"2s"`;
 
-exports[`getDurationString correctly handles \`short\` dates when given \`undefined\` and \`2016-10-06T08:09:25.000+10:00\` and a length of 5 in a format override 1`] = `"0s"`;
-
 exports[`getDurationString correctly handles \`short\` dates when given \`undefined\` and \`2016-10-06T08:09:25.000+10:00\` and no format override 1`] = `"0s"`;
-
-exports[`getDurationString correctly handles \`short\` dates when given \`undefined\` and \`2016-10-06T08:09:55.000+10:00\` and a length of 5 in a format override 1`] = `"0s"`;
 
 exports[`getDurationString correctly handles \`short\` dates when given \`undefined\` and \`2016-10-06T08:09:55.000+10:00\` and no format override 1`] = `"0s"`;
 
-exports[`getDurationString correctly handles \`short\` dates when given \`undefined\` and \`2016-10-06T08:10:25.000+10:00\` and a length of 5 in a format override 1`] = `"0s"`;
-
 exports[`getDurationString correctly handles \`short\` dates when given \`undefined\` and \`2016-10-06T08:10:25.000+10:00\` and no format override 1`] = `"0s"`;
-
-exports[`getDurationString correctly handles \`short\` dates when given \`undefined\` and \`undefined\` and a length of 5 in a format override 1`] = `"0s"`;
 
 exports[`getDurationString correctly handles \`short\` dates when given \`undefined\` and \`undefined\` and no format override 1`] = `"0s"`;
 
@@ -172,7 +88,7 @@ exports[`getDurationString defaults to full dates 1`] = `"5 seconds"`;
 
 exports[`getDurationString falls back to \`now\` when not supplied a \`to\` value 1`] = `"1 day, 4 hours, 30 minutes"`;
 
-exports[`getDurationString falls back to \`now\` when not supplied a \`to\` value 2`] = `"1d 5h"`;
+exports[`getDurationString falls back to \`now\` when not supplied a \`to\` value 2`] = `"1d 4h"`;
 
 exports[`getDurationString falls back to \`now\` when not supplied a \`to\` value 3`] = `"0s"`;
 

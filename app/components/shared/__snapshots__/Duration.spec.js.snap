@@ -1,13 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Duration Duration.Full overrides allow overriding format behaviours 1`] = `
-<span
-  className="tabular-numerals"
->
-  1330 weeks, 11 days, 7 hours, 29 minutes, 0 seconds
-</span>
-`;
-
 exports[`Duration Duration.Full renders as expected 1`] = `
 <span
   className="tabular-numerals"
@@ -60,7 +52,7 @@ exports[`Duration Duration.Full renders as expected 7`] = `
 <span
   className="tabular-numerals"
 >
-  13 days, 16 hours, 22 minutes
+  1 week, 6 days, 16 hours
 </span>
 `;
 
@@ -68,7 +60,7 @@ exports[`Duration Duration.Full renders as expected 8`] = `
 <span
   className="tabular-numerals"
 >
-  8 weeks, 2 days, 20 hours
+  9 weeks, 0 days, 19 hours
 </span>
 `;
 
@@ -77,14 +69,6 @@ exports[`Duration Duration.Full tabularNumerals can be disabled 1`] = `
   className=""
 >
   0 seconds
-</span>
-`;
-
-exports[`Duration Duration.Micro overrides allow overriding format behaviours 1`] = `
-<span
-  className="tabular-numerals"
->
-  1330w 11d 7h 29m 0s
 </span>
 `;
 
@@ -116,7 +100,7 @@ exports[`Duration Duration.Micro renders as expected 4`] = `
 <span
   className="tabular-numerals"
 >
-  2h
+  1h
 </span>
 `;
 
@@ -124,7 +108,7 @@ exports[`Duration Duration.Micro renders as expected 5`] = `
 <span
   className="tabular-numerals"
 >
-  5h
+  4h
 </span>
 `;
 
@@ -140,7 +124,7 @@ exports[`Duration Duration.Micro renders as expected 7`] = `
 <span
   className="tabular-numerals"
 >
-  2w
+  1w
 </span>
 `;
 
@@ -157,14 +141,6 @@ exports[`Duration Duration.Micro tabularNumerals can be disabled 1`] = `
   className=""
 >
   0s
-</span>
-`;
-
-exports[`Duration Duration.Short overrides allow overriding format behaviours 1`] = `
-<span
-  className="tabular-numerals"
->
-  1330w 11d 7h 29m 0s
 </span>
 `;
 
@@ -220,7 +196,7 @@ exports[`Duration Duration.Short renders as expected 7`] = `
 <span
   className="tabular-numerals"
 >
-  13d 16h
+  1w 6d
 </span>
 `;
 
@@ -228,7 +204,7 @@ exports[`Duration Duration.Short renders as expected 8`] = `
 <span
   className="tabular-numerals"
 >
-  8w 3d
+  9w 0d
 </span>
 `;
 

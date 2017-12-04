@@ -19,7 +19,6 @@ class Duration extends React.PureComponent {
     className: PropTypes.string,
     tabularNumerals: PropTypes.bool.isRequired,
     format: PropTypes.oneOf(getDurationString.formats),
-    overrides: PropTypes.object,
     updateFrequency: PropTypes.number
   };
 
@@ -33,10 +32,10 @@ class Duration extends React.PureComponent {
   };
 
   updateTime() {
-    const { from, to, format, overrides } = this.props;
+    const { from, to, format } = this.props;
 
     this.setState({
-      value: getDurationString(from, to, format, overrides)
+      value: getDurationString(from, to, format)
     });
   }
 
@@ -62,7 +61,7 @@ class Duration extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { from, to, format, overrides, updateFrequency } = nextProps;
+    const { from, to, format, updateFrequency } = nextProps;
 
     if (updateFrequency !== this.props.updateFrequency) {
       this.maybeClearInterval();
@@ -70,7 +69,7 @@ class Duration extends React.PureComponent {
     }
 
     this.setState({
-      value: getDurationString(from, to, format, overrides)
+      value: getDurationString(from, to, format)
     });
   }
 
