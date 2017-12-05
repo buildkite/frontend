@@ -88,6 +88,7 @@
     "metrick": "^0.2.0",
     "mojibaka": "^1.0.2",
     "moment": "^2.15.0",
+    "moment-duration-format": "https://github.com/jsmreese/moment-duration-format#cc5464749a2ee3ac83b923f360734a27c4346abf",
     "object-assign": "^4.1.0",
     "prop-types": "^15.5.8",
     "pusher-js": "^4.0.0",

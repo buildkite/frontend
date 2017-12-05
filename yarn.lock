@@ -5269,6 +5269,10 @@ mojibaka@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mojibaka/-/mojibaka-1.0.2.tgz#4005571f68467ddad708c00f5b666c6df040217e"
 
+"moment-duration-format@https://github.com/jsmreese/moment-duration-format#cc5464749a2ee3ac83b923f360734a27c4346abf":
+  version "2.0.0"
+  resolved "https://github.com/jsmreese/moment-duration-format#cc5464749a2ee3ac83b923f360734a27c4346abf"
+
 moment@^2.15.0:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"

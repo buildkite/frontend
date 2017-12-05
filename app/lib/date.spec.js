@@ -97,10 +97,6 @@ describe('getDurationString', () => {
           it(`and no format override`, () => {
             expect(getDurationString(from, to, format)).toMatchSnapshot();
           });
-
-          it(`and a length of 5 in a format override`, () => {
-            expect(getDurationString(from, to, format, { length: 5 })).toMatchSnapshot();
-          });
         });
       });
     });
