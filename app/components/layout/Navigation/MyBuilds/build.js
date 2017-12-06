@@ -66,7 +66,7 @@ class BuildsDropdownBuild extends React.PureComponent {
             />
           </span>
           <span className="block" title={buildTimeAbsolute}>
-            <Duration.Full from={buildTime} overrides={{ length: 1 }} tabularNumerals={false} /> ago
+            <Duration.Medium from={buildTime} tabularNumerals={false} /> ago
           </span>
         </div>
       </BuildLink>

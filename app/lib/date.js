@@ -57,10 +57,14 @@ export function getDateString(date, withSeconds = false, withYear = true) {
   return moment(date).format(getDateFormatter(withSeconds, withYear));
 }
 
+const LONG_DURATION_STRING = 'w [weeks], d [days], h [hours], m [minutes], s [seconds]';
+const SHORT_DURATION_STRING = 'w[w] d[d] h[h] m[m] s[s]';
+
 const DURATION_FORMATS = {
-  'full': ['w [weeks], d [days], h [hours], m [minutes], s [seconds]', { largest: 3 }],
-  'short': ['w[w] d[d] h[h] m[m] s[s]', { largest: 2 }],
-  'micro': ['w[w] d[d] h[h] m[m] s[s]', { largest: 1 }]
+  full: [LONG_DURATION_STRING, { largest: 3 }],
+  medium: [LONG_DURATION_STRING, { largest: 1 }],
+  short: [SHORT_DURATION_STRING, { largest: 2 }],
+  micro: [SHORT_DURATION_STRING, { largest: 1 }]
 };
 
 export function getDurationString(from, to = moment(), format = 'full') {
