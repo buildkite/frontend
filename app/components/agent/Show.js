@@ -169,7 +169,15 @@ class AgentShow extends React.Component {
       extras.push(this.renderExtraItem('Priority', agent.priority));
     }
 
-    this.renderExtraJobs(agent, extras);
+    extras.push(this.renderExtraItem(
+      <Link
+        to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}/jobs`}
+        className="blue hover-navy text-decoration-none hover-underline"
+      >
+        Jobs
+      </Link>,
+      this.renderExtraJobs(agent)
+    ));
 
     if (agent.connectedAt) {
       extras.push(this.renderExtraItem(
@@ -237,9 +245,9 @@ class AgentShow extends React.Component {
     );
   }
 
-  renderExtraJobs(agent, extras) {
+  renderExtraJobs(agent) {
     if (agent.jobs.edges.length < 1) {
-      return;
+      return 'This agent has not run any jobs';
     }
 
     let content = (
@@ -270,15 +278,7 @@ class AgentShow extends React.Component {
       );
     }
 
-    extras.push(this.renderExtraItem(
-      <Link
-        to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}/jobs`}
-        className="blue hover-navy text-decoration-none hover-underline"
-      >
-        Jobs
-      </Link>,
-      content
-    ));
+    return content;
   }
 
   handleStopButtonClick = (evt) => {
