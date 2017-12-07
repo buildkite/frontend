@@ -105,8 +105,6 @@ export default class BuildShow extends React.PureComponent<Props, State> {
   }
 
   renderJobList() {
-    let lastManualJob;
-
     // job-list-pipeline is needed by the job components' styles
     return (
       <div className="job-list-pipeline">
@@ -122,12 +120,10 @@ export default class BuildShow extends React.PureComponent<Props, State> {
                   key={job.id}
                   job={job}
                   build={this.state.build}
-                  lastManualJob={lastManualJob}
                 />
               );
 
             case 'manual':
-              lastManualJob = job;
               return <Buildkite.BuildManualJobSummaryComponent key={job.id} job={job} />;
 
             case 'trigger':
