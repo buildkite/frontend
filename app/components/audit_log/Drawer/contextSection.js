@@ -103,6 +103,10 @@ export default Relay.createContainer(AuditLogContextSection, {
             requestUserAgent
             sessionCreatedAt
           }
+          ...on AuditAPIContext {
+            requestIpAddress
+            requestUserAgent
+          }
         }
       }
     `
