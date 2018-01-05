@@ -38,7 +38,7 @@ class AuditLogList extends React.PureComponent<Props, State> {
   };
 
   state = {
-    loading: true
+    loading: false
   };
 
   componentDidMount() {
