@@ -38,12 +38,11 @@ class AuditLogList extends React.PureComponent<Props, State> {
   };
 
   state = {
-    loading: false
+    loading: true
   };
 
   componentDidMount() {
     // Always fetch new audit data when you switch to this component
-    this.setState({ loading: true });
     this.props.relay.forceFetch({ isMounted: true });
   }
 
