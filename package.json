@@ -10,7 +10,7 @@
   "scripts": {
     "env": "env",
     "start": "yarn run webpack-dev-server",
-    "test": "jest",
+    "test": "jest --colors",
     "test-with-coverage": "jest --coverage",
     "lint": "eslint .",
     "lint-and-fix": "eslint --fix .",
