@@ -52,6 +52,7 @@ window["Webpack"] = {
     "components/build/Show": require("./components/build/Show").default,
     "components/build/StateSwitcher": require("./components/build/StateSwitcher").default,
     "components/icons/BuildState": require("./components/icons/BuildState").default,
+    "components/graphiql/GraphiQLExplorer": require("./components/graphiql/GraphiQLExplorer").default,
     "components/layout/Footer": require("./components/layout/Footer").default,
     "components/layout/Navigation": require("./components/layout/Navigation").default,
     "components/layout/Flashes": require("./components/layout/Flashes").default,

@@ -54,7 +54,7 @@ var plugins = [
   // inside it, but since it's the last one, that's where Webpack will dump all
   // of it's bootstrapping JS. This file will change on every compilation.
   new webpack.optimize.CommonsChunkPlugin({
-    names: ["emojis", "vendor", "loader"],
+    names: ["graphiql", "emojis", "vendor", "loader"],
     minChunks: 2
   }),
 
@@ -103,7 +103,6 @@ var vendor_modules = [
   "es6-error",
   "escape-html",
   "eventemitter3",
-  "graphql",
   "graphql-relay",
   "history",
   "metrick",
@@ -165,6 +164,7 @@ module.exports = {
 
   entry: {
     vendor: vendor_modules,
+    graphiql: "graphiql",
     emojis: [path.join(__dirname, '../app/emoji/buildkite.js'), path.join(__dirname, '../app/emoji/apple.js')],
     app: path.join(__dirname, '../app/app.js'),
     public: path.join(__dirname, '../app/public.js')
@@ -229,6 +229,10 @@ module.exports = {
         use: [
           { loader: 'url-loader', options: { limit: 8192 } }
         ]
+      },
+      {
+        test: /\.flow$/,
+        loader: 'ignore-loader'
       },
       {
         test: /\.(png|svg|jpg|gif)$/i,

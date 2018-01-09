@@ -45,6 +45,7 @@ import AuditLogIndex from './components/audit_log/Index';
 import AuditLogExport from './components/audit_log/Export';
 import JobIndex from './components/job/Index';
 import BillingUpgrade from './components/billing/BillingUpgrade';
+import GraphiQLExplorer from './components/graphql_explorer/GraphiQLExplorer';
 
 import * as AgentQuery from './queries/Agent';
 import * as BuildQuery from './queries/Build';
@@ -109,6 +110,7 @@ export default (
     <Route path="/:organization/:pipeline/builds/:number" component={BuildCommentsList} queries={{ viewer: ViewerQuery.query, build: BuildQuery.query }} prepareParams={BuildQuery.prepareParams} />
     <Route path="/organizations/:organization/pipelines/new" component={PipelineNewTeams} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
     <Route path="/organizations/:organization/pipelines" component={PipelineNewTeams} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+    <Route path="_graphql/explorer" component={GraphiQLExplorer} />
 
     <Route path="/" component={Main} getQueries={getMainQueries} render={renderMain} onChange={routeChangeHandler}>
       <Route path="authorize/:code" component={APIAccessTokenCodeAuthorize} queries={{ apiAccessTokenCode: APIAccessTokenCodeQuery.query }} />
