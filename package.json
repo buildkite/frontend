@@ -20,7 +20,6 @@
     "webpack-dev-server": "NODE_ENV=development webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --host buildkite.localhost --port 4890"
   },
   "devDependencies": {
-    "@dhau/relay-compiler-webpack-plugin": "^0.5.3",
     "assets-webpack-plugin": "^3.4.0",
     "babel-core": "^6.24.0",
     "babel-eslint": "^7.1.0",
@@ -62,6 +61,7 @@
     "react-transform-hmr": "^1.0.4",
     "react-type-snob": "^0.0.3",
     "relay-compiler": "^1.1.0",
+    "relay-compiler-webpack-plugin": "^0.5.11",
     "stats-webpack-plugin": "^0.6.1",
     "style-loader": "^0.18.1",
     "url-loader": "^0.5.7",
