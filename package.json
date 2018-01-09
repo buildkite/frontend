@@ -47,7 +47,7 @@
     "http-server": "^0.10.0",
     "image-webpack-loader": "^3.0.0",
     "imports-loader": "^0.7.0",
-    "jest": "^20.0.4",
+    "jest": "^22.0.4",
     "mockdate": "^2.0.0",
     "postcss": "^6.0.1",
     "postcss-browser-reporter": "^0.5.0",
