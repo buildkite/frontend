@@ -2,7 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const AssetsPlugin = require('assets-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const RelayCompilerPlugin = require('@dhau/relay-compiler-webpack-plugin');
+const RelayCompilerPlugin = require('relay-compiler-webpack-plugin');
 
 // Ensure a FRONTEND_HOST is setup since we embed it in the assets.json file
 if (!process.env.FRONTEND_HOST) {
