@@ -61,38 +61,3 @@ exports[`collapsibleFormComponent renders DOM element children as expected 1`] =
   </div>
 </div>
 `;
-
-exports[`collapsibleFormComponent renders React component children as expected 1`] = `
-<div
-  class="CollapsableFormComponent form-group CollapsableFormComponent--collapsed"
->
-  <button
-    aria-controls="collapsable-form-2"
-    aria-expanded="false"
-    class="CollapseExpandLinkComponent twbs-btn twbs-btn-link collapsed"
-    data-target="#collapsable-form-2"
-    data-toggle="collapse"
-    style="padding-left: 0px;"
-    type="button"
-  >
-    <strong
-      class="semi-bold"
-    >
-      Test Input Field
-    </strong>
-    <i
-      class="fa fa-angle-down"
-      style="margin-left: 6px;"
-    />
-  </button>
-  <div
-    aria-expanded="false"
-    class="CollapsableFormComponent__content collapse"
-    id="collapsable-form-2"
-  >
-    <pre>
-      {"this-should-be":"passed through","className":"input"}
-    </pre>
-  </div>
-</div>
-`;

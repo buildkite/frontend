@@ -43,20 +43,3 @@ exports[`labelledFormComponent renders DOM element children as expected 1`] = `
   </label>
 </div>
 `;
-
-exports[`labelledFormComponent renders React component children as expected 1`] = `
-<div
-  class="mb2"
->
-  <label>
-    <div
-      class="bold mb1"
-    >
-      Test Input Field
-    </div>
-    <pre>
-      {"this-should-be":"passed through","className":"input"}
-    </pre>
-  </label>
-</div>
-`;
