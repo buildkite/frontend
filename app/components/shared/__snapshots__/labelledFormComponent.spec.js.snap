@@ -29,44 +29,34 @@ Object {
 
 exports[`labelledFormComponent renders DOM element children as expected 1`] = `
 <div
-  data-reactroot=""
   class="mb2"
 >
   <label>
     <div
       class="bold mb1"
     >
-      <!-- react-text: 4 -->
       Test Input Field
-      <!-- /react-text -->
     </div>
     <input
       class="input"
     />
   </label>
-  <!-- react-empty: 6 -->
-  <!-- react-empty: 7 -->
 </div>
 `;
 
 exports[`labelledFormComponent renders React component children as expected 1`] = `
 <div
-  data-reactroot=""
   class="mb2"
 >
   <label>
     <div
       class="bold mb1"
     >
-      <!-- react-text: 4 -->
       Test Input Field
-      <!-- /react-text -->
     </div>
     <pre>
       {"this-should-be":"passed through","className":"input"}
     </pre>
   </label>
-  <!-- react-empty: 6 -->
-  <!-- react-empty: 7 -->
 </div>
 `;
