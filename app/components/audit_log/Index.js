@@ -23,7 +23,7 @@ type Props = {
 };
 
 type State = {
-  loading: boolean
+  loadingMore: boolean
 };
 
 class AuditLogList extends React.PureComponent<Props, State> {
@@ -38,7 +38,7 @@ class AuditLogList extends React.PureComponent<Props, State> {
   };
 
   state = {
-    loading: true
+    loadingMore: false
   };
 
   componentDidMount() {
@@ -50,11 +50,7 @@ class AuditLogList extends React.PureComponent<Props, State> {
     return (
       <Panel>
         {this.renderEvents()}
-        <ShowMoreFooter
-          connection={this.props.organization.auditEvents}
-          loading={this.state.loading}
-          onShowMore={this.handleShowMoreAuditEvents}
-        />
+        {this.renderFooter()}
       </Panel>
     );
   }
@@ -88,8 +84,20 @@ class AuditLogList extends React.PureComponent<Props, State> {
     );
   }
 
+  renderFooter() {
+    if (this.props.relay.variables.isMounted) {
+      return (
+        <ShowMoreFooter
+          connection={this.props.organization.auditEvents}
+          loading={this.state.loadingMore}
+          onShowMore={this.handleShowMoreAuditEvents}
+        />
+      );
+    }
+  }
+
   handleShowMoreAuditEvents = () => {
-    this.setState({ loading: true });
+    this.setState({ loadingMore: true });
 
     this.props.relay.setVariables(
       {
@@ -97,7 +105,7 @@ class AuditLogList extends React.PureComponent<Props, State> {
       },
       (readyState) => {
         if (readyState.done) {
-          this.setState({ loading: false });
+          this.setState({ loadingMore: false });
         }
       }
     );
