@@ -147,5 +147,11 @@ if (window._slanger) {
 
 // Only do the react-router gear on pages we've designated
 window["initializeReactRouter"] = () => {
-  ReactDOM.render(Routes, document.getElementById('root'));
+  const rootElement = document && document.getElementById("root");
+
+  if (rootElement) {
+    ReactDOM.render(Routes, rootElement);
+  } else {
+    throw "No #root element to render the application to!";
+  }
 };
