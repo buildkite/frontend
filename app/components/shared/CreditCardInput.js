@@ -89,8 +89,8 @@ export default class CreditCardInput extends React.PureComponent {
     // internally and shouldn't be passed on to the input itself
     const {
       acceptedTypes, // eslint-disable-line no-unused-vars
-      defaultValue,  // eslint-disable-line no-unused-vars
-      onChange,      // eslint-disable-line no-unused-vars
+      defaultValue, // eslint-disable-line no-unused-vars
+      onChange, // eslint-disable-line no-unused-vars
       ...props
     } = this.props;
 

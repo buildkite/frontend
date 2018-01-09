@@ -7,11 +7,11 @@ import window from 'global/window';
 export const formatNumber = (
   (window.Intl && window.Intl.NumberFormat)
     ? ((formatter, number: number): string => (
-        formatter.format(number)
-      )).bind(this, window.Intl.NumberFormat())
+      formatter.format(number)
+    )).bind(this, window.Intl.NumberFormat())
     : (number: number): string => (
-        number.toLocaleString
-          ? number.toLocaleString()
-          : number.toString()
-      )
+      number.toLocaleString
+        ? number.toLocaleString()
+        : number.toString()
+    )
 );
