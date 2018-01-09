@@ -47,7 +47,7 @@ class AgentJobs extends React.PureComponent<Props, State> {
     loading: false
   };
 
-  _agentRefreshTimeout: number;
+  _agentRefreshTimeout: TimeoutID;
 
   componentDidMount() {
     // Only bother setting up the delayed load and refresher if we've got an

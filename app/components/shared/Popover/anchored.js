@@ -49,7 +49,7 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
 
   wrapperNode: ?HTMLSpanElement;
   popupNode: ?HTMLElement;
-  _resizeDebounceTimeout: ?number;
+  _resizeDebounceTimeout: ?TimeoutID;
 
   handleWindowResize = () => {
     // when hidden, we wait for the resize to be finished!
@@ -67,7 +67,8 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
     );
 
     if (optimizeForHidden && this._resizeDebounceTimeout) {
-      this._resizeDebounceTimeout = clearTimeout(this._resizeDebounceTimeout);
+      clearTimeout(this._resizeDebounceTimeout);
+      delete this._resizeDebounceTimeout;
     }
 
     if (!this._resizeDebounceTimeout) {
@@ -76,7 +77,11 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
   };
 
   handleDebouncedWindowResize = () => {
-    this._resizeDebounceTimeout = clearTimeout(this._resizeDebounceTimeout);
+    if (this._resizeDebounceTimeout) {
+      clearTimeout(this._resizeDebounceTimeout);
+      delete this._resizeDebounceTimeout;
+    }
+
     this.calculateViewportOffsets();
   };
 
@@ -87,7 +92,12 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleWindowResize);
-    this._resizeDebounceTimeout = clearTimeout(this._resizeDebounceTimeout); // just in case
+
+    // Just in case...
+    if (this._resizeDebounceTimeout) {
+      clearTimeout(this._resizeDebounceTimeout);
+      delete this._resizeDebounceTimeout;
+    }
   }
 
   calculateViewportOffsets = () => {
