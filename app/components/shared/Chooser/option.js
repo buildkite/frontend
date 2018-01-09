@@ -27,7 +27,7 @@ class Option extends React.Component {
     const selectionClasses = this.context.chooser.isSelected(this.props.value) ? this.props.selectedClassName : this.props.unselectedClassName;
     const classes = classNames(this.props.className, selectionClasses);
 
-    return React.createElement(this.props.tag, { className: classes, onClick: this.handleClick }, this.props.children);
+    return React.DOM[this.props.tag]({ className: classes, onClick: this.handleClick }, this.props.children);
   }
 
   handleClick = (evt) => {

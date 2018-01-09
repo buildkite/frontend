@@ -77,7 +77,7 @@ var plugins = [
   new webpack.NamedModulesPlugin(),
 
   // Ensures only moments "en" package is included (saves 200kb in final compilation)
-  new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
+  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
 
   // When you set NODE_ENV=production, that only sets it for the Webpack NodeJS
   // environment. We need to also send the variable to the JS compilation

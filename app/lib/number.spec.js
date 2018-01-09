@@ -25,10 +25,10 @@ describe(`formatNumber`, function() {
           return perverseReverse(
             numberSplit.shift()
           )
-            .match(/\.?([0-9]{1,3})/g)
-            .map(perverseReverse)
-            .reverse()
-            .join(',') + (numberSplit.length ? ('.' + numberSplit.pop().slice(0, 3)) : '');
+          .match(/\.?([0-9]{1,3})/g)
+          .map(perverseReverse)
+          .reverse()
+          .join(',') + (numberSplit.length ? ('.' + numberSplit.pop().slice(0, 3)) : '');
         })
       };
 
