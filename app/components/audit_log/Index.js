@@ -85,14 +85,14 @@ class AuditLogList extends React.PureComponent<Props, State> {
   }
 
   renderFooter() {
-    if(this.props.relay.variables.isMounted) {
+    if (this.props.relay.variables.isMounted) {
       return (
         <ShowMoreFooter
           connection={this.props.organization.auditEvents}
           loading={this.state.loadingMore}
           onShowMore={this.handleShowMoreAuditEvents}
         />
-      )
+      );
     }
   }
 
