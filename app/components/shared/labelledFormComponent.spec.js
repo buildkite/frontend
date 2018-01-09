@@ -17,6 +17,17 @@ describe('labelledFormComponent', () => {
     expect(node).toMatchSnapshot();
   });
 
+  it('renders React component children as expected', () => {
+    const LabelledFormComponent = labelled((props) => <pre>{JSON.stringify(props)}</pre>);
+
+    const component = TestUtils.renderIntoDocument(
+      <LabelledFormComponent label="Test Input Field" this-should-be="passed through" />
+    );
+
+    const node = ReactDOM.findDOMNode(component); // eslint-disable-line react/no-find-dom-node
+    expect(node).toMatchSnapshot();
+  });
+
   it('exposes a `focus` function', () => {
     const LabelledFormComponent = labelled('input');
 

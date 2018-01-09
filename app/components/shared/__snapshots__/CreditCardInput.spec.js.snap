@@ -2,20 +2,22 @@
 
 exports[`<CreditCardInput /> correctly accepts a \`defaultValue\` prop 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="3777 222266 66999"
 />
 `;
 
 exports[`<CreditCardInput /> key input backspacing character after whitespace deletes the whitespace 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="3777 2"
 />
 `;
@@ -38,20 +40,22 @@ Object {
 
 exports[`<CreditCardInput /> key input backspacing character after whitespace deletes the whitespace 4`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="17"
   spellcheck="false"
-  type="tel"
   value="3777"
 />
 `;
 
 exports[`<CreditCardInput /> key input backspacing character before whitespace preserves whitespace location 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="3777 2"
 />
 `;
@@ -74,20 +78,22 @@ Object {
 
 exports[`<CreditCardInput /> key input backspacing character before whitespace preserves whitespace location 4`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="17"
   spellcheck="false"
-  type="tel"
   value="3772"
 />
 `;
 
 exports[`<CreditCardInput /> key input backspacing whitespace deletes the character before 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="3777 2"
 />
 `;
@@ -110,20 +116,22 @@ Object {
 
 exports[`<CreditCardInput /> key input backspacing whitespace deletes the character before 4`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="17"
   spellcheck="false"
-  type="tel"
   value="3772"
 />
 `;
 
 exports[`<CreditCardInput /> key input deleting character after whitespace preserves whitespace location 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="3777 2"
 />
 `;
@@ -146,20 +154,22 @@ Object {
 
 exports[`<CreditCardInput /> key input deleting character after whitespace preserves whitespace location 4`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="17"
   spellcheck="false"
-  type="tel"
   value="3777"
 />
 `;
 
 exports[`<CreditCardInput /> key input deleting character before whitespace deletes the whitespace 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="3777 2"
 />
 `;
@@ -182,20 +192,22 @@ Object {
 
 exports[`<CreditCardInput /> key input deleting character before whitespace deletes the whitespace 4`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="17"
   spellcheck="false"
-  type="tel"
   value="3772"
 />
 `;
 
 exports[`<CreditCardInput /> key input deleting whitespace deletes the character after 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="3777 23"
 />
 `;
@@ -218,20 +230,22 @@ Object {
 
 exports[`<CreditCardInput /> key input deleting whitespace deletes the character after 4`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="17"
   spellcheck="false"
-  type="tel"
   value="3777 3"
 />
 `;
 
 exports[`<CreditCardInput /> key input handles empty values 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="1"
 />
 `;
@@ -254,20 +268,22 @@ Object {
 
 exports[`<CreditCardInput /> key input handles empty values 4`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value=""
 />
 `;
 
 exports[`<CreditCardInput /> key input handles typing as expected 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value=""
 />
 `;
@@ -426,20 +442,22 @@ Object {
 
 exports[`<CreditCardInput /> key input handles typing as expected 21`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="17"
   spellcheck="false"
-  type="tel"
   value="3777 222266 66999"
 />
 `;
 
 exports[`<CreditCardInput /> key input handles typing at the start of a value as expected 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value=""
 />
 `;
@@ -598,20 +616,22 @@ Object {
 
 exports[`<CreditCardInput /> key input handles typing at the start of a value as expected 21`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="17"
   spellcheck="false"
-  type="tel"
   value="3777 222266 66999"
 />
 `;
 
 exports[`<CreditCardInput /> key input unformats unknown cards 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value=""
 />
 `;
@@ -754,100 +774,110 @@ Object {
 
 exports[`<CreditCardInput /> key input unformats unknown cards 19`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="2227772727272727"
 />
 `;
 
 exports[`<CreditCardInput /> pasting doesn't call preventDefault if the paste event doesn't provide data 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="3777 222266 66999"
 />
 `;
 
 exports[`<CreditCardInput /> pasting doesn't call preventDefault if the paste event doesn't provide data 2`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="3777 222266 66999"
 />
 `;
 
 exports[`<CreditCardInput /> pasting handles inputs which are longer than current values 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="2227 7727 2727 2727"
 />
 `;
 
 exports[`<CreditCardInput /> pasting handles inputs which are longer than current values 2`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="22"
   spellcheck="false"
-  type="tel"
   value="4434 4344 3444 4434434"
 />
 `;
 
 exports[`<CreditCardInput /> pasting handles values being pased into the middle of an existing value 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="3777 222266 66999"
 />
 `;
 
 exports[`<CreditCardInput /> pasting handles values being pased into the middle of an existing value 2`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="17"
   spellcheck="false"
-  type="tel"
   value="3777 443443 44344"
 />
 `;
 
 exports[`<CreditCardInput /> pasting handles values being pased over an existing value 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value="3777 222266 66999"
 />
 `;
 
 exports[`<CreditCardInput /> pasting handles values being pased over an existing value 2`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="22"
   spellcheck="false"
-  type="tel"
   value="4434 4344 3444 4434434"
 />
 `;
 
 exports[`<CreditCardInput /> renders as expected with no arguments 1`] = `
 <input
+  data-reactroot=""
+  type="tel"
   autocomplete="cc-number"
   maxlength="19"
   spellcheck="false"
-  type="tel"
   value=""
 />
 `;

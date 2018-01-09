@@ -57,11 +57,11 @@ class BuildHeaderComponent extends React.PureComponent {
   };
 
   componentDidMount() {
-    jQuery(ReactDOM.findDOMNode(this)).on('ajax:error', this._onAjaxError); // eslint-disable-line react/no-find-dom-node
+    jQuery(ReactDOM.findDOMNode(this)).on('ajax:error', this._onAjaxError);   // eslint-disable-line react/no-find-dom-node
   }
 
   componentWillUnmount() {
-    jQuery(ReactDOM.findDOMNode(this)).off('ajax:error', this._onAjaxError); // eslint-disable-line react/no-find-dom-node
+    jQuery(ReactDOM.findDOMNode(this)).off('ajax:error', this._onAjaxError);  // eslint-disable-line react/no-find-dom-node
   }
 
   _onAjaxError = (event, xhr) => {

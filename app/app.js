@@ -26,6 +26,7 @@ if (process.env.NODE_ENV === "development") {
   require('react-type-snob').default(React);
   require('./lib/Logger').default.enable();
   require('react-relay/lib/RelayNetworkDebug').init();
+  window.Perf = require('react-addons-perf');
 }
 
 // Allows old sprockets and inline-javascript to access webpack modules

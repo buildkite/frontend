@@ -17,6 +17,17 @@ describe('collapsibleFormComponent', () => {
     expect(node).toMatchSnapshot();
   });
 
+  it('renders React component children as expected', () => {
+    const CollapsibleFormComponent = collapsible((props) => <pre>{JSON.stringify(props)}</pre>);
+
+    const component = TestUtils.renderIntoDocument(
+      <CollapsibleFormComponent label="Test Input Field" this-should-be="passed through" />
+    );
+
+    const node = ReactDOM.findDOMNode(component); // eslint-disable-line react/no-find-dom-node
+    expect(node).toMatchSnapshot();
+  });
+
   it('exposes a `focus` function', () => {
     const CollapsibleFormComponent = collapsible('input');
 
