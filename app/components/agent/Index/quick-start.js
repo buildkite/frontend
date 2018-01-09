@@ -17,7 +17,7 @@ const GUIDES = ((guideRequire) =>
 )(require.context(
   '../../docs',
   true,
-  /^\.\/[^\/]+(?:\/index)?\.[^\/]*$/ // matches any file in ../../docs, or any index file in a subdirectory of ../../docs
+  /^\.\/[^/]+(?:\/index)?\.[^/]*$/ // matches any file in ../../docs, or any index file in a subdirectory of ../../docs
 ));
 
 const getEmojiForGuide = ({ emoji, title }) => emoji || `:${title.toLowerCase()}:`;
@@ -94,30 +94,34 @@ class QuickStart extends React.PureComponent {
     return (
       <div className="center" style={{ margin: -5 }}>
         {
-          GUIDES.map((Guide, index) => (
-            <Link
-              key={index}
-              to={
-                index === selectedGuideIndex
-                  ? baseUri // use base route URI for selected guide so we can close it
-                  : `${baseUri}#setup-${getSlugForGuide(Guide)}`
-              }
-              className={classNames(
-                'inline-block blue hover-navy text-decoration-none border rounded m1 p1',
-                {
-                  'border-white': index !== selectedGuideIndex,
-                  'border-gray': index === selectedGuideIndex
+          GUIDES.map((Guide, index) => {
+            const slug = getSlugForGuide(Guide);
+
+            return (
+              <Link
+                key={slug}
+                to={
+                  index === selectedGuideIndex
+                    ? baseUri // use base route URI for selected guide so we can close it
+                    : `${baseUri}#setup-${slug}`
                 }
-              )}
-            >
-              <Emojify
-                className="block mt1"
-                style={{ fontSize: '1.15em' }}
-                text={getEmojiForGuide(Guide)}
-              />
-              {Guide.title}
-            </Link>
-          ))
+                className={classNames(
+                  'inline-block blue hover-navy text-decoration-none border rounded m1 p1',
+                  {
+                    'border-white': index !== selectedGuideIndex,
+                    'border-gray': index === selectedGuideIndex
+                  }
+                )}
+              >
+                <Emojify
+                  className="block mt1"
+                  style={{ fontSize: '1.15em' }}
+                  text={getEmojiForGuide(Guide)}
+                />
+                {Guide.title}
+              </Link>
+            );
+          })
         }
       </div>
     );

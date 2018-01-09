@@ -22,7 +22,7 @@ class Metric extends React.PureComponent {
   }
 
   renderValue() {
-    const match = String(this.props.pipelineMetric.value).match(/([\d\.]+)(.*)/);
+    const match = String(this.props.pipelineMetric.value).match(/([\d.]+)(.*)/);
     const valueClasses = "h1 light m0 line-height-1";
 
     if (match) {

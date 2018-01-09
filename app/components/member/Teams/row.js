@@ -135,7 +135,7 @@ class Row extends React.PureComponent {
           >
             Remove
           </Button>
-          )
+        )
       }
     );
   }
