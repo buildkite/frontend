@@ -119,7 +119,7 @@ class Row extends React.Component {
         allowed: "teamPipelineUpdate",
         render: (idx) => (
           <AccessLevel key={idx} teamPipeline={this.props.teamPipeline} onAccessLevelChange={this.handleAccessLevelChange} saving={this.state.savingNewAccessLevel} />
-          )
+        )
       },
       {
         allowed: "teamPipelineDelete",
@@ -132,9 +132,9 @@ class Row extends React.Component {
             className="ml3"
             onClick={this.handleRemove}
           >Remove</Button>
-          )
+        )
       }
-      );
+    );
 
   }
 

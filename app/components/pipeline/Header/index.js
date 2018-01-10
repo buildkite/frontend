@@ -234,7 +234,7 @@ class Header extends React.Component<Props, State> {
 
     // Hide passwords and limit to 8 dots in repository URLs
     return pipeline.repository.url.replace(
-      /:([^\/@]{1,8})[^\/@]*@/,
+      /:([^/@]{1,8})[^/@]*@/,
       (match, password) => `:${password.replace(/./g, '•')}@`
     );
   }

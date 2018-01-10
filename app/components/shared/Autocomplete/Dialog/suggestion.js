@@ -15,7 +15,7 @@ export default class Suggestion extends React.PureComponent {
     className: PropTypes.string
   };
 
-  defaultProps = {
+  static defaultProps = {
     selectLabel: "Select"
   };
 

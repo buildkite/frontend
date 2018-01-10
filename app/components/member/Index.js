@@ -255,15 +255,15 @@ class MemberIndex extends React.PureComponent {
 
     if (invitations.edges.length > 0) {
       return (
-          invitations.edges.map((edge) => {
-            return (
-              <InvitationRow
-                key={edge.node.id}
-                organization={this.props.organization}
-                organizationInvitation={edge.node}
-              />
-            );
-          })
+        invitations.edges.map((edge) => {
+          return (
+            <InvitationRow
+              key={edge.node.id}
+              organization={this.props.organization}
+              organizationInvitation={edge.node}
+            />
+          );
+        })
       );
     }
 
