@@ -1,3 +1,4 @@
+@import 'variables';
 @import 'reset';
 @import 'btn';
 @import 'btn-primary';
@@ -37,9 +38,7 @@
 @import 'display';
 @import 'emoji';
 
-@import 'codemirror/lib/codemirror';
-/* @import('codemirror/theme/neo'); */
-@import 'codemirror-additions';
+@import 'codemirror';
 
 :root {
   --black:  #111111;

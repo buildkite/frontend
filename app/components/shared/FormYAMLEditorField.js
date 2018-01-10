@@ -1,23 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Loadable from 'react-loadable';
+
+import Spinner from './Spinner';
 
 class FormYAMLEdtiorField extends React.Component {
   static propTypes = {
     name: PropTypes.string,
-    value: PropTypes.string
+    value: PropTypes.string,
+    CodeMirror: PropTypes.func,
   };
 
   componentDidMount() {
-    const CodeMirror = require('codemirror');
-    require('codemirror/addon/hint/show-hint');
-    require('codemirror/addon/comment/comment');
-    require('codemirror/addon/edit/matchbrackets');
-    require('codemirror/addon/edit/closebrackets');
-    require('codemirror/addon/lint/lint');
-    require('codemirror/keymap/sublime');
-    require('codemirror/mode/yaml/yaml');
-
-    this.editor = CodeMirror.fromTextArea(this._textarea, {
+    this.editor = this.props.CodeMirror.fromTextArea(this._input, {
       lineNumbers: true,
       tabSize: 2,
       mode: 'yaml',
@@ -39,11 +34,62 @@ class FormYAMLEdtiorField extends React.Component {
 
   render() {
     return (
-      <div>
-        <textarea name={this.props.name} value={this.props.value} ref={(node) => { this._textarea = node; }} />
+      <div className="buildkite-codemirror">
+        <textarea name={this.props.name} defaultValue={this.props.value} ref={(node) => { this._input = node; }} />
       </div>
     );
   }
 }
 
-export default FormYAMLEdtiorField;
+const CODEMIRROR_BUFFER = 8;
+const CODEMIRROR_LINE_HEIGHT = 18;
+
+export default function(props) {
+  // Here's a dynamic loader for editor that does some magical stuff. It tries
+  // to attempt the size of the editor before we load it, this way the page
+  // doesn't change in size after we load in Codemirror.
+  const ApproximateHeightLoader = function(loader) {
+    const lines = props.value.split("\n").length;
+    const height = CODEMIRROR_BUFFER + (lines * CODEMIRROR_LINE_HEIGHT);
+
+    return (
+      <div className="flex items-center justify-center" style={{height: height}}>
+        <Spinner /> Loading Editor…
+      </div>
+    )
+  }
+
+  // This loads Codemirror and all of it's addons in paralell as seperate
+  // files.
+  const LoadableCodeMirror = Loadable.Map({
+    loader: {
+      CodeMirror: () => import('codemirror'),
+      Addons: () => Promise.all([
+        import('codemirror/addon/hint/show-hint'),
+        import('codemirror/addon/comment/comment'),
+        import('codemirror/addon/edit/matchbrackets'),
+        import('codemirror/addon/edit/closebrackets'),
+        import('codemirror/addon/lint/lint'),
+        import('codemirror/keymap/sublime'),
+        import('codemirror/mode/yaml/yaml'),
+        import('codemirror/lib/codemirror.css')
+      ])
+    },
+
+    loading(props) {
+      return (
+        <ApproximateHeightLoader {...props} />
+      )
+    },
+
+    render(loaded, props) {
+      return (
+        <FormYAMLEdtiorField CodeMirror={loaded.CodeMirror} name={props.name} value={props.value} />
+      )
+    }
+  });
+
+  return (
+    <LoadableCodeMirror {...props} />
+  )
+}
