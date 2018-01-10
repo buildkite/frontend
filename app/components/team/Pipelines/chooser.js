@@ -66,7 +66,6 @@ class Chooser extends React.Component {
               placeholder="Search all pipelines…"
               selectLabel="Add"
               popover={false}
-              ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
             />
           </div>
         )
@@ -107,13 +106,12 @@ class Chooser extends React.Component {
       }
     });
 
-    // Now start showing the dialog, and when it's open autofocus on the search input
-    this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
+    // Now start showing the dialog
+    this.setState({ showingDialog: true });
   };
 
   handleDialogClose = () => {
     this.setState({ showingDialog: false });
-    this._autoCompletor.clear();
     this.props.relay.setVariables({ pipelineAddSearch: '' });
   };
 
@@ -131,7 +129,6 @@ class Chooser extends React.Component {
 
   handlePipelineSelect = (pipeline) => {
     this.setState({ showingDialog: false });
-    this._autoCompletor.clear();
     this.props.relay.setVariables({ pipelineAddSearch: '' });
 
     const query = Relay.QL`mutation TeamPipelineCreateMutation {

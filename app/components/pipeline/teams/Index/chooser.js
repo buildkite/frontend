@@ -60,7 +60,6 @@ class Chooser extends React.Component {
           placeholder="Search all teams…"
           selectLabel="Add"
           popover={false}
-          ref={(_autoCompletor) => this._autoCompletor = _autoCompletor}
         />
       </div>
     );
@@ -107,14 +106,12 @@ class Chooser extends React.Component {
       }
     });
 
-    // Now start showing the dialog, and when it's open, autofocus the first
-    // result.
-    this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
+    // Now start showing the dialog
+    this.setState({ showingDialog: true });
   };
 
   handleDialogClose = () => {
     this.setState({ showingDialog: false });
-    this._autoCompletor.clear();
     this.props.relay.setVariables({ teamAddSearch: '' });
   };
 
@@ -132,7 +129,6 @@ class Chooser extends React.Component {
 
   handleTeamSelect = (team) => {
     this.setState({ showingDialog: false });
-    this._autoCompletor.clear();
     this.props.relay.setVariables({ teamAddSearch: '' });
 
     const mutation = new TeamPipelineCreateMutation({
