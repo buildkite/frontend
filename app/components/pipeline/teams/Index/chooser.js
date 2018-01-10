@@ -99,10 +99,6 @@ class Chooser extends React.Component {
   }
 
   handleDialogOpen = () => {
-    this.setState({ showingDialog: true }, () => { this._autoCompletor.focus(); });
-  };
-
-  handleDialogOpen = () => {
     // First switch the component into a "loading" mode and refresh the data in the chooser
     this.setState({ loading: true });
     this.props.relay.forceFetch({ includeSearchResults: true, pipelineSelector: `!${this.props.pipeline.slug}` }, (state) => {
