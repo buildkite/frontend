@@ -61,7 +61,7 @@ class Form extends React.PureComponent {
             loading={this.state.updating && 'Saving User…'}
           >
               Save User
-            </Button>
+          </Button>
         </Panel.Section>
       </Panel>
     );

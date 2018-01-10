@@ -117,7 +117,7 @@ class Jobs extends React.PureComponent {
         <Panel.Section className="center">
           <div>
               No jobs could be found
-            </div>
+          </div>
         </Panel.Section>
       );
     }
