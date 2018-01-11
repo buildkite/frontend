@@ -4,6 +4,24 @@ import Loadable from 'react-loadable';
 
 import Spinner from '../Spinner';
 
+const CODEMIRROR_CONFIG = {
+  lineNumbers: true,
+  tabSize: 2,
+  mode: 'yaml',
+  keyMap: 'sublime',
+  autoCloseBrackets: true,
+  matchBrackets: true,
+  showCursorWhenSelecting: true,
+  viewportMargin: Infinity,
+  gutters: ['CodeMirror-linenumbers'],
+  extraKeys: {
+    'Ctrl-Left': 'goSubwordLeft',
+    'Ctrl-Right': 'goSubwordRight',
+    'Alt-Left': 'goGroupLeft',
+    'Alt-Right': 'goGroupRight'
+  }
+};
+
 class FormYAMLEdtiorField extends React.Component {
   static propTypes = {
     name: PropTypes.string,
@@ -12,28 +30,15 @@ class FormYAMLEdtiorField extends React.Component {
   };
 
   componentDidMount() {
-    this.editor = this.props.CodeMirror.fromTextArea(this._input, {
-      lineNumbers: true,
-      tabSize: 2,
-      mode: 'yaml',
-      keyMap: 'sublime',
-      // theme: 'neo',
-      autoCloseBrackets: true,
-      matchBrackets: true,
-      showCursorWhenSelecting: true,
-      viewportMargin: Infinity,
-      gutters: ['CodeMirror-linenumbers'],
-      extraKeys: {
-        'Ctrl-Left': 'goSubwordLeft',
-        'Ctrl-Right': 'goSubwordRight',
-        'Alt-Left': 'goGroupLeft',
-        'Alt-Right': 'goGroupRight'
-      }
-    });
+    const { CodeMirror } = this.props;
+
+    this.editor = CodeMirror.fromTextArea(
+      this.input,
+      CODEMIRROR_CONFIG
+    );
   }
 
   componentWillUnmount() {
-    console.log("byeee");
     if (this.editor) {
       this.editor.toTextArea();
       delete this.editor;
@@ -43,7 +48,11 @@ class FormYAMLEdtiorField extends React.Component {
   render() {
     return (
       <div className="buildkite-codemirror">
-        <textarea name={this.props.name} defaultValue={this.props.value} ref={(node) => { this._input = node; }} />
+        <textarea
+          name={this.props.name}
+          defaultValue={this.props.value}
+          ref={(input) => this.input = input}
+        />
       </div>
     );
   }
@@ -52,11 +61,11 @@ class FormYAMLEdtiorField extends React.Component {
 const CODEMIRROR_BUFFER = 8;
 const CODEMIRROR_LINE_HEIGHT = 18;
 
-export default function(props) {
+const FormYAMLEdtiorFieldLoader = (props) => {
   // Here's a dynamic loader for editor that does some magical stuff. It tries
   // to attempt the size of the editor before we load it, this way the page
   // doesn't change in size after we load in Codemirror.
-  const ApproximateHeightLoader = function(loader) {
+  const ApproximateHeightLoader = () => {
     const lines = props.value.split("\n").length;
     const height = CODEMIRROR_BUFFER + (lines * CODEMIRROR_LINE_HEIGHT);
 
@@ -67,6 +76,10 @@ export default function(props) {
     );
   };
 
+  ApproximateHeightLoader.propTypes = {
+    value: PropTypes.string
+  };
+
   // This loads Codemirror and all of its addons.
   const LoadableCodeMirror = Loadable.Map({
     loader: {
@@ -74,25 +87,26 @@ export default function(props) {
         import('./codemirror').then((module) => (
           // HACK: Add a "zero" delay after the module has
           // loaded, to allow their styles to take effect
-          new Promise((resolve, reject) => {
-            setTimeout(
-              () => resolve(module.default),
-              0
-            );
+          new Promise((resolve) => {
+            setTimeout(() => resolve(module.default), 0);
           })
         ))
       )
     },
 
-    loading(props) {
+    loading() {
       return (
-        <ApproximateHeightLoader {...props} />
+        <ApproximateHeightLoader />
       );
     },
 
     render(loaded, props) {
       return (
-        <FormYAMLEdtiorField CodeMirror={loaded.CodeMirror} name={props.name} value={props.value} />
+        <FormYAMLEdtiorField
+          CodeMirror={loaded.CodeMirror}
+          name={props.name}
+          value={props.value}
+        />
       );
     }
   });
@@ -100,4 +114,11 @@ export default function(props) {
   return (
     <LoadableCodeMirror {...props} />
   );
-}
+};
+
+FormYAMLEdtiorFieldLoader.propTypes = {
+  name: PropTypes.string,
+  value: PropTypes.string
+};
+
+export default FormYAMLEdtiorFieldLoader;
