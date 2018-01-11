@@ -70,7 +70,18 @@ export default function(props) {
   // This loads Codemirror and all of its addons.
   const LoadableCodeMirror = Loadable.Map({
     loader: {
-      CodeMirror: () => import('./codemirror').then((module) => module.default)
+      CodeMirror: () => (
+        import('./codemirror').then((module) => (
+          // HACK: Add a "zero" delay after the module has
+          // loaded, to allow their styles to take effect
+          new Promise((resolve, reject) => {
+            setTimeout(
+              () => resolve(module.default),
+              0
+            );
+          })
+        ))
+      )
     },
 
     loading(props) {
