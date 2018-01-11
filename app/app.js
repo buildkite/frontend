@@ -149,9 +149,9 @@ if (window._slanger) {
 window["initializeReactRouter"] = () => {
   const rootElement = document && document.getElementById("root");
 
-  if (rootElement) {
-    ReactDOM.render(Routes, rootElement);
-  } else {
-    throw "No #root element to render the application to!";
+  if (!rootElement) {
+    throw new Error("No #root element to render the application to!");
   }
+
+  ReactDOM.render(Routes, rootElement);
 };
