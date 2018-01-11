@@ -1,4 +1,4 @@
-.CodeMirror {
+.buildkite-codemirror .CodeMirror {
   /* https://codemirror.net/demo/resize.html */
   height: auto;
   min-height: 150px;
@@ -6,14 +6,14 @@
   font-size: 13px;
 }
 
-.CodeMirror-scroll {
+.buildkite-codemirror .CodeMirror-scroll {
   min-height: 150px;
 }
 
-.CodeMirror-gutters {
+.buildkite-codemirror .CodeMirror-gutters {
   background: var(--silver);
 }
 
-.CodeMirror-linenumber {
+.buildkite-codemirror .CodeMirror-linenumber {
   background: var(--silver);
 }

@@ -33,7 +33,7 @@ const IS_PRODUCTION = (process.env.NODE_ENV === "production");
 // folder with every hashed version of files we've changed (webpack doesn't
 // clean up after itself)
 const filenameFormat = IS_PRODUCTION ? "[name]-[chunkhash].js" : "[name].js";
-const chunkFilename = IS_PRODUCTION ? "[id]-[chunkhash].js" : "[id].js";
+const chunkFilename = IS_PRODUCTION ? "[chunkhash].chunk.js" : "[name].chunk.js";
 
 // Toggle between the devtool if on prod/dev since cheap-module-eval-source-map
 // is way faster for development.
@@ -99,14 +99,6 @@ var vendor_modules = [
   "babel-polyfill",
   "buffer-crc32",
   "classnames",
-  "codemirror",
-  "codemirror/addon/comment/comment",
-  "codemirror/addon/edit/closebrackets",
-  "codemirror/addon/edit/matchbrackets",
-  "codemirror/addon/hint/show-hint",
-  "codemirror/addon/lint/lint",
-  "codemirror/keymap/sublime",
-  "codemirror/mode/yaml/yaml",
   "create-react-class",
   "credit-card-type",
   "decode-uri-component",
@@ -199,6 +191,10 @@ module.exports = {
 
   module: {
     rules: [
+      {
+        test: /\.flow$/,
+        loader: 'ignore-loader'
+      },
       {
         test: /\.css$/i,
         use: ExtractTextPlugin.extract({
