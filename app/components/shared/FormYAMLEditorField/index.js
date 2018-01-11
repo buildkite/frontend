@@ -32,6 +32,14 @@ class FormYAMLEdtiorField extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    console.log("byeee");
+    if (this.editor) {
+      this.editor.toTextArea();
+      delete this.editor;
+    }
+  }
+
   render() {
     return (
       <div className="buildkite-codemirror">
