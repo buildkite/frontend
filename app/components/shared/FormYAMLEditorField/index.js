@@ -66,9 +66,25 @@ const FormYAMLEdtiorFieldLoader = (props) => {
   // Here's a dynamic loader for editor that does some magical stuff. It tries
   // to attempt the size of the editor before we load it, this way the page
   // doesn't change in size after we load in Codemirror.
-  const ApproximateHeightLoader = () => {
-    const lines = props.value.split("\n").length;
+  const ApproximateHeightLoader = (loader) => {
+    let contents;
+    if (loader.error) {
+      contents = (
+        <span className="red">
+          There was an error loading the editor. Please reload the page.
+        </span>
+      );
+    } else if (loader.pastDelay) {
+      contents = (
+        <span>
+          <Spinner /> Loading Editor…
+        </span>
+      );
+    } else {
+      contents = null;
+    }
 
+    const lines = props.value.split("\n").length;
     let height = CODEMIRROR_BUFFER + (lines * CODEMIRROR_LINE_HEIGHT);
     if (CODEMIRROR_MIN_HEIGHT > height) {
       height = CODEMIRROR_MIN_HEIGHT;
@@ -76,7 +92,7 @@ const FormYAMLEdtiorFieldLoader = (props) => {
 
     return (
       <div className="flex items-center justify-center" style={{ height: height }}>
-        <Spinner /> Loading Editor…
+        {contents}
       </div>
     );
   };
