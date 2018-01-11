@@ -62,7 +62,7 @@ export default function(props) {
   // This loads Codemirror and all of its addons.
   const LoadableCodeMirror = Loadable.Map({
     loader: {
-      CodeMirror: () => import('./codemirror')
+      CodeMirror: () => import('./codemirror').then((module) => module.default)
     },
 
     loading(props) {

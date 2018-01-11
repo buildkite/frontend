@@ -1,5 +1,7 @@
 export default from 'codemirror';
 
+import 'codemirror/lib/codemirror.css';
+
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/comment/comment';
 import 'codemirror/addon/edit/matchbrackets';
