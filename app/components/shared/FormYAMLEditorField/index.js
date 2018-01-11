@@ -60,6 +60,7 @@ class FormYAMLEdtiorField extends React.Component {
 
 const CODEMIRROR_BUFFER = 8;
 const CODEMIRROR_LINE_HEIGHT = 18;
+const CODEMIRROR_MIN_HEIGHT = 150;
 
 const FormYAMLEdtiorFieldLoader = (props) => {
   // Here's a dynamic loader for editor that does some magical stuff. It tries
@@ -67,7 +68,11 @@ const FormYAMLEdtiorFieldLoader = (props) => {
   // doesn't change in size after we load in Codemirror.
   const ApproximateHeightLoader = () => {
     const lines = props.value.split("\n").length;
-    const height = CODEMIRROR_BUFFER + (lines * CODEMIRROR_LINE_HEIGHT);
+
+    let height = CODEMIRROR_BUFFER + (lines * CODEMIRROR_LINE_HEIGHT);
+    if (CODEMIRROR_MIN_HEIGHT > height) {
+      height = CODEMIRROR_MIN_HEIGHT;
+    }
 
     return (
       <div className="flex items-center justify-center" style={{ height: height }}>
