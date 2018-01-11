@@ -30,20 +30,6 @@ class AutocompleteDialog extends React.PureComponent {
     }
   }
 
-  clear() {
-    this._searchField.clear();
-  }
-
-  focus() {
-    this._searchField.focus();
-  }
-
-  selectItem(item) {
-    this._searchField.blur();
-    this.props.onSelect(item);
-    this.props.onRequestClose();
-  }
-
   isNonSuggestionComponent(node) {
     return node && node.type && (node.type.displayName === ErrorMessage.displayName || node.type.displayName === Loader.displayName);
   }
@@ -57,11 +43,11 @@ class AutocompleteDialog extends React.PureComponent {
       >
         <div className="px4 pt4 pb3">
           <SearchField
-            ref={(_searchField) => this._searchField = _searchField}
             onChange={this.handleSearchChange}
             onKeyDown={this.handleKeyDown}
             placeholder={this.props.placeholder}
             searching={this.state.searching}
+            autofocus={true}
           />
         </div>
         <hr className="m0 bg-gray border-none height-0" style={{ height: 1 }} />
@@ -110,7 +96,8 @@ class AutocompleteDialog extends React.PureComponent {
   }
 
   handleSuggestionSelection = (suggestion) => {
-    this.selectItem(suggestion);
+    this.props.onSelect(suggestion);
+    this.props.onRequestClose();
   };
 
   handleSearchChange = (value) => {
