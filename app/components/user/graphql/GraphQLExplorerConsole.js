@@ -13,26 +13,19 @@ import { DEFAULT_QUERY_WITH_ORGANIZATION, DEFAULT_QUERY_NO_ORGANIZATION } from "
 import CodeMirror from 'codemirror';
 
 import 'codemirror/lib/codemirror.css';
-
 import 'codemirror/addon/hint/show-hint.css';
 import 'codemirror/addon/hint/show-hint';
-
 import 'codemirror/addon/comment/comment';
-
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/edit/closebrackets';
-
 import 'codemirror/addon/search/search';
 import 'codemirror/addon/search/searchcursor';
 import 'codemirror/addon/search/jump-to-line';
-
 import 'codemirror/addon/dialog/dialog.css';
 import 'codemirror/addon/dialog/dialog';
-
 import 'codemirror/addon/lint/lint';
-
+import 'codemirror/addon/lint/lint.css';
 import 'codemirror/keymap/sublime';
-
 import 'codemirror-graphql/hint';
 import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
@@ -95,16 +88,7 @@ class GraphQLExplorerConsole extends React.Component {
 	  schema: schema,
 	  closeOnUnfocus: false,
 	  completeSingle: false
-        },
-	jump: {
-	  schema: this.props.schema,
-	  // onClick: reference => this.props.onClickReference(reference),
-	},
-	info: {
-	  schema: this.props.schema,
-	  // renderDescription: text => md.render(text),
-	  // onClick: reference => this.props.onClickReference(reference),
-	}
+        }
       }
     );
 
@@ -114,8 +98,10 @@ class GraphQLExplorerConsole extends React.Component {
 
   componentWillUnmount() {
     if (this.editor) {
-      this.editor.toTextArea();
-      delete this.editor;
+      this.editor.off("change", this.onEditorChange);
+      this.editor.off("keyup", this.onEditorKeyUp);
+
+      this.editor = null;
     }
   }
 

@@ -15,3 +15,15 @@
 .buildkite-codemirror .CodeMirror-linenumber {
   background: var(--silver);
 }
+
+.CodeMirror-hints {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.03);
+  border-color: var(--gray);
+  font-family: var(--font-family-mono);
+  font-size: 13px;
+}
+
+li.CodeMirror-hint-active {
+  background-color: var(--lime);
+  padding: 2px 6px;
+}
