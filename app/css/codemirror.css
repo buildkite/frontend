@@ -1,7 +1,5 @@
 .buildkite-codemirror .CodeMirror {
-  /* https://codemirror.net/demo/resize.html */
-  height: auto;
-  min-height: 150px;
+  height: 100%;
   font-family: var(--font-family-mono);
   font-size: 13px;
 }
