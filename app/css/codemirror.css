@@ -1,12 +1,15 @@
+/* Always make the CodeMirror box the max height of it's parent, and change the
+ * font so it's nicer :) */
+
 .buildkite-codemirror .CodeMirror {
   height: 100%;
   font-family: var(--font-family-mono);
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 21px;
 }
 
-.buildkite-codemirror .CodeMirror-scroll {
-  min-height: 150px;
-}
+/* Gutters and line numbers now match our grays */
 
 .buildkite-codemirror .CodeMirror-gutters {
   background: var(--silver);
@@ -15,6 +18,8 @@
 .buildkite-codemirror .CodeMirror-linenumber {
   background: var(--silver);
 }
+
+/* Makes the autocomplete hint dialog match our panels a bit better */
 
 .CodeMirror-hints {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.03);
@@ -26,4 +31,53 @@
 li.CodeMirror-hint-active {
   background-color: var(--lime);
   padding: 2px 6px;
+}
+
+/* Custom GraphQL Editor Theme. These colors have been copied from the offical
+ * GraphQL editor theme as seen here:
+ * http://graphql.org/learn/queries/#fragments */
+
+.cm-s-graphql .cm-property {
+  color: #1F61A0;
+}
+
+.cm-s-graphql .cm-string {
+  color: #D64292;
+}
+
+.cm-s-graphql .cm-keyword {
+  color: #B11A04;
+}
+
+.cm-s-graphql .cm-attribute {
+  color: #8B2BB9;
+}
+
+.cm-s-graphql .cm-variable {
+  color: #397D13;
+}
+
+.cm-s-graphql .cm-punctuation {
+  color: #555;
+}
+
+.cm-s-graphql .cm-punctuation.CodeMirror-matchingbracket {
+  color: #555;
+  text-decoration: underline;
+}
+
+.cm-s-graphql .cm-number {
+  color: #2882F9;
+}
+
+.cm-s-graphql .cm-def {
+  color: #D2054E;
+}
+
+.cm-s-graphql .cm-atom {
+  color: #CA9800;
+}
+
+.cm-s-graphql .cm-comment {
+  color: #999;
 }

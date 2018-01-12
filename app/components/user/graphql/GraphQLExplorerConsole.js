@@ -58,6 +58,7 @@ class GraphQLExplorerConsole extends React.Component {
         showCursorWhenSelecting: true,
         viewportMargin: Infinity,
         gutters: ['CodeMirror-linenumbers'],
+        theme: "graphql",
         extraKeys: {
 	  'Cmd-Space': () => this.editor.showHint({ completeSingle: true }),
 	  'Ctrl-Space': () => this.editor.showHint({ completeSingle: true }),
@@ -184,7 +185,7 @@ class GraphQLExplorerConsole extends React.Component {
 
     return (
       <div className="flex flex-wrap content-between" ref={(outputElement) => this.outputElement = outputElement} style={{height: "100%"}}>
-        <pre className="monospace px3 py2 col-12" style={{fontSize: 13, lineHeight: "17px"}}>{this.state.output}</pre>
+        <pre className="monospace px3 py2 col-12" style={{fontSize: 12, lineHeight: "17px"}}>{this.state.output}</pre>
         {performanceInformationNode}
       </div>
     )
