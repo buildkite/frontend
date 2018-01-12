@@ -28,9 +28,11 @@ class GraphQLExplorerExamples extends React.Component {
     }
 
     return (
-      <div className="mb3">
+      <div className="mb3 flex">
+        <span className="semi-bold mr1">Switch Organization:</span>
+
         <Dropdown width={150} ref={(c) => this.organizationDropdownComponent = c}>
-          <div className="underline-dotted cursor-pointer inline-block regulary">
+          <div className="underline-dotted cursor-pointer inline-block">
             {this.getCurrentOrganization().name}
           </div>
           {this.props.viewer.organizations.edges.map((edge) => {

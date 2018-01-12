@@ -7,38 +7,37 @@ import Button from "../../shared/Button";
 import Spinner from "../../shared/Spinner";
 
 import { getCurrentQuery, setCurrentQuery, interpolateQuery } from "./query";
+import { getGraphQLSchema } from "./graphql";
 import { DEFAULT_QUERY_WITH_ORGANIZATION, DEFAULT_QUERY_NO_ORGANIZATION } from "./defaults";
 
 import CodeMirror from 'codemirror';
 
 import 'codemirror/lib/codemirror.css';
+
+import 'codemirror/addon/hint/show-hint.css';
 import 'codemirror/addon/hint/show-hint';
+
 import 'codemirror/addon/comment/comment';
+
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/edit/closebrackets';
+
+import 'codemirror/addon/search/search';
+import 'codemirror/addon/search/searchcursor';
+import 'codemirror/addon/search/jump-to-line';
+
+import 'codemirror/addon/dialog/dialog.css';
+import 'codemirror/addon/dialog/dialog';
+
 import 'codemirror/addon/lint/lint';
+
 import 'codemirror/keymap/sublime';
+
 import 'codemirror-graphql/hint';
 import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
 
-const CODEMIRROR_CONFIG = {
-  lineNumbers: true,
-  tabSize: 2,
-  mode: 'graphql',
-  keyMap: 'sublime',
-  autoCloseBrackets: true,
-  matchBrackets: true,
-  showCursorWhenSelecting: true,
-  viewportMargin: Infinity,
-  gutters: ['CodeMirror-linenumbers'],
-  extraKeys: {
-    'Ctrl-Left': 'goSubwordLeft',
-    'Ctrl-Right': 'goSubwordRight',
-    'Alt-Left': 'goGroupLeft',
-    'Alt-Right': 'goGroupRight'
-  }
-};
+const AUTO_COMPLETE_AFTER_KEY = /^[a-zA-Z0-9_@(]$/;
 
 class GraphQLExplorerConsole extends React.Component {
   static contextTypes = {
@@ -52,14 +51,65 @@ class GraphQLExplorerConsole extends React.Component {
   };
 
   componentDidMount() {
+    const schema = getGraphQLSchema();
+
     this.editor = CodeMirror.fromTextArea(
       this.input,
-      CODEMIRROR_CONFIG
+      {
+        lineNumbers: true,
+        tabSize: 2,
+        mode: 'graphql',
+        keyMap: 'sublime',
+        autoCloseBrackets: true,
+        matchBrackets: true,
+        showCursorWhenSelecting: true,
+        viewportMargin: Infinity,
+        gutters: ['CodeMirror-linenumbers'],
+        extraKeys: {
+	  'Cmd-Space': () => this.editor.showHint({ completeSingle: true }),
+	  'Ctrl-Space': () => this.editor.showHint({ completeSingle: true }),
+	  'Alt-Space': () => this.editor.showHint({ completeSingle: true }),
+	  'Shift-Space': () => this.editor.showHint({ completeSingle: true }),
+
+	  'Cmd-Enter': () => {
+	    this.executeCurrentQuery();
+	  },
+	  'Ctrl-Enter': () => {
+	    this.executeCurrentQuery();
+	  },
+
+	  // Persistent search box in Query Editor
+	  'Cmd-F': 'findPersistent',
+	  'Ctrl-F': 'findPersistent',
+
+	  // Editor improvements
+          'Ctrl-Left': 'goSubwordLeft',
+          'Ctrl-Right': 'goSubwordRight',
+          'Alt-Left': 'goGroupLeft',
+          'Alt-Right': 'goGroupRight'
+        },
+        lint: {
+          schema: schema
+        },
+        hintOptions: {
+	  schema: schema,
+	  closeOnUnfocus: false,
+	  completeSingle: false
+        },
+	jump: {
+	  schema: this.props.schema,
+	  // onClick: reference => this.props.onClickReference(reference),
+	},
+	info: {
+	  schema: this.props.schema,
+	  // renderDescription: text => md.render(text),
+	  // onClick: reference => this.props.onClickReference(reference),
+	}
+      }
     );
 
     this.editor.on("change", this.onEditorChange);
-
-    // this.executeQuery();
+    this.editor.on("keyup", this.onEditorKeyUp);
   }
 
   componentWillUnmount() {
@@ -154,7 +204,7 @@ class GraphQLExplorerConsole extends React.Component {
     )
   }
 
-  executeQuery() {
+  executeCurrentQuery() {
     this.setState({ executing: true, output: null, performance: null });
 
     fetch(window._graphql['url'], {
@@ -185,12 +235,18 @@ class GraphQLExplorerConsole extends React.Component {
   onExecuteClick = () => {
     event.preventDefault();
 
-    this.executeQuery();
+    this.executeCurrentQuery();
   };
 
   onEditorChange = () => {
     // TODO: debounce this...
     setCurrentQuery(this.editor.getValue())
+  };
+
+  onEditorKeyUp = () => {
+    if (AUTO_COMPLETE_AFTER_KEY.test(event.key)) {
+      this.editor.execCommand('autocomplete');
+    }
   };
 }
 
