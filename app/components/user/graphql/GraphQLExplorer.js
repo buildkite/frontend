@@ -54,7 +54,7 @@ class GraphQLExplorer extends React.Component {
     if (!this.state.schemaLoaded) {
       return (
         <div className="flex items-center justify-center" style={{height: 300}}>
-          <Spinner className="mr1" /> <span className="dark-gray">Loading GraphQL Console…</span>
+          <Spinner className="mr1" /> Loading GraphQL Console…
         </div>
       )
     }
