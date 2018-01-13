@@ -1,9 +1,53 @@
 import React from "react";
 
+import Panel from "../../shared/Panel";
+
+import { getGraphQLSchema } from "./graphql";
+
 class GraphQLDocumentation extends React.Component {
+  renderFields(fields) {
+    return Object.entries(fields).map(([name, field]) => {
+      console.log(name, field);
+
+      let argumentNodes = field.args.map((arg, index) => {
+        // Only include the ", " seperator between each argument (not after the
+        // last one).
+        let seperator;
+        if (index != field.args.length && field.args.length > 1) {
+          seperator = (
+            <span>, </span>
+          );
+        }
+
+        return (
+          <span>{arg.name}: {arg.type.toString()}{seperator}</span>
+        );
+      });
+
+      return (
+        <div className="mb2">
+          <div className="monospace mb1">{name}({argumentNodes}) {`{ ... }`}</div>
+          <div className="dark-gray">{field.description || "n/a"}</div>
+        </div>
+      )
+    });
+  }
+
   render() {
+    const schema = getGraphQLSchema();
+
     return (
-      <div>Documentation is awesome...</div>
+      <div>
+        <Panel className="mb4">
+          <Panel.Header>Query</Panel.Header>
+          <Panel.Section>{this.renderFields(schema.getQueryType().getFields())}</Panel.Section>
+        </Panel>
+
+        <Panel>
+          <Panel.Header>Mutation</Panel.Header>
+          <Panel.Section>{this.renderFields(schema.getMutationType().getFields())}</Panel.Section>
+        </Panel>
+      </div>
     );
   }
 }
