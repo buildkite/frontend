@@ -29,10 +29,10 @@ class GraphQLExplorer extends React.Component {
         <div className="container">
           <PageHeader>
             <PageHeader.Title>
-              Buildkite GraphQL API Console
+              Buildkite GraphQL Explorer
             </PageHeader.Title>
             <PageHeader.Description>
-              Explore the Buildkite GraphQL API right in your browser.
+              Interact with the Buildkite GraphQL API right in your browser. This is production data you're playing with, so take care!
             </PageHeader.Description>
           </PageHeader>
 

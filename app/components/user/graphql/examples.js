@@ -1,7 +1,8 @@
 export default {
   "ORG_FIRST_PIPELINES": {
-    name: "Getting the first 3 Pipelines of an Organization",
-    query: `query {
+    query: `# Getting the first 3 Pipelines of an Organization
+
+query FirstThreePipelinesQuery {
   organization(slug: $organizationSlug) {
     id
     name
@@ -21,11 +22,12 @@ export default {
   },
 
   "CREATE_AGENT_TOKEN": {
-    name: "Creating an Agent Registration Token",
-    query: `mutation {
+    query: `# Creating an Agent Registration Token
+
+mutation CreateAgentToken {
   agentTokenCreate(input: {
     organizationID: $organizationId,
-    description: "New Registration Token"
+    description: "My New Agent Registration Token"
   }) {
     agentTokenEdge {
       node {

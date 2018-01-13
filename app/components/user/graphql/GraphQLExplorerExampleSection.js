@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import Button from "../../shared/Button";
 import { interpolateQuery, setCurrentQuery } from "./query";
 
+import CodeMirror from 'codemirror';
+import 'codemirror-graphql/mode';
+
 class GraphQLExplorerExampleSection extends React.Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
@@ -13,30 +16,49 @@ class GraphQLExplorerExampleSection extends React.Component {
     hovering: null
   }
 
-  render() {
-    this.cachedInterpolatedQuery = interpolateQuery(this.props.query, {
+  getInterpolatedQuery() {
+    return interpolateQuery(this.props.query, {
       organization: this.props.organization
     });
+  }
 
+  componentDidMount() {
+    this.editor = CodeMirror(this.exampleQueryContainerElement, {
+      value: this.getInterpolatedQuery(),
+      mode: "graphql",
+      theme: "graphql",
+      readOnly: true
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.editor) {
+      this.editor = null;
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // If the organization changes, we'll need to re-interpolate the query as
+    // the variables inside it will probably have changed.
+    if (this.props.organization != prevProps.organization) {
+      this.editor.setValue(this.getInterpolatedQuery());
+    }
+  }
+
+  render() {
     return (
-      <div onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}>
-        <h4>{this.props.name}</h4>
+      <div onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} className="relative">
+        <Button
+          style={{visibility: this.state.hovering ? 'visible' : 'hidden', right: 0, top: 0, zIndex: 10}}
+          theme="default"
+          className="absolute bg-white"
+          outline={true}
+          onClick={this.onCopyToConsoleClick}
+        >
+          Copy to Console
+        </Button>
 
-        <div className="border rounded border-gray relative">
-          <Button
-            style={{visibility: this.state.hovering ? 'visible' : 'hidden', right: 10, top: 10}}
-            theme="default"
-            className="absolute bg-white"
-            outline={true}
-            onClick={this.onCopyToConsoleClick}
-          >
-            Copy to Console
-          </Button>
-
-          <pre className="monospace rounded bg-silver px3 py2" style={{fontSize: 13}}>
-            {this.cachedInterpolatedQuery}
-          </pre>
-        </div>
+        <div className="buildkite-codemirror" ref={(el) => this.exampleQueryContainerElement = el}></div>
       </div>
     );
   }
@@ -44,7 +66,7 @@ class GraphQLExplorerExampleSection extends React.Component {
   onCopyToConsoleClick = (event) => {
     event.preventDefault();
 
-    setCurrentQuery(this.cachedInterpolatedQuery);
+    setCurrentQuery(this.getInterpolatedQuery());
 
     this.context.router.push("/user/graphql/console");
   };

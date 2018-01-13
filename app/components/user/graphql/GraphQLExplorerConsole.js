@@ -26,6 +26,7 @@ import 'codemirror/addon/dialog/dialog';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/lint/lint.css';
 import 'codemirror/keymap/sublime';
+import 'codemirror-graphql/results/mode';
 import 'codemirror-graphql/hint';
 import 'codemirror-graphql/lint';
 import 'codemirror-graphql/mode';
@@ -39,8 +40,8 @@ class GraphQLExplorerConsole extends React.Component {
 
   state = {
     performance: null,
-    output: null,
-    executing: false
+    executing: false,
+    executedFirstQuery: false
   };
 
   componentDidMount() {
@@ -95,14 +96,24 @@ class GraphQLExplorerConsole extends React.Component {
 
     this.editor.on("change", this.onEditorChange);
     this.editor.on("keyup", this.onEditorKeyUp);
+
+    this.outputCodeMirror = CodeMirror(this.outputContainerElement, {
+      theme: "graphql",
+      mode: "graphql-results",
+      readOnly: true
+    });
   }
 
   componentWillUnmount() {
     if (this.editor) {
       this.editor.off("change", this.onEditorChange);
       this.editor.off("keyup", this.onEditorKeyUp);
-
       this.editor = null;
+    }
+
+    // Remove the output CodeMirror if we've created one
+    if (this.outputCodeMirror) {
+      this.outputCodeMirror = null;
     }
   }
 
@@ -136,14 +147,14 @@ class GraphQLExplorerConsole extends React.Component {
         </div>
 
         <div className="flex flex-fit border border-gray rounded" style={{width: "100%"}}>
-          <div className="col-6 mr4 buildkite-codemirror" style={{minHeight: 500}}>
+          <div className="col-6 buildkite-codemirror" style={{minHeight: 500}}>
             <textarea
               defaultValue={this.getDefaultQuery()}
               ref={(input) => this.input = input}
             />
           </div>
 
-          <div className="bg-silver col-6 border-left border-gray">
+          <div className="col-6 border-left border-gray buildkite-codemirror">
             {this.renderOutputPanel()}
           </div>
         </div>
@@ -152,40 +163,30 @@ class GraphQLExplorerConsole extends React.Component {
   }
 
   renderOutputPanel() {
-    let previousPanelHeight = this.previousOutputElementHeight || "100%";
-
-    // If we're currently executing a query, we should show a spinner
-    if (this.state.executing) {
-      return (
-        <div className="flex items-center justify-center" style={{height: previousPanelHeight}}>
-          <Spinner /> <span className="dark-gray">Executing GraphQL Query…</span>
-        </div>
-      )
-    }
-
-    // If no query has been executed, let's show a helpfull message
-    if (!this.state.output) {
-      return (
-        <div className="flex items-center justify-center" style={{height: previousPanelHeight}}>
-          <span className="dark-gray">Hit the <span className="semi-bold">Execute</span> above button to run this query! ☝️ </span>
-        </div>
-      )
-    }
-
     // If we've gotten this far, then we're not executing, and we've got output :)
     let performanceInformationNode;
     if (this.state.performance) {
       performanceInformationNode = (
-        <div className="px3 py2 border-top border-gray bg-white col-12">
+        <div className="px3 py2 border-top border-gray bg-silver col-12">
           <div className="bold black mb1">Performance 🚀</div>
-          <pre className="monospace bg-white" style={{fontSize: 12}}>{this.state.performance.split("; ").join("\n")}</pre>
+          <pre className="monospace" style={{fontSize: 12}}>{this.state.performance.split("; ").join("\n")}</pre>
         </div>
       )
     }
 
+    let helpfullMessageNode;
+    if (!this.state.executedFirstQuery) {
+      helpfullMessageNode = (
+        <div className="flex items-center justify-center absolute" style={{top: 0, left: 0, right: 0, bottom: 0}}>
+          <span className="dark-gray">Hit the <span className="semi-bold">Execute</span> above button to run this query! ☝️ </span>
+        </div>
+      );
+    }
+
     return (
-      <div className="flex flex-wrap content-between" ref={(outputElement) => this.outputElement = outputElement} style={{height: "100%"}}>
-        <pre className="monospace px3 py2 col-12" style={{fontSize: 12, lineHeight: "17px"}}>{this.state.output}</pre>
+      <div className="relative flex flex-wrap content-between" style={{height: "100%", width: "100%"}}>
+        {helpfullMessageNode}
+        <div ref={(el) => this.outputContainerElement = el} style={{width: "100%"}} className="p1" />
         {performanceInformationNode}
       </div>
     )
@@ -200,22 +201,23 @@ class GraphQLExplorerConsole extends React.Component {
       credentials: "same-origin",
       headers: window._graphql["headers"],
     }).then((response) => {
-      setTimeout(() => {
-        // Once we've got the resposne back, and converted it to JSON
-        response.json().then((json) => {
-          this.setState({
-            performance: response.headers.get('x-buildkite-performance'),
-            output: JSON.stringify(json, null, 2),
-            executing: false
-          }, () => {
-            // Once we've rendered the output to the page, we grab the height
-            // of the output panel so when they go to hit "Execute" again, we
-            // can show the spinner in a panel of the same height (which avoids
-            // a weird jump around in height).
-            this.previousOutputElementHeight = this.outputElement.clientHeight;
-          });
+      // Once we've got the resposne back, and converted it to JSON
+      response.json().then((json) => {
+        // Now that we've got back some real JSON, let's turn it back into a
+        // string... The things we do to make it look pretty! (The 2 means
+        // indent each nested object with 2 spaces)
+        const prettyJSONString = JSON.stringify(json, null, 2);
+        this.outputCodeMirror.setValue(prettyJSONString);
+
+        // Tell the console we're not executing anymore, and that it can stop
+        // showing a spinner. Also store any internal performance data so we
+        // can show it.
+        this.setState({
+          performance: response.headers.get('x-buildkite-performance'),
+          executing: false,
+          executedFirstQuery: true
         });
-      }, 1000);
+      });
     });
   }
 
