@@ -27,7 +27,7 @@ class GraphQLDocumentation extends React.Component {
       return (
         <div className="mb2">
           <div className="monospace mb1">{name}({argumentNodes}) {`{ ... }`}</div>
-          <div className="dark-gray">{field.description || "n/a"}</div>
+          <div className="dark-gray" style={{fontSize: 13}}>{field.description || "n/a"}</div>
         </div>
       )
     });
@@ -40,6 +40,10 @@ class GraphQLDocumentation extends React.Component {
       <div>
         <Panel className="mb4">
           <Panel.Header>Query</Panel.Header>
+          <Panel.Section>
+            <p><code>query {`{ ... }`}</code> operations are "read only" within the GraphQL API. You can use these queries to read information out of the Buildkite GraphQL API.</p>
+          </Panel.Section>
+
           <Panel.Section>{this.renderFields(schema.getQueryType().getFields())}</Panel.Section>
         </Panel>
 
