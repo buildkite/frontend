@@ -10,28 +10,17 @@ import { getCurrentQuery, setCurrentQuery, interpolateQuery } from "./query";
 import { getGraphQLSchema } from "./graphql";
 import { DEFAULT_QUERY_WITH_ORGANIZATION, DEFAULT_QUERY_NO_ORGANIZATION } from "./defaults";
 
-import CodeMirror from 'codemirror';
-
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/addon/hint/show-hint.css';
-import 'codemirror/addon/hint/show-hint';
-import 'codemirror/addon/comment/comment';
-import 'codemirror/addon/edit/matchbrackets';
-import 'codemirror/addon/edit/closebrackets';
-import 'codemirror/addon/search/search';
-import 'codemirror/addon/search/searchcursor';
-import 'codemirror/addon/search/jump-to-line';
-import 'codemirror/addon/dialog/dialog.css';
-import 'codemirror/addon/dialog/dialog';
-import 'codemirror/addon/lint/lint';
-import 'codemirror/addon/lint/lint.css';
-import 'codemirror/keymap/sublime';
-import 'codemirror-graphql/results/mode';
-import 'codemirror-graphql/hint';
-import 'codemirror-graphql/lint';
-import 'codemirror-graphql/mode';
+import CodeMirror from './codemirror';
 
 const AUTO_COMPLETE_AFTER_KEY = /^[a-zA-Z0-9_@(]$/;
+
+function getResultsCache() {
+  if (!window._graphQLExplorerCachedResults) {
+    window._graphQLExplorerCachedResults = {};
+  }
+
+  return window._graphQLExplorerCachedResults;
+}
 
 class GraphQLExplorerConsole extends React.Component {
   static contextTypes = {
@@ -43,6 +32,21 @@ class GraphQLExplorerConsole extends React.Component {
     executing: false,
     executedFirstQuery: false
   };
+
+  constructor(props) {
+    super(props);
+
+    // Let the component know that we've already executed a query and we'll
+    // just be showing that instead.
+    const resultsCache = getResultsCache();
+    console.log(resultsCache);
+    if (resultsCache.output) {
+      this.state = {
+        executedFirstQuery: true,
+        performance: resultsCache.performance
+      };
+    }
+  }
 
   componentDidMount() {
     const schema = getGraphQLSchema();
@@ -98,10 +102,18 @@ class GraphQLExplorerConsole extends React.Component {
     this.editor.on("keyup", this.onEditorKeyUp);
 
     this.outputCodeMirror = CodeMirror(this.outputContainerElement, {
+      value: getResultsCache().output || "",
       theme: "graphql",
       mode: "graphql-results",
       readOnly: true
     });
+
+    // This is a bit of an ugly hack. When clicking on the "Copy to Console"
+    // button in the examples, we want to scroll back to the top of the page so
+    // the user can see what they just copied. React Router doesn't have a good
+    // way to handle this, sadly. This "works" great, but just smells like the
+    // wrong place to have it. Oh well.
+    window.scrollTo(0, 0);
   }
 
   componentWillUnmount() {
@@ -209,11 +221,19 @@ class GraphQLExplorerConsole extends React.Component {
         const prettyJSONString = JSON.stringify(json, null, 2);
         this.outputCodeMirror.setValue(prettyJSONString);
 
+        // Get performance information out of the query if there is any.
+        const responsePerformanceInformation = response.headers.get('x-buildkite-performance');
+
+        // Also store the pretty JSON in the results cache so next time we
+        // re-render the component we can show the previous results. Makes for
+        // great tab switching!
+        getResultsCache().output = prettyJSONString;
+        getResultsCache().performance = responsePerformanceInformation;
+
         // Tell the console we're not executing anymore, and that it can stop
-        // showing a spinner. Also store any internal performance data so we
-        // can show it.
+        // showing a spinner.
         this.setState({
-          performance: response.headers.get('x-buildkite-performance'),
+          performance: responsePerformanceInformation,
           executing: false,
           executedFirstQuery: true
         });

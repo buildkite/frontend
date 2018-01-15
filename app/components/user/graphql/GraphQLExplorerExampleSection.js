@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import Button from "../../shared/Button";
 import { interpolateQuery, setCurrentQuery } from "./query";
 
-import CodeMirror from 'codemirror';
-import 'codemirror-graphql/mode';
+import CodeMirror from './codemirror';
 
 class GraphQLExplorerExampleSection extends React.Component {
   static contextTypes = {

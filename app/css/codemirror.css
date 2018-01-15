@@ -4,9 +4,9 @@
 .buildkite-codemirror .CodeMirror {
   height: 100%;
   font-family: var(--font-family-mono);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 18px;
 }
 
 /* Gutters and line numbers now match our grays */
@@ -80,4 +80,16 @@ li.CodeMirror-hint-active {
 
 .cm-s-graphql .cm-comment {
   color: #999;
+}
+
+.cm-s-graphql .cm-qualifier {
+  color: #1C92A9;
+}
+
+.cm-s-graphql .cm-string-2 {
+  color: #0B7FC7;
+}
+
+.cm-s-graphql .cm-meta {
+  color: #B33086;
 }
