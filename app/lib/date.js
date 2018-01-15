@@ -61,10 +61,10 @@ const LONG_DURATION_STRING = 'w [weeks], d [days], h [hours], m [minutes], s [se
 const SHORT_DURATION_STRING = 'w[w] d[d] h[h] m[m] s[s]';
 
 const DURATION_FORMATS = {
-  full: [LONG_DURATION_STRING, { largest: 3 }],
-  medium: [LONG_DURATION_STRING, { largest: 1 }],
-  short: [SHORT_DURATION_STRING, { largest: 2 }],
-  micro: [SHORT_DURATION_STRING, { largest: 1 }]
+  full: [LONG_DURATION_STRING, { largest: 3, trim: false }],
+  medium: [LONG_DURATION_STRING, { largest: 1, trim: false }],
+  short: [SHORT_DURATION_STRING, { largest: 2, trim: false }],
+  micro: [SHORT_DURATION_STRING, { largest: 1, trim: false }]
 };
 
 export function getDurationString(from, to = moment(), format = 'full') {
