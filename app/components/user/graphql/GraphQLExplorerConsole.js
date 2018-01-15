@@ -159,14 +159,14 @@ class GraphQLExplorerConsole extends React.Component {
         </div>
 
         <div className="flex flex-fit border border-gray rounded" style={{width: "100%"}}>
-          <div className="col-6 buildkite-codemirror" style={{minHeight: 500}}>
+          <div className="col-6" style={{minHeight: 500}}>
             <textarea
               defaultValue={this.getDefaultQuery()}
               ref={(input) => this.input = input}
             />
           </div>
 
-          <div className="col-6 border-left border-gray buildkite-codemirror">
+          <div className="col-6 border-left border-gray">
             {this.renderOutputPanel()}
           </div>
         </div>

@@ -57,7 +57,7 @@ class GraphQLExplorerExampleSection extends React.Component {
           Copy to Console
         </Button>
 
-        <div className="buildkite-codemirror" ref={(el) => this.exampleQueryContainerElement = el}></div>
+        <div ref={(el) => this.exampleQueryContainerElement = el}></div>
       </div>
     );
   }
