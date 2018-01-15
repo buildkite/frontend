@@ -4,6 +4,7 @@ import DocumentTitle from "react-document-title";
 import PageHeader from "../../shared/PageHeader";
 import TabControl from "../../shared/TabControl";
 import Spinner from "../../shared/Spinner";
+import Icon from "../../shared/Icon";
 
 import { fetchAndBuildGraphQLSchema } from "./graphql";
 
@@ -28,6 +29,11 @@ class GraphQLExplorer extends React.Component {
       <DocumentTitle title={`GraphQL Console`}>
         <div className="container">
           <PageHeader>
+            <PageHeader.Icon>
+              <Icon icon="graphql"
+                style={{ width: 34, height: 34, marginTop: 3, marginLeft: 3 }}
+              />
+            </PageHeader.Icon>
             <PageHeader.Title>
               Buildkite GraphQL Explorer
             </PageHeader.Title>

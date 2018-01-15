@@ -109,6 +109,10 @@ class Navigation extends React.PureComponent {
     this.setState({ showingSupportDialog: false });
   };
 
+  handleGraphQLExplorerClick = () => {
+    this.userDropdown.setShowing(false);
+  };
+
   renderTopOrganizationMenu() {
     if (this.props.organization) {
       return (
@@ -221,6 +225,16 @@ class Navigation extends React.PureComponent {
     );
   }
 
+  renderGraphQLExplorerLink() {
+    if (!Features.GraphQLExplorer) {
+      return null;
+    }
+
+    return (
+      <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer</NavigationButton>
+    )
+  }
+
   render() {
     return (
       <div
@@ -323,6 +337,7 @@ class Navigation extends React.PureComponent {
               </DropdownButton>
 
               <NavigationButton href="/user/settings">Personal Settings</NavigationButton>
+              {this.renderGraphQLExplorerLink()}
 
               <div className="md-hide lg-hide">
                 <NavigationButton className="md-hide lg-hide" href={`/docs`}>Documentation</NavigationButton>
