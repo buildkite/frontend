@@ -52,7 +52,7 @@ class FormYAMLEdtiorField extends React.Component {
 
   render() {
     return (
-      <div style={{minHeight: CODEMIRROR_MIN_HEIGHT}}>
+      <div style={{ minHeight: CODEMIRROR_MIN_HEIGHT }}>
         <textarea
           name={this.props.name}
           defaultValue={this.props.value}
