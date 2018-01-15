@@ -1,22 +1,24 @@
 /* Always make the CodeMirror box the max height of it's parent, and change the
  * font so it's nicer :) */
 
-.buildkite-codemirror .CodeMirror {
-  height: 100%;
-  font-family: var(--font-family-mono);
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 18px;
+.CodeMirror {
+  height: 100% !important;
+  font-family: var(--font-family-mono) !important;
+  font-size: 12px !important;
+  line-height: 17px !important;
 }
 
 /* Gutters and line numbers now match our grays */
 
-.buildkite-codemirror .CodeMirror-gutters {
-  background: var(--silver);
+.CodeMirror-gutters {
+  background: inherit !important;
+  border: 0 !important;
+  color: var(--dark-gray) !important;
+  padding-right: 5px !important;
 }
 
-.buildkite-codemirror .CodeMirror-linenumber {
-  background: var(--silver);
+.CodeMirror-linenumber {
+  background: inherit !important;
 }
 
 /* Makes the autocomplete hint dialog match our panels a bit better */
@@ -31,6 +33,32 @@
 li.CodeMirror-hint-active {
   background-color: var(--lime);
   padding: 2px 6px;
+}
+
+/* Custom YAML Editor Theme. Mostly copied the GitHub file viewer colors */
+
+.cm-s-yaml {
+  color: #3c3c3c !important;
+}
+
+.cm-s-yaml .cm-atom {
+  color: #2465ad;
+}
+
+.cm-s-yaml .cm-string {
+  color: #388a26;
+}
+
+.cm-s-yaml .cm-meta {
+  color: #555;
+}
+
+.cm-s-yaml .cm-keyword, .cm-s-yaml .cm-number, .cm-s-yaml .cm-variable-2 {
+  color: #ca1655;
+}
+
+.cm-s-yaml .cm-def, .cm-s-yaml .cm-comment {
+  color: #999;
 }
 
 /* Custom GraphQL Editor Theme. These colors have been copied from the offical

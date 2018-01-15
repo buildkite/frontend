@@ -4,11 +4,16 @@ import Loadable from 'react-loadable';
 
 import Spinner from '../Spinner';
 
+const CODEMIRROR_BUFFER = 8;
+const CODEMIRROR_LINE_HEIGHT = 17;
+const CODEMIRROR_MIN_HEIGHT = 150;
+
 const CODEMIRROR_CONFIG = {
   lineNumbers: true,
   tabSize: 2,
   mode: 'yaml',
   keyMap: 'sublime',
+  theme: 'yaml',
   autoCloseBrackets: true,
   matchBrackets: true,
   showCursorWhenSelecting: true,
@@ -47,7 +52,7 @@ class FormYAMLEdtiorField extends React.Component {
 
   render() {
     return (
-      <div className="buildkite-codemirror">
+      <div style={{minHeight: CODEMIRROR_MIN_HEIGHT}}>
         <textarea
           name={this.props.name}
           defaultValue={this.props.value}
@@ -57,10 +62,6 @@ class FormYAMLEdtiorField extends React.Component {
     );
   }
 }
-
-const CODEMIRROR_BUFFER = 8;
-const CODEMIRROR_LINE_HEIGHT = 18;
-const CODEMIRROR_MIN_HEIGHT = 150;
 
 const FormYAMLEdtiorFieldLoader = (props) => {
   // Here's a dynamic loader for editor that does some magical stuff. It tries
