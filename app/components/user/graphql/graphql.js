@@ -1,3 +1,4 @@
+import { window } from 'global';
 import { introspectionQuery, buildClientSchema } from 'graphql';
 
 let cachedSchema = null;
@@ -8,6 +9,10 @@ export function getGraphQLSchema() {
   } else {
     throw new Error("Schema needs to be fetched first");
   }
+}
+
+export function setGraphQLSchemaFromJSON(json) {
+  cachedSchema = buildClientSchema(json);
 }
 
 export function fetchAndBuildGraphQLSchema() {
