@@ -29,7 +29,7 @@ class GraphQLExplorerExamples extends React.Component {
 
     return (
       <div className="mb3 flex">
-        <span className="semi-bold mr1">Switch Organization:</span>
+        <span className="semi-bold mr1">Change Organization:</span>
 
         <Dropdown width={150} ref={(c) => this.organizationDropdownComponent = c}>
           <div className="underline-dotted cursor-pointer inline-block">
@@ -52,17 +52,19 @@ class GraphQLExplorerExamples extends React.Component {
 
     return (
       <div>
+        <p>Here are some example GraphQL Query and Mutations to get you started.</p>
+
         {this.renderOrganizationSwitcher()}
 
-        <Panel>
-          {Object.entries(EXAMPLES).map(([id, example]) => {
-            return (
+        {Object.entries(EXAMPLES).map(([id, example]) => {
+          return (
+            <Panel style={{borderLeftWidth: 4}} className="mb4">
               <Panel.Section key={id}>
                 <GraphQLExplorerExampleSection name={example.name} query={example.query} organization={currentOrganization} />
               </Panel.Section>
-            )
-          })}
-        </Panel>
+            </Panel>
+          )
+        })}
       </div>
     );
   }
