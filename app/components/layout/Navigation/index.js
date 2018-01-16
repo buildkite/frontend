@@ -110,7 +110,13 @@ class Navigation extends React.PureComponent {
   };
 
   handleGraphQLExplorerClick = () => {
+    // Clicking the "GraphQL Explorer" link from a `frontend` page (not an
+    // old-school Rails rendered page) just changes what we render in the
+    // viewport of the page. This means by default, the user dropdown doesn't
+    // dissapear, but the page changes. This is a hack to hide it when you
+    // click on the link.
     this.userDropdown.setShowing(false);
+    this.setState({ showingUserDropdown: false });
   };
 
   renderTopOrganizationMenu() {
