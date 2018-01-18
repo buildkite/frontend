@@ -26,7 +26,7 @@ class FormRadioGroup extends React.Component {
     name: PropTypes.string,
     required: PropTypes.bool,
     className: PropTypes.string,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
     errors: PropTypes.array
   };
 
