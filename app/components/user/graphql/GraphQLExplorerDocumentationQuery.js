@@ -14,7 +14,7 @@ class GraphQLExplorerDocumentationQuery extends React.PureComponent {
       <div>
         <h2>Field: <RootField name={`query.${this.props.field}`} /></h2>
       </div>
-    )
+    );
   }
 }
 

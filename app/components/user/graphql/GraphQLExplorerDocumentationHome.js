@@ -14,8 +14,8 @@ class GraphQLExplorerDocumentationHome extends React.Component {
     const fieldEntries = Object.entries(fields);
     const totalFieldsCount = fieldEntries.length;
 
-    let fieldNodes = fieldEntries.map(([name, field], fieldIndex) => {
-      let argumentNodes = field.args.map((arg, argumentIndex) => {
+    const fieldNodes = fieldEntries.map(([name, field], fieldIndex) => {
+      const argumentNodes = field.args.map((arg, argumentIndex) => {
         // Only include the ", " seperator between each argument (not after the
         // last one).
         let seperator;
@@ -37,11 +37,11 @@ class GraphQLExplorerDocumentationHome extends React.Component {
       if ((fieldIndex + 1) != totalFieldsCount && totalFieldsCount > 1) {
         fieldSeperatorNode = (
           <div>&nbsp;</div>
-        )
+        );
       }
 
       return (
-        <div key={name} className="ml3" style={{fontSize: 12}}>
+        <div key={name} className="ml3" style={{ fontSize: 12 }}>
           <Comment text={field.description} />
           <div>
             <a className="cm-property underline-dotted text-decoration-none" href={`?field=${root}.${name}`}>{name}</a>
@@ -51,7 +51,7 @@ class GraphQLExplorerDocumentationHome extends React.Component {
           </div>
           {fieldSeperatorNode}
         </div>
-      )
+      );
     });
 
     return (
@@ -60,7 +60,7 @@ class GraphQLExplorerDocumentationHome extends React.Component {
         {fieldNodes}
         <div><span className="cm-punctuation"> {`}`}</span></div>
       </div>
-    )
+    );
   }
 
   render() {
@@ -96,7 +96,7 @@ class GraphQLExplorerDocumentationHome extends React.Component {
           Below is the full list of fields we support as GraphQL queries. You can click through a field to learn more about how it's used and what it returns.
         </p>
 
-        <div className="border border-gray rounded px2 py3" style={{borderLeftWidth: 4}}>
+        <div className="border border-gray rounded px2 py3" style={{ borderLeftWidth: 4 }}>
           {this.renderFields("query", schema.getQueryType().getFields())}
         </div>
 
@@ -115,7 +115,7 @@ class GraphQLExplorerDocumentationHome extends React.Component {
           Below is the full list of mutations we support as GraphQL queries. You can click through a field to learn more about how it's used and what it returns.
         </p>
 
-        <div className="border border-gray rounded px2 py3" style={{borderLeftWidth: 4}}>
+        <div className="border border-gray rounded px2 py3" style={{ borderLeftWidth: 4 }}>
           {this.renderFields("mutation", schema.getMutationType().getFields())}
         </div>
       </div>

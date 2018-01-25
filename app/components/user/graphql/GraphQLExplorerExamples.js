@@ -1,11 +1,11 @@
 import React from "react";
-import {createFragmentContainer, graphql} from "react-relay/compat";
+import { createFragmentContainer, graphql } from "react-relay/compat";
 
 import Panel from "../../shared/Panel";
 import Dropdown from "../../shared/Dropdown";
 
 import GraphQLExplorerExampleSection from "./GraphQLExplorerExampleSection";
-import EXAMPLES from "./examples"
+import EXAMPLES from "./examples";
 
 class GraphQLExplorerExamples extends React.Component {
   state = {
@@ -17,9 +17,9 @@ class GraphQLExplorerExamples extends React.Component {
       return this.state.currentOrganization;
     } else if (this.props.viewer.organizations.edges.length) {
       return this.props.viewer.organizations.edges[0].node;
-    } else {
-      return null;
     }
+    return null;
+
   }
 
   renderOrganizationSwitcher() {
@@ -37,18 +37,18 @@ class GraphQLExplorerExamples extends React.Component {
           </div>
           {this.props.viewer.organizations.edges.map((edge) => {
             return (
-              <div key={edge.node.id} className="btn block hover-bg-silver" onClick={(event) => this.onOrganizationClick(event, edge.node) }>
+              <div key={edge.node.id} className="btn block hover-bg-silver" onClick={(event) => this.onOrganizationClick(event, edge.node)}>
                 <span className="block">{edge.node.name}</span>
               </div>
-            )
+            );
           })}
         </Dropdown>
       </div>
-    )
+    );
   }
 
   render() {
-    let currentOrganization = this.getCurrentOrganization();
+    const currentOrganization = this.getCurrentOrganization();
 
     return (
       <div>
@@ -58,12 +58,12 @@ class GraphQLExplorerExamples extends React.Component {
 
         {Object.entries(EXAMPLES).map(([id, example]) => {
           return (
-            <Panel style={{borderLeftWidth: 4}} className="mb4">
+            <Panel style={{ borderLeftWidth: 4 }} className="mb4">
               <Panel.Section key={id}>
                 <GraphQLExplorerExampleSection name={example.name} query={example.query} organization={currentOrganization} />
               </Panel.Section>
             </Panel>
-          )
+          );
         })}
       </div>
     );

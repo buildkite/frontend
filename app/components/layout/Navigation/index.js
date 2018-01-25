@@ -238,7 +238,7 @@ class Navigation extends React.PureComponent {
 
     return (
       <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer</NavigationButton>
-    )
+    );
   }
 
   render() {

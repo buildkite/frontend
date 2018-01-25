@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 class RootField extends React.PureComponent {
   render() {
-    let name = this.props.name.split(".")[1];
+    const name = this.props.name.split(".")[1];
 
     return (
       <span className="cm-s-graphql monospace">

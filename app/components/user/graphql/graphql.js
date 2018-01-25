@@ -6,9 +6,9 @@ let cachedSchema = null;
 export function getGraphQLSchema() {
   if (cachedSchema) {
     return cachedSchema;
-  } else {
-    throw new Error("Schema needs to be fetched first");
   }
+  throw new Error("Schema needs to be fetched first");
+
 }
 
 export function setGraphQLSchemaFromJSON(json) {
@@ -46,6 +46,6 @@ export function executeGraphQLQuery(params) {
     method: 'post',
     body: JSON.stringify(params),
     credentials: "same-origin",
-    headers: window._graphql["headers"],
-  })
+    headers: window._graphql["headers"]
+  });
 }

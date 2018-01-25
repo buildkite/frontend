@@ -30,7 +30,8 @@ class GraphQLExplorer extends React.Component {
         <div className="container">
           <PageHeader>
             <PageHeader.Icon>
-              <Icon icon="graphql"
+              <Icon
+                icon="graphql"
                 style={{ width: 34, height: 34, marginTop: 3, marginLeft: 3 }}
               />
             </PageHeader.Icon>
@@ -51,18 +52,18 @@ class GraphQLExplorer extends React.Component {
   renderContent() {
     if (this.state.schemaError) {
       return (
-        <div className="flex items-center justify-center" style={{height: 300}}>
+        <div className="flex items-center justify-center" style={{ height: 300 }}>
           <span className="red">There was an error loading the GraphQL Schema. Please try again.</span>
         </div>
-      )
+      );
     }
 
     if (!this.state.schemaLoaded) {
       return (
-        <div className="flex items-center justify-center" style={{height: 300}}>
+        <div className="flex items-center justify-center" style={{ height: 300 }}>
           <Spinner className="mr1" /> Loading GraphQL Console…
         </div>
-      )
+      );
     }
 
     return (
@@ -75,7 +76,7 @@ class GraphQLExplorer extends React.Component {
 
         {this.props.children}
       </div>
-    )
+    );
   }
 }
 

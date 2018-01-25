@@ -84,5 +84,5 @@ mutation RevokeAgentToken {
     }
   }
 }`
-  },
-}
+  }
+};

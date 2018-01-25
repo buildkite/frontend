@@ -48,7 +48,7 @@ class GraphQLExplorerExampleSection extends React.Component {
     return (
       <div onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} className="relative">
         <Button
-          style={{visibility: this.state.hovering ? 'visible' : 'hidden', right: 0, top: 0, zIndex: 10}}
+          style={{ visibility: this.state.hovering ? 'visible' : 'hidden', right: 0, top: 0, zIndex: 10 }}
           theme="default"
           className="absolute bg-white"
           outline={true}
@@ -57,7 +57,7 @@ class GraphQLExplorerExampleSection extends React.Component {
           Copy to Console
         </Button>
 
-        <div ref={(el) => this.exampleQueryContainerElement = el}></div>
+        <div ref={(el) => this.exampleQueryContainerElement = el} />
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import {createFragmentContainer, graphql} from "react-relay/compat";
+import { createFragmentContainer, graphql } from "react-relay/compat";
 
 import Panel from "../../shared/Panel";
 import Button from "../../shared/Button";
@@ -158,8 +158,8 @@ class GraphQLExplorerConsole extends React.Component {
           <Button onClick={this.onExecuteClick} loading={this.state.executing && "Executing…"}>Execute</Button>
         </div>
 
-        <div className="flex flex-fit border border-gray rounded" style={{width: "100%"}}>
-          <div className="col-6" style={{minHeight: 500}}>
+        <div className="flex flex-fit border border-gray rounded" style={{ width: "100%" }}>
+          <div className="col-6" style={{ minHeight: 500 }}>
             <textarea
               defaultValue={this.getDefaultQuery()}
               ref={(input) => this.input = input}
@@ -181,27 +181,27 @@ class GraphQLExplorerConsole extends React.Component {
       performanceInformationNode = (
         <div className="px3 py2 border-top border-gray bg-silver col-12">
           <div className="bold black mb1">Performance 🚀</div>
-          <pre className="monospace" style={{fontSize: 12}}>{this.state.performance.split("; ").join("\n")}</pre>
+          <pre className="monospace" style={{ fontSize: 12 }}>{this.state.performance.split("; ").join("\n")}</pre>
         </div>
-      )
+      );
     }
 
     let helpfullMessageNode;
     if (!this.state.executedFirstQuery) {
       helpfullMessageNode = (
-        <div className="flex items-center justify-center absolute" style={{top: 0, left: 0, right: 0, bottom: 0, zIndex: 30}}>
+        <div className="flex items-center justify-center absolute" style={{ top: 0, left: 0, right: 0, bottom: 0, zIndex: 30 }}>
           <span>Hit the <span className="semi-bold">Execute</span> above button to run this query! ☝️ </span>
         </div>
       );
     }
 
     return (
-      <div className="relative flex flex-wrap content-between" style={{height: "100%", width: "100%"}}>
+      <div className="relative flex flex-wrap content-between" style={{ height: "100%", width: "100%" }}>
         {helpfullMessageNode}
-        <div ref={(el) => this.outputContainerElement = el} style={{width: "100%"}} className="p1" />
+        <div ref={(el) => this.outputContainerElement = el} style={{ width: "100%" }} className="p1" />
         {performanceInformationNode}
       </div>
-    )
+    );
   }
 
   executeCurrentQuery() {
@@ -211,7 +211,7 @@ class GraphQLExplorerConsole extends React.Component {
       method: 'post',
       body: JSON.stringify({ query: this.editor.getValue() }),
       credentials: "same-origin",
-      headers: window._graphql["headers"],
+      headers: window._graphql["headers"]
     }).then((response) => {
       // Once we've got the resposne back, and converted it to JSON
       response.json().then((json) => {
@@ -249,7 +249,7 @@ class GraphQLExplorerConsole extends React.Component {
 
   onEditorChange = () => {
     // TODO: debounce this...
-    setCurrentQuery(this.editor.getValue())
+    setCurrentQuery(this.editor.getValue());
   };
 
   onEditorKeyUp = () => {

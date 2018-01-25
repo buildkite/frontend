@@ -6,23 +6,23 @@ import GraphQLExplorerDocumentationMutation from "./GraphQLExplorerDocumentation
 
 class GraphQLExplorerDocumentation extends React.PureComponent {
   render() {
-    if(this.props.location.hash) {
+    if (this.props.location.hash) {
       const parts = this.props.location.hash.split(".");
 
       if (parts[0] == "#query") {
         return (
           <GraphQLExplorerDocumentationQuery field={parts[1]} />
-        )
+        );
       } else if (parts[1] == "#mutation") {
         return (
           <GraphQLExplorerDocumentationMutation field={parts[1]} />
-        )
+        );
       }
     }
 
     return (
       <GraphQLExplorerDocumentationHome />
-    )
+    );
   }
 }
 
