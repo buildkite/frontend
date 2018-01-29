@@ -51,7 +51,7 @@ class Show extends React.Component {
           allowed: PropTypes.bool.isRequired
         }).isRequired
       }).isRequired
-    }).isRequired
+    })
   };
 
   static contextTypes = {
@@ -63,6 +63,14 @@ class Show extends React.Component {
   }
 
   render() {
+    // If the schedule doesn't exist, that means that it's just been deleted.
+    // And since we require all the schedule to render this component, we'll
+    // just short-circut the re-render when it's gone. This isn't great, maybe
+    // there's a beter way?
+    if (!this.props.pipelineSchedule) {
+      return null;
+    }
+
     return (
       <DocumentTitle title={this.props.pipelineSchedule.cronline}>
         <div>
