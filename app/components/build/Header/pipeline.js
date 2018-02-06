@@ -16,7 +16,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
   mixins: [BootstrapTooltipMixin],
 
   getInitialState() {
-    return { showBroken: false };
+    return { showHiddenJobs: false };
   },
 
   propTypes: {
@@ -31,44 +31,49 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
   },
 
   render() {
-    const brokenJobs = this.brokenJobCount();
-    const action = this.state.showBroken ? "Hide" : "Show";
-    const icon = this.state.showBroken ? "eye-strikethrough" : "eye";
-    const suffix = brokenJobs > 1 ? "jobs" : "job";
-
-    const toggleBrokenNode = brokenJobs > 0
-      ? (
-        <button
-          className="btn dark-gray hover-black regular mt0 ml0 pt0 pl0"
-          onClick={this.handleToggleBrokenStepsClick}
-        >
-          <div
-            title={`${action} ${brokenJobs} skipped ${suffix}`}
-            data-toggle="tooltip"
-            data-animation="false"
-          >
-            <Icon icon={icon} className="relative" style={{ top: -3 }} />
-          </div>
-        </button>
-      )
-      : null;
-
     return (
       <div className="flex">
         <div className="build-pipeline-container clearfix flex-auto">
           {this.stepNodes()}
         </div>
         <div className="flex-none" style={{ paddingTop: 18 }}>
-          {toggleBrokenNode}
+          {this.renderHiddenJobsButton()}
         </div>
       </div>
     );
   },
 
-  brokenJobCount() {
+  renderHiddenJobsButton() {
+    // Figure out how many hidden jobs we have (if any?)
+    const hiddenJobsCount = this.hiddenJobsCount();
+    if (hiddenJobsCount === 0) {
+      return null;
+    }
+
+    const action = this.state.showHiddenJobs ? "Hide" : "Show";
+    const icon = this.state.showHiddenJobs ? "eye-strikethrough" : "eye";
+    const suffix = hiddenJobsCount > 1 ? "jobs" : "job";
+
+    return (
+      <button
+        className="btn dark-gray hover-black regular mt0 ml0 pt0 pl0"
+        onClick={this.handleToggleBrokenStepsClick}
+      >
+        <div
+          title={`${action} ${hiddenJobsCount} hidden ${suffix}`}
+          data-toggle="tooltip"
+          data-animation="false"
+        >
+          <Icon icon={icon} className="relative" style={{ top: -3 }} />
+        </div>
+      </button>
+    );
+  },
+
+  hiddenJobsCount() {
     return this.props.build.jobs
       .filter((job) => (
-        (job.state === 'broken') && (job.type !== 'waiter')
+        ((job.state === 'broken') && (job.type !== 'waiter')) || job.retriedInJobUuid
       )).length;
   },
 
@@ -81,9 +86,9 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
       );
     }
 
-    const jobs = this.state.showBroken
+    const jobs = this.state.showHiddenJobs
       ? this.props.build.jobs
-      : this.props.build.jobs.filter(({ state }) => state !== 'broken');
+      : this.props.build.jobs.filter(({ state, retriedInJobUuid }) => state !== 'broken' && !retriedInJobUuid);
 
     const renderedJobs = jobs.map((job) => this.pipelineStep(job));
 
@@ -127,6 +132,17 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
 
       const href = `${this.props.build.path}#${job.id}`;
 
+      let retriedIcon;
+      if (job.retriedInJobUuid) {
+        retriedIcon = (
+          <Icon
+            icon="retry"
+            style={{ height: 12, width: 12, top: -2, marginRight: 5 }}
+            className="relative"
+          />
+        );
+      }
+
       return (
         <a
           key={job.id}
@@ -135,6 +151,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
           className={stepClassName}
           style={{ maxWidth: '15em' }}
         >
+          {retriedIcon}
           {this.jobName(job)}
         </a>
       );
@@ -238,7 +255,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
   handleToggleBrokenStepsClick(evt) {
     evt.preventDefault();
     evt.target.blur();
-    return this.setState({ showBroken: !this.state.showBroken });
+    return this.setState({ showHiddenJobs: !this.state.showHiddenJobs });
   }
 });
 

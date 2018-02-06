@@ -105,32 +105,45 @@ export default class BuildShow extends React.PureComponent<Props, State> {
   }
 
   renderJobList() {
+    let inRetryGroup = false;
+
     // job-list-pipeline is needed by the job components' styles
     return (
       <div className="job-list-pipeline">
         {this.state.build.jobs.map((job) => {
+          // Don't even bother showing broken jobs
           if (job.state === 'broken') {
             return null;
           }
 
-          switch (job.type) {
-            case 'script':
-              return (
-                <Buildkite.JobComponent
-                  key={job.id}
-                  job={job}
-                  build={this.state.build}
-                />
-              );
+          if (job.type === "script") {
+            // Figures out if we're inside a "retry-group" and comes up with
+            // the neccessary class name.
+            let retryGroupClassName;
+            if (!inRetryGroup && job.retriedInJobUuid) { // Start of the group
+              retryGroupClassName = "job-retry-group-first";
+              inRetryGroup = true;
+            } else if (inRetryGroup && job.retriedInJobUuid) { // Middle of the group
+              retryGroupClassName = "job-retry-group-middle";
+            } else if (inRetryGroup && !job.retriedInJobUuid) { // Ends of the group
+              retryGroupClassName = "job-retry-group-last";
+              inRetryGroup = false;
+            }
 
-            case 'manual':
-              return <Buildkite.BuildManualJobSummaryComponent key={job.id} job={job} />;
-
-            case 'trigger':
-              return <Buildkite.BuildTriggerJobSummaryComponent key={job.id} job={job} />;
-
-            case 'waiter':
-              return <Buildkite.BuildWaiterJobSummaryComponent key={job.id} job={job} />;
+            return (
+              <Buildkite.JobComponent
+                key={job.id}
+                job={job}
+                build={this.state.build}
+                className={retryGroupClassName}
+              />
+            );
+          } else if (job.type === "manual") {
+            return <Buildkite.BuildManualJobSummaryComponent key={job.id} job={job} />;
+          } else if (job.type === "trigger") {
+            return <Buildkite.BuildTriggerJobSummaryComponent key={job.id} job={job} />;
+          } else if (job.type === "waiter") {
+            return <Buildkite.BuildWaiterJobSummaryComponent key={job.id} job={job} />;
           }
         })}
       </div>
