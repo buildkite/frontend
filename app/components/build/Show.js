@@ -105,6 +105,8 @@ export default class BuildShow extends React.PureComponent<Props, State> {
   }
 
   renderJobList() {
+    let inRetryGroup = false;
+
     // job-list-pipeline is needed by the job components' styles
     return (
       <div className="job-list-pipeline">
@@ -115,11 +117,25 @@ export default class BuildShow extends React.PureComponent<Props, State> {
 
           switch (job.type) {
             case 'script':
+              // Figures out if we're inside a "retry-group" and comes up with
+              // the neccessary class name.
+              let retryGroupClassName;
+              if (!inRetryGroup && job.retriedInJobUuid) { // Start of the group
+                retryGroupClassName = "job-retry-group-first";
+                inRetryGroup = true;
+              } else if (inRetryGroup && job.retriedInJobUuid) { // Middle of the group
+                retryGroupClassName = "job-retry-group-middle";
+              } else if (inRetryGroup && !job.retriedInJobUuid) { // Ends of the group
+                retryGroupClassName = "job-retry-group-last";
+                inRetryGroup = false;
+              }
+
               return (
                 <Buildkite.JobComponent
                   key={job.id}
                   job={job}
                   build={this.state.build}
+                  className={retryGroupClassName}
                 />
               );
 
