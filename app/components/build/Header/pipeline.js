@@ -127,6 +127,17 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
 
       const href = `${this.props.build.path}#${job.id}`;
 
+      let retriedIcon;
+      if (job.retriedInJobUuid) {
+        retriedIcon = (
+          <Icon
+            icon="retry"
+            style={{ height: 12, width: 12, top: -2, marginRight: 5 }}
+            className="relative"
+          />
+        )
+      }
+
       return (
         <a
           key={job.id}
@@ -135,6 +146,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
           className={stepClassName}
           style={{ maxWidth: '15em' }}
         >
+          {retriedIcon}
           {this.jobName(job)}
         </a>
       );
