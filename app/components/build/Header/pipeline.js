@@ -46,7 +46,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
   renderHiddenJobsButton() {
     // Figure out how many hidden jobs we have (if any?)
     const hiddenJobsCount = this.hiddenJobsCount();
-    if (hiddenJobsCount == 0) {
+    if (hiddenJobsCount === 0) {
       return null;
     }
 
@@ -67,7 +67,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
           <Icon icon={icon} className="relative" style={{ top: -3 }} />
         </div>
       </button>
-    )
+    );
   },
 
   hiddenJobsCount() {
@@ -140,7 +140,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
             style={{ height: 12, width: 12, top: -2, marginRight: 5 }}
             className="relative"
           />
-        )
+        );
       }
 
       return (
