@@ -231,11 +231,26 @@ class Navigation extends React.PureComponent {
         <div className="container">
           <div className="flex" style={{ height: 45 }}>
             <span className="flex relative border-right border-gray items-center">
-              <NavigationButton href="/" className="px3 hover-faded-children" style={{ paddingLeft: 0 }}>
+              <NavigationButton
+                href="/"
+                className="px3 hover-faded-children"
+                style={{
+                  paddingLeft: 0,
+                  // sorry, I need 1 less than px3 to make the logo not flicker
+                  // in Chrome 64.0.3282.140
+                  paddingRight: 14
+                }}
+              >
                 <img
                   src={require('./logo.svg')}
                   alt="Buildkite"
-                  style={{ width: 27, height: 18, marginTop: 7.5, marginBottom: 4.5 }}
+                  style={{
+                    width: 28,
+                    height: 18,
+                    marginTop: 7.5,
+                    marginBottom: 4.5,
+                    paddingRight: 1
+                  }}
                 />
               </NavigationButton>
               <NewChangelogsBadge
