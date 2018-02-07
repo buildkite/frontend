@@ -6,7 +6,7 @@ export default class Pipeline extends React.PureComponent {
       <svg width="80px" height="80px" viewBox="0 0 90 90">
         <title>Pipeline</title>
         <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-          <g stroke="#7EAF25" strokeWidth="2">
+          <g stroke="#00D974" strokeWidth="2">
             <g transform="translate(45, 45)">
               <circle cx="0" cy="0" r="40" />
             </g>
