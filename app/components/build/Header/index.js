@@ -297,6 +297,7 @@ class BuildHeaderComponent extends React.PureComponent {
           <a
             className="twbs-btn twbs-btn-default build-rebuild-button ml2"
             data-method="post"
+            data-confirm="Are you sure you want to rebuild this?"
             href={build.rebuildPath}
             rel="nofollow"
           >
