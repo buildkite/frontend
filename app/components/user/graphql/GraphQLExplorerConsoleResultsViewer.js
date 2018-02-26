@@ -5,10 +5,8 @@ import Loadable from "react-loadable";
 
 class GraphQLExplorerConsoleResultsViewer extends React.PureComponent {
   componentDidMount() {
-    const { CodeMirror } = this.props;
-
-    this.resultsCodeMirror = CodeMirror(this.resultsElement, {
-      value: "",
+    this.resultsCodeMirror = this.props.CodeMirror(this.resultsElement, {
+      value: this.props.results || "",
       theme: "graphql",
       mode: "graphql-results",
       readOnly: true
@@ -21,9 +19,15 @@ class GraphQLExplorerConsoleResultsViewer extends React.PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.results != prevProps.results) {
+      this.resultsCodeMirror.setValue(this.props.results);
+    }
+  }
+
   render() {
     return (
-      <div ref={(el) => this.resultsElement = el} />
+      <div ref={(el) => this.resultsElement = el} className={this.props.className} style={this.props.style} />
     );
   }
 }
@@ -49,10 +53,6 @@ export default Loadable.Map({
       return (
         <div>{props.error}</div>
       );
-    } else if (props.pastDelay) {
-      return (
-        <div>Loading...</div>
-      );
     } else {
       return null;
     }
@@ -60,7 +60,12 @@ export default Loadable.Map({
 
   render(loaded, props) {
     return (
-      <GraphQLExplorerConsoleResultsViewer CodeMirror={loaded.CodeMirror} />
+      <GraphQLExplorerConsoleResultsViewer
+        CodeMirror={loaded.CodeMirror}
+        results={props.results}
+        className={props.className}
+        style={props.style}
+      />
     );
   }
 });
