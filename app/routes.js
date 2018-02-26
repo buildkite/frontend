@@ -122,7 +122,7 @@ export default (
 
       <Route path="/user/graphql" component={GraphQLExplorer}>
         <IndexRedirect to="console" />
-        <Route path="console" component={GraphQLExplorerConsole} />
+        <Route path="console" component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query }} />
         <Route path="documentation" component={GraphQLExplorerDocumentation} />
         <Route path="examples" component={GraphQLExplorerExamples} />
       </Route>

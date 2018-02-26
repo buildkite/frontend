@@ -1,6 +1,7 @@
 // @flow
 
 import React from "react";
+import { createFragmentContainer, graphql } from "react-relay/compat";
 
 import Button from "../../shared/Button";
 
@@ -62,14 +63,13 @@ class GraphQLExplorerConsole extends React.PureComponent {
       // looks at the first organization. If the user isn't part of any
       // organization, we'll use the default that doesn't retrieve organization
       // information.
-      // if (this.props.viewer.organizations.edges.length) {
-      //   query = interpolateQuery(DEFAULT_QUERY_WITH_ORGANIZATION, {
-      //     organization: this.props.viewer.organizations.edges[0].node
-      //   });
-      // } else {
-      //   query = DEFAULT_QUERY_NO_ORGANIZATION;
-      // }
-	return DEFAULT_QUERY_NO_ORGANIZATION;
+      if (this.props.viewer.organizations.edges.length) {
+        query = interpolateQuery(DEFAULT_QUERY_WITH_ORGANIZATION, {
+          organization: this.props.viewer.organizations.edges[0].node
+        });
+      } else {
+        query = DEFAULT_QUERY_NO_ORGANIZATION;
+      }
     }
 
     return query;
@@ -127,7 +127,6 @@ class GraphQLExplorerConsole extends React.PureComponent {
 
   onExecuteClick = () => {
     event.preventDefault();
-
     this.executeCurrentQuery();
   };
 
@@ -136,4 +135,18 @@ class GraphQLExplorerConsole extends React.PureComponent {
   };
 }
 
-export default GraphQLExplorerConsole;
+export default createFragmentContainer(GraphQLExplorerConsole, {
+  viewer: graphql`
+     fragment GraphQLExplorerConsole_viewer on Viewer {
+       organizations(first: 100) {
+	 edges {
+	   node {
+	     id
+	     name
+	     slug
+	   }
+	 }
+       }
+     }
+   `
+});
