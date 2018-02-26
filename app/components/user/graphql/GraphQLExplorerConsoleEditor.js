@@ -3,6 +3,7 @@
 import React from "react";
 import Loadable from "react-loadable";
 
+import Spinner from "../../shared/Spinner";
 import { fetchAndBuildGraphQLSchema, getGraphQLSchema } from "./schema";
 
 const AUTO_COMPLETE_AFTER_KEY = /^[a-zA-Z0-9_@(]$/;
@@ -119,7 +120,9 @@ export default Loadable.Map({
       );
     } else if (props.pastDelay) {
       return (
-        <div>Loading...</div>
+        <div className="flex items-center justify-center" style={{ height: 500 }}>
+          <Spinner /> Loading GraphQL Editor…
+        </div>
       );
     } else {
       return null;
