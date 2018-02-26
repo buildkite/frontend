@@ -1,4 +1,3 @@
-import { window } from 'global';
 import { introspectionQuery, buildClientSchema } from 'graphql';
 
 import { executeGraphQLQuery } from './network';
@@ -29,15 +28,15 @@ export function fetchAndBuildGraphQLSchema() {
       // Now convert it to JSON
       result.json().then((json) => {
         if (json && json.data) {
-	  cachedSchema = buildClientSchema(json.data);
-	  resolve(cachedSchema);
+          cachedSchema = buildClientSchema(json.data);
+          resolve(cachedSchema);
         } else {
-	  reject("Failed to find `data` payload in GraphQL response");
+          reject("Failed to find `data` payload in GraphQL response");
         }
-      }).catch((error) => {
+      }).catch(() => {
         reject("Failed to parse JSON response");
       });
-    }).catch(function(error) {
+    }).catch(() => {
       reject("Request for GraphQL schema failed");
     });
   });

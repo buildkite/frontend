@@ -7,6 +7,6 @@ export function setCachedResults(output, performance) {
   };
 }
 
-export function getCachedResults(query) {
+export function getCachedResults() {
   return cachedResults;
 }

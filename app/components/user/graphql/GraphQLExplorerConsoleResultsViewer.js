@@ -1,9 +1,24 @@
 // @flow
+/* eslint-disable react/prop-types */
 
 import React from "react";
 import Loadable from "react-loadable";
 
-class GraphQLExplorerConsoleResultsViewer extends React.PureComponent {
+type Props = {
+  results?: string,
+  className?: string,
+  style?: {}
+};
+
+type LoadedProps = {
+  CodeMirror: () => mixed
+};
+
+type ReactLoadableLoadingProps = {
+  error?: string
+};
+
+class GraphQLExplorerConsoleResultsViewer extends React.PureComponent<Props & LoadedProps> {
   componentDidMount() {
     this.resultsCodeMirror = this.props.CodeMirror(this.resultsElement, {
       value: this.props.results || "",
@@ -20,7 +35,7 @@ class GraphQLExplorerConsoleResultsViewer extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.results != prevProps.results) {
+    if (this.props.results !== prevProps.results) {
       this.resultsCodeMirror.setValue(this.props.results);
     }
   }
@@ -48,17 +63,17 @@ export default Loadable.Map({
     )
   },
 
-  loading(props) {
+  loading(props: ReactLoadableLoadingProps) {
     if (props.error) {
       return (
         <div>{props.error}</div>
       );
     }
-    return null;
 
+    return null;
   },
 
-  render(loaded, props) {
+  render(loaded: LoadedProps, props: Props) {
     return (
       <GraphQLExplorerConsoleResultsViewer
         CodeMirror={loaded.CodeMirror}
