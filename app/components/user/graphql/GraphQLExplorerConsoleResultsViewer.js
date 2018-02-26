@@ -4,6 +4,15 @@
 import React from "react";
 import Loadable from "react-loadable";
 
+type CodeMirrorInstance = {
+  showHint: ({}) => void,
+  on: (string, (any) => void) => mixed,
+  off: (string, (any) => void) => mixed,
+  getValue: () => string,
+  setValue: (?string) => void,
+  execCommand: (string) => void
+}
+
 type Props = {
   results?: string,
   className?: string,
@@ -11,7 +20,7 @@ type Props = {
 };
 
 type LoadedProps = {
-  CodeMirror: () => mixed
+  CodeMirror: (HTMLDivElement, {}) => CodeMirrorInstance
 };
 
 type ReactLoadableLoadingProps = {
@@ -19,24 +28,31 @@ type ReactLoadableLoadingProps = {
 };
 
 class GraphQLExplorerConsoleResultsViewer extends React.PureComponent<Props & LoadedProps> {
+  codeMirrorInstance: ?CodeMirrorInstance
+  resultsElement: ?HTMLDivElement
+
   componentDidMount() {
-    this.resultsCodeMirror = this.props.CodeMirror(this.resultsElement, {
-      value: this.props.results || "",
-      theme: "graphql",
-      mode: "graphql-results",
-      readOnly: true
-    });
+    if (this.resultsElement) {
+      this.codeMirrorInstance = this.props.CodeMirror(this.resultsElement, {
+        value: this.props.results || "",
+        theme: "graphql",
+        mode: "graphql-results",
+        readOnly: true
+      });
+    }
   }
 
   componentWillUnmount() {
-    if (this.resultsCodeMirror) {
-      this.resultsCodeMirror = null;
+    if (this.codeMirrorInstance) {
+      this.codeMirrorInstance = null;
     }
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.results !== prevProps.results) {
-      this.resultsCodeMirror.setValue(this.props.results);
+      if (this.codeMirrorInstance) {
+        this.codeMirrorInstance.setValue(this.props.results);
+      }
     }
   }
 

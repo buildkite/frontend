@@ -1,5 +1,3 @@
-// @flow
-
 import React from "react";
 
 class GraphQLExplorerExamples extends React.PureComponent {

@@ -7,13 +7,23 @@ import Loadable from "react-loadable";
 import Spinner from "../../shared/Spinner";
 import { fetchAndBuildGraphQLSchema, getGraphQLSchema } from "./schema";
 
+type CodeMirrorInstance = {
+  showHint: ({}) => void,
+  on: (string, (any) => void) => mixed,
+  off: (string, (any) => void) => mixed,
+  getValue: () => string,
+  execCommand: (string) => void
+}
+
 type Props = {
   value?: string,
-  onChange: () => mixed
+  onChange: (string) => void
 };
 
 type LoadedProps = {
-  CodeMirror: () => mixed
+  CodeMirror: {
+    fromTextArea: (HTMLTextAreaElement, {}) => CodeMirrorInstance
+  }
 };
 
 type ReactLoadableLoadingProps = {
@@ -23,63 +33,70 @@ type ReactLoadableLoadingProps = {
 
 const AUTO_COMPLETE_AFTER_KEY = /^[a-zA-Z0-9_@(]$/;
 
-class GraphQLExplorerConsoleEditor extends React.PureComponent<Props, LoadedProps> {
+class GraphQLExplorerConsoleEditor extends React.PureComponent<Props & LoadedProps> {
+  codeMirrorInstance: ?CodeMirrorInstance
+  textAreaElement: ?HTMLTextAreaElement
+
   componentDidMount() {
-    const schema = getGraphQLSchema();
+    if (this.textAreaElement) {
+      const schema = getGraphQLSchema();
 
-    this.editorCodeMirror = this.props.CodeMirror.fromTextArea(
-      this.textAreaElement,
-      {
-        lineNumbers: true,
-        tabSize: 2,
-        mode: 'graphql',
-        keyMap: 'sublime',
-        autoCloseBrackets: true,
-        matchBrackets: true,
-        showCursorWhenSelecting: true,
-        viewportMargin: Infinity,
-        gutters: ['CodeMirror-linenumbers'],
-        theme: "graphql",
-        extraKeys: {
-          'Cmd-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
-          'Ctrl-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
-          'Alt-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
-          'Shift-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
-          'Cmd-Enter': () => {
-            this.executeCurrentQuery();
+      this.codeMirrorInstance = this.props.CodeMirror.fromTextArea(
+        this.textAreaElement,
+        {
+          lineNumbers: true,
+          tabSize: 2,
+          mode: 'graphql',
+          keyMap: 'sublime',
+          autoCloseBrackets: true,
+          matchBrackets: true,
+          showCursorWhenSelecting: true,
+          viewportMargin: Infinity,
+          gutters: ['CodeMirror-linenumbers'],
+          theme: "graphql",
+          extraKeys: {
+            'Cmd-Space': () => this.codeMirrorInstance && this.codeMirrorInstance.showHint({ completeSingle: true }),
+            'Ctrl-Space': () => this.codeMirrorInstance && this.codeMirrorInstance.showHint({ completeSingle: true }),
+            'Alt-Space': () => this.codeMirrorInstance && this.codeMirrorInstance.showHint({ completeSingle: true }),
+            'Shift-Space': () => this.codeMirrorInstance && this.codeMirrorInstance.showHint({ completeSingle: true }),
+            'Cmd-Enter': () => {
+              this.executeCurrentQuery();
+            },
+            'Ctrl-Enter': () => {
+              this.executeCurrentQuery();
+            },
+            // Persistent search box in Query Editor
+            'Cmd-F': 'findPersistent',
+            'Ctrl-F': 'findPersistent',
+            // Editor improvements
+            'Ctrl-Left': 'goSubwordLeft',
+            'Ctrl-Right': 'goSubwordRight',
+            'Alt-Left': 'goGroupLeft',
+            'Alt-Right': 'goGroupRight'
           },
-          'Ctrl-Enter': () => {
-            this.executeCurrentQuery();
+          lint: {
+            schema: schema
           },
-          // Persistent search box in Query Editor
-          'Cmd-F': 'findPersistent',
-          'Ctrl-F': 'findPersistent',
-          // Editor improvements
-          'Ctrl-Left': 'goSubwordLeft',
-          'Ctrl-Right': 'goSubwordRight',
-          'Alt-Left': 'goGroupLeft',
-          'Alt-Right': 'goGroupRight'
-        },
-        lint: {
-          schema: schema
-        },
-        hintOptions: {
-          schema: schema,
-          closeOnUnfocus: false,
-          completeSingle: false
+          hintOptions: {
+            schema: schema,
+            closeOnUnfocus: false,
+            completeSingle: false
+          }
         }
-      }
-    );
+      );
 
-    this.editorCodeMirror.on("change", this.onEditorChange);
-    this.editorCodeMirror.on("keyup", this.onEditorKeyUp);
+      if (this.codeMirrorInstance) {
+        this.codeMirrorInstance.on("change", this.onEditorChange);
+        this.codeMirrorInstance.on("keyup", this.onEditorKeyUp);
+      }
+    }
   }
 
   componentWillUnmount() {
-    if (this.editorCodeMirror) {
-      this.editorCodeMirror.off("change", this.onEditorChange);
-      this.editorCodeMirror.off("keyup", this.onEditorKeyUp);
-      this.editorCodeMirror = null;
+    if (this.codeMirrorInstance) {
+      this.codeMirrorInstance.off("change", this.onEditorChange);
+      this.codeMirrorInstance.off("keyup", this.onEditorKeyUp);
+      this.codeMirrorInstance = null;
     }
   }
 
@@ -95,12 +112,16 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent<Props, LoadedProp
   }
 
   onEditorChange = () => {
-    this.props.onChange(this.editorCodeMirror.getValue());
+    if (this.codeMirrorInstance) {
+      this.props.onChange(this.codeMirrorInstance.getValue());
+    }
   };
 
-  onEditorKeyUp = () => {
+  onEditorKeyUp = (event) => {
     if (AUTO_COMPLETE_AFTER_KEY.test(event.key)) {
-      this.editorCodeMirror.execCommand('autocomplete');
+      if (this.codeMirrorInstance) {
+        this.codeMirrorInstance.execCommand('autocomplete');
+      }
     }
   };
 }
@@ -145,7 +166,6 @@ export default Loadable.Map({
     return (
       <GraphQLExplorerConsoleEditor
         CodeMirror={loaded.CodeMirror}
-        graaphQLSchema={loaded.graaphQLSchema}
         value={props.value}
         onChange={props.onChange}
       />
