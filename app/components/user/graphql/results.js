@@ -1,12 +1,12 @@
-import { window } from 'global';
+let cachedResults = null;
 
 export function setCachedResults(output, performance) {
-  return window._graphQLExplorerCachedResults = {
+  return cachedResults = {
     output: output,
     performance: performance
   }
 }
 
 export function getCachedResults(query) {
-  return window._graphQLExplorerCachedResults;
+  return cachedResults;
 }
