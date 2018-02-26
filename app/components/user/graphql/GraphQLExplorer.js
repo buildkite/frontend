@@ -20,7 +20,7 @@ class GraphQLExplorer extends React.PureComponent {
               />
             </PageHeader.Icon>
             <PageHeader.Title>
-              Buildkite GraphQL Explorer
+              GraphQL Explorer
             </PageHeader.Title>
             <PageHeader.Description>
               Interact with the Buildkite GraphQL API right in your browser. This is production data you’re playing with, so take care!
