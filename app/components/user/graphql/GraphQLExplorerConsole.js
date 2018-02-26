@@ -15,7 +15,30 @@ import { executeGraphQLQuery } from "./network";
 
 import { DEFAULT_QUERY_WITH_ORGANIZATION, DEFAULT_QUERY_NO_ORGANIZATION } from "./defaults";
 
-class GraphQLExplorerConsole extends React.PureComponent {
+type OrganizationEdge = {
+  node: {
+    id: string,
+    name: string,
+    slug: string
+  }
+};
+
+type Props = {
+  viewer: {
+    organizations: {
+      edges: Array<OrganizationEdge>
+    }
+  }
+};
+
+type State = {
+  performance: string,
+  results: string,
+  executing: boolean,
+  executeCurrentQuery: boolean
+};
+
+class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   state = {
     performance: null,
     results: null,
