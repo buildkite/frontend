@@ -32,16 +32,14 @@ type Props = {
 };
 
 type State = {
-  performance: string,
-  results: string,
+  performance?: string,
+  results?: string,
   executing: boolean,
-  executeCurrentQuery: boolean
+  executedFirstQuery: boolean
 };
 
 class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   state = {
-    performance: null,
-    results: null,
     executing: false,
     executedFirstQuery: false
   };
@@ -58,9 +56,10 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     const cachedResults = getCachedResults();
     if (cachedResults) {
       this.state = {
-        executedFirstQuery: true,
+        performance: cachedResults.performance,
         results: cachedResults.results,
-        performance: cachedResults.performance
+        executing: false,
+        executedFirstQuery: true
       };
     }
   }
