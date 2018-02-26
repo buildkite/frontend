@@ -136,7 +136,8 @@ var vendor_modules = [
   "styled-components",
   "throttleit",
   "uuid",
-  "whatwg-fetch"
+  "whatwg-fetch",
+  "wrap"
 ];
 
 // If we're building for production, minify the JS

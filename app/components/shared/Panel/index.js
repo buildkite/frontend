@@ -30,7 +30,8 @@ type Props = {
 class Panel extends React.PureComponent<Props> {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    style: PropTypes.object
   };
 
   static Header: Object = Header;
@@ -56,7 +57,7 @@ class Panel extends React.PureComponent<Props> {
     }
 
     return (
-      <section className={classNames("border border-gray rounded", this.props.className)}>
+      <section className={classNames("border border-gray rounded", this.props.className)} style={this.props.style}>
         {nodes}
       </section>
     );
