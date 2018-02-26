@@ -237,7 +237,7 @@ class Navigation extends React.PureComponent {
     }
 
     return (
-      <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer</NavigationButton>
+      <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer <span className="ml1 orange small">Beta</span></NavigationButton>
     );
   }
 
@@ -326,7 +326,7 @@ class Navigation extends React.PureComponent {
             </NavigationButton>
 
             <Dropdown
-              width={170}
+              width={Features.GraphQLExplorer ? 180 : 170}
               className="flex"
               style={{ flex: '0 1 auto', minWidth: 55 }}
               ref={(userDropdown) => this.userDropdown = userDropdown}
