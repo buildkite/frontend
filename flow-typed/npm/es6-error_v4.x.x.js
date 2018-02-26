@@ -1,8 +1,8 @@
-// flow-typed signature: 47f768d21c02af339e6e474f7356385f
-// flow-typed version: b43dff3e0e/es6-error_v4.x.x/flow_>=v0.32.x
+// flow-typed signature: 59598aa3b00e126e674391832ba298ce
+// flow-typed version: da30fe6876/es6-error_v4.x.x/flow_>=v0.32.x
 
-declare module 'es6-error' {
-	declare class ExtendableError extends Error {}
+declare module "es6-error" {
+  declare class ExtendableError extends Error {}
 
-	declare var exports: Class<ExtendableError>;
+  declare module.exports: Class<ExtendableError>;
 }
