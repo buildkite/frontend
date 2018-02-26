@@ -1,6 +1,6 @@
 // @flow
 
-import React from "react";
+import * as React from "react";
 import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql } from "react-relay/compat";
 
@@ -169,8 +169,9 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     }
   }
 
-  handleExecuteClick = () => {
+  handleExecuteClick = (event) => {
     event.preventDefault();
+
     this.executeCurrentQuery();
   };
 

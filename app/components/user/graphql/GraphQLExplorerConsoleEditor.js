@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable react/prop-types */
 
 import React from "react";
 import Loadable from "react-loadable";
@@ -6,9 +7,23 @@ import Loadable from "react-loadable";
 import Spinner from "../../shared/Spinner";
 import { fetchAndBuildGraphQLSchema, getGraphQLSchema } from "./schema";
 
+type Props = {
+  value?: string,
+  onChange: () => mixed
+};
+
+type LoadedProps = {
+  CodeMirror: () => mixed
+};
+
+type ReactLoadableLoadingProps = {
+  error?: string,
+  pastDelay?: boolean
+};
+
 const AUTO_COMPLETE_AFTER_KEY = /^[a-zA-Z0-9_@(]$/;
 
-class GraphQLExplorerConsoleEditor extends React.PureComponent {
+class GraphQLExplorerConsoleEditor extends React.PureComponent<Props, LoadedProps> {
   componentDidMount() {
     const schema = getGraphQLSchema();
 
@@ -26,23 +41,20 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent {
         gutters: ['CodeMirror-linenumbers'],
         theme: "graphql",
         extraKeys: {
-	  'Cmd-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
-	  'Ctrl-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
-	  'Alt-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
-	  'Shift-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
-
-	  'Cmd-Enter': () => {
-	    this.executeCurrentQuery();
-	  },
-	  'Ctrl-Enter': () => {
-	    this.executeCurrentQuery();
-	  },
-
-	  // Persistent search box in Query Editor
-	  'Cmd-F': 'findPersistent',
-	  'Ctrl-F': 'findPersistent',
-
-	  // Editor improvements
+          'Cmd-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
+          'Ctrl-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
+          'Alt-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
+          'Shift-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
+          'Cmd-Enter': () => {
+            this.executeCurrentQuery();
+          },
+          'Ctrl-Enter': () => {
+            this.executeCurrentQuery();
+          },
+          // Persistent search box in Query Editor
+          'Cmd-F': 'findPersistent',
+          'Ctrl-F': 'findPersistent',
+          // Editor improvements
           'Ctrl-Left': 'goSubwordLeft',
           'Ctrl-Right': 'goSubwordRight',
           'Alt-Left': 'goGroupLeft',
@@ -52,9 +64,9 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent {
           schema: schema
         },
         hintOptions: {
-	  schema: schema,
-	  closeOnUnfocus: false,
-	  completeSingle: false
+          schema: schema,
+          closeOnUnfocus: false,
+          completeSingle: false
         }
       }
     );
@@ -113,7 +125,7 @@ export default Loadable.Map({
     }
   },
 
-  loading(props) {
+  loading(props: ReactLoadableLoadingProps) {
     if (props.error) {
       return (
         <div>{props.error}</div>
@@ -125,11 +137,11 @@ export default Loadable.Map({
         </div>
       );
     }
-    return null;
 
+    return null;
   },
 
-  render(loaded, props) {
+  render(loaded: LoadedProps, props: Props) {
     return (
       <GraphQLExplorerConsoleEditor
         CodeMirror={loaded.CodeMirror}
