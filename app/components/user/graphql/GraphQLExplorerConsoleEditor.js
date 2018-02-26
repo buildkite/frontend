@@ -3,15 +3,16 @@
 import React from "react";
 import Loadable from "react-loadable";
 
-import { fetchAndBuildGraphQLSchema, getGraphQLSchema } from "./graphql";
+import { fetchAndBuildGraphQLSchema, getGraphQLSchema } from "./schema";
+
+const AUTO_COMPLETE_AFTER_KEY = /^[a-zA-Z0-9_@(]$/;
 
 class GraphQLExplorerConsoleEditor extends React.PureComponent {
   componentDidMount() {
-    const { CodeMirror } = this.props;
     const schema = getGraphQLSchema();
 
-    this.editor = CodeMirror.fromTextArea(
-      this.input,
+    this.editorCodeMirror = this.props.CodeMirror.fromTextArea(
+      this.textAreaElement,
       {
         lineNumbers: true,
         tabSize: 2,
@@ -24,10 +25,10 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent {
         gutters: ['CodeMirror-linenumbers'],
         theme: "graphql",
         extraKeys: {
-	  'Cmd-Space': () => this.editor.showHint({ completeSingle: true }),
-	  'Ctrl-Space': () => this.editor.showHint({ completeSingle: true }),
-	  'Alt-Space': () => this.editor.showHint({ completeSingle: true }),
-	  'Shift-Space': () => this.editor.showHint({ completeSingle: true }),
+	  'Cmd-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
+	  'Ctrl-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
+	  'Alt-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
+	  'Shift-Space': () => this.editorCodeMirror.showHint({ completeSingle: true }),
 
 	  'Cmd-Enter': () => {
 	    this.executeCurrentQuery();
@@ -57,15 +58,15 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent {
       }
     );
 
-    this.editor.on("change", this.onEditorChange);
-    this.editor.on("keyup", this.onEditorKeyUp);
+    this.editorCodeMirror.on("change", this.onEditorChange);
+    this.editorCodeMirror.on("keyup", this.onEditorKeyUp);
   }
 
   componentWillUnmount() {
-    if (this.editor) {
-      this.editor.off("change", this.onEditorChange);
-      this.editor.off("keyup", this.onEditorKeyUp);
-      this.editor = null;
+    if (this.editorCodeMirror) {
+      this.editorCodeMirror.off("change", this.onEditorChange);
+      this.editorCodeMirror.off("keyup", this.onEditorKeyUp);
+      this.editorCodeMirror = null;
     }
   }
 
@@ -73,13 +74,22 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent {
     return (
       <div>
         <textarea
-          name={this.props.name}
           defaultValue={this.props.value}
-          ref={(input) => this.input = input}
+          ref={(input) => this.textAreaElement = input}
         />
       </div>
     );
   }
+
+  onEditorChange = () => {
+    this.props.onChange(this.editorCodeMirror.getValue());
+  };
+
+  onEditorKeyUp = () => {
+    if (AUTO_COMPLETE_AFTER_KEY.test(event.key)) {
+      this.editorCodeMirror.execCommand('autocomplete');
+    }
+  };
 }
 
 // Instead of exporting the editor directly, we'll export a `Loadable`
@@ -118,7 +128,12 @@ export default Loadable.Map({
 
   render(loaded, props) {
     return (
-      <GraphQLExplorerConsoleEditor CodeMirror={loaded.CodeMirror} graaphQLSchema={loaded.graaphQLSchema} />
+      <GraphQLExplorerConsoleEditor
+        CodeMirror={loaded.CodeMirror}
+        graaphQLSchema={loaded.graaphQLSchema}
+        value={props.value}
+        onChange={props.onChange}
+      />
     );
   }
 });
