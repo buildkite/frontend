@@ -28,14 +28,14 @@ export function fetchAndBuildGraphQLSchema() {
     executeGraphQLQuery({ query: introspectionQuery }).then((result) => {
       // Now convert it to JSON
       result.json().then((json) => {
-	if (json && json.data) {
+        if (json && json.data) {
 	  cachedSchema = buildClientSchema(json.data);
 	  resolve(cachedSchema);
-	} else {
+        } else {
 	  reject("Failed to find `data` payload in GraphQL response");
-	}
+        }
       }).catch((error) => {
-	reject("Failed to parse JSON response");
+        reject("Failed to parse JSON response");
       });
     }).catch(function(error) {
       reject("Request for GraphQL schema failed");

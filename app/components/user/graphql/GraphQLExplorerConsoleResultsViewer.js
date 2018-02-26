@@ -53,9 +53,9 @@ export default Loadable.Map({
       return (
         <div>{props.error}</div>
       );
-    } else {
-      return null;
     }
+    return null;
+
   },
 
   render(loaded, props) {

@@ -5,8 +5,8 @@ import { createFragmentContainer, graphql } from "react-relay/compat";
 
 import Button from "../../shared/Button";
 
-import GraphQLExplorerConsoleEditor from "./GraphQLExplorerConsoleEditor"
-import GraphQLExplorerConsoleResultsViewer from "./GraphQLExplorerConsoleResultsViewer"
+import GraphQLExplorerConsoleEditor from "./GraphQLExplorerConsoleEditor";
+import GraphQLExplorerConsoleResultsViewer from "./GraphQLExplorerConsoleResultsViewer";
 
 import { getCurrentQuery, setCurrentQuery, interpolateQuery } from "./query";
 import { getCachedResults, setCachedResults } from "./results";
@@ -30,9 +30,9 @@ class GraphQLExplorerConsole extends React.PureComponent {
     const cachedResults = getCachedResults();
     if (cachedResults) {
       this.state = {
-	executedFirstQuery: true,
-	results: cachedResults.results,
-	performance: resultsCache.performance
+        executedFirstQuery: true,
+        results: cachedResults.results,
+        performance: resultsCache.performance
       };
     }
   }
@@ -46,10 +46,10 @@ class GraphQLExplorerConsole extends React.PureComponent {
         // Now that we've got back some real JSON, let's turn it back into a
         // string... The things we do to make it look pretty! (The 2 means
         // indent each nested object with 2 spaces)
-	const prettyJSONString = JSON.stringify(json, null, 2);
+        const prettyJSONString = JSON.stringify(json, null, 2);
 
-	// Get performance information out of the query if there is any.
-	const responsePerformanceInformation = response.headers.get('x-buildkite-performance');
+        // Get performance information out of the query if there is any.
+        const responsePerformanceInformation = response.headers.get('x-buildkite-performance');
 
         // Also store the pretty JSON in the results cache so next time we
         // re-render the component we can show the previous results. Makes for
@@ -58,12 +58,12 @@ class GraphQLExplorerConsole extends React.PureComponent {
 
         // Tell the console we're not executing anymore, and that it can stop
         // showing a spinner.
-	this.setState({
+        this.setState({
           results: prettyJSONString,
 	  performance: responsePerformanceInformation,
 	  executing: false,
 	  executedFirstQuery: true
-	});
+        });
       });
     });
   }
@@ -99,7 +99,7 @@ class GraphQLExplorerConsole extends React.PureComponent {
 
         <div className="flex flex-fit border border-gray rounded" style={{ width: "100%" }}>
           <div className="col-6" style={{ minHeight: 500 }}>
-	    <GraphQLExplorerConsoleEditor value={this.getCurrentQuery()} onChange={this.onEditorChange} />
+            <GraphQLExplorerConsoleEditor value={this.getCurrentQuery()} onChange={this.onEditorChange} />
           </div>
 
           <div className="col-6 border-left border-gray">
@@ -118,15 +118,15 @@ class GraphQLExplorerConsole extends React.PureComponent {
         <div className="flex items-center justify-center absolute" style={{ top: 0, left: 0, right: 0, bottom: 0, zIndex: 30 }}>
           <span>Hit the <span className="semi-bold">Execute</span> above button to run this query! ☝️ </span>
         </div>
-      )
-    } else {
-      return (
-        <React.Fragment>
-          <GraphQLExplorerConsoleResultsViewer results={this.state.results} className="p1 flex-auto" style={{width: "100%"}} />
-          {this.renderDebuggingInformation()}
-        </React.Fragment>
-      )
+      );
     }
+    return (
+      <React.Fragment>
+        <GraphQLExplorerConsoleResultsViewer results={this.state.results} className="p1 flex-auto" style={{ width: "100%" }} />
+        {this.renderDebuggingInformation()}
+      </React.Fragment>
+    );
+
   }
 
   renderDebuggingInformation() {

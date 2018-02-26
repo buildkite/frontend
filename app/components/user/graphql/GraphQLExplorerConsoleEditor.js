@@ -109,7 +109,7 @@ export default Loadable.Map({
     ),
     // Load in the GraphQL schema at the same time
     graaphQLSchema: () => {
-      return fetchAndBuildGraphQLSchema()
+      return fetchAndBuildGraphQLSchema();
     }
   },
 
@@ -124,9 +124,9 @@ export default Loadable.Map({
           <Spinner /> Loading GraphQL Editor…
         </div>
       );
-    } else {
-      return null;
     }
+    return null;
+
   },
 
   render(loaded, props) {
