@@ -7,7 +7,11 @@ import PageHeader from "../../shared/PageHeader";
 import TabControl from "../../shared/TabControl";
 import Icon from "../../shared/Icon";
 
-class GraphQLExplorer extends React.PureComponent {
+type Props = {
+  children: React$Node
+};
+
+class GraphQLExplorer extends React.PureComponent<Props> {
   render() {
     return (
       <DocumentTitle title={`GraphQL Console`}>

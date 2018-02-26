@@ -1,6 +1,7 @@
 // @flow
 
 import React from "react";
+import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql } from "react-relay/compat";
 
 import Button from "../../shared/Button";
@@ -22,6 +23,10 @@ class GraphQLExplorerConsole extends React.PureComponent {
     executedFirstQuery: false
   };
 
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  }
+
   constructor(props) {
     super(props);
 
@@ -32,7 +37,7 @@ class GraphQLExplorerConsole extends React.PureComponent {
       this.state = {
         executedFirstQuery: true,
         results: cachedResults.results,
-        performance: resultsCache.performance
+        performance: cachedResults.performance
       };
     }
   }
@@ -60,9 +65,9 @@ class GraphQLExplorerConsole extends React.PureComponent {
         // showing a spinner.
         this.setState({
           results: prettyJSONString,
-	  performance: responsePerformanceInformation,
-	  executing: false,
-	  executedFirstQuery: true
+          performance: responsePerformanceInformation,
+          executing: false,
+          executedFirstQuery: true
         });
       });
     });
@@ -94,12 +99,12 @@ class GraphQLExplorerConsole extends React.PureComponent {
     return (
       <div>
         <div className="mb3">
-          <Button onClick={this.onExecuteClick} loading={this.state.executing && "Executing…"}>Execute</Button>
+          <Button onClick={this.handleExecuteClick} loading={this.state.executing && "Executing…"}>Execute</Button>
         </div>
 
         <div className="flex flex-fit border border-gray rounded" style={{ width: "100%" }}>
           <div className="col-6" style={{ minHeight: 500 }}>
-            <GraphQLExplorerConsoleEditor value={this.getCurrentQuery()} onChange={this.onEditorChange} />
+            <GraphQLExplorerConsoleEditor value={this.getCurrentQuery()} onChange={this.handleEditorChange} />
           </div>
 
           <div className="col-6 border-left border-gray">
@@ -130,7 +135,9 @@ class GraphQLExplorerConsole extends React.PureComponent {
   }
 
   renderDebuggingInformation() {
-    if (this.state.performance && false) {
+    // Only render debugging information if we've got some to show, and we're
+    // in "debug" mode.
+    if (this.state.performance && this.context.router.location.query["debug"] === "true") {
       return (
         <div className="px3 py2 border-top border-gray bg-silver col-12 flex-none">
           <div className="bold black mb1">Performance 🚀</div>
@@ -140,28 +147,28 @@ class GraphQLExplorerConsole extends React.PureComponent {
     }
   }
 
-  onExecuteClick = () => {
+  handleExecuteClick = () => {
     event.preventDefault();
     this.executeCurrentQuery();
   };
 
-  onEditorChange = (value) => {
+  handleEditorChange = (value) => {
     setCurrentQuery(value);
   };
 }
 
 export default createFragmentContainer(GraphQLExplorerConsole, {
   viewer: graphql`
-     fragment GraphQLExplorerConsole_viewer on Viewer {
-       organizations(first: 100) {
-	 edges {
-	   node {
-	     id
-	     name
-	     slug
-	   }
-	 }
-       }
-     }
-   `
+    fragment GraphQLExplorerConsole_viewer on Viewer {
+      organizations(first: 100) {
+        edges {
+          node {
+            id
+            name
+            slug
+          }
+        }
+      }
+    }
+`
 });
