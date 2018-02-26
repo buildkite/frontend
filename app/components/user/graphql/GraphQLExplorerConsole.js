@@ -22,6 +22,21 @@ class GraphQLExplorerConsole extends React.PureComponent {
     executedFirstQuery: false
   };
 
+  constructor(props) {
+    super(props);
+
+    // Let the component know that we've already executed a query and we'll
+    // just be showing that instead.
+    const cachedResults = getCachedResults();
+    if (cachedResults) {
+      this.state = {
+	executedFirstQuery: true,
+	results: cachedResults.results,
+	performance: resultsCache.performance
+      };
+    }
+  }
+
   executeCurrentQuery() {
     this.setState({ executing: true });
 
