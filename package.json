@@ -76,6 +76,7 @@
     "bugsnag-js": "^4.1",
     "classnames": "^2.2.5",
     "codemirror": "^5.25.0",
+    "codemirror-graphql": "^0.6.12",
     "create-react-class": "^15.6.2",
     "credit-card-type": "^6.1.0",
     "deepmerge": "^2.0",
