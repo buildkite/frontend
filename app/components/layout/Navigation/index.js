@@ -109,6 +109,16 @@ class Navigation extends React.PureComponent {
     this.setState({ showingSupportDialog: false });
   };
 
+  handleGraphQLExplorerClick = () => {
+    // Clicking the "GraphQL Explorer" link from a `frontend` page (not an
+    // old-school Rails rendered page) just changes what we render in the
+    // viewport of the page. This means by default, the user dropdown doesn't
+    // dissapear, but the page changes. This is a hack to hide it when you
+    // click on the link.
+    this.userDropdown.setShowing(false);
+    this.setState({ showingUserDropdown: false });
+  };
+
   renderTopOrganizationMenu() {
     if (this.props.organization) {
       return (
@@ -221,6 +231,16 @@ class Navigation extends React.PureComponent {
     );
   }
 
+  renderGraphQLExplorerLink() {
+    if (!Features.GraphQLExplorer) {
+      return null;
+    }
+
+    return (
+      <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer <span className="ml1 orange small">Beta</span></NavigationButton>
+    );
+  }
+
   render() {
     return (
       <div
@@ -306,7 +326,7 @@ class Navigation extends React.PureComponent {
             </NavigationButton>
 
             <Dropdown
-              width={170}
+              width={Features.GraphQLExplorer ? 180 : 170}
               className="flex"
               style={{ flex: '0 1 auto', minWidth: 55 }}
               ref={(userDropdown) => this.userDropdown = userDropdown}
@@ -338,6 +358,7 @@ class Navigation extends React.PureComponent {
               </DropdownButton>
 
               <NavigationButton href="/user/settings">Personal Settings</NavigationButton>
+              {this.renderGraphQLExplorerLink()}
 
               <div className="md-hide lg-hide">
                 <NavigationButton className="md-hide lg-hide" href={`/docs`}>Documentation</NavigationButton>

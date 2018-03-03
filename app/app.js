@@ -76,6 +76,7 @@ window["Webpack"] = {
     "components/shared/UserAvatar": require("./components/shared/UserAvatar").default,
     "components/user/BuildCountsBreakdown": require("./components/user/BuildCountsBreakdown").default,
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
+    "components/user/graphql/schema": require("./components/user/graphql/schema"),
     "lib/builds": require("./lib/builds"),
     "lib/commits": require("./lib/commits"),
     "lib/date": require("./lib/date"),

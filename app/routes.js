@@ -46,6 +46,11 @@ import AuditLogExport from './components/audit_log/Export';
 import JobIndex from './components/job/Index';
 import BillingUpgrade from './components/billing/BillingUpgrade';
 
+import GraphQLExplorer from './components/user/graphql/GraphQLExplorer';
+import GraphQLExplorerConsole from './components/user/graphql/GraphQLExplorerConsole';
+import GraphQLExplorerDocumentation from './components/user/graphql/GraphQLExplorerDocumentation';
+import GraphQLExplorerExamples from './components/user/graphql/GraphQLExplorerExamples';
+
 import * as AgentQuery from './queries/Agent';
 import * as BuildQuery from './queries/Build';
 import * as OrganizationQuery from './queries/Organization';
@@ -114,6 +119,13 @@ export default (
       <Route path="authorize/:code" component={APIAccessTokenCodeAuthorize} queries={{ apiAccessTokenCode: APIAccessTokenCodeQuery.query }} />
       <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
       <Route path="organizations/:organization/billing/upgrade" component={BillingUpgrade} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+
+      <Route path="/user/graphql" component={GraphQLExplorer}>
+        <IndexRedirect to="console" />
+        <Route path="console" component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query }} />
+        <Route path="documentation" component={GraphQLExplorerDocumentation} />
+        <Route path="examples" component={GraphQLExplorerExamples} />
+      </Route>
 
       <Route path="organizations/:organization">
         <Route path="jobs">
