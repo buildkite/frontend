@@ -9,8 +9,8 @@ import { fetchAndBuildGraphQLSchema, getGraphQLSchema } from "./schema";
 
 type CodeMirrorInstance = {
   showHint: ({}) => void,
-  on: (string, (any) => void) => mixed,
-  off: (string, (any) => void) => mixed,
+  on: (string, (...any) => void) => mixed,
+  off: (string, (...any) => void) => mixed,
   getValue: () => string,
   execCommand: (string) => void
 };
@@ -125,11 +125,9 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent<Props & LoadedPro
     }
   };
 
-  onEditorKeyUp = (event) => {
+  onEditorKeyUp = (codeMirrorInstance: CodeMirrorInstance, event: { key: string }) => {
     if (AUTO_COMPLETE_AFTER_KEY.test(event.key)) {
-      if (this.codeMirrorInstance) {
-        this.codeMirrorInstance.execCommand('autocomplete');
-      }
+      codeMirrorInstance.execCommand('autocomplete');
     }
   };
 }
