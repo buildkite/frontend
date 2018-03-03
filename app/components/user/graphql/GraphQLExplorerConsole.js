@@ -126,7 +126,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
         <div className="flex flex-fit border border-gray rounded" style={{ width: "100%" }}>
           <div className="col-6" style={{ minHeight: 500 }}>
-            <GraphQLExplorerConsoleEditor value={this.getCurrentQuery()} onChange={this.handleEditorChange} />
+            <GraphQLExplorerConsoleEditor value={this.getCurrentQuery()} onChange={this.handleEditorChange} onExecuteQueryPress={this.handleExecutePress} />
           </div>
 
           <div className="col-6 border-left border-gray">
@@ -172,6 +172,10 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   handleExecuteClick = (event) => {
     event.preventDefault();
 
+    this.executeCurrentQuery();
+  };
+
+  handleExecutePress = () => {
     this.executeCurrentQuery();
   };
 

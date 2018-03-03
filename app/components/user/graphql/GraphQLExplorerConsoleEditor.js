@@ -17,7 +17,8 @@ type CodeMirrorInstance = {
 
 type Props = {
   value?: string,
-  onChange: (string) => void
+  onChange: (string) => void,
+  onExecuteQueryPress: () => void
 };
 
 type LoadedProps = {
@@ -38,11 +39,13 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent<Props & LoadedPro
   textAreaElement: ?HTMLTextAreaElement
 
   componentDidMount() {
-    if (this.textAreaElement) {
+    const textAreaElement = this.textAreaElement;
+
+    if (textAreaElement) {
       const schema = getGraphQLSchema();
 
-      this.codeMirrorInstance = this.props.CodeMirror.fromTextArea(
-        this.textAreaElement,
+      const codeMirrorInstance = this.props.CodeMirror.fromTextArea(
+        textAreaElement,
         {
           lineNumbers: true,
           tabSize: 2,
@@ -60,10 +63,10 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent<Props & LoadedPro
             'Alt-Space': () => this.codeMirrorInstance && this.codeMirrorInstance.showHint({ completeSingle: true }),
             'Shift-Space': () => this.codeMirrorInstance && this.codeMirrorInstance.showHint({ completeSingle: true }),
             'Cmd-Enter': () => {
-              this.executeCurrentQuery();
+              this.props.onExecuteQueryPress();
             },
             'Ctrl-Enter': () => {
-              this.executeCurrentQuery();
+              this.props.onExecuteQueryPress();
             },
             // Persistent search box in Query Editor
             'Cmd-F': 'findPersistent',
@@ -85,17 +88,22 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent<Props & LoadedPro
         }
       );
 
-      if (this.codeMirrorInstance) {
-        this.codeMirrorInstance.on("change", this.onEditorChange);
-        this.codeMirrorInstance.on("keyup", this.onEditorKeyUp);
-      }
+      codeMirrorInstance.on("change", this.onEditorChange);
+      codeMirrorInstance.on("keyup", this.onEditorKeyUp);
+
+      this.codeMirrorInstance = codeMirrorInstance;
     }
   }
 
   componentWillUnmount() {
-    if (this.codeMirrorInstance) {
-      this.codeMirrorInstance.off("change", this.onEditorChange);
-      this.codeMirrorInstance.off("keyup", this.onEditorKeyUp);
+    if (this.codeMirrorInstance != null) {
+      // See here:
+      // https://flow.org/en/docs/lang/refinements/#toc-refinement-invalidations
+      // For why this code is a little weird...
+      const codeMirrorInstance = this.codeMirrorInstance;
+      codeMirrorInstance.off("change", this.onEditorChange);
+      codeMirrorInstance.off("keyup", this.onEditorKeyUp);
+
       this.codeMirrorInstance = null;
     }
   }
@@ -168,6 +176,7 @@ export default Loadable.Map({
         CodeMirror={loaded.CodeMirror}
         value={props.value}
         onChange={props.onChange}
+        onExecuteQueryPress={props.onExecuteQueryPress}
       />
     );
   }
