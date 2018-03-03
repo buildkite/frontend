@@ -13,6 +13,8 @@ import 'codemirror/addon/dialog/dialog.css';
 import 'codemirror/addon/dialog/dialog';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/lint/lint.css';
+import 'codemirror/addon/scroll/simplescrollbars';
+import 'codemirror/addon/scroll/simplescrollbars.css';
 import 'codemirror/keymap/sublime';
 import 'codemirror-graphql/results/mode';
 import 'codemirror-graphql/hint';
