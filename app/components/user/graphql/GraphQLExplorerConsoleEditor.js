@@ -13,7 +13,7 @@ type CodeMirrorInstance = {
   off: (string, (any) => void) => mixed,
   getValue: () => string,
   execCommand: (string) => void
-}
+};
 
 type Props = {
   value?: string,

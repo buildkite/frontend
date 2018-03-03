@@ -11,7 +11,7 @@ type CodeMirrorInstance = {
   getValue: () => string,
   setValue: (?string) => void,
   execCommand: (string) => void
-}
+};
 
 type Props = {
   results?: string,
