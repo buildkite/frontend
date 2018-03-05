@@ -34,12 +34,12 @@ export function findQueryOperationNames(query) {
   let ast;
   try {
     ast = parse(query);
-  } catch (e) {
+  } catch (exception) {
     return;
   }
 
   const operations = [];
-  ast.definitions.forEach(def => {
+  ast.definitions.forEach((def) => {
     if (def.kind === 'OperationDefinition' && def.name) {
       operations.push(def.name.value);
     }

@@ -3,7 +3,7 @@
 import { interpolateQuery, findQueryOperationNames } from "./query";
 import { DEFAULT_QUERY_WITH_ORGANIZATION, DEFAULT_QUERY_NO_ORGANIZATION } from "./defaults";
 
-const LOCAL_STORAGE_KEY = "GraphQLExplorer.consoleState"
+const LOCAL_STORAGE_KEY = "GraphQLExplorer.consoleState";
 
 class ConsoleState {
   query: string;
@@ -35,7 +35,7 @@ class ConsoleState {
       query: query,
       allOperationNames: this.getAllOperationNames(),
       currentOperationName: this.getCurrentOperationName()
-    }
+    };
   }
 
   getQuery(): string {
@@ -94,7 +94,7 @@ class ConsoleState {
 
       this.query = payload.query;
       this.currentOperationName = payload.currentOperationName;
-    } catch(_) {
+    } catch (exception) {
       // Meh, we tried...
     }
   }
@@ -114,7 +114,7 @@ class ConsoleState {
       query: this.getQuery(),
       currentOperationName: this.getCurrentOperationName(),
       allOperationNames: this.getAllOperationNames()
-    }
+    };
   }
 }
 

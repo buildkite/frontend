@@ -63,7 +63,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     const payload = {
       query: this.state.query,
       operationName: this.state.currentOperationName
-    }
+    };
 
     executeQuery(payload).then((response) => {
       // Once we've got the resposne back, and converted it JSON
@@ -119,25 +119,25 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
   renderOperationsDropdown() {
     if (!this.state.allOperationNames || (this.state.allOperationNames && !this.state.allOperationNames.length)) {
-      return
+      return;
     }
 
     return (
       <div className="ml2">
-        <Dropdown width={250} ref={(c) => this.operationsDropdownComponent = c}>
+        <Dropdown width={250} ref={(component) => this.operationsDropdownComponent = component}>
           <div className="underline-dotted cursor-pointer inline-block">
             {this.state.currentOperationName}
           </div>
           {this.state.allOperationNames.map((operation) => {
             return (
               <div key={operation} className="btn block hover-bg-silver" onClick={(event) => this.handleOperationSelect(event, operation)}>
-                <span className="block monospace truncate" style={{fontSize: 12}}>{operation}</span>
+                <span className="block monospace truncate" style={{ fontSize: 12 }}>{operation}</span>
               </div>
             );
           })}
         </Dropdown>
       </div>
-    )
+    );
   }
 
   renderOutputPanel() {
