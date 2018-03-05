@@ -10,9 +10,7 @@ import Dropdown from "../../shared/Dropdown";
 import GraphQLExplorerConsoleEditor from "./GraphQLExplorerConsoleEditor";
 import GraphQLExplorerConsoleResultsViewer from "./GraphQLExplorerConsoleResultsViewer";
 
-import { interpolateQuery, executeQuery, findQueryOperationNames } from "./query";
-import { getQueryCache, setQueryCache, getResultsCache, setResultsCache } from "./cache";
-import { DEFAULT_QUERY_WITH_ORGANIZATION, DEFAULT_QUERY_NO_ORGANIZATION } from "./defaults";
+import { executeQuery } from "./query";
 import consoleState from "./consoleState";
 
 type OrganizationEdge = {
