@@ -154,13 +154,14 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     if (this.state.results) {
       return (
         <React.Fragment>
-          <GraphQLExplorerConsoleResultsViewer results={this.state.results.output} className="p1 flex-auto" style={{ width: "100%" }} />
+          <GraphQLExplorerConsoleResultsViewer results={this.state.results.output} className="p1 flex-auto bg-silver" style={{ width: "100%" }} />
           {this.renderDebuggingInformation()}
         </React.Fragment>
       );
     }
+
     return (
-      <div className="flex items-center justify-center absolute" style={{ top: 0, left: 0, right: 0, bottom: 0, zIndex: 30 }}>
+      <div className="flex items-center justify-center absolute bg-silver" style={{ top: 0, left: 0, right: 0, bottom: 0, zIndex: 30 }}>
         <span>Hit the <span className="semi-bold">Execute</span> above button to run this query! ☝️ </span>
       </div>
     );
