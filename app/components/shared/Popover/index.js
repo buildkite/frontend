@@ -61,7 +61,7 @@ export default class Popover extends React.PureComponent<Props> {
       top,
       transformOrigin: `${offset + nibOffsetX}px -15px`,
       width,
-      zIndex: 3
+      zIndex: 10
     };
 
     return (

@@ -110,7 +110,7 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent<Props & LoadedPro
 
   render() {
     return (
-      <div style={{height: "100%"}}>
+      <div style={{ height: "100%" }}>
         <textarea
           defaultValue={this.props.value}
           ref={(input) => this.textAreaElement = input}

@@ -6,6 +6,7 @@
   font-family: var(--font-family-mono) !important;
   font-size: 12px !important;
   line-height: 17px !important;
+  background: inherit !important;
 }
 
 /* Gutters and line numbers now match our grays */
