@@ -2,19 +2,22 @@
 
 import { interpolateQuery, findQueryOperationNames } from "./query";
 import { DEFAULT_QUERY_WITH_ORGANIZATION, DEFAULT_QUERY_NO_ORGANIZATION } from "./defaults";
+import type OrganizationEdge from "./GraphQLExplorerConsole";
 
 const LOCAL_STORAGE_KEY = "GraphQLExplorer.consoleState";
 
 class ConsoleState {
-  query: string;
-  operationName: string;
-  results: { output: string, performance: string };
+  query: ?string;
+  currentOperationName: ?string;
+  allOperationNames: ?Array<string>;
+  results: ?{ output: string, performance: string };
+  organizationEdges: ?Array<{ node: {} }>;
 
   constructor() {
     this.loadFromLocalStorage();
   }
 
-  setOrganizationEdges(organizationEdges: Array) {
+  setOrganizationEdges(organizationEdges: Array<OrganizationEdge>) {
     this.organizationEdges = organizationEdges;
   }
 
@@ -27,7 +30,7 @@ class ConsoleState {
     return { results: this.results };
   }
 
-  setQuery(query: string): { allOperationNames: Array<string> } {
+  setQuery(query: string): { query: string, currentOperationName: ?string, allOperationNames: ?Array<string> } {
     this.query = query;
     this.saveToLocalStorage();
 
@@ -45,7 +48,7 @@ class ConsoleState {
       // looks at the first organization. If the user isn't part of any
       // organization, we'll use the default that doesn't retrieve organization
       // information.
-      if (this.organizationEdges.length) {
+      if (this.organizationEdges && this.organizationEdges.length) {
         this.query = interpolateQuery(DEFAULT_QUERY_WITH_ORGANIZATION, {
           organization: this.organizationEdges[0].node
         });
@@ -57,14 +60,14 @@ class ConsoleState {
     return this.query;
   }
 
-  setCurrentOperationName(operationName: string): { currentOperationName: string } {
+  setCurrentOperationName(operationName: ?string): { currentOperationName: ?string } {
     this.currentOperationName = operationName;
     this.saveToLocalStorage();
 
     return { currentOperationName: this.getCurrentOperationName() };
   }
 
-  getCurrentOperationName() {
+  getCurrentOperationName(): ?string {
     const currentOperationName = this.currentOperationName;
     const allOperationNames = this.getAllOperationNames();
 
@@ -79,7 +82,7 @@ class ConsoleState {
     return this.currentOperationName;
   }
 
-  getAllOperationNames() {
+  getAllOperationNames(): ?Array<string> {
     const allOperationNames = findQueryOperationNames(this.getQuery());
     if (allOperationNames) {
       this.allOperationNames = allOperationNames;
@@ -90,10 +93,13 @@ class ConsoleState {
 
   loadFromLocalStorage() {
     try {
-      const payload = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+      const cachedJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (cachedJSON) {
+        const payload = JSON.parse(cachedJSON);
 
-      this.query = payload.query;
-      this.currentOperationName = payload.currentOperationName;
+        this.query = payload.query;
+        this.currentOperationName = payload.currentOperationName;
+      }
     } catch (exception) {
       // Meh, we tried...
     }

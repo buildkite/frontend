@@ -30,20 +30,22 @@ type Props = {
 };
 
 type State = {
-  performance?: string,
-  results?: string,
-  executing: boolean,
-  executedFirstQuery: boolean,
-  operationNames?: Array<string>,
-  currentOperationName?: string
+  results?: ?{ output: string, performance: string },
+  query?: string,
+  currentOperationName?: ?string,
+  allOperationNames?: ?Array<string>,
+  executing: boolean
 };
 
 class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
+  operationsDropdownComponent: ?Dropdown
+
   state = {
-    executing: false,
-    executedFirstQuery: false,
-    operationNames: null,
-    currentOperationName: null
+    results: null,
+    query: "",
+    currentOperationName: "",
+    allOperationNames: null,
+    executing: false
   };
 
   static contextTypes = {
@@ -54,7 +56,15 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     super(props);
 
     consoleState.setOrganizationEdges(this.props.viewer.organizations.edges);
-    this.state = consoleState.toStateObject();
+
+    const defaultState = consoleState.toStateObject();
+    this.state = {
+      results: null,
+      query: defaultState.query,
+      currentOperationName: defaultState.currentOperationName,
+      allOperationNames: defaultState.allOperationNames,
+      executing: false
+    };
   }
 
   executeCurrentQuery() {
@@ -85,7 +95,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
         // Tell the console we're not executing anymore, and that it can stop
         // showing a spinner.
-        this.setState({ executing: false, executedFirstQuery: true });
+        this.setState({ executing: false });
       });
     });
   }
@@ -141,19 +151,20 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   }
 
   renderOutputPanel() {
-    if (!this.state.executedFirstQuery) {
+    if (this.state.results) {
       return (
-        <div className="flex items-center justify-center absolute" style={{ top: 0, left: 0, right: 0, bottom: 0, zIndex: 30 }}>
-          <span>Hit the <span className="semi-bold">Execute</span> above button to run this query! ☝️ </span>
-        </div>
+        <React.Fragment>
+          <GraphQLExplorerConsoleResultsViewer results={this.state.results.output} className="p1 flex-auto" style={{ width: "100%" }} />
+          {this.renderDebuggingInformation()}
+        </React.Fragment>
       );
     }
     return (
-      <React.Fragment>
-        <GraphQLExplorerConsoleResultsViewer results={this.state.results.output} className="p1 flex-auto" style={{ width: "100%" }} />
-        {this.renderDebuggingInformation()}
-      </React.Fragment>
+      <div className="flex items-center justify-center absolute" style={{ top: 0, left: 0, right: 0, bottom: 0, zIndex: 30 }}>
+        <span>Hit the <span className="semi-bold">Execute</span> above button to run this query! ☝️ </span>
+      </div>
     );
+
   }
 
   renderDebuggingInformation() {
@@ -172,7 +183,10 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   handleOperationSelect = (event, operationName) => {
     event.preventDefault();
 
-    this.operationsDropdownComponent.setShowing(false);
+    if (this.operationsDropdownComponent) {
+      this.operationsDropdownComponent.setShowing(false);
+    }
+
     this.setState(consoleState.setCurrentOperationName(operationName));
   };
 
