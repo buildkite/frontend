@@ -108,6 +108,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   invalidateShareLink() {
     this.shareLinkSelected = false;
     this.setState({ shareLink: null });
+    this.context.router.replace("/user/graphql/console");
   }
 
   componentDidUpdate() {
@@ -120,15 +121,15 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   render() {
     return (
       <div>
-        <div className="mb3 flex">
-          <div className="flex flex-auto items-center">
+        <div className="mb3 flex justify-start">
+          <div className="flex items-center">
             <Button onClick={this.handleExecuteClick} loading={this.state.executing && "Executing…"}>Execute</Button>
             {this.renderOperationsDropdown()}
           </div>
 
-          <div className="flex items-center">
+          <div className="flex flex-auto justify-end items-center pl2">
             {this.renderShareLink()}
-            <Button onClick={this.handleShareClick} theme={"default"} outline={true} loading={this.state.sharing && "Creating share link..."}>Share</Button>
+            <Button onClick={this.handleShareClick} theme={"default"} outline={true} loading={this.state.sharing && "Creating share link…"}>Share</Button>
           </div>
         </div>
 
@@ -207,14 +208,16 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
   renderShareLink() {
     if (this.state.shareLink) {
+      const estimatedWidth = this.state.shareLink.length * 7.42;
+
       return (
-        <div className="mr2">
+        <div className="flex-auto mr2" style={{maxWidth: estimatedWidth}}>
           <input
             ref={(textInput) => this.shareLinkTextInput = textInput}
             type="text"
             readOnly={true}
             value={this.state.shareLink}
-            style={{width: 370, fontSize: "inherit"}}
+            style={{width: "100%", fontSize: "inherit"}}
             className="p2 rounded border border-gray bg-silver"
             onClick={this.handleShareLinkClick}
           />
@@ -255,6 +258,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
     setTimeout(() => {
       this.setState({ sharing: false, shareLink: "https://buildkite.com/user/graphql/console/e92428e1-506d-4fdb-b258-d77a1e79d6de" });
+      this.context.router.replace("/user/graphql/console/e92428e1-506d-4fdb-b258-d77a1e79d6de");
     }, 2000);
   };
 
