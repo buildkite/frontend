@@ -5,15 +5,15 @@ import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql } from "react-relay/compat";
 
 import Button from "../../shared/Button";
+import Dropdown from "../../shared/Dropdown";
 
 import GraphQLExplorerConsoleEditor from "./GraphQLExplorerConsoleEditor";
 import GraphQLExplorerConsoleResultsViewer from "./GraphQLExplorerConsoleResultsViewer";
 
-import { getCurrentQuery, setCurrentQuery, interpolateQuery } from "./query";
-import { getCachedResults, setCachedResults } from "./results";
-import { executeGraphQLQuery } from "./network";
-
+import { interpolateQuery, executeQuery, findQueryOperationNames } from "./query";
+import { getQueryCache, setQueryCache, getResultsCache, setResultsCache } from "./cache";
 import { DEFAULT_QUERY_WITH_ORGANIZATION, DEFAULT_QUERY_NO_ORGANIZATION } from "./defaults";
+import consoleState from "./consoleState";
 
 type OrganizationEdge = {
   node: {
@@ -35,13 +35,17 @@ type State = {
   performance?: string,
   results?: string,
   executing: boolean,
-  executedFirstQuery: boolean
+  executedFirstQuery: boolean,
+  operationNames?: Array<string>,
+  currentOperationName?: string
 };
 
 class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   state = {
     executing: false,
-    executedFirstQuery: false
+    executedFirstQuery: false,
+    operationNames: null,
+    currentOperationName: null
   };
 
   static contextTypes = {
@@ -51,23 +55,19 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
 
-    // Let the component know that we've already executed a query and we'll
-    // just be showing that instead.
-    const cachedResults = getCachedResults();
-    if (cachedResults) {
-      this.state = {
-        performance: cachedResults.performance,
-        results: cachedResults.results,
-        executing: false,
-        executedFirstQuery: true
-      };
-    }
+    consoleState.setOrganizationEdges(this.props.viewer.organizations.edges);
+    this.state = consoleState.toStateObject();
   }
 
   executeCurrentQuery() {
     this.setState({ executing: true });
 
-    executeGraphQLQuery({ query: this.getCurrentQuery() }).then((response) => {
+    const payload = {
+      query: this.state.query,
+      operationName: this.state.currentOperationName
+    }
+
+    executeQuery(payload).then((response) => {
       // Once we've got the resposne back, and converted it JSON
       response.json().then((json) => {
         // Now that we've got back some real JSON, let's turn it back into a
@@ -81,52 +81,32 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
         // Also store the pretty JSON in the results cache so next time we
         // re-render the component we can show the previous results. Makes for
         // great tab switching!
-        setCachedResults(prettyJSONString, responsePerformanceInformation);
+        this.setState(
+          consoleState.setResults(prettyJSONString, responsePerformanceInformation)
+        );
 
         // Tell the console we're not executing anymore, and that it can stop
         // showing a spinner.
-        this.setState({
-          results: prettyJSONString,
-          performance: responsePerformanceInformation,
-          executing: false,
-          executedFirstQuery: true
-        });
+        this.setState({ executing: false, executedFirstQuery: true });
       });
     });
-  }
-
-  getCurrentQuery() {
-    let query = getCurrentQuery();
-
-    // If there isn't a query currently in local storage, let's make up one
-    // based on one of the examples.
-    if (!query) {
-      // If we've got an organization loaded, let's use the default query that
-      // looks at the first organization. If the user isn't part of any
-      // organization, we'll use the default that doesn't retrieve organization
-      // information.
-      if (this.props.viewer.organizations.edges.length) {
-        query = interpolateQuery(DEFAULT_QUERY_WITH_ORGANIZATION, {
-          organization: this.props.viewer.organizations.edges[0].node
-        });
-      } else {
-        query = DEFAULT_QUERY_NO_ORGANIZATION;
-      }
-    }
-
-    return query;
   }
 
   render() {
     return (
       <div>
-        <div className="mb3">
+        <div className="mb3 flex items-center">
           <Button onClick={this.handleExecuteClick} loading={this.state.executing && "Executing…"}>Execute</Button>
+          {this.renderOperationsDropdown()}
         </div>
 
         <div className="flex flex-fit border border-gray rounded" style={{ width: "100%" }}>
           <div className="col-6" style={{ minHeight: 500 }}>
-            <GraphQLExplorerConsoleEditor value={this.getCurrentQuery()} onChange={this.handleEditorChange} onExecuteQueryPress={this.handleExecutePress} />
+            <GraphQLExplorerConsoleEditor
+              value={this.state.query}
+              onChange={this.handleEditorChange}
+              onExecuteQueryPress={this.handleExecutePress}
+            />
           </div>
 
           <div className="col-6 border-left border-gray">
@@ -139,6 +119,29 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     );
   }
 
+  renderOperationsDropdown() {
+    if (!this.state.allOperationNames || (this.state.allOperationNames && !this.state.allOperationNames.length)) {
+      return
+    }
+
+    return (
+      <div className="ml2">
+        <Dropdown width={250} ref={(c) => this.operationsDropdownComponent = c}>
+          <div className="underline-dotted cursor-pointer inline-block">
+            {this.state.currentOperationName}
+          </div>
+          {this.state.allOperationNames.map((operation) => {
+            return (
+              <div key={operation} className="btn block hover-bg-silver" onClick={(event) => this.handleOperationSelect(event, operation)}>
+                <span className="block monospace truncate" style={{fontSize: 12}}>{operation}</span>
+              </div>
+            );
+          })}
+        </Dropdown>
+      </div>
+    )
+  }
+
   renderOutputPanel() {
     if (!this.state.executedFirstQuery) {
       return (
@@ -149,25 +152,35 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     }
     return (
       <React.Fragment>
-        <GraphQLExplorerConsoleResultsViewer results={this.state.results} className="p1 flex-auto" style={{ width: "100%" }} />
+        <GraphQLExplorerConsoleResultsViewer results={this.state.results.output} className="p1 flex-auto" style={{ width: "100%" }} />
         {this.renderDebuggingInformation()}
       </React.Fragment>
     );
-
   }
 
   renderDebuggingInformation() {
     // Only render debugging information if we've got some to show, and we're
     // in "debug" mode.
-    if (this.state.performance && this.context.router.location.query["debug"] === "true") {
+    if (this.state.results && this.state.results.performance && this.context.router.location.query["debug"] === "true") {
       return (
         <div className="px3 py2 border-top border-gray bg-silver col-12 flex-none">
           <div className="bold black mb1">Performance 🚀</div>
-          <pre className="monospace" style={{ fontSize: 12 }}>{this.state.performance.split("; ").join("\n")}</pre>
+          <pre className="monospace" style={{ fontSize: 12 }}>{this.state.results.performance.split("; ").join("\n")}</pre>
         </div>
       );
     }
   }
+
+  handleOperationSelect = (event, operationName) => {
+    event.preventDefault();
+
+    this.operationsDropdownComponent.setShowing(false);
+    this.setState(consoleState.setCurrentOperationName(operationName));
+  };
+
+  handleEditorChange = (query) => {
+    this.setState(consoleState.setQuery(query));
+  };
 
   handleExecuteClick = (event) => {
     event.preventDefault();
@@ -177,10 +190,6 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
   handleExecutePress = () => {
     this.executeCurrentQuery();
-  };
-
-  handleEditorChange = (value) => {
-    setCurrentQuery(value);
   };
 }
 

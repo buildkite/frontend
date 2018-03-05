@@ -1,6 +1,6 @@
 import { introspectionQuery, buildClientSchema } from 'graphql';
 
-import { executeGraphQLQuery } from './network';
+import { executeQuery } from './query';
 
 let cachedSchema = null;
 
@@ -24,7 +24,7 @@ export function fetchAndBuildGraphQLSchema() {
     }
 
     // Fetch the schema using the introspection query provided by GraphQL
-    executeGraphQLQuery({ query: introspectionQuery }).then((result) => {
+    executeQuery({ query: introspectionQuery }).then((result) => {
       // Now convert it to JSON
       result.json().then((json) => {
         if (json && json.data) {
