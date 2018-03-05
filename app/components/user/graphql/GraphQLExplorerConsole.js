@@ -34,7 +34,9 @@ type State = {
   query?: string,
   currentOperationName?: ?string,
   allOperationNames?: ?Array<string>,
-  executing: boolean
+  executing: boolean,
+  sharing: boolean,
+  shareLink: ?string
 };
 
 class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
@@ -45,7 +47,9 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     query: "",
     currentOperationName: "",
     allOperationNames: null,
-    executing: false
+    executing: false,
+    sharing: false,
+    shareLink: null
   };
 
   static contextTypes = {
@@ -63,7 +67,8 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
       query: defaultState.query,
       currentOperationName: defaultState.currentOperationName,
       allOperationNames: defaultState.allOperationNames,
-      executing: false
+      executing: false,
+      sharing: false
     };
   }
 
@@ -100,12 +105,26 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     });
   }
 
+  componentDidUpdate() {
+    if (this.shareLinkTextInput && !this.shareLinkSelected) {
+      this.shareLinkTextInput.select();
+      this.shareLinkSelected = true;
+    }
+  }
+
   render() {
     return (
       <div>
-        <div className="mb3 flex items-center">
-          <Button onClick={this.handleExecuteClick} loading={this.state.executing && "Executing…"}>Execute</Button>
-          {this.renderOperationsDropdown()}
+        <div className="mb3 flex">
+          <div className="flex flex-auto items-center">
+            <Button onClick={this.handleExecuteClick} loading={this.state.executing && "Executing…"}>Execute</Button>
+            {this.renderOperationsDropdown()}
+          </div>
+
+          <div className="flex items-center">
+            {this.renderShareLink()}
+            <Button onClick={this.handleShareClick} theme={"default"} outline={true} loading={this.state.sharing && "Creating share link..."}>Share</Button>
+          </div>
         </div>
 
         <div className="flex flex-fit border border-gray rounded" style={{ width: "100%" }}>
@@ -113,7 +132,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
             <GraphQLExplorerConsoleEditor
               value={this.state.query}
               onChange={this.handleEditorChange}
-              onExecuteQueryPress={this.handleExecutePress}
+              onExecuteQueryPress={this.handleEditorExecutePress}
             />
           </div>
 
@@ -181,6 +200,23 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     }
   }
 
+  renderShareLink() {
+    if (this.state.shareLink) {
+      return (
+        <div className="mr2">
+          <input
+            ref={(textInput) => this.shareLinkTextInput = textInput}
+            type="text"
+            readOnly={true}
+            value={this.state.shareLink}
+            style={{width: 370, fontSize: "inherit"}}
+            className="p2 rounded border border-gray bg-silver"
+          />
+        </div>
+      )
+    }
+  }
+
   handleOperationSelect = (event, operationName) => {
     event.preventDefault();
 
@@ -193,6 +229,9 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
   handleEditorChange = (query) => {
     this.setState(consoleState.setQuery(query));
+
+    this.shareLinkSelected = false;
+    this.setState({ shareLink: null });
   };
 
   handleExecuteClick = (event) => {
@@ -201,8 +240,17 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     this.executeCurrentQuery();
   };
 
-  handleExecutePress = () => {
+  handleEditorExecutePress = () => {
     this.executeCurrentQuery();
+  };
+
+  handleShareClick = () => {
+    this.shareLinkSelected = false;
+    this.setState({ sharing: true, shareLink: null });
+
+    setTimeout(() => {
+      this.setState({ sharing: false, shareLink: "https://buildkite.com/user/graphql/console/e92428e1-506d-4fdb-b258-d77a1e79d6de" });
+    }, 2000);
   };
 }
 
