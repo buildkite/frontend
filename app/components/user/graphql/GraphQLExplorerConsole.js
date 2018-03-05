@@ -105,6 +105,11 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     });
   }
 
+  invalidateShareLink() {
+    this.shareLinkSelected = false;
+    this.setState({ shareLink: null });
+  }
+
   componentDidUpdate() {
     if (this.shareLinkTextInput && !this.shareLinkSelected) {
       this.shareLinkTextInput.select();
@@ -211,6 +216,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
             value={this.state.shareLink}
             style={{width: 370, fontSize: "inherit"}}
             className="p2 rounded border border-gray bg-silver"
+            onClick={this.handleShareLinkClick}
           />
         </div>
       )
@@ -230,8 +236,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   handleEditorChange = (query) => {
     this.setState(consoleState.setQuery(query));
 
-    this.shareLinkSelected = false;
-    this.setState({ shareLink: null });
+    this.invalidateShareLink();
   };
 
   handleExecuteClick = (event) => {
@@ -245,13 +250,19 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   };
 
   handleShareClick = () => {
-    this.shareLinkSelected = false;
-    this.setState({ sharing: true, shareLink: null });
+    this.invalidateShareLink();
+    this.setState({ sharing: true });
 
     setTimeout(() => {
       this.setState({ sharing: false, shareLink: "https://buildkite.com/user/graphql/console/e92428e1-506d-4fdb-b258-d77a1e79d6de" });
     }, 2000);
   };
+
+  handleShareLinkClick = () => {
+    if (this.shareLinkTextInput) {
+      this.shareLinkTextInput.select();
+    }
+  }
 }
 
 export default createFragmentContainer(GraphQLExplorerConsole, {
