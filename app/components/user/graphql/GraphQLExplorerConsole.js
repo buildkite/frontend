@@ -225,8 +225,6 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
   renderShareLink() {
     if (this.state.shareLink) {
-      const estimatedWidth = this.state.shareLink.length * 7.3;
-
       return (
         <div className="flex-auto mr2" style={{ maxWidth: 450 }}>
           <input
