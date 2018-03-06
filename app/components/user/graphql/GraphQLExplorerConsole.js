@@ -7,6 +7,9 @@ import { createFragmentContainer, graphql, commitMutation } from "react-relay/co
 import Button from "../../shared/Button";
 import Dropdown from "../../shared/Dropdown";
 
+import GraphQLErrors from '../../../constants/GraphQLErrors';
+import FlashesStore from '../../../stores/FlashesStore';
+
 import GraphQLExplorerConsoleEditor from "./GraphQLExplorerConsoleEditor";
 import GraphQLExplorerConsoleResultsViewer from "./GraphQLExplorerConsoleResultsViewer";
 
@@ -110,9 +113,11 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   }
 
   invalidateShareLink() {
-    this.shareLinkSelected = false;
-    this.setState({ shareLink: null });
-    this.context.router.replace("/user/graphql/console");
+    if (this.state.shareLink) {
+      this.shareLinkSelected = false;
+      this.setState({ shareLink: null });
+      this.context.router.replace("/user/graphql/console");
+    }
   }
 
   componentDidUpdate() {
@@ -298,14 +303,10 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
   handleMutationError = (error) => {
     if (error) {
-      if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
-        this.setState({ errors: error.source.errors });
-      } else {
-        alert(error);
-      }
+      FlashesStore.flash(FlashesStore.ERROR, error);
     }
 
-    this.setState({ saving: false });
+    this.setState({ sharing: false });
   };
 
   handleMutationComplete = (response) => {
