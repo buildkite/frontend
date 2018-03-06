@@ -60,6 +60,7 @@ import * as PipelineScheduleQuery from './queries/PipelineSchedule';
 import * as TeamQuery from './queries/Team';
 import * as ViewerQuery from './queries/Viewer';
 import * as APIAccessTokenCodeQuery from './queries/APIAccessTokenCode';
+import * as GraphQLSnippetQuery from './queries/GraphQLSnippet';
 
 import FlashesStore from './stores/FlashesStore';
 
@@ -124,7 +125,7 @@ export default (
         <IndexRedirect to="console" />
         <Route path="console">
           <IndexRoute component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query }} />
-          <Route path=":snippet" component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query }} />
+          <Route path=":snippet" component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query, graphQLSnippet: GraphQLSnippetQuery.query }} />
         </Route>
         <Route path="documentation" component={GraphQLExplorerDocumentation} />
         <Route path="examples" component={GraphQLExplorerExamples} />

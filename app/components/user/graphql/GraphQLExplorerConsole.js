@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql } from "react-relay/compat";
+import { createFragmentContainer, graphql, commitMutation } from "react-relay/compat";
 
 import Button from "../../shared/Button";
 import Dropdown from "../../shared/Dropdown";
@@ -60,6 +60,10 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     super(props);
 
     consoleState.setOrganizationEdges(this.props.viewer.organizations.edges);
+
+    if (this.props.graphQLSnippet) {
+      consoleState.setGraphQLSnippet(this.props.graphQLSnippet);
+    }
 
     const defaultState = consoleState.toStateObject();
     this.state = {
@@ -252,24 +256,72 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     this.executeCurrentQuery();
   };
 
-  handleShareClick = () => {
-    this.invalidateShareLink();
-    this.setState({ sharing: true });
-
-    setTimeout(() => {
-      this.setState({ sharing: false, shareLink: "https://buildkite.com/user/graphql/console/e92428e1-506d-4fdb-b258-d77a1e79d6de" });
-      this.context.router.replace("/user/graphql/console/e92428e1-506d-4fdb-b258-d77a1e79d6de");
-    }, 2000);
-  };
-
   handleShareLinkClick = () => {
     if (this.shareLinkTextInput) {
       this.shareLinkTextInput.select();
     }
   }
+
+  handleShareClick = () => {
+    this.invalidateShareLink();
+    this.setState({ sharing: true });
+
+    const mutation = graphql`
+      mutation GraphQLExplorerConsole_graphQLSnippetCreateMutation(
+        $input: GraphQLSnippetCreateInput!
+      ) {
+        graphQLSnippetCreate(input: $input) {
+          graphQLSnippet {
+            url
+          }
+        }
+      }
+    `;
+
+    const variables = {
+      input: {
+        query: this.state.query,
+        operationName: this.state.currentOperationName
+      }
+    };
+
+    commitMutation(
+      this.props.relay.environment,
+      {
+        mutation: mutation,
+        variables: variables,
+        onCompleted: this.handleMutationComplete,
+        onError: this.handleMutationError
+      }
+    );
+  };
+
+  handleMutationError = (error) => {
+    if (error) {
+      if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
+        this.setState({ errors: error.source.errors });
+      } else {
+        alert(error);
+      }
+    }
+
+    this.setState({ saving: false });
+  };
+
+  handleMutationComplete = (response) => {
+    const shareLinkURL = new URL(response.graphQLSnippetCreate.graphQLSnippet.url);
+
+    this.setState({ sharing: false, shareLink: shareLinkURL.href });
+  };
 }
 
 export default createFragmentContainer(GraphQLExplorerConsole, {
+  graphQLSnippet: graphql`
+    fragment GraphQLExplorerConsole_graphQLSnippet on GraphQLSnippet {
+      query
+      operationName
+    }
+  `,
   viewer: graphql`
     fragment GraphQLExplorerConsole_viewer on Viewer {
       organizations(first: 100) {
@@ -282,5 +334,5 @@ export default createFragmentContainer(GraphQLExplorerConsole, {
         }
       }
     }
-`
+  `
 });
