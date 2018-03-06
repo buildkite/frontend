@@ -50,6 +50,7 @@ type State = {
 
 class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   operationsDropdownComponent: ?Dropdown
+  shareDropdownComponent: ?Dropdown
   shareLinkTextInput: ?HTMLInputElement
   focusOnSelectShareLinkOnNextUpdate: ?boolean
 
@@ -146,7 +147,16 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
           <div className="flex flex-auto justify-end items-center pl2">
             {this.renderShareLink()}
-            <Button onClick={this.handleShareClick} theme={"default"} outline={true} loading={this.state.sharing && "Creating share link…"}>Share</Button>
+
+            <Dropdown width={280} ref={(component) => this.shareDropdownComponent = component}>
+              <Button theme={"default"} outline={true} loading={this.state.sharing && "Generating share link…"}>Share</Button>
+
+              <div className="m3">
+                <p>When you share a GraphQL query, Buildkite will generate a unique URL that you can send to someone.</p>
+                <p>Anyone who has access to the secret URL will be able to see a copy of your query (not your results), regardless of what Buildkite Organization they’re in.</p>
+                <Button onClick={this.handleShareClick} style={{ width: "100%" }}>Share GraphQL Query</Button>
+              </div>
+            </Dropdown>
           </div>
         </div>
 
@@ -276,6 +286,10 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   handleShareClick = () => {
     this.invalidateShareLink();
     this.setState({ sharing: true });
+
+    if (this.shareDropdownComponent) {
+      this.shareDropdownComponent.setShowing(false);
+    }
 
     const mutation = graphql`
       mutation GraphQLExplorerConsole_graphQLSnippetCreateMutation(
