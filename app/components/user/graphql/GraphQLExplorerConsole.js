@@ -2,10 +2,13 @@
 
 import * as React from "react";
 import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql } from "react-relay/compat";
+import { createFragmentContainer, graphql, commitMutation } from "react-relay/compat";
+import type { RelayProp } from 'react-relay';
 
 import Button from "../../shared/Button";
 import Dropdown from "../../shared/Dropdown";
+
+import FlashesStore from '../../../stores/FlashesStore';
 
 import GraphQLExplorerConsoleEditor from "./GraphQLExplorerConsoleEditor";
 import GraphQLExplorerConsoleResultsViewer from "./GraphQLExplorerConsoleResultsViewer";
@@ -26,6 +29,11 @@ type Props = {
     organizations: {
       edges: Array<OrganizationEdge>
     }
+  },
+  relay: RelayProp,
+  graphQLSnippet?: {
+    query: string,
+    operationName: ?string
   }
 };
 
@@ -34,18 +42,24 @@ type State = {
   query?: string,
   currentOperationName?: ?string,
   allOperationNames?: ?Array<string>,
-  executing: boolean
+  executing: boolean,
+  sharing: boolean,
+  shareLink: ?string
 };
 
 class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   operationsDropdownComponent: ?Dropdown
+  shareLinkTextInput: ?HTMLInputElement
+  shareLinkSelected: ?boolean
 
   state = {
     results: null,
     query: "",
     currentOperationName: "",
     allOperationNames: null,
-    executing: false
+    executing: false,
+    sharing: false,
+    shareLink: null
   };
 
   static contextTypes = {
@@ -57,13 +71,19 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
     consoleState.setOrganizationEdges(this.props.viewer.organizations.edges);
 
+    if (this.props.graphQLSnippet) {
+      consoleState.setGraphQLSnippet(this.props.graphQLSnippet);
+    }
+
     const defaultState = consoleState.toStateObject();
     this.state = {
       results: null,
       query: defaultState.query,
       currentOperationName: defaultState.currentOperationName,
       allOperationNames: defaultState.allOperationNames,
-      executing: false
+      executing: false,
+      sharing: false,
+      shareLink: null
     };
   }
 
@@ -100,12 +120,34 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     });
   }
 
+  invalidateShareLink() {
+    if (this.state.shareLink) {
+      this.shareLinkSelected = false;
+      this.setState({ shareLink: null });
+      this.context.router.replace("/user/graphql/console");
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.shareLinkTextInput && !this.shareLinkSelected) {
+      this.shareLinkTextInput.select();
+      this.shareLinkSelected = true;
+    }
+  }
+
   render() {
     return (
       <div>
-        <div className="mb3 flex items-center">
-          <Button onClick={this.handleExecuteClick} loading={this.state.executing && "Executing…"}>Execute</Button>
-          {this.renderOperationsDropdown()}
+        <div className="mb3 flex justify-start">
+          <div className="flex items-center">
+            <Button onClick={this.handleExecuteClick} loading={this.state.executing && "Executing…"}>Execute</Button>
+            {this.renderOperationsDropdown()}
+          </div>
+
+          <div className="flex flex-auto justify-end items-center pl2">
+            {this.renderShareLink()}
+            <Button onClick={this.handleShareClick} theme={"default"} outline={true} loading={this.state.sharing && "Creating share link…"}>Share</Button>
+          </div>
         </div>
 
         <div className="flex flex-fit border border-gray rounded" style={{ width: "100%" }}>
@@ -113,7 +155,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
             <GraphQLExplorerConsoleEditor
               value={this.state.query}
               onChange={this.handleEditorChange}
-              onExecuteQueryPress={this.handleExecutePress}
+              onExecuteQueryPress={this.handleEditorExecutePress}
             />
           </div>
 
@@ -181,6 +223,26 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     }
   }
 
+  renderShareLink() {
+    if (this.state.shareLink) {
+      const estimatedWidth = this.state.shareLink.length * 7.42;
+
+      return (
+        <div className="flex-auto mr2" style={{ maxWidth: estimatedWidth }}>
+          <input
+            ref={(textInput) => this.shareLinkTextInput = textInput}
+            type="text"
+            readOnly={true}
+            value={this.state.shareLink}
+            style={{ width: "100%", fontSize: "inherit" }}
+            className="p2 rounded border border-gray bg-silver"
+            onClick={this.handleShareLinkClick}
+          />
+        </div>
+      );
+    }
+  }
+
   handleOperationSelect = (event, operationName) => {
     event.preventDefault();
 
@@ -193,6 +255,8 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
   handleEditorChange = (query) => {
     this.setState(consoleState.setQuery(query));
+
+    this.invalidateShareLink();
   };
 
   handleExecuteClick = (event) => {
@@ -201,12 +265,72 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     this.executeCurrentQuery();
   };
 
-  handleExecutePress = () => {
+  handleEditorExecutePress = () => {
     this.executeCurrentQuery();
+  };
+
+  handleShareLinkClick = () => {
+    if (this.shareLinkTextInput) {
+      this.shareLinkTextInput.select();
+    }
+  }
+
+  handleShareClick = () => {
+    this.invalidateShareLink();
+    this.setState({ sharing: true });
+
+    const mutation = graphql`
+      mutation GraphQLExplorerConsole_graphQLSnippetCreateMutation(
+        $input: GraphQLSnippetCreateInput!
+      ) {
+        graphQLSnippetCreate(input: $input) {
+          graphQLSnippet {
+            url
+          }
+        }
+      }
+    `;
+
+    const variables = {
+      input: {
+        query: this.state.query,
+        operationName: this.state.currentOperationName
+      }
+    };
+
+    commitMutation(
+      this.props.relay.environment,
+      {
+        mutation: mutation,
+        variables: variables,
+        onCompleted: this.handleMutationComplete,
+        onError: this.handleMutationError
+      }
+    );
+  };
+
+  handleMutationError = (error) => {
+    if (error) {
+      FlashesStore.flash(FlashesStore.ERROR, error);
+    }
+
+    this.setState({ sharing: false });
+  };
+
+  handleMutationComplete = (response) => {
+    const shareLinkURL = new URL(response.graphQLSnippetCreate.graphQLSnippet.url);
+
+    this.setState({ sharing: false, shareLink: shareLinkURL.href });
   };
 }
 
 export default createFragmentContainer(GraphQLExplorerConsole, {
+  graphQLSnippet: graphql`
+    fragment GraphQLExplorerConsole_graphQLSnippet on GraphQLSnippet {
+      query
+      operationName
+    }
+  `,
   viewer: graphql`
     fragment GraphQLExplorerConsole_viewer on Viewer {
       organizations(first: 100) {
@@ -219,5 +343,5 @@ export default createFragmentContainer(GraphQLExplorerConsole, {
         }
       }
     }
-`
+  `
 });

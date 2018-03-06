@@ -21,6 +21,11 @@ class ConsoleState {
     this.organizationEdges = organizationEdges;
   }
 
+  setGraphQLSnippet(snippet: { query: string, operationName: ?string }) {
+    this.query = snippet.query;
+    this.currentOperationName = snippet.operationName;
+  }
+
   setResults(output: string, performance: string) {
     this.results = {
       output: output,
@@ -43,7 +48,7 @@ class ConsoleState {
 
   getQuery(): string {
     // If there's no query loaded, make one up.
-    if (!this.query) {
+    if (this.query === null || this.query === undefined) {
       // If we've got an organization loaded, let's use the default query that
       // looks at the first organization. If the user isn't part of any
       // organization, we'll use the default that doesn't retrieve organization

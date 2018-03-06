@@ -474,6 +474,14 @@ const QUERIES = {
         }
       }
     }
+  `,
+  "graphql_console/snippet": Relay.QL`
+    query GraphQLSnippet($uuid: String!) {
+      graphQLSnippet(uuid: $uuid) {
+        query
+        operationName
+      }
+    }
   `
 };
 
