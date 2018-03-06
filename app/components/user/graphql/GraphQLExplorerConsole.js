@@ -3,6 +3,7 @@
 import * as React from "react";
 import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql, commitMutation } from "react-relay/compat";
+import type { RelayProp } from 'react-relay';
 
 import Button from "../../shared/Button";
 import Dropdown from "../../shared/Dropdown";
@@ -48,6 +49,8 @@ type State = {
 
 class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   operationsDropdownComponent: ?Dropdown
+  shareLinkTextInput: ?HTMLInputElement
+  shareLinkSelected: ?boolean
 
   state = {
     results: null,
@@ -79,7 +82,8 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
       currentOperationName: defaultState.currentOperationName,
       allOperationNames: defaultState.allOperationNames,
       executing: false,
-      sharing: false
+      sharing: false,
+      shareLink: null
     };
   }
 
