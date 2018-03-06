@@ -480,6 +480,7 @@ const QUERIES = {
       graphQLSnippet(uuid: $uuid) {
         query
         operationName
+        url
       }
     }
   `

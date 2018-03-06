@@ -33,6 +33,7 @@ type Props = {
   relay: RelayProp,
   graphQLSnippet?: {
     query: string,
+    url: string,
     operationName: ?string
   }
 };
@@ -50,7 +51,7 @@ type State = {
 class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   operationsDropdownComponent: ?Dropdown
   shareLinkTextInput: ?HTMLInputElement
-  shareLinkSelected: ?boolean
+  focusOnSelectShareLinkOnNextUpdate: ?boolean
 
   state = {
     results: null,
@@ -83,7 +84,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
       allOperationNames: defaultState.allOperationNames,
       executing: false,
       sharing: false,
-      shareLink: null
+      shareLink: this.props.graphQLSnippet ? this.props.graphQLSnippet.url : null
     };
   }
 
@@ -122,16 +123,15 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
   invalidateShareLink() {
     if (this.state.shareLink) {
-      this.shareLinkSelected = false;
       this.setState({ shareLink: null });
       this.context.router.replace("/user/graphql/console");
     }
   }
 
   componentDidUpdate() {
-    if (this.shareLinkTextInput && !this.shareLinkSelected) {
+    if (this.shareLinkTextInput && this.focusOnSelectShareLinkOnNextUpdate) {
       this.shareLinkTextInput.select();
-      this.shareLinkSelected = true;
+      this.focusOnSelectShareLinkOnNextUpdate = null;
     }
   }
 
@@ -225,10 +225,10 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
   renderShareLink() {
     if (this.state.shareLink) {
-      const estimatedWidth = this.state.shareLink.length * 7.42;
+      const estimatedWidth = this.state.shareLink.length * 7.3;
 
       return (
-        <div className="flex-auto mr2" style={{ maxWidth: estimatedWidth }}>
+        <div className="flex-auto mr2" style={{ maxWidth: 450 }}>
           <input
             ref={(textInput) => this.shareLinkTextInput = textInput}
             type="text"
@@ -320,6 +320,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   handleMutationComplete = (response) => {
     const shareLinkURL = new URL(response.graphQLSnippetCreate.graphQLSnippet.url);
 
+    this.focusOnSelectShareLinkOnNextUpdate = true;
     this.setState({ sharing: false, shareLink: shareLinkURL.href });
   };
 }
@@ -329,6 +330,7 @@ export default createFragmentContainer(GraphQLExplorerConsole, {
     fragment GraphQLExplorerConsole_graphQLSnippet on GraphQLSnippet {
       query
       operationName
+      url
     }
   `,
   viewer: graphql`
