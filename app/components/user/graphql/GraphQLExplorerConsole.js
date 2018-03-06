@@ -7,7 +7,6 @@ import { createFragmentContainer, graphql, commitMutation } from "react-relay/co
 import Button from "../../shared/Button";
 import Dropdown from "../../shared/Dropdown";
 
-import GraphQLErrors from '../../../constants/GraphQLErrors';
 import FlashesStore from '../../../stores/FlashesStore';
 
 import GraphQLExplorerConsoleEditor from "./GraphQLExplorerConsoleEditor";
@@ -29,6 +28,11 @@ type Props = {
     organizations: {
       edges: Array<OrganizationEdge>
     }
+  },
+  relay: RelayProp,
+  graphQLSnippet?: {
+    query: string,
+    operationName: ?string
   }
 };
 
@@ -220,18 +224,18 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
       const estimatedWidth = this.state.shareLink.length * 7.42;
 
       return (
-        <div className="flex-auto mr2" style={{maxWidth: estimatedWidth}}>
+        <div className="flex-auto mr2" style={{ maxWidth: estimatedWidth }}>
           <input
             ref={(textInput) => this.shareLinkTextInput = textInput}
             type="text"
             readOnly={true}
             value={this.state.shareLink}
-            style={{width: "100%", fontSize: "inherit"}}
+            style={{ width: "100%", fontSize: "inherit" }}
             className="p2 rounded border border-gray bg-silver"
             onClick={this.handleShareLinkClick}
           />
         </div>
-      )
+      );
     }
   }
 
