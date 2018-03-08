@@ -243,7 +243,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
             readOnly={true}
             value={this.state.shareLink}
             style={{ width: "100%", fontSize: "inherit" }}
-            className="p2 rounded border border-gray bg-silver"
+            className="p2 m0 rounded border border-gray bg-silver"
             onClick={this.handleShareLinkClick}
           />
         </div>
