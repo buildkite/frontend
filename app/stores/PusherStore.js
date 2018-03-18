@@ -41,6 +41,4 @@ class PusherStore extends EventEmitter {
   }
 }
 
-export const slanger = new PusherStore('SlangerStore');
-
 export default new PusherStore();

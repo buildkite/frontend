@@ -137,15 +137,6 @@ if (window._pusher) {
   }
 }
 
-// Also subscribe slanger if we've been asked
-if (window._slanger) {
-  const slangerStore = require("./stores/PusherStore").slanger;
-  slangerStore.configure(window._slanger["key"], window._slanger["options"]);
-  for (const channel of window._slanger["channels"]) {
-    slangerStore.listen(channel);
-  }
-}
-
 // Only do the react-router gear on pages we've designated
 window["initializeReactRouter"] = () => {
   const rootElement = document && document.getElementById("root");
