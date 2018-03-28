@@ -47,7 +47,6 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
   };
 
   wrapperNode: ?HTMLSpanElement;
-  popupNode: ?HTMLElement;
   _resizeDebounceTimeout: ?TimeoutID;
 
   handleWindowResize = () => {
@@ -110,9 +109,8 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
     //       see <https://github.com/facebook/flow/issues/4645>
     const target: Node = (event.target: any);
 
-    if (this.wrapperNode/*p
-      && this.wrapperNode.firstElementChild
-      && this.wrapperNode.firstElementChild*/.contains(target)) {
+    if (this.wrapperNode
+      && this.wrapperNode.contains(target)) {
       this.setState({ showing: true });
     }
   };
@@ -122,14 +120,11 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
     //       see <https://github.com/facebook/flow/issues/4645>
     const target: Node = (event.target: any);
 
-    if (this.wrapperNode/*
-      && this.wrapperNode.firstElementChild
-      && this.wrapperNode.firstElementChild*/.contains(target)) {
+    if (this.wrapperNode
+      && this.wrapperNode.contains(target)) {
       this.setState({ showing: false });
     }
   };
-
-  onRef = (popupNode) => this.popupNode = popupNode;
 
   renderPopover(children: React$Node) {
     if (!this.state.showing) {
@@ -144,7 +139,6 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
         offsetX={offsetX}
         offsetY={offsetY}
         nibOffsetX={nibOffsetX}
-        innerRef={this.onRef}
         width={width}
       >
         {children}

@@ -76,6 +76,7 @@ export default class Dropdown extends React.PureComponent<Props, State> {
 
   wrapperNode: ?HTMLSpanElement;
   _resizeDebounceTimeout: ?TimeoutID;
+  lastEventTime: ?number;
 
   handleWindowResize = () => {
     // when hidden, we wait for the resize to be finished!
