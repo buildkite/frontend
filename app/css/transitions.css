@@ -9,11 +9,11 @@
   transition: transform 120ms ease-out-back;
 }
 
-.transition-appear-pop-leave {
+.transition-appear-pop-exit {
   transform: scale(1);
 }
 
-.transition-appear-pop-leave.transition-appear-pop-leave-active {
+.transition-appear-pop-exit.transition-appear-pop-exit-active {
   transform: scale(0);
   transition: transform 120ms ease-in-back;
 }
@@ -41,11 +41,11 @@
   transition: opacity 90ms ease-out-back, transform 100ms ease-out-back;
 }
 
-.transition-opacity-leave {
+.transition-opacity-exit {
   opacity: 1;
 }
 
-.transition-opacity-leave.transition-opacity-leave-active {
+.transition-opacity-exit.transition-opacity-exit-active {
   opacity: 0;
   transition: opacity 90ms ease-in-back, transform 100ms ease-in-back;
 }
@@ -64,12 +64,12 @@
   transition: opacity 75ms linear, transform 300ms ease-out-back;
 }
 
-.transition-slide-up-leave {
+.transition-slide-up-exit {
   opacity: 1;
   transform: translateY(0);
 }
 
-.transition-slide-up-leave.transition-slide-up-leave-active {
+.transition-slide-up-exit.transition-slide-up-exit-active {
   opacity: 0;
   transform: translateY(-15px);
   transition: opacity 200ms linear, transform 500ms ease-in-back;

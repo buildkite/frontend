@@ -173,10 +173,6 @@ class Dialog extends React.Component {
   }
 
   renderDialog() {
-    if (!this.state.visible) {
-      return <span />;
-    }
-
     return (
       <DialogContainer>
         <DialogBox width={this.props.width}>
@@ -196,6 +192,7 @@ class Dialog extends React.Component {
       <DialogWrapper>
         {this.renderBackdrop()}
         <CSSTransition
+          in={this.state.visible}
           classNames="transition-slide-up"
           timeout={{
             enter: 150,
