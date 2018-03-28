@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 import { hour, seconds } from 'metrick/duration';
 
@@ -82,9 +82,15 @@ class MyBuilds extends React.Component {
         <DropdownButton className={classNames("flex-none py0", { "lime": this.state.isDropdownVisible })} onMouseEnter={this.handleButtonMouseEnter}>
           {'My Builds '}
           <div className="xs-hide">
-            <CSSTransitionGroup transitionName="transition-appear-pop" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
+            <CSSTransition
+              classNames="transition-appear-pop"
+              timeout={{
+                enter: 200,
+                exit: 200
+              }}
+            >
               {this.renderBadge()}
-            </CSSTransitionGroup>
+            </CSSTransition>
           </div>
           <Icon
             icon="down-triangle"
@@ -105,14 +111,16 @@ class MyBuilds extends React.Component {
   renderBadge() {
     const buildsCount = this.state.runningBuildsCount + this.state.scheduledBuildsCount;
 
-    // Only render the badge if we've actually got a number to show
-    if (buildsCount) {
-      return (
-        <Badge className={classNames("hover-lime-child", { "bg-lime": this.state.isDropdownVisible })}>
-          {buildsCount}
-        </Badge>
-      );
+    // Render nothing (an empty span) if we've not got a number to show
+    if (!buildsCount) {
+      return <span />;
     }
+
+    return (
+      <Badge className={classNames("hover-lime-child", { "bg-lime": this.state.isDropdownVisible })}>
+        {buildsCount}
+      </Badge>
+    );
   }
 
   renderDropdown() {

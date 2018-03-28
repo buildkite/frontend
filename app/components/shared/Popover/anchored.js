@@ -2,7 +2,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import Popover from '.';
 import calculateViewportOffsets from './calculate-viewport-offsets';
@@ -48,7 +47,6 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
   };
 
   wrapperNode: ?HTMLSpanElement;
-  popupNode: ?HTMLElement;
   _resizeDebounceTimeout: ?TimeoutID;
 
   handleWindowResize = () => {
@@ -112,8 +110,7 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
     const target: Node = (event.target: any);
 
     if (this.wrapperNode
-      && this.wrapperNode.firstElementChild
-      && this.wrapperNode.firstElementChild.contains(target)) {
+      && this.wrapperNode.contains(target)) {
       this.setState({ showing: true });
     }
   };
@@ -124,8 +121,7 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
     const target: Node = (event.target: any);
 
     if (this.wrapperNode
-      && this.wrapperNode.firstElementChild
-      && this.wrapperNode.firstElementChild.contains(target)) {
+      && this.wrapperNode.contains(target)) {
       this.setState({ showing: false });
     }
   };
@@ -143,7 +139,6 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
         offsetX={offsetX}
         offsetY={offsetY}
         nibOffsetX={nibOffsetX}
-        innerRef={(popupNode) => this.popupNode = popupNode}
         width={width}
       >
         {children}
@@ -155,13 +150,14 @@ export default class AnchoredPopover extends React.PureComponent<Props, State> {
     const { className, position, style } = this.props;
 
     const [firstChild, ...children] = React.Children.toArray(this.props.children);
-    const wrapperClassName = classNames(position, className);
+
+    const wrapperStyle = Object.assign({ position }, style);
 
     return (
       <span
         ref={(wrapperNode) => this.wrapperNode = wrapperNode}
-        className={wrapperClassName}
-        style={style}
+        className={className}
+        style={wrapperStyle}
         onMouseOver={this.handleMouseOver}
         onMouseOut={this.handleMouseOut}
       >
