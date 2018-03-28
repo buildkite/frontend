@@ -266,7 +266,7 @@ export default class Dropdown extends React.PureComponent<Props, State> {
         className={classNames.join(' ')}
       >
         {firstChild}
-          {this.renderPopover(children)}
+        {this.renderPopover(children)}
       </span>
     );
   }
