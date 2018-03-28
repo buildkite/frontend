@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
 import Icon from './Icon';
@@ -195,9 +195,15 @@ class Dialog extends React.Component {
     return (
       <DialogWrapper>
         {this.renderBackdrop()}
-        <CSSTransitionGroup transitionName="transition-slide-up" transitionEnterTimeout={150} transitionLeaveTimeout={300}>
+        <CSSTransition
+          classNames="transition-slide-up"
+          timeout={{
+            enter: 150,
+            exit: 300
+          }}
+        >
           {this.renderDialog()}
-        </CSSTransitionGroup>
+        </CSSTransition>
       </DialogWrapper>
     );
   }

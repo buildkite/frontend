@@ -1,27 +1,3 @@
-/* popup */
-
-.transition-popup-enter {
-  opacity: 0;
-  transform: scaleX(.8) scaleY(.5);
-}
-
-.transition-popup-enter.transition-popup-enter-active {
-  opacity: 1;
-  transform: scaleX(1) scaleY(1);
-  transition: opacity 90ms ease-out-back, transform 120ms ease-out-back;
-}
-
-.transition-popup-leave {
-  opacity: 1;
-  transform: scaleX(1) scaleY(1);
-}
-
-.transition-popup-leave.transition-popup-leave-active {
-  opacity: 0;
-  transform: scaleX(.8) scaleY(.5);
-  transition: opacity 90ms ease-in-back, transform 120ms ease-in-back;
-}
-
 /* transition-appear-pop */
 
 .transition-appear-pop-enter {

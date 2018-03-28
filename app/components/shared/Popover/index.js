@@ -4,7 +4,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+const upPointingWhiteNibPath = require('../../../images/up-pointing-white-nib.svg');
+
 const NIB_WIDTH = 32;
+
+const Wrapper = styled.div`
+  background-color: #fff;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.298039) 0px 4px 10px 0px,
+              rgba(0, 0, 0, 0.027451) 0px 0px 0px 1px;
+  box-sizing: border-box;
+  color: rgb(51, 51, 51);
+  margin-top: 5px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  position: absolute;
+  z-index: 3;
+`;
 
 const ScrollZone = styled.div`
   max-height: 80vh;
@@ -12,9 +29,10 @@ const ScrollZone = styled.div`
   -webkit-overflow-scrolling: touch;
 `;
 
-const Nib = styled.img.attrs({
-  className: 'absolute pointer-events-none'
-})`
+const Nib = styled.img`
+  position: absolute;
+  pointer-events: none;
+  left: 50%;
   top: -20px;
   width: ${NIB_WIDTH}px;
   height: 20px;
@@ -52,7 +70,7 @@ export default class Popover extends React.PureComponent<Props> {
   };
 
   render() {
-    const { children, innerRef, nibOffsetX, offsetX, offsetY: top, style, width } = this.props;
+    const { children, innerRef, nibOffsetX, offsetX, offsetY: top, style, width, ...props } = this.props;
 
     const offset = (width / 2) - offsetX;
 
@@ -61,27 +79,24 @@ export default class Popover extends React.PureComponent<Props> {
       top,
       transformOrigin: `${offset + nibOffsetX}px -15px`,
       width,
-      zIndex: 100
+      zIndex: 3
     };
 
     return (
-      <div
-        className="absolute mt1 bg-white rounded-2 shadow border border-gray block py1 transition-popup"
-        ref={innerRef}
+      <Wrapper
+        innerRef={innerRef}
         style={Object.assign(popoverStyles, style)}
+        {...props}
       >
         <Nib
-          src={require('../../../images/up-pointing-white-nib.svg')}
-          style={{
-            left: '50%',
-            marginLeft: -(NIB_WIDTH / 2) - offsetX + nibOffsetX
-          }}
+          src={upPointingWhiteNibPath}
+          style={{ marginLeft: -(NIB_WIDTH / 2) - offsetX + nibOffsetX }}
           alt=""
         />
         <ScrollZone>
           {children}
         </ScrollZone>
-      </div>
+      </Wrapper>
     );
   }
 }
