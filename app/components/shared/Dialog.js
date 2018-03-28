@@ -174,7 +174,7 @@ class Dialog extends React.Component {
 
   renderDialog() {
     if (!this.state.visible) {
-      return;
+      return <span />;
     }
 
     return (
