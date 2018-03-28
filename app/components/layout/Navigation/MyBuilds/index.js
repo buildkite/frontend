@@ -83,6 +83,7 @@ class MyBuilds extends React.Component {
           {'My Builds '}
           <div className="xs-hide">
             <CSSTransition
+              in={this.getBuildsCount()}
               classNames="transition-appear-pop"
               timeout={{
                 enter: 200,
@@ -108,8 +109,12 @@ class MyBuilds extends React.Component {
     );
   }
 
+  getBuildsCount() {
+    return this.state.runningBuildsCount + this.state.scheduledBuildsCount;
+  }
+
   renderBadge() {
-    const buildsCount = this.state.runningBuildsCount + this.state.scheduledBuildsCount;
+    const buildsCount = this.getBuildsCount();
 
     // Render nothing (an empty span) if we've not got a number to show
     if (!buildsCount) {

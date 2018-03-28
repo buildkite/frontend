@@ -51,6 +51,7 @@ class NewChangelogsBadge extends React.PureComponent<Props> {
     return (
       <CSSTransition
         classNames="transition-changelog-appear"
+        in={true}
         appear={true}
         timeout={{
           enter: 5000,
