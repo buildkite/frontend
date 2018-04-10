@@ -37,8 +37,7 @@ class GraphQLExplorerConsoleResultsViewer extends React.PureComponent<Props & Lo
         value: this.props.results || "",
         theme: "graphql",
         mode: "graphql-results",
-        readOnly: true,
-        scrollbarStyle: "simple"
+        readOnly: true
       });
     }
   }
