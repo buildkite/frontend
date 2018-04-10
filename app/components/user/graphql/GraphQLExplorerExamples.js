@@ -15,14 +15,14 @@ class GraphQLExplorerExamples extends React.PureComponent {
   getCurrentOrganization() {
     if (this.state.currentOrganization) {
       return this.state.currentOrganization;
-    } else if (this.props.viewer && this.props.viewer.organizations.edges.length) {
+    } else if (this.props.viewer.organizations.edges.length) {
       return this.props.viewer.organizations.edges[0].node;
     }
     return null;
   }
 
   renderOrganizationSwitcher() {
-    if (!this.props.viewer || this.props.viewer.organizations.edges.length <= 1) {
+    if (this.props.viewer.organizations.edges.length <= 1) {
       return null;
     }
 

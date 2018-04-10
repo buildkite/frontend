@@ -128,7 +128,7 @@ export default (
           <Route path=":snippet" component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query, graphQLSnippet: GraphQLSnippetQuery.query }} />
         </Route>
         <Route path="documentation" component={GraphQLExplorerDocumentation} />
-        <Route path="examples" component={GraphQLExplorerExamples} />
+        <Route path="examples" component={GraphQLExplorerExamples} queries={{ viewer: ViewerQuery.query }} />
       </Route>
 
       <Route path="organizations/:organization">
