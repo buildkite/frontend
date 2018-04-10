@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import Button from "../../shared/Button";
-import { interpolateQuery, setCurrentQuery } from "./query";
+import { interpolateQuery } from "./query";
+import consoleState from "./consoleState";
 
 import CodeMirror from './codemirror';
 
@@ -12,9 +13,12 @@ class GraphQLExplorerExampleSection extends React.PureComponent {
   };
 
   getInterpolatedQuery() {
-    return interpolateQuery(this.props.query, {
-      organization: this.props.organization
-    });
+    return interpolateQuery(
+      this.props.query,
+      {
+        organization: this.props.organization
+      }
+    );
   }
 
   componentDidMount() {
@@ -35,7 +39,7 @@ class GraphQLExplorerExampleSection extends React.PureComponent {
   componentDidUpdate(prevProps) {
     // If the organization changes, we'll need to re-interpolate the query as
     // the variables inside it will probably have changed.
-    if (this.props.organization != prevProps.organization) {
+    if (this.props.organization !== prevProps.organization) {
       this.editor.setValue(this.getInterpolatedQuery());
     }
   }
@@ -48,7 +52,7 @@ class GraphQLExplorerExampleSection extends React.PureComponent {
           theme="default"
           className="absolute bg-white"
           outline={true}
-          onClick={this.onCopyToConsoleClick}
+          onClick={this.handleCopyToConsoleClick}
         >
           Copy to Console
         </Button>
@@ -58,10 +62,10 @@ class GraphQLExplorerExampleSection extends React.PureComponent {
     );
   }
 
-  onCopyToConsoleClick = (event) => {
+  handleCopyToConsoleClick = (event) => {
     event.preventDefault();
 
-    setCurrentQuery(this.getInterpolatedQuery());
+    consoleState.setQuery(this.getInterpolatedQuery());
 
     this.context.router.push("/user/graphql/console");
   };

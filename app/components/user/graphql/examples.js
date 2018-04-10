@@ -24,7 +24,7 @@ query FirstThreePipelinesQuery {
   "ORG_GET_TEAMS": {
     query: `# Listing the teams within your organization
 
-query FirstThreePipelinesQuery {
+query FirstThreeTeamsQuery {
   organization(slug: $organizationSlug) {
     teams(first: 3) {
       edges {

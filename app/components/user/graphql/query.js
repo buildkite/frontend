@@ -1,8 +1,6 @@
 import { parse } from 'graphql';
 import { window } from 'global';
 
-const LOCAL_STORAGE_CURRENT_QUERY_KEY = "GraphQLExplorer.currentQuery";
-
 export function executeQuery(params) {
   return fetch(window._graphql['url'], {
     method: 'post',
@@ -48,16 +46,4 @@ export function findQueryOperationNames(query) {
   });
 
   return operations;
-}
-
-export function getCurrentQuery() {
-  return localStorage.getItem(LOCAL_STORAGE_CURRENT_QUERY_KEY);
-}
-
-export function setCurrentQuery(query) {
-  if (!query) {
-    localStorage.removeItem(LOCAL_STORAGE_CURRENT_QUERY_KEY);
-  } else {
-    localStorage.setItem(LOCAL_STORAGE_CURRENT_QUERY_KEY, query);
-  }
 }
