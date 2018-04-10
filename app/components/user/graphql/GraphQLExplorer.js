@@ -34,6 +34,8 @@ class GraphQLExplorer extends React.PureComponent<Props> {
           <div>
             <TabControl>
               <TabControl.Tab to={`/user/graphql/console`}>Console</TabControl.Tab>
+              <TabControl.Tab to={`/user/graphql/documentation`}>Documentation</TabControl.Tab>
+              <TabControl.Tab to={`/user/graphql/examples`}>Examples</TabControl.Tab>
             </TabControl>
 
             {this.props.children}

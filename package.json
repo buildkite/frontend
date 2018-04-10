@@ -115,7 +115,8 @@
     "styled-transition-group": "^1.0.0",
     "throttleit": "^1.0.0",
     "uuid": "^3.0.1",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "word-wrap": "^1.2.3"
   },
   "jest": {
     "collectCoverageFrom": [
