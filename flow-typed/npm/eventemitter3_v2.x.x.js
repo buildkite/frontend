@@ -1,5 +1,5 @@
-// flow-typed signature: e0e60921e1438e658e9a94a81829c155
-// flow-typed version: a90ebf442a/eventemitter3_v3.x.x/flow_>=v0.25.x
+// flow-typed signature: 76f51ef20bbe6321921815944b311a06
+// flow-typed version: b43dff3e0e/eventemitter3_v2.x.x/flow_>=v0.25.x
 
 declare module 'eventemitter3' {
   declare type ListenerFn = (...args: any[]) => void
@@ -7,8 +7,8 @@ declare module 'eventemitter3' {
     static constructor(): EventEmitter,
     static prefixed: string | boolean,
     eventNames(): (string | Symbol)[],
-    listeners(event: string | Symbol): ListenerFn[],
-    listenerCount(event: string | Symbol): number,
+    listeners(event: string | Symbol, existence?: false): ListenerFn[],
+    listeners(event: string | Symbol, existence: true): boolean,
     on(event: string | Symbol, listener: ListenerFn, context?: any): this,
     addListener(event: string | Symbol, listener: ListenerFn, context?: any): this,
     once(event: string | Symbol, listener: ListenerFn, context?: any): this,
