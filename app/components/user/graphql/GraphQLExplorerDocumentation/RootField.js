@@ -1,7 +1,13 @@
+// @flow
+
 import React from "react";
 import { Link } from 'react-router';
 
-class RootField extends React.PureComponent {
+type Props = {
+  name: string
+};
+
+export default class RootField extends React.PureComponent<Props> {
   render() {
     const [type, name] = this.props.name.split(".");
 
@@ -14,5 +20,3 @@ class RootField extends React.PureComponent {
     );
   }
 }
-
-export default RootField;

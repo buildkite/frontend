@@ -1,6 +1,12 @@
+// @flow
+
 import React from "react";
 
-class Argument extends React.PureComponent {
+type Props = {
+  name: string
+};
+
+export default class Argument extends React.PureComponent<Props> {
   render() {
     return (
       <span className="cm-s-graphql monospace">
@@ -9,5 +15,3 @@ class Argument extends React.PureComponent {
     );
   }
 }
-
-export default Argument;
