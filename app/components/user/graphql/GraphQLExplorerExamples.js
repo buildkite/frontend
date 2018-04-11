@@ -1,3 +1,5 @@
+// @flow
+
 import React from "react";
 import { createFragmentContainer, graphql } from "react-relay/compat";
 
@@ -7,10 +9,31 @@ import Dropdown from "../../shared/Dropdown";
 import GraphQLExplorerExampleSection from "./GraphQLExplorerExampleSection";
 import EXAMPLES from "./examples";
 
-class GraphQLExplorerExamples extends React.PureComponent {
+type Organization = {
+  id: string,
+  name: string
+};
+
+type Props = {
+  viewer: {
+    organizations: {
+      edges: Array<{
+        node: Organization
+      }>
+    }
+  }
+};
+
+type State = {
+  currentOrganization: ?Organization
+};
+
+class GraphQLExplorerExamples extends React.PureComponent<Props, State> {
   state = {
     currentOrganization: null
   }
+
+  organizationDropdownComponent: ?Dropdown;
 
   getCurrentOrganization() {
     if (this.state.currentOrganization) {
@@ -22,8 +45,8 @@ class GraphQLExplorerExamples extends React.PureComponent {
     return null;
   }
 
-  renderOrganizationSwitcher() {
-    if (this.props.viewer.organizations.edges.length <= 1) {
+  renderOrganizationSwitcher(organization) {
+    if (organization === null) {
       return null;
     }
 
@@ -36,7 +59,7 @@ class GraphQLExplorerExamples extends React.PureComponent {
           ref={(organizationDropdownComponent) => this.organizationDropdownComponent = organizationDropdownComponent}
         >
           <div className="underline-dotted cursor-pointer inline-block">
-            {this.getCurrentOrganization().name}
+            {organization.name}
           </div>
           {this.props.viewer.organizations.edges.map((edge) => {
             return (
@@ -63,13 +86,16 @@ class GraphQLExplorerExamples extends React.PureComponent {
       <div>
         <p>Here are some example GraphQL Query and Mutations to get you started.</p>
 
-        {this.renderOrganizationSwitcher()}
+        {this.renderOrganizationSwitcher(currentOrganization)}
 
-        {Object.entries(EXAMPLES).map(([id, example]) => {
+        {EXAMPLES.map((example) => {
           return (
-            <Panel key={id} style={{ borderLeftWidth: 4 }} className="mb4">
-              <Panel.Section key={id}>
-                <GraphQLExplorerExampleSection name={example.name} query={example.query} organization={currentOrganization} />
+            <Panel key={example} style={{ borderLeftWidth: 4 }} className="mb4">
+              <Panel.Section>
+                <GraphQLExplorerExampleSection
+                  query={example}
+                  organization={currentOrganization}
+                />
               </Panel.Section>
             </Panel>
           );
@@ -83,7 +109,9 @@ class GraphQLExplorerExamples extends React.PureComponent {
 
     this.setState({ currentOrganization: organization });
 
-    this.organizationDropdownComponent.setShowing(false);
+    if (this.organizationDropdownComponent) {
+      this.organizationDropdownComponent.setShowing(false);
+    }
   };
 }
 

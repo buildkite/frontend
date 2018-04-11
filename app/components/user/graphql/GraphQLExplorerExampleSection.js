@@ -1,3 +1,5 @@
+// @flow
+
 import React from "react";
 import PropTypes from 'prop-types';
 
@@ -7,10 +9,18 @@ import consoleState from "./consoleState";
 
 import CodeMirror from './codemirror';
 
-class GraphQLExplorerExampleSection extends React.PureComponent {
+type Props = {
+  query: string,
+  organization: ?Object
+};
+
+class GraphQLExplorerExampleSection extends React.PureComponent<Props> {
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
+
+  editor: CodeMirror;
+  exampleQueryContainerElement: ?HTMLDivElement;
 
   getInterpolatedQuery() {
     return interpolateQuery(
@@ -36,7 +46,7 @@ class GraphQLExplorerExampleSection extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: { organization: ?Object }) {
     // If the organization changes, we'll need to re-interpolate the query as
     // the variables inside it will probably have changed.
     if (this.props.organization !== prevProps.organization) {
@@ -62,7 +72,7 @@ class GraphQLExplorerExampleSection extends React.PureComponent {
     );
   }
 
-  handleCopyToConsoleClick = (event) => {
+  handleCopyToConsoleClick = (event: MouseEvent) => {
     event.preventDefault();
 
     consoleState.setQuery(this.getInterpolatedQuery());

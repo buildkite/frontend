@@ -1,6 +1,6 @@
-export default {
-  "ORG_GET_PIPELINES": {
-    query: `# Getting the first 3 Pipelines of an Organization
+// @flow
+
+export default [`# Getting the first 3 Pipelines of an Organization
 
 query FirstThreePipelinesQuery {
   organization(slug: $organizationSlug) {
@@ -18,11 +18,9 @@ query FirstThreePipelinesQuery {
       }
     }
   }
-}`
-  },
+}`,
 
-  "ORG_GET_TEAMS": {
-    query: `# Listing the teams within your organization
+  `# Listing the teams within your organization
 
 query FirstThreeTeamsQuery {
   organization(slug: $organizationSlug) {
@@ -44,11 +42,9 @@ query FirstThreeTeamsQuery {
       }
     }
   }
-}`
-  },
+}`,
 
-  "CREATE_AGENT_TOKEN": {
-    query: `# Creating an Agent Registration Token
+  `# Creating an Agent Registration Token
 
 mutation CreateAgentToken {
   agentTokenCreate(input: {
@@ -63,11 +59,9 @@ mutation CreateAgentToken {
       }
     }
   }
-}`
-  },
+}`,
 
-  "REVOKING_AN_AGENT_TOKEN": {
-    query: `# Revoking an Agent Registration Token
+  `# Revoking an Agent Registration Token
 
 mutation RevokeAgentToken {
   agentTokenRevoke(input: {
@@ -84,5 +78,4 @@ mutation RevokeAgentToken {
     }
   }
 }`
-  }
-};
+];
