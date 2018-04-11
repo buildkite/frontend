@@ -1,9 +1,17 @@
+// @flow
+
 import React from "react";
 
 import RootField from "./GraphQLExplorerDocumentation/RootField";
 import { getGraphQLSchema } from "./schema";
 
-class GraphQLExplorerDocumentationMutation extends React.PureComponent {
+type Props = {
+  params: {
+    field: string
+  }
+};
+
+class GraphQLExplorerDocumentationMutation extends React.PureComponent<Props> {
   render() {
     const schema = getGraphQLSchema();
     const field = schema.getQueryType().getFields()[this.props.params.field];
