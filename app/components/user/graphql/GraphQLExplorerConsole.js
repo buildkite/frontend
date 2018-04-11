@@ -206,7 +206,11 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
     if (this.state.results) {
       return (
         <React.Fragment>
-          <GraphQLExplorerConsoleResultsViewer results={this.state.results.output} className="p1 flex-auto bg-silver" style={{ width: "100%" }} />
+          <GraphQLExplorerConsoleResultsViewer
+            results={this.state.results.output}
+            className="p1 flex-auto bg-silver"
+            style={{ width: "100%" }}
+          />
           {this.renderDebuggingInformation()}
         </React.Fragment>
       );

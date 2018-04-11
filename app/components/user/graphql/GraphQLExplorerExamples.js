@@ -31,14 +31,23 @@ class GraphQLExplorerExamples extends React.PureComponent {
       <div className="mb3 flex">
         <span className="semi-bold mr1">Change Organization:</span>
 
-        <Dropdown width={150} ref={(c) => this.organizationDropdownComponent = c}>
+        <Dropdown
+          width={150}
+          ref={(organizationDropdownComponent) => this.organizationDropdownComponent = organizationDropdownComponent}
+        >
           <div className="underline-dotted cursor-pointer inline-block">
             {this.getCurrentOrganization().name}
           </div>
           {this.props.viewer.organizations.edges.map((edge) => {
             return (
-              <div key={edge.node.id} className="btn block hover-bg-silver" onClick={(event) => this.onOrganizationClick(event, edge.node)}>
-                <span className="block">{edge.node.name}</span>
+              <div
+                key={edge.node.id}
+                className="btn block hover-bg-silver"
+                onClick={(event) => this.onOrganizationClick(event, edge.node)}
+              >
+                <span className="block">
+                  {edge.node.name}
+                </span>
               </div>
             );
           })}
