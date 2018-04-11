@@ -18,7 +18,7 @@ class GraphQLExplorerDocumentation extends React.Component {
         // Only include the ", " seperator between each argument (not after the
         // last one).
         let seperator;
-        if ((argumentIndex + 1) != field.args.length && field.args.length > 1) {
+        if ((argumentIndex + 1) !== field.args.length && field.args.length > 1) {
           seperator = (
             <span className="cm-punctuation">, </span>
           );
@@ -33,7 +33,7 @@ class GraphQLExplorerDocumentation extends React.Component {
 
       // Insert an empty line between each field (except the last one).
       let fieldSeperatorNode;
-      if ((fieldIndex + 1) != totalFieldsCount && totalFieldsCount > 1) {
+      if ((fieldIndex + 1) !== totalFieldsCount && totalFieldsCount > 1) {
         fieldSeperatorNode = (
           <div>&nbsp;</div>
         );
