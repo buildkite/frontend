@@ -73,6 +73,7 @@ class GraphQLExplorerExamples extends React.PureComponent {
     event.preventDefault();
 
     this.setState({ currentOrganization: organization });
+
     this.organizationDropdownComponent.setShowing(false);
   };
 }

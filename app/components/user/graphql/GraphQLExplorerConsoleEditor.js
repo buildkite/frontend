@@ -56,7 +56,7 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent<Props & LoadedPro
           showCursorWhenSelecting: true,
           viewportMargin: Infinity,
           gutters: ['CodeMirror-linenumbers'],
-          theme: "graphql",
+          theme: 'graphql',
           extraKeys: {
             'Cmd-Space': () => this.codeMirrorInstance && this.codeMirrorInstance.showHint({ completeSingle: true }),
             'Ctrl-Space': () => this.codeMirrorInstance && this.codeMirrorInstance.showHint({ completeSingle: true }),
