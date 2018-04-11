@@ -12,7 +12,7 @@ class GraphQLExplorerDocumentationQuery extends React.PureComponent {
 
     return (
       <div>
-        <h2>Field: <RootField name={`query.${this.props.params.field}`} /></h2>
+        <h2>Query: <RootField name={`query.${this.props.params.field}`} /></h2>
       </div>
     );
   }
