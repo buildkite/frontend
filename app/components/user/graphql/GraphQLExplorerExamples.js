@@ -18,6 +18,7 @@ class GraphQLExplorerExamples extends React.PureComponent {
     } else if (this.props.viewer.organizations.edges.length) {
       return this.props.viewer.organizations.edges[0].node;
     }
+
     return null;
   }
 
@@ -57,7 +58,7 @@ class GraphQLExplorerExamples extends React.PureComponent {
 
         {Object.entries(EXAMPLES).map(([id, example]) => {
           return (
-            <Panel style={{ borderLeftWidth: 4 }} className="mb4">
+            <Panel key={id} style={{ borderLeftWidth: 4 }} className="mb4">
               <Panel.Section key={id}>
                 <GraphQLExplorerExampleSection name={example.name} query={example.query} organization={currentOrganization} />
               </Panel.Section>
