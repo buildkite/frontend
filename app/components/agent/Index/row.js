@@ -18,6 +18,7 @@ type Props = {
     job?: {
       state: string
     },
+    isRunningJob: boolean,
     metaData: Array<Object>,
     name: string,
     organization: {
