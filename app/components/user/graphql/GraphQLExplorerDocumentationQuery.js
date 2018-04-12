@@ -11,19 +11,23 @@ type Props = {
   }
 };
 
-class GraphQLExplorerDocumentationQuery extends React.PureComponent<Props> {
+export default class GraphQLExplorerDocumentationQuery extends React.PureComponent<Props> {
   render() {
+    const fieldname = this.props.params.field;
     const schema = getGraphQLSchema();
-    const field = schema.getQueryType().getFields()[this.props.params.field];
+    const field = schema.getQueryType().getFields()[fieldname];
 
     console.log(field);
 
     return (
       <div>
-        <h2>Query: <RootField name={`query.${this.props.params.field}`} /></h2>
+        <h2>Query: <RootField name={`query.${fieldname}`} /></h2>
+        {field.isDeprecated && <p>This query is deprecated. {field.deprecationReason}</p>}
+        <p>{field.description || 'No description available.'}</p>
+        <h3>Arguments</h3>
+        <h3>Returns</h3>
+        <pre>{JSON.stringify(field, null, '  ')}</pre>
       </div>
     );
   }
 }
-
-export default GraphQLExplorerDocumentationQuery;

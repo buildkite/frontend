@@ -1,3 +1,5 @@
+// @flow
+
 import { introspectionQuery, buildClientSchema } from 'graphql';
 
 import { executeQuery } from './query';

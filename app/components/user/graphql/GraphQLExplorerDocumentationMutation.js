@@ -11,19 +11,21 @@ type Props = {
   }
 };
 
-class GraphQLExplorerDocumentationMutation extends React.PureComponent<Props> {
+export default class GraphQLExplorerDocumentationMutation extends React.PureComponent<Props> {
   render() {
+    const fieldname = this.props.params.field;
     const schema = getGraphQLSchema();
-    const field = schema.getQueryType().getFields()[this.props.params.field];
+    const field = schema.getMutationType().getFields()[fieldname];
 
     console.log(field);
 
     return (
       <div>
-        <h2>Mutation: <RootField name={`mutation.${this.props.params.field}`} /></h2>
+        <h2>Mutation: <RootField name={`mutation.${fieldname}`} /></h2>
+        {field.isDeprecated && <p>This mutation is deprecated. {field.deprecationReason}</p>}
+        <p>{field.description || 'No description available.'}</p>
+        <pre>{JSON.stringify(field, null, '  ')}</pre>
       </div>
     );
   }
 }
-
-export default GraphQLExplorerDocumentationMutation;
