@@ -17,7 +17,7 @@ export default class GraphQLExplorerDocumentationMutation extends React.PureComp
     const schema = getGraphQLSchema();
     const field = schema.getMutationType().getFields()[fieldname];
 
-    console.log(field);
+    // console.log(field);
 
     return (
       <div>

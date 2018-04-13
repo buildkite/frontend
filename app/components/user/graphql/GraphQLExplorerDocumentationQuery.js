@@ -17,7 +17,7 @@ export default class GraphQLExplorerDocumentationQuery extends React.PureCompone
     const schema = getGraphQLSchema();
     const field = schema.getQueryType().getFields()[fieldname];
 
-    console.log(field);
+    // console.log(field);
 
     return (
       <div>
