@@ -148,13 +148,27 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
           <div className="flex flex-auto justify-end items-center pl2">
             {this.renderShareLink()}
 
-            <Dropdown width={280} ref={(component) => this.shareDropdownComponent = component}>
-              <Button theme={"default"} outline={true} loading={this.state.sharing && "Generating share link…"}>Share</Button>
+            <Dropdown width={320} ref={(component) => this.shareDropdownComponent = component}>
+              <Button
+                theme="default"
+                outline={true}
+                loading={this.state.sharing && "Generating share link…"}
+              >
+                Share Query
+              </Button>
 
-              <div className="m3">
-                <p>When you share a GraphQL query, Buildkite will generate a unique URL that you can send to someone.</p>
-                <p>Anyone who has access to the secret URL will be able to see a copy of your query (not your results), regardless of what Buildkite Organization they’re in.</p>
-                <Button onClick={this.handleShareClick} style={{ width: "100%" }}>Share GraphQL Query</Button>
+              <div className="mx3 my2">
+                <p className="mt2">
+                  When you share a GraphQL query, Buildkite generates a unique URL for it.
+                  Anyone with that URL and a Buildkite account will be able to see your query and arguments.
+                </p>
+                <p>If they run your shared query, the result will only include items they already have access to, according to their Organization and Team memberships.</p>
+                <Button
+                  onClick={this.handleShareClick}
+                  style={{ width: "100%" }}
+                >
+                  Ok, Share this Query
+                </Button>
               </div>
             </Dropdown>
           </div>
