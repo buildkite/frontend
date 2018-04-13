@@ -7,6 +7,10 @@ import PageHeader from "../../shared/PageHeader";
 import TabControl from "../../shared/TabControl";
 import Icon from "../../shared/Icon";
 
+declare var Features: {
+  GraphQLExplorerDocs: boolean
+};
+
 type Props = {
   children: React$Node
 };
@@ -34,7 +38,7 @@ class GraphQLExplorer extends React.PureComponent<Props> {
           <div>
             <TabControl>
               <TabControl.Tab to={`/user/graphql/console`}>Console</TabControl.Tab>
-              <TabControl.Tab to={`/user/graphql/documentation`}>Documentation</TabControl.Tab>
+              {Features.GraphQLExplorerDocs && <TabControl.Tab to={`/user/graphql/documentation`}>Documentation</TabControl.Tab>}
               <TabControl.Tab to={`/user/graphql/examples`}>Examples</TabControl.Tab>
             </TabControl>
 
