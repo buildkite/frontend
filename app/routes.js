@@ -49,6 +49,8 @@ import BillingUpgrade from './components/billing/BillingUpgrade';
 import GraphQLExplorer from './components/user/graphql/GraphQLExplorer';
 import GraphQLExplorerConsole from './components/user/graphql/GraphQLExplorerConsole';
 import GraphQLExplorerDocumentation from './components/user/graphql/GraphQLExplorerDocumentation';
+import GraphQLExplorerDocumentationQuery from './components/user/graphql/GraphQLExplorerDocumentationQuery';
+import GraphQLExplorerDocumentationMutation from './components/user/graphql/GraphQLExplorerDocumentationMutation';
 import GraphQLExplorerExamples from './components/user/graphql/GraphQLExplorerExamples';
 
 import * as AgentQuery from './queries/Agent';
@@ -127,8 +129,12 @@ export default (
           <IndexRoute component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query }} />
           <Route path=":snippet" component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query, graphQLSnippet: GraphQLSnippetQuery.query }} />
         </Route>
-        <Route path="documentation" component={GraphQLExplorerDocumentation} />
-        <Route path="examples" component={GraphQLExplorerExamples} />
+        <Route path="documentation">
+          <IndexRoute component={GraphQLExplorerDocumentation} />
+          <Route path="query/:field" component={GraphQLExplorerDocumentationQuery} />
+          <Route path="mutation/:field" component={GraphQLExplorerDocumentationMutation} />
+        </Route>
+        <Route path="examples" component={GraphQLExplorerExamples} queries={{ viewer: ViewerQuery.query }} />
       </Route>
 
       <Route path="organizations/:organization">

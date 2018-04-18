@@ -34,7 +34,8 @@ type State = {
     jobs: Array<{
       id: string,
       type: string,
-      state: string
+      state: string,
+      retriedInJobUuid: string
     }>
   }
 };

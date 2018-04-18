@@ -3,23 +3,24 @@
 
 .CodeMirror {
   height: 100% !important;
-  font-family: var(--font-family-mono) !important;
-  font-size: 12px !important;
-  line-height: 17px !important;
-  background: inherit !important;
+  font-family: var(--font-family-mono);
+  font-size: 12px;
+  line-height: 17px;
+  background: inherit;
+  z-index: 1;
 }
 
 /* Gutters and line numbers now match our grays */
 
 .CodeMirror-gutters {
-  background: inherit !important;
-  border: 0 !important;
-  color: var(--dark-gray) !important;
-  padding-right: 5px !important;
+  background: white;
+  border: 0;
+  color: var(--dark-gray);
+  padding-right: 5px;
 }
 
 .CodeMirror-linenumber {
-  background: inherit !important;
+  background: white;
 }
 
 /* Makes the autocomplete hint dialog match our panels a bit better */
@@ -28,12 +29,15 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.03);
   border-color: var(--gray);
   font-family: var(--font-family-mono);
-  font-size: 13px;
+  font-size: 12px;
+}
+
+li.CodeMirror-hint {
+  padding: 2px 6px;
 }
 
 li.CodeMirror-hint-active {
   background-color: var(--lime);
-  padding: 2px 6px;
 }
 
 /* Custom YAML Editor Theme. Mostly copied the GitHub file viewer colors */

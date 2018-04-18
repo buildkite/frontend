@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable react/prop-types */
 
 import React from 'react';
 import Relay from 'react-relay/classic';
