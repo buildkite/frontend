@@ -20,6 +20,7 @@ class Edit extends React.Component {
       commit: PropTypes.string,
       branch: PropTypes.string,
       message: PropTypes.string,
+      enabled: PropTypes.bool.isRequired,
       env: PropTypes.arrayOf(PropTypes.string),
       pipeline: PropTypes.shape({
         slug: PropTypes.string.isRequired,
@@ -55,6 +56,7 @@ class Edit extends React.Component {
                 commit={this.props.pipelineSchedule.commit}
                 branch={this.props.pipelineSchedule.branch}
                 message={this.props.pipelineSchedule.message}
+                enabled={this.props.pipelineSchedule.enabled}
                 env={this.props.pipelineSchedule.env.join("\n")}
                 ref={(form) => this.form = form}
               />
@@ -116,6 +118,7 @@ export default Relay.createContainer(Edit, {
         commit
         branch
         message
+        enabled
         env
         pipeline {
           ${Form.getFragment('pipeline')}
