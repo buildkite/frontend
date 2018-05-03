@@ -69,6 +69,7 @@ class PipelineScheduleCreate extends Relay.Mutation {
       message: this.props.message,
       commit: this.props.commit,
       branch: this.props.branch,
+      enabled: this.props.enabled,
       env: this.props.env
     };
   }
