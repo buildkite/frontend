@@ -141,7 +141,7 @@ class Show extends React.Component {
     return (
       <Panel className="mb4 p3 border-red red">
         <span>
-          This schedule was disabled because {pipelineSchedule.failedMessage}.<br/>
+          This schedule was disabled because {pipelineSchedule.failedMessage}.<br />
           If their access has been restored, this schedule can be edited and saved to re-enable it.
         </span>
       </Panel>
