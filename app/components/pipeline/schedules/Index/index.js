@@ -17,7 +17,8 @@ class Index extends React.Component {
         edges: PropTypes.arrayOf(
           PropTypes.shape({
             node: PropTypes.shape({
-              id: PropTypes.string.isRequired
+              id: PropTypes.string.isRequired,
+              failedAt: PropTypes.string
             }).isRequired
           }).isRequired
         )
@@ -37,17 +38,41 @@ class Index extends React.Component {
   render() {
     return (
       <DocumentTitle title={`Schedules · ${this.props.pipeline.name}`}>
-        <Panel>
-          <Panel.Header>Schedules</Panel.Header>
+        <React.Fragment>
+          {this.renderFailureMessage()}
+          <Panel>
+            <Panel.Header>Schedules</Panel.Header>
 
-          <Panel.IntroWithButton>
-            <span>Build schedules automatically create builds at specified intervals.</span>
-            {this.renderNewScheduleButton()}
-          </Panel.IntroWithButton>
-          {this.renderScheduleRows()}
-        </Panel>
+            <Panel.IntroWithButton>
+              <span>Build schedules automatically create builds at specified intervals.</span>
+              {this.renderNewScheduleButton()}
+            </Panel.IntroWithButton>
+            {this.renderScheduleRows()}
+          </Panel>
+        </React.Fragment>
       </DocumentTitle>
     );
+  }
+
+  renderFailureMessage() {
+    const schedules = this.props.pipeline.schedules.edges;
+
+    const failedSchedules = schedules.filter((edge) => edge.node.failedAt);
+
+    const plural = failedSchedules.length !== 1;
+
+    if (failedSchedules.length > 0) {
+      return (
+        <div className="mb4 p2 border border-red rounded red flex items-center">
+          <span className="m1">
+            {plural ? 'Several of your schedules have' : 'One of your schedules has'} been automatically disabled due to {plural ? 'errors' : 'an error'}.
+            Please review the schedule{plural && 's'} to allow {plural ? 'them' : 'it'} to continue creating builds. 
+          </span>
+        </div>
+      );
+    }
+
+    return null;
   }
 
   renderNewScheduleButton() {
@@ -60,8 +85,10 @@ class Index extends React.Component {
   }
 
   renderScheduleRows() {
-    if (this.props.pipeline.schedules.edges.length > 0) {
-      return this.props.pipeline.schedules.edges.map((edge) => {
+    const schedules = this.props.pipeline.schedules.edges;
+
+    if (schedules.length > 0) {
+      return schedules.map((edge) => {
         return (
           <Row key={edge.node.id} pipelineSchedule={edge.node} />
         );
@@ -81,6 +108,7 @@ export default Relay.createContainer(Index, {
           edges {
             node {
               id
+              failedAt
               ${Row.getFragment("pipelineSchedule")}
             }
           }
