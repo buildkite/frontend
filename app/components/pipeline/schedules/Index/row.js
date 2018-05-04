@@ -13,6 +13,7 @@ class Row extends React.PureComponent {
       label: PropTypes.string,
       commit: PropTypes.string,
       branch: PropTypes.string,
+      enabled: PropTypes.bool.isRequired,
       pipeline: PropTypes.shape({
         slug: PropTypes.string.isRequired,
         organization: PropTypes.shape({
@@ -31,7 +32,9 @@ class Row extends React.PureComponent {
         <div className="flex flex-stretch items-center line-height-1" style={{ minHeight: '3em' }}>
           <div className="flex-auto">
             {this.renderLabel()}
-            <span className="dark-gray regular">{this.props.pipelineSchedule.cronline}</span>
+            <span className="dark-gray regular">
+              {this.props.pipelineSchedule.cronline}
+            </span>
           </div>
           <div className="flex flex-none flex-stretch items-center my1 pr3 dark-gray">
             <code className="dark-gray">{this.props.pipelineSchedule.commit}</code>
@@ -44,11 +47,22 @@ class Row extends React.PureComponent {
   }
 
   renderLabel() {
-    if (this.props.pipelineSchedule.label) {
-      return (
-        <div className="m0 semi-bold mb1"><Emojify text={this.props.pipelineSchedule.label} /></div>
-      );
-    }
+    return (
+      <div className="m0 semi-bold mb1">
+        {this.props.pipelineSchedule.label && <Emojify text={this.props.pipelineSchedule.label} />}
+        {this.props.pipelineSchedule.enabled || (
+          <span
+            style={{
+              fontSize: 12,
+              verticalAlign: 'middle'
+            }}
+            className="mx1 regular border border-red rounded red px1"
+          >
+            Disabled
+          </span>
+        )}
+      </div>
+    );
   }
 }
 
@@ -61,6 +75,7 @@ export default Relay.createContainer(Row, {
         label
         commit
         branch
+        enabled
         pipeline {
           slug
           organization {

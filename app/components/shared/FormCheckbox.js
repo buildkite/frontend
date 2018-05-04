@@ -9,6 +9,7 @@ export default class FormCheckbox extends React.PureComponent {
   static propTypes = {
     label: PropTypes.node.isRequired,
     name: PropTypes.string,
+    defaultChecked: PropTypes.bool,
     checked: PropTypes.bool,
     help: PropTypes.node,
     disabled: PropTypes.bool,
@@ -23,6 +24,7 @@ export default class FormCheckbox extends React.PureComponent {
           <input
             name={this.props.name}
             type="checkbox"
+            defaultChecked={this.props.defaultChecked}
             checked={this.props.checked}
             onChange={this.props.onChange}
             className="absolute checkbox"

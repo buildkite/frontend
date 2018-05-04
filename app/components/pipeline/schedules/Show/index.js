@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
+import PipelineScheduleUpdateMutation from '../../../../mutations/PipelineScheduleUpdate';
 import PipelineScheduleDeleteMutation from '../../../../mutations/PipelineScheduleDelete';
 
+import Button from '../../../shared/Button';
 import PageHeader from '../../../shared/PageHeader';
 import Panel from '../../../shared/Panel';
 import Emojify from '../../../shared/Emojify';
+import FriendlyTime from '../../../shared/FriendlyTime';
 
 import permissions from '../../../../lib/permissions';
-import { getRelativeDateString } from '../../../../lib/date';
 
 import Build from './build';
 
@@ -24,6 +26,9 @@ class Show extends React.Component {
       branch: PropTypes.string,
       message: PropTypes.string,
       env: PropTypes.arrayOf(PropTypes.string),
+      enabled: PropTypes.bool.isRequired,
+      failedMessage: PropTypes.string,
+      failedAt: PropTypes.string,
       nextBuildAt: PropTypes.string,
       pipeline: PropTypes.shape({
         slug: PropTypes.string.isRequired,
@@ -59,56 +64,134 @@ class Show extends React.Component {
   };
 
   state = {
-    deleting: false
+    deleting: false,
+    reEnabling: false
   }
 
   render() {
+    const { pipelineSchedule } = this.props;
     // If the schedule doesn't exist, that means that it's just been deleted.
     // And since we require all the schedule to render this component, we'll
     // just short-circut the re-render when it's gone. This isn't great, maybe
     // there's a beter way?
-    if (!this.props.pipelineSchedule) {
+    if (!pipelineSchedule) {
       return null;
     }
 
     return (
-      <DocumentTitle title={this.props.pipelineSchedule.cronline}>
+      <DocumentTitle title={pipelineSchedule.label || pipelineSchedule.cronline}>
         <div>
           <PageHeader>
-            <PageHeader.Title><Emojify text={this.props.pipelineSchedule.label || "No description"} /></PageHeader.Title>
-            <PageHeader.Description>{this.props.pipelineSchedule.cronline}</PageHeader.Description>
-            <PageHeader.Menu>{this.renderMenu()}</PageHeader.Menu>
+            <PageHeader.Title>
+              <Emojify
+                text={pipelineSchedule.label || "No description"}
+              />
+              {pipelineSchedule.enabled || (
+                <span
+                  style={{
+                    fontSize: 12,
+                    verticalAlign: 'middle'
+                  }}
+                  className="mx1 regular border border-red rounded red px1"
+                >
+                  Disabled
+                </span>
+              )}
+            </PageHeader.Title>
+            <PageHeader.Description>
+              {pipelineSchedule.cronline}
+            </PageHeader.Description>
+            <PageHeader.Menu>
+              {this.renderMenu()}
+            </PageHeader.Menu>
           </PageHeader>
+
+          {this.renderFailureMessage()}
 
           <Panel className="mb4">
             <Panel.Section>
-              <div><strong>Commit</strong></div>
-              <div className="mb2 dark-gray"><code>{this.props.pipelineSchedule.commit}</code></div>
-
-              <div><strong>Branch</strong></div>
-              <div className="mb2 dark-gray">{this.props.pipelineSchedule.branch}</div>
-
               <div><strong>Message</strong></div>
-              <div className="mb2 dark-gray">{this.props.pipelineSchedule.message || "Scheduled build"}</div>
-
-              {this.renderEnv()}
+              <div className="mb2 dark-gray">{pipelineSchedule.message || "Scheduled build"}</div>
 
               <div><strong>Created By</strong></div>
-              <div className="mb2 dark-gray">{this.props.pipelineSchedule.createdBy.name}</div>
+              <div className="mb2 dark-gray">{pipelineSchedule.createdBy.name}</div>
+
+              <div><strong>Commit</strong></div>
+              <div className="mb2 dark-gray"><code>{pipelineSchedule.commit}</code></div>
+
+              <div><strong>Branch</strong></div>
+              <div className="mb2 dark-gray">{pipelineSchedule.branch}</div>
+
+              {this.renderEnv()}
             </Panel.Section>
           </Panel>
 
           <Panel>
             <Panel.Header>Recent Builds</Panel.Header>
             <Panel.Row>
-              <div className="dark-gray py1">
-                <Emojify text={`Next build scheduled for ${getRelativeDateString(this.props.pipelineSchedule.nextBuildAt)}`} />
-              </div>
+              {this.renderRecentBuildsHeading()}
             </Panel.Row>
-            {this.props.pipelineSchedule.builds.edges.map((edge) => <Build key={edge.node.id} build={edge.node} />)}
+            {pipelineSchedule.builds.edges.map((edge) => (
+              <Build
+                key={edge.node.id}
+                build={edge.node}
+              />
+            ))}
           </Panel>
         </div>
       </DocumentTitle>
+    );
+  }
+
+  renderFailureMessage() {
+    const { pipelineSchedule } = this.props;
+
+    if (!pipelineSchedule.failedAt) {
+      return null;
+    }
+
+    // NOTE: Currently the only `failedMessage` possible is "no longer had
+    // access to create builds," so this formatting is built around that.
+    return (
+      <div className="mb4 p2 border border-red rounded red flex items-center">
+        <span className="m1">
+          This schedule was automatically disabled <FriendlyTime capitalized={false} value={pipelineSchedule.failedAt} /> because {pipelineSchedule.failedMessage}.
+        </span>
+        {permissions(pipelineSchedule.permissions).check(
+          {
+            allowed: "pipelineScheduleUpdate",
+            render: () => (
+              <Button
+                className="m1"
+                theme="error"
+                outline={true}
+                loading={this.state.reEnabling ? "Re-Enabling…" : false}
+                onClick={this.handleScheduleReEnableClick}
+              >
+                Re-Enable
+              </Button>
+            )
+          }
+        )}
+      </div>
+    );
+  }
+
+  renderRecentBuildsHeading() {
+    const { pipelineSchedule } = this.props;
+
+    if (!pipelineSchedule.enabled) {
+      return (
+        <span className="dark-gray py1">
+          This pipeline schedule is currently disabled.
+        </span>
+      );
+    }
+
+    return (
+      <React.Fragment>
+        Next build scheduled for <FriendlyTime capitalized={false} value={pipelineSchedule.nextBuildAt} />
+      </React.Fragment>
     );
   }
 
@@ -134,17 +217,52 @@ class Show extends React.Component {
           const organization = this.props.pipelineSchedule.pipeline.organization;
 
           return (
-            <PageHeader.Button key={idx} link={`/${organization.slug}/${pipeline.slug}/settings/schedules/${this.props.pipelineSchedule.uuid}/edit`}>Edit</PageHeader.Button>
+            <PageHeader.Button
+              key={idx}
+              link={`/${organization.slug}/${pipeline.slug}/settings/schedules/${this.props.pipelineSchedule.uuid}/edit`}
+            >
+              Edit
+            </PageHeader.Button>
           );
         }
       },
       {
         allowed: "pipelineScheduleDelete",
         render: (idx) => (
-          <PageHeader.Button key={idx} loading={this.state.deleting ? "Deleting…" : false} onClick={this.handleScheduleDeleteClick}>Delete</PageHeader.Button>
+          <PageHeader.Button
+            key={idx}
+            loading={this.state.deleting ? "Deleting…" : false}
+            onClick={this.handleScheduleDeleteClick}
+          >
+            Delete
+          </PageHeader.Button>
         )
       }
     );
+  }
+
+  handleScheduleReEnableClick = () => {
+    this.setState({ reEnabling: true });
+
+    const mutation = new PipelineScheduleUpdateMutation({
+      enabled: true,
+      pipelineSchedule: this.props.pipelineSchedule
+    });
+
+    Relay.Store.commitUpdate(mutation, {
+      onSuccess: this.handleUpdateMutationSuccess,
+      onFailure: this.handleUpdateMutationFailure
+    });
+  }
+
+  handleUpdateMutationSuccess = () => {
+    this.setState({ reEnabling: false });
+  }
+
+  handleUpdateMutationFailure = (transaction) => {
+    this.setState({ reEnabling: false });
+
+    alert(transaction.getError());
   }
 
   handleScheduleDeleteClick = () => {
@@ -180,6 +298,7 @@ export default Relay.createContainer(Show, {
   fragments: {
     pipelineSchedule: () => Relay.QL`
       fragment on PipelineSchedule {
+        ${PipelineScheduleUpdateMutation.getFragment('pipelineSchedule')}
         ${PipelineScheduleDeleteMutation.getFragment('pipelineSchedule')}
         uuid
         cronline
@@ -189,6 +308,9 @@ export default Relay.createContainer(Show, {
         branch
         message
         env
+        enabled
+        failedMessage
+        failedAt
         createdBy {
           name
         }

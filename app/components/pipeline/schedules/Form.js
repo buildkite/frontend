@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
+import FormCheckbox from '../../shared/FormCheckbox';
 import FormTextField from '../../shared/FormTextField';
 import FormTextarea from '../../shared/FormTextarea';
 import ValidationErrors from '../../../lib/ValidationErrors';
@@ -13,11 +14,16 @@ class Form extends React.Component {
     commit: PropTypes.string,
     branch: PropTypes.string,
     message: PropTypes.string,
+    enabled: PropTypes.bool,
     env: PropTypes.string,
     errors: PropTypes.array,
     pipeline: PropTypes.shape({
       defaultBranch: PropTypes.string.isRequired
     }).isRequired
+  };
+
+  static defaultProps = {
+    enabled: true
   };
 
   componentDidMount() {
@@ -83,6 +89,14 @@ class Form extends React.Component {
           defaultValue={this.props.env}
           ref={(envTextField) => this.envTextField = envTextField}
         />
+
+        <FormCheckbox
+          label="Enabled"
+          help="Whether the schedule should run."
+          errors={errors.findForField("enabled")}
+          defaultChecked={this.props.enabled}
+          ref={(enabledCheckbox) => this.enabledCheckbox = enabledCheckbox}
+        />
       </div>
     );
   }
@@ -94,6 +108,7 @@ class Form extends React.Component {
       message: this.messageTextField.value,
       commit: this.commitTextField.value,
       branch: this.branchTextField.value,
+      enabled: this.enabledCheckbox._checkbox.checked, // ugh, I'm sorry
       env: this.envTextField.value
     };
   }
