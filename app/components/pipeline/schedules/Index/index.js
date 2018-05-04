@@ -66,7 +66,7 @@ class Index extends React.Component {
         <div className="mb4 p2 border border-red rounded red flex items-center">
           <span className="m1">
             {plural ? 'Several of your schedules have' : 'One of your schedules has'} been automatically disabled due to {plural ? 'errors' : 'an error'}.
-            Please review the schedule{plural && 's'} to allow {plural ? 'them' : 'it'} to continue creating builds. 
+            Please review the schedule{plural && 's'} to allow {plural ? 'them' : 'it'} to continue creating builds.
           </span>
         </div>
       );
