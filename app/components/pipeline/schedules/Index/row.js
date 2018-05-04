@@ -35,7 +35,6 @@ class Row extends React.PureComponent {
             <span className="dark-gray regular">
               {this.props.pipelineSchedule.cronline}
             </span>
-            {this.props.pipelineSchedule.enabled || " (Disabled)"}
           </div>
           <div className="flex flex-none flex-stretch items-center my1 pr3 dark-gray">
             <code className="dark-gray">{this.props.pipelineSchedule.commit}</code>
@@ -48,13 +47,12 @@ class Row extends React.PureComponent {
   }
 
   renderLabel() {
-    if (this.props.pipelineSchedule.label) {
-      return (
-        <div className="m0 semi-bold mb1">
-          <Emojify text={this.props.pipelineSchedule.label} />
-        </div>
-      );
-    }
+    return (
+      <div className="m0 semi-bold mb1">
+        {this.props.pipelineSchedule.label && <Emojify text={this.props.pipelineSchedule.label} />}
+        {this.props.pipelineSchedule.enabled || <span className="mx1 regular small border border-red rounded red px1">Disabled</span>}
+      </div>
+    );
   }
 }
 

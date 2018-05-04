@@ -86,6 +86,7 @@ class Show extends React.Component {
               <Emojify
                 text={pipelineSchedule.label || "No description"}
               />
+              {pipelineSchedule.enabled || <span className="mx1 regular small border border-red rounded red px1">Disabled</span>}
             </PageHeader.Title>
             <PageHeader.Description>
               {pipelineSchedule.cronline}
