@@ -144,7 +144,7 @@ class Show extends React.Component {
     return (
       <div className="mb4 p2 border border-red rounded red flex items-center">
         <span className="m1">
-          This schedule was automatically disabled <FriendlyTime capitalized={false} value={pipelineSchedule.failedAt} /> because {pipelineSchedule.failedMessage}.<br />
+          This schedule was automatically disabled <FriendlyTime capitalized={false} value={pipelineSchedule.failedAt} /> because {pipelineSchedule.failedMessage}.
           If their access was restored, this schedule can be re-enabled.
         </span>
         {permissions(pipelineSchedule.permissions).check(
