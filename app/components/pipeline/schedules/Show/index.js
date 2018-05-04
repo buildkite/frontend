@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
+import PipelineScheduleUpdateMutation from '../../../../mutations/PipelineScheduleUpdate';
 import PipelineScheduleDeleteMutation from '../../../../mutations/PipelineScheduleDelete';
 
+import Button from '../../../shared/Button';
 import PageHeader from '../../../shared/PageHeader';
 import Panel from '../../../shared/Panel';
 import Emojify from '../../../shared/Emojify';
+import FriendlyTime from '../../../shared/FriendlyTime';
 
 import permissions from '../../../../lib/permissions';
-import { getRelativeDateString } from '../../../../lib/date';
 
 import Build from './build';
 
@@ -62,7 +64,8 @@ class Show extends React.Component {
   };
 
   state = {
-    deleting: false
+    deleting: false,
+    reEnabling: false
   }
 
   render() {
@@ -139,12 +142,21 @@ class Show extends React.Component {
     // NOTE: Currently the only `failedMessage` possible is "no longer has
     // access to create builds," so this formatting is built around that.
     return (
-      <Panel className="mb4 p3 border-red red">
-        <span>
-          This schedule was disabled because {pipelineSchedule.failedMessage}.<br />
-          If their access has been restored, this schedule can be edited and saved to re-enable it.
+      <div className="mb4 p2 border border-red rounded red flex items-center">
+        <span className="m1">
+          This schedule was automatically disabled <FriendlyTime capitalized={false} value={pipelineSchedule.failedAt} /> because {pipelineSchedule.failedMessage}.<br />
+          If their access was restored, this schedule can be re-enabled.
         </span>
-      </Panel>
+        <Button
+          className="m1"
+          theme="error"
+          outline={true}
+          loading={this.state.reEnabling ? "Re-Enabling…" : false}
+          onClick={this.handleScheduleReEnableClick}
+        >
+          Re-Enable
+        </Button>
+      </div>
     );
   }
 
@@ -160,10 +172,9 @@ class Show extends React.Component {
     }
 
     return (
-      <Emojify
-        className="dark-gray py1"
-        text={`Next build scheduled for ${getRelativeDateString(pipelineSchedule.nextBuildAt)}`}
-      />
+      <React.Fragment>
+        Next build scheduled for <FriendlyTime capitalized={false} value={pipelineSchedule.nextBuildAt} />
+      </React.Fragment>
     );
   }
 
@@ -189,17 +200,52 @@ class Show extends React.Component {
           const organization = this.props.pipelineSchedule.pipeline.organization;
 
           return (
-            <PageHeader.Button key={idx} link={`/${organization.slug}/${pipeline.slug}/settings/schedules/${this.props.pipelineSchedule.uuid}/edit`}>Edit</PageHeader.Button>
+            <PageHeader.Button
+              key={idx}
+              link={`/${organization.slug}/${pipeline.slug}/settings/schedules/${this.props.pipelineSchedule.uuid}/edit`}
+            >
+              Edit
+            </PageHeader.Button>
           );
         }
       },
       {
         allowed: "pipelineScheduleDelete",
         render: (idx) => (
-          <PageHeader.Button key={idx} loading={this.state.deleting ? "Deleting…" : false} onClick={this.handleScheduleDeleteClick}>Delete</PageHeader.Button>
+          <PageHeader.Button
+            key={idx}
+            loading={this.state.deleting ? "Deleting…" : false}
+            onClick={this.handleScheduleDeleteClick}
+          >
+            Delete
+          </PageHeader.Button>
         )
       }
     );
+  }
+
+  handleScheduleReEnableClick = () => {
+    this.setState({ reEnabling: true });
+
+    const mutation = new PipelineScheduleUpdateMutation({
+      enabled: true,
+      pipelineSchedule: this.props.pipelineSchedule
+    });
+
+    Relay.Store.commitUpdate(mutation, {
+      onSuccess: this.handleUpdateMutationSuccess,
+      onFailure: this.handleUpdateMutationFailure
+    });
+  }
+
+  handleUpdateMutationSuccess = () => {
+    this.setState({ reEnabling: false });
+  }
+
+  handleUpdateMutationFailure = (transaction) => {
+    this.setState({ reEnabling: false });
+
+    alert(transaction.getError());
   }
 
   handleScheduleDeleteClick = () => {
@@ -235,6 +281,7 @@ export default Relay.createContainer(Show, {
   fragments: {
     pipelineSchedule: () => Relay.QL`
       fragment on PipelineSchedule {
+        ${PipelineScheduleUpdateMutation.getFragment('pipelineSchedule')}
         ${PipelineScheduleDeleteMutation.getFragment('pipelineSchedule')}
         uuid
         cronline
