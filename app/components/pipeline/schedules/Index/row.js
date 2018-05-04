@@ -50,7 +50,17 @@ class Row extends React.PureComponent {
     return (
       <div className="m0 semi-bold mb1">
         {this.props.pipelineSchedule.label && <Emojify text={this.props.pipelineSchedule.label} />}
-        {this.props.pipelineSchedule.enabled || <span className="mx1 regular small border border-red rounded red px1">Disabled</span>}
+        {this.props.pipelineSchedule.enabled || (
+          <span
+            style={{
+              fontSize: 12,
+              verticalAlign: 'middle'
+            }}
+            className="mx1 regular border border-red rounded red px1"
+          >
+            Disabled
+          </span>
+        )}
       </div>
     );
   }
