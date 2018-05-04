@@ -147,15 +147,22 @@ class Show extends React.Component {
           This schedule was automatically disabled <FriendlyTime capitalized={false} value={pipelineSchedule.failedAt} /> because {pipelineSchedule.failedMessage}.<br />
           If their access was restored, this schedule can be re-enabled.
         </span>
-        <Button
-          className="m1"
-          theme="error"
-          outline={true}
-          loading={this.state.reEnabling ? "Re-Enabling…" : false}
-          onClick={this.handleScheduleReEnableClick}
-        >
-          Re-Enable
-        </Button>
+        {permissions(pipelineSchedule.permissions).check(
+          {
+            allowed: "pipelineScheduleUpdate",
+            render: () => (
+              <Button
+                className="m1"
+                theme="error"
+                outline={true}
+                loading={this.state.reEnabling ? "Re-Enabling…" : false}
+                onClick={this.handleScheduleReEnableClick}
+              >
+                Re-Enable
+              </Button>
+            )
+          }
+        )}
       </div>
     );
   }
