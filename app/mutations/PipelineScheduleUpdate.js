@@ -47,7 +47,7 @@ class PipelineScheduleUpdate extends Relay.Mutation {
   }
 
   getVariables() {
-    return {
+    const variables = {
       id: this.props.pipelineSchedule.id,
       cronline: this.props.cronline,
       label: this.props.label,
@@ -55,9 +55,14 @@ class PipelineScheduleUpdate extends Relay.Mutation {
       commit: this.props.commit,
       branch: this.props.branch,
       enabled: this.props.enabled,
-      env: this.props.env,
-      ownedBy: this.props.ownedBy.id
+      env: this.props.env
     };
+
+    if (this.props.ownedBy) {
+      variables.ownedBy = this.props.ownedBy.id;
+    }
+
+    return variables;
   }
 }
 
