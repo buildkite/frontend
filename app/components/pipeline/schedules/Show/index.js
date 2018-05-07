@@ -51,11 +51,11 @@ class Show extends React.Component {
         )
       }).isRequired,
       createdBy: PropTypes.shape({
-        // uuid: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
       }).isRequired,
       ownedBy: PropTypes.shape({
-        // uuid: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
       }),
       permissions: PropTypes.shape({
@@ -69,8 +69,7 @@ class Show extends React.Component {
     }),
     viewer: PropTypes.shape({
       user: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        uuid: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired
       }).isRequired
     }).isRequired
   };
@@ -174,10 +173,20 @@ class Show extends React.Component {
       return null;
     }
 
+    // If the schedule has failed, let's determine
+    // what the current user can do about it
     let scheduleAction = null;
 
+    // If the user is permitted to update the Schedule,
     if (permissions(pipelineSchedule.permissions).isPermissionAllowed('pipelineScheduleUpdate')) {
-      if (permissions(pipelineSchedule.pipeline.permissions).isPermissionAllowed('buildCreate')) {
+      const currentScheduleOwner = pipelineSchedule.ownedBy || pipelineSchedule.createdBy;
+      // ...then if the current user isn't the current owner,
+      //    and can create builds in the target pipeline,
+      if (
+        this.props.viewer.user.id !== currentScheduleOwner.id &&
+        permissions(pipelineSchedule.pipeline.permissions).isPermissionAllowed('buildCreate')
+      ) {
+        // ...let them take ownership, making future builds their responsibility
         scheduleAction = (
           <Button
             className="m1"
@@ -190,6 +199,7 @@ class Show extends React.Component {
           </Button>
         );
       } else {
+        // ...otherwise, let them re-enable the pipeline as-is
         scheduleAction = (
           <Button
             className="m1"
@@ -366,11 +376,11 @@ export default Relay.createContainer(Show, {
         failedMessage
         failedAt
         createdBy {
-          uuid
+          id
           name
         }
         ownedBy {
-          uuid
+          id
           name
         }
         pipeline {
@@ -406,7 +416,6 @@ export default Relay.createContainer(Show, {
       fragment on Viewer {
         user {
           id
-          uuid
         }
       }
     `
