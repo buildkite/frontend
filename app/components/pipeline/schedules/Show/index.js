@@ -103,7 +103,7 @@ class Show extends React.Component {
               <Emojify
                 text={pipelineSchedule.label || "No description"}
               />
-              {pipelineSchedule.enabled || (
+              {pipelineSchedule.enabled ? null : (
                 <span
                   style={{
                     fontSize: 12,
