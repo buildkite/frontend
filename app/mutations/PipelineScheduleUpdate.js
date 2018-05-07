@@ -31,6 +31,7 @@ class PipelineScheduleUpdate extends Relay.Mutation {
           enabled
           failedMessage
           failedAt
+          ownedBy
         }
       }
     `;
@@ -54,7 +55,8 @@ class PipelineScheduleUpdate extends Relay.Mutation {
       commit: this.props.commit,
       branch: this.props.branch,
       enabled: this.props.enabled,
-      env: this.props.env
+      env: this.props.env,
+      ownedBy: this.props.ownedBy.uuid
     };
   }
 }

@@ -34,6 +34,11 @@ class Show extends React.Component {
         slug: PropTypes.string.isRequired,
         organization: PropTypes.shape({
           slug: PropTypes.string.isRequired
+        }).isRequired,
+        permissions: PropTypes.shape({
+          buildCreate: PropTypes.shape({
+            allowed: PropTypes.bool.isRequired
+          }).isRequired
         }).isRequired
       }).isRequired,
       builds: PropTypes.shape({
@@ -46,8 +51,13 @@ class Show extends React.Component {
         )
       }).isRequired,
       createdBy: PropTypes.shape({
+        // uuid: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
       }).isRequired,
+      ownedBy: PropTypes.shape({
+        // uuid: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+      }),
       permissions: PropTypes.shape({
         pipelineScheduleUpdate: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
@@ -56,7 +66,12 @@ class Show extends React.Component {
           allowed: PropTypes.bool.isRequired
         }).isRequired
       }).isRequired
-    })
+    }),
+    viewer: PropTypes.shape({
+      user: PropTypes.shape({
+        uuid: PropTypes.string.isRequired
+      }).isRequired
+    }).isRequired
   };
 
   static contextTypes = {
@@ -65,7 +80,8 @@ class Show extends React.Component {
 
   state = {
     deleting: false,
-    reEnabling: false
+    reEnabling: false,
+    takingOwnership: false
   }
 
   render() {
@@ -116,6 +132,13 @@ class Show extends React.Component {
               <div><strong>Created By</strong></div>
               <div className="mb2 dark-gray">{pipelineSchedule.createdBy.name}</div>
 
+              {pipelineSchedule.ownedBy && (
+                <React.Fragment>
+                  <div><strong>Owned By</strong></div>
+                  <div className="mb2 dark-gray">{pipelineSchedule.ownedBy.name}</div>
+                </React.Fragment>
+              )}
+
               <div><strong>Commit</strong></div>
               <div className="mb2 dark-gray"><code>{pipelineSchedule.commit}</code></div>
 
@@ -150,6 +173,36 @@ class Show extends React.Component {
       return null;
     }
 
+    let scheduleAction = null;
+
+    if (permissions(pipelineSchedule.permissions).isPermissionAllowed('pipelineScheduleUpdate')) {
+      if (permissions(pipelineSchedule.pipeline.permissions).isPermissionAllowed('buildCreate')) {
+        scheduleAction = (
+          <Button
+            className="m1"
+            theme="error"
+            outline={true}
+            loading={this.state.takingOwnership ? "Taking Ownership…" : false}
+            onClick={this.handleScheduleTakeOwnershipClick}
+          >
+            Take Ownership
+          </Button>
+        );
+      } else {
+        scheduleAction = (
+          <Button
+            className="m1"
+            theme="error"
+            outline={true}
+            loading={this.state.reEnabling ? "Re-Enabling…" : false}
+            onClick={this.handleScheduleReEnableClick}
+          >
+            Re-Enable
+          </Button>
+        );
+      }
+    }
+
     // NOTE: Currently the only `failedMessage` possible is "no longer had
     // access to create builds," so this formatting is built around that.
     return (
@@ -157,22 +210,7 @@ class Show extends React.Component {
         <span className="m1">
           This schedule was automatically disabled <FriendlyTime capitalized={false} value={pipelineSchedule.failedAt} /> because {pipelineSchedule.failedMessage}.
         </span>
-        {permissions(pipelineSchedule.permissions).check(
-          {
-            allowed: "pipelineScheduleUpdate",
-            render: () => (
-              <Button
-                className="m1"
-                theme="error"
-                outline={true}
-                loading={this.state.reEnabling ? "Re-Enabling…" : false}
-                onClick={this.handleScheduleReEnableClick}
-              >
-                Re-Enable
-              </Button>
-            )
-          }
-        )}
+        {scheduleAction}
       </div>
     );
   }
@@ -255,12 +293,27 @@ class Show extends React.Component {
     });
   }
 
+  handleScheduleTakeOwnershipClick = () => {
+    this.setState({ takingOwnership: true });
+
+    const mutation = new PipelineScheduleUpdateMutation({
+      enabled: true,
+      ownedBy: this.props.viewer.user,
+      pipelineSchedule: this.props.pipelineSchedule
+    });
+
+    Relay.Store.commitUpdate(mutation, {
+      onSuccess: this.handleUpdateMutationSuccess,
+      onFailure: this.handleUpdateMutationFailure
+    });
+  }
+
   handleUpdateMutationSuccess = () => {
-    this.setState({ reEnabling: false });
+    this.setState({ reEnabling: false, takingOwnership: false });
   }
 
   handleUpdateMutationFailure = (transaction) => {
-    this.setState({ reEnabling: false });
+    this.setState({ reEnabling: false, takingOwnership: false });
 
     alert(transaction.getError());
   }
@@ -312,12 +365,22 @@ export default Relay.createContainer(Show, {
         failedMessage
         failedAt
         createdBy {
+          uuid
+          name
+        }
+        ownedBy {
+          uuid
           name
         }
         pipeline {
           slug
           organization {
             slug
+          }
+          permissions {
+            buildCreate {
+              allowed
+            }
           }
         }
         permissions {
@@ -335,6 +398,13 @@ export default Relay.createContainer(Show, {
               ${Build.getFragment('build')}
             }
           }
+        }
+      }
+    `,
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        user {
+          uuid
         }
       }
     `
