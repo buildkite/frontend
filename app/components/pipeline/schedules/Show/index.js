@@ -178,14 +178,14 @@ class Show extends React.Component {
     let scheduleAction = null;
 
     // If the user is permitted to update the Schedule,
-    if (permissions(pipelineSchedule.permissions).isPermissionAllowed('pipelineScheduleUpdate')) {
+    // and create builds in its target pipeline,
+    if (
+      permissions(pipelineSchedule.permissions).isPermissionAllowed('pipelineScheduleUpdate') &&
+      permissions(pipelineSchedule.pipeline.permissions).isPermissionAllowed('buildCreate')
+    ) {
       const currentScheduleOwner = pipelineSchedule.ownedBy || pipelineSchedule.createdBy;
       // ...then if the current user isn't the current owner,
-      //    and can create builds in the target pipeline,
-      if (
-        this.props.viewer.user.id !== currentScheduleOwner.id &&
-        permissions(pipelineSchedule.pipeline.permissions).isPermissionAllowed('buildCreate')
-      ) {
+      if (this.props.viewer.user.id !== currentScheduleOwner.id) {
         // ...let them take ownership, making future builds their responsibility
         scheduleAction = (
           <Button
