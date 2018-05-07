@@ -56,7 +56,7 @@ class PipelineScheduleUpdate extends Relay.Mutation {
       branch: this.props.branch,
       enabled: this.props.enabled,
       env: this.props.env,
-      ownedBy: this.props.ownedBy.uuid
+      ownedBy: this.props.ownedBy.id
     };
   }
 }

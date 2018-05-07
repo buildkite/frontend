@@ -69,6 +69,7 @@ class Show extends React.Component {
     }),
     viewer: PropTypes.shape({
       user: PropTypes.shape({
+        id: PropTypes.string.isRequired,
         uuid: PropTypes.string.isRequired
       }).isRequired
     }).isRequired
@@ -404,6 +405,7 @@ export default Relay.createContainer(Show, {
     viewer: () => Relay.QL`
       fragment on Viewer {
         user {
+          id
           uuid
         }
       }
