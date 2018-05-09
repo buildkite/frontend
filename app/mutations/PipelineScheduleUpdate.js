@@ -59,7 +59,7 @@ class PipelineScheduleUpdate extends Relay.Mutation {
     };
 
     if (this.props.ownedBy) {
-      variables.ownedBy = this.props.ownedBy.id;
+      variables.ownedById = this.props.ownedBy.id;
     }
 
     return variables;
