@@ -31,6 +31,7 @@ class PipelineScheduleUpdate extends Relay.Mutation {
           enabled
           failedMessage
           failedAt
+          ownedBy
         }
       }
     `;
@@ -46,7 +47,7 @@ class PipelineScheduleUpdate extends Relay.Mutation {
   }
 
   getVariables() {
-    return {
+    const variables = {
       id: this.props.pipelineSchedule.id,
       cronline: this.props.cronline,
       label: this.props.label,
@@ -56,6 +57,12 @@ class PipelineScheduleUpdate extends Relay.Mutation {
       enabled: this.props.enabled,
       env: this.props.env
     };
+
+    if (this.props.ownedBy) {
+      variables.ownedById = this.props.ownedBy.id;
+    }
+
+    return variables;
   }
 }
 
