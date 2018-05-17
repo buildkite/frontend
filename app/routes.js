@@ -106,9 +106,6 @@ const renderMain = (route) => {
 const routeChangeHandler = () => {
   // Reset flashes on route changes
   FlashesStore.reset();
-
-  // Reset Bugsnag on route changes if it's loaded
-  Bugsnag.refresh();
 };
 
 export default (
