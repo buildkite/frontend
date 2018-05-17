@@ -5,8 +5,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ErrorBoundary } from './Bugsnag';
 
-export default (
-  element: React$Element,
+export default <ElementType: React$ElementType>(
+  element: React$Element<ElementType>,
   container: Element,
   callback?: () => void
 ) => (

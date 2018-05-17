@@ -8,7 +8,6 @@ import {
   Route, Redirect, IndexRoute, IndexRedirect,
   browserHistory, applyRouterMiddleware
 } from 'react-router';
-import Bugsnag from './lib/Bugsnag';
 
 // The components used in the router
 import Main from './components/Main';
