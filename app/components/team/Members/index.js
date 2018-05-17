@@ -64,7 +64,13 @@ class Members extends React.Component {
     if (this.props.team.members.edges.length > 0) {
       return this.props.team.members.edges.map((edge) => {
         return (
-          <Row key={edge.node.id} teamMember={edge.node} onRemoveClick={this.handleTeamMemberRemove} onRoleChange={this.handleRoleChange} relay={this.props.relay} />
+          <Row
+            key={edge.node.id}
+            teamMember={edge.node}
+            onRemoveClick={this.handleTeamMemberRemove}
+            onRoleChange={this.handleRoleChange}
+            relay={this.props.relay}
+          />
         );
       });
     }
@@ -197,25 +203,7 @@ export default Relay.createContainer(Members, {
           edges {
             node {
               id
-              role
-              user {
-                id
-                name
-                email
-                avatar {
-                  url
-                }
-              }
-              permissions {
-                teamMemberUpdate {
-                  allowed
-                }
-                teamMemberDelete {
-                  allowed
-                }
-              }
-              ${TeamMemberDeleteMutation.getFragment('teamMember')}
-              ${TeamMemberUpdateMutation.getFragment('teamMember')}
+              ${Row.getFragment('teamMember')}
             }
           }
         }

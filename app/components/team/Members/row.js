@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Relay from 'react-relay/classic';
 
 import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
@@ -8,10 +9,16 @@ import Spinner from '../../shared/Spinner';
 import FlashesStore from '../../../stores/FlashesStore';
 import permissions from '../../../lib/permissions';
 
-import User from './user';
+// NOTE: While these mutations *run* from cosumers of the Row component,
+//       in order for the data passed out to be consistent, their fragments
+//       must be included within this component's fragment.
+import TeamMemberUpdateMutation from '../../../mutations/TeamMemberUpdate';
+import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
+
+import User from '../../shared/User';
 import Role from './role';
 
-export default class Row extends React.PureComponent {
+class Row extends React.PureComponent {
   static displayName = "Team.Members.Row";
 
   static propTypes = {
@@ -40,8 +47,13 @@ export default class Row extends React.PureComponent {
   render() {
     return (
       <Panel.Row>
-        <User user={this.props.teamMember.user} role={this.props.teamMember.role} />
-        <Panel.RowActions className="ml2">{this.renderActions()}</Panel.RowActions>
+        <User
+          user={this.props.teamMember.user}
+          role={this.props.teamMember.role}
+        />
+        <Panel.RowActions className="ml2">
+          {this.renderActions()}
+        </Panel.RowActions>
       </Panel.Row>
     );
   }
@@ -60,7 +72,12 @@ export default class Row extends React.PureComponent {
       {
         allowed: "teamMemberUpdate",
         render: (idx) => (
-          <Role key={idx} teamMember={this.props.teamMember} onRoleChange={this.handleRoleChange} savingNewRole={this.state.savingNewRole} />
+          <Role
+            key={idx}
+            teamMember={this.props.teamMember}
+            onRoleChange={this.handleRoleChange}
+            savingNewRole={this.state.savingNewRole}
+          />
         )
       },
       {
@@ -108,3 +125,26 @@ export default class Row extends React.PureComponent {
     }
   };
 }
+
+export default Relay.createContainer(Row, {
+  fragments: {
+    teamMember: () => Relay.QL`
+      fragment on TeamMember {
+        ${TeamMemberDeleteMutation.getFragment('teamMember')}
+        ${TeamMemberUpdateMutation.getFragment('teamMember')}
+        user {
+          ${User.getFragment('user')}
+        }
+        role
+        permissions {
+          teamMemberUpdate {
+            allowed
+          }
+          teamMemberDelete {
+            allowed
+          }
+        }
+      }
+    `
+  }
+});
