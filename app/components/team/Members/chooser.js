@@ -9,7 +9,7 @@ import permissions from '../../../lib/permissions';
 
 import FlashesStore from '../../../stores/FlashesStore';
 
-import User from './user';
+import User from '../../shared/User';
 
 class Chooser extends React.Component {
   static displayName = "Team.Members.Chooser";
@@ -182,11 +182,7 @@ export default Relay.createContainer(Chooser, {
               node {
                 user {
                   id
-                  name
-                  email
-                  avatar {
-                    url
-                  }
+                  ${User.getFragment('user')}
                 }
               }
             }

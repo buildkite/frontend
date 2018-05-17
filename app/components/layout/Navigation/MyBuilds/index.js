@@ -83,7 +83,7 @@ class MyBuilds extends React.Component {
           {'My Builds '}
           <div className="xs-hide">
             <CSSTransition
-              in={this.getBuildsCount()}
+              in={this.getBuildsCount() > 0}
               classNames="transition-appear-pop"
               timeout={{
                 enter: 200,
