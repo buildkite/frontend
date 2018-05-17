@@ -74,6 +74,7 @@
     "basscss": "^8.0.2",
     "buffer-crc32": "^0.2.13",
     "bugsnag-js": "^4.1",
+    "bugsnag-react": "^1.1.1",
     "classnames": "^2.2.5",
     "codemirror": "^5.25.0",
     "codemirror-graphql": "^0.6.12",
