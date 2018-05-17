@@ -8,6 +8,7 @@ import {
   Route, Redirect, IndexRoute, IndexRedirect,
   browserHistory, applyRouterMiddleware
 } from 'react-router';
+import Bugsnag from './lib/Bugsnag';
 
 // The components used in the router
 import Main from './components/Main';
@@ -107,9 +108,7 @@ const routeChangeHandler = () => {
   FlashesStore.reset();
 
   // Reset Bugsnag on route changes if it's loaded
-  if (window.Bugsnag) {
-    window.Bugsnag.refresh();
-  }
+  Bugsnag.refresh();
 };
 
 export default (

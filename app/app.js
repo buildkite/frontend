@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay/classic';
+import reactRender from './lib/reactRenderer';
 
 import Routes from './routes';
 
@@ -12,14 +13,6 @@ import EmojiStyleManager from './lib/EmojiStyleManager';
 EmojiStyleManager.apply();
 
 require("./css/main.css");
-
-// Setup Bugsnag for JS error tracking
-if (window.Bugsnag && window._bugsnag) {
-  window.Bugsnag.apiKey = window._bugsnag.apiKey;
-  window.Bugsnag.appVersion = window._bugsnag.appVersion;
-  window.Bugsnag.user = window._bugsnag.user;
-  window.Bugsnag.releaseStage = window._bugsnag.releaseStage;
-}
 
 // Toggle on development features
 if (process.env.NODE_ENV === "development") {
@@ -77,6 +70,7 @@ window["Webpack"] = {
     "components/user/BuildCountsBreakdown": require("./components/user/BuildCountsBreakdown").default,
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
     "components/user/graphql/schema": require("./components/user/graphql/schema"),
+    "lib/Bugsnag": require("./lib/Bugsnag"),
     "lib/builds": require("./lib/builds"),
     "lib/commits": require("./lib/commits"),
     "lib/date": require("./lib/date"),
@@ -85,6 +79,7 @@ window["Webpack"] = {
     "lib/Logger": require("./lib/Logger").default,
     "lib/number": require("./lib/number"),
     "lib/parseEmoji": require("./lib/parseEmoji").default,
+    "lib/reactRenderer": require("./lib/reactRenderer").default,
     "lib/RelayPreloader": require("./lib/RelayPreloader").default,
     "lib/BootstrapTooltipMixin": require('./lib/BootstrapTooltipMixin').default,
     "queries/Agent": require("./queries/Agent"),
@@ -145,5 +140,5 @@ window["initializeReactRouter"] = () => {
     throw new Error("No #root element to render the application to!");
   }
 
-  ReactDOM.render(Routes, rootElement);
+  reactRender(Routes, rootElement);
 };
