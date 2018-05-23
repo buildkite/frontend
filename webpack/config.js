@@ -143,6 +143,14 @@ var vendor_modules = [
 
 // If we're building for production, minify the JS
 if (IS_PRODUCTION) {
+  // Configure production source maps
+  plugins.push(new webpack.SourceMapDevToolPlugin(
+    '[file].map',
+    null,
+    '[absolute-resource-path]',
+    '[absolute-resource-path]'
+  ));
+
   // Don't pack react-type-snob in production
   plugins.push(new webpack.IgnorePlugin(/^react-type-snob$/));
 
