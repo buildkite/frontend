@@ -148,6 +148,8 @@ if (IS_PRODUCTION) {
 
   // Your basic, run-of-the-mill, JS uglifier
   plugins.push(new webpack.optimize.UglifyJsPlugin({
+    sourceMap: true,
+    parallel: true,
     output: {
       comments: false
     },
