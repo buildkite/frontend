@@ -3,7 +3,7 @@
 
 .annotation-body pre {
   padding: 10px;
-  margin-bottom: 10px;
+  margin: 1em 0;
 }
 
 .annotation-body details summary {
@@ -11,5 +11,9 @@
 }
 
 .annotation-body details[open] summary {
-  margin-bottom: 10px;
+  margin-bottom: 1em;
+}
+
+.annotation-body details[open] {
+  margin-bottom: 1em;
 }
