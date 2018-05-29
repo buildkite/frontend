@@ -142,7 +142,7 @@ class Navigation extends React.PureComponent {
   }
 
   renderOrganizationsList() {
-    if (!this.props.viewer.organizations) {
+    if (!this.props.viewer || !this.props.viewer.organizations) {
       return <SectionLoader />;
     }
 
