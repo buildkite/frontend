@@ -41,6 +41,7 @@ class Footer extends React.PureComponent {
           <Link href="/privacy-policy">Privacy</Link>
           <Link href="/terms-of-service">Terms</Link>
           <Link href="mailto:support@buildkite.com">Support</Link>
+          <Link href="https://buildkitestatus.com/">System Status</Link>
         </div>
         <div className="mt4 mb4">
           <a href="http://twitter.com/buildkite" className={`btn hover-lime px1`}><Icon icon="twitter" /></a>
