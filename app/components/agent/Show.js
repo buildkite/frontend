@@ -141,9 +141,7 @@ class AgentShow extends React.Component {
       </div>
     )));
 
-    if (agent.version) {
-      extras.push(this.renderExtraItem('Version', agent.version));
-    }
+    extras.push(this.renderExtraItem('Version', agent.version || 'Unknown'));
 
     if (agent.hostname) {
       extras.push(this.renderExtraItem('Hostname', agent.hostname));

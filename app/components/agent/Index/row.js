@@ -99,7 +99,9 @@ class AgentRow extends React.PureComponent<Props> {
                 <small className="dark-gray">{metaDataContent}</small>
               </div>
               <div className="flex-none right-align">
-                <div className="black">v{agent.version}</div>
+                <div className="black">
+                  {agent.version ? `v${agent.version}` : 'Unknown Version'}
+                </div>
                 <small className="dark-gray">{agent.hostname}</small>
               </div>
             </div>
