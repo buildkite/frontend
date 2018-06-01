@@ -115,7 +115,7 @@ class AssetUploader {
           this.options.onError(new AssetUploaderError(json.error));
         } else {
           // Yay! File all uploaded and ready to show :)
-          this.options.onAssetUploaded(file, json.url);
+          this.options.onAssetUploaded(file, json);
         }
       });
     });

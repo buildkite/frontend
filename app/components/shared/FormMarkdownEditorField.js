@@ -125,7 +125,7 @@ class FormMarkdownEditorField extends React.Component {
     }
   }
 
-  handleAssetUploaded = (file, url) => {
+  handleAssetUploaded = (file, { url }) => {
     // Replace the "uploading..." version of the file with the correct path
     this.markdownEditor.replace("[Uploading " + file.name + "...]()", "[" + file.name + "](" + url + ")");
   };
