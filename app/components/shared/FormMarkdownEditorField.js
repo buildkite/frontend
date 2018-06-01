@@ -6,7 +6,7 @@ import MarkdownEditor from '../../lib/MarkdownEditor';
 import AssetUploader from '../../lib/AssetUploader';
 import Button from '../shared/Button';
 
-class FormMarkdownEdtiorField extends React.Component {
+class FormMarkdownEditorField extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
@@ -243,4 +243,4 @@ class FormMarkdownEdtiorField extends React.Component {
   };
 }
 
-export default FormMarkdownEdtiorField;
+export default FormMarkdownEditorField;
