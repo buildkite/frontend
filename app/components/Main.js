@@ -11,22 +11,19 @@ import Flashes from './layout/Flashes';
 
 type Props = {
   children: React$Node,
-  viewer: Object,
+  viewer?: Object,
   organization?: Object
 };
 
 class Main extends React.PureComponent<Props> {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    viewer: PropTypes.object.isRequired,
-    organization: PropTypes.object
-  };
-
   render() {
     return (
       <DocumentTitle title="Buildkite">
         <div>
-          <Navigation organization={this.props.organization} viewer={this.props.viewer} />
+          <Navigation
+            organization={this.props.organization}
+            viewer={this.props.viewer}
+          />
           <Flashes />
           {this.props.children}
           <Footer viewer={this.props.viewer} />
