@@ -24,8 +24,22 @@ class AssetUploader {
     } else if (event.type === "paste") {
       files = this._extractFilesFromPasteEvent(event);
     } else {
-      throw ("Unknown event for asset upload `" + event.type + "`");
+      throw `Unknown event for asset upload \`${event.type}\``;
     }
+
+    if (files.length > 0) {
+      this._startUploadingFiles(files);
+    }
+
+    return files;
+  }
+
+  uploadFromElement(element) {
+    if (element.nodeName.toLowerCase() !== 'input' || element.type !== 'file') {
+      throw (`Unsuitable element for asset upload \`<${element.nodeName.toLowerCase()} type="${element.type}" />\``);
+    }
+
+    const files = Array.from(element.files);
 
     if (files.length > 0) {
       this._startUploadingFiles(files);
