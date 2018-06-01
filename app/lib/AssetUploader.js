@@ -54,7 +54,7 @@ class AssetUploader {
     const payload = { files: [] };
 
     // Add the files to the payload
-    files.forEach(({ name, type, size }) => {
+    files.forEach(({ name = 'asset', type, size }) => {
       payload.files.push({ name, type, size });
     });
 
