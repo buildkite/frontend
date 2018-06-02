@@ -3,13 +3,10 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import FlashesStore from '../../../stores/FlashesStore';
+import FlashesStore, { type FlashItem } from '../../../stores/FlashesStore';
 
 type Props = {
-  flash: {
-    type: string,
-    message: React$Node
-  },
+  flash: FlashItem,
   onRemoveClick: Function
 };
 

@@ -2,21 +2,15 @@
 
 import React from 'react';
 
-import FlashesStore from '../../../stores/FlashesStore';
+import FlashesStore, { type FlashItem } from '../../../stores/FlashesStore';
 import PusherStore from '../../../stores/PusherStore';
 
 import Flash from './flash';
 
 const FLASH_CONN_ERROR_ID = 'FLASH_CONN_ERROR';
 
-type Flash = {
-  id: number | 'FLASH_CONN_ERROR',
-  type: "error" | "success" | "info",
-  message: React$Node
-};
-
 type State = {
-  flashes: Array<Flash>,
+  flashes: Array<FlashItem>,
   lastConnected: boolean
 };
 
@@ -46,7 +40,7 @@ class Flashes extends React.PureComponent<null, State> {
     PusherStore.off('connected', this.handleConnectionSuccess);
   }
 
-  handleStoreChange = (payload: Flash) => {
+  handleStoreChange = (payload: FlashItem) => {
     this.setState({ flashes: this.state.flashes.concat(payload) });
   };
 
@@ -96,7 +90,7 @@ class Flashes extends React.PureComponent<null, State> {
 
   // hide connection error flash (if it exists!) when reconnected
   handleConnectionSuccess = () => {
-    const newState: { flashes?: Array<Flash>, lastConnected: boolean } = {
+    const newState: { flashes?: Array<FlashItem>, lastConnected: boolean } = {
       // make it known that we got a good connection!
       lastConnected: true
     };
@@ -128,7 +122,7 @@ class Flashes extends React.PureComponent<null, State> {
     return null;
   }
 
-  handleFlashRemove = (flash: Flash) => {
+  handleFlashRemove = (flash: FlashItem) => {
     this.setState({
       flashes: this.state.flashes.filter(
         (nextFlash) => flash.id !== nextFlash.id
