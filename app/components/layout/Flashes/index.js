@@ -14,7 +14,7 @@ type State = {
   lastConnected: boolean
 };
 
-class Flashes extends React.PureComponent<null, State> {
+class Flashes extends React.PureComponent<{}, State> {
   state = {
     flashes: [],
     lastConnected: true // assume we were connected when the page loaded
