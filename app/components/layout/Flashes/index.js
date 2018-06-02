@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 
 import FlashesStore from '../../../stores/FlashesStore';
@@ -7,7 +9,18 @@ import Flash from './flash';
 
 const FLASH_CONN_ERROR_ID = 'FLASH_CONN_ERROR';
 
-class Flashes extends React.PureComponent {
+type Flash = {
+  id: number | 'FLASH_CONN_ERROR',
+  type: "error" | "success" | "info",
+  message: React$Node
+};
+
+type State = {
+  flashes: Array<Flash>,
+  lastConnected: boolean
+};
+
+class Flashes extends React.PureComponent<null, State> {
   state = {
     flashes: [],
     lastConnected: true // assume we were connected when the page loaded
@@ -33,7 +46,7 @@ class Flashes extends React.PureComponent {
     PusherStore.off('connected', this.handleConnectionSuccess);
   }
 
-  handleStoreChange = (payload) => {
+  handleStoreChange = (payload: Flash) => {
     this.setState({ flashes: this.state.flashes.concat(payload) });
   };
 
@@ -83,7 +96,7 @@ class Flashes extends React.PureComponent {
 
   // hide connection error flash (if it exists!) when reconnected
   handleConnectionSuccess = () => {
-    const newState = {
+    const newState: { flashes?: Array<Flash>, lastConnected: boolean } = {
       // make it known that we got a good connection!
       lastConnected: true
     };
@@ -115,7 +128,7 @@ class Flashes extends React.PureComponent {
     return null;
   }
 
-  handleFlashRemove = (flash) => {
+  handleFlashRemove = (flash: Flash) => {
     this.setState({
       flashes: this.state.flashes.filter(
         (nextFlash) => flash.id !== nextFlash.id
