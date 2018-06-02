@@ -11,6 +11,8 @@ export type FlashItem = {
 import EventEmitter from 'eventemitter3';
 
 class FlashesStore extends EventEmitter {
+  preloaded: Array<FlashItem>;
+
   constructor() {
     super(...arguments);
     this.preloaded = [];
