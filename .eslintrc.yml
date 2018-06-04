@@ -22,9 +22,6 @@ plugins:
   - react
   - flowtype
 
-ecmaFeatures:
-  modules: true
-
 rules:
   array-bracket-spacing:
     - error
