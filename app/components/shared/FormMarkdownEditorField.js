@@ -6,7 +6,7 @@ import MarkdownEditor from '../../lib/MarkdownEditor';
 import AssetUploader from '../../lib/AssetUploader';
 import Button from '../shared/Button';
 
-class FormMarkdownEdtiorField extends React.Component {
+class FormMarkdownEditorField extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
@@ -125,7 +125,7 @@ class FormMarkdownEdtiorField extends React.Component {
     }
   }
 
-  handleAssetUploaded = (file, url) => {
+  handleAssetUploaded = (file, { url }) => {
     // Replace the "uploading..." version of the file with the correct path
     this.markdownEditor.replace("[Uploading " + file.name + "...]()", "[" + file.name + "](" + url + ")");
   };
@@ -243,4 +243,4 @@ class FormMarkdownEdtiorField extends React.Component {
   };
 }
 
-export default FormMarkdownEdtiorField;
+export default FormMarkdownEditorField;

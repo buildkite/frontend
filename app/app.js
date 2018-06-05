@@ -69,6 +69,7 @@ window["Webpack"] = {
     "components/user/BuildCountsBreakdown": require("./components/user/BuildCountsBreakdown").default,
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
     "components/user/graphql/schema": require("./components/user/graphql/schema"),
+    "lib/AssetUploader": require("./lib/AssetUploader").default,
     "lib/Bugsnag": require("./lib/Bugsnag"),
     "lib/builds": require("./lib/builds"),
     "lib/commits": require("./lib/commits"),
