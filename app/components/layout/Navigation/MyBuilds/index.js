@@ -1,5 +1,6 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
@@ -16,17 +17,34 @@ import CachedStateWrapper from '../../../../lib/CachedStateWrapper';
 import Build from './build';
 import DropdownButton from './../dropdown-button';
 
-class MyBuilds extends React.Component {
-  static propTypes = {
-    viewer: PropTypes.object,
-    relay: PropTypes.object.isRequired
-  }
+type Props = {
+  viewer?: Object,
+  relay: Object
+};
 
+type State = {
+  isDropdownVisible: boolean,
+  scheduledBuildsCount: number,
+  runningBuildsCount: number
+};
+
+class MyBuilds extends React.Component<Props, State> {
   state = {
     isDropdownVisible: false,
-    scheduledBuildsCount: this.props.viewer.scheduledBuilds ? this.props.viewer.scheduledBuilds.count : 0,
-    runningBuildsCount: this.props.viewer.runningBuilds ? this.props.viewer.runningBuilds.count : 0
+    scheduledBuildsCount: (
+      (this.props.viewer && this.props.viewer.scheduledBuilds)
+        ? this.props.viewer.scheduledBuilds.count
+        : 0
+    ),
+    runningBuildsCount: (
+      (this.props.viewer && this.props.viewer.runningBuilds)
+        ? this.props.viewer.runningBuilds.count
+        : 0
+    )
   }
+
+  getCachedState;
+  setCachedState;
 
   // When the MyBuilds mounts, we should see if we've got any cached
   // builds numbers so we can show something right away.
@@ -34,11 +52,11 @@ class MyBuilds extends React.Component {
     const initialState = {};
     const cachedState = this.getCachedState();
 
-    if (!this.props.viewer.scheduledBuilds) {
+    if (!this.props.viewer || !this.props.viewer.scheduledBuilds) {
       initialState.scheduledBuildsCount = cachedState.scheduledBuildsCount || 0;
     }
 
-    if (!this.props.viewer.runningBuilds) {
+    if (!this.props.viewer || !this.props.viewer.runningBuilds) {
       initialState.runningBuildsCount = cachedState.runningBuildsCount || 0;
     }
 
@@ -56,7 +74,7 @@ class MyBuilds extends React.Component {
     // If pusher doesn't connect in 3 seconds, just force the callback
     // manually.  This can happen if Pusher is being a bit weird, or when
     // Pusher isn't connected at all (like in the case of automated tests)
-    setTimeout(this.handlePusherConnected, 3::seconds);
+    setTimeout(this.handlePusherConnected, seconds.bind(3));
   }
 
   componentWillUnmount() {
@@ -68,6 +86,10 @@ class MyBuilds extends React.Component {
   // Relay + GraphQL, we'll be sure to update the cached state with the latest
   // values so when the page re-loads, we can show the latest numbers.
   componentWillReceiveProps(nextProps) {
+    if (!nextProps.viewer) {
+      return;
+    }
+
     if (nextProps.viewer.scheduledBuilds || nextProps.viewer.runningBuilds) {
       this.setCachedState({
         scheduledBuildsCount: nextProps.viewer.scheduledBuilds.count,
@@ -131,7 +153,7 @@ class MyBuilds extends React.Component {
   renderDropdown() {
     // If `builds` here is null, that means that Relay hasn't fetched the data
     // for it yet. It will become an Array once it's loaded.
-    if (!this.props.viewer.user.builds) {
+    if (!this.props.viewer || !this.props.viewer.user.builds) {
       return this.renderSpinner();
     }
 
@@ -145,6 +167,10 @@ class MyBuilds extends React.Component {
   }
 
   renderBuilds() {
+    if (!this.props.viewer) {
+      return;
+    }
+
     return (
       <div>
         <div className="px3 py2">
@@ -219,7 +245,7 @@ class MyBuilds extends React.Component {
 
 // Wrap the MyBuilds in a CachedStateWrapper so we get access to methods
 // like `setCachedState`
-const CachedMyBuilds = CachedStateWrapper(MyBuilds, { validLength: 1::hour });
+const CachedMyBuilds = CachedStateWrapper(MyBuilds, { validLength: hour.bind(1) });
 
 export default Relay.createContainer(CachedMyBuilds, {
   initialVariables: {

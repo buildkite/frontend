@@ -1,5 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import Relay from 'react-relay/classic';
 import classNames from 'classnames';
 import styled from 'styled-components';
@@ -30,12 +31,28 @@ const ArrowDropdownButton = styled(DropdownButton)`
   }
 `;
 
-class Navigation extends React.PureComponent {
-  static propTypes = {
-    organization: PropTypes.object,
-    viewer: PropTypes.object,
-    relay: PropTypes.object.isRequired
-  };
+type Props = {
+  viewer?: Object,
+  organization?: {
+    id: string,
+    slug: string,
+    name: string,
+    permissions: Object
+  },
+  relay: Object
+};
+
+type State = {
+  showingOrgDropdown: boolean,
+  showingUserDropdown: boolean,
+  showingSupportDialog: boolean,
+  warning: boolean,
+  lastDefaultTeam: ?string
+};
+
+class Navigation extends React.PureComponent<Props, State> {
+  logoutFormNode: ?HTMLFormElement;
+  userDropdown: ?Dropdown;
 
   componentDidMount() {
     this.props.relay.setVariables({ isMounted: true });
@@ -52,9 +69,12 @@ class Navigation extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    // If we're moving between organizations, we need to pull out the new organization's default team setting,
-    // if it's available.
-    if (nextProps.organization && nextProps.organization.id && nextProps.organization.id !== this.props.organization.id) {
+    // If we're moving between organizations, we need to pull out the new
+    // organization's default team setting, if it's available.
+    if (
+      nextProps.organization && nextProps.organization.id &&
+      (!this.props.organization || nextProps.organization.id !== this.props.organization.id)
+    ) {
       this.setState({
         lastDefaultTeam: UserSessionStore.get(`organization-default-team:${nextProps.organization.id}`)
       });
@@ -74,6 +94,10 @@ class Navigation extends React.PureComponent {
   };
 
   handleSessionDataChange = ({ key, newValue }) => {
+    if (!this.props.organization) {
+      return;
+    }
+
     // When the UserSessionStore gets a change, if the update was to the
     // currently displayed team, update the state with the new value!
     if (key === `organization-default-team:${this.props.organization.id}`) {
@@ -93,12 +117,14 @@ class Navigation extends React.PureComponent {
 
   handleLogoutClick = (evt) => {
     evt.preventDefault();
-    this.logoutFormNode.submit();
+    if (this.logoutFormNode) {
+      this.logoutFormNode.submit();
+    }
   };
 
   handleSupportClick = () => {
     // close the support dropdown if it's open
-    if (this.state.showingUserDropdown) {
+    if (this.userDropdown && this.state.showingUserDropdown) {
       this.userDropdown.setShowing(false);
     }
 
@@ -115,7 +141,9 @@ class Navigation extends React.PureComponent {
     // viewport of the page. This means by default, the user dropdown doesn't
     // dissapear, but the page changes. This is a hack to hide it when you
     // click on the link.
-    this.userDropdown.setShowing(false);
+    if (this.userDropdown) {
+      this.userDropdown.setShowing(false);
+    }
     this.setState({ showingUserDropdown: false });
   };
 
@@ -189,7 +217,7 @@ class Navigation extends React.PureComponent {
     return link;
   }
 
-  renderOrganizationMenu(options = {}) {
+  renderOrganizationMenu(options: { paddingLeft?: number | string, className?: string } = {}) {
     const organization = this.props.organization;
     const paddingLeft = typeof options.paddingLeft === "number" ? options.paddingLeft : 15;
 
@@ -211,6 +239,10 @@ class Navigation extends React.PureComponent {
   renderOrganizationSettingsButton() {
     const organization = this.props.organization;
 
+    if (!organization) {
+      return;
+    }
+
     // The settings page will redirect to the first section the user has access
     // to. If they _just_ have teams admin enabled, skip the redirect and go
     // straight to the teams page.
@@ -231,8 +263,33 @@ class Navigation extends React.PureComponent {
     );
   }
 
+  renderUserMenuLabel() {
+    if (!this.props.viewer) {
+      return (
+        <span className="flex items-center xs-hide sm-flex flex-auto">
+          Unknown User
+        </span>
+      );
+    }
+
+    return (
+      <React.Fragment>
+        <UserAvatar
+          user={this.props.viewer.user}
+          className="flex-none flex items-center"
+          style={{ width: 26, height: 26 }}
+        />
+        <span className="flex items-center xs-hide sm-flex ml1 flex-auto">
+          <span className="truncate" data-current-user-name={true}>
+            {this.props.viewer.user.name}
+          </span>
+        </span>
+      </React.Fragment>
+    );
+  }
+
   renderGraphQLExplorerLink() {
-    if (!Features.GraphQLExplorer) {
+    if (!window.Features.GraphQLExplorer) {
       return null;
     }
 
@@ -326,7 +383,7 @@ class Navigation extends React.PureComponent {
             </NavigationButton>
 
             <Dropdown
-              width={Features.GraphQLExplorer ? 180 : 170}
+              width={window.Features.GraphQLExplorer ? 180 : 170}
               className="flex"
               style={{ flex: '0 1 auto', minWidth: 55 }}
               ref={(userDropdown) => this.userDropdown = userDropdown}
@@ -339,16 +396,7 @@ class Navigation extends React.PureComponent {
                 )}
                 style={{ paddingRight: 0 }}
               >
-                <UserAvatar
-                  user={this.props.viewer.user}
-                  className="flex-none flex items-center"
-                  style={{ width: 26, height: 26 }}
-                />
-                <span className="flex items-center xs-hide sm-flex ml1 flex-auto">
-                  <span className="truncate" data-current-user-name={true}>
-                    {this.props.viewer.user.name}
-                  </span>
-                </span>
+                {this.renderUserMenuLabel()}
                 <span className="flex items-center flex-none">
                   <Icon
                     icon="down-triangle"

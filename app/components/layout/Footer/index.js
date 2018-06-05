@@ -1,20 +1,21 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
 import Link from './link';
 import Icon from '../../shared/Icon';
 
-class Footer extends React.PureComponent {
-  static propTypes = {
-    viewer: PropTypes.shape({
-      unreadChangelogs: PropTypes.shape({
-        count: PropTypes.number
-      })
-    }),
-    relay: PropTypes.object.isRequired
-  };
+type Props = {
+  viewer?: {
+    unreadChangelogs?: {
+      count: number
+    }
+  },
+  relay: Object
+};
 
+class Footer extends React.PureComponent<Props> {
   componentDidMount() {
     this.props.relay.setVariables({ isMounted: true });
   }
