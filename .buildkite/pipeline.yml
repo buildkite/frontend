@@ -14,7 +14,7 @@ steps:
     agents:
       queue: elastic-builders
 
-  - wait
+  - block: "Continue build?"
 
   - name: ":eslint:"
     command: ".buildkite/steps/eslint.sh"
