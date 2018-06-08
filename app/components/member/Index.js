@@ -1,4 +1,6 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
@@ -27,7 +29,38 @@ const ORGANIZATION_ROLES = [
 
 const PAGE_SIZE = 10;
 
-class MemberIndex extends React.PureComponent {
+type Props = {
+  organization: {
+    name: string,
+    slug: string,
+    permissions: Object,
+    members?: {
+      count: number,
+      edges: Array<{
+        node: {
+          id: string
+        }
+      }>
+    },
+    invitations?: {
+      edges: Array<{
+        node: {
+          id: string
+        }
+      }>
+    }
+  },
+  relay: Object
+};
+
+type State = {
+  loadingMembers: boolean,
+  searchingMembers: boolean,
+  searchingMembersIsSlow: boolean,
+  loadingInvitations: boolean
+};
+
+class MemberIndex extends React.PureComponent<Props, State> {
   static propTypes = {
     organization: PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -54,9 +87,13 @@ class MemberIndex extends React.PureComponent {
 
   state = {
     loadingMembers: false,
+    searchingMembers: false,
     searchingMembersIsSlow: false,
     loadingInvitations: false
   };
+
+  _memberRoleDropdown: ?Dropdown;
+  memberSearchIsSlowTimeout: ?TimeoutID;
 
   componentDidMount() {
     // Use a `forceFetch` so every time the user comes back to this page we'll
@@ -95,7 +132,7 @@ class MemberIndex extends React.PureComponent {
 
                 <div className="flex-none pl3 flex">
                   <Dropdown width={150} ref={(_memberRoleDropdown) => this._memberRoleDropdown = _memberRoleDropdown}>
-                    <div className="underline-dotted cursor-pointer inline-block regular dark-gray">{ORGANIZATION_ROLES.find((role) => role.id === this.props.relay.variables.memberRole).name}</div>
+                    {this.renderSelectedRole()}
                     {this.renderMemberRoles()}
                   </Dropdown>
                 </div>
@@ -127,10 +164,29 @@ class MemberIndex extends React.PureComponent {
     );
   }
 
+  renderSelectedRole() {
+    const selectedRole = ORGANIZATION_ROLES.find((role) => (
+      role.id === this.props.relay.variables.memberRole
+    ));
+
+    return (
+      <div className="underline-dotted cursor-pointer inline-block regular dark-gray">
+        {selectedRole && selectedRole.name}
+      </div>
+    );
+  }
+
   renderMemberRoles() {
-    return ORGANIZATION_ROLES.map((role, index) => {
+    return ORGANIZATION_ROLES.map((role) => {
       return (
-        <div key={index} className="btn block hover-bg-silver" onClick={() => { this._memberRoleDropdown.setShowing(false); this.handleMemberRoleSelect(role.id); }}>
+        <div
+          key={role.id}
+          className="btn block hover-bg-silver"
+          onClick={() => {
+            this._memberRoleDropdown && this._memberRoleDropdown.setShowing(false);
+            this.handleMemberRoleSelect(role.id);
+          }}
+        >
           <span className="block">{role.name}</span>
         </div>
       );
@@ -190,7 +246,7 @@ class MemberIndex extends React.PureComponent {
 
     this.memberSearchIsSlowTimeout = setTimeout(() => {
       this.setState({ searchingMembersIsSlow: true });
-    }, 1::second);
+    }, second.bind(1));
 
     this.props.relay.forceFetch(
       varibles,
