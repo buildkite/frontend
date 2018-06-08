@@ -352,7 +352,7 @@ export default Relay.createContainer(MemberIndex, {
   initialVariables: {
     isMounted: false,
     memberPageSize: PAGE_SIZE,
-    memberSearch: null,
+    memberSearch: '',
     memberRole: null,
     invitationPageSize: PAGE_SIZE
   },
