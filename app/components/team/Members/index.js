@@ -1,4 +1,6 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
@@ -17,7 +19,28 @@ import Row from './row';
 
 const PAGE_SIZE = 10;
 
-class Members extends React.Component {
+type Props = {
+  team: {
+    members: {
+      count: number,
+      edges: Array<{
+        node: {
+          id: string
+        }
+      }>
+    }
+  },
+  className?: string,
+  relay: Object
+};
+
+type State = {
+  loading: boolean,
+  searchingMembers: boolean,
+  searchingMembersIsSlow: boolean
+};
+
+class Members extends React.PureComponent<Props, State> {
   static displayName = "Team.Members";
 
   static propTypes = {
@@ -30,6 +53,8 @@ class Members extends React.Component {
     relay: PropTypes.object.isRequired,
     className: PropTypes.string
   };
+
+  teamSearchIsSlowTimeout: ?TimeoutID;
 
   state = {
     loading: false,
@@ -127,7 +152,7 @@ class Members extends React.Component {
 
     this.teamSearchIsSlowTimeout = setTimeout(() => {
       this.setState({ searchingMembersIsSlow: true });
-    }, 1::second);
+    }, second.bind(1));
 
     this.props.relay.forceFetch(
       { memberSearch },
@@ -190,7 +215,7 @@ export default Relay.createContainer(Members, {
     memberAddSearch: '',
     teamSelector: null,
     pageSize: PAGE_SIZE,
-    memberSearch: null
+    memberSearch: ''
   },
 
   fragments: {
