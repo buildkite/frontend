@@ -6,11 +6,11 @@
   margin: 1em 0;
 }
 
-.annotation-body details summary {
+.annotation-body details > summary {
   cursor: pointer;
 }
 
-.annotation-body details[open] summary {
+.annotation-body details[open] > summary {
   margin-bottom: 1em;
 }
 
