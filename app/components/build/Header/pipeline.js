@@ -236,7 +236,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
 
       evt.preventDefault();
 
-      Buildkite.dispatcher.emit("job:toggle", { job, source: "BUILD_HEADER" });
+      Buildkite.dispatcher.emit("job:focus", { job });
     };
   },
 
