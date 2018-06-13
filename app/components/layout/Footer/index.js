@@ -30,23 +30,25 @@ class Footer extends React.PureComponent<Props> {
     }
 
     return (
-      <footer className="center border-top border-gray dark-gray" style={{ marginTop: 40, paddingTop: 30 }}>
-        <div className="mt4 mb4 small">
-          <Link href="/home">Home</Link>
-          <Link href="/changelog">
-            <span>Changelog</span>{changelogBadge}
-          </Link>
-          <Link href="/blog">Blog</Link>
-          <Link href="/docs">Docs</Link>
-          <Link href="https://github.com/buildkite/feedback/issues">Feedback</Link>
-          <Link href="/privacy-policy">Privacy</Link>
-          <Link href="/terms-of-service">Terms</Link>
-          <Link href="mailto:support@buildkite.com">Support</Link>
-          <Link href="https://buildkitestatus.com/">System Status</Link>
-        </div>
-        <div className="mt4 mb4">
-          <a href="http://twitter.com/buildkite" className={`btn hover-lime px1`}><Icon icon="twitter" /></a>
-          <a href="https://github.com/buildkite" className={`btn hover-lime px1`}><Icon icon="github" /></a>
+      <footer className="container center" style={{ marginTop: 40, paddingTop: 30 }}>
+        <div className="px2 border-top border-gray dark-gray">
+          <div className="mt4 mb4 px2 small">
+            <Link href="/home">Home</Link>
+            <Link href="/changelog">
+              <span>Changelog</span>{changelogBadge}
+            </Link>
+            <Link href="/blog">Blog</Link>
+            <Link href="/docs">Docs</Link>
+            <Link href="https://github.com/buildkite/feedback/issues">Feedback</Link>
+            <Link href="/privacy-policy">Privacy</Link>
+            <Link href="/terms-of-service">Terms</Link>
+            <Link href="mailto:support@buildkite.com">Support</Link>
+            <Link href="https://buildkitestatus.com/">System Status</Link>
+          </div>
+          <div className="mt4 mb4">
+            <a href="http://twitter.com/buildkite" className={`btn hover-lime px1`}><Icon icon="twitter" /></a>
+            <a href="https://github.com/buildkite" className={`btn hover-lime px1`}><Icon icon="github" /></a>
+          </div>
         </div>
       </footer>
     );
