@@ -46,6 +46,8 @@ import AuditLogExport from './components/audit_log/Export';
 import JobIndex from './components/job/Index';
 import BillingUpgrade from './components/billing/BillingUpgrade';
 
+import TwoFactorIndex from './components/user/TwoFactor';
+
 import GraphQLExplorer from './components/user/graphql/GraphQLExplorer';
 import GraphQLExplorerConsole from './components/user/graphql/GraphQLExplorerConsole';
 import GraphQLExplorerDocumentation from './components/user/graphql/GraphQLExplorerDocumentation';
@@ -117,6 +119,8 @@ export default (
       <Route path="authorize/:code" component={APIAccessTokenCodeAuthorize} queries={{ apiAccessTokenCode: APIAccessTokenCodeQuery.query }} />
       <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
       <Route path="organizations/:organization/billing/upgrade" component={BillingUpgrade} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+
+      <Route path="/user/two-factor" component={TwoFactorIndex} queries={{ viewer: ViewerQuery.query }} />
 
       <Route path="/user/graphql" component={GraphQLExplorer}>
         <IndexRedirect to="console" />
