@@ -1,5 +1,8 @@
-/* This isn't strictly BassCSS here, but it's the only easy way to render the
- * different elements within an annotation body */
+/*
+  * Styles for annotation bodies
+  * Note that this is defined separately for the app and emails,
+  * so both places should be kept in sync as much as possible.
+  */
 
 .annotation-body pre {
   padding: 10px;
@@ -16,4 +19,48 @@
 
 .annotation-body details[open] {
   margin-bottom: 1em;
+}
+
+/*
+ * table and kbd styles borrowed from GitHub's primer project:
+ * https://github.com/primer/primer/blob/df7a882778385c5e1defd190c0e933ff1c591a16/modules/primer-markdown/lib/tables.scss
+ */
+
+.annotation-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+.annotation-body table th {
+  font-weight: 500; /* equivalent of .semi-bold */
+}
+
+.annotation-body table th,
+.annotation-body table td {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+.annotation-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+.annotation-body table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+.annotation-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: solid 1px #c6cbd1;
+  border-bottom-color: #959da5;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #959da5
 }
