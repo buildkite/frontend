@@ -39,16 +39,16 @@
 .annotation-body table th,
 .annotation-body table td {
   padding: 6px 13px;
-  border: 1px solid #dfe2e5;
+  border: 1px solid #dddddd; /* equivalent of .border-gray */
 }
 
 .annotation-body table tr {
   background-color: #fff;
-  border-top: 1px solid #c6cbd1;
+  border-top: 1px solid #dddddd; /* equivalent of .border-gray */
 }
 
 .annotation-body table tr:nth-child(2n) {
-  background-color: #f6f8fa;
+  background-color: #f9fafb; /* equivalent of .bg-silver */
 }
 
 .annotation-body kbd {
