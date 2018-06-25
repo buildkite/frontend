@@ -153,12 +153,6 @@ export default Relay.createContainer(SSOIndex, {
           isEnabled
           provider {
             name
-            ...on SSOProviderGoogle {
-              emailDomain
-            }
-            ...on SSOProviderSAML {
-              emailDomain
-            }
           }
         }
       }
