@@ -35,7 +35,7 @@ sudo sed -i "s/xxx/{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}/g" /etc/b
 And then start the agent:
 
 ```bash
-# For Debian 8.x (systemd)
+# For Debian 8.x and above (systemd)
 sudo systemctl enable buildkite-agent && systemctl start buildkite-agent
 
 # For Debian 7.x (using upstart)
@@ -48,7 +48,7 @@ sudo /etc/init.d/buildkite-agent start
 You can view the logs at:
 
 ```bash
-# For Debian 8.x (systemd)
+# For Debian 8.x and above (systemd)
 sudo journalctl -f -u buildkite-agent
 
 # For Debian 7.x (using upstart)
@@ -58,4 +58,4 @@ sudo tail -f /var/log/upstart/buildkite-agent.log
 sudo tail -f /var/log/buildkite-agent.log
 ```
 
-<p class="rounded bg-silver p2">See the <a href="/docs/agent/debian">Debian agent docs</a> for more details. Supported Debian versions: 7.x and 8.x.</p>
+<p class="rounded bg-silver p2">See the <a href="/docs/agent/debian">Debian agent docs</a> for more details. Supported Debian versions: 7.x and above.</p>

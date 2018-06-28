@@ -23,7 +23,7 @@ sudo sed -i "s/xxx/{{ props.token || 'INSERT-YOUR-AGENT-TOKEN-HERE' }}/g" /etc/b
 And then start the agent:
 
 ```bash
-# Ubuntu 15.04+ (systemd)
+# Ubuntu 15.04 and above (systemd)
 sudo systemctl enable buildkite-agent && sudo systemctl start buildkite-agent
 
 # Older Ubuntu (upstart)
@@ -33,11 +33,11 @@ sudo service buildkite-agent start
 You can view the logs at:
 
 ```bash
-# Ubuntu 15.04+ (systemd)
+# Ubuntu 15.04 and above (systemd)
 journalctl -f -u buildkite-agent
 
 # Older Ubuntu (upstart)
 tail -f /var/log/upstart/buildkite-agent.log
 ```
 
-<p class="rounded bg-silver p2">See the <a href="/docs/agent/ubuntu">Ubuntu agent docs</a> for more details. Supported Ubuntu versions: 13.10, 12.04, 14.04 and 15.04.</p>
+<p class="rounded bg-silver p2">See the <a href="/docs/agent/ubuntu">Ubuntu agent docs</a> for more details. Supported Ubuntu versions: 14.04 and above.</p>
