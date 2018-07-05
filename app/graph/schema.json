@@ -981,6 +981,39 @@
               "deprecationReason": null
             },
             {
+              "name": "ssoProvider",
+              "description": "Find an sso provider either using it's slug, or UUID",
+              "args": [
+                {
+                  "name": "slug",
+                  "description": "The slug for the sso provider, prefixed by its organization's slug i.e. `acme-inc/0bd5ea7c-89b3-4f40-8ca3-ffac805771eb`",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "uuid",
+                  "description": "The UUID of the sso provider",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "INTERFACE",
+                "name": "SSOProvider",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "team",
               "description": "Find a team by its UUID",
               "args": [
@@ -1760,6 +1793,21 @@
             },
             {
               "kind": "OBJECT",
+              "name": "SSOProviderGitHubOAuth",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "SSOProviderGoogleOAuth",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "SSOProviderSAML",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
               "name": "Team",
               "ofType": null
             },
@@ -2228,6 +2276,11 @@
             {
               "kind": "OBJECT",
               "name": "PipelineScheduleConnection",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "SSOProviderConnection",
               "ofType": null
             },
             {
@@ -3956,6 +4009,59 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "OrganizationSSO",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ssoProviders",
+              "description": "Single sign on providers created for an organization",
+              "args": [
+                {
+                  "name": "first",
+                  "description": "Returns the first _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "after",
+                  "description": "Returns the elements in the list that come after the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "last",
+                  "description": "Returns the last _n_ elements from the list.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "before",
+                  "description": "Returns the elements in the list that come before the specified cursor.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "SSOProviderConnection",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -11145,6 +11251,348 @@
         },
         {
           "kind": "OBJECT",
+          "name": "SSOProviderConnection",
+          "description": null,
+          "fields": [
+            {
+              "name": "count",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "edges",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "SSOProviderEdge",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pageInfo",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "PageInfo",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Connection",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "SSOProviderEdge",
+          "description": null,
+          "fields": [
+            {
+              "name": "cursor",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "node",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "INTERFACE",
+                "name": "SSOProvider",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "SSOProvider",
+          "description": null,
+          "fields": [
+            {
+              "name": "createdAt",
+              "description": "The time when this SSO Provider was created",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdBy",
+              "description": "The user that created this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "disabledAt",
+              "description": "The time when this SSO Provider was disabled",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "disabledBy",
+              "description": "The user that disabled this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "enabledAt",
+              "description": "The time when this SSO Provider was enabled",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "enabledBy",
+              "description": "The user that enabled this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "note",
+              "description": "An extra message that can be added the Authorization screen of an SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": "The current state of the SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "SSOProviderStaes",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID for this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "SSOProviderGitHubOAuth",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "SSOProviderGoogleOAuth",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "SSOProviderSAML",
+              "ofType": null
+            }
+          ]
+        },
+        {
+          "kind": "ENUM",
+          "name": "SSOProviderStaes",
+          "description": "All the possible states an SSO Provider can be in",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "CREATED",
+              "description": "The SSO Provider has been created, but has not been enabled for use yet",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ENABLED",
+              "description": "The SSO Provider has been setup correctly and can be used by users",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DISABLED",
+              "description": "The SSO Provider has been disabled and can't be used directly",
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "OrganizationAuditEventConnection",
           "description": null,
           "fields": [
@@ -11565,6 +12013,36 @@
               "deprecationReason": null
             },
             {
+              "name": "SSO_PROVIDER_CREATED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SSO_PROVIDER_DELETED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SSO_PROVIDER_DISABLED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SSO_PROVIDER_ENABLED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SSO_PROVIDER_UPDATED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "TEAM_CREATED",
               "description": null,
               "isDeprecated": false,
@@ -11903,6 +12381,12 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "SSO_PROVIDER",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -11989,6 +12473,21 @@
             {
               "kind": "OBJECT",
               "name": "TeamPipeline",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "SSOProviderGoogleOAuth",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "SSOProviderGitHubOAuth",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "SSOProviderSAML",
               "ofType": null
             }
           ]
@@ -12519,6 +13018,648 @@
             {
               "kind": "INTERFACE",
               "name": "NotificationService",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "SSOProviderGoogleOAuth",
+          "description": "Single sign-on provided by Google",
+          "fields": [
+            {
+              "name": "createdAt",
+              "description": "The time when this SSO Provider was created",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdBy",
+              "description": "The user that created this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "disabledAt",
+              "description": "The time when this SSO Provider was disabled",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "disabledBy",
+              "description": "The user that disabled this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "discloseHostedDomain",
+              "description": "Whether or not the hosted domain should be presented to the user during SSO",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "enabledAt",
+              "description": "The time when this SSO Provider was enabled",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "enabledBy",
+              "description": "The user that enabled this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "hostedDomain",
+              "description": "The Google hosted domain that is required to be present in oAuth",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "note",
+              "description": "An extra message that can be added the Authorization screen of an SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": "The current state of the SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "SSOProviderStaes",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID for this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "SSOProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "SSOProviderGitHubOAuth",
+          "description": "Single sign-on provided by GitHub",
+          "fields": [
+            {
+              "name": "createdAt",
+              "description": "The time when this SSO Provider was created",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdBy",
+              "description": "The user that created this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "disabledAt",
+              "description": "The time when this SSO Provider was disabled",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "disabledBy",
+              "description": "The user that disabled this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "enabledAt",
+              "description": "The time when this SSO Provider was enabled",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "enabledBy",
+              "description": "The user that enabled this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "note",
+              "description": "An extra message that can be added the Authorization screen of an SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organizationName",
+              "description": "The name of the organization on GitHub that the user must be in for an SSO authorization to be verified",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": "The current state of the SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "SSOProviderStaes",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID for this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "SSOProvider",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "SSOProviderSAML",
+          "description": "Single sign-on provided via SAML",
+          "fields": [
+            {
+              "name": "createdAt",
+              "description": "The time when this SSO Provider was created",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdBy",
+              "description": "The user that created this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "disabledAt",
+              "description": "The time when this SSO Provider was disabled",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "disabledBy",
+              "description": "The user that disabled this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "enabledAt",
+              "description": "The time when this SSO Provider was enabled",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "enabledBy",
+              "description": "The user that enabled this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "note",
+              "description": "An extra message that can be added the Authorization screen of an SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "organization",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Organization",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": "The current state of the SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "SSOProviderStaes",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "uuid",
+              "description": "The UUID for this SSO Provider",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            },
+            {
+              "kind": "INTERFACE",
+              "name": "SSOProvider",
               "ofType": null
             }
           ],
@@ -14383,20 +15524,6 @@
                   "name": "ID",
                   "ofType": null
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "provisioningUri",
-              "description": "The URI to enter into your one-time password generator. Usually presented to the user as a QR Code. Will be nil if this TOTP item is fully configured",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -19574,6 +20701,24 @@
               "deprecationReason": null
             },
             {
+              "name": "provisioningUri",
+              "description": "The URI to enter into your one-time password generator. Usually presented to the user as a QR Code",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "totp",
               "description": null,
               "args": [
@@ -21636,116 +22781,6 @@
             {
               "kind": "INTERFACE",
               "name": "RepositoryProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "SSOProviderGoogle",
-          "description": "Single sign-on provided by Google",
-          "fields": [
-            {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "SSOProvider",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INTERFACE",
-          "name": "SSOProvider",
-          "description": null,
-          "fields": [
-            {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "SSOProviderGoogle",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "SSOProviderSAML",
-              "ofType": null
-            }
-          ]
-        },
-        {
-          "kind": "OBJECT",
-          "name": "SSOProviderSAML",
-          "description": "Single sign-on provided via SAML",
-          "fields": [
-            {
-              "name": "name",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "SSOProvider",
               "ofType": null
             }
           ],
