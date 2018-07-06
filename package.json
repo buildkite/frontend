@@ -55,7 +55,7 @@
     "postcss-cssnext": "3.1.0",
     "postcss-easings": "1.0.1",
     "postcss-import": "11.1.0",
-    "postcss-loader": "2.0.10",
+    "postcss-loader": "2.1.5",
     "postcss-reporter": "5.0.0",
     "react-test-renderer": "16.2.0",
     "react-transform-hmr": "1.0.4",
