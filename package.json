@@ -94,7 +94,7 @@
     "moment": "2.22.2",
     "moment-duration-format": "2.2.2",
     "object-assign": "4.1.1",
-    "prop-types": "15.6.0",
+    "prop-types": "15.6.2",
     "pusher-js": "4.2.2",
     "query-string": "5.0.1",
     "raw-loader": "0.5.1",
