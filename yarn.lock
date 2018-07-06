@@ -5653,9 +5653,9 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-component-loader@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/markdown-component-loader/-/markdown-component-loader-1.0.0.tgz#4404d1f5e6cc80d82dbc37b5935a7ad700604776"
+markdown-component-loader@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/markdown-component-loader/-/markdown-component-loader-1.1.0.tgz#77859994b96d47135c4ef5f259ccf55192d51773"
   dependencies:
     any-base "^1.0.0"
     doc-chomp "1.1.0"
