@@ -20,7 +20,7 @@ query FirstThreePipelinesQuery {
   }
 }`,
 
-  `# Listing the teams within your organization
+`# Listing the teams within your organization
 
 query FirstThreeTeamsQuery {
   organization(slug: $organizationSlug) {
@@ -44,7 +44,7 @@ query FirstThreeTeamsQuery {
   }
 }`,
 
-  `# Creating an Agent Registration Token
+`# Creating an Agent Registration Token
 
 mutation CreateAgentToken {
   agentTokenCreate(input: {
@@ -61,7 +61,7 @@ mutation CreateAgentToken {
   }
 }`,
 
-  `# Revoking an Agent Registration Token
+`# Revoking an Agent Registration Token
 
 mutation RevokeAgentToken {
   agentTokenRevoke(input: {
