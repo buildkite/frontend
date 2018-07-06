@@ -96,7 +96,7 @@
     "object-assign": "4.1.1",
     "prop-types": "15.6.0",
     "pusher-js": "4.2.2",
-    "query-string": "5.0.1",
+    "query-string": "5.1.1",
     "raw-loader": "0.5.1",
     "react": "16.3.1",
     "react-addons-pure-render-mixin": "15.6.2",
