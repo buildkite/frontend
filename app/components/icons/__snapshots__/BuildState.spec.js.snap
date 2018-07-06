@@ -2,9 +2,7 @@
 
 exports[`BuildState BuildState.Regular renders correctly for build state \`BLOCKED\` 1`] = `
 <svg
-  className={undefined}
   height={32}
-  style={undefined}
   viewBox="0 0 32 32"
   width={32}
 >
@@ -47,9 +45,7 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`BLOCK
 
 exports[`BuildState BuildState.Regular renders correctly for build state \`CANCELED\` 1`] = `
 <svg
-  className={undefined}
   height={32}
-  style={undefined}
   viewBox="0 0 32 32"
   width={32}
 >
@@ -93,9 +89,7 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`CANCE
 
 exports[`BuildState BuildState.Regular renders correctly for build state \`FAILED\` 1`] = `
 <svg
-  className={undefined}
   height={32}
-  style={undefined}
   viewBox="0 0 32 32"
   width={32}
 >
@@ -139,9 +133,7 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`FAILE
 
 exports[`BuildState BuildState.Regular renders correctly for build state \`NOT_RUN\` 1`] = `
 <svg
-  className={undefined}
   height={32}
-  style={undefined}
   viewBox="0 0 32 32"
   width={32}
 >
@@ -178,9 +170,7 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`NOT_R
 
 exports[`BuildState BuildState.Regular renders correctly for build state \`PASSED\` 1`] = `
 <svg
-  className={undefined}
   height={32}
-  style={undefined}
   viewBox="0 0 32 32"
   width={32}
 >
@@ -218,9 +208,7 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`PASSE
 
 exports[`BuildState BuildState.Regular renders correctly for build state \`RUNNING\` 1`] = `
 <svg
-  className={undefined}
   height={32}
-  style={undefined}
   viewBox="0 0 32 32"
   width={32}
 >
@@ -282,9 +270,7 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`RUNNI
 
 exports[`BuildState BuildState.Regular renders correctly for build state \`SCHEDULED\` 1`] = `
 <svg
-  className={undefined}
   height={32}
-  style={undefined}
   viewBox="0 0 32 32"
   width={32}
 >
@@ -346,9 +332,7 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`SCHED
 
 exports[`BuildState BuildState.Regular renders correctly for build state \`SKIPPED\` 1`] = `
 <svg
-  className={undefined}
   height={32}
-  style={undefined}
   viewBox="0 0 32 32"
   width={32}
 >
@@ -385,9 +369,7 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`SKIPP
 
 exports[`BuildState BuildState.Regular renders correctly for build state \`null\` 1`] = `
 <svg
-  className={undefined}
   height={32}
-  style={undefined}
   viewBox="0 0 32 32"
   width={32}
 >
@@ -424,9 +406,7 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`null\
 
 exports[`BuildState BuildState.Small renders correctly for build state \`BLOCKED\` 1`] = `
 <svg
-  className={undefined}
   height={20}
-  style={undefined}
   viewBox="0 0 32 32"
   width={20}
 >
@@ -469,9 +449,7 @@ exports[`BuildState BuildState.Small renders correctly for build state \`BLOCKED
 
 exports[`BuildState BuildState.Small renders correctly for build state \`CANCELED\` 1`] = `
 <svg
-  className={undefined}
   height={20}
-  style={undefined}
   viewBox="0 0 32 32"
   width={20}
 >
@@ -515,9 +493,7 @@ exports[`BuildState BuildState.Small renders correctly for build state \`CANCELE
 
 exports[`BuildState BuildState.Small renders correctly for build state \`FAILED\` 1`] = `
 <svg
-  className={undefined}
   height={20}
-  style={undefined}
   viewBox="0 0 32 32"
   width={20}
 >
@@ -561,9 +537,7 @@ exports[`BuildState BuildState.Small renders correctly for build state \`FAILED\
 
 exports[`BuildState BuildState.Small renders correctly for build state \`NOT_RUN\` 1`] = `
 <svg
-  className={undefined}
   height={20}
-  style={undefined}
   viewBox="0 0 32 32"
   width={20}
 >
@@ -600,9 +574,7 @@ exports[`BuildState BuildState.Small renders correctly for build state \`NOT_RUN
 
 exports[`BuildState BuildState.Small renders correctly for build state \`PASSED\` 1`] = `
 <svg
-  className={undefined}
   height={20}
-  style={undefined}
   viewBox="0 0 32 32"
   width={20}
 >
@@ -640,9 +612,7 @@ exports[`BuildState BuildState.Small renders correctly for build state \`PASSED\
 
 exports[`BuildState BuildState.Small renders correctly for build state \`RUNNING\` 1`] = `
 <svg
-  className={undefined}
   height={20}
-  style={undefined}
   viewBox="0 0 32 32"
   width={20}
 >
@@ -704,9 +674,7 @@ exports[`BuildState BuildState.Small renders correctly for build state \`RUNNING
 
 exports[`BuildState BuildState.Small renders correctly for build state \`SCHEDULED\` 1`] = `
 <svg
-  className={undefined}
   height={20}
-  style={undefined}
   viewBox="0 0 32 32"
   width={20}
 >
@@ -768,9 +736,7 @@ exports[`BuildState BuildState.Small renders correctly for build state \`SCHEDUL
 
 exports[`BuildState BuildState.Small renders correctly for build state \`SKIPPED\` 1`] = `
 <svg
-  className={undefined}
   height={20}
-  style={undefined}
   viewBox="0 0 32 32"
   width={20}
 >
@@ -807,9 +773,7 @@ exports[`BuildState BuildState.Small renders correctly for build state \`SKIPPED
 
 exports[`BuildState BuildState.Small renders correctly for build state \`null\` 1`] = `
 <svg
-  className={undefined}
   height={20}
-  style={undefined}
   viewBox="0 0 32 32"
   width={20}
 >
@@ -846,9 +810,7 @@ exports[`BuildState BuildState.Small renders correctly for build state \`null\` 
 
 exports[`BuildState BuildState.XSmall renders correctly for build state \`BLOCKED\` 1`] = `
 <svg
-  className={undefined}
   height={13}
-  style={undefined}
   viewBox="0 0 32 32"
   width={13}
 >
@@ -891,9 +853,7 @@ exports[`BuildState BuildState.XSmall renders correctly for build state \`BLOCKE
 
 exports[`BuildState BuildState.XSmall renders correctly for build state \`CANCELED\` 1`] = `
 <svg
-  className={undefined}
   height={13}
-  style={undefined}
   viewBox="0 0 32 32"
   width={13}
 >
@@ -937,9 +897,7 @@ exports[`BuildState BuildState.XSmall renders correctly for build state \`CANCEL
 
 exports[`BuildState BuildState.XSmall renders correctly for build state \`FAILED\` 1`] = `
 <svg
-  className={undefined}
   height={13}
-  style={undefined}
   viewBox="0 0 32 32"
   width={13}
 >
@@ -983,9 +941,7 @@ exports[`BuildState BuildState.XSmall renders correctly for build state \`FAILED
 
 exports[`BuildState BuildState.XSmall renders correctly for build state \`NOT_RUN\` 1`] = `
 <svg
-  className={undefined}
   height={13}
-  style={undefined}
   viewBox="0 0 32 32"
   width={13}
 >
@@ -1022,9 +978,7 @@ exports[`BuildState BuildState.XSmall renders correctly for build state \`NOT_RU
 
 exports[`BuildState BuildState.XSmall renders correctly for build state \`PASSED\` 1`] = `
 <svg
-  className={undefined}
   height={13}
-  style={undefined}
   viewBox="0 0 32 32"
   width={13}
 >
@@ -1062,9 +1016,7 @@ exports[`BuildState BuildState.XSmall renders correctly for build state \`PASSED
 
 exports[`BuildState BuildState.XSmall renders correctly for build state \`RUNNING\` 1`] = `
 <svg
-  className={undefined}
   height={13}
-  style={undefined}
   viewBox="0 0 32 32"
   width={13}
 >
@@ -1126,9 +1078,7 @@ exports[`BuildState BuildState.XSmall renders correctly for build state \`RUNNIN
 
 exports[`BuildState BuildState.XSmall renders correctly for build state \`SCHEDULED\` 1`] = `
 <svg
-  className={undefined}
   height={13}
-  style={undefined}
   viewBox="0 0 32 32"
   width={13}
 >
@@ -1190,9 +1140,7 @@ exports[`BuildState BuildState.XSmall renders correctly for build state \`SCHEDU
 
 exports[`BuildState BuildState.XSmall renders correctly for build state \`SKIPPED\` 1`] = `
 <svg
-  className={undefined}
   height={13}
-  style={undefined}
   viewBox="0 0 32 32"
   width={13}
 >
@@ -1229,9 +1177,7 @@ exports[`BuildState BuildState.XSmall renders correctly for build state \`SKIPPE
 
 exports[`BuildState BuildState.XSmall renders correctly for build state \`null\` 1`] = `
 <svg
-  className={undefined}
   height={13}
-  style={undefined}
   viewBox="0 0 32 32"
   width={13}
 >
@@ -1270,7 +1216,6 @@ exports[`BuildState passes through className 1`] = `
 <svg
   className="some-weird-class-name"
   height={32}
-  style={undefined}
   viewBox="0 0 32 32"
   width={32}
 >
