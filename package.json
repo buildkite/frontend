@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "autosize": "4.0.2",
-    "basscss": "8.0.3",
+    "basscss": "8.0.4",
     "buffer-crc32": "0.2.13",
     "bugsnag-js": "4.1.2",
     "bugsnag-react": "1.1.1",
