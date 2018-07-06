@@ -5873,9 +5873,9 @@ moment-duration-format@2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/moment-duration-format/-/moment-duration-format-2.1.1.tgz#2eb0576f66822a47a0dee73af734c23b907ba2bd"
 
-moment@2.20.1:
-  version "2.20.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
+moment@2.22.2:
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
 mozjpeg@^4.0.0:
   version "4.1.1"
