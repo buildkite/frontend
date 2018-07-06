@@ -70,7 +70,7 @@
     "webpack-dev-server": "2.11.0"
   },
   "dependencies": {
-    "autosize": "4.0.0",
+    "autosize": "4.0.2",
     "basscss": "8.0.3",
     "buffer-crc32": "0.2.13",
     "bugsnag-js": "4.1.2",
