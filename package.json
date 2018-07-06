@@ -115,7 +115,7 @@
     "styled-components": "2.4.0",
     "styled-transition-group": "1.0.0",
     "throttleit": "1.0.0",
-    "uuid": "3.1.0",
+    "uuid": "3.3.2",
     "whatwg-fetch": "2.0.3",
     "word-wrap": "1.2.3"
   },
