@@ -8,6 +8,7 @@ import QRCode from 'qrcode.react';
 import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
 import Dialog from '../../shared/Dialog';
+import FormTextField from '../../shared/FormTextField';
 import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
 import Icon from "../../shared/Icon";
@@ -21,28 +22,66 @@ type Props = {
   relay: Object
 };
 
-type TOTPType = {
-  id: string,
-  provisioningUri: ?string
-};
-
 type State = {
   isOpen: boolean,
   generatingTOTP: boolean,
-  totp: ?TOTPType
+  activatingTOTP: boolean,
+  totpId: ?string,
+  provisioningUri: ?string
 };
 
 type TOTPCreateType = {
   totpCreate: {
-    totp: TOTPType
+    provisioningUri: string,
+    totp: {
+      id: string
+    }
   }
 };
+
+const AUTHENTICATORS = {
+  '1Password': 'https://1password.com',
+  'OTP Auth': 'https://cooperrs.de/otpauth.html',
+  'Duo Mobile': 'https://duo.com/product/trusted-users/two-factor-authentication/duo-mobile',
+  'Authy': 'https://authy.com',
+  'Google Authenticator': 'https://support.google.com/accounts/answer/1066447'
+};
+
+const AUTHENTICATOR_LIST = (
+  Object.keys(AUTHENTICATORS).map((authenticator_name) => (
+    <a
+      className="blue hover-navy text-decoration-none hover-underline"
+      key={authenticator_name}
+      href={AUTHENTICATORS[authenticator_name]}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {authenticator_name}
+    </a>
+  )).reduce((acc, link, index, items) => {
+    if (index > 0) {
+      if (index < items.length - 1) {
+        acc.push(', ');
+      }
+
+      if (index === items.length - 1) {
+        acc.push(' and ');
+      }
+    }
+
+    acc.push(link);
+
+    return acc;
+  }, [])
+);
 
 class TwoFactorIndex extends React.PureComponent<Props, State> {
   state = {
     isOpen: false,
     generatingTOTP: false,
-    totp: null
+    activatingTOTP: false,
+    totpId: null,
+    provisioningUri: null
   };
 
   render() {
@@ -71,6 +110,7 @@ class TwoFactorIndex extends React.PureComponent<Props, State> {
           <Dialog
             isOpen={this.state.isOpen}
             onRequestClose={this.handleRequestClose}
+            closeable={!(this.state.generatingTOTP || this.state.activatingTOTP)}
           >
             <div className="p4">
               <h1 className="m0 h2 semi-bold mb3">Activate Two-Factor Authentication</h1>
@@ -79,18 +119,32 @@ class TwoFactorIndex extends React.PureComponent<Props, State> {
                 renderAs="svg"
                 fgColor="currentColor"
                 bgColor="transparent"
-                width="100%"
-                height="100%"
+                width="320"
+                height="auto"
+                className="block my4 mx-auto"
                 style={{
-                  maxWidth: '50vw',
-                  maxHeight: '50vh'
+                  maxWidth: '100%'
                 }}
-                value={
-                  this.state.generatingTOTP || !this.state.totp || !this.state.totp.provisioningUri
-                    ? 'Loading…'
-                    : this.state.totp.provisioningUri
-                }
+                value={this.state.provisioningUri}
               />
+
+              <p>To activate two-factor authentication, scan this QR Code with your authenticator application.</p>
+              
+              <p>If you need an authenticator application, some good options include {AUTHENTICATOR_LIST}.</p>
+
+              <FormTextField
+                label="Two-factor authentication code"
+                autofocus={true}
+              />
+
+              <Button
+                className="col-12"
+                theme="success"
+                onClick={this.handleActivateClick}
+                loading={this.state.activatingTOTP && 'Activating…'}
+              >
+                Activate
+              </Button>
             </div>
           </Dialog>
         </div>
@@ -128,7 +182,8 @@ class TwoFactorIndex extends React.PureComponent<Props, State> {
       <PageHeader.Menu>
         <Button
           theme="success"
-          onClick={this.handleActivateClick}
+          onClick={this.handleCreateClick}
+          loading={this.state.generatingTOTP && 'Getting Started…'}
         >
           Get Started
         </Button>
@@ -173,36 +228,44 @@ class TwoFactorIndex extends React.PureComponent<Props, State> {
     );
   }
 
-  handleActivateClick = () => {
-    this.setState({
-      isOpen: true,
-      generatingTOTP: true
-    }, () => {
-      const mutation = graphql`
-        mutation TwoFactorCreateMutation($input: TOTPCreateInput!) {
-          totpCreate(input: $input) {
-            clientMutationId
-            totp {
-              id
+  handleCreateClick = () => {
+    // If we've still got a TOTP ID and a Provisioning URI on hand,
+    // re-use it, and avoid running the mutation again
+    if (this.state.totpId && this.state.provisioningUri) {
+      this.setState({ isOpen: true });
+      return;
+    }
+
+    this.setState({ generatingTOTP: true }, () => {
+      commitMutation(this.props.relay.environment, {
+        mutation: graphql`
+          mutation TwoFactorCreateMutation($input: TOTPCreateInput!) {
+            totpCreate(input: $input) {
+              clientMutationId
               provisioningUri
+              totp {
+                id
+              }
             }
           }
-        }
-      `;
-
-      commitMutation(
-        this.props.relay.environment,
-        {
-          mutation: mutation,
-          variables: { input: {} },
-          onCompleted: this.handleMutationComplete,
-          onError: this.handleMutationError
-        }
-      );
+        `,
+        variables: { input: {} },
+        onCompleted: this.handleCreateMutationComplete,
+        onError: this.handleCreateMutationError
+      });
     });
   };
 
-  handleMutationError = (error) => {
+  handleCreateMutationComplete = ({ totpCreate: { provisioningUri, totp: { id: totpId } } }: TOTPCreateType) => {
+    this.setState({
+      isOpen: true,
+      generatingTOTP: false,
+      totpId,
+      provisioningUri
+    });
+  };
+
+  handleCreateMutationError = (error) => {
     if (error) {
       // if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
       //   this.setState({ errors: error.source.errors });
@@ -212,11 +275,43 @@ class TwoFactorIndex extends React.PureComponent<Props, State> {
     }
   };
 
-  handleMutationComplete = (response: TOTPCreateType) => {
+
+  handleActivateClick = () => {
+    this.setState({ generatingTOTP: true }, () => {
+      commitMutation(this.props.relay.environment, {
+        mutation: graphql`
+          mutation TwoFactorActivateMutation($input: TOTPActivateInput!) {
+            totpActivate(input: $input) {
+              clientMutationId
+              totp {
+                id
+              }
+            }
+          }
+        `,
+        variables: { input: { id: this.state.totpId, token: 999999 } },
+        onCompleted: this.handleActivateMutationComplete,
+        onError: this.handleActivateMutationError
+      });
+    });
+  };
+
+  handleActivateMutationComplete = ({ totpCreate: { provisioningUri, totp: { id: totpId } } }: TOTPCreateType) => {
     this.setState({
       generatingTOTP: false,
-      totp: response.totpCreate.totp
+      totpId,
+      provisioningUri
     });
+  };
+
+  handleActivateMutationError = (error) => {
+    if (error) {
+      // if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
+      //   this.setState({ errors: error.source.errors });
+      // } else {
+      alert(error);
+      // }
+    }
   };
 
   handleRequestClose = () => {
