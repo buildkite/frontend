@@ -536,7 +536,7 @@ exports[`<CreditCardInput /> key input handles typing at the start of a value as
 Object {
   "selectionEnd": 0,
   "selectionStart": 0,
-  "value": "226666999",
+  "value": "2266 6699 9",
 }
 `;
 
