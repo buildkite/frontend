@@ -47,6 +47,8 @@ import JobIndex from './components/job/Index';
 import BillingUpgrade from './components/billing/BillingUpgrade';
 
 import TwoFactorIndex from './components/user/TwoFactor';
+import TwoFactorConfigure from './components/user/TwoFactor/configure';
+import TwoFactorDelete from './components/user/TwoFactor/delete';
 
 import GraphQLExplorer from './components/user/graphql/GraphQLExplorer';
 import GraphQLExplorerConsole from './components/user/graphql/GraphQLExplorerConsole';
@@ -120,20 +122,26 @@ export default (
       <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
       <Route path="organizations/:organization/billing/upgrade" component={BillingUpgrade} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
-      <Route path="/user/two-factor" component={TwoFactorIndex} queries={{ viewer: ViewerQuery.query }} />
+      <Route path="user">
+        <Route path="two-factor">
+          <IndexRoute component={TwoFactorIndex} queries={{ viewer: ViewerQuery.query }} />
+          <Route path="configure" component={TwoFactorConfigure} queries={{ viewer: ViewerQuery.query }} />
+          <Route path="delete" component={TwoFactorDelete} queries={{ viewer: ViewerQuery.query }} />
+        </Route>
 
-      <Route path="/user/graphql" component={GraphQLExplorer}>
-        <IndexRedirect to="console" />
-        <Route path="console">
-          <IndexRoute component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query }} />
-          <Route path=":snippet" component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query, graphQLSnippet: GraphQLSnippetQuery.query }} />
+        <Route path="graphql" component={GraphQLExplorer}>
+          <IndexRedirect to="console" />
+          <Route path="console">
+            <IndexRoute component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query }} />
+            <Route path=":snippet" component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query, graphQLSnippet: GraphQLSnippetQuery.query }} />
+          </Route>
+          <Route path="documentation">
+            <IndexRoute component={GraphQLExplorerDocumentation} />
+            <Route path="query/:field" component={GraphQLExplorerDocumentationQuery} />
+            <Route path="mutation/:field" component={GraphQLExplorerDocumentationMutation} />
+          </Route>
+          <Route path="examples" component={GraphQLExplorerExamples} queries={{ viewer: ViewerQuery.query }} />
         </Route>
-        <Route path="documentation">
-          <IndexRoute component={GraphQLExplorerDocumentation} />
-          <Route path="query/:field" component={GraphQLExplorerDocumentationQuery} />
-          <Route path="mutation/:field" component={GraphQLExplorerDocumentationMutation} />
-        </Route>
-        <Route path="examples" component={GraphQLExplorerExamples} queries={{ viewer: ViewerQuery.query }} />
       </Route>
 
       <Route path="organizations/:organization">
