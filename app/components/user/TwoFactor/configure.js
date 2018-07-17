@@ -133,8 +133,16 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
       return (
         <Panel>
           <Panel.Section>
-            {/* TODO: Add wording for re-activating when TOTP is already active */}
-            <p>To activate two-factor authentication, scan this QR Code with your authenticator application.</p>
+            {this.props.viewer.totp && (
+              <Panel className="orange border-orange">
+                <Panel.Section>
+                  <strong>Youʼre about to reconfigure two-factor authentication.</strong>
+                  This will replace your existing two-factor authentication applications and recovery codes.
+                </Panel.Section>
+              </Panel>
+            )}
+
+            <p>To {this.props.viewer.totp ? 'reconfigure' : 'activate'} two-factor authentication, scan this QR Code with your authenticator application.</p>
 
             <QRCode
               renderAs="svg"
