@@ -194,7 +194,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     // Immediately go generate a token
     commitMutation(this.props.relay.environment, {
       mutation: graphql`
-        mutation TwoFactorCreateMutation($input: TOTPCreateInput!) {
+        mutation configureCreateMutation($input: TOTPCreateInput!) {
           totpCreate(input: $input) {
             clientMutationId
             provisioningUri
@@ -215,7 +215,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     if (this.state.totpId && this.state.generatedTOTP && !this.state.activatedTOTP) {
       commitMutation(this.props.relay.environment, {
         mutation: graphql`
-          mutation TwoFactorDeleteMutation($input: TOTPDeleteInput!) {
+          mutation configureDeleteMutation($input: TOTPDeleteInput!) {
             totpDelete(input: $input) {
               clientMutationId
             }
@@ -253,7 +253,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     this.setState({ activatingTOTP: true }, () => {
       commitMutation(this.props.relay.environment, {
         mutation: graphql`
-          mutation TwoFactorActivateMutation($input: TOTPActivateInput!) {
+          mutation configureActivateMutation($input: TOTPActivateInput!) {
             totpActivate(input: $input) {
               clientMutationId
               totp {
@@ -297,7 +297,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
 
 export default createFragmentContainer(TwoFactorConfigure, {
   viewer: graphql`
-    fragment TwoFactorConfigure_viewer on Viewer {
+    fragment configure_viewer on Viewer {
       totp {
         id
       }

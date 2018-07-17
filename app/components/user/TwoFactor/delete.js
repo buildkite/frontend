@@ -137,7 +137,7 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
 
   handleDeleteClick = () => {
     if (!this.props.viewer.totp) {
-      throw new Error('TOTP Deactivate called without an active TOTP configuration (This should not be possible!)');
+      throw new Error('TOTP Delete called without an active TOTP configuration (This should not be possible!)');
     }
 
     const totpId = this.props.viewer.totp.id;
@@ -145,11 +145,13 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
     this.setState({ deletingTOTP: true }, () => {
       commitMutation(this.props.relay.environment, {
         mutation: graphql`
-          mutation TwoFactorDeactivateDeleteMutation($input: TOTPDeleteInput!) {
+          mutation deleteDeleteMutation($input: TOTPDeleteInput!) {
             totpDelete(input: $input) {
               clientMutationId
               viewer {
-                totp
+                totp {
+                  id
+                }
               }
             }
           }
@@ -181,7 +183,7 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
 
 export default createFragmentContainer(TwoFactorDelete, {
   viewer: graphql`
-    fragment TwoFactorDelete_viewer on Viewer {
+    fragment delete_viewer on Viewer {
       totp {
         id
       }
