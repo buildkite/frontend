@@ -3,6 +3,7 @@
 import React from "react";
 import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
+import { Link } from 'react-router';
 
 import Button from '../../shared/Button';
 import PageHeader from "../../shared/PageHeader";
@@ -25,8 +26,10 @@ type State = {
   deletedTOTP: boolean
 };
 
-type TOTPDeleteType = {
-  viewer: ViewerType
+type TOTPDeleteReturnType = {
+  totpDelete: {
+    viewer: ViewerType
+  }
 };
 
 class TwoFactorDelete extends React.PureComponent<Props, State> {
@@ -50,20 +53,18 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
               Remove Two-Factor Authentication
             </PageHeader.Title>
             <PageHeader.Description>
-              Stop Two-Factor Authentication protecting from your account.
+              Stop two-factor authentication from protecting your account.
             </PageHeader.Description>
-            <PageHeader.Menu>
-              <Button
-                theme="success"
-                link="/user/two-factor"
-                disabled={this.state.deletingTOTP}
-              >
-                Back to Two-factor authentication settings
-              </Button>
-            </PageHeader.Menu>
           </PageHeader>
 
           {this.renderCurrentStatus()}
+
+          <Link
+            className="blue hover-navy text-decoration-none hover-underline"
+            to="/user/two-factor"
+          >
+            Back to Two-Factor Authentication Settings
+          </Link>
         </div>
       </DocumentTitle>
     );
@@ -76,25 +77,19 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
 
     if (!this.props.viewer.totp) {
       return (
-        <Panel>
+        <Panel className="mb4">
           <Panel.Section>
             Two-factor authentication is not currently activated on your account, so we canʼt deactivate it!
-            <Button
-              theme="success"
-              link="/user/two-factor"
-            >
-              Back to Two-factor authentication settings
-            </Button>
           </Panel.Section>
         </Panel>
       );
     }
 
     return (
-      <Panel>
+      <Panel className="mb4">
         <Panel.Section>
           <p>Two-factor authentication is currently activated.</p>
-          <p>We recommend keeping Two-factor authentication activated to help secure your account.</p>
+          <p>We recommend keeping two-factor authentication activated to help secure your account.</p>
         </Panel.Section>
         <Panel.Section>
           <p>Need to move to a new device, or suspect your TOTP tokens are compromised? You can simply reconfigure two-factor authentication.</p>
@@ -123,17 +118,17 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
 
   renderDeletedStatus() {
     return (
-      <Panel>
+      <Panel className="mb4">
         <Panel.Section>
           <p>Two-factor authentication has been removed from your account.</p>
         </Panel.Section>
         <Panel.Section>
-          <p>Need to move to a new device, or suspect your TOTP tokens are compromised? You can simply reconfigure two-factor authentication.</p>
+          <p>Need to configure two-factor authentication again?</p>
           <Button
             theme="success"
             link="/user/two-factor/configure"
           >
-            Reconfigure Two-Factor Authentication
+            Configure Two-Factor Authentication
           </Button>
         </Panel.Section>
       </Panel>
@@ -166,10 +161,10 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
     });
   };
 
-  handleDeleteMutationComplete = (totpDelete: TOTPDeleteType) => {
+  handleDeleteMutationComplete = (mutationResult: TOTPDeleteReturnType) => {
     this.setState({
       deletingTOTP: false,
-      deletedTOTP: !totpDelete.viewer.totp
+      deletedTOTP: !mutationResult.totpDelete.viewer.totp
     });
   };
 

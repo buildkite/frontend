@@ -30,7 +30,7 @@ type State = {
   totpToken: string
 };
 
-type TOTPCreateType = {
+type TOTPCreateReturnType = {
   totpCreate: {
     provisioningUri: string,
     totp: {
@@ -101,7 +101,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
               Configure Two-Factor Authentication
             </PageHeader.Title>
             <PageHeader.Description>
-              Manage your Two-Factor Authentication settings.
+              Manage your two-factor authentication settings.
             </PageHeader.Description>
             <PageHeader.Menu>
               <Button
@@ -109,7 +109,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
                 outline={true}
                 link="/user/two-factor"
               >
-                Cancel
+                {this.state.activatedTOTP ? 'Done' : 'Cancel'}
               </Button>
             </PageHeader.Menu>
           </PageHeader>
@@ -153,21 +153,22 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
           </Panel.Section>
 
           <Panel.Section>
-            <FormTextField
-              label="Two-factor authentication code"
-              autoFocus={true}
-              placeholder="123456"
-              onChange={this.handleCodeChange}
-            />
+            <form onSubmit={this.handleActivateSubmit}>
+              <FormTextField
+                label="Two-factor authentication code"
+                autoFocus={true}
+                placeholder="123456"
+                onChange={this.handleCodeChange}
+              />
 
-            <Button
-              className="col-12"
-              theme="success"
-              onClick={this.handleActivateClick}
-              loading={this.state.activatingTOTP && 'Activating…'}
-            >
-              Activate
-            </Button>
+              <Button
+                className="col-12"
+                theme="success"
+                loading={this.state.activatingTOTP && 'Activating…'}
+              >
+                Activate
+              </Button>
+            </form>
           </Panel.Section>
         </Panel>
       );
@@ -176,6 +177,13 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
         <Panel>
           <Panel.Section>
             <p>Congratulations! Two-factor authentication is now configured for your account.</p>
+
+            <Button
+              theme="success"
+              link="/user/two-factor"
+            >
+              Back to Two-Factor Authentication Settings
+            </Button>
           </Panel.Section>
         </Panel>
       );
@@ -222,12 +230,12 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     this.setState({ totpToken: event.target.value });
   };
 
-  handleCreateMutationComplete = ({ totpCreate: { provisioningUri, totp: { id: totpId } } }: TOTPCreateType) => {
+  handleCreateMutationComplete = (mutationResult: TOTPCreateReturnType) => {
     this.setState({
       generatingTOTP: false,
       generatedTOTP: true,
-      totpId,
-      provisioningUri
+      totpId: mutationResult.totpCreate.totp.id,
+      provisioningUri: mutationResult.totpCreate.provisioningUri
     });
   };
 
@@ -241,7 +249,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     }
   };
 
-  handleActivateClick = () => {
+  handleActivateSubmit = () => {
     this.setState({ activatingTOTP: true }, () => {
       commitMutation(this.props.relay.environment, {
         mutation: graphql`

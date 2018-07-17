@@ -1,14 +1,15 @@
 // @flow
 
 import React from "react";
-import { createFragmentContainer, graphql } from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 
 import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
+import Icon from "../../shared/Icon";
 import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
-import Icon from "../../shared/Icon";
+
 
 type Props = {
   viewer: {
@@ -34,12 +35,19 @@ class TwoFactorIndex extends React.PureComponent<Props> {
               Two-Factor Authentication {this.renderBadge()}
             </PageHeader.Title>
             <PageHeader.Description>
-              Manage your Two-Factor Authentication settings.
+              Manage your two-factor authentication settings.
             </PageHeader.Description>
             {this.renderHeaderAction()}
           </PageHeader>
 
           {this.renderCurrentStatus()}
+
+          <a
+            className="blue hover-navy text-decoration-none hover-underline"
+            href="/user/settings"
+          >
+            Back to Personal Settings
+          </a>
         </div>
       </DocumentTitle>
     );
@@ -51,9 +59,7 @@ class TwoFactorIndex extends React.PureComponent<Props> {
     }
 
     return (
-      <Badge className="bg-green">
-        Active
-      </Badge>
+      <Badge className="bg-lime">Active</Badge>
     );
   }
 
