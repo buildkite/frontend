@@ -40,7 +40,6 @@ class TwoFactorIndex extends React.PureComponent<Props> {
           </PageHeader>
 
           {this.renderCurrentStatus()}
-          {this.renderRecoveryCodes()}
         </div>
       </DocumentTitle>
     );
@@ -97,33 +96,6 @@ class TwoFactorIndex extends React.PureComponent<Props> {
             {this.props.viewer.totp ? 'Reconfigure' : 'Get Started with'} Two-Factor Authentication
           </Button>
         </Panel.Section>
-      </Panel>
-    );
-  }
-
-  renderRecoveryCodes() {
-    if (!this.props.viewer.totp) {
-      return;
-    }
-
-    return (
-      <Panel>
-        <Panel.Header>
-          Recovery Codes
-        </Panel.Header>
-        <Panel.Section>
-          <p>Recovery codes will give access to your account if you lose access to your device and cannot retrieve two-factor authentication codes.</p>
-          <p>
-            Buildkite support cannot restore access to accounts with two-factor authentication enabled for security reasons.
-            {' '}
-            <strong>Keep your recovery codes in a safe place to ensure you are not locked out of your account.</strong>
-          </p>
-        </Panel.Section>
-        <Panel.Footer>
-          <Button>
-            View recovery codes
-          </Button>
-        </Panel.Footer>
       </Panel>
     );
   }
