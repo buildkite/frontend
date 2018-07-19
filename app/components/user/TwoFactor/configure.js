@@ -257,7 +257,9 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     }
   };
 
-  handleActivateSubmit = () => {
+  handleActivateSubmit = (event) => {
+    event.preventDefault();
+
     this.setState({ activatingTOTP: true }, () => {
       commitMutation(this.props.relay.environment, {
         mutation: graphql`
