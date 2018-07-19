@@ -1,4 +1,6 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { parse } from 'query-string';
@@ -9,7 +11,26 @@ import Dialog from '../shared/Dialog';
 import FormTextField from '../shared/FormTextField';
 import FormTextarea from '../shared/FormTextarea';
 
-class CreateBuildDialog extends React.PureComponent {
+type Props = {
+  pipeline: Object,
+  isOpen: ?boolean,
+  onRequestClose: Function
+};
+
+type State = {
+  showingOptions: boolean,
+  creatingBuild: boolean,
+  defaultValues: {
+    // putting these here so it's obvious they exist(!)
+    message: ?string,
+    commit: ?string,
+    branch: ?string,
+    env: ?string,
+    clean_checkout: ?boolean
+  }
+};
+
+class CreateBuildDialog extends React.PureComponent<Props, State> {
   static propTypes = {
     pipeline: PropTypes.object.isRequired,
     isOpen: PropTypes.bool,
@@ -28,6 +49,11 @@ class CreateBuildDialog extends React.PureComponent {
       clean_checkout: undefined
     }
   };
+
+  form: ?HTMLFormElement;
+  buildMessageTextField: FormTextField;
+  buildCommitTextField: FormTextField;
+  buildBranchTextField: FormTextField;
 
   componentWillMount() {
     const [hashPath, hashQuery] = window.location.hash.split('?');
@@ -158,7 +184,7 @@ class CreateBuildDialog extends React.PureComponent {
 
     if (this.isValid()) {
       this.setState({ creatingBuild: true });
-      this.form.submit();
+      this.form && this.form.submit();
     }
   }
 
