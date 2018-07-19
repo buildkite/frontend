@@ -136,8 +136,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
             {this.props.viewer.totp && (
               <Panel className="orange border-orange">
                 <Panel.Section>
-                  <strong>Youʼre about to reconfigure two-factor authentication.</strong>
-                  This will replace your existing two-factor authentication applications and recovery codes.
+                  <strong>Youʼre about to reconfigure two-factor authentication.</strong> This will replace your existing two-factor authentication applications and recovery codes.
                 </Panel.Section>
               </Panel>
             )}
