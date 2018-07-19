@@ -266,8 +266,10 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
           mutation configureActivateMutation($input: TOTPActivateInput!) {
             totpActivate(input: $input) {
               clientMutationId
-              totp {
-                id
+              viewer {
+                totp {
+                  id
+                }
               }
             }
           }
