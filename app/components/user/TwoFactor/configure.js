@@ -5,6 +5,8 @@ import { createFragmentContainer, graphql, commitMutation } from 'react-relay/co
 import DocumentTitle from 'react-document-title';
 import QRCode from 'qrcode.react';
 
+import GraphQLErrors from '../../../constants/GraphQLErrors';
+
 import Button from '../../shared/Button';
 import FormTextField from '../../shared/FormTextField';
 import PageHeader from "../../shared/PageHeader";
@@ -248,11 +250,14 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
 
   handleCreateMutationError = (error) => {
     if (error) {
-      // if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
-      //   this.setState({ errors: error.source.errors });
-      // } else {
-      alert(error);
-      // }
+      if (error.source && error.source.type === GraphQLErrors.ESCALATION_ERROR) {
+        location.reload();
+      } else {
+        // if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
+        //   this.setState({ errors: error.source.errors });
+        // } else {
+        alert(JSON.stringify(error));
+      }
     }
   };
 
@@ -291,11 +296,14 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
 
   handleActivateMutationError = (error) => {
     if (error) {
-      // if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
-      //   this.setState({ errors: error.source.errors });
-      // } else {
-      alert(error);
-      // }
+      if (error.source && error.source.type === GraphQLErrors.ESCALATION_ERROR) {
+        location.reload();
+      } else {
+        /*else if (error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
+          this.setState({ errors: error.source.errors });
+        }*/
+        alert(JSON.stringify(error));
+      }
     }
   };
 

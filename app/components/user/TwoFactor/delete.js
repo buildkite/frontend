@@ -5,6 +5,8 @@ import { createFragmentContainer, graphql, commitMutation } from 'react-relay/co
 import DocumentTitle from 'react-document-title';
 import { Link } from 'react-router';
 
+import GraphQLErrors from '../../../constants/GraphQLErrors';
+
 import Button from '../../shared/Button';
 import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
@@ -172,11 +174,14 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
 
   handleDeleteMutationError = (error) => {
     if (error) {
-      // if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
-      //   this.setState({ errors: error.source.errors });
-      // } else {
-      alert(error);
-      // }
+      if (error.source && error.source.type === GraphQLErrors.ESCALATION_ERROR) {
+        location.reload();
+      } else {
+        // if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
+        //   this.setState({ errors: error.source.errors });
+        // } else {
+        alert(JSON.stringify(error));
+      }
     }
   };
 }
