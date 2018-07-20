@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title';
 import QRCode from 'qrcode.react';
 
 import GraphQLErrors from '../../../constants/GraphQLErrors';
+import ValidationErrors from '../../../lib/ValidationErrors';
 
 import Button from '../../shared/Button';
 import FormTextField from '../../shared/FormTextField';
@@ -23,6 +24,7 @@ type Props = {
 };
 
 type State = {
+  errors: ?[],
   generatingTOTP: boolean,
   generatedTOTP: boolean,
   activatingTOTP: boolean,
@@ -79,6 +81,7 @@ const AUTHENTICATOR_LIST = (
 
 class TwoFactorConfigure extends React.PureComponent<Props, State> {
   state = {
+    errors: null,
     generatingTOTP: true,
     generatedTOTP: false,
     activatingTOTP: false,
@@ -123,6 +126,8 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
   }
 
   renderCurrentStatus() {
+    const errors = new ValidationErrors(this.state.errors);
+
     if (this.state.generatingTOTP) {
       return (
         <Panel>
@@ -168,6 +173,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
                 autoFocus={true}
                 placeholder="123456"
                 onChange={this.handleCodeChange}
+                errors={errors.findForField('token')}
               />
 
               <Button
@@ -244,21 +250,18 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
       generatingTOTP: false,
       generatedTOTP: true,
       totpId: mutationResult.totpCreate.totp.id,
-      provisioningUri: mutationResult.totpCreate.provisioningUri
+      provisioningUri: mutationResult.totpCreate.provisioningUri,
+      errors: null
     });
   };
 
   handleCreateMutationError = (error) => {
-    if (error) {
-      if (error.source && error.source.type === GraphQLErrors.ESCALATION_ERROR) {
-        location.reload();
-      } else {
-        // if (error.source && error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
-        //   this.setState({ errors: error.source.errors });
-        // } else {
-        alert(JSON.stringify(error));
-      }
+    if (error && error.source && error.source.type === GraphQLErrors.ESCALATION_ERROR) {
+      location.reload();
+      return;
     }
+
+    alert(error);
   };
 
   handleActivateSubmit = (event) => {
@@ -296,15 +299,30 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
 
   handleActivateMutationError = (error) => {
     if (error) {
-      if (error.source && error.source.type === GraphQLErrors.ESCALATION_ERROR) {
-        location.reload();
+      if (error.source && error.source.type) {
+        switch (error.source.type) {
+          case GraphQLErrors.ESCALATION_ERROR:
+            location.reload();
+            return;
+
+          case GraphQLErrors.RECORD_VALIDATION_ERROR:
+            this.setState({
+              activatingTOTP: false,
+              errors: error.source.errors
+            });
+            return;
+
+          default:
+            break;
+        }
       } else {
-        /*else if (error.source.type === GraphQLErrors.RECORD_VALIDATION_ERROR) {
-          this.setState({ errors: error.source.errors });
-        }*/
-        alert(JSON.stringify(error));
+        alert(error);
       }
     }
+
+    this.setState({
+      generatingTOTP: false
+    });
   };
 
   handleRequestClose = () => {
