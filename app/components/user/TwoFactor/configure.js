@@ -216,6 +216,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
             provisioningUri
             totp {
               id
+              recoveryCodes
             }
           }
         }

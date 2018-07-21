@@ -16385,6 +16385,28 @@
               "deprecationReason": null
             },
             {
+              "name": "recoveryCodes",
+              "description": "The current user's active TOTP configuration, if any",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "verified",
               "description": "Whether the TOTP configuration has been verified yet",
               "args": [
