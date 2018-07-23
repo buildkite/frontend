@@ -114,24 +114,21 @@ class TwoFactorIndex extends React.PureComponent<Props> {
     }
 
     if (!this.props.viewer.totp.recoveryCodes) {
-      <Panel>
-        <Panel.Header>
-          Recovery Codes
-        </Panel.Header>
-        <Panel.Section>
-          <p>You don't currently have any recovery codes; this probably means you activated two-factor authentication during the earliest beta, nice work!</p>
-          <p>Someday soon there'll be a "generate recovery codes" button here. For now, you can use the "reconfigure two-factor authentication" option above.</p>
-        </Panel.Section>
-        <Panel.Footer>
-          <Button>
-            View recovery codes
-          </Button>
-        </Panel.Footer>
-      </Panel>
+      return (
+        <Panel className="mb4">
+          <Panel.Header>
+            Recovery Codes
+          </Panel.Header>
+          <Panel.Section>
+            <p>You donʼt currently have any recovery codes; this probably means you activated two-factor authentication during the earliest beta, nice work!</p>
+            <p>Someday soon thereʼll be a “generate recovery codes” button here. For now, you can use the “reconfigure two-factor authentication” option above.</p>
+          </Panel.Section>
+        </Panel>
+      );
     }
 
     return (
-      <Panel>
+      <Panel className="mb4">
         <Panel.Header>
           Recovery Codes
         </Panel.Header>
@@ -158,6 +155,7 @@ export default createFragmentContainer(TwoFactorIndex, {
     fragment TwoFactor_viewer on Viewer {
       totp {
         id
+        recoveryCodes
       }
     }
   `

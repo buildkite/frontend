@@ -4,6 +4,7 @@ import React from "react";
 import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
 import QRCode from 'qrcode.react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import GraphQLErrors from '../../../constants/GraphQLErrors';
 import ValidationErrors from '../../../lib/ValidationErrors';
@@ -28,6 +29,7 @@ type State = {
   errors: ?[],
   generatingTOTP: boolean,
   generatedTOTP: boolean,
+  copiedRecoveryCodes: boolean,
   confirmedRecoveryCodes: boolean,
   activatingTOTP: boolean,
   activatedTOTP: boolean,
@@ -83,11 +85,28 @@ const AUTHENTICATOR_LIST = (
   }, [])
 );
 
+// Pretty formatter for recovery codes, pretty generic in case we change length!
+const formatRecoveryCode = (recoveryCode, separator = '-') => {
+  // Find a best-fit length for segments
+  const segmentLength = [8, 7, 6, 5].find((length) => (recoveryCode.length % length) === 0);
+
+  // If we don't find one, just return the whole thing
+  if (!segmentLength) {
+    return recoveryCode;
+  }
+
+  // Otherwise, grab slices of the original string and join them with a separator
+  return Array(recoveryCode.length / segmentLength).fill(null).map((_segment, index) => (
+    recoveryCode.slice(index * segmentLength, (index + 1) * segmentLength)
+  )).join(separator);
+};
+
 class TwoFactorConfigure extends React.PureComponent<Props, State> {
   state = {
     errors: null,
     generatingTOTP: true,
     generatedTOTP: false,
+    copiedRecoveryCodes: false,
     confirmedRecoveryCodes: false,
     activatingTOTP: false,
     activatedTOTP: false,
@@ -142,7 +161,9 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
           </Panel.Section>
         </Panel>
       );
-    } else if (this.state.generatedTOTP && !this.state.confirmedRecoveryCodes) {
+    } else if (this.state.generatedTOTP && this.state.recoveryCodes && !this.state.confirmedRecoveryCodes) {
+      const recoveryCodes = this.state.recoveryCodes.map((code) => formatRecoveryCode(code));
+
       return (
         <Panel>
           <Panel.Section>
@@ -154,31 +175,46 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
               </Panel>
             )}
 
-            <p>
-              These are your recovery codes. If you lose access to your code generator, you will need one of these codes to regain access to your account.
-            </p>
+            <p>Recovery codes are used if you lose access to your code generator.</p>
 
-            <ul>
-              {this.state.recoveryCodes.map((recoveryCode) => (
-                <li key={recoveryCode}>
-                  <code>{recoveryCode}</code>
+            <p>Copy or print your recovery codes before you continue to configure two-factor authentication.</p>
+
+            <ul
+              className="list-reset center"
+              style={{
+                columns: 2
+              }}
+            >
+              {recoveryCodes.map((code) => (
+                <li key={code}>
+                  <code className="monospace h2">{code}</code>
                 </li>
               ))}
             </ul>
 
-            <Button
-              className="col-12"
-              theme="success"
-              outline={true}
+            <p>These codes should be treated just like your password. Weʼd suggest saving them into a secure password manager.</p>
+
+            <CopyToClipboard
+              text={recoveryCodes.join('\n')}
+              onCopy={this.handleRecoveryCodeCopy}
             >
-              Copy Recovery Codes
-            </Button>
+              <Button
+                className="col-12"
+                theme="success"
+                outline={this.state.copiedRecoveryCodes}
+              >
+                {this.state.copiedRecoveryCodes
+                  ? 'Copied Recovery Codes'
+                  : 'Copy Recovery Codes'}
+              </Button>
+            </CopyToClipboard>
           </Panel.Section>
 
           <Panel.Section>
             <Button
               className="col-12"
-              theme="success"
+              theme={this.state.copiedRecoveryCodes ? 'success' : 'default'}
+              outline={!this.state.copiedRecoveryCodes}
               onClick={this.handleContinueClick}
             >
               Continue
@@ -186,7 +222,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
           </Panel.Section>
         </Panel>
       );
-    } else if (this.state.confirmedRecoveryCodes && !this.state.activatedTOTP) {
+    } else if (this.state.generatedTOTP && !this.state.activatedTOTP) {
       return (
         <Panel>
           <Panel.Section>
@@ -291,6 +327,15 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
       });
     }
   }
+
+  handleRecoveryCodeCopy = (_text, result) => {
+    if (!result) {
+      alert('We couldnʼt put this on your clipboard for you, please copy it manually!');
+      return;
+    }
+
+    this.setState({ copiedRecoveryCodes: true });
+  };
 
   handleContinueClick = () => {
     this.setState({ confirmedRecoveryCodes: true });
