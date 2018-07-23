@@ -28,10 +28,12 @@ type State = {
   errors: ?[],
   generatingTOTP: boolean,
   generatedTOTP: boolean,
+  confirmedRecoveryCodes: boolean,
   activatingTOTP: boolean,
   activatedTOTP: boolean,
   totpId: ?string,
   provisioningUri: ?string,
+  recoveryCodes: ?Array<string>,
   totpToken: string
 };
 
@@ -39,7 +41,8 @@ type TOTPCreateReturnType = {
   totpCreate: {
     provisioningUri: string,
     totp: {
-      id: string
+      id: string,
+      recoveryCodes: Array<string>
     }
   }
 };
@@ -85,10 +88,12 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     errors: null,
     generatingTOTP: true,
     generatedTOTP: false,
+    confirmedRecoveryCodes: false,
     activatingTOTP: false,
     activatedTOTP: false,
     totpId: null,
     provisioningUri: null,
+    recoveryCodes: null,
     totpToken: ''
   };
 
@@ -137,7 +142,51 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
           </Panel.Section>
         </Panel>
       );
-    } else if (this.state.generatedTOTP && !this.state.activatedTOTP) {
+    } else if (this.state.generatedTOTP && !this.state.confirmedRecoveryCodes) {
+      return (
+        <Panel>
+          <Panel.Section>
+            {this.props.viewer.totp && (
+              <Panel className="orange border-orange">
+                <Panel.Section>
+                  <strong>Youʼre about to reconfigure two-factor authentication.</strong> This will replace your existing two-factor authentication applications and recovery codes.
+                </Panel.Section>
+              </Panel>
+            )}
+
+            <p>
+              These are your recovery codes. If you lose access to your code generator, you will need one of these codes to regain access to your account.
+            </p>
+
+            <ul>
+              {this.state.recoveryCodes.map((recoveryCode) => (
+                <li key={recoveryCode}>
+                  <code>{recoveryCode}</code>
+                </li>
+              ))}
+            </ul>
+
+            <Button
+              className="col-12"
+              theme="success"
+              outline={true}
+            >
+              Copy Recovery Codes
+            </Button>
+          </Panel.Section>
+
+          <Panel.Section>
+            <Button
+              className="col-12"
+              theme="success"
+              onClick={this.handleContinueClick}
+            >
+              Continue
+            </Button>
+          </Panel.Section>
+        </Panel>
+      );
+    } else if (this.state.confirmedRecoveryCodes && !this.state.activatedTOTP) {
       return (
         <Panel>
           <Panel.Section>
@@ -243,6 +292,10 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     }
   }
 
+  handleContinueClick = () => {
+    this.setState({ confirmedRecoveryCodes: true });
+  };
+
   handleCodeChange = (event) => {
     this.setState({ totpToken: event.target.value });
   };
@@ -251,8 +304,10 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     this.setState({
       generatingTOTP: false,
       generatedTOTP: true,
+      confirmedRecoveryCodes: false,
       totpId: mutationResult.totpCreate.totp.id,
       provisioningUri: mutationResult.totpCreate.provisioningUri,
+      recoveryCodes: mutationResult.totpCreate.totp.recoveryCodes,
       errors: null
     });
   };

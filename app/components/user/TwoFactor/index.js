@@ -14,7 +14,8 @@ import Panel from '../../shared/Panel';
 type Props = {
   viewer: {
     totp: ?{
-      id: string
+      id: string,
+      recoveryCodes: Array<string>
     }
   }
 };
@@ -41,6 +42,7 @@ class TwoFactorIndex extends React.PureComponent<Props> {
           </PageHeader>
 
           {this.renderCurrentStatus()}
+          {this.renderRecoveryCodes()}
 
           <a
             className="blue hover-navy text-decoration-none hover-underline"
@@ -102,6 +104,50 @@ class TwoFactorIndex extends React.PureComponent<Props> {
             {this.props.viewer.totp ? 'Reconfigure' : 'Get Started with'} Two-Factor Authentication
           </Button>
         </Panel.Section>
+      </Panel>
+    );
+  }
+
+  renderRecoveryCodes() {
+    if (!this.props.viewer.totp) {
+      return;
+    }
+
+    if (!this.props.viewer.totp.recoveryCodes) {
+      <Panel>
+        <Panel.Header>
+          Recovery Codes
+        </Panel.Header>
+        <Panel.Section>
+          <p>You don't currently have any recovery codes; this probably means you activated two-factor authentication during the earliest beta, nice work!</p>
+          <p>Someday soon there'll be a "generate recovery codes" button here. For now, you can use the "reconfigure two-factor authentication" option above.</p>
+        </Panel.Section>
+        <Panel.Footer>
+          <Button>
+            View recovery codes
+          </Button>
+        </Panel.Footer>
+      </Panel>
+    }
+
+    return (
+      <Panel>
+        <Panel.Header>
+          Recovery Codes
+        </Panel.Header>
+        <Panel.Section>
+          <p>Recovery codes will give access to your account if you lose access to your device and cannot retrieve two-factor authentication codes.</p>
+          <p>
+            Buildkite support cannot restore access to accounts with two-factor authentication enabled for security reasons.
+            {' '}
+            <strong>Keep your recovery codes in a safe place to ensure you are not locked out of your account.</strong>
+          </p>
+        </Panel.Section>
+        <Panel.Footer>
+          <Button>
+            View recovery codes
+          </Button>
+        </Panel.Footer>
       </Panel>
     );
   }
