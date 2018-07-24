@@ -224,39 +224,60 @@ class Navigation extends React.PureComponent<Props, State> {
     if (organization) {
       return (
         <div className={classNames("flex", options.className)}>
-          <NavigationButton className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={true}>Pipelines</NavigationButton>
-          <NavigationButton className="py0" href={`/organizations/${organization.slug}/agents`} linkIf={true}>
-            {'Agents'}
-            <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
-          </NavigationButton>
-
-          {this.renderOrganizationSettingsButton()}
+          {this.renderOrganizationButtons(paddingLeft)}
         </div>
       );
     }
   }
 
-  renderOrganizationSettingsButton() {
+  renderOrganizationButtons(paddingLeft) {
     const organization = this.props.organization;
 
-    if (!organization) {
-      return;
-    }
-
-    // The settings page will redirect to the first section the user has access
-    // to. If they _just_ have teams admin enabled, skip the redirect and go
-    // straight to the teams page.
-    return permissions(organization.permissions).first(
+    return permissions(organization.permissions).collect(
       {
-        only: "teamAdmin",
-        render: () => <NavigationButton className="py0" href={`/organizations/${organization.slug}/teams`}>Settings</NavigationButton>
+        allowed: "pipelineView",
+        render: () => {
+          return (
+            <NavigationButton key={1} className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={true}>Pipelines</NavigationButton>
+          )
+        }
       },
       {
-        any: true,
+        allowed: "agentView",
+        render: () => {
+          return (
+            <NavigationButton key={2} className="py0" href={`/organizations/${organization.slug}/agents`} linkIf={true}>
+              {'Agents'}
+              <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
+            </NavigationButton>
+          )
+        }
+      },
+      // The settings page will redirect to the first section the user has access
+      // to. If they _just_ have teams admin enabled, skip the redirect and go
+      // straight to the teams page.
+      {
+        all: {
+          organizationUpdate: false,
+          organizationInvitationCreate: false,
+          notificationServiceUpdate: false,
+          organizationBillingUpdate: false,
+          teamAdmin: true
+        },
+        render: () => <NavigationButton key={3} className="py0" href={`/organizations/${organization.slug}/teams`}>Settings</NavigationButton>
+      },
+      {
+        // If any of these permissions are allowed, render the buttons
+        any: [
+          "organizationUpdate",
+          "organizationInvitationCreate",
+          "notificationServiceUpdate",
+          "organizationBillingUpdate"
+        ],
         render: () => {
           return [
-            <NavigationButton key={1} className="py0" href={`/organizations/${organization.slug}/users`} linkIf={true}>Users</NavigationButton>,
-            <NavigationButton key={2} className="py0" href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+            <NavigationButton key={4} className="py0" href={`/organizations/${organization.slug}/users`} linkIf={true}>Users</NavigationButton>,
+            <NavigationButton key={5} className="py0" href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
           ];
         }
       }
@@ -446,6 +467,12 @@ export default Relay.createContainer(Navigation, {
           id
           slug
           permissions {
+            pipelineView {
+              allowed
+            }
+            agentView {
+              allowed
+            }
             organizationUpdate {
               allowed
             }
