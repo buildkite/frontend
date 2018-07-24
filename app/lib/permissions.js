@@ -36,7 +36,7 @@ class PermissionManager {
   // look across all the permissions, alternativly you can pass an array to
   // just check those permissions.
   areAnyPermissionsAllowed(keys) {
-    if (Array.isArray) {
+    if (Array.isArray(keys)) {
       for (const name of keys) {
         if (this.find(name).allowed) {
           return true;
