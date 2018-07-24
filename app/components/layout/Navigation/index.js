@@ -233,6 +233,12 @@ class Navigation extends React.PureComponent<Props, State> {
   renderOrganizationButtons(paddingLeft) {
     const organization = this.props.organization;
 
+    // This is already checked in `renderOrganizationMenu`, but we check here
+    // again to make flow play nice.
+    if (!organization) {
+      return;
+    }
+
     return permissions(organization.permissions).collect(
       {
         allowed: "pipelineView",
