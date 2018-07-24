@@ -164,6 +164,12 @@ const QUERIES = {
           count
         }
         permissions {
+          pipelineView {
+            allowed
+          }
+          agentView {
+            allowed
+          }
           organizationUpdate {
             allowed
           }
