@@ -239,7 +239,7 @@ class Navigation extends React.PureComponent<Props, State> {
         render: () => {
           return (
             <NavigationButton key={1} className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={true}>Pipelines</NavigationButton>
-          )
+          );
         }
       },
       {
@@ -250,7 +250,7 @@ class Navigation extends React.PureComponent<Props, State> {
               {'Agents'}
               <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
             </NavigationButton>
-          )
+          );
         }
       },
       // The settings page will redirect to the first section the user has access
@@ -264,7 +264,11 @@ class Navigation extends React.PureComponent<Props, State> {
           organizationBillingUpdate: false,
           teamAdmin: true
         },
-        render: () => <NavigationButton key={3} className="py0" href={`/organizations/${organization.slug}/teams`}>Settings</NavigationButton>
+        render: () => {
+          return (
+            <NavigationButton key={3} className="py0" href={`/organizations/${organization.slug}/teams`}>Settings</NavigationButton>
+          );
+        }
       },
       {
         // If any of these permissions are allowed, render the buttons

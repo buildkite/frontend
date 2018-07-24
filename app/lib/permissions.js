@@ -38,7 +38,6 @@ class PermissionManager {
   areAnyPermissionsAllowed(keys) {
     if (Array.isArray) {
       for (const name of keys) {
-        console.log(name);
         if (this.find(name).allowed) {
           return true;
         }
@@ -60,7 +59,7 @@ class PermissionManager {
   areAllPermissionsAllowed(permissions) {
     if (typeof (permissions) == 'object') {
       for (const name in permissions) {
-        if (this.find(name).allowed != permissions[name]) {
+        if (this.find(name).allowed !== permissions[name]) {
           return false;
         }
       }
