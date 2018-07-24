@@ -13,6 +13,7 @@ import FormTextField from '../../shared/FormTextField';
 import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
 import Icon from "../../shared/Icon";
+import Spinner from '../../shared/Spinner';
 
 type Props = {
   viewer: {
@@ -132,7 +133,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
       return (
         <Panel>
           <Panel.Section>
-            Be very, very quiet - weʼre generating secrets…
+            <Spinner /> Getting ready to {this.props.viewer.totp ? 'reconfigure' : 'configure'} two-factor authentication…
           </Panel.Section>
         </Panel>
       );
@@ -275,8 +276,8 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
 
         case GraphQLErrors.ESCALATION_ERROR:
           // Reload the page so that the backend can prompt to escalate the current session for us
-      location.reload();
-      return;
+          location.reload();
+          return;
 
         default:
           break;
