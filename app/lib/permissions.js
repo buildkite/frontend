@@ -54,7 +54,7 @@ class PermissionManager {
   }
 
   // Returns true if all of the permissions in the hash are allowed - otherwise
-  // returns false. An optional hash can be passed to specific which
+  // returns false. An optional hash can be passed to specify which
   // permissions should be checked, and their expected values.
   areAllPermissionsAllowed(permissions) {
     if (typeof (permissions) == 'object') {
