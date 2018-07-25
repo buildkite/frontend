@@ -4,6 +4,7 @@ import Relay from 'react-relay/classic';
 
 import Button from '../shared/Button';
 import Panel from '../shared/Panel';
+import Badge from '../shared/Badge';
 
 import FlashesStore from '../../stores/FlashesStore';
 
@@ -11,6 +12,7 @@ import OrganizationInvitationResend from '../../mutations/OrganizationInvitation
 import OrganizationInvitationRevoke from '../../mutations/OrganizationInvitationRevoke';
 
 import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
+import OrganizationMemberSSOModeConstants from '../../constants/OrganizationMemberSSOModeConstants';
 
 class InvitationRow extends React.PureComponent {
   static propTypes = {
@@ -37,9 +39,9 @@ class InvitationRow extends React.PureComponent {
       <Panel.Row key={this.props.organizationInvitation.uuid}>
         <div className="flex flex-stretch items-center">
           <div className="flex-auto">
-            <div className="m0">
+            <div className="m0 flex items-center">
               {this.props.organizationInvitation.email}
-              {this.props.organizationInvitation.role === OrganizationMemberRoleConstants.ADMIN && <span className="dark-gray regular h6 ml1">Administrator</span>}
+              {this.renderLabels()}
             </div>
           </div>
           <div className="flex-none">
@@ -65,6 +67,28 @@ class InvitationRow extends React.PureComponent {
         </div>
       </Panel.Row>
     );
+  }
+
+  renderLabels() {
+    let nodes = [];
+
+    if (this.props.organizationInvitation.sso.mode == OrganizationMemberSSOModeConstants.OPTIONAL) {
+      nodes.push(
+        <div key={1} className="flex ml1">
+          <Badge outline={true} className="regular">SSO Optional</Badge>
+        </div>
+      )
+    }
+
+    if (this.props.organizationInvitation.role === OrganizationMemberRoleConstants.ADMIN) {
+      nodes.push(
+        <div key={2} className="flex ml1">
+          <Badge outline={true} className="regular">Administrator</Badge>
+        </div>
+      )
+    }
+
+    return nodes;
   }
 
   handleResendInvitationClick = () => {
@@ -133,6 +157,9 @@ export default Relay.createContainer(InvitationRow, {
         uuid
         email
         role
+        sso {
+          mode
+        }
         ${OrganizationInvitationResend.getFragment('organizationInvitation')}
         ${OrganizationInvitationRevoke.getFragment('organizationInvitation')}
       }
