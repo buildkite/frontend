@@ -19,7 +19,10 @@ class InvitationRow extends React.PureComponent {
     organizationInvitation: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
       email: PropTypes.string.isRequired,
-      role: PropTypes.string.isRequired
+      role: PropTypes.string.isRequired,
+      sso: PropTypes.shape({
+        mode: PropTypes.string
+      }).isRequired
     }).isRequired
   };
 
@@ -72,12 +75,12 @@ class InvitationRow extends React.PureComponent {
   renderLabels() {
     let nodes = [];
 
-    if (this.props.organizationInvitation.sso.mode == OrganizationMemberSSOModeConstants.OPTIONAL) {
+    if (this.props.organizationInvitation.sso.mode === OrganizationMemberSSOModeConstants.OPTIONAL) {
       nodes.push(
         <div key={1} className="flex ml1">
           <Badge outline={true} className="regular">SSO Optional</Badge>
         </div>
-      )
+      );
     }
 
     if (this.props.organizationInvitation.role === OrganizationMemberRoleConstants.ADMIN) {
@@ -85,7 +88,7 @@ class InvitationRow extends React.PureComponent {
         <div key={2} className="flex ml1">
           <Badge outline={true} className="regular">Administrator</Badge>
         </div>
-      )
+      );
     }
 
     return nodes;

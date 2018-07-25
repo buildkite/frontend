@@ -181,10 +181,10 @@ class Navigation extends React.PureComponent<Props, State> {
       if (!this.props.organization || (org.node.slug !== this.props.organization.slug)) {
         // If the org needs SSO, show a badge
         let ssoRequiredBadge;
-        if (!org.node.permissions.pipelineView.allowed && org.node.permissions.pipelineView.code == "sso_authorized_required") {
+        if (!org.node.permissions.pipelineView.allowed && org.node.permissions.pipelineView.code === "sso_authorized_required") {
           ssoRequiredBadge = (
             <Badge outline={true} className="regular">SSO Required</Badge>
-          )
+          );
         }
 
         nodes.push(
