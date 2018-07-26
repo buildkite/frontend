@@ -4,8 +4,10 @@ import Relay from 'react-relay/classic';
 
 import Panel from '../shared/Panel';
 import UserAvatar from '../shared/UserAvatar';
+import Badge from '../shared/Badge';
 
 import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
+import OrganizationMemberSSOModeConstants from '../../constants/OrganizationMemberSSOModeConstants';
 
 const AVATAR_SIZE = 40;
 
@@ -17,6 +19,9 @@ class MemberRow extends React.PureComponent {
     organizationMember: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
       role: PropTypes.string.isRequired,
+      sso: PropTypes.shape({
+        mode: PropTypes.string
+      }).isRequired,
       user: PropTypes.shape({
         name: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,
@@ -39,15 +44,37 @@ class MemberRow extends React.PureComponent {
             />
           </div>
           <div className="flex-auto">
-            <div className="m0 semi-bold">
+            <div className="m0 flex items-center semi-bold">
               {this.props.organizationMember.user.name}
-              {this.props.organizationMember.role === OrganizationMemberRoleConstants.ADMIN && <span className="dark-gray regular h6 ml1">Administrator</span>}
+              {this.renderLabels()}
             </div>
             <div className="h6 regular mt1">{this.props.organizationMember.user.email}</div>
           </div>
         </div>
       </Panel.RowLink>
     );
+  }
+
+  renderLabels() {
+    let nodes = [];
+
+    if (this.props.organizationMember.sso.mode === OrganizationMemberSSOModeConstants.OPTIONAL) {
+      nodes.push(
+        <div key={1} className="flex ml1">
+          <Badge outline={true} className="regular">SSO Optional</Badge>
+        </div>
+      );
+    }
+
+    if (this.props.organizationMember.role === OrganizationMemberRoleConstants.ADMIN) {
+      nodes.push(
+        <div key={2} className="flex ml1">
+          <Badge outline={true} className="regular">Administrator</Badge>
+        </div>
+      );
+    }
+
+    return nodes;
   }
 }
 
@@ -62,6 +89,9 @@ export default Relay.createContainer(MemberRow, {
       fragment on OrganizationMember {
         uuid
         role
+        sso {
+          mode
+        }
         user {
           name
           email

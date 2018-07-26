@@ -179,13 +179,21 @@ class Navigation extends React.PureComponent<Props, State> {
     this.props.viewer.organizations.edges.forEach((org) => {
       // Don't show the active organization in the selector
       if (!this.props.organization || (org.node.slug !== this.props.organization.slug)) {
+        // If the org needs SSO, show a badge
+        let ssoRequiredBadge;
+        if (!org.node.permissions.pipelineView.allowed && org.node.permissions.pipelineView.code === "sso_authorized_required") {
+          ssoRequiredBadge = (
+            <Badge outline={true} className="regular">SSO Required</Badge>
+          );
+        }
+
         nodes.push(
           <NavigationButton
             key={org.node.slug}
             href={`/${org.node.slug}`}
             className="block"
           >
-            {org.node.name}
+            {org.node.name}{ssoRequiredBadge}
           </NavigationButton>
         );
       }
@@ -516,6 +524,12 @@ export default Relay.createContainer(Navigation, {
               node {
                 slug
                 name
+                permissions {
+                  pipelineView {
+                    allowed
+                    code
+                  }
+                }
               }
             }
           }
