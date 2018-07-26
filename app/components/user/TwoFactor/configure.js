@@ -15,6 +15,7 @@ import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
 import Icon from "../../shared/Icon";
 import Spinner from '../../shared/Spinner';
+import RecoveryCodes from '../../recovery_code';
 
 type Props = {
   viewer: {
@@ -169,8 +170,6 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
         </Panel>
       );
     } else if (this.state.generatedTOTP && this.state.recoveryCodes && this.state.recoveryCodes.codes && !this.state.confirmedRecoveryCodes) {
-      const recoveryCodes = this.state.recoveryCodes.codes.map((code) => formatRecoveryCode(code));
-
       return (
         <Panel>
           <Panel.Section>
@@ -186,23 +185,12 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
 
             <p>Copy or print your recovery codes before you continue to configure two-factor authentication.</p>
 
-            <ul
-              className="list-reset center"
-              style={{
-                columns: 2
-              }}
-            >
-              {recoveryCodes.map((code) => (
-                <li key={code}>
-                  <code className="monospace h2">{code}</code>
-                </li>
-              ))}
-            </ul>
+            <RecoveryCodes recoveryCodes={this.state.recoveryCodes} />
 
             <p>These codes should be treated just like your password. Weʼd suggest saving them into a secure password manager.</p>
 
             <CopyToClipboard
-              text={recoveryCodes.join('\n')}
+              text={this.state.recoveryCodes.codes.map((code) => formatRecoveryCode(code)).join('\n')}
               onCopy={this.handleRecoveryCodeCopy}
             >
               <Button
@@ -309,6 +297,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
             totp {
               id
               recoveryCodes {
+                ...RecoveryCodes_recoveryCodes
                 codes
               }
             }
@@ -457,12 +446,6 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
       generatingTOTP: false
     });
   };
-
-  handleRequestClose = () => {
-    this.setState({
-      generatingTOTP: false
-    });
-  }
 }
 
 export default createFragmentContainer(TwoFactorConfigure, {
@@ -471,6 +454,7 @@ export default createFragmentContainer(TwoFactorConfigure, {
       totp {
         id
         recoveryCodes {
+          ...RecoveryCodes_recoveryCodes
           codes
         }
       }

@@ -10,7 +10,6 @@ import Icon from "../../shared/Icon";
 import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
 
-
 type Props = {
   viewer: {
     totp: ?{
