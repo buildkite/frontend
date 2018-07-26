@@ -297,7 +297,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
             totp {
               id
               recoveryCodes {
-                ...RecoveryCodes_recoveryCodes
+                ...recoveryCode_recoveryCodes
                 codes
               }
             }
@@ -454,7 +454,7 @@ export default createFragmentContainer(TwoFactorConfigure, {
       totp {
         id
         recoveryCodes {
-          ...RecoveryCodes_recoveryCodes
+          ...recoveryCode_recoveryCodes
           codes
         }
       }
