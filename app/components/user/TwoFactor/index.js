@@ -15,7 +15,9 @@ type Props = {
   viewer: {
     totp: ?{
       id: string,
-      recoveryCodes: Array<string>
+      recoveryCodes: ?{
+        codes: Array<string>
+      }
     }
   }
 };
@@ -155,7 +157,9 @@ export default createFragmentContainer(TwoFactorIndex, {
     fragment TwoFactor_viewer on Viewer {
       totp {
         id
-        recoveryCodes
+        recoveryCodes {
+          codes
+        }
       }
     }
   `

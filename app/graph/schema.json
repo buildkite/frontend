@@ -12638,12 +12638,6 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "TEAM_MEMBER",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "TEAM_PIPELINE",
               "description": null,
               "isDeprecated": false,
@@ -12702,6 +12696,12 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "TEAM_MEMBER",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -12715,11 +12715,6 @@
           "interfaces": null,
           "enumValues": null,
           "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "TeamMember",
-              "ofType": null
-            },
             {
               "kind": "OBJECT",
               "name": "TeamPipeline",
@@ -12803,6 +12798,11 @@
             {
               "kind": "OBJECT",
               "name": "Team",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TeamMember",
               "ofType": null
             }
           ]
@@ -16364,44 +16364,14 @@
             },
             {
               "name": "recoveryCodes",
-              "description": "The current user's active TOTP configuration, if any",
+              "description": "The recovery code batch associated with this TOTP configuration",
               "args": [
 
               ],
               "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "recoveryCodes",
-              "description": "The current user's active TOTP configuration, if any",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "RecoveryCodeBatch",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -16418,6 +16388,77 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RecoveryCodeBatch",
+          "description": "A batch of recovery codes",
+          "fields": [
+            {
+              "name": "active",
+              "description": "Whether the batch of recovery codes is active",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "codes",
+              "description": "The recovery codes from this batch. Codes are consumed when used, and codes will be included in this list whether consumed or not",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
                   "ofType": null
                 }
               },

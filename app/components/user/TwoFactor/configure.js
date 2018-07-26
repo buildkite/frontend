@@ -19,7 +19,10 @@ import Spinner from '../../shared/Spinner';
 type Props = {
   viewer: {
     totp: ?{
-      id: string
+      id: string,
+      recoveryCodes: ?{
+        codes: Array<string>
+      }
     }
   },
   relay: Object
@@ -35,7 +38,9 @@ type State = {
   activatedTOTP: boolean,
   totpId: ?string,
   provisioningUri: ?string,
-  recoveryCodes: ?Array<string>,
+  recoveryCodes: ?{
+    codes: Array<string>
+  },
   totpToken: string
 };
 
@@ -44,7 +49,9 @@ type TOTPCreateReturnType = {
     provisioningUri: string,
     totp: {
       id: string,
-      recoveryCodes: Array<string>
+      recoveryCodes: ?{
+        codes: Array<string>
+      }
     }
   }
 };
@@ -161,8 +168,8 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
           </Panel.Section>
         </Panel>
       );
-    } else if (this.state.generatedTOTP && this.state.recoveryCodes && !this.state.confirmedRecoveryCodes) {
-      const recoveryCodes = this.state.recoveryCodes.map((code) => formatRecoveryCode(code));
+    } else if (this.state.generatedTOTP && this.state.recoveryCodes && this.state.recoveryCodes.codes && !this.state.confirmedRecoveryCodes) {
+      const recoveryCodes = this.state.recoveryCodes.codes.map((code) => formatRecoveryCode(code));
 
       return (
         <Panel>
@@ -301,7 +308,9 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
             provisioningUri
             totp {
               id
-              recoveryCodes
+              recoveryCodes {
+                codes
+              }
             }
           }
         }
@@ -461,6 +470,9 @@ export default createFragmentContainer(TwoFactorConfigure, {
     fragment configure_viewer on Viewer {
       totp {
         id
+        recoveryCodes {
+          codes
+        }
       }
     }
   `
