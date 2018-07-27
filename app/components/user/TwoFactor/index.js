@@ -1,22 +1,22 @@
 // @flow
 
-import React from "react";
+import * as React from "react";
 import DocumentTitle from 'react-document-title';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
 
 import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
+import Dialog from '../../shared/Dialog';
 import Icon from "../../shared/Icon";
 import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
 
+import RecoveryCodes from './RecoveryCodes';
+
 type Props = {
   viewer: {
     totp: ?{
-      id: string,
-      recoveryCodes: ?{
-        codes: Array<string>
-      }
+      id: string
     }
   }
 };
@@ -43,7 +43,7 @@ class TwoFactorIndex extends React.PureComponent<Props> {
           </PageHeader>
 
           {this.renderCurrentStatus()}
-          {this.renderRecoveryCodes()}
+          <RecoveryCodes totp={this.props.viewer.totp} />
 
           <a
             className="blue hover-navy text-decoration-none hover-underline"
@@ -108,57 +108,14 @@ class TwoFactorIndex extends React.PureComponent<Props> {
       </Panel>
     );
   }
-
-  renderRecoveryCodes() {
-    if (!this.props.viewer.totp) {
-      return;
-    }
-
-    if (!this.props.viewer.totp.recoveryCodes) {
-      return (
-        <Panel className="mb4">
-          <Panel.Header>
-            Recovery Codes
-          </Panel.Header>
-          <Panel.Section>
-            <p>You donʼt currently have any recovery codes; this probably means you activated two-factor authentication during the earliest beta, nice work!</p>
-            <p>Someday soon thereʼll be a “generate recovery codes” button here. For now, you can use the “reconfigure two-factor authentication” option above.</p>
-          </Panel.Section>
-        </Panel>
-      );
-    }
-
-    return (
-      <Panel className="mb4">
-        <Panel.Header>
-          Recovery Codes
-        </Panel.Header>
-        <Panel.Section>
-          <p>Recovery codes will give access to your account if you lose access to your device and cannot retrieve two-factor authentication codes.</p>
-          <p>
-            Buildkite support cannot restore access to accounts with two-factor authentication enabled for security reasons.
-            {' '}
-            <strong>Keep your recovery codes in a safe place to ensure you are not locked out of your account.</strong>
-          </p>
-        </Panel.Section>
-        <Panel.Footer>
-          <Button>
-            View recovery codes
-          </Button>
-        </Panel.Footer>
-      </Panel>
-    );
-  }
 }
 
 export default createFragmentContainer(TwoFactorIndex, {
   viewer: graphql`
     fragment TwoFactor_viewer on Viewer {
       totp {
+        ...RecoveryCodes_totp
         id
-        recoveryCodes {
-          codes
-        }
       }
     }
   `

@@ -1,6 +1,6 @@
 // @flow
 
-import React from "react";
+import * as React from "react";
 import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
 import QRCode from 'qrcode.react';
@@ -15,7 +15,7 @@ import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
 import Icon from "../../shared/Icon";
 import Spinner from '../../shared/Spinner';
-import RecoveryCodes from '../../recovery_code';
+import RecoveryCodeList from '../../recovery_code_list';
 
 type Props = {
   viewer: {
@@ -93,22 +93,6 @@ const AUTHENTICATOR_LIST = (
   }, [])
 );
 
-// Pretty formatter for recovery codes, pretty generic in case we change length!
-const formatRecoveryCode = (recoveryCode, separator = '-') => {
-  // Find a best-fit length for segments
-  const segmentLength = [8, 7, 6, 5].find((length) => (recoveryCode.length % length) === 0);
-
-  // If we don't find one, just return the whole thing
-  if (!segmentLength) {
-    return recoveryCode;
-  }
-
-  // Otherwise, grab slices of the original string and join them with a separator
-  return Array(recoveryCode.length / segmentLength).fill(null).map((_segment, index) => (
-    recoveryCode.slice(index * segmentLength, (index + 1) * segmentLength)
-  )).join(separator);
-};
-
 class TwoFactorConfigure extends React.PureComponent<Props, State> {
   state = {
     errors: null,
@@ -185,12 +169,12 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
 
             <p>Copy or print your recovery codes before you continue to configure two-factor authentication.</p>
 
-            <RecoveryCodes recoveryCodes={this.state.recoveryCodes} />
+            <RecoveryCodeList recoveryCodes={this.state.recoveryCodes} />
 
             <p>These codes should be treated just like your password. Weʼd suggest saving them into a secure password manager.</p>
 
             <CopyToClipboard
-              text={this.state.recoveryCodes.codes.map((code) => formatRecoveryCode(code)).join('\n')}
+              text={this.state.recoveryCodes.codes.join('\n')}
               onCopy={this.handleRecoveryCodeCopy}
             >
               <Button
@@ -297,7 +281,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
             totp {
               id
               recoveryCodes {
-                ...recoveryCode_recoveryCodes
+                ...recoveryCodeList_recoveryCodes
                 codes
               }
             }
@@ -454,7 +438,7 @@ export default createFragmentContainer(TwoFactorConfigure, {
       totp {
         id
         recoveryCodes {
-          ...recoveryCode_recoveryCodes
+          ...recoveryCodeList_recoveryCodes
           codes
         }
       }

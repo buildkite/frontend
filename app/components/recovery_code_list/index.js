@@ -2,7 +2,6 @@
 
 import React from "react";
 import { createFragmentContainer, graphql } from 'react-relay/compat';
-import formatRecoveryCode from './formatter';
 
 type Props = {
   recoveryCodes: {
@@ -10,10 +9,8 @@ type Props = {
   }
 };
 
-class RecoveryCodes extends React.PureComponent<Props> {
+class RecoveryCodeList extends React.PureComponent<Props> {
   render() {
-    const recoveryCodes = this.props.recoveryCodes.codes.map((code) => formatRecoveryCode(code));
-
     return (
       <ul
         className="list-reset center"
@@ -21,7 +18,7 @@ class RecoveryCodes extends React.PureComponent<Props> {
           columns: 2
         }}
       >
-        {recoveryCodes.map((code) => (
+        {this.props.recoveryCodes.codes.map((code) => (
           <li key={code}>
             <code className="monospace h2">{code}</code>
           </li>
@@ -31,9 +28,9 @@ class RecoveryCodes extends React.PureComponent<Props> {
   }
 }
 
-export default createFragmentContainer(RecoveryCodes, {
+export default createFragmentContainer(RecoveryCodeList, {
   recoveryCodes: graphql`
-    fragment recoveryCode_recoveryCodes on RecoveryCodeBatch {
+    fragment recoveryCodeList_recoveryCodes on RecoveryCodeBatch {
       codes
     }
   `
