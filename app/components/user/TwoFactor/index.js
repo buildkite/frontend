@@ -6,7 +6,6 @@ import { createFragmentContainer, graphql } from 'react-relay/compat';
 
 import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
-import Dialog from '../../shared/Dialog';
 import Icon from "../../shared/Icon";
 import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
