@@ -4,10 +4,10 @@ import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-import Button from '../../shared/Button';
-import Dialog from '../../shared/Dialog';
-import Panel from '../../shared/Panel';
-import RecoveryCodeList from '../../recovery_code_list';
+import Button from '../../../shared/Button';
+import Dialog from '../../../shared/Dialog';
+import Panel from '../../../shared/Panel';
+import RecoveryCodeList from '../../../recovery_code_list';
 
 type Props = {
   totp: ?{
