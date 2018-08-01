@@ -73,7 +73,7 @@
     "autosize": "4.0.2",
     "basscss": "8.0.4",
     "buffer-crc32": "0.2.13",
-    "bugsnag-js": "4.7.2",
+    "bugsnag-js": "4.7.3",
     "bugsnag-react": "1.1.1",
     "classnames": "2.2.6",
     "codemirror": "5.39.0",

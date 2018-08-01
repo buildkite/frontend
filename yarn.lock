@@ -1735,9 +1735,9 @@ buffer@^5.0.3:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
 
-bugsnag-js@4.7.2:
-  version "4.7.2"
-  resolved "https://registry.yarnpkg.com/bugsnag-js/-/bugsnag-js-4.7.2.tgz#547c969623ba4f1875ebfcf066f170b779c7fac8"
+bugsnag-js@4.7.3:
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/bugsnag-js/-/bugsnag-js-4.7.3.tgz#fd81eed6882b629d5f059de5bc916ecd19c82aa1"
   dependencies:
     "@bugsnag/cuid" "^3.0.0"
     "@bugsnag/safe-json-stringify" "^2.1.0"
