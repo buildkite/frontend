@@ -15,7 +15,7 @@ import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
 import Icon from "../../shared/Icon";
 import Spinner from '../../shared/Spinner';
-import RecoveryCodeList from '../../recovery_code_list';
+import RecoveryCodeList from '../../RecoveryCodeList';
 
 type Props = {
   viewer: {
@@ -281,7 +281,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
             totp {
               id
               recoveryCodes {
-                ...recoveryCodeList_recoveryCodes
+                ...RecoveryCodeList_recoveryCodes
                 codes
               }
             }
@@ -438,7 +438,7 @@ export default createFragmentContainer(TwoFactorConfigure, {
       totp {
         id
         recoveryCodes {
-          ...recoveryCodeList_recoveryCodes
+          ...RecoveryCodeList_recoveryCodes
           codes
         }
       }

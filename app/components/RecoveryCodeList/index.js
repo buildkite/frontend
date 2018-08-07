@@ -30,7 +30,7 @@ class RecoveryCodeList extends React.PureComponent<Props> {
 
 export default createFragmentContainer(RecoveryCodeList, {
   recoveryCodes: graphql`
-    fragment recoveryCodeList_recoveryCodes on RecoveryCodeBatch {
+    fragment RecoveryCodeList_recoveryCodes on RecoveryCodeBatch {
       codes
     }
   `
