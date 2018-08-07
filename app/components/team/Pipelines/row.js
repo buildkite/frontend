@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
+import Emojify from '../../shared/Emojify';
+import Panel from '../../shared/Panel';
 import Spinner from '../../shared/Spinner';
 
 import FlashesStore from '../../../stores/FlashesStore';
 import permissions from '../../../lib/permissions';
 
-import Pipeline from './pipeline';
 import AccessLevel from './access-level';
 
 export default class Row extends React.PureComponent {
@@ -37,7 +37,12 @@ export default class Row extends React.PureComponent {
   render() {
     return (
       <Panel.Row>
-        <Pipeline pipeline={this.props.teamPipeline.pipeline} />
+        <div>
+          <strong className="truncate semi-bold block" title={this.props.teamPipeline.pipeline.name}>
+            <Emojify text={this.props.teamPipeline.pipeline.name} />
+          </strong>
+          <small className="truncate dark-gray block" title={this.props.teamPipeline.pipeline.repository.url}>{this.props.teamPipeline.pipeline.repository.url}</small>
+        </div>
         <Panel.RowActions className="ml2">
           {this.renderActions()}
         </Panel.RowActions>
