@@ -19,7 +19,18 @@ class Chooser extends React.Component {
       slug: PropTypes.string.isRequired,
       organization: PropTypes.shape({
         pipelines: PropTypes.shape({
-          edges: PropTypes.array.isRequired
+          edges: PropTypes.arrayOf(
+            PropTypes.shape({
+              node: PropTypes.shape({
+                pipeline: PropTypes.shape({
+                  name: PropTypes.string.isRequired,
+                  repository: PropTypes.shape({
+                    url: PropTypes.string.isRequired
+                  }).isRequired
+                }).isRequired
+              }).isRequired
+            }).isRequired
+          )
         })
       }),
       permissions: PropTypes.shape({
