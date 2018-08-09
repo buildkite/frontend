@@ -38,7 +38,10 @@ class MemberNew extends React.PureComponent {
             }).isRequired
           })
         ).isRequired
-      })
+      }),
+      ssoProviders: PropTypes.shape({
+        count: PropTypes.number.isRequired
+      }).isRequired
     }).isRequired,
     relay: PropTypes.object.isRequired
   };

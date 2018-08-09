@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
 import Button from '../../shared/Button';
-import FormCheckbox from '../../shared/FormCheckbox';
 import FormRadioGroup from '../../shared/FormRadioGroup';
 import Panel from '../../shared/Panel';
 
 import FlashesStore from '../../../stores/FlashesStore';
-import ValidationErrors from '../../../lib/ValidationErrors';
 
 import OrganizationMemberUpdateMutation from '../../../mutations/OrganizationMemberUpdate';
 
@@ -27,6 +25,11 @@ class Form extends React.PureComponent {
       permissions: PropTypes.object.isRequired,
       user: PropTypes.shape({
         name: PropTypes.string.isRequired
+      }).isRequired,
+      organization: PropTypes.shape({
+        ssoProviders: PropTypes.shape({
+          count: PropTypes.number.isRequired
+        }).isRequired
       }).isRequired
     })
   };
@@ -134,22 +137,22 @@ class Form extends React.PureComponent {
   handleSSOModeChange = (evt) => {
     this.setState({
       ssoMode: evt.target.value
-    })
+    });
   }
 
   handleUpdateOrganizationMemberClick = () => {
     // Show the updating indicator
     this.setState({ updating: true });
 
-    let variables = {
+    const variables = {
       organizationMember: this.props.organizationMember,
       role: this.state.role
-    }
+    };
 
     if (this.isSSOEnabled()) {
       variables.sso = {
         mode: this.state.ssoMode
-      }
+      };
     }
 
     const mutation = new OrganizationMemberUpdateMutation(variables);

@@ -43,10 +43,10 @@ export default class OrganizationMemberUpdate extends Relay.Mutation {
   }
 
   getVariables() {
-    let variables = {
+    const variables = {
       id: this.props.organizationMember.id,
       role: this.props.role
-    }
+    };
 
     if (this.props.sso) {
       variables.sso = this.props.sso;
