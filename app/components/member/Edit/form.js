@@ -4,13 +4,16 @@ import Relay from 'react-relay/classic';
 
 import Button from '../../shared/Button';
 import FormCheckbox from '../../shared/FormCheckbox';
+import FormRadioGroup from '../../shared/FormRadioGroup';
 import Panel from '../../shared/Panel';
 
 import FlashesStore from '../../../stores/FlashesStore';
+import ValidationErrors from '../../../lib/ValidationErrors';
 
 import OrganizationMemberUpdateMutation from '../../../mutations/OrganizationMemberUpdate';
 
 import OrganizationMemberRoleConstants from '../../../constants/OrganizationMemberRoleConstants';
+import OrganizationMemberSSOModeConstants from '../../../constants/OrganizationMemberSSOModeConstants';
 
 class Form extends React.PureComponent {
   static displayName = "Member.Edit.Form";
@@ -18,6 +21,9 @@ class Form extends React.PureComponent {
   static propTypes = {
     organizationMember: PropTypes.shape({
       role: PropTypes.string.isRequired,
+      sso: PropTypes.shape({
+        mode: PropTypes.string
+      }).isRequired,
       permissions: PropTypes.object.isRequired,
       user: PropTypes.shape({
         name: PropTypes.string.isRequired
@@ -26,12 +32,14 @@ class Form extends React.PureComponent {
   };
 
   state = {
-    isAdmin: false
+    role: null,
+    ssoMode: null
   };
 
   componentWillMount() {
     this.setState({
-      isAdmin: this.props.organizationMember.role === OrganizationMemberRoleConstants.ADMIN
+      role: this.props.organizationMember.role,
+      ssoMode: this.props.organizationMember.sso.mode
     });
   }
 
@@ -45,16 +53,30 @@ class Form extends React.PureComponent {
         </Panel>
       );
     }
+
     return (
       <Panel>
         <Panel.Section>
-          <FormCheckbox
-            label="Administrator"
-            help="Allow this person to edit organization details, manage billing information, invite new members, change notification services and see agent registration tokens."
-            onChange={this.handleAdminChange}
-            checked={this.state.isAdmin}
+          <FormRadioGroup
+            label="Role"
+            value={this.state.role}
+            onChange={this.handleRoleChange}
+            required={true}
+            options={[
+              {
+                label: "User",
+                value: OrganizationMemberRoleConstants.MEMBER,
+                help: "Can view, create and manage pipelines and builds."
+              },
+              {
+                label: "Administrator",
+                value: OrganizationMemberRoleConstants.ADMIN,
+                help: "Can view and edit everything in the organization."
+              }
+            ]}
           />
         </Panel.Section>
+        {this.renderSSOSection()}
         <Panel.Section>
           <Button
             onClick={this.handleUpdateOrganizationMemberClick}
@@ -67,20 +89,70 @@ class Form extends React.PureComponent {
     );
   }
 
-  handleAdminChange = (evt) => {
+  renderSSOSection() {
+    if (!this.isSSOEnabled()) {
+      return null;
+    }
+
+    return (
+      <Panel.Section>
+        <FormRadioGroup
+          label="Single Sign-On"
+          value={this.state.ssoMode}
+          onChange={this.handleSSOModeChange}
+          required={true}
+          options={[
+            {
+              label: "Required",
+              value: OrganizationMemberSSOModeConstants.REQUIRED,
+              help: "A verified SSO authorization is required before this user can access organization details.",
+              badge: "Recomended"
+            },
+            {
+              label: "Optional",
+              value: OrganizationMemberSSOModeConstants.OPTIONAL,
+              help: "The user can access organization details either via SSO, or with their Buildkite email and password."
+            }
+          ]}
+        />
+      </Panel.Section>
+    );
+  }
+
+  isSSOEnabled() {
+    return (
+      this.props.organizationMember.organization.ssoProviders.count > 0
+    );
+  }
+
+  handleRoleChange = (evt) => {
     this.setState({
-      isAdmin: evt.target.checked
+      role: evt.target.value
     });
+  }
+
+  handleSSOModeChange = (evt) => {
+    this.setState({
+      ssoMode: evt.target.value
+    })
   }
 
   handleUpdateOrganizationMemberClick = () => {
     // Show the updating indicator
     this.setState({ updating: true });
 
-    const mutation = new OrganizationMemberUpdateMutation({
+    let variables = {
       organizationMember: this.props.organizationMember,
-      role: this.state.isAdmin ? OrganizationMemberRoleConstants.ADMIN : OrganizationMemberRoleConstants.MEMBER
-    });
+      role: this.state.role
+    }
+
+    if (this.isSSOEnabled()) {
+      variables.sso = {
+        mode: this.state.ssoMode
+      }
+    }
+
+    const mutation = new OrganizationMemberUpdateMutation(variables);
 
     // Run the mutation
     Relay.Store.commitUpdate(mutation, {
@@ -110,8 +182,16 @@ export default Relay.createContainer(Form, {
     organizationMember: () => Relay.QL`
       fragment on OrganizationMember {
         role
+        sso {
+          mode
+        }
         user {
           name
+        }
+        organization {
+          ssoProviders {
+            count
+          }
         }
         permissions {
           organizationMemberUpdate {
