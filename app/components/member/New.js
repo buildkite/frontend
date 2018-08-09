@@ -18,6 +18,7 @@ import ValidationErrors from '../../lib/ValidationErrors';
 import OrganizationInvitationCreateMutation from '../../mutations/OrganizationInvitationCreate';
 
 import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
+import OrganizationMemberSSOModeConstants from '../../constants/OrganizationMemberSSOModeConstants';
 import GraphQLErrors from '../../constants/GraphQLErrors';
 import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
 
@@ -50,6 +51,7 @@ class MemberNew extends React.PureComponent {
     emails: '',
     teams: null, // when mounted we set this to the default teams
     role: OrganizationMemberRoleConstants.MEMBER,
+    ssoMode: OrganizationMemberSSOModeConstants.REQUIRED,
     errors: null
   };
 
@@ -105,9 +107,8 @@ class MemberNew extends React.PureComponent {
                 ]}
               />
             </Panel.Section>
-            <Panel.Section>
-              {this.renderTeamSection()}
-            </Panel.Section>
+            {this.renderTeamSection()}
+            {this.renderSSOSection()}
             <Panel.Section>
               <Button
                 onClick={this.handleCreateInvitationClick}
@@ -156,11 +157,17 @@ class MemberNew extends React.PureComponent {
       });
     }
 
+    let sso;
+    if (this.props.organization.ssoProviders.count > 0) {
+      sso = { mode: this.state.ssoMode };
+    }
+
     const mutation = new OrganizationInvitationCreateMutation({
       organization: this.props.organization,
       emails,
       teams,
-      role
+      role,
+      sso
     });
 
     // Run the mutation
@@ -203,7 +210,7 @@ class MemberNew extends React.PureComponent {
     const teamEdges = this.props.organization.teams.edges;
 
     return (
-      <div>
+      <Panel.Section>
         <FormInputLabel label="Teams" />
         <FormInputHelp>You can give the invited users additional permissions by adding them to one or more teams.</FormInputHelp>
         <div className="flex flex-wrap content-around mxn1 mt1">
@@ -216,7 +223,7 @@ class MemberNew extends React.PureComponent {
             />
           ))}
         </div>
-      </div>
+      </Panel.Section>
     );
   }
 
@@ -235,6 +242,48 @@ class MemberNew extends React.PureComponent {
 
     this.setState({ teams });
   };
+
+  renderSSOSection() {
+    // If the sso provider count hasn't loaded yet
+    if (!this.props.organization.ssoProviders) {
+      return null;
+    }
+
+    // If there aren't any sso providers then we don't need this section
+    if (this.props.organization.ssoProviders.count === 0) {
+      return null;
+    }
+
+    return (
+      <Panel.Section>
+        <FormRadioGroup
+          label="Single Sign-On"
+          value={this.state.ssoMode}
+          onChange={this.handleSSOModeChange}
+          required={true}
+          options={[
+            {
+              label: "Required",
+              value: OrganizationMemberSSOModeConstants.REQUIRED,
+              help: "Invited users will be required to authorize via SSO before they can accept the invitation.",
+              badge: "Recomended"
+            },
+            {
+              label: "Optional",
+              value: OrganizationMemberSSOModeConstants.OPTIONAL,
+              help: "The user can access accept the invitation without requiring a verified SSO authorization."
+            }
+          ]}
+        />
+      </Panel.Section>
+    );
+  }
+
+  handleSSOModeChange = (evt) => {
+    this.setState({
+      ssoMode: evt.target.value
+    });
+  };
 }
 
 export default Relay.createContainer(MemberNew, {
@@ -247,6 +296,9 @@ export default Relay.createContainer(MemberNew, {
       fragment on Organization {
         name
         slug
+        ssoProviders {
+          count
+        }
         teams(first: 50) @include(if: $isMounted) {
           count
           edges {
