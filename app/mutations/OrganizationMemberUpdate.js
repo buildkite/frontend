@@ -22,6 +22,9 @@ export default class OrganizationMemberUpdate extends Relay.Mutation {
       fragment on OrganizationMemberUpdatePayload {
         organizationMember {
           role
+          sso {
+            mode
+          }
           user {
             name
           }
@@ -40,6 +43,15 @@ export default class OrganizationMemberUpdate extends Relay.Mutation {
   }
 
   getVariables() {
-    return { id: this.props.organizationMember.id, role: this.props.role };
+    const variables = {
+      id: this.props.organizationMember.id,
+      role: this.props.role
+    };
+
+    if (this.props.sso) {
+      variables.sso = this.props.sso;
+    }
+
+    return variables;
   }
 }

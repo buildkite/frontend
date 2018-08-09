@@ -73,7 +73,7 @@ class InvitationRow extends React.PureComponent {
   }
 
   renderLabels() {
-    let nodes = [];
+    const nodes = [];
 
     if (this.props.organizationInvitation.sso.mode === OrganizationMemberSSOModeConstants.OPTIONAL) {
       nodes.push(

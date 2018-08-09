@@ -56,7 +56,7 @@ class MemberRow extends React.PureComponent {
   }
 
   renderLabels() {
-    let nodes = [];
+    const nodes = [];
 
     if (this.props.organizationMember.sso.mode === OrganizationMemberSSOModeConstants.OPTIONAL) {
       nodes.push(
