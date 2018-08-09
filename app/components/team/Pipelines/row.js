@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Panel from '../../shared/Panel';
 import Button from '../../shared/Button';
+import Emojify from '../../shared/Emojify';
+import Panel from '../../shared/Panel';
 import Spinner from '../../shared/Spinner';
 
 import FlashesStore from '../../../stores/FlashesStore';
 import permissions from '../../../lib/permissions';
 
-import Pipeline from './pipeline';
 import AccessLevel from './access-level';
 
 export default class Row extends React.PureComponent {
@@ -17,7 +17,13 @@ export default class Row extends React.PureComponent {
   static propTypes = {
     teamPipeline: PropTypes.shape({
       accessLevel: PropTypes.string,
-      pipeline: PropTypes.object.isRequired,
+      pipeline: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+        repository: PropTypes.shape({
+          url: PropTypes.string.isRequired
+        }).isRequired
+      }).isRequired,
       permissions: PropTypes.shape({
         teamPipelineDelete: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
@@ -35,9 +41,25 @@ export default class Row extends React.PureComponent {
   }
 
   render() {
+    const pipeline = this.props.teamPipeline.pipeline;
+
     return (
       <Panel.Row>
-        <Pipeline pipeline={this.props.teamPipeline.pipeline} />
+        <div>
+          <a
+            className="truncate semi-bold blue hover-navy text-decoration-none hover-underline block"
+            href={pipeline.url}
+            title={pipeline.name}
+          >
+            <Emojify text={pipeline.name} />
+          </a>
+          <small
+            className="truncate dark-gray block"
+            title={pipeline.repository.url}
+          >
+            {pipeline.repository.url}
+          </small>
+        </div>
         <Panel.RowActions className="ml2">
           {this.renderActions()}
         </Panel.RowActions>

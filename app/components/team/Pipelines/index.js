@@ -64,12 +64,17 @@ class Pipelines extends React.Component {
 
   renderPipelines() {
     if (this.props.team.pipelines.edges.length > 0) {
-      return this.props.team.pipelines.edges.map((edge) => {
-        return (
-          <Row key={edge.node.id} teamPipeline={edge.node} onRemoveClick={this.handleTeamPipelineRemove} onAccessLevelChange={this.handleAccessLevelChange} relay={this.props.relay} />
-        );
-      });
+      return this.props.team.pipelines.edges.map(({ node }) => (
+        <Row
+          key={node.id}
+          teamPipeline={node}
+          onRemoveClick={this.handleTeamPipelineRemove}
+          onAccessLevelChange={this.handleAccessLevelChange}
+          relay={this.props.relay}
+        />
+      ));
     }
+
     if (this.props.relay.variables.pipelineSearch) {
       return null;
     }
@@ -200,6 +205,7 @@ export default Relay.createContainer(Pipelines, {
               pipeline {
                 id
                 name
+                url
                 repository {
                   url
                 }
