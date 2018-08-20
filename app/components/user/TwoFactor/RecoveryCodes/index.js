@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import Button from '../../../shared/Button';
 import Panel from '../../../shared/Panel';
