@@ -7,7 +7,8 @@ import Duration from './Duration';
 jest.mock('../../lib/date', () => {
   const getDurationString = jest.fn(() => 'MOCKED-DURATION');
   getDurationString.formats = ['expected'];
-  return { getDurationString };
+  const getDuration = jest.fn(() => 42069);
+  return { getDuration, getDurationString };
 });
 
 describe('Duration', () => {
@@ -19,6 +20,7 @@ describe('Duration', () => {
   });
 
   it('calls through to `getDurationString`', () => {
+    const getDuration = require('../../lib/date').getDuration;
     const getDurationString = require('../../lib/date').getDurationString;
     const from = new Date();
     const to = new Date();
@@ -32,12 +34,14 @@ describe('Duration', () => {
     );
 
     const tree = component.toJSON();
-    expect(getDurationString).toHaveBeenCalledWith(from, to, 'expected');
+    expect(getDuration).toHaveBeenCalledWith(from, to);
+    expect(getDurationString).toHaveBeenCalledWith(42069, 'expected');
     expect(tree).toMatchSnapshot();
   });
 
   describe('tabularNumerals', () => {
     it('can be disabled', () => {
+      const getDuration = require('../../lib/date').getDuration;
       const getDurationString = require('../../lib/date').getDurationString;
       const from = new Date();
       const to = new Date();
@@ -52,7 +56,8 @@ describe('Duration', () => {
       );
 
       const tree = component.toJSON();
-      expect(getDurationString).toHaveBeenCalledWith(from, to, 'expected');
+      expect(getDuration).toHaveBeenCalledWith(from, to);
+      expect(getDurationString).toHaveBeenCalledWith(42069, 'expected');
       expect(tree).toMatchSnapshot();
     });
   });
