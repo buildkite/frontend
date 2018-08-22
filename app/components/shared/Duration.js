@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { second } from 'metrick/duration';
 import moment from 'moment';
-import { getDurationString } from '../../lib/date';
+import { getDuration, getDurationString } from '../../lib/date';
 
 type Props = {
   from?: (moment$Moment | string | number | Date | number[]),
@@ -17,9 +17,10 @@ type Props = {
 };
 
 type State = {
-  value: string
+  seconds?: number
 };
 
+// Grab a copy of the Moment constructor so we can test PropTypes
 const Moment = moment().constructor;
 
 class Duration extends React.PureComponent<Props, State> {
@@ -49,15 +50,13 @@ class Duration extends React.PureComponent<Props, State> {
 
   _interval: IntervalID;
 
-  state = {
-    value: ''
-  };
+  state = {};
 
   updateTime() {
-    const { from, to, format } = this.props;
+    const { from, to } = this.props;
 
     this.setState({
-      value: getDurationString(from, to, format)
+      seconds: getDuration(from, to)
     });
   }
 
@@ -66,9 +65,10 @@ class Duration extends React.PureComponent<Props, State> {
   }
 
   maybeSetInterval(updateFrequency) {
-    if (typeof updateFrequency == 'number' && updateFrequency > 0) {
+    if (!this.props.to && typeof updateFrequency == 'number' && updateFrequency > 0) {
       this._interval = setInterval(() => this.updateTime(), updateFrequency);
     }
+
     this.updateTime();
   }
 
@@ -82,29 +82,32 @@ class Duration extends React.PureComponent<Props, State> {
     this.maybeClearInterval();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { from, to, format, updateFrequency } = nextProps;
+  static getDerivedStateFromProps(nextProps, currentState) {
+    const seconds = getDuration(nextProps.from, nextProps.to);
 
-    if (updateFrequency !== this.props.updateFrequency) {
-      this.maybeClearInterval();
-      this.maybeSetInterval(updateFrequency);
+    if (seconds !== currentState.seconds) {
+      return { seconds };
     }
 
-    this.setState({
-      value: getDurationString(from, to, format)
-    });
+    return null;
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.updateFrequency !== prevProps.updateFrequency || this.props.to !== prevProps.to) {
+      this.maybeClearInterval();
+      this.maybeSetInterval(this.props.updateFrequency);
+    }
   }
 
   render() {
-    const { state: { value }, props: { className, tabularNumerals } } = this;
     const spanClassName = classNames(
-      className,
-      { 'tabular-numerals': tabularNumerals }
+      this.props.className,
+      { 'tabular-numerals': this.props.tabularNumerals }
     );
 
     return (
       <span className={spanClassName}>
-        {value}
+        {getDurationString(this.state.seconds, this.props.format)}
       </span>
     );
   }

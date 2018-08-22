@@ -75,14 +75,14 @@ const DURATION_FORMATS = {
   micro: [SHORT_DURATION_STRING, { largest: 1, trim: false }]
 };
 
-export function getDurationString(from, to, format = 'full') {
+export function getDurationString(seconds, format = 'full') {
   if (getDurationString.formats.indexOf(format) === -1) {
     throw new Error(`getDurationString: Unknown format \`${format}\`.`);
   }
 
   const [template, options] = DURATION_FORMATS[format];
 
-  return getDuration(from, to).format(template, options);
+  return moment.duration(seconds, 'seconds').format(template, options);
 }
 
 getDurationString.formats = Object.keys(DURATION_FORMATS);
