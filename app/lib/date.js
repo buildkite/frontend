@@ -57,6 +57,14 @@ export function getDateString(date, withSeconds = false, withYear = true) {
   return moment(date).format(getDateFormatter(withSeconds, withYear));
 }
 
+export function getDuration(from, to = moment()) {
+  if (to === undefined || from === undefined) {
+    return moment.duration(0);
+  }
+
+  return moment.duration(moment(to).diff(from));
+}
+
 const LONG_DURATION_STRING = 'w [weeks], d [days], h [hours], m [minutes], s [seconds]';
 const SHORT_DURATION_STRING = 'w[w] d[d] h[h] m[m] s[s]';
 
@@ -67,21 +75,14 @@ const DURATION_FORMATS = {
   micro: [SHORT_DURATION_STRING, { largest: 1, trim: false }]
 };
 
-export function getDurationString(from, to = moment(), format = 'full') {
+export function getDurationString(from, to, format = 'full') {
   if (getDurationString.formats.indexOf(format) === -1) {
     throw new Error(`getDurationString: Unknown format \`${format}\`.`);
   }
 
   const [template, options] = DURATION_FORMATS[format];
 
-  let duration;
-  if (to === undefined || from === undefined) {
-    duration = moment.duration(0);
-  } else {
-    duration = moment.duration(moment(to).diff(from));
-  }
-
-  return duration.format(template, options);
+  return getDuration(from, to).format(template, options);
 }
 
 getDurationString.formats = Object.keys(DURATION_FORMATS);
