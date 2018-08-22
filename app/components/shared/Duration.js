@@ -1,20 +1,40 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { second } from 'metrick/duration';
+import moment from 'moment';
 import { getDurationString } from '../../lib/date';
 
-class Duration extends React.PureComponent {
+type Props = {
+  from?: (moment$Moment | string | number | Date | number[]),
+  to?: (moment$Moment | string | number | Date | number[]),
+  className?: string,
+  tabularNumerals: boolean,
+  format: getDurationString.formats,
+  updateFrequency?: number
+};
+
+type State = {
+  value: string
+};
+
+const Moment = moment().constructor;
+
+class Duration extends React.PureComponent<Props, State> {
   static propTypes = {
     from: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
-      PropTypes.instanceOf(Date)
+      PropTypes.instanceOf(Date),
+      PropTypes.instanceOf(Moment)
     ]),
     to: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
-      PropTypes.instanceOf(Date)
+      PropTypes.instanceOf(Date),
+      PropTypes.instanceOf(Moment)
     ]),
     className: PropTypes.string,
     tabularNumerals: PropTypes.bool.isRequired,
@@ -23,9 +43,11 @@ class Duration extends React.PureComponent {
   };
 
   static defaultProps = {
-    updateFrequency: 1::second,
+    updateFrequency: second.bind(1),
     tabularNumerals: true
   };
+
+  _interval: IntervalID;
 
   state = {
     value: ''
@@ -44,7 +66,7 @@ class Duration extends React.PureComponent {
   }
 
   maybeSetInterval(updateFrequency) {
-    if (updateFrequency > 0) {
+    if (typeof updateFrequency == 'number' && updateFrequency > 0) {
       this._interval = setInterval(() => this.updateTime(), updateFrequency);
     }
     this.updateTime();
