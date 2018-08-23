@@ -48,38 +48,38 @@ class Duration extends React.PureComponent<Props, State> {
     tabularNumerals: true
   };
 
-  _interval: IntervalID;
+  _timeout: TimeoutID;
 
   state = {};
 
-  updateTime() {
+  tick() {
     const { from, to } = this.props;
 
     this.setState({
       seconds: getDuration(from, to).seconds()
+    }, () => {
+      this.maybeScheduleTick();
     });
   }
 
   componentDidMount() {
-    this.maybeSetInterval(this.props.updateFrequency);
+    this.maybeScheduleTick();
   }
 
-  maybeSetInterval(updateFrequency) {
-    if (!this.props.to && typeof updateFrequency == 'number' && updateFrequency > 0) {
-      this._interval = setInterval(() => this.updateTime(), updateFrequency);
+  maybeScheduleTick() {
+    if (!this.props.to && typeof this.props.updateFrequency == 'number' && this.props.updateFrequency > 0) {
+      this._timeout = setTimeout(() => this.tick(), this.props.updateFrequency);
     }
-
-    this.updateTime();
   }
 
-  maybeClearInterval() {
-    if (this._interval) {
-      clearInterval(this._interval);
+  maybeCancelTick() {
+    if (this._timeout) {
+      clearTimeout(this._timeout);
     }
   }
 
   componentWillUnmount() {
-    this.maybeClearInterval();
+    this.maybeCancelTick();
   }
 
   static getDerivedStateFromProps(nextProps, currentState) {
@@ -94,8 +94,8 @@ class Duration extends React.PureComponent<Props, State> {
 
   componentDidUpdate(prevProps) {
     if (this.props.updateFrequency !== prevProps.updateFrequency || this.props.to !== prevProps.to) {
-      this.maybeClearInterval();
-      this.maybeSetInterval(this.props.updateFrequency);
+      this.maybeCancelTick();
+      this.maybeScheduleTick();
     }
   }
 
