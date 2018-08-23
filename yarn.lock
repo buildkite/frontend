@@ -6294,9 +6294,9 @@ mojibaka@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mojibaka/-/mojibaka-1.0.2.tgz#4005571f68467ddad708c00f5b666c6df040217e"
 
-moment-duration-format@2.2.2:
+"moment-duration-format@https://github.com/ticky/moment-duration-format.git#951b8be1d1b0424824363aa912cbf066546bf384":
   version "2.2.2"
-  resolved "https://registry.yarnpkg.com/moment-duration-format/-/moment-duration-format-2.2.2.tgz#b957612de26016c9ad9eb6087c054573e5127779"
+  resolved "https://github.com/ticky/moment-duration-format.git#951b8be1d1b0424824363aa912cbf066546bf384"
 
 moment@2.22.2:
   version "2.22.2"
