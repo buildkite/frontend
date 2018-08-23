@@ -4,10 +4,17 @@ import ReactTestRenderer from 'react-test-renderer';
 
 import Duration from './Duration';
 
+const MOCKED_DURATION_SECONDS = 42069;
+const MOCKED_DURATION = {
+  seconds() {
+    return MOCKED_DURATION_SECONDS;
+  }
+};
+
 jest.mock('../../lib/date', () => {
   const getDurationString = jest.fn(() => 'MOCKED-DURATION');
   getDurationString.formats = ['expected'];
-  const getDuration = jest.fn(() => 42069);
+  const getDuration = jest.fn(() => MOCKED_DURATION);
   return { getDuration, getDurationString };
 });
 
@@ -35,7 +42,7 @@ describe('Duration', () => {
 
     const tree = component.toJSON();
     expect(getDuration).toHaveBeenCalledWith(from, to);
-    expect(getDurationString).toHaveBeenCalledWith(42069, 'expected');
+    expect(getDurationString).toHaveBeenCalledWith(MOCKED_DURATION_SECONDS, 'expected');
     expect(tree).toMatchSnapshot();
   });
 
@@ -57,7 +64,7 @@ describe('Duration', () => {
 
       const tree = component.toJSON();
       expect(getDuration).toHaveBeenCalledWith(from, to);
-      expect(getDurationString).toHaveBeenCalledWith(42069, 'expected');
+      expect(getDurationString).toHaveBeenCalledWith(MOCKED_DURATION_SECONDS, 'expected');
       expect(tree).toMatchSnapshot();
     });
   });

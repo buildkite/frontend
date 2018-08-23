@@ -78,6 +78,22 @@ const DURATION_FIXTURES = [
   { from: undefined, to: "2016-10-06T08:09:25.000+10:00" }
 ];
 
+describe('getDuration', () => {
+  DURATION_FIXTURES.forEach(({ from, to }) => {
+    it(`when given \`${from}\` and \`${to}\``, () => {
+      expect(getDuration(from, to)).toMatchSnapshot();
+    });
+  });
+
+  it('falls back to `now` when not supplied a `to` value', () => {
+    MockDate.set("2016-10-06T08:10:25.000+10:00");
+    expect(getDuration("2016-10-05T03:40:02.000+10:00")).toMatchSnapshot();
+    expect(getDuration("2016-10-05T03:40:02.000+10:00", undefined)).toMatchSnapshot();
+    expect(getDuration(undefined, undefined)).toMatchSnapshot();
+    MockDate.reset();
+  });
+});
+
 describe('getDurationString', () => {
   describe('formats', () => {
     it('are supplied as an array', () => {

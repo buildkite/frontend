@@ -56,7 +56,7 @@ class Duration extends React.PureComponent<Props, State> {
     const { from, to } = this.props;
 
     this.setState({
-      seconds: getDuration(from, to)
+      seconds: getDuration(from, to).seconds()
     });
   }
 
@@ -83,7 +83,7 @@ class Duration extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps(nextProps, currentState) {
-    const seconds = getDuration(nextProps.from, nextProps.to);
+    const seconds = getDuration(nextProps.from, nextProps.to).seconds();
 
     if (seconds !== currentState.seconds) {
       return { seconds };
