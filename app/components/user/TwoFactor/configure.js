@@ -382,6 +382,10 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
               viewer {
                 totp {
                   id
+                  recoveryCodes {
+                    ...RecoveryCodeList_recoveryCodes
+                    codes
+                  }
                 }
               }
             }

@@ -27,7 +27,7 @@ class RecoveryCodes extends React.PureComponent<Props, State> {
 
   render() {
     if (!this.props.totp) {
-      return;
+      return null;
     }
 
     return (
