@@ -3,6 +3,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import 'intersection-observer';
+import VisibilityObserver from 'react-intersection-observer';
 import { second } from 'metrick/duration';
 import moment from 'moment';
 import { getDuration, getDurationString } from '../../lib/date';
@@ -67,8 +69,12 @@ class Duration extends React.PureComponent<Props, State> {
   }
 
   maybeScheduleTick() {
-    if (!this.props.to && typeof this.props.updateFrequency == 'number' && this.props.updateFrequency > 0) {
-      this._timeout = setTimeout(() => this.tick(), this.props.updateFrequency);
+    const { from, to, updateFrequency } = this.props;
+
+    // We only want to schedule ticks if our duration is indeterminate,
+    // and our update frequency isn't zero
+    if (!(from && to) && typeof updateFrequency == 'number' && updateFrequency > 0) {
+      this._timeout = setTimeout(() => this.tick(), updateFrequency);
     }
   }
 
@@ -93,9 +99,19 @@ class Duration extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.updateFrequency !== prevProps.updateFrequency || this.props.to !== prevProps.to) {
+    const { updateFrequency, to } = this.props;
+
+    if (updateFrequency !== prevProps.updateFrequency || to !== prevProps.to) {
       this.maybeCancelTick();
       this.maybeScheduleTick();
+    }
+  }
+
+  handleVisibilityChange = (visible) => {
+    this.maybeCancelTick();
+
+    if (visible) {
+      this.tick();
     }
   }
 
@@ -105,10 +121,24 @@ class Duration extends React.PureComponent<Props, State> {
       { 'tabular-numerals': this.props.tabularNumerals }
     );
 
+    const durationString = getDurationString(this.state.seconds, this.props.format);
+
+    if (this.props.to) {
+      return (
+        <span className={spanClassName}>
+          {durationString}
+        </span>
+      );
+    }
+
     return (
-      <span className={spanClassName}>
-        {getDurationString(this.state.seconds, this.props.format)}
-      </span>
+      <VisibilityObserver
+        tag="span"
+        className={spanClassName}
+        onChange={this.handleVisibilityChange}
+      >
+        {durationString}
+      </VisibilityObserver>
     );
   }
 }
