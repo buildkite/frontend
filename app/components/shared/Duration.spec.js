@@ -6,7 +6,7 @@ import Duration from './Duration';
 
 const MOCKED_DURATION_SECONDS = 42069;
 const MOCKED_DURATION = {
-  seconds() {
+  asSeconds() {
     return MOCKED_DURATION_SECONDS;
   }
 };

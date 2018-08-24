@@ -58,7 +58,7 @@ class Duration extends React.PureComponent<Props, State> {
     const { from, to } = this.props;
 
     this.setState({
-      seconds: getDuration(from, to).seconds()
+      seconds: getDuration(from, to).asSeconds()
     }, () => {
       this.maybeScheduleTick();
     });
@@ -89,7 +89,7 @@ class Duration extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps(nextProps, currentState) {
-    const seconds = getDuration(nextProps.from, nextProps.to).seconds();
+    const seconds = getDuration(nextProps.from, nextProps.to).asSeconds();
 
     if (seconds !== currentState.seconds) {
       return { seconds };
