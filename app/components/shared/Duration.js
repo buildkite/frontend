@@ -1,20 +1,43 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import 'intersection-observer';
+import VisibilityObserver from 'react-intersection-observer';
 import { second } from 'metrick/duration';
-import { getDurationString } from '../../lib/date';
+import moment from 'moment';
+import { getDuration, getDurationString } from '../../lib/date';
 
-class Duration extends React.PureComponent {
+type Props = {
+  from?: (moment$Moment | string | number | Date | number[]),
+  to?: (moment$Moment | string | number | Date | number[]),
+  className?: string,
+  tabularNumerals: boolean,
+  format: getDurationString.formats,
+  updateFrequency?: number
+};
+
+type State = {
+  seconds?: number
+};
+
+// Grab a copy of the Moment constructor so we can test PropTypes
+const Moment = moment().constructor;
+
+class Duration extends React.PureComponent<Props, State> {
   static propTypes = {
     from: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
-      PropTypes.instanceOf(Date)
+      PropTypes.instanceOf(Date),
+      PropTypes.instanceOf(Moment)
     ]),
     to: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
-      PropTypes.instanceOf(Date)
+      PropTypes.instanceOf(Date),
+      PropTypes.instanceOf(Moment)
     ]),
     className: PropTypes.string,
     tabularNumerals: PropTypes.bool.isRequired,
@@ -23,67 +46,99 @@ class Duration extends React.PureComponent {
   };
 
   static defaultProps = {
-    updateFrequency: 1::second,
+    updateFrequency: second.bind(1),
     tabularNumerals: true
   };
 
-  state = {
-    value: ''
-  };
+  _timeout: TimeoutID;
 
-  updateTime() {
-    const { from, to, format } = this.props;
+  state = {};
+
+  tick() {
+    const { from, to } = this.props;
 
     this.setState({
-      value: getDurationString(from, to, format)
+      seconds: getDuration(from, to).seconds()
+    }, () => {
+      this.maybeScheduleTick();
     });
   }
 
   componentDidMount() {
-    this.maybeSetInterval(this.props.updateFrequency);
+    this.maybeScheduleTick();
   }
 
-  maybeSetInterval(updateFrequency) {
-    if (updateFrequency > 0) {
-      this._interval = setInterval(() => this.updateTime(), updateFrequency);
+  maybeScheduleTick() {
+    const { from, to, updateFrequency } = this.props;
+
+    // We only want to schedule ticks if our duration is indeterminate,
+    // and our update frequency isn't zero
+    if (!(from && to) && typeof updateFrequency == 'number' && updateFrequency > 0) {
+      this._timeout = setTimeout(() => this.tick(), updateFrequency);
     }
-    this.updateTime();
   }
 
-  maybeClearInterval() {
-    if (this._interval) {
-      clearInterval(this._interval);
+  maybeCancelTick() {
+    if (this._timeout) {
+      clearTimeout(this._timeout);
     }
   }
 
   componentWillUnmount() {
-    this.maybeClearInterval();
+    this.maybeCancelTick();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { from, to, format, updateFrequency } = nextProps;
+  static getDerivedStateFromProps(nextProps, currentState) {
+    const seconds = getDuration(nextProps.from, nextProps.to).seconds();
 
-    if (updateFrequency !== this.props.updateFrequency) {
-      this.maybeClearInterval();
-      this.maybeSetInterval(updateFrequency);
+    if (seconds !== currentState.seconds) {
+      return { seconds };
     }
 
-    this.setState({
-      value: getDurationString(from, to, format)
-    });
+    return null;
+  }
+
+  componentDidUpdate(prevProps) {
+    const { updateFrequency, to } = this.props;
+
+    if (updateFrequency !== prevProps.updateFrequency || to !== prevProps.to) {
+      this.maybeCancelTick();
+      this.maybeScheduleTick();
+    }
+  }
+
+  handleVisibilityChange = (visible) => {
+    this.maybeCancelTick();
+
+    if (visible) {
+      this.tick();
+    }
   }
 
   render() {
-    const { state: { value }, props: { className, tabularNumerals } } = this;
     const spanClassName = classNames(
-      className,
-      { 'tabular-numerals': tabularNumerals }
+      this.props.className,
+      { 'tabular-numerals': this.props.tabularNumerals }
     );
 
+    const durationString = getDurationString(this.state.seconds, this.props.format);
+
+    if (this.props.to) {
+      return (
+        <span className={spanClassName}>
+          {durationString}
+        </span>
+      );
+    }
+
     return (
-      <span className={spanClassName}>
-        {value}
-      </span>
+      <VisibilityObserver
+        tag="span"
+        className={spanClassName}
+        onChange={this.handleVisibilityChange}
+      >
+        {durationString}
+      </VisibilityObserver>
     );
   }
 }

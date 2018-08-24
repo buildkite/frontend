@@ -4,10 +4,18 @@ import ReactTestRenderer from 'react-test-renderer';
 
 import Duration from './Duration';
 
+const MOCKED_DURATION_SECONDS = 42069;
+const MOCKED_DURATION = {
+  seconds() {
+    return MOCKED_DURATION_SECONDS;
+  }
+};
+
 jest.mock('../../lib/date', () => {
   const getDurationString = jest.fn(() => 'MOCKED-DURATION');
   getDurationString.formats = ['expected'];
-  return { getDurationString };
+  const getDuration = jest.fn(() => MOCKED_DURATION);
+  return { getDuration, getDurationString };
 });
 
 describe('Duration', () => {
@@ -19,6 +27,7 @@ describe('Duration', () => {
   });
 
   it('calls through to `getDurationString`', () => {
+    const getDuration = require('../../lib/date').getDuration;
     const getDurationString = require('../../lib/date').getDurationString;
     const from = new Date();
     const to = new Date();
@@ -32,12 +41,14 @@ describe('Duration', () => {
     );
 
     const tree = component.toJSON();
-    expect(getDurationString).toHaveBeenCalledWith(from, to, 'expected');
+    expect(getDuration).toHaveBeenCalledWith(from, to);
+    expect(getDurationString).toHaveBeenCalledWith(MOCKED_DURATION_SECONDS, 'expected');
     expect(tree).toMatchSnapshot();
   });
 
   describe('tabularNumerals', () => {
     it('can be disabled', () => {
+      const getDuration = require('../../lib/date').getDuration;
       const getDurationString = require('../../lib/date').getDurationString;
       const from = new Date();
       const to = new Date();
@@ -52,7 +63,8 @@ describe('Duration', () => {
       );
 
       const tree = component.toJSON();
-      expect(getDurationString).toHaveBeenCalledWith(from, to, 'expected');
+      expect(getDuration).toHaveBeenCalledWith(from, to);
+      expect(getDurationString).toHaveBeenCalledWith(MOCKED_DURATION_SECONDS, 'expected');
       expect(tree).toMatchSnapshot();
     });
   });
