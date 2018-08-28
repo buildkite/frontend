@@ -127,8 +127,20 @@ class AgentShow extends React.Component {
     let extraStoppingInfo;
     if (agent.connectionState === "stopping") {
       extraStoppingInfo = (
-        <div className="dark-gray mt1">
-          If the agent doesn’t respond to the stop signal within a few minutes, Buildkite will forcefully disconnect the agent and remove it from your pool of agents.
+        <div className="mt1">
+          <div className="dark-gray">
+            If the agent doesn’t respond to the stop signal within a few minutes, Buildkite will forcefully disconnect the agent and remove it from your pool of agents.
+          </div>
+          <div>
+            <Button
+              theme="default"
+              outline={true}
+              loading={this.state.stopping ? "Stopping…" : false}
+              onClick={this.handleForceStopButtonClick}
+            >
+              Force Stop Agent
+            </Button>
+          </div>
         </div>
       );
     }
@@ -280,6 +292,26 @@ class AgentShow extends React.Component {
   }
 
   handleStopButtonClick = (evt) => {
+    evt.preventDefault();
+
+    this.setState({ stopping: true });
+
+    // We add a delay in case it executes so quickly that the user can't
+    // understand what just flashed past their face.
+    setTimeout(() => {
+      const mutation = new AgentStopMutation({
+        agent: this.props.agent,
+        graceful: true
+      });
+
+      Relay.Store.commitUpdate(mutation, {
+        onSuccess: this.handleMutationSuccess,
+        onFailure: this.handleMutationError
+      });
+    }, 1250);
+  };
+
+  handleForceStopButtonClick = (evt) => {
     evt.preventDefault();
 
     this.setState({ stopping: true });
