@@ -2,17 +2,14 @@ version: '2.1'
 
 services:
   frontend:
-    image: index.docker.io/buildkite/frontend
     build: .
-    extra_hosts:
-     - "buildkite.localhost:0.0.0.0" # fix for hostname checking in webpack-dev-server
     environment:
-      - EMOJI_HOST=${EMOJI_HOST:-http://buildkite.localhost:4890/_frontend/dist/}
-      - FRONTEND_HOST=${FRONTEND_HOST:-http://buildkite.localhost:4890/_frontend/vendor/emojis/}
       - BUILDKITE
       - BUILDKITE_COMMIT
       - BUILDKITE_ORGANIZATION_SLUG
       - BUILDKITE_PIPELINE_SLUG
       - CI
-    ports:
-      - "4890"
+    volumes:
+      - "./bundle-analysis:/frontend/bundle-analysis"
+      - "./coverage:/frontend/coverage"
+      - "./dist:/host/dist"
