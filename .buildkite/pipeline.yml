@@ -56,6 +56,6 @@ steps:
     branches: "master"
     artifact_paths: "tmp/verify/*"
     concurrency: 1
-    concurrency_group: "deployer"
+    concurrency_group: "deployer" # Shared with buildkite/frontend
     agents:
       queue: "deploy"
