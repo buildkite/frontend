@@ -4,6 +4,8 @@ services:
   frontend:
     build: .
     environment:
+      - EMOJI_HOST
+      - FRONTEND_HOST
       - BUILDKITE
       - BUILDKITE_COMMIT
       - BUILDKITE_ORGANIZATION_SLUG
