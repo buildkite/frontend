@@ -25,7 +25,7 @@ type Props = {
     uuid: string,
     type: string,
     occurredAt: string,
-    actor: {
+    actor?: {
       name?: string,
       node?: {
         name?: string,
@@ -76,7 +76,7 @@ class AuditLogRow extends React.PureComponent<Props, State> {
             url: PropTypes.string
           })
         })
-      }).isRequired,
+      }),
       subject: PropTypes.shape({
         type: PropTypes.string.isRequired,
         name: PropTypes.string,
@@ -110,8 +110,6 @@ class AuditLogRow extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const actorName = this.props.auditEvent.actor.name || this.props.auditEvent.actor.node && this.props.auditEvent.actor.node.name;
-
     return (
       <Panel.Row>
         <div>
@@ -126,18 +124,12 @@ class AuditLogRow extends React.PureComponent<Props, State> {
             onClick={this.handleHeaderClick}
           >
             <div className="flex-auto flex items-center">
-              {this.props.auditEvent.actor.node && (
-                <div className="flex-none self-start icon-mr">
-                  <UserAvatar
-                    style={{ width: 39, height: 39 }}
-                    user={this.props.auditEvent.actor.node}
-                  />
-                </div>
-              )}
+              <div className="flex-none self-start icon-mr">
+                {this.renderAvatar()}
+              </div>
               <div className="flex-auto md-flex lg-flex items-center">
                 <h2 className="flex-auto line-height-3 font-size-1 h4 regular m0">
-                  <span className="semi-bold">{actorName}</span>
-                  <br />
+                  {this.renderActorName()}
                   {this.renderEventSentence()}
                 </h2>
                 <FriendlyTime
@@ -171,6 +163,37 @@ class AuditLogRow extends React.PureComponent<Props, State> {
           </TransitionMaxHeight>
         </div>
       </Panel.Row>
+    );
+  }
+
+  renderActorName() {
+    if (this.props.auditEvent.actor) {
+      const actorName = this.props.auditEvent.actor.name || this.props.auditEvent.actor.node && this.props.auditEvent.actor.node.name;
+
+      return (
+        <div className="semi-bold">{actorName}</div>
+      );
+    }
+
+    return (
+      <div className="dark-gray">No Actor</div>
+    );
+  }
+
+  renderAvatar() {
+    if (this.props.auditEvent.actor && this.props.auditEvent.actor.node) {
+      return (
+        <UserAvatar
+          style={{ width: 39, height: 39 }}
+          user={this.props.auditEvent.actor.node}
+        />
+      );
+    }
+
+    return (
+      <div style={{ width: 39, height: 39 }} className="circle border border-gray flex items-center justify-center">
+        <span className="dark-gray">?</span>
+      </div>
     );
   }
 
