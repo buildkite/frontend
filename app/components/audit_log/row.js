@@ -110,11 +110,6 @@ class AuditLogRow extends React.PureComponent<Props, State> {
   }
 
   render() {
-    let actorName;
-    if (this.props.auditEvent.actor) {
-      actorName = this.props.auditEvent.actor.name || this.props.auditEvent.actor.node && this.props.auditEvent.actor.node.name;
-    }
-
     return (
       <Panel.Row>
         <div>
@@ -134,9 +129,7 @@ class AuditLogRow extends React.PureComponent<Props, State> {
               </div>
               <div className="flex-auto md-flex lg-flex items-center">
                 <h2 className="flex-auto line-height-3 font-size-1 h4 regular m0">
-                  {actorName && (
-                    <span className="semi-bold block">{actorName}</span>
-                  )}
+                  {this.renderActorName()}
                   {this.renderEventSentence()}
                 </h2>
                 <FriendlyTime
@@ -170,6 +163,20 @@ class AuditLogRow extends React.PureComponent<Props, State> {
           </TransitionMaxHeight>
         </div>
       </Panel.Row>
+    );
+  }
+
+  renderActorName() {
+    if (this.props.auditEvent.actor) {
+      const actorName = this.props.auditEvent.actor.name || this.props.auditEvent.actor.node && this.props.auditEvent.actor.node.name;
+
+      return (
+        <div className="semi-bold">{actorName}</div>
+      );
+    }
+
+    return (
+      <div className="dark-gray">No Actor</div>
     );
   }
 
