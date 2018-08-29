@@ -180,14 +180,14 @@ class AuditLogRow extends React.PureComponent<Props, State> {
           style={{ width: 39, height: 39 }}
           user={this.props.auditEvent.actor.node}
         />
-      )
-    } else {
-      return (
-        <div style={{ width: 39, height: 39 }} className="circle border border-gray flex items-center justify-center">
-          <span class="dark-gray">?</span>
-        </div>
-      )
+      );
     }
+
+    return (
+      <div style={{ width: 39, height: 39 }} className="circle border border-gray flex items-center justify-center">
+        <span className="dark-gray">?</span>
+      </div>
+    );
   }
 
   renderEventSentence() {
