@@ -8,7 +8,7 @@ import { Section, SectionHeading } from './shared';
 
 type Props = {
   auditEvent: {
-    actor: {
+    actor?: {
       name?: string,
       type?: string,
       uuid?: string,
@@ -35,12 +35,16 @@ class AuditLogActorSection extends React.PureComponent<Props> {
             url: PropTypes.string.isRequired
           }).isRequired
         })
-      }).isRequired
+      })
     }).isRequired
   };
 
   render() {
     const { actor } = this.props.auditEvent;
+
+    if (!actor) {
+      return null;
+    }
 
     return (
       <Section>
