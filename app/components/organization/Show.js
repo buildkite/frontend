@@ -77,6 +77,7 @@ class OrganizationShow extends React.Component {
               organization={this.props.organization}
               team={this.props.location.query.team || null}
               filter={this.props.location.query.filter || null}
+              archived={this.props.location.query.archived == "true"}
             />
           </PageWithContainer>
         </div>

@@ -35,6 +35,7 @@ class OrganizationPipelines extends React.Component {
     }),
     relay: PropTypes.object.isRequired,
     team: PropTypes.string,
+    archived: PropTypes.bool,
     filter: PropTypes.string
   };
 
@@ -65,6 +66,7 @@ class OrganizationPipelines extends React.Component {
       {
         isMounted: true,
         teamSearch: this.props.team,
+        archivedFilter: this.props.archived,
         pipelineFilter: this.props.filter
       },
       ({ done, error }) => {
@@ -255,6 +257,7 @@ export default Relay.createContainer(OrganizationPipelines, {
     includeGraphData: false,
     pageSize: INITIAL_PAGE_SIZE,
     pipelineFilter: null,
+    archivedFilter: false,
     isMounted: false
   },
 
@@ -264,10 +267,10 @@ export default Relay.createContainer(OrganizationPipelines, {
         ${Welcome.getFragment('organization')}
         id
         slug
-        allPipelines: pipelines(team: $teamSearch) @include(if: $isMounted) {
+        allPipelines: pipelines(team: $teamSearch, archived: $archivedFilter) @include(if: $isMounted) {
           count
         }
-        pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, order: NAME_WITH_FAVORITES_FIRST) @include(if: $isMounted) {
+        pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, archived: $archivedFilter, order: NAME_WITH_FAVORITES_FIRST) @include(if: $isMounted) {
           ${ShowMoreFooter.getFragment('connection')}
           edges {
             node {
