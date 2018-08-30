@@ -361,6 +361,7 @@ const QUERIES = {
         url
         slug
         defaultBranch
+        archived
         organization {
           name
           slug

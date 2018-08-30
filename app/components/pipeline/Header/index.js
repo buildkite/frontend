@@ -79,8 +79,10 @@ class Header extends React.Component<Props, State> {
     const actions = this.getAvailableActions();
 
     return (
-      <div>
-        <div className="flex mb1 items-center flex-wrap" style={{ marginTop: -10 }}>
+      <div className="mb1" style={{ marginTop: -10 }}>
+        {this.renderArchivedBanner()}
+
+        <div className="flex items-center flex-wrap">
           <HeaderVitals>
             <div className="flex-auto">
               <a
@@ -112,6 +114,16 @@ class Header extends React.Component<Props, State> {
         />
       </div>
     );
+  }
+
+  renderArchivedBanner() {
+    if (this.props.pipeline.archived) {
+      return (
+        <div class="border border-orange flex items-center px3 py2 rounded mb1 orange">
+          <span><Emojify text=":warning:" /> This pipeline has been archived. While archived, new builds won't be created.</span>
+        </div>
+      )
+    }
   }
 
   renderPipelineName() {
@@ -266,6 +278,7 @@ export default Relay.createContainer(Header, {
         name
         description
         url
+        archived
         organization {
           name
         }
