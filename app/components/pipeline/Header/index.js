@@ -120,7 +120,7 @@ class Header extends React.Component<Props, State> {
     if (this.props.pipeline.archived) {
       return (
         <div class="border border-orange flex items-center px3 py2 rounded mb1 orange">
-          <span><Emojify text=":warning:" /> This pipeline has been archived. While archived, new builds won't be created.</span>
+          <span><Emojify text=":warning:" /> This pipeline has been archived and no new builds will be created.</span>
         </div>
       )
     }
