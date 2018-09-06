@@ -10,30 +10,33 @@ import Button from '../../../shared/Button';
 import Dialog from '../../../shared/Dialog';
 import RecoveryCodeList from '../../../RecoveryCodeList';
 
-type Props = {
-  isOpen: boolean,
-  onRequestClose: Function,
-  totp: ?{
-    id: string,
-    recoveryCodes: ?{
-      codes: Array<string>
-    }
-  },
-  relay: Object
-};
-
-type State = {
-  generatingRecoveryCodes: boolean,
-  generatedRecoveryCodes: boolean,
-  activatedRecoveryCodes: boolean,
+type TOTPType = {
+  id: string,
   recoveryCodes: ?{
     id: string,
     codes: Array<string>
   }
 };
 
-type RecoveryCodesCreateReturnType = {
-  recoveryCodesCreate: {
+type Props = {
+  isOpen: boolean,
+  onRequestClose: Function,
+  totp: ?TOTPType,
+  relay: Object
+};
+
+type State = {
+  generatingRecoveryCodes: boolean,
+  generatedRecoveryCodes: boolean,
+  recoveryCodes: ?{
+    id: string,
+    codes: Array<string>
+  }
+};
+
+type TOTPRecoveryCodesRegenerateReturnType = {
+  totpRecoveryCodesRegenerate: {
+    totp: TOTPType,
     recoveryCodes: {
       id: string,
       codes: Array<string>
@@ -45,7 +48,6 @@ class RecoveryCodesDialog extends React.PureComponent<Props, State> {
   state = {
     generatingRecoveryCodes: false,
     generatedRecoveryCodes: false,
-    activatedRecoveryCodes: false,
     recoveryCodes: null
   };
 
@@ -132,7 +134,7 @@ class RecoveryCodesDialog extends React.PureComponent<Props, State> {
   componentDidMount() {
     // If we have a TOTP, but no recovery codes for it,
     if (this.props.totp && !this.props.totp.recoveryCodes) {
-      // immediately go generate a token
+      // immediately go generate some recovery codes
       this.generateRecoveryCodes();
     }
   }
@@ -142,14 +144,22 @@ class RecoveryCodesDialog extends React.PureComponent<Props, State> {
       throw new Error("that shouldn't happen, what?!");
     }
 
-    const recoverableId = this.props.totp.id;
+    const totpId = this.props.totp.id;
 
     this.setState({ generatingRecoveryCodes: true }, () => {
       commitMutation(this.props.relay.environment, {
         mutation: graphql`
-          mutation dialogCreateMutation($input: RecoveryCodesCreateInput!) {
-            recoveryCodesCreate(input: $input) {
+          mutation dialogCreateMutation($input: TOTPRecoveryCodesRegenerateInput!) {
+            totpRecoveryCodesRegenerate(input: $input) {
               clientMutationId
+              totp {
+                id
+                recoveryCodes {
+                  ...RecoveryCodeList_recoveryCodes
+                  id
+                  codes
+                }
+              }
               recoveryCodes {
                 ...RecoveryCodeList_recoveryCodes
                 id
@@ -158,35 +168,18 @@ class RecoveryCodesDialog extends React.PureComponent<Props, State> {
             }
           }
         `,
-        variables: { input: { recoverableId } },
+        variables: { input: { totpId } },
         onCompleted: this.handleCreateMutationComplete,
         onError: this.handleCreateMutationError
       });
     });
   }
 
-  componentWillUnmount() {
-    // When unmounting, if we haven't finished activating, try to delete the TOTP record
-    if (this.state.recoveryCodes && this.state.generatedRecoveryCodes && !this.state.activatedRecoveryCodes) {
-      commitMutation(this.props.relay.environment, {
-        mutation: graphql`
-          mutation dialogDeleteMutation($input: RecoveryCodesDeleteInput!) {
-            recoveryCodesDelete(input: $input) {
-              clientMutationId
-            }
-          }
-        `,
-        variables: { input: { id: this.state.recoveryCodes.id } }
-      });
-    }
-  }
-
-  handleCreateMutationComplete = (mutationResult: RecoveryCodesCreateReturnType) => {
+  handleCreateMutationComplete = (mutationResult: TOTPRecoveryCodesRegenerateReturnType) => {
     this.setState({
       generatingRecoveryCodes: false,
       generatedRecoveryCodes: true,
-      activatedRecoveryCodes: false,
-      recoveryCodes: mutationResult.recoveryCodesCreate.recoveryCodes
+      recoveryCodes: mutationResult.totpRecoveryCodesRegenerate.recoveryCodes
     });
   };
 
@@ -233,6 +226,7 @@ export default createFragmentContainer(RecoveryCodesDialog, {
     fragment dialog_totp on TOTP {
       id
       recoveryCodes {
+        id
         ...RecoveryCodeList_recoveryCodes
         codes
       }
