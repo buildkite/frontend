@@ -1042,7 +1042,7 @@
             },
             {
               "name": "viewer",
-              "description": null,
+              "description": "Context of the current user using the GraphQL API",
               "args": [
 
               ],
@@ -1069,7 +1069,7 @@
           "fields": [
             {
               "name": "apiAccessTokens",
-              "description": "Returns the user's API access tokens. These are currently private and cannot be accessed via the public GraphQL API",
+              "description": "Returns the user's API access tokens.\n\nThese are currently private and cannot be accessed via the public GraphQL API.\n",
               "args": [
                 {
                   "name": "first",
@@ -1575,7 +1575,7 @@
             },
             {
               "name": "totp",
-              "description": "The current user's active TOTP configuration, if any. These are currently private and cannot be accessed via the public GraphQL API",
+              "description": "The user's active TOTP configuration, if any.\n\nThis field is private, requires an escalated session, and cannot be accessed via the public GraphQL API.\n",
               "args": [
 
               ],
@@ -18211,7 +18211,7 @@
             },
             {
               "name": "totpActivate",
-              "description": "Activate a previously-generated TOTP configuration, and its Recovery Codes.\n\nOnce activated, both this TOTP configuration, and the associated Recovery Codes will become active for the user.\nAny previous TOTP configuration or Recovery Codes will no longer be usable.\n",
+              "description": "Activate a previously-generated TOTP configuration, and its Recovery Codes.\n\nOnce activated, both this TOTP configuration, and the associated Recovery Codes will become active for the user.\nAny previous TOTP configuration or Recovery Codes will no longer be usable.\n\nThis mutation is private, requires an escalated session, and cannot be accessed via the public GraphQL API.\n",
               "args": [
                 {
                   "name": "input",
@@ -18238,7 +18238,7 @@
             },
             {
               "name": "totpCreate",
-              "description": "Create a new TOTP configuration for the current user.\n\nThis will produce a TOTP configuration with an associated set of Recovery Codes. The Recovery Codes must be presented to the user prior to the TOTP's activation with `totpActivate`.\nNeither TOTP configuration nor Recovery Codes will be usable until they have been activated.\n",
+              "description": "Create a new TOTP configuration for the current user.\n\nThis will produce a TOTP configuration with an associated set of Recovery Codes. The Recovery Codes must be presented to the user prior to the TOTP's activation with `totpActivate`.\nNeither TOTP configuration nor Recovery Codes will be usable until they have been activated.\n\nThis mutation is private, requires an escalated session, and cannot be accessed via the public GraphQL API.\n",
               "args": [
                 {
                   "name": "input",
@@ -18265,7 +18265,7 @@
             },
             {
               "name": "totpDelete",
-              "description": "Delete a TOTP configuration.\n\nIf a TOTP configuration was active, it will no longer be used for logging on to the user's account.\nAny Recovery Codes associated with the TOTP configuration will also no longer be usable.\n",
+              "description": "Delete a TOTP configuration.\n\nIf a TOTP configuration was active, it will no longer be used for logging on to the user's account.\nAny Recovery Codes associated with the TOTP configuration will also no longer be usable.\n\nThis mutation is private, requires an escalated session, and cannot be accessed via the public GraphQL API.\n",
               "args": [
                 {
                   "name": "input",
@@ -18292,7 +18292,7 @@
             },
             {
               "name": "totpRecoveryCodesRegenerate",
-              "description": "Generate a new set of Recovery Codes for a given TOTP",
+              "description": "Generate a new set of Recovery Codes for a given TOTP.\n\nThe new Recovery Codes will immediately replace any existing recovery codes.\n\nThis mutation is private, requires an escalated session, and cannot be accessed via the public GraphQL API.\n",
               "args": [
                 {
                   "name": "input",
