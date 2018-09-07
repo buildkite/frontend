@@ -519,11 +519,12 @@ export default Relay.createContainer(Navigation, {
               url
             }
           }
-          organizations(first: 500) @include(if: $isMounted) {
+          organizations(first: 100) @include(if: $isMounted) {
             edges {
               node {
-                slug
+                id
                 name
+                slug
                 permissions {
                   pipelineView {
                     allowed

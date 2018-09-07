@@ -124,6 +124,12 @@ export default createFragmentContainer(GraphQLExplorerExamples, {
             id
             name
             slug
+            permissions {
+              pipelineView {
+                allowed
+                code
+              }
+            }
           }
         }
       }
