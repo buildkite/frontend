@@ -1,9 +1,10 @@
 // @flow
 
-import React from "react";
+import * as React from "react";
 import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
 import QRCode from 'qrcode.react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import GraphQLErrors from '../../../constants/GraphQLErrors';
 import ValidationErrors from '../../../lib/ValidationErrors';
@@ -14,11 +15,15 @@ import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
 import Icon from "../../shared/Icon";
 import Spinner from '../../shared/Spinner';
+import RecoveryCodeList from '../../RecoveryCodeList';
 
 type Props = {
   viewer: {
     totp: ?{
-      id: string
+      id: string,
+      recoveryCodes: ?{
+        codes: Array<string>
+      }
     }
   },
   relay: Object
@@ -28,10 +33,15 @@ type State = {
   errors: ?[],
   generatingTOTP: boolean,
   generatedTOTP: boolean,
+  copiedRecoveryCodes: boolean,
+  confirmedRecoveryCodes: boolean,
   activatingTOTP: boolean,
   activatedTOTP: boolean,
   totpId: ?string,
   provisioningUri: ?string,
+  recoveryCodes: ?{
+    codes: Array<string>
+  },
   totpToken: string
 };
 
@@ -39,7 +49,10 @@ type TOTPCreateReturnType = {
   totpCreate: {
     provisioningUri: string,
     totp: {
-      id: string
+      id: string,
+      recoveryCodes: ?{
+        codes: Array<string>
+      }
     }
   }
 };
@@ -85,10 +98,13 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     errors: null,
     generatingTOTP: true,
     generatedTOTP: false,
+    copiedRecoveryCodes: false,
+    confirmedRecoveryCodes: false,
     activatingTOTP: false,
     activatedTOTP: false,
     totpId: null,
     provisioningUri: null,
+    recoveryCodes: null,
     totpToken: ''
   };
 
@@ -134,6 +150,54 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
         <Panel>
           <Panel.Section>
             <Spinner /> Getting ready to {this.props.viewer.totp ? 'reconfigure' : 'configure'} two-factor authentication…
+          </Panel.Section>
+        </Panel>
+      );
+    } else if (this.state.generatedTOTP && this.state.recoveryCodes && this.state.recoveryCodes.codes && !this.state.confirmedRecoveryCodes) {
+      return (
+        <Panel>
+          <Panel.Section>
+            {this.props.viewer.totp && (
+              <Panel className="orange border-orange">
+                <Panel.Section>
+                  <strong>Youʼre about to reconfigure two-factor authentication.</strong> This will replace your existing two-factor authentication applications and recovery codes.
+                </Panel.Section>
+              </Panel>
+            )}
+
+            <p>Recovery codes are used if you lose access to your code generator.</p>
+
+            <p>Copy or print your recovery codes before you continue to configure two-factor authentication.</p>
+
+            <RecoveryCodeList recoveryCodes={this.state.recoveryCodes} />
+
+            <p>These codes should be treated just like your password. Weʼd suggest saving them into a secure password manager.</p>
+
+            <CopyToClipboard
+              text={this.state.recoveryCodes.codes.join('\n')}
+              onCopy={this.handleRecoveryCodeCopy}
+            >
+              <Button
+                className="col-12"
+                theme="success"
+                outline={this.state.copiedRecoveryCodes}
+              >
+                {this.state.copiedRecoveryCodes
+                  ? 'Copied Recovery Codes'
+                  : 'Copy Recovery Codes'}
+              </Button>
+            </CopyToClipboard>
+          </Panel.Section>
+
+          <Panel.Section>
+            <Button
+              className="col-12"
+              theme={this.state.copiedRecoveryCodes ? 'success' : 'default'}
+              outline={!this.state.copiedRecoveryCodes}
+              onClick={this.handleContinueClick}
+            >
+              Continue
+            </Button>
           </Panel.Section>
         </Panel>
       );
@@ -216,6 +280,10 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
             provisioningUri
             totp {
               id
+              recoveryCodes {
+                ...RecoveryCodeList_recoveryCodes
+                codes
+              }
             }
           }
         }
@@ -242,6 +310,19 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     }
   }
 
+  handleRecoveryCodeCopy = (_text, result) => {
+    if (!result) {
+      alert('We couldnʼt put this on your clipboard for you, please copy it manually!');
+      return;
+    }
+
+    this.setState({ copiedRecoveryCodes: true });
+  };
+
+  handleContinueClick = () => {
+    this.setState({ confirmedRecoveryCodes: true });
+  };
+
   handleCodeChange = (event) => {
     this.setState({ totpToken: event.target.value });
   };
@@ -250,8 +331,10 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     this.setState({
       generatingTOTP: false,
       generatedTOTP: true,
+      confirmedRecoveryCodes: false,
       totpId: mutationResult.totpCreate.totp.id,
       provisioningUri: mutationResult.totpCreate.provisioningUri,
+      recoveryCodes: mutationResult.totpCreate.totp.recoveryCodes,
       errors: null
     });
   };
@@ -299,6 +382,10 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
               viewer {
                 totp {
                   id
+                  recoveryCodes {
+                    ...RecoveryCodeList_recoveryCodes
+                    codes
+                  }
                 }
               }
             }
@@ -347,12 +434,6 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
       generatingTOTP: false
     });
   };
-
-  handleRequestClose = () => {
-    this.setState({
-      generatingTOTP: false
-    });
-  }
 }
 
 export default createFragmentContainer(TwoFactorConfigure, {
@@ -360,6 +441,10 @@ export default createFragmentContainer(TwoFactorConfigure, {
     fragment configure_viewer on Viewer {
       totp {
         id
+        recoveryCodes {
+          ...RecoveryCodeList_recoveryCodes
+          codes
+        }
       }
     }
   `

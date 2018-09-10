@@ -1042,7 +1042,7 @@
             },
             {
               "name": "viewer",
-              "description": null,
+              "description": "Context of the current user using the GraphQL API",
               "args": [
 
               ],
@@ -1069,7 +1069,7 @@
           "fields": [
             {
               "name": "apiAccessTokens",
-              "description": "Returns the user's API access tokens. These are currently private and cannot be accessed via the public GraphQL API",
+              "description": "Returns the user's API access tokens.\n\nThese are currently private and cannot be accessed via the public GraphQL API.\n",
               "args": [
                 {
                   "name": "first",
@@ -1575,7 +1575,7 @@
             },
             {
               "name": "totp",
-              "description": "The current user's active TOTP configuration, if any",
+              "description": "The user's active TOTP configuration, if any.\n\nThis field is private, requires an escalated session, and cannot be accessed via the public GraphQL API.\n",
               "args": [
 
               ],
@@ -1699,11 +1699,6 @@
             {
               "kind": "OBJECT",
               "name": "AuthorizationGoogle",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "AuthorizationLIFX",
               "ofType": null
             },
             {
@@ -3803,6 +3798,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "email",
+                  "description": "The primary email of the team member",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "team",
                   "description": "Filter the members by team",
                   "type": {
@@ -3827,6 +3832,26 @@
                         "ofType": null
                       }
                     }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "security",
+                  "description": null,
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "OrganizationMemberSecurityInput",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "sso",
+                  "description": null,
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "OrganizationMemberSSOInput",
+                    "ofType": null
                   },
                   "defaultValue": null
                 },
@@ -5580,6 +5605,20 @@
               "deprecationReason": null
             },
             {
+              "name": "runnableAt",
+              "description": "The time when the job became available to be run by an agent",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "scheduledAt",
               "description": "The time when the job became scheduled for running",
               "args": [
@@ -5913,6 +5952,20 @@
               "deprecationReason": null
             },
             {
+              "name": "heartbeatAt",
+              "description": "The last time the agent performend a `heartbeat` operation to the Agent API",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "hostname",
               "description": "The hostname of the machine running the agent",
               "args": [
@@ -6179,7 +6232,7 @@
             },
             {
               "name": "pingedAt",
-              "description": "The last time the agent performend a `ping` operation to the Agent API",
+              "description": "DEPRECATED: please use heartbeatAt",
               "args": [
 
               ],
@@ -10039,6 +10092,24 @@
               "deprecationReason": null
             },
             {
+              "name": "security",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "OrganizationMemberSecurity",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "sso",
               "description": null,
               "args": [
@@ -10238,6 +10309,55 @@
         },
         {
           "kind": "OBJECT",
+          "name": "OrganizationMemberSecurity",
+          "description": "Information about what security settings the user has enabled in Buildkite",
+          "fields": [
+            {
+              "name": "passwordProtected",
+              "description": "If the user has secured their Buildkite user account with a password",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "twoFactorEnabled",
+              "description": "If the user has enabled Two Factor Authentication",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "OrganizationMemberPipelineConnection",
           "description": null,
           "fields": [
@@ -10417,6 +10537,62 @@
           "interfaces": [
 
           ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "OrganizationMemberSecurityInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "twoFactorEnabled",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "passwordProtected",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "OrganizationMemberSSOInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "mode",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "OrganizationMemberSSOModeEnum",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -11765,7 +11941,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "SSOProviderStaes",
+                  "name": "SSOProviderStates",
                   "ofType": null
                 }
               },
@@ -11850,7 +12026,7 @@
         },
         {
           "kind": "ENUM",
-          "name": "SSOProviderStaes",
+          "name": "SSOProviderStates",
           "description": "All the possible states an SSO Provider can be in",
           "fields": null,
           "inputFields": null,
@@ -12737,11 +12913,6 @@
             },
             {
               "kind": "OBJECT",
-              "name": "NotificationServiceLIFX",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "NotificationServiceSlack",
               "ofType": null
             },
@@ -12964,11 +13135,6 @@
             },
             {
               "kind": "OBJECT",
-              "name": "NotificationServiceLIFX",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "NotificationServiceSlack",
               "ofType": null
             },
@@ -13054,77 +13220,6 @@
           "kind": "OBJECT",
           "name": "NotificationServiceHipchat",
           "description": "Deliver notifications to Hipchat",
-          "fields": [
-            {
-              "name": "description",
-              "description": "The description of this service",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": "The name of the service provider",
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "NotificationService",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "NotificationServiceLIFX",
-          "description": "Deliver notifications to LIFX",
           "fields": [
             {
               "name": "description",
@@ -13557,7 +13652,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "SSOProviderStaes",
+                  "name": "SSOProviderStates",
                   "ofType": null
                 }
               },
@@ -13835,7 +13930,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "SSOProviderStaes",
+                  "name": "SSOProviderStates",
                   "ofType": null
                 }
               },
@@ -14163,7 +14258,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "SSOProviderStaes",
+                  "name": "SSOProviderStates",
                   "ofType": null
                 }
               },
@@ -15884,11 +15979,6 @@
             },
             {
               "kind": "OBJECT",
-              "name": "AuthorizationLIFX",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
               "name": "AuthorizationSAML",
               "ofType": null
             }
@@ -15917,12 +16007,6 @@
             {
               "name": "BITBUCKET",
               "description": "Bitbucket Authorization",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "LIFX",
-              "description": "LIFX Authorization",
               "isDeprecated": false,
               "deprecationReason": null
             },
@@ -16363,6 +16447,20 @@
               "deprecationReason": null
             },
             {
+              "name": "recoveryCodes",
+              "description": "The recovery code batch associated with this TOTP configuration",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "RecoveryCodeBatch",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "verified",
               "description": "Whether the TOTP configuration has been verified yet",
               "args": [
@@ -16374,6 +16472,77 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RecoveryCodeBatch",
+          "description": "A batch of recovery codes",
+          "fields": [
+            {
+              "name": "active",
+              "description": "Whether the batch of recovery codes is active",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "codes",
+              "description": "The recovery codes from this batch. Codes are consumed when used, and codes will be included in this list whether consumed or not",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "id",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
                   "ofType": null
                 }
               },
@@ -18042,7 +18211,7 @@
             },
             {
               "name": "totpActivate",
-              "description": "Activate a generated TOTP configuration. Once activated, this will become the user's current TOTP configuration",
+              "description": "Activate a previously-generated TOTP configuration, and its Recovery Codes.\n\nOnce activated, both this TOTP configuration, and the associated Recovery Codes will become active for the user.\nAny previous TOTP configuration or Recovery Codes will no longer be usable.\n\nThis mutation is private, requires an escalated session, and cannot be accessed via the public GraphQL API.\n",
               "args": [
                 {
                   "name": "input",
@@ -18069,7 +18238,7 @@
             },
             {
               "name": "totpCreate",
-              "description": "Create a TOTP configuration for the current user",
+              "description": "Create a new TOTP configuration for the current user.\n\nThis will produce a TOTP configuration with an associated set of Recovery Codes. The Recovery Codes must be presented to the user prior to the TOTP's activation with `totpActivate`.\nNeither TOTP configuration nor Recovery Codes will be usable until they have been activated.\n\nThis mutation is private, requires an escalated session, and cannot be accessed via the public GraphQL API.\n",
               "args": [
                 {
                   "name": "input",
@@ -18096,7 +18265,7 @@
             },
             {
               "name": "totpDelete",
-              "description": "Delete a TOTP configuration",
+              "description": "Delete a TOTP configuration.\n\nIf a TOTP configuration was active, it will no longer be used for logging on to the user's account.\nAny Recovery Codes associated with the TOTP configuration will also no longer be usable.\n\nThis mutation is private, requires an escalated session, and cannot be accessed via the public GraphQL API.\n",
               "args": [
                 {
                   "name": "input",
@@ -18116,6 +18285,33 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "TOTPDeletePayload",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "totpRecoveryCodesRegenerate",
+              "description": "Generate a new set of Recovery Codes for a given TOTP.\n\nThe new Recovery Codes will immediately replace any existing recovery codes.\n\nThis mutation is private, requires an escalated session, and cannot be accessed via the public GraphQL API.\n",
+              "args": [
+                {
+                  "name": "input",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "TOTPRecoveryCodesRegenerateInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "TOTPRecoveryCodesRegeneratePayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -19314,31 +19510,6 @@
                 "kind": "INPUT_OBJECT",
                 "name": "OrganizationMemberSSOInput",
                 "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "OrganizationMemberSSOInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "mode",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "OrganizationMemberSSOModeEnum",
-                  "ofType": null
-                }
               },
               "defaultValue": null
             }
@@ -21889,6 +22060,104 @@
         },
         {
           "kind": "OBJECT",
+          "name": "TOTPRecoveryCodesRegeneratePayload",
+          "description": "Autogenerated return type of TOTPRecoveryCodesRegenerate",
+          "fields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "recoveryCodes",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "RecoveryCodeBatch",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "totp",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "TOTP",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "TOTPRecoveryCodesRegenerateInput",
+          "description": "Autogenerated input type of TOTPRecoveryCodesRegenerate",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "clientMutationId",
+              "description": "A unique identifier for the client performing the mutation.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "totpId",
+              "description": "The ID of the TOTP to generate the Recovery Codes for",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "TOTPDeletePayload",
           "description": "Autogenerated return type of TOTPDelete",
           "fields": [
@@ -23564,46 +23833,6 @@
           "kind": "OBJECT",
           "name": "AuthorizationGoogle",
           "description": "A Google account authorized with a Buildkite account",
-          "fields": [
-            {
-              "name": "id",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Authorization",
-              "ofType": null
-            },
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "AuthorizationLIFX",
-          "description": "A LIFX account authorized with a Buildkite account",
           "fields": [
             {
               "name": "id",

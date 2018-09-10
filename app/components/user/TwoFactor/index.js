@@ -1,6 +1,6 @@
 // @flow
 
-import React from "react";
+import * as React from "react";
 import DocumentTitle from 'react-document-title';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
 
@@ -10,6 +10,7 @@ import Icon from "../../shared/Icon";
 import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
 
+import RecoveryCodes from './RecoveryCodes';
 
 type Props = {
   viewer: {
@@ -41,6 +42,7 @@ class TwoFactorIndex extends React.PureComponent<Props> {
           </PageHeader>
 
           {this.renderCurrentStatus()}
+          <RecoveryCodes totp={this.props.viewer.totp} />
 
           <a
             className="blue hover-navy text-decoration-none hover-underline"
@@ -111,6 +113,7 @@ export default createFragmentContainer(TwoFactorIndex, {
   viewer: graphql`
     fragment TwoFactor_viewer on Viewer {
       totp {
+        ...RecoveryCodes_totp
         id
       }
     }

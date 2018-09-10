@@ -105,6 +105,7 @@
     "react-addons-shallow-compare": "15.6.2",
     "react-addons-update": "15.6.2",
     "react-confetti": "2.3.0",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-document-title": "2.0.3",
     "react-dom": "16.4.1",
     "react-intersection-observer": "^6.1.1",
