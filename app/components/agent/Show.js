@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
+import moment from 'moment';
 import styled from 'styled-components';
 import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
@@ -44,6 +45,8 @@ class AgentShow extends React.Component {
       uuid: PropTypes.string,
       name: PropTypes.string,
       connectionState: PropTypes.string,
+      disconnectedAt: PropTypes.string,
+      stoppedAt: PropTypes.string,
       job: PropTypes.object,
       permissions: PropTypes.shape({
         agentStop: PropTypes.shape({
@@ -60,7 +63,8 @@ class AgentShow extends React.Component {
   };
 
   state = {
-    stopping: false
+    stopping: false,
+    forceStopped: false
   };
 
   componentDidMount() {
@@ -282,21 +286,31 @@ class AgentShow extends React.Component {
   handleStopButtonClick = (evt) => {
     evt.preventDefault();
 
-    this.setState({ stopping: true });
+    this.setState({ stopping: true }, () => {
+      // We add a delay in case it executes so quickly that the user can't
+      // understand what just flashed past their face.
+      setTimeout(() => {
+        this.sendAgentStopMutation(true, this.handleMutationSuccess, this.handleMutationError);
+      }, 1250);
+    });
+  }
 
-    // We add a delay in case it executes so quickly that the user can't
-    // understand what just flashed past their face.
-    setTimeout(() => {
-      const mutation = new AgentStopMutation({
+  handleForceStopButtonClick = (evt) => {
+    evt.preventDefault();
+
+    this.setState({ stopping: true, forceStopped: true }, () => {
+      this.sendAgentStopMutation(false, this.handleMutationSuccess, this.handleMutationError);
+    });
+  }
+
+  sendAgentStopMutation = (graceful, onSuccess, onFailure) => {
+    Relay.Store.commitUpdate(
+      new AgentStopMutation({
         agent: this.props.agent,
-        graceful: false
-      });
-
-      Relay.Store.commitUpdate(mutation, {
-        onSuccess: this.handleMutationSuccess,
-        onFailure: this.handleMutationError
-      });
-    }, 1250);
+        graceful
+      }),
+      { onSuccess, onFailure }
+    );
   };
 
   handleMutationSuccess = () => {
@@ -350,39 +364,69 @@ class AgentShow extends React.Component {
   }
 
   renderStopRow() {
-    if (this.props.agent.connectionState !== 'connected') {
+    // if we've already got a disconnected time, bail
+    if (this.props.agent.disconnectedAt !== null) {
       return null;
     }
 
-    return permissions(this.props.agent.permissions).collect(
-      {
-        allowed: "agentStop",
-        render: (idx) => (
-          <Panel.Row key={idx}>
-            <Button
-              theme="default"
-              outline={true}
-              loading={this.state.stopping ? "Stopping…" : false}
-              onClick={this.handleStopButtonClick}
-              className="mb1"
-            >
-              Stop Agent
-            </Button>
-            {this.renderStopWarningMessage()}
-          </Panel.Row>
-        )
-      }
-    );
-  }
+    // if the user can't stop an agent, abort
+    if (!permissions(this.props.agent.permissions).isPermissionAllowed("agentStop")) {
+      return null;
+    }
 
-  renderStopWarningMessage() {
-    if (this.props.agent.job) {
+    // if the agent is not stopping, and we got this far, we can show a "stop" button
+    if (this.props.agent.connectionState !== 'stopping') {
       return (
-        <span className="dark-gray pl3">
-          The running job will be canceled.
-        </span>
+        <Panel.Row className="flex flex-wrap items-center">
+          <Button
+            theme="default"
+            outline={true}
+            loading={this.state.stopping ? "Stopping…" : false}
+            onClick={this.handleStopButtonClick}
+            className="mb1 mr3"
+          >
+            Stop Agent
+          </Button>
+          {this.props.agent.job && (
+            <span className="dark-gray">
+              The agent will stop when the running job finishes.
+            </span>
+          )}
+        </Panel.Row>
       );
     }
+
+    // if we're not currently sending a "stop" request,
+    // and we know we've sent a force stop request, show nothing
+    if (!this.state.stopping && this.state.forceStopped) {
+      return null;
+    }
+
+    // if we get this far, we have a "stoppedAt" time, and it was less than 10 seconds ago, show nothing
+    if (this.props.agent.stoppedAt && moment().diff(this.props.agent.stoppedAt, 'seconds') < 10) {
+      return null;
+    }
+
+    // finally, show a "force stop" button
+    return (
+      <Panel.Row className="flex flex-wrap items-center">
+        <Button
+          theme="error"
+          outline={true}
+          loading={this.state.stopping ? "Force Stopping…" : false}
+          onClick={this.handleForceStopButtonClick}
+          className="mb1 mr3"
+        >
+          Force Stop Agent
+        </Button>
+        <span className="dark-gray">
+          This agent has already been asked to stop gracefully.
+          {this.props.agent.job && (
+            <React.Fragment><br />If force-stopped, the running job will be canceled.</React.Fragment>
+          )}
+        </span>
+      </Panel.Row>
+    );
   }
 
   renderPublicBadge() {
