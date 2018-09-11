@@ -377,21 +377,23 @@ class AgentShow extends React.Component {
     // if the agent is not stopping, and we got this far, we can show a "stop" button
     if (this.props.agent.connectionState !== 'stopping') {
       return (
-        <Panel.Row className="flex flex-wrap items-center">
-          <Button
-            theme="default"
-            outline={true}
-            loading={this.state.stopping ? "Stopping…" : false}
-            onClick={this.handleStopButtonClick}
-            className="mb1 mr3"
-          >
-            Stop Agent
-          </Button>
-          {this.props.agent.job && (
-            <span className="dark-gray">
-              The agent will stop when the running job finishes.
-            </span>
-          )}
+        <Panel.Row>
+          <div className="flex flex-wrap items-center">
+            <Button
+              theme="default"
+              outline={true}
+              loading={this.state.stopping ? "Stopping…" : false}
+              onClick={this.handleStopButtonClick}
+              className="mb1 mr3"
+            >
+              Stop Agent
+            </Button>
+            {this.props.agent.job && (
+              <span className="dark-gray">
+                The agent will stop when the running job finishes.
+              </span>
+            )}
+          </div>
         </Panel.Row>
       );
     }
@@ -409,22 +411,24 @@ class AgentShow extends React.Component {
 
     // finally, show a "force stop" button
     return (
-      <Panel.Row className="flex flex-wrap items-center">
-        <Button
-          theme="error"
-          outline={true}
-          loading={this.state.stopping ? "Force Stopping…" : false}
-          onClick={this.handleForceStopButtonClick}
-          className="mb1 mr3"
-        >
-          Force Stop Agent
-        </Button>
-        <span className="dark-gray">
-          This agent has already been asked to stop gracefully.
-          {this.props.agent.job && (
-            <React.Fragment><br />If force-stopped, the running job will be canceled.</React.Fragment>
-          )}
-        </span>
+      <Panel.Row>
+        <div className="flex flex-wrap items-center">
+          <Button
+            theme="error"
+            outline={true}
+            loading={this.state.stopping ? "Force Stopping…" : false}
+            onClick={this.handleForceStopButtonClick}
+            className="mb1 mr3"
+          >
+            Force Stop Agent
+          </Button>
+          <span className="dark-gray">
+            This agent has already been asked to stop gracefully.
+            {this.props.agent.job && (
+              <React.Fragment><br />If force-stopped, the running job will be canceled.</React.Fragment>
+            )}
+          </span>
+        </div>
       </Panel.Row>
     );
   }
