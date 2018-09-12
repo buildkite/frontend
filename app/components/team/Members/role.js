@@ -25,11 +25,11 @@ export default class MemberRole extends React.PureComponent {
   render() {
     if (this.props.teamMemberUpdatePermission.allowed) {
       return this.renderDropdownWithChooser();
-    } else {
-      return (
-        <span className="dark-gray">{this.label(this.props.teamMember.role)}</span>
-      );
     }
+    return (
+      <span className="dark-gray">{this.label(this.props.teamMember.role)}</span>
+    );
+
   }
 
   renderDropdownWithChooser() {

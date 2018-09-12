@@ -15,13 +15,28 @@ export default class AccessLevel extends React.PureComponent {
 
   static propTypes = {
     teamPipeline: PropTypes.shape({
-      accessLevel: PropTypes.string.isRequired
+      accessLevel: PropTypes.string.isRequired,
+      permissions: PropTypes.shape({
+        teamPipelineUpdate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
+        }).isRequired
+      })
     }).isRequired,
     onAccessLevelChange: PropTypes.func.isRequired,
     saving: PropTypes.string
   };
 
   render() {
+    if (this.props.teamPipeline.permissions.teamPipelineUpdate.allowed) {
+      return this.renderDropdownWithChooser();
+    }
+    return (
+      <span className="dark-gray">{this.label(this.props.teamPipeline.accessLevel)}</span>
+    );
+
+  }
+
+  renderDropdownWithChooser() {
     const saving = this.props.saving;
     const selected = this.props.teamPipeline.accessLevel;
 

@@ -25,6 +25,9 @@ export default class Row extends React.PureComponent {
         }).isRequired
       }).isRequired,
       permissions: PropTypes.shape({
+        teamPipelineUpdate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
+        }).isRequired,
         teamPipelineDelete: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
         }).isRequired
@@ -79,9 +82,14 @@ export default class Row extends React.PureComponent {
 
     return permissions(this.props.teamPipeline.permissions).collect(
       {
-        allowed: "teamPipelineUpdate",
+        always: true,
         render: (idx) => (
-          <AccessLevel key={idx} teamPipeline={this.props.teamPipeline} onAccessLevelChange={this.handleAccessLevelChange} saving={this.state.savingNewAccessLevel} />
+          <AccessLevel
+            key={idx}
+            teamPipeline={this.props.teamPipeline}
+            onAccessLevelChange={this.handleAccessLevelChange}
+            saving={this.state.savingNewAccessLevel}
+          />
         )
       },
       {
