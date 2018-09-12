@@ -88,8 +88,7 @@ class Show extends React.PureComponent {
         )
       },
       {
-        always: "teamAdmin",
-        and: () => Features.organizationHasTeams,
+        allowed: "teamView",
         render: (idx) => (
           <TabControl.Tab
             key={idx}
@@ -118,7 +117,7 @@ export default Relay.createContainer(Show, {
         organization {
           slug
           permissions {
-            teamAdmin {
+            teamView {
               allowed
             }
           }

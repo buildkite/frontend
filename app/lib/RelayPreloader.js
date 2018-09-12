@@ -331,6 +331,16 @@ const QUERIES = {
         name
         slug
         permissions {
+          teamView {
+            allowed
+            code
+            message
+          }
+          teamEnabledChange {
+            allowed
+            code
+            message
+          }
           teamCreate {
             allowed
           }
@@ -401,10 +411,20 @@ const QUERIES = {
     query($pipeline: ID!) {
       pipeline(slug: $pipeline) {
         id
+        name
+        slug
+        organization {
+          slug
+          permissions {
+            teamView {
+              allowed
+            }
+          }
+        }
         repository {
           provider {
-            name
             __typename
+            name
           }
         }
         teams {
@@ -412,6 +432,11 @@ const QUERIES = {
         }
         schedules {
           count
+        }
+        permissions {
+          pipelineUpdate {
+            allowed
+          }
         }
       }
     }
