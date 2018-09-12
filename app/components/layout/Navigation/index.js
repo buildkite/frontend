@@ -327,16 +327,6 @@ class Navigation extends React.PureComponent<Props, State> {
     );
   }
 
-  renderGraphQLExplorerLink() {
-    if (!window.Features.GraphQLExplorer) {
-      return null;
-    }
-
-    return (
-      <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer <span className="ml1 orange small">Beta</span></NavigationButton>
-    );
-  }
-
   render() {
     return (
       <div
@@ -422,7 +412,7 @@ class Navigation extends React.PureComponent<Props, State> {
             </NavigationButton>
 
             <Dropdown
-              width={window.Features.GraphQLExplorer ? 180 : 170}
+              width={180}
               className="flex"
               style={{ flex: '0 1 auto', minWidth: 55 }}
               ref={(userDropdown) => this.userDropdown = userDropdown}
@@ -445,7 +435,7 @@ class Navigation extends React.PureComponent<Props, State> {
               </DropdownButton>
 
               <NavigationButton href="/user/settings">Personal Settings</NavigationButton>
-              {this.renderGraphQLExplorerLink()}
+              <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer <span className="ml1 orange small">Beta</span></NavigationButton>
 
               <div className="md-hide lg-hide">
                 <NavigationButton className="md-hide lg-hide" href={`/docs`}>Documentation</NavigationButton>
