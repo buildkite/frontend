@@ -27,6 +27,12 @@ class MemberNew extends React.PureComponent {
     organization: PropTypes.shape({
       name: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired,
+      permissions: PropTypes.shape({
+        organizationInvitationCreate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired,
+          message: PropTypes.string
+        }),
+      }),
       teams: PropTypes.shape({
         count: PropTypes.number.isRequired,
         edges: PropTypes.arrayOf(
@@ -74,7 +80,12 @@ class MemberNew extends React.PureComponent {
   }
 
   render() {
-    const errors = new ValidationErrors(this.state.errors);
+    let content;
+    if (this.props.organization.permissions.organizationInvitationCreate.allowed) {
+      content = this.renderForm();
+    } else {
+      content = this.renderPermissionErrorMessage();
+    }
 
     return (
       <DocumentTitle title={`Users · ${this.props.organization.name}`}>
@@ -84,45 +95,63 @@ class MemberNew extends React.PureComponent {
               Invite Users
             </PageHeader.Title>
           </PageHeader>
-          <Panel>
-            <Panel.Section>
-              <FormTextarea
-                label="Email Addresses"
-                help="This list of email addresses to invite, each one separated with a space or a new line"
-                value={this.state.emails}
-                errors={errors.findForField("emails")}
-                onChange={this.handleEmailsChange}
-                rows={3}
-                required={true}
-              />
-            </Panel.Section>
-            <Panel.Section>
-              <FormRadioGroup
-                name="role"
-                label="Role"
-                help="What type of organization-wide permissions will the invited users have?"
-                value={this.state.role}
-                onChange={this.handleAdminChange}
-                required={true}
-                options={[
-                  { label: "User", value: OrganizationMemberRoleConstants.MEMBER, help: "Can view, create and manage pipelines and builds." },
-                  { label: "Administrator", value: OrganizationMemberRoleConstants.ADMIN, help: "Can view and edit everything in the organization." }
-                ]}
-              />
-            </Panel.Section>
-            {this.renderTeamSection()}
-            {this.renderSSOSection()}
-            <Panel.Section>
-              <Button
-                onClick={this.handleCreateInvitationClick}
-                loading={this.state.inviting && 'Sending Invitations…'}
-              >
-                Send Invitations
-              </Button>
-            </Panel.Section>
-          </Panel>
+          {content}
         </div>
       </DocumentTitle>
+    );
+  }
+
+  renderForm() {
+    const errors = new ValidationErrors(this.state.errors);
+
+    return (
+      <Panel>
+        <Panel.Section>
+          <FormTextarea
+            label="Email Addresses"
+            help="This list of email addresses to invite, each one separated with a space or a new line"
+            value={this.state.emails}
+            errors={errors.findForField("emails")}
+            onChange={this.handleEmailsChange}
+            rows={3}
+            required={true}
+          />
+        </Panel.Section>
+        <Panel.Section>
+          <FormRadioGroup
+            name="role"
+            label="Role"
+            help="What type of organization-wide permissions will the invited users have?"
+            value={this.state.role}
+            onChange={this.handleAdminChange}
+            required={true}
+            options={[
+              { label: "User", value: OrganizationMemberRoleConstants.MEMBER, help: "Can view, create and manage pipelines and builds." },
+              { label: "Administrator", value: OrganizationMemberRoleConstants.ADMIN, help: "Can view and edit everything in the organization." }
+            ]}
+          />
+        </Panel.Section>
+        {this.renderTeamSection()}
+        {this.renderSSOSection()}
+        <Panel.Section>
+          <Button
+            onClick={this.handleCreateInvitationClick}
+            loading={this.state.inviting && 'Sending Invitations…'}
+          >
+            Send Invitations
+          </Button>
+        </Panel.Section>
+      </Panel>
+    );
+  }
+
+  renderPermissionErrorMessage() {
+    return (
+      <Panel>
+        <Panel.Section>
+          <p class="red">{this.props.organization.permissions.organizationInvitationCreate.message}</p>
+        </Panel.Section>
+      </Panel>
     );
   }
 
@@ -299,6 +328,12 @@ export default Relay.createContainer(MemberNew, {
       fragment on Organization {
         name
         slug
+        permissions {
+          organizationInvitationCreate {
+            allowed
+            message
+          }
+        }
         ssoProviders {
           count
         }
