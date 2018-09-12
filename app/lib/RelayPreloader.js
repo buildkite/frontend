@@ -77,6 +77,9 @@ const QUERIES = {
             hasPreviousPage
           }
         }
+        allPipelines: pipelines(team: $team) {
+          count
+        }
         pipelines(first: $pageSize, search: $pipelineFilter, team: $team, order: NAME_WITH_FAVORITES_FIRST) {
           edges {
             node {
