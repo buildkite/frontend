@@ -20,7 +20,7 @@ class Show extends React.PureComponent {
       organization: PropTypes.shape({
         slug: PropTypes.string.isRequired,
         permissions: PropTypes.shape({
-          teamAdmin: PropTypes.shape({
+          teamView: PropTypes.shape({
             allowed: PropTypes.bool.isRequired
           }).isRequired
         }).isRequired

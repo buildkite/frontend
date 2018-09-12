@@ -112,7 +112,7 @@ class Row extends React.PureComponent {
   renderActions() {
     return permissions(this.props.teamMember.permissions).collect(
       {
-        allowed: 'teamMemberUpdate',
+        always: true,
         render: () => (
           <MemberRole
             key="update"

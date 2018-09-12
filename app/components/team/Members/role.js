@@ -13,17 +13,19 @@ export default class MemberRole extends React.PureComponent {
 
   static propTypes = {
     teamMember: PropTypes.shape({
-      role: PropTypes.string.isRequired
+      role: PropTypes.string.isRequired,
+      permissions: PropTypes.shape({
+        teamMemberUpdate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
+        }).isRequired
+      })
     }).isRequired,
     onRoleChange: PropTypes.func.isRequired,
-    savingNewRole: PropTypes.string,
-    teamMemberUpdatePermission: PropTypes.shape({
-      allowed: PropTypes.bool.isRequired
-    })
+    savingNewRole: PropTypes.string
   };
 
   render() {
-    if (this.props.teamMemberUpdatePermission.allowed) {
+    if (this.props.teamMember.permissions.teamMemberUpdate.allowed) {
       return this.renderDropdownWithChooser();
     }
     return (
