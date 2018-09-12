@@ -92,27 +92,27 @@ class TeamIndex extends React.PureComponent {
     const teamEnabledChangePermission = this.props.organization.permissions.teamEnabledChange;
 
     if (!teamViewPermission.allowed) {
-      if (teamViewPermission.code == "teams_disabled") {
+      if (teamViewPermission.code === "teams_disabled") {
         if (teamEnabledChangePermission.allowed) {
           return this.renderEnableTeamsPanel();
-        } else {
-          return (
-            <Panel>
-              <Panel.Section>
-                <p className="red">{teamEnabledChangePermission.message}</p>
-              </Panel.Section>
-            </Panel>
-          );
         }
-      } else {
         return (
           <Panel>
             <Panel.Section>
-              <p className="red">{teamViewPermission.message}</p>
+              <p className="red">{teamEnabledChangePermission.message}</p>
             </Panel.Section>
           </Panel>
         );
+
       }
+      return (
+        <Panel>
+          <Panel.Section>
+            <p className="red">{teamViewPermission.message}</p>
+          </Panel.Section>
+        </Panel>
+      );
+
     }
 
     return this.renderTeamList();
