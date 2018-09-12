@@ -17,6 +17,7 @@ class TeamMemberships extends React.PureComponent {
   static propTypes = {
     organizationMember: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
+      permissions: PropTypes.object,
       teams: PropTypes.shape({
         count: PropTypes.number.isRequired,
         edges: PropTypes.arrayOf(
@@ -36,10 +37,7 @@ class TeamMemberships extends React.PureComponent {
   render() {
     return (
       <div>
-        <Chooser
-          organizationMember={this.props.organizationMember}
-          onChoose={this.handleTeamMemberAdd}
-        />
+        {this.renderTeamAddButton()}
         <Panel>
           {this.renderTeams()}
           <ShowMoreFooter
@@ -51,6 +49,17 @@ class TeamMemberships extends React.PureComponent {
         </Panel>
       </div>
     );
+  }
+
+  renderTeamAddButton() {
+    if (this.props.organizationMember.organization.permissions.teamAdmin.allowed) {
+      return (
+        <Chooser
+          organizationMember={this.props.organizationMember}
+          onChoose={this.handleTeamMemberAdd}
+        />
+      );
+    }
   }
 
   handleTeamMemberAdd = () => {
@@ -105,6 +114,13 @@ export default Relay.createContainer(TeamMemberships, {
         uuid
         user {
           id
+        }
+        organization {
+          permissions {
+            teamAdmin {
+              allowed
+            }
+          }
         }
         teams(first: $teamsPageSize, order: NAME) {
           ${ShowMoreFooter.getFragment('connection')}
