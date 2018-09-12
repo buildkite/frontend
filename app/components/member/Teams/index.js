@@ -17,7 +17,13 @@ class TeamMemberships extends React.PureComponent {
   static propTypes = {
     organizationMember: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
-      permissions: PropTypes.object,
+      organization: PropTypes.shape({
+        permissions: PropTypes.shape({
+          teamAdmin: PropTypes.shape({
+            allowed: PropTypes.bool.isRequired
+          }).isRequired
+        }).isRequired
+      }).isRequired,
       teams: PropTypes.shape({
         count: PropTypes.number.isRequired,
         edges: PropTypes.arrayOf(
