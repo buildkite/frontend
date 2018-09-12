@@ -86,7 +86,7 @@ class SettingsMenu extends React.Component {
       },
       {
         allowed: "pipelineUpdate",
-        and: Features.organizationHasTeams,
+        and: this.props.pipeline.organization.permissions.teamView.allowed,
         render: (idx) => (
           <Menu.Button
             key={idx}
@@ -144,10 +144,16 @@ export default Relay.createContainer(SettingsMenu, {
   fragments: {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
+        id
         name
         slug
         organization {
           slug
+          permissions {
+            teamView {
+              allowed
+            }
+          }
         }
         repository {
           provider {

@@ -88,60 +88,91 @@ class TeamIndex extends React.PureComponent {
   }
 
   renderContent() {
-    if (!Features.organizationHasTeams) {
-      return (
-        <div>
+    const teamViewPermission = this.props.organization.permissions.teamView;
+    const teamEnabledChangePermission = this.props.organization.permissions.teamEnabledChange;
+
+    if (!teamViewPermission.allowed) {
+      if (teamViewPermission.code === "teams_disabled") {
+        if (teamEnabledChangePermission.allowed) {
+          return this.renderEnableTeamsPanel();
+        }
+        return (
           <Panel>
-            <Panel.Section className="max-width-3">
-              <p>Creating teams inside your organisation allows you to assign permissions to pipelines and groups of users.</p>
-              <p>
-                <img
-                  src={require('./preview.png')}
-                  alt="A screenshot of the teams functionality"
-                  title="Screenshot showing a list of 4 different teams, with different users and pipelines associated to each team."
-                  className="fit"
-                />
-              </p>
-              <p>Once you’ve enabled teams, all your users and pipelines will be added to a new team called “Everyone” to maintain existing pipeline access. You can customize, rename or delete the default “Everyone” team.</p>
-              <form
-                action={`/organizations/${this.props.organization.slug}/teams/enable`}
-                acceptCharset=""
-                method="POST"
-                ref={(form) => this.form = form}
-              >
-                <input type="hidden" name="utf8" value="✓" />
-                <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
-
-                <Button
-                  onClick={this.handleEnableTeamsClick}
-                  loading={this.state.enablingTeams ? "Enabling Teams…" : false}
-                  theme="success"
-                >
-                  Enable Teams
-                </Button>
-              </form>
+            <Panel.Section>
+              <p className="red">{teamEnabledChangePermission.message}</p>
             </Panel.Section>
           </Panel>
+        );
 
-          <Panel className="mt4">
-            <Panel.Header>
-              Frequently Asked Team Questions
-            </Panel.Header>
-            <Panel.Section className="max-width-3">
-              <h3 className="mt3 h4 bold">Will users (and API tokens) still have access to their pipelines?</h3>
-              <p>When you enable Teams we’ll create a default team called ”Everyone”, containing all your users and pipelines. This ensures that users, and their API tokens, will still have access to their pipelines.</p>
-              <h3 className="mt3 h4 bold">How does Teams work with SSO?</h3>
-              <p>When a user joins the organization via SSO, they’ll be automatically added to any teams that have the “Automatically add new users to this team” setting enabled.</p>
-              <h3 className="mt3 h4 bold">Can I delete the ”Everyone” team?</h3>
-              <p>Yes you can delete or edit the ”Everyone” team. To ensure uniterrupted access to pipelines we recommend creating new teams before deleting the ”Everyone” team.</p>
-              <h3 className="mt3 h4 bold">Once enabled, can I disable Teams?</h3>
-              <p>You can disable teams by deleting all your teams, and then selecting “Disable Teams.”</p>
-            </Panel.Section>
-          </Panel>
-        </div>
+      }
+      return (
+        <Panel>
+          <Panel.Section>
+            <p className="red">{teamViewPermission.message}</p>
+          </Panel.Section>
+        </Panel>
       );
+
     }
 
+    return this.renderTeamList();
+  }
+
+  renderEnableTeamsPanel() {
+    return (
+      <div>
+        <Panel>
+          <Panel.Section className="max-width-3">
+            <p>Creating teams inside your organisation allows you to assign permissions to pipelines and groups of users.</p>
+            <p>
+              <img
+                src={require('./preview.png')}
+                alt="A screenshot of the teams functionality"
+                title="Screenshot showing a list of 4 different teams, with different users and pipelines associated to each team."
+                className="fit"
+              />
+            </p>
+            <p>Once you’ve enabled teams, all your users and pipelines will be added to a new team called “Everyone” to maintain existing pipeline access. You can customize, rename or delete the default “Everyone” team.</p>
+            <form
+              action={`/organizations/${this.props.organization.slug}/teams/enable`}
+              acceptCharset=""
+              method="POST"
+              ref={(form) => this.form = form}
+            >
+              <input type="hidden" name="utf8" value="✓" />
+              <input type="hidden" name={window._csrf.param} value={window._csrf.token} />
+
+              <Button
+                onClick={this.handleEnableTeamsClick}
+                loading={this.state.enablingTeams ? "Enabling Teams…" : false}
+                theme="success"
+              >
+                Enable Teams
+              </Button>
+            </form>
+          </Panel.Section>
+        </Panel>
+
+        <Panel className="mt4">
+          <Panel.Header>
+            Frequently Asked Team Questions
+          </Panel.Header>
+          <Panel.Section className="max-width-3">
+            <h3 className="mt3 h4 bold">Will users (and API tokens) still have access to their pipelines?</h3>
+            <p>When you enable Teams we’ll create a default team called ”Everyone”, containing all your users and pipelines. This ensures that users, and their API tokens, will still have access to their pipelines.</p>
+            <h3 className="mt3 h4 bold">How does Teams work with SSO?</h3>
+            <p>When a user joins the organization via SSO, they’ll be automatically added to any teams that have the “Automatically add new users to this team” setting enabled.</p>
+            <h3 className="mt3 h4 bold">Can I delete the ”Everyone” team?</h3>
+            <p>Yes you can delete or edit the ”Everyone” team. To ensure uniterrupted access to pipelines we recommend creating new teams before deleting the ”Everyone” team.</p>
+            <h3 className="mt3 h4 bold">Once enabled, can I disable Teams?</h3>
+            <p>You can disable teams by deleting all your teams, and then selecting “Disable Teams.”</p>
+          </Panel.Section>
+        </Panel>
+      </div>
+    );
+  }
+
+  renderTeamList() {
     return (
       <div>
         <Panel className="mb4">
@@ -270,10 +301,6 @@ class TeamIndex extends React.PureComponent {
   }
 
   renderMenu() {
-    if (!Features.organizationHasTeams) {
-      return null;
-    }
-
     return (
       <PageHeader.Menu>
         {permissions(this.props.organization.permissions).check(
@@ -362,6 +389,16 @@ export default Relay.createContainer(TeamIndex, {
         name
         slug
         permissions {
+          teamView {
+            allowed
+            code
+            message
+          }
+          teamEnabledChange {
+            allowed
+            code
+            message
+          }
           teamCreate {
             allowed
           }
