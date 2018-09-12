@@ -11452,6 +11452,20 @@
               "deprecationReason": null
             },
             {
+              "name": "organizationMemberView",
+              "description": "Whether the user can see members in the organization",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "organizationUpdate",
               "description": "Whether the user can change the organization name and related source code provider settings",
               "args": [
@@ -11552,6 +11566,34 @@
             {
               "name": "teamCreate",
               "description": "Whether the user can create teams for the organization",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "teamEnabledChange",
+              "description": "Whether the user can toggle teams on/off for the organzation",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Permission",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "teamView",
+              "description": "Whether the user can see teams in the organization",
               "args": [
 
               ],
@@ -11843,6 +11885,48 @@
               "deprecationReason": null
             },
             {
+              "name": "emailDomain",
+              "description": "An email domain whose addresses should be offered this SSO Provider during login.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "emailDomainVerificationAddress",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "emailDomainVerifiedAt",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "enabledAt",
               "description": "The time when this SSO Provider was enabled",
               "args": [
@@ -11944,6 +12028,20 @@
                   "name": "SSOProviderStates",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "testAuthorizationRequired",
+              "description": "Whether the SSO Provider requires a test authorization. If true, the provider can not yet be activated.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -13536,6 +13634,48 @@
               "deprecationReason": null
             },
             {
+              "name": "emailDomain",
+              "description": "An email domain whose addresses should be offered this SSO Provider during login.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "emailDomainVerificationAddress",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "emailDomainVerifiedAt",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "enabledAt",
               "description": "The time when this SSO Provider was enabled",
               "args": [
@@ -13655,6 +13795,20 @@
                   "name": "SSOProviderStates",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "testAuthorizationRequired",
+              "description": "Whether the SSO Provider requires a test authorization. If true, the provider can not yet be activated.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -13814,6 +13968,48 @@
               "deprecationReason": null
             },
             {
+              "name": "emailDomain",
+              "description": "An email domain whose addresses should be offered this SSO Provider during login.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "emailDomainVerificationAddress",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "emailDomainVerifiedAt",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "enabledAt",
               "description": "The time when this SSO Provider was enabled",
               "args": [
@@ -13933,6 +14129,20 @@
                   "name": "SSOProviderStates",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "testAuthorizationRequired",
+              "description": "Whether the SSO Provider requires a test authorization. If true, the provider can not yet be activated.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -14110,6 +14320,48 @@
               "deprecationReason": null
             },
             {
+              "name": "emailDomain",
+              "description": "An email domain whose addresses should be offered this SSO Provider during login.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "emailDomainVerificationAddress",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "emailDomainVerifiedAt",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "enabledAt",
               "description": "The time when this SSO Provider was enabled",
               "args": [
@@ -14261,6 +14513,20 @@
                   "name": "SSOProviderStates",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "testAuthorizationRequired",
+              "description": "Whether the SSO Provider requires a test authorization. If true, the provider can not yet be activated.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -22754,6 +23020,26 @@
               "defaultValue": null
             },
             {
+              "name": "emailDomain",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "emailDomainVerificationAddress",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
               "name": "identityProvider",
               "description": null,
               "type": {
@@ -22991,6 +23277,26 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "emailDomain",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "emailDomainVerificationAddress",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "defaultValue": null
