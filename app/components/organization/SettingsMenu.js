@@ -23,10 +23,13 @@ class SettingsMenu extends React.Component {
         organizationUpdate: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
         }).isRequired,
-        organizationInvitationCreate: PropTypes.shape({
+        organizationMemberView: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
         }).isRequired,
-        teamAdmin: PropTypes.shape({
+        teamView: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
+        }).isRequired,
+        teamEnabledChange: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
         }).isRequired,
         notificationServiceUpdate: PropTypes.shape({
@@ -79,7 +82,7 @@ class SettingsMenu extends React.Component {
         )
       },
       {
-        always: true,
+        always: "organizationMemberView",
         render: (idx) => (
           <Menu.Button
             key={idx}
@@ -91,7 +94,10 @@ class SettingsMenu extends React.Component {
         )
       },
       {
-        always: true,
+        any: [
+          "teamEnabledChange",
+          "teamView"
+        ],
         render: (idx) => (
           <Menu.Button
             key={idx}
@@ -180,7 +186,7 @@ export default Relay.createContainer(SettingsMenu, {
           organizationUpdate {
             allowed
           }
-          organizationInvitationCreate {
+          organizationMemberView {
             allowed
           }
           notificationServiceUpdate {
@@ -189,7 +195,10 @@ export default Relay.createContainer(SettingsMenu, {
           organizationBillingUpdate {
             allowed
           }
-          teamAdmin {
+          teamView {
+            allowed
+          }
+          teamEnabledChange {
             allowed
           }
           auditEventsView {
