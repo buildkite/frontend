@@ -268,7 +268,7 @@ class Navigation extends React.PureComponent<Props, State> {
         }
       },
       // The settings page will redirect to the first section the user has access
-      // to. If they _just_ have teams admin enabled, skip the redirect and go
+      // to. If they _just_ have teams view enabled, skip the redirect and go
       // straight to the teams page.
       {
         all: {
@@ -276,11 +276,11 @@ class Navigation extends React.PureComponent<Props, State> {
           organizationInvitationCreate: false,
           notificationServiceUpdate: false,
           organizationBillingUpdate: false,
-          teamAdmin: true
+          teamView: true
         },
         render: () => {
           return (
-            <NavigationButton key={3} className="py0" href={`/organizations/${organization.slug}/teams`}>Settings</NavigationButton>
+            <NavigationButton key={3} className="py0" href={`/organizations/${organization.slug}/teams`}>Teams</NavigationButton>
           );
         }
       },
@@ -503,7 +503,7 @@ export default Relay.createContainer(Navigation, {
             organizationBillingUpdate {
               allowed
             }
-            teamAdmin {
+            teamView {
               allowed
             }
           }

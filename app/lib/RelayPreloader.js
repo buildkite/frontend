@@ -182,7 +182,7 @@ const QUERIES = {
           organizationBillingUpdate {
             allowed
           }
-          teamAdmin {
+          teamView {
             allowed
           }
         }
@@ -216,7 +216,7 @@ const QUERIES = {
           organizationUpdate {
             allowed
           }
-          organizationInvitationCreate {
+          organizationMemberView {
             allowed
           }
           notificationServiceUpdate {
@@ -225,10 +225,10 @@ const QUERIES = {
           organizationBillingUpdate {
             allowed
           }
-          teamAdmin {
+          teamView {
             allowed
           }
-          teamCreate {
+          teamEnabledChange {
             allowed
           }
           auditEventsView {
