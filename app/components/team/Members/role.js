@@ -16,10 +16,23 @@ export default class MemberRole extends React.PureComponent {
       role: PropTypes.string.isRequired
     }).isRequired,
     onRoleChange: PropTypes.func.isRequired,
-    savingNewRole: PropTypes.string
+    savingNewRole: PropTypes.string,
+    teamMemberUpdatePermission: PropTypes.shape({
+      allowed: PropTypes.bool.isRequired
+    })
   };
 
   render() {
+    if (this.props.teamMemberUpdatePermission.allowed) {
+      return this.renderDropdownWithChooser();
+    }
+    return (
+      <span className="dark-gray">{this.label(this.props.teamMember.role)}</span>
+    );
+
+  }
+
+  renderDropdownWithChooser() {
     const saving = this.props.savingNewRole;
 
     return (
