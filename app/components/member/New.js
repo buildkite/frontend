@@ -31,7 +31,7 @@ class MemberNew extends React.PureComponent {
         organizationInvitationCreate: PropTypes.shape({
           allowed: PropTypes.bool.isRequired,
           message: PropTypes.string
-        }),
+        })
       }),
       teams: PropTypes.shape({
         count: PropTypes.number.isRequired,
@@ -149,7 +149,7 @@ class MemberNew extends React.PureComponent {
     return (
       <Panel>
         <Panel.Section>
-          <p class="red">{this.props.organization.permissions.organizationInvitationCreate.message}</p>
+          <p className="red">{this.props.organization.permissions.organizationInvitationCreate.message}</p>
         </Panel.Section>
       </Panel>
     );

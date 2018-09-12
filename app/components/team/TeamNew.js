@@ -21,8 +21,8 @@ class TeamNew extends React.Component {
         teamCreate: PropTypes.shape({
           allowed: PropTypes.bool.isRequired,
           message: PropTypes.string
-        }),
-      }),
+        })
+      })
     }).isRequired,
     relay: PropTypes.object.isRequired
   };
@@ -81,7 +81,7 @@ class TeamNew extends React.Component {
     return (
       <Panel>
         <Panel.Section>
-          <p class="red">{this.props.organization.permissions.teamCreate.message}</p>
+          <p className="red">{this.props.organization.permissions.teamCreate.message}</p>
         </Panel.Section>
       </Panel>
     );
