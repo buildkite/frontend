@@ -7945,9 +7945,9 @@ react-dom@16.5.0:
     prop-types "^15.6.2"
     schedule "^0.3.0"
 
-react-intersection-observer@6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-6.1.1.tgz#109ab1ce648e993279eb29fe88914195fe814d44"
+react-intersection-observer@6.2.2:
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-6.2.2.tgz#b88a83d5317842a4c9f7992428468dbadcfe0ef7"
   dependencies:
     invariant "^2.2.4"
 
