@@ -56,7 +56,7 @@
     "postcss-easings": "1.0.1",
     "postcss-import": "11.1.0",
     "postcss-loader": "2.1.6",
-    "postcss-reporter": "5.0.0",
+    "postcss-reporter": "6.0.0",
     "react-test-renderer": "16.5.0",
     "react-transform-hmr": "1.0.4",
     "react-type-snob": "0.0.3",
