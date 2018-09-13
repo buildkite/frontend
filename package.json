@@ -22,7 +22,7 @@
   "devDependencies": {
     "assets-webpack-plugin": "3.9.6",
     "babel-core": "6.26.0",
-    "babel-eslint": "8.2.1",
+    "babel-eslint": "8.2.6",
     "babel-loader": "7.1.5",
     "babel-plugin-react-pure-components": "2.2.2",
     "babel-plugin-react-transform": "3.0.0",
