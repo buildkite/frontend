@@ -173,7 +173,7 @@ rules:
   react/no-array-index-key: warn
   react/no-danger: off
   react/no-danger-with-children: error
-  react/no-deprecated: error
+  react/no-deprecated: warn
   react/no-did-mount-set-state: error
   react/no-did-update-set-state: error
   react/no-direct-mutation-state: error
