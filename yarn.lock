@@ -168,10 +168,6 @@ ajv-errors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ajv-errors/-/ajv-errors-1.0.0.tgz#ecf021fa108fd17dfb5e6b383f2dd233e31ffc59"
 
-ajv-errors@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ajv-errors/-/ajv-errors-1.0.0.tgz#ecf021fa108fd17dfb5e6b383f2dd233e31ffc59"
-
 ajv-keywords@^3.0.0, ajv-keywords@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-3.2.0.tgz#e86b819c602cf8821ad637413698f1dec021847a"
@@ -7385,11 +7381,11 @@ postcss-discard-unused@^2.2.1:
     postcss "^5.0.14"
     uniqs "^2.0.0"
 
-postcss-easings@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/postcss-easings/-/postcss-easings-1.0.1.tgz#a7b9ebddabe5f8589e245256bd565408ea3366c3"
+postcss-easings@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-easings/-/postcss-easings-2.0.0.tgz#79bde7ce71c838ef7371a59d293e08b337b1802b"
   dependencies:
-    postcss "^6.0.14"
+    postcss "^7.0.2"
     postcss-value-parser "^3.3.0"
 
 postcss-filter-plugins@^2.0.0:
@@ -7684,7 +7680,7 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-postcss@7.0.2, postcss@^7.0.1, postcss@^7.0.2:
+postcss@7.0.2, postcss@^7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.2.tgz#7b5a109de356804e27f95a960bef0e4d5bc9bb18"
   dependencies:
