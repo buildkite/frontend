@@ -63,53 +63,6 @@ var plugins = [
   new MiniCssExtractPlugin("[name]-[contenthash].css")
 ];
 
-var vendor_modules = [
-  "autosize",
-  "babel-polyfill",
-  "bugsnag-js",
-  "bugsnag-react",
-  "buffer-crc32",
-  "classnames",
-  "create-react-class",
-  "credit-card-type",
-  "decode-uri-component",
-  "deepmerge",
-  "es6-error",
-  "escape-html",
-  "eventemitter3",
-  "fetch-jsonp",
-  "global",
-  "graphql",
-  "graphql-relay",
-  "history",
-  "metrick",
-  "mojibaka",
-  "moment",
-  "moment-duration-format",
-  "object-assign",
-  "pusher-js",
-  "query-string",
-  "react",
-  "react-addons-pure-render-mixin",
-  "react-addons-shallow-compare",
-  "react-addons-update",
-  "react-confetti",
-  "react-document-title",
-  "react-dom",
-  "react-relay",
-  "react-relay/classic",
-  "react-relay/compat",
-  "react-router",
-  "react-router-relay",
-  "react-transition-group",
-  "search-query-parser",
-  "shuffle-array",
-  "styled-components",
-  "throttleit",
-  "uuid",
-  "whatwg-fetch"
-];
-
 // If we're building for production, minify the JS
 if (IS_PRODUCTION) {
   // Don't pack react-type-snob in production
@@ -133,8 +86,6 @@ module.exports = {
   },
 
   entry: {
-    vendor: vendor_modules,
-    emojis: [path.join(__dirname, '../app/emoji/buildkite.js'), path.join(__dirname, '../app/emoji/apple.js')],
     app: path.join(__dirname, '../app/app.js'),
     public: path.join(__dirname, '../app/public.js')
   },
