@@ -36,7 +36,7 @@
     "css-loader": "0.28.11",
     "css-variables-loader": "2.0.2",
     "eslint": "5.5.0",
-    "eslint-plugin-babel": "5.1.0",
+    "eslint-plugin-babel": "5.2.0",
     "eslint-plugin-flowtype": "2.50.0",
     "eslint-plugin-import": "2.13.0",
     "eslint-plugin-react": "7.7.0",
