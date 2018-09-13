@@ -39,13 +39,6 @@
 
 @import 'codemirror';
 
-/* Fix broken BassCSS negative margins                      *
- * (waiting on https://github.com/basscss/basscss/pull/250) */
-.mxn1 { margin-left: calc(var(--space-1) * -1); margin-right: calc(var(--space-1) * -1); }
-.mxn2 { margin-left: calc(var(--space-2) * -1); margin-right: calc(var(--space-2) * -1); }
-.mxn3 { margin-left: calc(var(--space-3) * -1); margin-right: calc(var(--space-3) * -1); }
-.mxn4 { margin-left: calc(var(--space-4) * -1); margin-right: calc(var(--space-4) * -1); }
-
 :root {
   --black:  #111111;
   --gray: #DDDDDD;
