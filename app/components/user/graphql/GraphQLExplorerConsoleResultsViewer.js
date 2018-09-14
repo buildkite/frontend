@@ -28,8 +28,8 @@ type ReactLoadableLoadingProps = {
 };
 
 class GraphQLExplorerConsoleResultsViewer extends React.PureComponent<Props & LoadedProps> {
-  codeMirrorInstance: ?CodeMirrorInstance
-  resultsElement: ?HTMLDivElement
+  codeMirrorInstance: ?CodeMirrorInstance;
+  resultsElement: ?HTMLDivElement;
 
   componentDidMount() {
     if (this.resultsElement) {
@@ -49,10 +49,8 @@ class GraphQLExplorerConsoleResultsViewer extends React.PureComponent<Props & Lo
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.results !== prevProps.results) {
-      if (this.codeMirrorInstance) {
-        this.codeMirrorInstance.setValue(this.props.results);
-      }
+    if (this.codeMirrorInstance && this.props.results !== prevProps.results) {
+      this.codeMirrorInstance.setValue(this.props.results);
     }
   }
 
