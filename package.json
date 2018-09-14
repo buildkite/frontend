@@ -17,7 +17,6 @@
     "lint-and-fix": "eslint --fix --color .",
     "build": "NODE_ENV=development webpack --config webpack/config.js --progress --bail --cache",
     "build-production": "NODE_ENV=production webpack --config webpack/config.js --progress --bail",
-    "bundle-analyze": "NODE_ENV=production COLLECT_BUNDLE_STATS=true webpack --config webpack/config.js --bail --profile && webpack-bundle-analyzer bundle-analysis/stats.json dist --no-open --mode static -r bundle-analysis/bundle-analyzer-report.html",
     "webpack-dev-server": "NODE_ENV=development webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --host buildkite.localhost --port 4890"
   },
   "devDependencies": {
@@ -63,7 +62,6 @@
     "react-type-snob": "0.0.3",
     "relay-compiler": "1.4.1",
     "relay-compiler-webpack-plugin": "0.11.0",
-    "stats-webpack-plugin": "0.7.0",
     "style-loader": "0.23.1",
     "url-loader": "1.1.1",
     "webpack": "4.18.1",
