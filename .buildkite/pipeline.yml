@@ -35,16 +35,11 @@ steps:
       docker-compose#v2.5.1:
         run: frontend
 
-  - name: ":package::mag:"
-    command: ".buildkite/steps/bundle-analyze.sh"
-    artifact_paths: "bundle-analysis/*"
-    plugins:
-      docker-compose#v2.5.1:
-        run: frontend
-
   - name: ":webpack:"
     command: ".buildkite/steps/webpack.sh"
-    artifact_paths: "dist/*"
+    artifact_paths:
+      - "bundle-analysis/*"
+      - "dist/*"
     plugins:
       docker-compose#v2.5.1:
         run: frontend

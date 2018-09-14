@@ -72,9 +72,14 @@ if (IS_PRODUCTION) {
   plugins.push(new webpack.IgnorePlugin(/^react-type-snob$/));
 }
 
-if (process.env.COLLECT_BUNDLE_STATS === 'true') {
-  var StatsPlugin = require('stats-webpack-plugin');
-  plugins.push(new StatsPlugin('../bundle-analysis/stats.json'));
+if (process.env.GENERATE_BUNDLE_REPORT === 'true') {
+  const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+  plugins.push(new BundleAnalyzerPlugin({
+    analyzerMode: 'static',
+    reportFilename: '../bundle-analysis/bundle-analyzer-report.html',
+    openAnalyzer: false
+  }));
 }
 
 module.exports = {
