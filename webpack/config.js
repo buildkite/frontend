@@ -141,9 +141,14 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          {
-            loader: IS_PRODUCTION ? MiniCssExtractPlugin.loader : 'style-loader'
-          },
+          (IS_PRODUCTION
+            ? { loader: MiniCssExtractPlugin.loader }
+            : {
+              loader: 'style-loader',
+              options: {
+                singleton: true
+              }
+            }),
           {
             loader: 'css-loader',
             options: {
