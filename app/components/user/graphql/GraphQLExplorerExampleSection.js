@@ -102,6 +102,7 @@ class GraphQLExplorerExampleSection extends React.PureComponent<Props & LoadedPr
 // Instead of exporting the viewer directly, we'll export a `Loadable`
 // Component that will allow us to load in dependencies and render the editor
 // until then.
+/* eslint-disable react/prop-types */
 export default Loadable.Map({
   loader: {
     CodeMirror: () => (
