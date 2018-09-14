@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const AssetsPlugin = require('assets-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const RelayCompilerPlugin = require('relay-compiler-webpack-plugin');
 
 // Ensure a FRONTEND_HOST is setup since we embed it in the assets.json file
@@ -32,8 +32,8 @@ const IS_PRODUCTION = (process.env.NODE_ENV === "production");
 // Also, if we used hashes in development, we'd be forever filling up our dist
 // folder with every hashed version of files we've changed (webpack doesn't
 // clean up after itself)
-const filenameFormat = IS_PRODUCTION ? "[name]-[chunkhash]" : "[name]";
-const chunkFilenameFormat = IS_PRODUCTION ? "[chunkhash].chunk" : "[name].chunk";
+const filenameFormat = IS_PRODUCTION ? "[name]-[chunkhash].js" : "[name].js";
+const chunkFilenameFormat = IS_PRODUCTION ? "[chunkhash].chunk.js" : "[name].chunk.js";
 
 // Toggle between the devtool if on prod/dev since inline-cheap-source-map
 // is way faster for development.
@@ -60,10 +60,7 @@ var plugins = [
   // Ensures only moments "en" package is included (saves 200kb in final compilation)
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
 
-  new MiniCssExtractPlugin({
-    filename: `${filenameFormat}.css`,
-    chunkFilename: `${chunkFilenameFormat}.css`
-  })
+  new ExtractTextPlugin("[name]-[chunkhash].css")
 ];
 
 // If we're building for production, minify the JS
@@ -94,8 +91,8 @@ module.exports = {
   },
 
   output: {
-    filename: `${filenameFormat}.js`,
-    chunkFilename: `${chunkFilenameFormat}.js`,
+    filename: filenameFormat,
+    chunkFilename: chunkFilenameFormat,
     path: path.join(__dirname, '..', 'dist'),
     publicPath: process.env.FRONTEND_HOST
   },
@@ -103,13 +100,6 @@ module.exports = {
   optimization: {
     splitChunks: {
       cacheGroups: {
-        styles: {
-          name: 'app-styles',
-          test: /\.css$/,
-          chunks: 'initial',
-          enforce: true
-        },
-
         vendor: {
           name: 'vendor',
           test: /[\\/]node_modules[\\/]/,
@@ -140,33 +130,34 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [
-          {
-            loader: IS_PRODUCTION ? MiniCssExtractPlugin.loader : 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              minimize: IS_PRODUCTION,
-              sourceMap: !IS_PRODUCTION
-            }
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: function() {
-                return [
-                  require("postcss-import")(),
-                  require("postcss-cssnext")({ features: { rem: false } }),
-                  require('postcss-easings')(),
-                  require("postcss-browser-reporter")(),
-                  require("postcss-reporter")()
-                ];
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          filename: filenameFormat,
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: IS_PRODUCTION,
+                sourceMap: !IS_PRODUCTION
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                ident: 'postcss',
+                plugins: function() {
+                  return [
+                    require("postcss-import")(),
+                    require("postcss-cssnext")({ features: { rem: false } }),
+                    require('postcss-easings')(),
+                    require("postcss-browser-reporter")(),
+                    require("postcss-reporter")()
+                  ];
+                }
               }
             }
-          }
-        ]
+          ]
+        })
       },
       {
         test: /\.js$/i,
