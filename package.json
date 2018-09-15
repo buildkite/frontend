@@ -17,6 +17,7 @@
     "lint-and-fix": "eslint --fix --color .",
     "build": "NODE_ENV=development webpack --config webpack/config.js --progress --bail --cache",
     "build-production": "NODE_ENV=production webpack --config webpack/config.js --progress --bail",
+    "bundle-analyze": "COLLECT_BUNDLE_STATS=true yarn run build-production",
     "webpack-dev-server": "NODE_ENV=development webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --host buildkite.localhost --port 4890"
   },
   "devDependencies": {
