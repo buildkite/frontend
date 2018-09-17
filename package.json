@@ -93,7 +93,7 @@
     "metrick": "0.2.0",
     "mojibaka": "1.0.2",
     "moment": "2.22.2",
-    "moment-duration-format": "https://github.com/ticky/moment-duration-format.git#951b8be1d1b0424824363aa912cbf066546bf384",
+    "moment-duration-format": "https://github.com/ticky/moment-duration-format.git#0d6cfe1094a74f02038237bce19c4cf1d79bada3",
     "object-assign": "4.1.1",
     "prop-types": "15.6.2",
     "pusher-js": "4.3.1",
