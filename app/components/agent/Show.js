@@ -207,9 +207,9 @@ class AgentShow extends React.Component {
       ));
     } else if (agent.connectionState === 'stopped' || agent.connectionState === 'stopping') {
       extras.push(this.renderExtraItem(
-        'Stopped',
+        'Stopped By',
         <span>
-          <FriendlyTime value={agent.stoppedAt} /> by {agent.stoppedBy.name}
+          {agent.stoppedBy.name} <FriendlyTime value={agent.stoppedAt} capitalized={false} />
         </span>
       ));
 
