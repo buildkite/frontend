@@ -218,11 +218,6 @@ class AgentShow extends React.Component {
           'Disconnected',
           <FriendlyTime value={agent.disconnectedAt} />
         ));
-      } else {
-        extras.push(this.renderExtraItem(
-          'Disconnected',
-          '-'
-        ));
       }
     }
 
