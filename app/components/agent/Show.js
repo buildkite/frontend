@@ -116,9 +116,9 @@ class AgentShow extends React.Component {
     );
   }
 
-  renderExtraItem(title, content) {
+  renderExtraItem(title, content, options) {
     return (
-      <tr key={title} style={{ marginTop: 3 }} className="border-gray border-bottom flex-wrap">
+      <tr key={title} style={{ marginTop: 3 }} className={`${(!options || options.borderBottom !== false) && 'border-gray border-bottom'} flex-wrap`}>
         <th className="h4 p2 semi-bold left-align align-top" width={120}>{title}</th>
         <td className="h4 p2" style={{ flexGrow: 1 }}>{content}</td>
       </tr>
@@ -234,8 +234,9 @@ class AgentShow extends React.Component {
       });
     }
     extras.push(this.renderExtraItem(
-      'Meta-data',
-      <pre className="black bg-silver rounded border border-gray p2 m0 mb1 monospace" style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{metaDataContent}</pre>
+      'Tags',
+      <pre className="black bg-silver rounded border border-gray p2 m0 mb1 monospace" style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{metaDataContent}</pre>,
+      { borderBottom: false }
     ));
 
     return (
@@ -350,10 +351,12 @@ class AgentShow extends React.Component {
 
             <Panel.Row key="info">
               {this.renderExtras(agent)}
-              <p>
-                You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
-                See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/queues">Agent Queues Documentation</a> for more details.
-              </p>
+              {(this.props.agent.connectionState === 'connected' || this.props.agent.connectionState === 'stopping') &&
+                <p className="m0">
+                  You can use the agent’s tags to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
+                  See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/v3/cli-start">Agent Tags and Queue Documentation</a> for more details.
+                </p>
+              }
             </Panel.Row>
 
             {this.renderStopRow()}
