@@ -184,13 +184,15 @@ class AgentShow extends React.Component {
     if (agent.connectedAt) {
       extras.push(this.renderExtraItem(
         'Connected',
-        <span>
-          <FriendlyTime value={agent.connectedAt} />
-          {agent.pingedAt && agent.connectionState === 'connected' &&
-            <span> (last check-in was <FriendlyTime value={agent.pingedAt} capitalized={false} />)</span>
-          }
-        </span>
+        <FriendlyTime value={agent.connectedAt} />
       ));
+
+      if (agent.pingedAt) {
+        extras.push(this.renderExtraItem(
+          'Last Ping',
+          <FriendlyTime value={agent.pingedAt} />
+        ));
+      }
     }
 
     if (agent.connectionState === 'disconnected') {
