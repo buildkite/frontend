@@ -76,7 +76,7 @@
     "bugsnag-js": "4.7.3",
     "bugsnag-react": "1.1.1",
     "classnames": "2.2.6",
-    "codemirror": "5.40.0",
+    "codemirror": "5.40.2",
     "codemirror-graphql": "0.6.12",
     "create-react-class": "15.6.3",
     "credit-card-type": "7.1.0",
