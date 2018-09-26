@@ -36,6 +36,7 @@ type State = {
   generatedTOTP: boolean,
   copiedRecoveryCodes: boolean,
   copiedProvisioningUri: boolean,
+  loading: boolean,
   confirmedRecoveryCodes: boolean,
   activatingTOTP: boolean,
   activatedTOTP: boolean,
@@ -102,6 +103,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     generatedTOTP: false,
     copiedRecoveryCodes: false,
     copiedProvisioningUri: false,
+    loading: false,
     confirmedRecoveryCodes: false,
     activatingTOTP: false,
     activatedTOTP: false,
@@ -222,7 +224,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
               <Button
                 theme="default"
                 outline={true}
-                loading={this.state.sharing && "Getting Provisioning URI"}
+                loading={this.state.loading && "Getting Provisioning URI"}
               >
                 Extremely cool button
               </Button>
