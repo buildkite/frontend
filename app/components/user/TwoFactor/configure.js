@@ -44,8 +44,7 @@ type State = {
   recoveryCodes: ?{
     codes: Array<string>
   },
-  totpToken: string,
-  shareDropdownComponent: ?Dropdown
+  totpToken: string
 };
 
 type TOTPCreateReturnType = {
@@ -219,7 +218,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
 
             <p>To {this.props.viewer.totp ? 'reconfigure' : 'activate'} two-factor authentication, scan this QR Code with your authenticator application.</p>
 
-            <Dropdown width={320} ref={(component) => this.shareDropdownComponent = component}>
+            <Dropdown width={320}>
               <Button
                 theme="default"
                 outline={true}
