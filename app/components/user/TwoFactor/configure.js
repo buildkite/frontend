@@ -229,21 +229,21 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
               </Button>
               <div className="mx3 my2">
                 <p className="mt2">
-                  If you can't use a barcode scanner, copy this instead!
+                  If you cannot use a barcode scanner, copy this instead!
                 </p>
                 <CopyToClipboard
-                text={this.state.provisioningUri}
-                onCopy={this.handleProvisioningUriCopy}
+                  text={this.state.provisioningUri}
+                  onCopy={this.handleProvisioningUriCopy}
                 >
-                <Button
-                  className="col-12"
-                  theme="success"
-                  outline={this.state.copiedProvisioningUri}
-                >
-                  {this.state.copiedProvisioningUri
-                    ? 'Copied'
-                    : 'Copy' }
-                </Button>
+                  <Button
+                    className="col-12"
+                    theme="success"
+                    outline={this.state.copiedProvisioningUri}
+                  >
+                    {this.state.copiedProvisioningUri
+                      ? 'Copied'
+                      : 'Copy' }
+                  </Button>
                 </CopyToClipboard>
               </div>
             </Dropdown>
