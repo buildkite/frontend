@@ -10,6 +10,7 @@ import GraphQLErrors from '../../../constants/GraphQLErrors';
 import ValidationErrors from '../../../lib/ValidationErrors';
 
 import Button from '../../shared/Button';
+import Dropdown from "../../shared/Dropdown";
 import FormTextField from '../../shared/FormTextField';
 import PageHeader from "../../shared/PageHeader";
 import Panel from '../../shared/Panel';
@@ -217,6 +218,35 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
 
             <p>To {this.props.viewer.totp ? 'reconfigure' : 'activate'} two-factor authentication, scan this QR Code with your authenticator application.</p>
 
+            <Dropdown width={320} ref={(component) => this.shareDropdownComponent = component}>
+              <Button
+                theme="default"
+                outline={true}
+                loading={this.state.sharing && "Getting Provisioning URI"}
+              >
+                Extremely cool button
+              </Button>
+              <div className="mx3 my2">
+                <p className="mt2">
+                  If you can't use a barcode scanner, copy this instead!
+                </p>
+                <CopyToClipboard
+                text={this.state.provisioningUri}
+                onCopy={this.handleProvisioningUriCopy}
+                >
+                <Button
+                  className="col-12"
+                  theme="success"
+                  outline={this.state.copiedProvisioningUri}
+                >
+                  {this.state.copiedProvisioningUri
+                    ? 'Copied'
+                    : 'Copy' }
+                </Button>
+                </CopyToClipboard>
+              </div>
+            </Dropdown>
+
             <QRCode
               renderAs="svg"
               fgColor="currentColor"
@@ -229,22 +259,6 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
               }}
               value={this.state.provisioningUri}
             />
-            <Panel.Section>
-              <CopyToClipboard
-                text={this.state.provisioningUri}
-                onCopy={this.handleProvisioningUriCopy}
-              >
-                <Button
-                  className="col-12"
-                  theme="success"
-                  outline={this.state.copiedProvisioningUri}
-                >
-                  {this.state.copiedProvisioningUri
-                    ? 'Copied Provisioning URI'
-                    : 'If you can\'t use a barcode scanner, copy this instead!' }
-                </Button>
-              </CopyToClipboard>
-            </Panel.Section>
 
             <p>If you need an authenticator application, some good options include {AUTHENTICATOR_LIST}.</p>
           </Panel.Section>
