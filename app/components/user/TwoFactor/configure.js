@@ -227,6 +227,22 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
               }}
               value={this.state.provisioningUri}
             />
+            <Panel.Section>
+              <CopyToClipboard
+                text={this.state.provisioningUri}
+                onCopy={this.handleProvisioningUriCopy}
+              >
+                <Button
+                  className="col-12"
+                  theme="success"
+                  outline={this.state.copiedProvisioningUri}
+                >
+                  {this.state.copiedProvisioningUri
+                    ? 'Copied Provisioning URI'
+                    : 'If you can\'t use a barcode scanner, copy this instead!' }
+                </Button>
+              </CopyToClipboard>
+            </Panel.Section>
 
             <p>If you need an authenticator application, some good options include {AUTHENTICATOR_LIST}.</p>
           </Panel.Section>
@@ -317,6 +333,15 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     }
 
     this.setState({ copiedRecoveryCodes: true });
+  };
+
+  handleProvisioningUriCopy = (_text, result) => {
+    if (!result) {
+      alert('We couldnʼt put this on your clipboard for you, please copy it manually!');
+      return;
+    }
+
+    this.setState({ copiedProvisioningUri: true });
   };
 
   handleContinueClick = () => {
