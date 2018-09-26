@@ -44,7 +44,8 @@ type State = {
   recoveryCodes: ?{
     codes: Array<string>
   },
-  totpToken: string
+  totpToken: string,
+  shareDropdownComponent: ?Dropdown
 };
 
 type TOTPCreateReturnType = {
