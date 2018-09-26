@@ -850,14 +850,13 @@ babel-plugin-react-transform@^2.0.2:
   dependencies:
     lodash "^4.6.1"
 
-babel-plugin-relay@1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-relay/-/babel-plugin-relay-1.4.1.tgz#8ac562bcb1fd2b3565d271aaced32be42c827353"
-  integrity sha512-ER7HmXOz60zyLnh4yGvfP2UhsHyOPIIGmu+rE27IKzVdXhua+RXeS6462WuRod86u4EASJsfmbHRlqWy2GegwA==
+babel-plugin-relay@1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-relay/-/babel-plugin-relay-1.6.2.tgz#f47f534ecbb04ac167b139b54d50c5d39d7e520c"
+  integrity sha512-24qKA/u1qqCdXRL6Lekq5CORuvQo72jagborYfeEquK/mfuADTek4yXqyzqGUsuY8grCSTrP9I9j/B6ERd8gfw==
   dependencies:
     babel-runtime "^6.23.0"
     babel-types "^6.24.1"
-    graphql "^0.11.3"
 
 babel-plugin-syntax-async-functions@^6.8.0:
   version "6.13.0"

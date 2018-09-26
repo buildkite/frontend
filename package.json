@@ -26,7 +26,7 @@
     "babel-loader": "7.1.5",
     "babel-plugin-react-pure-components": "2.2.2",
     "babel-plugin-react-transform": "3.0.0",
-    "babel-plugin-relay": "1.4.1",
+    "babel-plugin-relay": "1.6.2",
     "babel-polyfill": "6.26.0",
     "babel-preset-env": "1.7.0",
     "babel-preset-flow": "6.23.0",
