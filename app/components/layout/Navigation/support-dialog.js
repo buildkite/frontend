@@ -17,7 +17,8 @@ const PEOPLE = [
   { image: "sj26", name: "Sam Cochran", backgroundColor: "rgb(179,166,187)" },
   { image: "toolmantim", name: "Tim Lucas", backgroundColor: "rgb(129,188,228)" },
   { image: "lox", name: "Lachlan Donald", backgroundColor: "rgb(149,149,143)" },
-  { image: "eleanor", name: "Eleanor Kiefel Haggerty", backgroundColor: "rgb(153,153,255)" }
+  { image: "eleanor", name: "Eleanor Kiefel Haggerty", backgroundColor: "rgb(153,153,255)" },
+  { image: "matthew", name: "Matthew Draper", backgroundColor: "rgb(173,196,235)" }
 ];
 
 const wave = keyframes`
@@ -60,7 +61,7 @@ class SupportDialog extends React.PureComponent {
 
   render() {
     return (
-      <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose}>
+      <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose} width={650}>
         <div className="center" style={{ padding: "10% 2%" }}>
           {/* fyi the h1 class here is only necessary so this doesn't break on Bootstrap pages */}
           <h1 className="bold h1 mt0 mt2 mb4">
