@@ -25,3 +25,6 @@ __generated__
 
 # Storybook
 storybook-static
+
+# Generated sketch files
+buildkite-frontend.asketch.json
