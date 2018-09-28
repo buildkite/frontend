@@ -22,3 +22,6 @@ bundle-analysis
 
 # Babel generated files (from relay-compiler)
 __generated__
+
+# Storybook
+storybook-static
