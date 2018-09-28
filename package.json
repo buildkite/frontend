@@ -143,10 +143,5 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ]
-  },
-  "story2sketch": {
-    "stories": "all",
-    "url": "http://localhost:6006/iframe.html",
-    "output": "buildkite-frontend.asketch.json"
   }
 }

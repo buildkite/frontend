@@ -21,7 +21,7 @@ const Section = function(props) {
 Section.propTypes = { title: PropTypes.string, children: PropTypes.node };
 
 storiesOf('Typography', module)
-  .add('Style Guide', () => (
+  .add('Styles', () => (
     <div>
       <h1 className="h1 bold">Typography</h1>
 
