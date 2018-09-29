@@ -3,7 +3,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import FormYAMLEditorField from '../app/components/shared/FormYAMLEditorField';
+import FormYAMLEditorField from '../../app/components/shared/FormYAMLEditorField';
 
 const exampleYaml = `steps:
   - label: ':yarn:'
@@ -14,6 +14,6 @@ const exampleYaml = `steps:
   - trigger: 'deploy'`;
 
 storiesOf('FormatYAMLEditorField', module)
-  .add('Test', () => (
+  .add('Index', () => (
     <FormYAMLEditorField name="yaml" value={exampleYaml} />
   ));
