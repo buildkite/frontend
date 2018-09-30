@@ -1,4 +1,8 @@
 module.exports = {
+  viewports: {
+    Desktop: '1024x768',
+    Mobile: '320x568'
+  },
   symbolLayerMiddleware: (args) => {
     const { layer, SVG, RESIZING_CONSTRAINTS } = args;
 
@@ -8,4 +12,8 @@ module.exports = {
       layer.setResizingConstraint(RESIZING_CONSTRAINTS.LEFT, RESIZING_CONSTRAINTS.TOP);
     }
   }
+  // symbolMiddleware: (args) => {
+  //   const { symbol, node, suffix, RESIZING_CONSTRAINTS } = args;
+  //   // TODO: Be smarter about setting resizing for certain symbols
+  // }
 };
