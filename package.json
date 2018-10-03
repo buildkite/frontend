@@ -81,7 +81,7 @@
     "codemirror-graphql": "0.6.12",
     "create-react-class": "15.6.3",
     "credit-card-type": "7.1.0",
-    "deepmerge": "2.1.1",
+    "deepmerge": "2.2.1",
     "es6-error": "4.1.1",
     "escape-html": "1.0.3",
     "eventemitter3": "3.1.0",
