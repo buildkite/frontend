@@ -1,41 +1,25 @@
 // @flow
 
-import React from 'react';
-import Loadable from 'react-loadable';
+import React from "react";
 import PropTypes from 'prop-types';
 
 import Button from "../../shared/Button";
 import { interpolateQuery } from "./query";
 import consoleState from "./consoleState";
 
-type CodeMirrorInstance = {
-  showHint: ({}) => void,
-  on: (string, (any) => void) => mixed,
-  off: (string, (any) => void) => mixed,
-  getValue: () => string,
-  setValue: (?string) => void,
-  execCommand: (string) => void
-};
+import CodeMirror from './codemirror';
 
 type Props = {
   query: string,
   organization: ?Object
 };
 
-type LoadedProps = {
-  CodeMirror: (HTMLDivElement, {}) => CodeMirrorInstance
-};
-
-type ReactLoadableLoadingProps = {
-  error?: string
-};
-
-class GraphQLExplorerExampleSection extends React.PureComponent<Props & LoadedProps> {
+class GraphQLExplorerExampleSection extends React.PureComponent<Props> {
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
 
-  codeMirrorInstance: ?CodeMirrorInstance;
+  editor: CodeMirror;
   exampleQueryContainerElement: ?HTMLDivElement;
 
   getInterpolatedQuery() {
@@ -48,27 +32,25 @@ class GraphQLExplorerExampleSection extends React.PureComponent<Props & LoadedPr
   }
 
   componentDidMount() {
-    if (this.exampleQueryContainerElement) {
-      this.codeMirrorInstance = this.props.CodeMirror(this.exampleQueryContainerElement, {
-        value: this.getInterpolatedQuery(),
-        mode: "graphql",
-        theme: "graphql",
-        readOnly: true
-      });
-    }
+    this.editor = CodeMirror(this.exampleQueryContainerElement, {
+      value: this.getInterpolatedQuery(),
+      mode: "graphql",
+      theme: "graphql",
+      readOnly: true
+    });
   }
 
   componentWillUnmount() {
-    if (this.codeMirrorInstance) {
-      this.codeMirrorInstance = null;
+    if (this.editor) {
+      this.editor = null;
     }
   }
 
   componentDidUpdate(prevProps: { organization: ?Object }) {
     // If the organization changes, we'll need to re-interpolate the query as
     // the variables inside it will probably have changed.
-    if (this.codeMirrorInstance && this.props.organization !== prevProps.organization) {
-      this.codeMirrorInstance.setValue(this.getInterpolatedQuery());
+    if (this.props.organization !== prevProps.organization) {
+      this.editor.setValue(this.getInterpolatedQuery());
     }
   }
 
@@ -99,40 +81,4 @@ class GraphQLExplorerExampleSection extends React.PureComponent<Props & LoadedPr
   };
 }
 
-// Instead of exporting the viewer directly, we'll export a `Loadable`
-// Component that will allow us to load in dependencies and render the editor
-// until then.
-/* eslint-disable react/prop-types */
-export default Loadable.Map({
-  loader: {
-    CodeMirror: () => (
-      import('./codemirror').then((module) => (
-        // Add a "zero" delay after the module has loaded, to allow their
-        // styles to take effect.
-        new Promise((resolve) => {
-          setTimeout(() => resolve(module.default), 0);
-        })
-      ))
-    )
-  },
-
-  loading(props: ReactLoadableLoadingProps) {
-    if (props.error) {
-      return (
-        <div>{props.error}</div>
-      );
-    }
-
-    return null;
-  },
-
-  render(loaded: LoadedProps, props: Props) {
-    return (
-      <GraphQLExplorerExampleSection
-        CodeMirror={loaded.CodeMirror}
-        query={props.query}
-        organization={props.organization}
-      />
-    );
-  }
-});
+export default GraphQLExplorerExampleSection;
