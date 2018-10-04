@@ -7,8 +7,13 @@ import Button from '../../shared/Button';
 import Dialog from '../../shared/Dialog';
 import Emojify from '../../shared/Emojify';
 
-const IMAGE_PADDING_HORIZONTAL = 6;
-const IMAGE_PADDING_VERTICAL = 9;
+const IMAGE_DIAMETER = 70;
+const IMAGE_OVERLAP_HORIZONTAL = 6;
+const IMAGE_OVERLAP_VERTICAL = 9;
+
+const MUGSHOT_AREA_PADDING_HORIZONTAL = 15 + IMAGE_OVERLAP_HORIZONTAL;
+// NOTE: 480 is the width of the content area of the Dialog at full size.
+const MUGSHOT_AREA_MAX_WIDTH = 480 - MUGSHOT_AREA_PADDING_HORIZONTAL * 2;
 
 const PEOPLE = [
   { image: "keithpitt", name: "Keith Pitt", backgroundColor: "rgb(216,138,139)" },
@@ -39,16 +44,30 @@ const WavingEmoji = styled(Emojify)`
   transform-origin: 70% 75%;
 `;
 
+const calculateRowWidth = (count) => (count * IMAGE_DIAMETER - (count - 1) * (IMAGE_OVERLAP_HORIZONTAL * 2));
+
 const Mugshots = styled.div`
-  padding: ${IMAGE_PADDING_VERTICAL}px ${15 + IMAGE_PADDING_HORIZONTAL}px;
+  padding: ${IMAGE_OVERLAP_VERTICAL}px ${15 + IMAGE_OVERLAP_HORIZONTAL}px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: ${({ children }) => {
+    const count = React.Children.count(children);
+
+    const minimumRows = Math.ceil(calculateRowWidth(count) / MUGSHOT_AREA_MAX_WIDTH);
+
+    return calculateRowWidth(Math.ceil(count / minimumRows)) + MUGSHOT_AREA_PADDING_HORIZONTAL * 2;
+  }}px;
 `;
 
 const Mugshot = styled.img`
   background-color: ${(props) => props.backgroundColor};
-  width: 70px;
-  height: 70px;
+  width: ${IMAGE_DIAMETER}px;
+  height: ${IMAGE_DIAMETER}px;
   border-width: 2px;
-  margin: ${-IMAGE_PADDING_VERTICAL}px ${-IMAGE_PADDING_HORIZONTAL}px;
+  margin: ${-IMAGE_OVERLAP_VERTICAL}px ${-IMAGE_OVERLAP_HORIZONTAL}px;
 `;
 
 class SupportDialog extends React.PureComponent {
@@ -61,7 +80,7 @@ class SupportDialog extends React.PureComponent {
 
   render() {
     return (
-      <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose} width={650}>
+      <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose}>
         <div className="center" style={{ padding: "10% 2%" }}>
           {/* fyi the h1 class here is only necessary so this doesn't break on Bootstrap pages */}
           <h1 className="bold h1 mt0 mt2 mb4">
