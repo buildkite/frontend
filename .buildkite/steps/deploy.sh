@@ -27,7 +27,7 @@ if [ ! -f "dist/manifest.json" ]; then
 fi
 
 # Download the files in manifest.json
-for url in $(cat dist/manifest.json | jq -r '.[].js'); do
+for url in $(cat dist/manifest.json | jq -r '.[].js | strings, arrays[]'); do
   # Make sure the URL is prefixed with https (if it's just got //)
   URL=$(echo "$url" | sed -e 's/^\/\//https:\/\//')
 
