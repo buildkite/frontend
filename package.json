@@ -51,7 +51,7 @@
     "imports-loader": "0.8.0",
     "jest": "23.6.0",
     "mockdate": "2.0.2",
-    "postcss": "7.0.3",
+    "postcss": "7.0.5",
     "postcss-browser-reporter": "0.5.0",
     "postcss-cssnext": "3.1.0",
     "postcss-easings": "2.0.0",
