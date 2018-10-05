@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable react/prop-types */
 
 import React from "react";
 import Loadable from "react-loadable";
@@ -28,8 +27,8 @@ type ReactLoadableLoadingProps = {
 };
 
 class GraphQLExplorerConsoleResultsViewer extends React.PureComponent<Props & LoadedProps> {
-  codeMirrorInstance: ?CodeMirrorInstance
-  resultsElement: ?HTMLDivElement
+  codeMirrorInstance: ?CodeMirrorInstance;
+  resultsElement: ?HTMLDivElement;
 
   componentDidMount() {
     if (this.resultsElement) {
@@ -49,10 +48,8 @@ class GraphQLExplorerConsoleResultsViewer extends React.PureComponent<Props & Lo
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.results !== prevProps.results) {
-      if (this.codeMirrorInstance) {
-        this.codeMirrorInstance.setValue(this.props.results);
-      }
+    if (this.codeMirrorInstance && this.props.results !== prevProps.results) {
+      this.codeMirrorInstance.setValue(this.props.results);
     }
   }
 
@@ -66,6 +63,7 @@ class GraphQLExplorerConsoleResultsViewer extends React.PureComponent<Props & Lo
 // Instead of exporting the viewer directly, we'll export a `Loadable`
 // Component that will allow us to load in dependencies and render the editor
 // until then.
+/* eslint-disable react/prop-types */
 export default Loadable.Map({
   loader: {
     CodeMirror: () => (

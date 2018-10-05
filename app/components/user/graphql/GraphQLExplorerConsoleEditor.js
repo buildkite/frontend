@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable react/prop-types */
 
 import React from "react";
 import Loadable from "react-loadable";
@@ -135,6 +134,7 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent<Props & LoadedPro
 // Instead of exporting the editor directly, we'll export a `Loadable`
 // Component that will allow us to load in dependencies and render the editor
 // until then.
+/* eslint-disable react/prop-types */
 export default Loadable.Map({
   loader: {
     CodeMirror: () => (
