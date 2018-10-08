@@ -346,8 +346,8 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
   renderParallelGroup(group) {
     return (
       <Dropdown key={group.id} width={302} offsetY={14} className={this.stepClassName(group).replace("truncate", "")}>
-        <div class="right flex items-center">
-          <span className="truncate" style={{maxWidth: "12em"}}>{this.jobName(group)}</span>
+        <div className="right flex items-center">
+          <span className="truncate" style={{ maxWidth: "12em" }}>{this.jobName(group)}</span>
           <span className="ml1 rounded white bg-dark-gray small" style={{ padding: "2px 4px", height: "20px", lineHeight: "16px" }}>{group.finished}/{group.total}</span>
         </div>
 
