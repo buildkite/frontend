@@ -356,13 +356,13 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
     }
 
     return (
-      <Dropdown key={group.id} width={302} offsetY={14} className={this.stepClassName(group).replace("truncate", "")}>
+      <Dropdown key={group.id} width={409} className={this.stepClassName(group).replace("truncate", "")}>
         <div className="right flex items-center">
           <span className="truncate" style={{ maxWidth: "12em" }}>{this.jobName(group)}</span>
-          <span className="ml1 rounded white semi-bold small relative" style={{ padding: "0px 4px", height: "19px", lineHeight: "20px", top: -1, backgroundColor: labelBackgroundColor }}>{group.finished}/{group.total}</span>
+          <span className="ml1 rounded white semi-bold small relative cursor-default" style={{ padding: "0px 4px", height: "19px", lineHeight: "20px", top: -1, backgroundColor: labelBackgroundColor }}>{group.finished}/{group.total}</span>
         </div>
 
-        <div className="build-pipeline-job-popup tiny-kitemoji">
+        <div className="build-pipeline-job-popup ml2 mb2 mr1">
           {group.jobs.map((job) => this.pipelineStep(job))}
         </div>
       </Dropdown>
