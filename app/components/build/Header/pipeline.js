@@ -345,9 +345,9 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
 
   renderParallelGroup(group) {
     let labelBackgroundColor;
-    if (group.state == "scheduled") {
+    if (group.state === "scheduled") {
       labelBackgroundColor = "#afafaf"; // Gray
-    } else if (group.state == "running") {
+    } else if (group.state === "running") {
       labelBackgroundColor = "#9c7c14"; // Yellow-ish
     } else if (group.passed) {
       labelBackgroundColor = "#69A770"; // Green
