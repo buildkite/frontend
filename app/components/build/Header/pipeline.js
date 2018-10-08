@@ -23,7 +23,7 @@ class ParallelJobGroup {
     this.passed = null;
     this.total = null;
 
-    this.runningOrFinished = 0;
+    this.finished = 0;
   }
 
   appendJob(job) {
@@ -37,15 +37,14 @@ class ParallelJobGroup {
     }
 
     // Keep track of jobs that haven't finished yet
-    if (job.state === "running" ||
-      job.state === "finished" ||
+    if (job.state === "finished" ||
       job.state === "waiting_failed" ||
       job.state === "blocked_failed" ||
       job.state === "canceled" ||
       job.state === "timed_out" ||
       job.state === "skipped" ||
       job.state === "broken") {
-      this.runningOrFinished += 1;
+      this.finished += 1;
     }
 
     // If any job hasn't passed, then the entire group didn't pass
@@ -54,9 +53,9 @@ class ParallelJobGroup {
     }
 
     // Figure out the state of the current group
-    if (this.runningOrFinished === this.total) {
+    if (this.finished === this.total) {
       this.state = "finished";
-    } else if (job.state === "running" || (this.runningOrFinished > 0 && (this.runningOrFinished !== this.total))) {
+    } else if (job.state === "running" || (this.finished > 0 && (this.finished !== this.total))) {
       this.state = "running";
     }
 
@@ -169,12 +168,20 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
 
           currentParallelGroup.appendJob(job);
         } else {
-          // Only commit the parallel group if we were able to collect all the
-          // jobs for it (we may only be showing a partial list of jobs)
-          if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
-            groupedJobs.push(currentParallelGroup);
-          } else {
-            groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
+          // If this job doesn't have a `parallelGroupTotal`, and there's a
+          // `currentParallelGroup` in the mix, we know we've now progressed
+          // passed the group onto a new job.
+          if (currentParallelGroup) {
+            // Only commit the parallel group if we were able to collect all the
+            // jobs for it (we may only be showing a partial list of jobs)
+            if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
+              groupedJobs.push(currentParallelGroup);
+            } else {
+              groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
+            }
+
+            // We can stop tracking it now
+            currentParallelGroup = null;
           }
 
           groupedJobs.push(job);
@@ -319,7 +326,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
   },
 
   stepClassName(job) {
-    const state = job.state === 'finished' && (job.type === 'script' || job.type === 'trigger')
+    const state = job.state === 'finished' && (job.type === 'script' || job.type === 'trigger' || job.type === "parallel_group")
       ? (
         job.passed
           ? 'passed'
@@ -338,9 +345,10 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
 
   renderParallelGroup(group) {
     return (
-      <Dropdown width={315} offsetY={14}>
-        <div key={group.id} className={this.stepClassName(group)}>
-          {this.jobName(group)} <span className="rounded white bg-dark-gray small relative" style={{ padding: 2, top: -1 }}>{group.runningOrFinished}/{group.total}</span>
+      <Dropdown key={group.id} width={302} offsetY={14} className={this.stepClassName(group).replace("truncate", "")}>
+        <div class="inline-block">
+          <span>{this.jobName(group)}</span>
+          <span className="ml1 rounded white bg-dark-gray small relative" style={{ padding: 2, top: -1 }}>{group.finished}/{group.total}</span>
         </div>
 
         <div className="build-pipeline-job-popup tiny-kitemoji">
