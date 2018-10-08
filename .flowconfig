@@ -1,6 +1,5 @@
 [ignore]
 .*/node_modules/.*
-.*/__generated__/.*
 
 [include]
 
