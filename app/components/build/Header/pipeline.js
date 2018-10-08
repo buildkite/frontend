@@ -37,14 +37,14 @@ class ParallelJobGroup {
     }
 
     // Keep track of jobs that haven't finished yet
-    if (job.state == "running" ||
-      job.state == "finished" ||
-      job.state == "waiting_failed" ||
-      job.state == "blocked_failed" ||
-      job.state == "canceled" ||
-      job.state == "timed_out" ||
-      job.state == "skipped" ||
-      job.state == "broken") {
+    if (job.state === "running" ||
+      job.state === "finished" ||
+      job.state === "waiting_failed" ||
+      job.state === "blocked_failed" ||
+      job.state === "canceled" ||
+      job.state === "timed_out" ||
+      job.state === "skipped" ||
+      job.state === "broken") {
       this.runningOrFinished += 1;
     }
 
@@ -54,9 +54,9 @@ class ParallelJobGroup {
     }
 
     // Figure out the state of the current group
-    if (this.runningOrFinished == this.total) {
+    if (this.runningOrFinished === this.total) {
       this.state = "finished";
-    } else if (job.state == "running" || (this.runningOrFinished > 0 && (this.runningOrFinished != this.total))) {
+    } else if (job.state === "running" || (this.runningOrFinished > 0 && (this.runningOrFinished !== this.total))) {
       this.state = "running";
     }
 
@@ -145,9 +145,9 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
       : this.props.build.jobs.filter(({ state, retriedInJobUuid }) => state !== 'broken' && !retriedInJobUuid);
 
     if (Features.ParallelJobGroups) {
-      let groupedJobs = []
-      let currentParallelGroup = null
-      for (let job of jobs) {
+      let groupedJobs = [];
+      let currentParallelGroup = null;
+      for (const job of jobs) {
         // Ah! We've stumbled onto a parallel job, let's try and group it.
         if (job.parallelGroupTotal) {
           // If there's no current group being tracked, create one. If there *is*
@@ -155,13 +155,13 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
           // one and create a new group.
           if (!currentParallelGroup) {
             currentParallelGroup = new ParallelJobGroup(job.stepUuid);
-          } else if (currentParallelGroup.id != job.stepUuid) {
+          } else if (currentParallelGroup.id !== job.stepUuid) {
             // Only commit the parallel group if we were able to collect all
             // the jobs for it (we may only be showing a partial list of jobs)
-            if (currentParallelGroup.jobs.length == currentParallelGroup.total) {
+            if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
               groupedJobs.push(currentParallelGroup);
             } else {
-              groupedJobs = groupedJobs.concat(currentParallelGroup.jobs)
+              groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
             }
 
             currentParallelGroup = new ParallelJobGroup(job.stepUuid);
@@ -171,10 +171,10 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
         } else {
           // Only commit the parallel group if we were able to collect all the
           // jobs for it (we may only be showing a partial list of jobs)
-          if (currentParallelGroup.jobs.length == currentParallelGroup.total) {
+          if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
             groupedJobs.push(currentParallelGroup);
           } else {
-            groupedJobs = groupedJobs.concat(currentParallelGroup.jobs)
+            groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
           }
 
           groupedJobs.push(job);
@@ -186,10 +186,10 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
       if (currentParallelGroup) {
         // Only commit the parallel group if we were able to collect all the
         // jobs for it (we may only be showing a partial list of jobs)
-        if (currentParallelGroup.jobs.length == currentParallelGroup.total) {
+        if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
           groupedJobs.push(currentParallelGroup);
         } else {
-          groupedJobs = groupedJobs.concat(currentParallelGroup.jobs)
+          groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
         }
 
         currentParallelGroup = null;
@@ -340,7 +340,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
     return (
       <Dropdown width={315} offsetY={14}>
         <div key={group.id} className={this.stepClassName(group)}>
-          {this.jobName(group)} <span className="rounded white bg-dark-gray small relative" style={{padding: 2, top: -1}}>{group.runningOrFinished}/{group.total}</span>
+          {this.jobName(group)} <span className="rounded white bg-dark-gray small relative" style={{ padding: 2, top: -1 }}>{group.runningOrFinished}/{group.total}</span>
         </div>
 
         <div className="build-pipeline-job-popup tiny-kitemoji">
