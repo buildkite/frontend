@@ -344,11 +344,22 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
   },
 
   renderParallelGroup(group) {
+    let labelBackgroundColor;
+    if (group.state == "scheduled") {
+      labelBackgroundColor = "#afafaf";
+    } else if (group.state == "running") {
+      labelBackgroundColor = "#9c7c14";
+    } else if (group.passed) {
+      labelBackgroundColor = "#7ebd7f";
+    } else {
+      labelBackgroundColor = "#a94442";
+    }
+
     return (
       <Dropdown key={group.id} width={302} offsetY={14} className={this.stepClassName(group).replace("truncate", "")}>
         <div className="right flex items-center">
           <span className="truncate" style={{ maxWidth: "12em" }}>{this.jobName(group)}</span>
-          <span className="ml1 rounded white bg-dark-gray small" style={{ padding: "2px 4px", height: "20px", lineHeight: "16px" }}>{group.finished}/{group.total}</span>
+          <span className="ml1 rounded white semi-bold small relative" style={{ padding: "0px 4px", height: "19px", lineHeight: "20px", top: -1, backgroundColor: labelBackgroundColor }}>{group.finished}/{group.total}</span>
         </div>
 
         <div className="build-pipeline-job-popup tiny-kitemoji">
