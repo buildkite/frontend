@@ -6,6 +6,7 @@ import createReactClass from 'create-react-class';
 
 import Emojify from '../../shared/Emojify';
 import Icon from '../../shared/Icon';
+import Dropdown from '../../shared/Dropdown';
 
 import jobCommandOneliner from '../../../lib/jobCommandOneliner';
 import BootstrapTooltipMixin from '../../../lib/BootstrapTooltipMixin';
@@ -337,9 +338,15 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
 
   renderParallelGroup(group) {
     return (
-      <div key={group.id} className={this.stepClassName(group)}>
-        {this.jobName(group)} <span className="rounded white bg-dark-gray small relative" style={{padding: 2, top: -1}}>{group.runningOrFinished}/{group.total}</span>
-      </div>
+      <Dropdown width={315} offsetY={14}>
+        <div key={group.id} className={this.stepClassName(group)}>
+          {this.jobName(group)} <span className="rounded white bg-dark-gray small relative" style={{padding: 2, top: -1}}>{group.runningOrFinished}/{group.total}</span>
+        </div>
+
+        <div className="build-pipeline-job-popup tiny-kitemoji">
+          {group.jobs.map((job) => this.pipelineStep(job))}
+        </div>
+      </Dropdown>
     );
   },
 
