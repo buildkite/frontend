@@ -189,13 +189,13 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
             </CopyToClipboard>
           </Panel.Section>
 
-            <Button
-              className="col-12"
-              theme="success"
-              onClick={this.handleRecoveryCodeRegeneration}
-            >
+          <Button
+            className="col-12"
+            theme="success"
+            onClick={this.handleRecoveryCodeRegeneration}
+          >
               Regenerate Recovery Codes
-            </Button>
+          </Button>
 
           <Panel.Section>
             <Button
@@ -343,14 +343,14 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
           }
         }
       `,
-      variables: {input: {totpId: this.state.totpId} },
+      variables: { input: { totpId: this.state.totpId } },
       onCompleted: (response) => {
         this.setState({
           recoveryCodes: {
             codes: response.totpRecoveryCodesRegenerate.recoveryCodes.codes
           }
-        })
-       }
+        });
+      }
     });
   }
 
