@@ -189,6 +189,14 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
             </CopyToClipboard>
           </Panel.Section>
 
+            <Button
+              className="col-12"
+              theme="success"
+              onClick={this.handleRecoveryCodeRegeneration}
+            >
+              Regenerate Recovery Codes
+            </Button>
+
           <Panel.Section>
             <Button
               className="col-12"
