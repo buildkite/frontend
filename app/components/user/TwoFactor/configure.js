@@ -323,6 +323,28 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     this.setState({ confirmedRecoveryCodes: true });
   };
 
+  handleRecoveryCodeRegeneration = () => {
+    commitMutation(this.props.relay.environment, {
+      mutation: graphql`
+      mutation RecoveryCodeRegenerationMutation($input: TOTPRecoveryCodesRegenerateInput!) {
+        totpRecoveryCodesRegenerate(input: $input) {
+          clientMutationId
+          recoveryCodes {
+            ...RecoveryCodeList_recoveryCodes
+          }
+        }
+      } `,
+      variables: {input: {totpId: this.state.totpId} },
+      onCompleted: (response) => {
+        this.setState({
+          recoveryCodes: {
+            codes: response.totpRecoveryCodesRegenerate.recoveryCodes.codes
+          }
+        })
+       }
+    });
+  }
+
   handleCodeChange = (event) => {
     this.setState({ totpToken: event.target.value });
   };
