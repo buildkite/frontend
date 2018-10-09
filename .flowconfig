@@ -1,4 +1,5 @@
 [ignore]
+# This JSON file is invalid and breaks flow with an "Unexpected string" error.
 .*/node_modules/config-chain/test/broken.json
 
 [include]
