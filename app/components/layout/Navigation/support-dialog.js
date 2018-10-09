@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import shuffle from 'shuffle-array';
+import shuffle from 'n-shuffle';
 import styled, { keyframes } from 'styled-components';
 
 import Button from '../../shared/Button';
