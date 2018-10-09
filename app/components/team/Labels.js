@@ -1,11 +1,17 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
-
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
 import Badge from '../shared/Badge';
+import type { Labels_team } from './__generated__/Labels_team.graphql';
 
-class TeamLabels extends React.PureComponent {
+type Props = {
+  team: Labels_team
+};
+
+class TeamLabels extends React.PureComponent<Props> {
   static propTypes = {
     team: PropTypes.shape({
       privacy: PropTypes.string.isRequired
@@ -25,12 +31,8 @@ class TeamLabels extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(TeamLabels, {
-  fragments: {
-    team: () => Relay.QL`
-      fragment on Team {
-        privacy
-      }
-    `
+export default createFragmentContainer(TeamLabels, graphql`
+  fragment Labels_team on Team {
+    privacy
   }
-});
+`);
