@@ -334,7 +334,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
   handleRecoveryCodeRegeneration = () => {
     commitMutation(this.props.relay.environment, {
       mutation: graphql`
-        mutation RecoveryCodeRegenerationMutation($input: TOTPRecoveryCodesRegenerateInput!) {
+        mutation configureRecoveryCodeRegenerationMutation($input: TOTPRecoveryCodesRegenerateInput!) {
           totpRecoveryCodesRegenerate(input: $input) {
             clientMutationId
             recoveryCodes {
