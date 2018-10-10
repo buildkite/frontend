@@ -79,7 +79,7 @@ async function subscribe(client, rootPath, {id: subscriptionId, path: relativePa
   });
 }
 
-const SCHEMA_PATH = 'config/schema.json';
+const SCHEMA_PATH = 'app/graph/schema.json';
 const SUBSCRIPTIONS = {
   frontend: {
     id: 'frontend',
