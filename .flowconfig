@@ -13,3 +13,4 @@ all=warn
 emoji=true
 module.use_strict=true
 module.ignore_non_literal_requires=true
+suppress_comment=\\(.\\|\n\\)*\\$FlowExpectError

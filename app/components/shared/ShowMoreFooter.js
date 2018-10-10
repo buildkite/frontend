@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import Button from './Button';
 import Spinner from './Spinner';
 
-class ShowMoreFooter extends React.PureComponent {
+export class ShowMoreFooter extends React.PureComponent {
   static propTypes = {
     connection: PropTypes.shape({
       pageInfo: PropTypes.shape({

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
-const NORMAL_THEMES = {
+export const NORMAL_THEMES = {
   primary: "btn-primary",
   success: "btn-primary bg-lime",
   warning: "btn-primary bg-orange",
@@ -11,7 +11,7 @@ const NORMAL_THEMES = {
   error: "btn-primary bg-red"
 };
 
-const OUTLINE_THEMES = {
+export const OUTLINE_THEMES = {
   primary: "btn-outline border-blue blue",
   success: "btn-outline border-lime lime",
   warning: "btn-outline border-orange orange",
