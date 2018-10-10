@@ -22,3 +22,6 @@ bundle-analysis
 
 # Babel generated files (from relay-compiler)
 __generated__
+
+# Ignore dumped GraphQL schema
+config/graph.json
