@@ -32,6 +32,7 @@ async function checkCapability(client) {
   });
 }
 
+// Create a watch on a project path/subpath.
 async function watchProject(client, path) {
   return new Promise(resolve => {
     logger.info('Establishing watch: %s', path);
@@ -146,6 +147,9 @@ async function syncGraphqlSchemaToDisk() {
 }
 
 async function start() {
+  // This is a bit janky to assume the structure that this script will 
+  // live in, but kinda unavoidable. Watchman will throw errors anyway
+  // as it only really impacts the configuring/creation of watches.
   const root = path.normalize(path.join(__dirname, '../../../'));
 
   // Create the Watchman client.
@@ -154,7 +158,7 @@ async function start() {
   // Terminate cleanly.
   ['SIGINT', 'SIGTERM'].forEach(signal => process.on(signal, () => {
     console.log();
-    logger.warn('Received %s — shutting down!', signal);
+    logger.warn('Received %s — shutting down! Bye 👋🏼', signal);
     client && client.end();
     process.exit();
   }));
