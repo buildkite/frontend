@@ -114,10 +114,10 @@ async function compileRelayGeneratedArtifacts() {
   try {
     logger.info('Executing relay-compiler');
     const {stdout, stderr} = await exec(`yarn run relay-compile`);
-    stdout.split('\n').slice(2, -1).forEach(logger.info)
+    stdout.split('\n').slice(4, -1).forEach(logger.info)
   } catch (error) {
     if (error.code !== 0)
-      error.stdout.split('\n').slice(2, -1).forEach(logger.error)
+      error.stdout.split('\n').slice(4, -1).forEach(logger.error)
   }
 }
 
@@ -160,6 +160,7 @@ async function start() {
     console.log();
     logger.warn('Received %s — shutting down! Bye 👋🏼', signal);
     client && client.end();
+    logger.info('Bye! 👋🏼');
     process.exit();
   }));
 
