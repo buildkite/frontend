@@ -1,40 +1,39 @@
 #!/usr/bin/env node
-/* eslint-disable */
 
 const path = require('path');
 const util = require('util');
 const writeFile = util.promisify(require('fs').writeFile);
 const exec = util.promisify(require('child_process').exec);
 const watchman = require('fb-watchman');
-const {createLogger, format, transports} = require('winston')
-const {combine, colorize, timestamp, splat, align, printf} = format;
+const { createLogger, format, transports } = require('winston');
+const { combine, colorize, timestamp, splat, align, printf } = format;
 const fetch = require('node-fetch');
 const introspectionQuery = require('graphql/utilities/introspectionQuery').introspectionQuery;
 
 // Configure logger.
 const logger = createLogger({
   level: 'info',
-  format: combine(colorize(), timestamp(), splat(), align(), printf(log => `${log.timestamp} ${log.level}${log.message}`)),
-  transports: [new transports.Console({handleExceptions: true})]
+  format: combine(colorize(), timestamp(), splat(), align(), printf((log) => `${log.timestamp} ${log.level}${log.message}`)),
+  transports: [new transports.Console({ handleExceptions: true })]
 });
 
 // Sanity check for Watchman support.
 async function checkCapability(client) {
-  return new Promise(resolve => {
-    client.capabilityCheck({optional: [], required: ['relative_root']}, (error, response) => {
+  return new Promise((resolve) => {
+    client.capabilityCheck({ optional: [], required: ['relative_root'] }, (error, response) => {
       if (error) {
         logger.error(error);
         client.end();
         process.exit(1);
       }
       resolve(response);
-    })
+    });
   });
 }
 
 // Create a watch on a project path/subpath.
 async function watchProject(client, path) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     logger.info('Establishing watch: %s', path);
     client.command(['watch-project', path], (error, response) => {
       if (error) {
@@ -42,37 +41,41 @@ async function watchProject(client, path) {
         process.exit(1);
       }
 
-      if ('warning' in response)
+      if ('warning' in response) {
         logger.warn('Establishing watch on "%s" generated warning: ', response.warning);
+      }
 
       logger.info('Watch established with %s on "%s"', response.watcher, response.watch);
-      resolve(response)
+      resolve(response);
     });
   });
 }
 
-async function subscribe(client, rootPath, {id: subscriptionId, path: relativePath, config}, callback) {
+async function subscribe(client, rootPath, { id: subscriptionId, path: relativePath, config }, callback) {
   const watchPath = path.normalize(path.join(rootPath, relativePath));
   const project = await watchProject(client, watchPath);
 
-  client.command(['clock', project.watch], (error, {clock: since}) => {
-    if (error)
+  client.command(['clock', project.watch], (error, { clock: since }) => {
+    if (error) {
       logger.error(error);
+    }
 
-    const subscriptionConfig = {...config, since, relative_root: project.relative_path};
+    const subscriptionConfig = { ...config, since, relative_root: project.relative_path };
 
     client.command(['subscribe', project.watch, subscriptionId, subscriptionConfig], (error, response) => {
-      if (error)
+      if (error) {
         logger.error(error);
+      }
 
       logger.info('Subscription "%s" established: %j', response.subscribe, subscriptionConfig.expression);
 
-      client.on('subscription', event => {
-        if (event.subscription !== subscriptionId)
+      client.on('subscription', (event) => {
+        if (event.subscription !== subscriptionId) {
           return;
+        }
 
         logger.debug('%j', event);
-        logger.info('Subscription "%s" triggered via: %j', event.subscription, event.files.map(f => f.name));
+        logger.info('Subscription "%s" triggered via: %j', event.subscription, event.files.map((f) => f.name));
         callback(event);
       });
     });
@@ -108,38 +111,40 @@ const SUBSCRIPTIONS = {
       fields: ['name', 'size', 'mtime_ms', 'exists', 'type']
     }
   }
-}
+};
 
 async function compileRelayGeneratedArtifacts() {
   try {
     logger.info('Executing relay-compiler');
-    const {stdout, stderr} = await exec(`yarn run relay-compile`);
-    stdout.split('\n').slice(4, -1).forEach(logger.info)
+    const { stdout } = await exec(`yarn run relay-compile`);
+    stdout.split('\n').slice(4, -1).forEach(logger.info);
   } catch (error) {
-    if (error.code !== 0)
-      error.stdout.split('\n').slice(4, -1).forEach(logger.error)
+    if (error.code !== 0) {
+      error.stdout.split('\n').slice(4, -1).forEach(logger.error);
+    }
   }
 }
 
 async function syncGraphqlSchemaToDisk() {
   const endpoint = 'http://graphql.buildkite.localhost/v1';
-  const body = JSON.stringify({query: introspectionQuery});
-  const headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer test'};
+  const body = JSON.stringify({ query: introspectionQuery });
+  const headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer test' };
 
   logger.info('Fetching current GraphQL introspection schema from "%s"', endpoint);
 
   try {
-    const response = await fetch(endpoint, {method: 'POST', headers, body});
+    const response = await fetch(endpoint, { method: 'POST', headers, body });
     if (response.ok) {
-      const {data, errors} = await response.json();
+      const { data, errors } = await response.json();
 
-      if (errors)
+      if (errors) {
         throw new Error(JSON.stringify(errors, null, 2));
+      }
 
-      await writeFile(SCHEMA_PATH, JSON.stringify({data}, null, 2));
+      await writeFile(SCHEMA_PATH, JSON.stringify({ data }, null, 2));
       logger.info('Synced current GraphQL schema to "%s"', SCHEMA_PATH);
     } else {
-      logger.error('Error syncing current GraphQL schema, request to "%s" failed with status code %s', endpoint, response.status)
+      logger.error('Error syncing current GraphQL schema, request to "%s" failed with status code %s', endpoint, response.status);
     }
   } catch (error) {
     logger.error(error);
@@ -147,35 +152,35 @@ async function syncGraphqlSchemaToDisk() {
 }
 
 async function start() {
-  // This is a bit janky to assume the structure that this script will 
+  // This is a bit janky to assume the structure that this script will
   // live in, but kinda unavoidable. Watchman will throw errors anyway
   // as it only really impacts the configuring/creation of watches.
-  const root = path.normalize(path.join(__dirname, '../../../'));
+  const root = path.normalize(path.join(__dirname, '../../../'));  // eslint-disable-line
 
   // Create the Watchman client.
   const client = new watchman.Client();
 
   // Terminate cleanly.
-  ['SIGINT', 'SIGTERM'].forEach(signal => process.on(signal, () => {
-    console.log();
+  ['SIGINT', 'SIGTERM'].forEach((signal) => process.on(signal, () => {
+    console.log();  // eslint-disable-line
     logger.warn('Received %s — shutting down!', signal);
     client && client.end();
     logger.info('Bye! 👋🏼');
     process.exit();
   }));
 
-  const {version} = await checkCapability(client);
+  const { version } = await checkCapability(client);
   logger.info('Starting GraphWatcher (Watchman: %s)', version);
 
   await syncGraphqlSchemaToDisk();
   await compileRelayGeneratedArtifacts();
 
   logger.info('Setting up subscriptions for GraphQL / Relay filesystem events');
-  subscribe(client, root, SUBSCRIPTIONS.graph, async () => {
+  subscribe(client, root, SUBSCRIPTIONS.graph, async() => {
     await syncGraphqlSchemaToDisk();
     await compileRelayGeneratedArtifacts();
   });
-  subscribe(client, root, SUBSCRIPTIONS.frontend, async () => {
+  subscribe(client, root, SUBSCRIPTIONS.frontend, async() => {
     await compileRelayGeneratedArtifacts();
   });
 }
