@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable */
 
+const path = require('path');
 const util = require('util');
 const writeFile = util.promisify(require('fs').writeFile);
 const exec = util.promisify(require('child_process').exec);
@@ -49,8 +50,9 @@ async function watchProject(client, path) {
   });
 }
 
-async function subscribe(client, {id: subscriptionId, path, config}, callback) {
-  const project = await watchProject(client, path);
+async function subscribe(client, rootPath, {id: subscriptionId, path: relativePath, config}, callback) {
+  const watchPath = path.normalize(path.join(rootPath, relativePath));
+  const project = await watchProject(client, watchPath);
 
   client.command(['clock', project.watch], (error, {clock: since}) => {
     if (error)
@@ -80,7 +82,7 @@ const SCHEMA_PATH = 'app/graph/schema.json';
 const SUBSCRIPTIONS = {
   frontend: {
     id: 'frontend',
-    path: '/Users/justin/Workspace/github.com/buildkite/buildkite/vendor/frontend/app',
+    path: 'vendor/frontend/app',
     config: {
       expression: [
         'allof',
@@ -94,7 +96,7 @@ const SUBSCRIPTIONS = {
   },
   graph: {
     id: 'graph',
-    path: '/Users/justin/Workspace/github.com/buildkite/buildkite/app/models/api/graph',
+    path: 'app/models/api/graph',
     config: {
       expression: [
         'allof',
@@ -144,6 +146,8 @@ async function syncGraphqlSchemaToDisk() {
 }
 
 async function start() {
+  const root = path.normalize(path.join(__dirname, '../../../'));
+
   // Create the Watchman client.
   const client = new watchman.Client();
 
@@ -162,8 +166,8 @@ async function start() {
   await compileRelayGeneratedArtifacts();
 
   logger.info('Setting up subscriptions for GraphQL / Relay filesystem events');
-  subscribe(client, SUBSCRIPTIONS.graph, syncGraphqlSchemaToDisk);
-  subscribe(client, SUBSCRIPTIONS.frontend, compileRelayGeneratedArtifacts);
+  subscribe(client, root, SUBSCRIPTIONS.graph, syncGraphqlSchemaToDisk);
+  subscribe(client, root, SUBSCRIPTIONS.frontend, compileRelayGeneratedArtifacts);
 }
 
 start();
