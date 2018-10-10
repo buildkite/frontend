@@ -1,4 +1,4 @@
-export default from 'codemirror';
+export { default } from 'codemirror';
 
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/addon/hint/show-hint.css';
