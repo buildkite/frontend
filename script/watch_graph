@@ -171,8 +171,13 @@ async function start() {
   await compileRelayGeneratedArtifacts();
 
   logger.info('Setting up subscriptions for GraphQL / Relay filesystem events');
-  subscribe(client, root, SUBSCRIPTIONS.graph, syncGraphqlSchemaToDisk);
-  subscribe(client, root, SUBSCRIPTIONS.frontend, compileRelayGeneratedArtifacts);
+  subscribe(client, root, SUBSCRIPTIONS.graph, async () => {
+    await syncGraphqlSchemaToDisk();
+    await compileRelayGeneratedArtifacts();
+  });
+  subscribe(client, root, SUBSCRIPTIONS.frontend, async () => {
+    await compileRelayGeneratedArtifacts();
+  });
 }
 
 start();
