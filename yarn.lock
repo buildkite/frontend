@@ -922,7 +922,7 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.2.tgz#54c5a964462be3d4d78af631363c18d6fa91ac26"
   integrity sha512-yprFYuno9FtNsSHVlSWd+nRlmGoAbqbeCwOryP6sC/zoCjhpArcRMYp19EvpSUSizJAlsXEwJv+wcWS9XaXdMw==
 
-"@storybook/addon-a11y@^4.0.0-alpha.23":
+"@storybook/addon-a11y@4.0.0-alpha.24":
   version "4.0.0-alpha.24"
   resolved "https://registry.yarnpkg.com/@storybook/addon-a11y/-/addon-a11y-4.0.0-alpha.24.tgz#d596df6f1a2e93e5ea5408f06473fa86f1129caf"
   integrity sha512-Sd1r9TG6T57pnbhT28b7jCbC0EYKgpeyHYMT4691wQuTjaC7o+PxMQRnVk5uvLtOKH832mLL+3uEkUGpIfmcIg==
@@ -936,7 +936,7 @@
     global "^4.3.2"
     prop-types "^15.6.2"
 
-"@storybook/addon-actions@^4.0.0-alpha.23":
+"@storybook/addon-actions@4.0.0-alpha.24":
   version "4.0.0-alpha.24"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-4.0.0-alpha.24.tgz#b366c34b25aee5e1cefd8ed0907a253d3cbf04ce"
   integrity sha512-SdArqxVkapjg8eb+nKyMCWB2sYcJmx3aO3z2GRPh18fC9kWbvhCHWVR9WfQGhpUM24pk1zzwqzH4ZxmFata/Vw==
@@ -955,14 +955,14 @@
     react-inspector "^2.3.0"
     uuid "^3.3.2"
 
-"@storybook/addon-centered@^4.0.0-alpha.23":
+"@storybook/addon-centered@4.0.0-alpha.24":
   version "4.0.0-alpha.24"
   resolved "https://registry.yarnpkg.com/@storybook/addon-centered/-/addon-centered-4.0.0-alpha.24.tgz#4612679d23def3cce50ee31aed659a13995dabc9"
   integrity sha512-kSwzzaPIkjNCgiqMQf5u4t+JeIbOVylSLpstuFeaHIYy285D7zBOHfrw7SR8SPgCRb1DUMOD2YZgXbGqmt/U0w==
   dependencies:
     global "^4.3.2"
 
-"@storybook/addon-knobs@^4.0.0-alpha.23":
+"@storybook/addon-knobs@4.0.0-alpha.24":
   version "4.0.0-alpha.24"
   resolved "https://registry.yarnpkg.com/@storybook/addon-knobs/-/addon-knobs-4.0.0-alpha.24.tgz#09fe175138b85ad082908d6b42f1bd05c0c4851a"
   integrity sha512-IvJh9QPhPTntJfPyU7ZZja45QlQvU33etc4ejAYZy5NWO41XUqXOoHDl7QgyqEE7yUn4ebyBj4PRGbgY8/i11g==
@@ -982,7 +982,7 @@
     react-lifecycles-compat "^3.0.4"
     util-deprecate "^1.0.2"
 
-"@storybook/addon-links@^4.0.0-alpha.23":
+"@storybook/addon-links@4.0.0-alpha.24":
   version "4.0.0-alpha.24"
   resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-4.0.0-alpha.24.tgz#2ac244a9e137645306f5488a1e28bd86b5817de8"
   integrity sha512-7iRW63J2iE8D1iHCSYpS0s4yCRdvOVrSJkHMto4yBbI7QZw6FCy/5+TlzN/Kyu3HdvuQBqQuVjpEAov7Rh/nDQ==
@@ -993,7 +993,7 @@
     global "^4.3.2"
     prop-types "^15.6.2"
 
-"@storybook/addon-storysource@^4.0.0-alpha.23":
+"@storybook/addon-storysource@4.0.0-alpha.24":
   version "4.0.0-alpha.24"
   resolved "https://registry.yarnpkg.com/@storybook/addon-storysource/-/addon-storysource-4.0.0-alpha.24.tgz#21c3a236c84bbcb63f7ccfba2d5da90e3ebbc44f"
   integrity sha512-u8SOj2TPSWpZmYowhiZWoIIruYC0mfdsrjbSJd7Aw+MUJ0s2FPWjqtIw2lskIYntjTwy2hSvLWJPrKNxCWq5KQ==
@@ -1007,7 +1007,7 @@
     prop-types "^15.6.2"
     react-syntax-highlighter "^8.0.1"
 
-"@storybook/addons@4.0.0-alpha.24", "@storybook/addons@^4.0.0-alpha.23":
+"@storybook/addons@4.0.0-alpha.24":
   version "4.0.0-alpha.24"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-4.0.0-alpha.24.tgz#941edc181c13fdefdb2c19edc1a1ce02bb9c2ccb"
   integrity sha512-9MhLZ9iThZGWrhc0u03qXxT4PdL+8ba8gWMWz5yOgfT07kkYwFP7I6dG1DKXfjhrH15bUqSxIShyS9BwyufVkg==
@@ -1031,7 +1031,7 @@
   resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-4.0.0-alpha.24.tgz#dae7da50b5ba186377536b99cc1df13ce7144de3"
   integrity sha512-+C7qVb38/reiZYjJqiaxDavAdOrhaDaDRkMqX5ibd0kBTTyJvzrOHtzHReP08bGIq+a/O5dgT1kIkzgPGf0XLw==
 
-"@storybook/cli@^4.0.0-alpha.23":
+"@storybook/cli@4.0.0-alpha.24":
   version "4.0.0-alpha.24"
   resolved "https://registry.yarnpkg.com/@storybook/cli/-/cli-4.0.0-alpha.24.tgz#1685c4877edd2e440af3868b42fe8d2ad4c849e0"
   integrity sha512-I+cljYY0eA98fVifHLvDHhku1Xmvjw4tyypmw54VIUmIdiVyPijXIsp5Fe9aqMd2GfhezczIoEC8ClZfWRPucQ==
@@ -1201,7 +1201,7 @@
   dependencies:
     babel-runtime "^6.5.0"
 
-"@storybook/react@^4.0.0-alpha.23":
+"@storybook/react@4.0.0-alpha.24":
   version "4.0.0-alpha.24"
   resolved "https://registry.yarnpkg.com/@storybook/react/-/react-4.0.0-alpha.24.tgz#d456501a0c897f57a43a44ed1b2a19426ef281c1"
   integrity sha512-34BgK9n7BXsVG0MgRT8aCjV1Auv6RWkCYYKOj1NaxV/vpOLlDMOBGOEEIq4b/dOVznXetRoOJdNM8/FAE4A3zA==
@@ -7744,7 +7744,7 @@ html-entities@^1.2.0:
   resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-1.2.1.tgz#0df29351f0721163515dfb9e5543e5f6eed5162f"
   integrity sha1-DfKTUfByEWNRXfueVUPl9u7VFi8=
 
-html-sketchapp-cli@^0.6.1:
+html-sketchapp-cli@0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/html-sketchapp-cli/-/html-sketchapp-cli-0.6.2.tgz#2976b8bda374026f2ec34b81dfd4a922a639ecb2"
   integrity sha512-ygW97RbtBtCXOwBRtcUKr9gTJiY6P7Q0wjJVzJZoabQB8+6ApTp1spoo/DnEPBfZEYPlPUlNYtmebN/vSJ2S4Q==
