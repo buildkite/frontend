@@ -4,6 +4,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Icon from '../../app/components/shared/Icon';
+
+// $FlowExpectError
 const iconFiles = require.context('../../app/components/shared/Icon', true, /\.svg$/);
 
 // keys look like './api-tokens.svg' but we need the 'api-token' part
