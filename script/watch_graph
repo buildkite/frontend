@@ -158,7 +158,7 @@ async function start() {
   // Terminate cleanly.
   ['SIGINT', 'SIGTERM'].forEach(signal => process.on(signal, () => {
     console.log();
-    logger.warn('Received %s — shutting down! Bye 👋🏼', signal);
+    logger.warn('Received %s — shutting down!', signal);
     client && client.end();
     logger.info('Bye! 👋🏼');
     process.exit();
