@@ -1,9 +1,9 @@
+// @flow
 /* global module */
 
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text, boolean, select } from '@storybook/addon-knobs';
-
 import TabControl from '../../app/components/shared/TabControl';
 
 const basic = () => {
@@ -64,4 +64,4 @@ export const Sketch = () => (
       </TabControl>
     </div>
   </div>
-)
+);
