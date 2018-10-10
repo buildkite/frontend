@@ -113,7 +113,7 @@ const SUBSCRIPTIONS = {
 async function compileRelayGeneratedArtifacts() {
   try {
     logger.info('Executing relay-compiler');
-    const {stdout, stderr} = await exec(`relay-compiler --schema ${SCHEMA_PATH} --src app`);
+    const {stdout, stderr} = await exec(`yarn run relay-compile`);
     stdout.split('\n').slice(2, -1).forEach(logger.info)
   } catch (error) {
     if (error.code !== 0)

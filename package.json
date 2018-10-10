@@ -15,6 +15,7 @@
     "flow": "flow",
     "lint": "eslint . --color",
     "lint-and-fix": "eslint --fix --color .",
+    "relay-compile": "relay-compiler --schema app/graph/schema.json --src app",
     "build": "NODE_ENV=development webpack --config webpack/config.js --progress --bail --cache",
     "build-production": "NODE_ENV=production webpack --config webpack/config.js --progress --bail",
     "bundle-analyze": "NODE_ENV=production COLLECT_BUNDLE_STATS=true webpack --config webpack/config.js --bail --profile && webpack-bundle-analyzer bundle-analysis/stats.json dist --no-open --mode static -r bundle-analysis/bundle-analyzer-report.html",
