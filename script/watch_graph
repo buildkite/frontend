@@ -1,0 +1,169 @@
+#!/usr/bin/env node
+/* eslint-disable */
+
+const util = require('util');
+const writeFile = util.promisify(require('fs').writeFile);
+const exec = util.promisify(require('child_process').exec);
+const watchman = require('fb-watchman');
+const {createLogger, format, transports} = require('winston')
+const {combine, colorize, timestamp, splat, align, printf} = format;
+const fetch = require('node-fetch');
+const introspectionQuery = require('graphql/utilities/introspectionQuery').introspectionQuery;
+
+// Configure logger.
+const logger = createLogger({
+  level: 'info',
+  format: combine(colorize(), timestamp(), splat(), align(), printf(log => `${log.timestamp} ${log.level}${log.message}`)),
+  transports: [new transports.Console({handleExceptions: true})]
+});
+
+// Sanity check for Watchman support.
+async function checkCapability(client) {
+  return new Promise(resolve => {
+    client.capabilityCheck({optional: [], required: ['relative_root']}, (error, response) => {
+      if (error) {
+        logger.error(error);
+        client.end();
+        process.exit(1);
+      }
+      resolve(response);
+    })
+  });
+}
+
+async function watchProject(client, path) {
+  return new Promise(resolve => {
+    logger.info('Establishing watch: %s', path);
+    client.command(['watch-project', path], (error, response) => {
+      if (error) {
+        logger.error(error);
+        process.exit(1);
+      }
+
+      if ('warning' in response)
+        logger.warn('Establishing watch on "%s" generated warning: ', response.warning);
+
+      logger.info('Watch established with %s on "%s"', response.watcher, response.watch);
+      resolve(response)
+    });
+  });
+}
+
+async function subscribe(client, {id: subscriptionId, path, config}, callback) {
+  const project = await watchProject(client, path);
+
+  client.command(['clock', project.watch], (error, {clock: since}) => {
+    if (error)
+      logger.error(error);
+
+    const subscriptionConfig = {...config, since, relative_root: project.relative_path};
+
+    client.command(['subscribe', project.watch, subscriptionId, subscriptionConfig], (error, response) => {
+      if (error)
+        logger.error(error);
+
+      logger.info('Subscription "%s" established: %j', response.subscribe, subscriptionConfig.expression);
+
+      client.on('subscription', event => {
+        if (event.subscription !== subscriptionId)
+          return;
+
+        logger.debug('%j', event);
+        logger.info('Subscription "%s" triggered via: %j', event.subscription, event.files.map(f => f.name));
+        callback(event);
+      });
+    });
+  });
+}
+
+const SCHEMA_PATH = 'app/graph/schema.json';
+const SUBSCRIPTIONS = {
+  frontend: {
+    id: 'frontend',
+    path: '/Users/justin/Workspace/github.com/buildkite/buildkite/vendor/frontend/app',
+    config: {
+      expression: [
+        'allof',
+        ['match', '**/*.js', 'wholename'],
+        ['not', ['match', '**/__generated__/**', 'wholename']],
+        ['not', ['empty']],
+        ['type', 'f']
+      ],
+      fields: ['name', 'size', 'mtime_ms', 'exists', 'type']
+    }
+  },
+  graph: {
+    id: 'graph',
+    path: '/Users/justin/Workspace/github.com/buildkite/buildkite/app/models/api/graph',
+    config: {
+      expression: [
+        'allof',
+        ['match', '**/*.rb', 'wholename'],
+        ['not', ['empty']],
+        ['type', 'f']
+      ],
+      fields: ['name', 'size', 'mtime_ms', 'exists', 'type']
+    }
+  }
+}
+
+async function compileRelayGeneratedArtifacts() {
+  try {
+    logger.info('Executing relay-compiler');
+    const {stdout, stderr} = await exec(`relay-compiler --schema ${SCHEMA_PATH} --src app`);
+    stdout.split('\n').slice(2, -1).forEach(logger.info)
+  } catch (error) {
+    if (error.code !== 0)
+      error.stdout.split('\n').slice(2, -1).forEach(logger.error)
+  }
+}
+
+async function syncGraphqlSchemaToDisk() {
+  const endpoint = 'http://graphql.buildkite.localhost/v1';
+  const body = JSON.stringify({query: introspectionQuery});
+  const headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer test'};
+
+  logger.info('Fetching current GraphQL introspection schema from "%s"', endpoint);
+
+  try {
+    const response = await fetch(endpoint, {method: 'POST', headers, body});
+    if (response.ok) {
+      const {data, errors} = await response.json();
+
+      if (errors)
+        throw new Error(JSON.stringify(errors, null, 2));
+
+      await writeFile(SCHEMA_PATH, JSON.stringify({data}, null, 2));
+      logger.info('Synced current GraphQL schema to "%s"', SCHEMA_PATH);
+    } else {
+      logger.error('Error syncing current GraphQL schema, request to "%s" failed with status code %s', endpoint, response.status)
+    }
+  } catch (error) {
+    logger.error(error);
+  }
+}
+
+async function start() {
+  // Create the Watchman client.
+  const client = new watchman.Client();
+
+  // Terminate cleanly.
+  ['SIGINT', 'SIGTERM'].forEach(signal => process.on(signal, () => {
+    console.log();
+    logger.warn('Received %s — shutting down!', signal);
+    client && client.end();
+    process.exit();
+  }));
+
+  const {version} = await checkCapability(client);
+  logger.info('Starting GraphWatcher (Watchman: %s)', version);
+
+  await syncGraphqlSchemaToDisk();
+  await compileRelayGeneratedArtifacts();
+
+  logger.info('Setting up subscriptions for GraphQL / Relay filesystem events');
+  subscribe(client, SUBSCRIPTIONS.graph, syncGraphqlSchemaToDisk);
+  subscribe(client, SUBSCRIPTIONS.frontend, compileRelayGeneratedArtifacts);
+}
+
+start();
