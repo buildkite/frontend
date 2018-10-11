@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const AssetsPlugin = require('assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const RelayCompilerPlugin = require('relay-compiler-webpack-plugin');
 
 // Ensure a FRONTEND_HOST is setup since we embed it in the assets.json file
 if (!process.env.FRONTEND_HOST) {
@@ -40,13 +39,6 @@ const chunkFilenameFormat = IS_PRODUCTION ? "[chunkhash].chunk" : "[name].chunk"
 const devTool = IS_PRODUCTION ? "source-map" : "inline-cheap-source-map";
 
 var plugins = [
-  // Forked version of the RelayCompilerWebpackPlugin that supports
-  // relay-compiler 1.1.0
-  new RelayCompilerPlugin({
-    schema: path.join(__dirname, '../app/graph/schema.json'),
-    src: path.resolve(__dirname, '../app')
-  }),
-
   // Only add the 'whatwg-fetch' plugin if the browser doesn't support it
   new webpack.ProvidePlugin({ 'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch' }),
 

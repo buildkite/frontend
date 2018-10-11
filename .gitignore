@@ -19,3 +19,9 @@ coverage
 
 # Webpack bundle analysis
 bundle-analysis
+
+# Babel generated files (from relay-compiler)
+__generated__
+
+# Storybook exports generated using `yarn build-storybook`
+storybook-static

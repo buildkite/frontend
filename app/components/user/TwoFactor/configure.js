@@ -189,6 +189,14 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
             </CopyToClipboard>
           </Panel.Section>
 
+          <Button
+            className="col-12"
+            theme="success"
+            onClick={this.handleRecoveryCodeRegeneration}
+          >
+              Regenerate Recovery Codes
+          </Button>
+
           <Panel.Section>
             <Button
               className="col-12"
@@ -322,6 +330,29 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
   handleContinueClick = () => {
     this.setState({ confirmedRecoveryCodes: true });
   };
+
+  handleRecoveryCodeRegeneration = () => {
+    commitMutation(this.props.relay.environment, {
+      mutation: graphql`
+        mutation configureRecoveryCodeRegenerationMutation($input: TOTPRecoveryCodesRegenerateInput!) {
+          totpRecoveryCodesRegenerate(input: $input) {
+            clientMutationId
+            recoveryCodes {
+              ...RecoveryCodeList_recoveryCodes
+            }
+          }
+        }
+      `,
+      variables: { input: { totpId: this.state.totpId } },
+      onCompleted: (response) => {
+        this.setState({
+          recoveryCodes: {
+            codes: response.totpRecoveryCodesRegenerate.recoveryCodes.codes
+          }
+        });
+      }
+    });
+  }
 
   handleCodeChange = (event) => {
     this.setState({ totpToken: event.target.value });
