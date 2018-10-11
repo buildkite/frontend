@@ -1,4 +1,4 @@
-export default from 'codemirror';
+export { default } from 'codemirror';
 
 import '../../../css/codemirror.css';
 
