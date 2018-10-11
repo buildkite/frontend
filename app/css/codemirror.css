@@ -1,3 +1,6 @@
+@import 'codemirror/lib/codemirror.css';
+@import 'variables';
+
 /* Always make the CodeMirror box the max height of it's parent, and change the
  * font so it's nicer :) */
 
