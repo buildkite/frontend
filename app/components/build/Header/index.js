@@ -23,8 +23,8 @@ class BuildHeaderComponent extends React.PureComponent {
       number: PropTypes.number.isRequired,
       state: PropTypes.string.isRequired,
       source: PropTypes.string.isRequired,
-      authorName: PropTypes.string.isRequired,
-      authorAvatar: PropTypes.string.isRequired,
+      authorName: PropTypes.string,
+      authorAvatar: PropTypes.string,
       authorUuid: PropTypes.string,
       project: PropTypes.shape({
         name: PropTypes.string.isRequired,
@@ -354,6 +354,34 @@ class BuildHeaderComponent extends React.PureComponent {
       }
     }
 
+    let avatarNode = this._avatarNode();
+    if (avatarNode) {
+      avatarNode = (
+        <div className="build-author-avatar" style={{ width: 32 + 8 }}>
+          {avatarNode}
+        </div>
+      );
+    }
+
+    let authorAndTimeNode;
+    if (build.authorName) {
+      authorAndTimeNode = (
+        <div className="build-author">
+          <div>
+            {build.authorName}
+          </div>
+
+          {this.timeAgoNode()}
+        </div>
+      );
+    } else {
+      authorAndTimeNode = (
+        <div className="build-author flex items-center">
+          {this.timeAgoNode()}
+        </div>
+      );
+    }
+
     return (
       <div>
         {this._projectNode()}
@@ -387,15 +415,8 @@ class BuildHeaderComponent extends React.PureComponent {
           <div className="panel-footer" style={{ padding: '10px 13px' }}>
             <div className="flex relative">
               <div className="absolute top-0 left-0" />
-              <div className="build-author-avatar" style={{ width: 32 + 8 }}>
-                {this._avatarNode()}
-              </div>
-              <div className="build-author">
-                <div>
-                  {build.authorName}
-                </div>
-                {this.timeAgoNode()}
-              </div>
+              {avatarNode}
+              {authorAndTimeNode}
               <div className="flex-auto">
                 {this.metaInformation()}
               </div>
@@ -422,6 +443,10 @@ class BuildHeaderComponent extends React.PureComponent {
   };
 
   _avatarNode = () => {
+    if (!this.props.build.authorName) {
+      return null;
+    }
+
     // Only show the avatar node if `showUnknownEmailPrompt` has been turned on,
     // and we don't have an associated authorUuid (which is only present if
     // there's an actual user on the build)
