@@ -27,10 +27,17 @@ class BuildTooltip extends React.PureComponent {
   };
 
   render() {
+    let userAvatarNode;
+    if (this.props.build.createdBy) {
+      userAvatarNode = (
+        <UserAvatar user={this.props.build.createdBy} className="block" style={{ width: 30, height: 30 }} />
+      );
+    }
+
     return (
       <div className="flex items-top mx2 my1">
         <div className="no-flex mr2 center">
-          <UserAvatar user={this.props.build.createdBy} className="block" style={{ width: 30, height: 30 }} />
+          {userAvatarNode}
           <small className="dark-gray">
             <Duration.Micro {...buildTime(this.props.build)} tabularNumerals={false} />
           </small>
