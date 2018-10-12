@@ -100,12 +100,8 @@ module.exports = {
   optimization: {
     splitChunks: {
       cacheGroups: {
-        styles: {
-          name: 'app-styles',
-          test: /\.css$/,
-          chunks: 'initial',
-          enforce: true
-        },
+        default: false,
+        vendors: false,
 
         vendor: {
           name: 'vendor',
