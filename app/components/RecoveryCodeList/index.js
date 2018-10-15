@@ -2,8 +2,7 @@
 
 import React from "react";
 import { createFragmentContainer, graphql } from 'react-relay/compat';
-
-import type { RecoveryCodeList_recoveryCodes } from './__generated__/RecoveryCodeList_recoveryCodes.graphql'
+import type { RecoveryCodeList_recoveryCodes } from './__generated__/RecoveryCodeList_recoveryCodes.graphql';
 
 type Props = {
   recoveryCodes: RecoveryCodeList_recoveryCodes
@@ -12,23 +11,23 @@ type Props = {
 class RecoveryCodeList extends React.PureComponent<Props> {
   render() {
     if (!this.props.recoveryCodes.codes) {
-      return null
+      return null;
     }
 
     return (
-      <ul
-        className="list-reset center"
-        style={{
-          columns: 2
-        }}
-      >
+      <ul className="list-reset center" style={{ columns: 2 }}>
         {
-          this.props.recoveryCodes.codes.map((code) => (
-          <li key={code.id}>
-            <code className="monospace h2">{code.code}</code>
-            <code className="monospace h2">{code.consumed.toString() }</code>
-          </li>
-        ))}
+          this.props.recoveryCodes.codes.map(({ code, consumed }, index) => (
+            <li key={index}>
+              <code
+                className="monospace h2"
+                style={{ textDecoration: (consumed ? 'line-through' : 'none') }}
+              >
+                {code}
+              </code>
+            </li>
+          ))
+        }
       </ul>
     );
   }
