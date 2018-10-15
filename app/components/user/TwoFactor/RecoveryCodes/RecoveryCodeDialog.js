@@ -121,14 +121,12 @@ class RecoveryCodesDialog extends React.PureComponent<Props, State> {
         mutation: graphql`
           mutation RecoveryCodeDialogCreateMutation($input: TOTPRecoveryCodesRegenerateInput!) {
             totpRecoveryCodesRegenerate(input: $input) {
-              clientMutationId
-              totp {
-                id
-                recoveryCodes {
-                  ...RecoveryCodeList_recoveryCodes
-                }
-              }
               recoveryCodes {
+                id
+                codes {
+                  code
+                  consumed
+                }
                 ...RecoveryCodeList_recoveryCodes
               }
             }
