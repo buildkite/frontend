@@ -16,8 +16,17 @@ import Badge from '../../../shared/Badge';
 import Build from './build';
 import DropdownButton from './../dropdown-button';
 
+type ViewerPartial = {
+  scheduledBuilds: {
+    count: number
+  },
+  runningBuilds: {
+    count: number
+  }
+};
+
 type Props = {
-  viewer?: Object,
+  viewer?: ViewerPartial,
   relay: Object
 };
 
@@ -103,17 +112,31 @@ class MyBuilds extends React.Component<Props, State> {
   // As we get new values for scheduledBuildsCount and runningBuildsCount from
   // Relay + GraphQL, we'll be sure to update the cached state with the latest
   // values so when the page re-loads, we can show the latest numbers.
-  componentDidUpdate() {
-    if (!this.props.viewer) {
+  componentDidUpdate(prevProps: { viewer?: ViewerPartial }) {
+    const { viewer } = this.props;
+    const { viewer: prevViewer } = prevProps;
+
+    // If we don't have a current Viewer object, we know we don't have fresh data
+    if (!viewer) {
       return;
     }
 
-    if (this.props.viewer.scheduledBuilds || this.props.viewer.runningBuilds) {
-      this.setCachedState({
-        scheduledBuildsCount: this.props.viewer.scheduledBuilds.count,
-        runningBuildsCount: this.props.viewer.runningBuilds.count
-      });
+    // If we have a previous viewer object with build data, let's
+    // check if any of the counts have changed, and abort if not
+    if (prevViewer && prevViewer.scheduledBuilds && prevViewer.runningBuilds) {
+      if (
+        viewer.scheduledBuilds.count === prevViewer.scheduledBuilds.count &&
+        viewer.runningBuilds.count === prevViewer.runningBuilds.count
+      ) {
+        return;
+      }
     }
+
+    // Finally, update the state
+    this.setCachedState({
+      scheduledBuildsCount: viewer.scheduledBuilds.count,
+      runningBuildsCount: viewer.runningBuilds.count
+    });
   }
 
   render() {
