@@ -27,9 +27,12 @@ class RecoveryCodes extends React.PureComponent<Props, State> {
           Recovery Codes
         </Panel.Header>
         <Panel.Section>
-          {this.props.totp.id ? (
+          {this.props.totp ? (
             <React.Fragment>
-              <p>Recovery codes will give access to your account if you lose access to your device and cannot retrieve two-factor authentication codes.</p>
+              <p>
+                Recovery codes will give access to your account if you lose access to your device and cannot
+                retrieve two-factor authentication codes.
+              </p>
               <p>
                 Buildkite support cannot restore access to accounts with two-factor authentication enabled for security reasons.
                 {' '}
@@ -38,13 +41,16 @@ class RecoveryCodes extends React.PureComponent<Props, State> {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <p>You donʼt currently have any recovery codes; this probably means you activated two-factor authentication during the earliest beta, nice work!</p>
+              <p>
+                You donʼt currently have any recovery codes; this probably means you activated two-factor
+                authentication during the earliest beta, nice work!
+              </p>
             </React.Fragment>
           )}
         </Panel.Section>
         <Panel.Footer>
           <Button onClick={this.handleOpenDialogClick}>
-            {this.props.totp.id ? 'View' : 'Generate'} recovery codes
+            {this.props.totp ? 'View' : 'Generate'} recovery codes
           </Button>
           {this.state.dialogOpen ? (
             <RecoveryCodeDialog
