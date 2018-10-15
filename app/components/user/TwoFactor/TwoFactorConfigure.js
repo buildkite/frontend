@@ -5,17 +5,16 @@ import { createFragmentContainer, graphql, commitMutation } from 'react-relay/co
 import DocumentTitle from 'react-document-title';
 import QRCode from 'qrcode.react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import GraphQLErrors from 'app/constants/GraphQLErrors';
+import ValidationErrors from 'app/lib/ValidationErrors';
+import Button from 'app/components/shared/Button';
+import FormTextField from 'app/components/shared/FormTextField';
+import PageHeader from "app/components/shared/PageHeader";
+import Panel from 'app/components/shared/Panel';
+import Icon from "app/components/shared/Icon";
+import Spinner from 'app/components/shared/Spinner';
+import RecoveryCodeList from 'app/components/RecoveryCodeList';
 
-import GraphQLErrors from '../../../constants/GraphQLErrors';
-import ValidationErrors from '../../../lib/ValidationErrors';
-
-import Button from '../../shared/Button';
-import FormTextField from '../../shared/FormTextField';
-import PageHeader from "../../shared/PageHeader";
-import Panel from '../../shared/Panel';
-import Icon from "../../shared/Icon";
-import Spinner from '../../shared/Spinner';
-import RecoveryCodeList from '../../RecoveryCodeList';
 
 type Props = {
   viewer: {
