@@ -24,9 +24,7 @@
     "@babel/plugin-proposal-json-strings"
   ],
   "env": {
-    "development": {
-      "presets": ["react-hmre"]
-    },
+    "development": {},
     "test": {
       "plugins": [
         "react-pure-components",
