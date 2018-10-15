@@ -144,10 +144,18 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "app/**/*.js"
+      "<rootDir>/app/**/*.js"
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/"
+    ],
+    "testMatch": [
+      "<rootDir>/app/**/__tests__/**/*.js",
+      "<rootDir>/app/**/?(*.)(spec|test).js"
+    ],
+    "moduleDirectories": [
+      "<rootDir>/node_modules",
+      "<rootDir>/app"
     ]
   }
 }
