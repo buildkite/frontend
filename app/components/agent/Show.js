@@ -338,7 +338,7 @@ class AgentShow extends React.Component {
     const agent = this.props.agent;
 
     return (
-      <DocumentTitle title={`Agents / ${this.props.agent.name} · ${this.props.agent.organization.name}`}>
+      <DocumentTitle title={`${this.props.agent.name} · ${this.props.agent.organization.name}`}>
         <PageWithContainer>
           <Panel className="sm-col-9 lg-col-6 mx-auto">
             <Panel.Header>
