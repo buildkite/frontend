@@ -9490,7 +9490,7 @@ loose-envify@^1.4.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-loud-rejection@^1.0.0, loud-rejection@^1.6.0:
+loud-rejection@^1.0.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/loud-rejection/-/loud-rejection-1.6.0.tgz#5b46f80147edee578870f086d04821cf998e551f"
   integrity sha1-W0b4AUft7leIcPCG0Eghz5mOVR8=
@@ -14787,20 +14787,7 @@ webpack-cli@3.1.2:
     v8-compile-cache "^2.0.2"
     yargs "^12.0.2"
 
-webpack-dev-middleware@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-3.2.0.tgz#a20ceef194873710052da678f3c6ee0aeed92552"
-  integrity sha512-YJLMF/96TpKXaEQwaLEo+Z4NDK8aV133ROF6xp9pe3gQoS7sxfpXh4Rv9eC+8vCvWfmDjRQaMSlRPbO+9G6jgA==
-  dependencies:
-    loud-rejection "^1.6.0"
-    memory-fs "~0.4.1"
-    mime "^2.3.1"
-    path-is-absolute "^1.0.0"
-    range-parser "^1.0.3"
-    url-join "^4.0.0"
-    webpack-log "^2.0.0"
-
-webpack-dev-middleware@^3.4.0:
+webpack-dev-middleware@3.4.0, webpack-dev-middleware@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-3.4.0.tgz#1132fecc9026fd90f0ecedac5cbff75d1fb45890"
   integrity sha512-Q9Iyc0X9dP9bAsYskAVJ/hmIZZQwf/3Sy4xCAZgL5cUkjZmUZLt4l5HpbST/Pdgjn3u6pE7u5OdGd1apgzRujA==
@@ -14810,10 +14797,10 @@ webpack-dev-middleware@^3.4.0:
     range-parser "^1.0.3"
     webpack-log "^2.0.0"
 
-webpack-dev-server@3.1.8:
-  version "3.1.8"
-  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-3.1.8.tgz#eb7a95945d1108170f902604fb3b939533d9daeb"
-  integrity sha512-c+tcJtDqnPdxCAzEEZKdIPmg3i5i7cAHe+B+0xFNK0BlCc2HF/unYccbU7xTgfGc5xxhCztCQzFmsqim+KhI+A==
+webpack-dev-server@3.1.9:
+  version "3.1.9"
+  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-3.1.9.tgz#8b32167624d2faff40dcedc2cbce17ed1f34d3e0"
+  integrity sha512-fqPkuNalLuc/hRC2QMkVYJkgNmRvxZQo7ykA2e1XRg/tMJm3qY7ZaD6d89/Fqjxtj9bOrn5wZzLD2n84lJdvWg==
   dependencies:
     ansi-html "0.0.7"
     bonjour "^3.5.0"
@@ -14840,7 +14827,7 @@ webpack-dev-server@3.1.8:
     spdy "^3.4.1"
     strip-ansi "^3.0.0"
     supports-color "^5.1.0"
-    webpack-dev-middleware "3.2.0"
+    webpack-dev-middleware "3.4.0"
     webpack-log "^2.0.0"
     yargs "12.0.2"
 
