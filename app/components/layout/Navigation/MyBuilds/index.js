@@ -12,7 +12,6 @@ import Spinner from '../../../shared/Spinner';
 import Dropdown from '../../../shared/Dropdown';
 import Icon from '../../../shared/Icon';
 import Badge from '../../../shared/Badge';
-import CachedStateWrapper from '../../../../lib/CachedStateWrapper';
 
 import Build from './build';
 import DropdownButton from './../dropdown-button';
@@ -43,8 +42,26 @@ class MyBuilds extends React.Component<Props, State> {
     )
   }
 
-  getCachedState;
-  setCachedState;
+  // NOTE: the localStorage key is 'CachedState:MyBuilds:' for backwards
+  // compatibility with data stored by the CachedStateWrapper this used to use.
+  getCachedState() {
+    const { state, expiresAt } = JSON.parse(localStorage['CachedState:MyBuilds:'] || '{}');
+
+    if (!state || (expiresAt && expiresAt < Date.now())) {
+      return {};
+    }
+
+    return state;
+  }
+
+  setCachedState(state = {}) {
+    this.setState(state, () => {
+      localStorage['CachedState:MyBuilds:'] = JSON.stringify({
+        state,
+        expiresAt: Date.now() + hour.bind(1)
+      });
+    });
+  }
 
   // When the MyBuilds mounts, we should see if we've got any cached
   // builds numbers so we can show something right away.
@@ -243,11 +260,7 @@ class MyBuilds extends React.Component<Props, State> {
   };
 }
 
-// Wrap the MyBuilds in a CachedStateWrapper so we get access to methods
-// like `setCachedState`
-const CachedMyBuilds = CachedStateWrapper(MyBuilds, { validLength: hour.bind(1) });
-
-export default Relay.createContainer(CachedMyBuilds, {
+export default Relay.createContainer(MyBuilds, {
   initialVariables: {
     includeBuilds: false,
     includeBuildCounts: false
