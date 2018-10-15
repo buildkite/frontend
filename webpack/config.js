@@ -97,6 +97,12 @@ module.exports = {
     publicPath: process.env.FRONTEND_HOST
   },
 
+  resolve: {
+    alias: {
+      app: path.resolve(__dirname, '../app')
+    }
+  },
+
   optimization: {
     splitChunks: {
       cacheGroups: {
