@@ -28,18 +28,36 @@ type State = {
 };
 
 class MyBuilds extends React.Component<Props, State> {
-  state = {
-    isDropdownVisible: false,
-    scheduledBuildsCount: (
-      (this.props.viewer && this.props.viewer.scheduledBuilds)
-        ? this.props.viewer.scheduledBuilds.count
-        : 0
-    ),
-    runningBuildsCount: (
-      (this.props.viewer && this.props.viewer.runningBuilds)
-        ? this.props.viewer.runningBuilds.count
-        : 0
-    )
+  constructor(props) {
+    super(props);
+
+    // When the MyBuilds starts, see if we've got either cached or
+    // current build numbers so we can show something right away.
+    const initialState = {
+      isDropdownVisible: false,
+      scheduledBuildsCount: (
+        (this.props.viewer && this.props.viewer.scheduledBuilds)
+          ? this.props.viewer.scheduledBuilds.count
+          : 0
+      ),
+      runningBuildsCount: (
+        (this.props.viewer && this.props.viewer.runningBuilds)
+          ? this.props.viewer.runningBuilds.count
+          : 0
+      )
+    };
+
+    const cachedState = this.getCachedState();
+
+    if (!this.props.viewer || !this.props.viewer.scheduledBuilds) {
+      initialState.scheduledBuildsCount = cachedState.scheduledBuildsCount || 0;
+    }
+
+    if (!this.props.viewer || !this.props.viewer.runningBuilds) {
+      initialState.runningBuildsCount = cachedState.runningBuildsCount || 0;
+    }
+
+    this.state = initialState;
   }
 
   // NOTE: the localStorage key is 'CachedState:MyBuilds:' for backwards
@@ -61,23 +79,6 @@ class MyBuilds extends React.Component<Props, State> {
         expiresAt: Date.now() + hour.bind(1)
       });
     });
-  }
-
-  // When the MyBuilds mounts, we should see if we've got any cached
-  // builds numbers so we can show something right away.
-  componentWillMount() {
-    const initialState = {};
-    const cachedState = this.getCachedState();
-
-    if (!this.props.viewer || !this.props.viewer.scheduledBuilds) {
-      initialState.scheduledBuildsCount = cachedState.scheduledBuildsCount || 0;
-    }
-
-    if (!this.props.viewer || !this.props.viewer.runningBuilds) {
-      initialState.runningBuildsCount = cachedState.runningBuildsCount || 0;
-    }
-
-    this.setState(initialState);
   }
 
   componentDidMount() {
@@ -102,15 +103,15 @@ class MyBuilds extends React.Component<Props, State> {
   // As we get new values for scheduledBuildsCount and runningBuildsCount from
   // Relay + GraphQL, we'll be sure to update the cached state with the latest
   // values so when the page re-loads, we can show the latest numbers.
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.viewer) {
+  componentDidUpdate() {
+    if (!this.props.viewer) {
       return;
     }
 
-    if (nextProps.viewer.scheduledBuilds || nextProps.viewer.runningBuilds) {
+    if (this.props.viewer.scheduledBuilds || this.props.viewer.runningBuilds) {
       this.setCachedState({
-        scheduledBuildsCount: nextProps.viewer.scheduledBuilds.count,
-        runningBuildsCount: nextProps.viewer.runningBuilds.count
+        scheduledBuildsCount: this.props.viewer.scheduledBuilds.count,
+        runningBuildsCount: this.props.viewer.runningBuilds.count
       });
     }
   }
