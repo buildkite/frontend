@@ -41,14 +41,12 @@ class BuildState extends React.PureComponent {
     style: PropTypes.object
   };
 
-  state = {
-    uuid: ''
-  };
+  constructor(props) {
+    super(props);
 
-  componentWillMount() {
-    this.setState({
+    this.state = {
       uuid: uuid()
-    });
+    };
   }
 
   render() {
