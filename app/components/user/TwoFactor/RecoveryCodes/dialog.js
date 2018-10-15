@@ -157,13 +157,19 @@ class RecoveryCodesDialog extends React.PureComponent<Props, State> {
                 recoveryCodes {
                   ...RecoveryCodeList_recoveryCodes
                   id
-                  codes
+                  codes {
+                    code
+                    consumed
+                  }
                 }
               }
               recoveryCodes {
                 ...RecoveryCodeList_recoveryCodes
                 id
-                codes
+                codes {
+                  code
+                  consumed
+                }
               }
             }
           }
@@ -228,7 +234,10 @@ export default createFragmentContainer(RecoveryCodesDialog, {
       recoveryCodes {
         id
         ...RecoveryCodeList_recoveryCodes
-        codes
+        codes {
+          code
+          consumed
+        }
       }
     }
   `

@@ -8,12 +8,10 @@ import Panel from '../../../shared/Panel';
 
 import Dialog from './dialog';
 
+import type { RecoveryCodes_totp } from './__generated__/RecoveryCodes_totp.graphql';
+
 type Props = {
-  totp: ?{
-    recoveryCodes: ?{
-      codes: Array<string>
-    }
-  }
+  totp: RecoveryCodes_totp
 };
 
 type State = {
@@ -88,7 +86,10 @@ export default createFragmentContainer(RecoveryCodes, {
     fragment RecoveryCodes_totp on TOTP {
       ...Dialog_totp
       recoveryCodes {
-        codes
+        codes {
+          code
+          consumed
+        }
       }
     }
   `

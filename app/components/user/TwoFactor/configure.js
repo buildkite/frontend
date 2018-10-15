@@ -290,7 +290,10 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
               id
               recoveryCodes {
                 ...RecoveryCodeList_recoveryCodes
-                codes
+                codes {
+                  code
+                  consumed
+                }
               }
             }
           }
@@ -415,7 +418,10 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
                   id
                   recoveryCodes {
                     ...RecoveryCodeList_recoveryCodes
-                    codes
+                    codes {
+                      code
+                      consumed
+                    }
                   }
                 }
               }
@@ -474,7 +480,10 @@ export default createFragmentContainer(TwoFactorConfigure, {
         id
         recoveryCodes {
           ...RecoveryCodeList_recoveryCodes
-          codes
+          codes {
+            code
+            consumed
+          }
         }
       }
     }
