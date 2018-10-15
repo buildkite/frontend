@@ -120,6 +120,7 @@ rules:
 
   import/extensions: error
   import/unambiguous: off
+  import/no-unresolved: off  # Covered by flow
 
   react/display-name:
     - error
