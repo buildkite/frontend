@@ -110,7 +110,7 @@ module.exports = {
     'react/no-array-index-key': WARN,
     'react/no-danger': OFF,
     'react/no-danger-with-children': ERROR,
-    'react/no-deprecated': WARN,
+    'react/no-deprecated': ERROR,
     'react/no-did-mount-set-state': ERROR,
     'react/no-did-update-set-state': ERROR,
     'react/no-direct-mutation-state': ERROR,
