@@ -81,7 +81,7 @@
     "relay-compiler": "1.7.0-rc.1",
     "stats-webpack-plugin": "0.7.0",
     "style-loader": "0.23.1",
-    "url-loader": "1.1.1",
+    "url-loader": "1.1.2",
     "webpack": "4.20.2",
     "webpack-bundle-analyzer": "3.0.2",
     "webpack-cli": "3.1.2",
