@@ -48,8 +48,7 @@ steps:
 
   - name: ":rocket: :s3:"
     command: ".buildkite/steps/deploy.sh"
-    # XXX: Deploy webpack-4.x-* tags as well while we're getting webpack 4 shipped
-    branches: "master webpack-4.x-*"
+    branches: "master"
     artifact_paths: "tmp/verify/*"
     concurrency: 1
     concurrency_group: "deployer" # Shared with buildkite/frontend
