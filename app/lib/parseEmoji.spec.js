@@ -8,7 +8,7 @@ function mockLoadWebpackedCatalogue(catalogue) {
   const emojis = require(`../../vendor/emojis/img-${catalogue}-64.json`);
   const webpack = {};
 
-  return eval(loader.call(webpack, emojis)); // eslint-disable-line no-eval
+  return JSON.parse(loader.call(webpack, emojis)); // eslint-disable-line no-eval
 }
 
 jest.mock('../emoji/buildkite', () => mockLoadWebpackedCatalogue('buildkite'));

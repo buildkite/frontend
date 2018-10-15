@@ -126,6 +126,6 @@ module.exports = function(source) {
   // Store the newly sorted emoji
   this.value = [emojiData];
 
-  // Re-export the emoji as native code
-  return "module.exports = " + JSON.stringify(emojiData, undefined, "\t") + ";";
+  // Re-export the emoji as JSON
+  return JSON.stringify(emojiData, undefined, "\t");
 };
