@@ -27,7 +27,7 @@
     "build-storybook-sketch": "mkdir -p dist && yarn run html-sketchapp --url 'http://localhost:6006/iframe.html?selectedKind=Sketch&selectedStory=Export' --out-dir dist"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
+    "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/plugin-proposal-decorators": "^7.0.0",
     "@babel/plugin-proposal-do-expressions": "^7.0.0",
@@ -60,6 +60,7 @@
     "assets-webpack-plugin": "3.9.7",
     "babel-core": "^7.0.0-0",
     "babel-eslint": "10.0.1",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.0",
     "babel-plugin-react-pure-components": "2.2.2",
     "babel-plugin-react-transform": "3.0.0",
