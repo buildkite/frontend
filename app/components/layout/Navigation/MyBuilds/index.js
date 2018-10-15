@@ -22,7 +22,8 @@ type ViewerPartial = {
   },
   runningBuilds: {
     count: number
-  }
+  },
+  user: Object
 };
 
 type Props = {
