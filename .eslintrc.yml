@@ -78,7 +78,9 @@ rules:
   no-new-require: error
   no-trailing-spaces: error
   no-unsafe-negation: error
-  no-unused-vars: error
+  no-unused-vars:
+    - error
+    - varsIgnorePattern: ^_
   no-useless-rename: warn
   no-var: warn
 
