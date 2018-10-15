@@ -40,7 +40,7 @@ const devTool = IS_PRODUCTION ? "source-map" : "inline-cheap-source-map";
 
 var plugins = [
   // Only add the 'whatwg-fetch' plugin if the browser doesn't support it
-  new webpack.ProvidePlugin({ 'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch' }),
+  new webpack.ProvidePlugin({ 'fetch': ['imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch', 'fetch'] }),
 
   // After Webpack compilation, spit out a 'manifest.json' file with a mapping
   // of file name, to compiled name.
