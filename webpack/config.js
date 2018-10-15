@@ -86,8 +86,7 @@ module.exports = {
   },
 
   entry: {
-    app: path.join(__dirname, '../app/app.js'),
-    public: path.join(__dirname, '../app/public.js')
+    app: path.join(__dirname, '../app/app.js')
   },
 
   output: {
