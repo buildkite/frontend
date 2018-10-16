@@ -145,7 +145,7 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
     this.setState({ deletingTOTP: true }, () => {
       commitMutation(this.props.relay.environment, {
         mutation: graphql`
-          mutation deleteDeleteMutation($input: TOTPDeleteInput!) {
+          mutation TwoFactorDeleteMutation($input: TOTPDeleteInput!) {
             totpDelete(input: $input) {
               clientMutationId
               viewer {
@@ -186,7 +186,7 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
 
 export default createFragmentContainer(TwoFactorDelete, {
   viewer: graphql`
-    fragment delete_viewer on Viewer {
+    fragment TwoFactorDelete_viewer on Viewer {
       totp {
         id
       }

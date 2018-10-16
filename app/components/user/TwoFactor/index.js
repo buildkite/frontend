@@ -93,15 +93,20 @@ class TwoFactorIndex extends React.PureComponent<Props> {
   renderCurrentStatus() {
     return (
       <Panel className="mb4">
+        <Panel.Header>
+          Manage Two-factor Authentication
+        </Panel.Header>
         <Panel.Section>
-          <p>Two-factor authentication is currently {this.props.viewer.totp ? 'active' : 'inactive'}.</p>
+          <p>Two-factor authentication is currently {this.props.viewer.totp ? 'active' : 'inactive'}</p>
+        </Panel.Section>
+        <Panel.Footer>
           <Button
             theme="success"
             link="/user/two-factor/configure"
           >
-            {this.props.viewer.totp ? 'Reconfigure' : 'Get Started with'} Two-Factor Authentication
+            {this.props.viewer.totp ? 'Reconfigure' : 'Enable'} Two-Factor Authentication
           </Button>
-        </Panel.Section>
+        </Panel.Footer>
       </Panel>
     );
   }
