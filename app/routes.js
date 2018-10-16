@@ -47,8 +47,8 @@ import JobIndex from './components/job/Index';
 import BillingUpgrade from './components/billing/BillingUpgrade';
 
 import TwoFactorIndex from './components/user/TwoFactor';
-import TwoFactorConfigure from './components/user/TwoFactor/configure';
-import TwoFactorDelete from './components/user/TwoFactor/delete';
+import TwoFactorConfigure from './components/user/TwoFactor/TwoFactorConfigure';
+import TwoFactorDelete from './components/user/TwoFactor/TwoFactorDelete';
 
 import GraphQLExplorer from './components/user/graphql/GraphQLExplorer';
 import GraphQLExplorerConsole from './components/user/graphql/GraphQLExplorerConsole';

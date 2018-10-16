@@ -4,13 +4,11 @@ import React from "react";
 import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
 import { Link } from 'react-router';
-
 import GraphQLErrors from '../../../constants/GraphQLErrors';
-
-import Button from '../../shared/Button';
-import PageHeader from "../../shared/PageHeader";
-import Panel from '../../shared/Panel';
-import Icon from "../../shared/Icon";
+import Button from 'app/components/shared/Button';
+import PageHeader from "app/components/shared/PageHeader";
+import Panel from 'app/components/shared/Panel';
+import Icon from "app/components/shared/Icon";
 
 type ViewerType = {
   totp: ?{
@@ -42,7 +40,7 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
 
   render() {
     return (
-      <DocumentTitle title={`Remove Two-Factor Authentication`}>
+      <DocumentTitle title="Remove Two-Factor Authentication">
         <div className="container">
           <PageHeader>
             <PageHeader.Icon>

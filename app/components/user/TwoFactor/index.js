@@ -3,13 +3,11 @@
 import * as React from "react";
 import DocumentTitle from 'react-document-title';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
-
-import Badge from '../../shared/Badge';
-import Button from '../../shared/Button';
-import Icon from "../../shared/Icon";
-import PageHeader from "../../shared/PageHeader";
-import Panel from '../../shared/Panel';
-
+import Badge from 'app/components/shared/Badge';
+import Button from 'app/components/shared/Button';
+import Icon from "app/components/shared/Icon";
+import PageHeader from "app/components/shared/PageHeader";
+import Panel from 'app/components/shared/Panel';
 import RecoveryCodes from './RecoveryCodes';
 
 type Props = {
@@ -23,7 +21,7 @@ type Props = {
 class TwoFactorIndex extends React.PureComponent<Props> {
   render() {
     return (
-      <DocumentTitle title={`Two-Factor Authentication`}>
+      <DocumentTitle title="Two-Factor Authentication">
         <div className="container">
           <PageHeader>
             <PageHeader.Icon>
@@ -74,7 +72,7 @@ class TwoFactorIndex extends React.PureComponent<Props> {
             outline={true}
             link="/user/two-factor/delete"
           >
-            Remove
+            Deactivate Two-Factor Authentication
           </Button>
         </PageHeader.Menu>
       );
@@ -113,8 +111,8 @@ export default createFragmentContainer(TwoFactorIndex, {
   viewer: graphql`
     fragment TwoFactor_viewer on Viewer {
       totp {
-        ...RecoveryCodes_totp
         id
+        ...RecoveryCodes_totp
       }
     }
   `

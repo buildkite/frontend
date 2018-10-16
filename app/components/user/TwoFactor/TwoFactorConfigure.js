@@ -65,15 +65,15 @@ const AUTHENTICATORS = {
 };
 
 const AUTHENTICATOR_LIST = (
-  Object.keys(AUTHENTICATORS).map((authenticator_name) => (
+  Object.keys(AUTHENTICATORS).map((authenticatorName) => (
     <a
       className="blue hover-navy text-decoration-none hover-underline"
-      key={authenticator_name}
-      href={AUTHENTICATORS[authenticator_name]}
+      key={authenticatorName}
+      href={AUTHENTICATORS[authenticatorName]}
       target="_blank"
       rel="noopener noreferrer"
     >
-      {authenticator_name}
+      {authenticatorName}
     </a>
   )).reduce((acc, link, index, items) => {
     if (index > 0) {
@@ -281,7 +281,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     // Immediately go generate a token
     commitMutation(this.props.relay.environment, {
       mutation: graphql`
-        mutation configureCreateMutation($input: TOTPCreateInput!) {
+        mutation TwoFactorConfigureCreateMutation($input: TOTPCreateInput!) {
           totpCreate(input: $input) {
             clientMutationId
             provisioningUri
@@ -309,7 +309,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     if (this.state.totpId && this.state.generatedTOTP && !this.state.activatedTOTP) {
       commitMutation(this.props.relay.environment, {
         mutation: graphql`
-          mutation configureDeleteMutation($input: TOTPDeleteInput!) {
+          mutation TwoFactorConfigureDeleteMutation($input: TOTPDeleteInput!) {
             totpDelete(input: $input) {
               clientMutationId
             }
@@ -336,7 +336,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
   handleRecoveryCodeRegeneration = () => {
     commitMutation(this.props.relay.environment, {
       mutation: graphql`
-        mutation configureRecoveryCodeRegenerationMutation($input: TOTPRecoveryCodesRegenerateInput!) {
+        mutation TwoFactorConfigureRecoveryCodeRegenerationMutation($input: TOTPRecoveryCodesRegenerateInput!) {
           totpRecoveryCodesRegenerate(input: $input) {
             clientMutationId
             recoveryCodes {
@@ -409,7 +409,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     this.setState({ activatingTOTP: true }, () => {
       commitMutation(this.props.relay.environment, {
         mutation: graphql`
-          mutation configureActivateMutation($input: TOTPActivateInput!) {
+          mutation TwoFactorConfigureActivateMutation($input: TOTPActivateInput!) {
             totpActivate(input: $input) {
               clientMutationId
               viewer {
@@ -474,7 +474,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
 
 export default createFragmentContainer(TwoFactorConfigure, {
   viewer: graphql`
-    fragment configure_viewer on Viewer {
+    fragment TwoFactorConfigure_viewer on Viewer {
       totp {
         id
         recoveryCodes {
