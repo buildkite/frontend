@@ -61,7 +61,7 @@
     "html-sketchapp-cli": "0.6.2",
     "http-server": "0.11.1",
     "ignore-loader": "0.1.2",
-    "image-webpack-loader": "4.3.1",
+    "image-webpack-loader": "4.4.0",
     "jest": "23.6.0",
     "mini-css-extract-plugin": "0.4.4",
     "mockdate": "2.0.2",
