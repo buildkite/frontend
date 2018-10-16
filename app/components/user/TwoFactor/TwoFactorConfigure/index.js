@@ -14,7 +14,7 @@ import Panel from 'app/components/shared/Panel';
 import Icon from "app/components/shared/Icon";
 import Spinner from 'app/components/shared/Spinner';
 import RecoveryCodeList from 'app/components/RecoveryCodeList';
-
+import buildkiteqr from './buildkite.svg';
 
 type Props = {
   viewer: {
@@ -222,18 +222,24 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
 
             <p>To {this.props.viewer.totp ? 'reconfigure' : 'activate'} two-factor authentication, scan this QR Code with your authenticator application.</p>
 
-            <QRCode
-              renderAs="svg"
-              fgColor="currentColor"
-              bgColor="transparent"
-              width="300"
-              height="auto"
-              className="block my4 mx-auto"
-              style={{
-                maxWidth: '100%'
-              }}
-              value={this.state.provisioningUri}
-            />
+            <figure style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img style={{ position: 'absolute' }} src={buildkiteqr} />
+              <QRCode
+                renderAs="svg"
+                fgColor="currentColor"
+                bgColor="transparent"
+                width="300"
+                height="300"
+                className="block my4 mx-auto"
+                level="H" // approx 30% error correction
+                style={{
+                  maxWidth: '100%'
+                }}
+                value={this.state.provisioningUri}
+              />
+            </figure>
+
+            <code>{this.state.provisioningUri}</code>
 
             <p>If you need an authenticator application, some good options include {AUTHENTICATOR_LIST}.</p>
           </Panel.Section>

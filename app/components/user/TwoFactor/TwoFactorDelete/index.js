@@ -4,7 +4,7 @@ import React from "react";
 import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
 import { Link } from 'react-router';
-import GraphQLErrors from '../../../constants/GraphQLErrors';
+import GraphQLErrors from 'app/constants/GraphQLErrors';
 import Button from 'app/components/shared/Button';
 import PageHeader from "app/components/shared/PageHeader";
 import Panel from 'app/components/shared/Panel';
