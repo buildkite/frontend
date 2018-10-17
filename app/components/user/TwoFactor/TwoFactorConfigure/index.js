@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title';
 import GraphQLErrors from 'app/constants/GraphQLErrors';
 import Button from 'app/components/shared/Button';
 import Spinner from 'app/components/shared/Spinner';
+import Icon from "app/components/shared/Icon";
 // import Panel from 'app/components/shared/Panel';
 // import Icon from "app/components/shared/Icon";
 // import Spinner from 'app/components/shared/Spinner';
@@ -117,6 +118,12 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
       <DocumentTitle title="Configure Two-Factor Authentication">
         <div className="container">
           <PageHeader>
+            <PageHeader.Icon>
+              <Icon
+                icon="placeholder"
+                style={{ width: 34, height: 34, marginTop: 3, marginLeft: 3 }}
+              />
+            </PageHeader.Icon>
             <PageHeader.Title>
               Configure Two-Factor Authentication
             </PageHeader.Title>
@@ -130,12 +137,14 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
               </Button>
             </PageHeader.Menu>
           </PageHeader>
-          {this.hasTotp() ? this.renderCurrentStep() : (
-            <React.Fragment>
-              <Spinner />
-              Getting ready to {this.props.viewer.totp ? 'reconfigure' : 'configure'} two-factor authentication…
-            </React.Fragment>
-          )}
+          <div className="col-12 lg-col-6 mx-auto">
+            {this.hasTotp() ? this.renderCurrentStep() : (
+              <React.Fragment>
+                <Spinner />
+                Getting ready to {this.props.viewer.totp ? 'reconfigure' : 'configure'} two-factor authentication…
+              </React.Fragment>
+            )}
+          </div>
         </div>
       </DocumentTitle>
     );

@@ -28,28 +28,35 @@ export default class TwoFactorConfigureRecoveryCodes extends React.PureComponent
 
     return (
       <Panel>
+        <Panel.Header>
+          Recovery Codes
+        </Panel.Header>
         <Panel.Section>
-          <p>Recovery codes are used if you lose access to your OTP generator application.</p>
-          <p>Copy or print these recovery codes before you continue to configure two-factor authentication.</p>
-
-          <RecoveryCodeList recoveryCodes={this.props.recoveryCodes} />
-
-          <p>These codes should be treated just like your password. Weʼd suggest saving them into a secure password manager.</p>
-
-          <CopyToClipboard text={text} onCopy={this.handleRecoveryCodeCopy}>
-            <Button className="col-12" theme="success">Copy Recovery Codes</Button>
-          </CopyToClipboard>
+          <p>
+            Recovery codes are used if you lose access to your OTP generator application. They’re the only way to get back into
+            your account if you lose access to your Authenticator Application once it’s configured.
+          </p>
         </Panel.Section>
-
-        <Button
-          className="col-12"
-          theme="success"
-          onClick={this.props.handleRegenerateRecoveryCode}
-        >
-            Regenerate Recovery Codes
-        </Button>
-
         <Panel.Section>
+          <Panel className="mb3 orange border-orange">
+            <Panel.Section>
+              <p>
+                <strong>These codes should be treated just like your password!</strong>
+                <br />
+                Weʼd suggest saving them into a secure password manager, or printing them off and storing them somewhere safe.
+              </p>
+            </Panel.Section>
+          </Panel>
+          <Panel>
+            <Panel.Section>
+              <CopyToClipboard text={text} onCopy={this.handleRecoveryCodeCopy}>
+                <Button theme="success">Copy</Button>
+              </CopyToClipboard>
+              <RecoveryCodeList recoveryCodes={this.props.recoveryCodes} />
+            </Panel.Section>
+          </Panel>
+        </Panel.Section>
+        <Panel.Footer>
           <Button
             className="col-12"
             theme={this.state.copiedRecoveryCodes ? 'success' : 'default'}
@@ -57,7 +64,7 @@ export default class TwoFactorConfigureRecoveryCodes extends React.PureComponent
           >
             Continue
           </Button>
-        </Panel.Section>
+        </Panel.Footer>
       </Panel>
     );
   }

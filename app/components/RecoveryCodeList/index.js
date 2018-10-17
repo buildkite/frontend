@@ -15,7 +15,7 @@ class RecoveryCodeList extends React.PureComponent<Props> {
     }
 
     return (
-      <ul className="list-reset center" style={{ columns: 2 }}>
+      <ul className="list-reset center py4" style={{ columns: 2 }}>
         {
           this.props.recoveryCodes.codes.map(({ code, consumed }) => (
             <li key={code}>
