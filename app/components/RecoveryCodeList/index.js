@@ -2,8 +2,28 @@
 
 import React from "react";
 import { createFragmentContainer, graphql } from 'react-relay/compat';
+import styled from 'styled-components';
 import Spinner from 'app/components/shared/Spinner';
 import type { RecoveryCodeList_recoveryCodes } from './__generated__/RecoveryCodeList_recoveryCodes.graphql';
+
+const List = styled.ul`
+  columns: 2;
+  column-gap: 60px;
+`;
+
+const ListItem = styled.li`
+  display: block;
+`;
+
+const Code = styled.span`
+  display: block;
+`;
+
+const ConsumedCode = styled.span`
+  display: block;
+  line-through : 'none';
+`;
+
 
 type Props = {
   isRegeneratingCodes: boolean,
@@ -17,22 +37,21 @@ class RecoveryCodeList extends React.PureComponent<Props> {
     }
 
     return (
-      <div className="flex justify-center items-center" style={{ minHeight: "420px" }}>
+      <div className="flex justify-center items-center" style={{ minHeight: "360px" }}>
         {this.props.isRegeneratingCodes ? <Spinner /> : (
-          <ul className="list-reset center pb4 my4" style={{ columns: 2 }}>
+          <List className="list-reset center p4">
             {
               this.props.recoveryCodes.codes.map(({ code, consumed }) => (
-                <li key={code}>
-                  <code
-                    className="monospace h2"
-                    style={{ textDecoration: (consumed ? 'line-through' : 'none') }}
-                  >
-                    {code}
-                  </code>
-                </li>
+                <ListItem key={code}>
+                  {consumed ? (
+                    <ConsumedCode className="monospace h2">{code}</ConsumedCode>
+                  ) : (
+                    <Code className="monospace h2">{code}</Code>
+                  )}
+                </ListItem>
               ))
             }
-          </ul>
+          </List>
         )}
       </div>
     );

@@ -12,16 +12,18 @@ import Icon from "app/components/shared/Icon";
 // import Spinner from 'app/components/shared/Spinner';
 import RecoveryCodeList from 'app/components/RecoveryCodeList';
 import PageHeader from "app/components/shared/PageHeader";
+import WorkflowProgress from "app/components/shared/WorkflowProgress";
 import Introduction from './TwoFactorConfigureIntroduction';
 import RecoveryCodes from './TwoFactorConfigureRecoveryCodes';
 import ActivateTOTP from './TwoFactorConfigureActivate';
 // import Complete from './TwoFactorConfigureComplete';
 import TotpCreateMutation from './TotpCreateMutation';
 import TotpDeleteMutation from './TotpDeleteMutation';
+import type { RelayProp } from 'react-relay';
 import type { TwoFactorConfigure_viewer } from './__generated__/TwoFactorConfigure_viewer.graphql';
 
 const STEPS = {
-  INTRODUCTION: 'INTRODUCTION',
+  // INTRODUCTION: 'INTRODUCTION',
   RECOVERY_CODES: 'RECOVERY_CODES',
   ACTIVATE_TOTP: 'ACTIVATE_TOTP',
   COMPLETE: 'COMPLETE'
@@ -39,26 +41,36 @@ type StepType = $Keys<typeof STEPS>;
 type TotpType = $PropertyType<TotpType, 'totp'>;
 type RecoveryCodesType = $PropertyType<TotpType, 'recoveryCodes'>;
 
-function getNextStep(currentStep: StepType): ?Step {
+function getNextStep(currentStep: StepType): ?StepType {
   switch (currentStep) {
-    case STEPS.INTRODUCTION: return STEPS.RECOVERY_CODES;
+    // case STEPS.INTRODUCTION: return STEPS.RECOVERY_CODES;
     case STEPS.RECOVERY_CODES: return STEPS.ACTIVATE_TOTP;
     case STEPS.ACTIVATE_TOTP: return STEPS.COMPLETE;
     case STEPS.COMPLETE: return STEPS.COMPLETE;
   }
 }
 
-function getPreviousStep(currentStep: StepType): ?Step {
+function getPreviousStep(currentStep: StepType): ?StepType {
   switch (currentStep) {
-    case STEPS.INTRODUCTION: return STEPS.INTRODUCTION;
-    case STEPS.RECOVERY_CODES: return STEPS.INTRODUCTION;
+    // case STEPS.INTRODUCTION: return STEPS.INTRODUCTION;
+    case STEPS.RECOVERY_CODES: return STEPS.RECOVERY_CODES;
     case STEPS.ACTIVATE_TOTP: return STEPS.RECOVERY_CODES;
     case STEPS.COMPLETE: return STEPS.COMPLETE;
   }
 }
 
+function currentStepIndex(currentStep: StepType): number {
+  switch (currentStep) {
+    // case STEPS.INTRODUCTION: return 1;
+    case STEPS.RECOVERY_CODES: return 1;
+    case STEPS.ACTIVATE_TOTP: return 2;
+    case STEPS.COMPLETE: return 3;
+    default: return -1;
+  }
+}
+
 type Props = {
-  relay: *, // TODO
+  relay: RelayProp,
   viewer: TwoFactorConfigure_viewer
 };
 
@@ -70,7 +82,7 @@ type State = {
 
 class TwoFactorConfigure extends React.PureComponent<Props, State> {
   state = {
-    step: STEPS.INTRODUCTION,
+    step: STEPS.RECOVERY_CODES,
     didGeneratedTotp: false,
     provisioningUri: ''
   };
@@ -137,13 +149,17 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
               Manage your two-factor authentication settings.
             </PageHeader.Description>
             <PageHeader.Menu>
-              PROGRESS BAR: {this.state.step}
+              <WorkflowProgress
+                className="mr4"
+                stepCount={Object.keys(STEPS).length}
+                currentStepIndex={currentStepIndex(this.state.step)}
+              />
               <Button theme="default" outline={true} link="/user/two-factor">
                 Cancel
               </Button>
             </PageHeader.Menu>
           </PageHeader>
-          <div className="col-12 lg-col-6 mx-auto">
+          <div className="col-12 lg-col-7 mx-auto">
             {this.hasTotp ? this.renderCurrentStep() : (
               <React.Fragment>
                 <Spinner />
@@ -163,13 +179,13 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
     };
 
     switch (this.state.step) {
-      case STEPS.INTRODUCTION:
-        return (
-          <Introduction
-            {...props}
-            hasExistingTotp={!this.didGenerateTotp}
-          />
-        );
+      // case STEPS.INTRODUCTION:
+      //   return (
+      //     <Introduction
+      //       {...props}
+      //       hasExistingTotp={!this.didGenerateTotp}
+      //     />
+      //   );
       case STEPS.RECOVERY_CODES:
         return (
           <RecoveryCodes

@@ -44,8 +44,6 @@ export default class TwoFactorConfigureRecoveryCodes extends React.PureComponent
             Recovery codes are used if you lose access to your OTP generator application. They’re the only way to get
             back into your account if you lose access to your Authenticator Application once it’s configured.
           </p>
-        </Panel.Section>
-        <Panel.Section>
           <Panel className="mb3 orange border-orange">
             <Panel.Section>
               <p>
@@ -58,27 +56,28 @@ export default class TwoFactorConfigureRecoveryCodes extends React.PureComponent
           </Panel>
           <Panel>
             <Panel.Section>
-              <Button
-                theme="success"
-                outline={true}
-                disabled={this.state.isRegeneratingCodes}
-                onClick={this.handleRegenerateRecoveryCode}
-              >
-                Regenerate Codes
-              </Button>
+              <div className="flex justify-between">
+                <Button
+                  theme="success"
+                  outline={true}
+                  disabled={this.state.isRegeneratingCodes}
+                  onClick={this.handleRegenerateRecoveryCode}
+                >
+                  Regenerate
+                </Button>
+                <CopyToClipboard text={this.recoveryCodeText} onCopy={this.handleRecoveryCodeCopy}>
+                  <Button
+                    theme={this.state.didCopyRecoveryCodes ? 'default' : 'success'}
+                    disabled={this.state.isRegeneratingCodes}
+                  >
+                    {this.state.didCopyRecoveryCodes ? 'Copied!' : 'Copy'}
+                  </Button>
+                </CopyToClipboard>
+              </div>
               <RecoveryCodeList
                 recoveryCodes={this.props.recoveryCodes}
                 isRegeneratingCodes={this.state.isRegeneratingCodes}
               />
-              <CopyToClipboard text={this.recoveryCodeText} onCopy={this.handleRecoveryCodeCopy}>
-                <Button
-                  className="col-12"
-                  theme={this.state.didCopyRecoveryCodes ? 'default' : 'success'}
-                  disabled={this.state.isRegeneratingCodes}
-                >
-                  {this.state.didCopyRecoveryCodes ? 'Copied!' : 'Copy'}
-                </Button>
-              </CopyToClipboard>
             </Panel.Section>
           </Panel>
         </Panel.Section>
@@ -88,7 +87,7 @@ export default class TwoFactorConfigureRecoveryCodes extends React.PureComponent
             theme={this.state.didCopyRecoveryCodes ? 'success' : 'default'}
             onClick={this.props.onNextStep}
           >
-            Continue
+            Next
           </Button>
         </Panel.Footer>
       </Panel>

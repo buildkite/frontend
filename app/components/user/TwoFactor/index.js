@@ -19,6 +19,15 @@ type Props = {
 };
 
 class TwoFactor extends React.PureComponent<Props> {
+  get recoveryCodesRemaining(): number | null {
+    if (this.props.viewer.totp) {
+      return this.props.viewer.totp.recoveryCodes.codes
+        .filter(({ consumed }) => !consumed)
+        .length;
+    }
+    return null;
+  }
+
   render() {
     return (
       <DocumentTitle title="Two-Factor Authentication">
@@ -70,14 +79,15 @@ class TwoFactor extends React.PureComponent<Props> {
           <Panel.Header>
             Two-factor Authentication Methods
           </Panel.Header>
-
           <Panel.Section>
             <div className="flex items-center">
               <div className="flex-auto">
                 <header className="flex items-center mb1">
-                  <Badge outline={this.props.viewer.totp ? false : true} className="ml0 mr3">
-                    {this.props.viewer.totp ? "ACTIVE" : "INACTIVE"}
-                  </Badge>
+                  {this.props.viewer.totp ? (
+                    <Badge className="ml0 mr3 bg-lime">ACTIVE</Badge>
+                  ) : (
+                    <Badge outline={true} className="ml0 mr3">INACTIVE</Badge>
+                  )}
                   <h3 className="h3 m0">Authenticator Application</h3>
                 </header>
                 <p className="m0">
@@ -88,13 +98,19 @@ class TwoFactor extends React.PureComponent<Props> {
               </div>
               <div className="flex-none col-4 flex justify-end">
                 {this.props.viewer.totp ? (
-                  <Button theme="error" outline={true} link="/user/two-factor/delete">
-                    Deactivate
+                  <React.Fragment>
+                    <Button theme="warning" className="mr3" outline={true} link="/user/two-factor/configure">
+                      Reconfigure
+                    </Button>
+                    <Button theme="error" outline={true} link="/user/two-factor/delete">
+                      Deactivate
+                    </Button>
+                  </React.Fragment>
+                ) : (
+                  <Button theme="success" outline={true} link="/user/two-factor/configure">
+                    Activate
                   </Button>
-                ) : null}
-                <Button theme="success" outline={true} link="/user/two-factor/configure">
-                  Activate
-                </Button>
+                )}
               </div>
             </div>
           </Panel.Section>
@@ -103,12 +119,14 @@ class TwoFactor extends React.PureComponent<Props> {
             <div className="flex items-center">
               <div className="flex-auto">
                 <header className="flex items-center mb1">
-                  <Badge outline={this.props.viewer.totp ? false : true} className="ml0 mr3">
-                    {this.props.viewer.totp ? "ACTIVE" : "INACTIVE"}
-                  </Badge>
+                  {this.props.viewer.totp ? (
+                    <Badge className="ml0 mr3 bg-lime">ACTIVE</Badge>
+                  ) : (
+                    <Badge outline={true} className="ml0 mr3">INACTIVE</Badge>
+                  )}
                   <h3 className="h3 m0">Recovery Code</h3>
                   {this.props.viewer.totp ? (
-                    <span className="ml3">You have 3 codes remaining</span>
+                    <span className="ml3">{this.recoveryCodesRemaining} codes remaining</span>
                   ) : null}
                 </header>
                 <p className="m0">
@@ -121,6 +139,9 @@ class TwoFactor extends React.PureComponent<Props> {
                 {this.props.viewer.totp ? (
                   <Button theme="default" outline={true} disabled={true} link="/user/two-factor/configure">
                     View Codes
+                    <Badge className="ml2" outline={true}>
+                      {this.recoveryCodesRemaining}
+                    </Badge>
                   </Button>
                 ) : null}
               </div>

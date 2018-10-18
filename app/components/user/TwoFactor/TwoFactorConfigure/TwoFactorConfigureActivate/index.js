@@ -3,6 +3,7 @@
 import * as React from "react";
 import { graphql, commitMutation } from 'react-relay/compat';
 import QRCode from 'qrcode.react';
+import styled from 'styled-components';
 import ValidationErrors from 'app/lib/ValidationErrors';
 import GraphQLErrors from 'app/constants/GraphQLErrors';
 import FormTextField from 'app/components/shared/FormTextField';
@@ -36,9 +37,9 @@ function TotpCodeInput({ value, onChange, onCodeComplete, errors }) {
 
   return (
     <div>
-      <div className="flex input">
+      <div className="flex input p0">
         {fieldChars.map(([key, char]) => (
-          <div className="p2 monospace h2" key={key}>
+          <div className="p2 monospace h2" style={{ borderRight: "1px solid red" }} key={key}>
             {char}
           </div>
         ))}
