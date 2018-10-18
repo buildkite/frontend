@@ -11,6 +11,7 @@ all=warn
 
 [options]
 emoji=true
+suppress_comment=\\(.\\|\n\\)*\\$FlowExpectError
 module.use_strict=true
 module.ignore_non_literal_requires=true
-suppress_comment=\\(.\\|\n\\)*\\$FlowExpectError
+module.name_mapper='^app/\(.*\)$' -> '<PROJECT_ROOT>/app/\1'
