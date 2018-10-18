@@ -2,9 +2,11 @@
 
 import React from "react";
 import { createFragmentContainer, graphql } from 'react-relay/compat';
+import Spinner from 'app/components/shared/Spinner';
 import type { RecoveryCodeList_recoveryCodes } from './__generated__/RecoveryCodeList_recoveryCodes.graphql';
 
 type Props = {
+  isRegeneratingCodes: boolean,
   recoveryCodes: RecoveryCodeList_recoveryCodes
 };
 
@@ -15,20 +17,24 @@ class RecoveryCodeList extends React.PureComponent<Props> {
     }
 
     return (
-      <ul className="list-reset center py4" style={{ columns: 2 }}>
-        {
-          this.props.recoveryCodes.codes.map(({ code, consumed }) => (
-            <li key={code}>
-              <code
-                className="monospace h2"
-                style={{ textDecoration: (consumed ? 'line-through' : 'none') }}
-              >
-                {code}
-              </code>
-            </li>
-          ))
-        }
-      </ul>
+      <div className="flex justify-center items-center" style={{ minHeight: "420px" }}>
+        {this.props.isRegeneratingCodes ? <Spinner /> : (
+          <ul className="list-reset center pb4 my4" style={{ columns: 2 }}>
+            {
+              this.props.recoveryCodes.codes.map(({ code, consumed }) => (
+                <li key={code}>
+                  <code
+                    className="monospace h2"
+                    style={{ textDecoration: (consumed ? 'line-through' : 'none') }}
+                  >
+                    {code}
+                  </code>
+                </li>
+              ))
+            }
+          </ul>
+        )}
+      </div>
     );
   }
 }

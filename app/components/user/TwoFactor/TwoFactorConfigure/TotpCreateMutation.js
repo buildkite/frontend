@@ -25,9 +25,6 @@ export default function TotpCreateMutation({ environment, onCompleted }: Mutatio
             provisioningUri
             totp {
               id
-              recoveryCodes {
-                ...RecoveryCodeList_recoveryCodes
-              }
             }
           }
         }

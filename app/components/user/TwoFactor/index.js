@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import DocumentTitle from 'react-document-title';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, createRefetchContainer, graphql } from 'react-relay/compat';
 import Badge from 'app/components/shared/Badge';
 import Button from 'app/components/shared/Button';
 import Icon from "app/components/shared/Icon";
@@ -18,7 +18,7 @@ type Props = {
   }
 };
 
-class TwoFactorIndex extends React.PureComponent<Props> {
+class TwoFactor extends React.PureComponent<Props> {
   render() {
     return (
       <DocumentTitle title="Two-Factor Authentication">
@@ -31,25 +31,20 @@ class TwoFactorIndex extends React.PureComponent<Props> {
               />
             </PageHeader.Icon>
             <PageHeader.Title>
-              Two-Factor Authentication {this.renderBadge()}
+              Manage Two-Factor Authentication
             </PageHeader.Title>
             <PageHeader.Description>
               Manage your two-factor authentication settings.
             </PageHeader.Description>
+            <PageHeader.Menu>
+              <Button theme="default" outline={true} href="/user/settings">
+                Back to Personal Settings
+              </Button>
+            </PageHeader.Menu>
           </PageHeader>
           {this.renderCurrentStatus()}
         </div>
       </DocumentTitle>
-    );
-  }
-
-  renderBadge() {
-    if (!this.props.viewer.totp) {
-      return;
-    }
-
-    return (
-      <Badge className="bg-lime">Active</Badge>
     );
   }
 
@@ -80,7 +75,9 @@ class TwoFactorIndex extends React.PureComponent<Props> {
             <div className="flex items-center">
               <div className="flex-auto">
                 <header className="flex items-center mb1">
-                  <Badge outline={true} className="ml0 mr2">{this.props.viewer.totp ? "Active" : "Inactive"}</Badge>
+                  <Badge outline={this.props.viewer.totp ? false : true} className="ml0 mr3">
+                    {this.props.viewer.totp ? "ACTIVE" : "INACTIVE"}
+                  </Badge>
                   <h3 className="h3 m0">Authenticator Application</h3>
                 </header>
                 <p className="m0">
@@ -106,7 +103,9 @@ class TwoFactorIndex extends React.PureComponent<Props> {
             <div className="flex items-center">
               <div className="flex-auto">
                 <header className="flex items-center mb1">
-                  <Badge outline={true} className="ml0 mr2">{this.props.viewer.totp ? "Active" : "Inactive"}</Badge>
+                  <Badge outline={this.props.viewer.totp ? false : true} className="ml0 mr3">
+                    {this.props.viewer.totp ? "ACTIVE" : "INACTIVE"}
+                  </Badge>
                   <h3 className="h3 m0">Recovery Code</h3>
                   {this.props.viewer.totp ? (
                     <span className="ml3">You have 3 codes remaining</span>
@@ -133,8 +132,9 @@ class TwoFactorIndex extends React.PureComponent<Props> {
   }
 }
 
-export default createFragmentContainer(TwoFactorIndex, {
-  viewer: graphql`
+export default createFragmentContainer(
+  TwoFactor,
+  graphql`
     fragment TwoFactor_viewer on Viewer {
       totp {
         ...RecoveryCodes_totp
@@ -149,4 +149,4 @@ export default createFragmentContainer(TwoFactorIndex, {
       }
     }
   `
-});
+);

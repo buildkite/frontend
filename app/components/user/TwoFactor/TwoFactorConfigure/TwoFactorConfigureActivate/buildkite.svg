@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="70px" viewBox="0 0 100 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.1 (57501) - http://www.bohemiancoding.com/sketch -->
+    <title>buildkite</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="buildkite" fill-rule="nonzero">
+            <polygon id="Combined-Shape" fill="#FFFFFF" points="80 5 85 5 85 10 100 10 100 60 85 60 85 65 80 65 80 70 60 70 60 45 55 45 55 50 45 50 45 55 35 55 25 55 25 50 15 50 15 45 0 45 0 0 15 0 15 5 25 5 25 10 35 10 45 10 45 5 55 5 55 0 60 0 80 0"></polygon>
+            <polygon id="Combined-Shape" fill="#30F2A2" points="25 15 35 15 35 50 25 50 25 45 15 45 15 40 10 40 5 40 5 5 10 5 15 5 15 10 25 10"></polygon>
+            <polygon id="Combined-Shape" fill="#30F2A2" points="85 15 95 15 95 50 85 50 85 45 75 45 75 40 70 40 65 40 65 5 70 5 75 5 75 10 85 10"></polygon>
+            <polygon id="Combined-Shape" fill="#14CC80" points="55 40 55 45 45 45 45 50 35 50 35 15 45 15 45 10 55 10 55 5 65 5 65 40"></polygon>
+            <polygon id="Combined-Shape" fill="#14CC80" points="85 55 85 60 75 60 75 65 65 65 65 35 75 35 75 30 85 30 85 25 95 25 95 55"></polygon>
+        </g>
+    </g>
+</svg>

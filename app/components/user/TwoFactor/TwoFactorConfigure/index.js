@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from "react";
-import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
+import { createFragmentContainer, createRefetchContainer, graphql, commitMutation } from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
 import GraphQLErrors from 'app/constants/GraphQLErrors';
 import Button from 'app/components/shared/Button';
@@ -14,45 +14,48 @@ import RecoveryCodeList from 'app/components/RecoveryCodeList';
 import PageHeader from "app/components/shared/PageHeader";
 import Introduction from './TwoFactorConfigureIntroduction';
 import RecoveryCodes from './TwoFactorConfigureRecoveryCodes';
-// import ConfigureTOTP from './TwoFactorConfigureTOTP';
-// import ActivateTOTP from './TwoFactorConfigureActivate';
+import ActivateTOTP from './TwoFactorConfigureActivate';
 // import Complete from './TwoFactorConfigureComplete';
-
 import TotpCreateMutation from './TotpCreateMutation';
 import TotpDeleteMutation from './TotpDeleteMutation';
-
 import type { TwoFactorConfigure_viewer } from './__generated__/TwoFactorConfigure_viewer.graphql';
-
 
 const STEPS = {
   INTRODUCTION: 'INTRODUCTION',
   RECOVERY_CODES: 'RECOVERY_CODES',
-  CONFIGURE_OTP: 'CONFIGURE_OTP',
   ACTIVATE_TOTP: 'ACTIVATE_TOTP',
   COMPLETE: 'COMPLETE'
 };
 
-function getNextStep(currentStep: Step): ?Step {
+// const AUTHENTICATORS = {
+//   '1Password': 'https://1password.com',
+//   'OTP Auth': 'https://cooperrs.de/otpauth.html',
+//   'Duo Mobile': 'https://duo.com/product/trusted-users/two-factor-authentication/duo-mobile',
+//   'Authy': 'https://authy.com',
+//   'Google Authenticator': 'https://support.google.com/accounts/answer/1066447'
+// };
+
+type StepType = $Keys<typeof STEPS>;
+type TotpType = $PropertyType<TotpType, 'totp'>;
+type RecoveryCodesType = $PropertyType<TotpType, 'recoveryCodes'>;
+
+function getNextStep(currentStep: StepType): ?Step {
   switch (currentStep) {
     case STEPS.INTRODUCTION: return STEPS.RECOVERY_CODES;
-    case STEPS.RECOVERY_CODES: return STEPS.CONFIGURE_OTP;
-    case STEPS.CONFIGURE_OTP: return STEPS.ACTIVATE_TOTP;
+    case STEPS.RECOVERY_CODES: return STEPS.ACTIVATE_TOTP;
     case STEPS.ACTIVATE_TOTP: return STEPS.COMPLETE;
     case STEPS.COMPLETE: return STEPS.COMPLETE;
   }
 }
 
-function getPreviousStep(currentStep: Step): ?Step {
+function getPreviousStep(currentStep: StepType): ?Step {
   switch (currentStep) {
     case STEPS.INTRODUCTION: return STEPS.INTRODUCTION;
     case STEPS.RECOVERY_CODES: return STEPS.INTRODUCTION;
-    case STEPS.CONFIGURE_OTP: return STEPS.RECOVERY_CODES;
-    case STEPS.ACTIVATE_TOTP: return STEPS.CONFIGURE_OTP;
+    case STEPS.ACTIVATE_TOTP: return STEPS.RECOVERY_CODES;
     case STEPS.COMPLETE: return STEPS.COMPLETE;
   }
 }
-
-type Step = $Keys<typeof STEPS>;
 
 type Props = {
   relay: *, // TODO
@@ -60,53 +63,56 @@ type Props = {
 };
 
 type State = {
-  step: Step,
-  generatedTotp: any
+  step: StepType,
+  didGeneratedTotp: boolean,
+  provisioningUri: string
 };
 
 class TwoFactorConfigure extends React.PureComponent<Props, State> {
   state = {
     step: STEPS.INTRODUCTION,
-    generatedTotp: null
+    didGeneratedTotp: false,
+    provisioningUri: ''
   };
 
-  // get recoveryCodes() {
-  //   if (this.props.viewer.totp) {
-  //     return this.props.viewer.totp.recoveryCodes;
-  //   }
-  //   if (this.state.generatedTotp) {
-  //     return this.state.generatedTotp.recoveryCodes;
-  //   }
-  // }
+  get recoveryCodes(): RecoveryCodesType {
+    if (this.props.viewer.totp) {
+      return this.props.viewer.totp.recoveryCodes;
+    }
+    return null;
+  }
 
-  get hasExistingTotp(): boolean {
+  get hasTotp(): boolean {
     return this.props.viewer.totp ? true : false;
   }
 
-  get hasGeneratedTotp(): boolean {
-    return this.state.generatedTotp ? true : false;
-  }
-
-  hasTotp(): boolean {
-    return this.hasExistingTotp || this.hasGeneratedTotp;
+  get didGenerateTotp(): boolean {
+    return this.state.didGeneratedTotp;
   }
 
   componentDidMount() {
-    if (!this.hasExistingTotp) {
+    if (!this.hasTotp) {
       TotpCreateMutation({
         environment: this.props.relay.environment,
-        onCompleted: ({ totpCreate }) => this.setState({ generatedTotp: totpCreate.totp })
+        onCompleted: ({ totpCreate }) => {
+          this.props.relay.refetch({ totpId: totpCreate.totp.id }, null, () => {
+            this.setState({
+              didGeneratedTotp: true,
+              provisioningUri: totpCreate.provisioningUri
+            });
+          });
+        }
       });
     }
   }
 
   componentWillUnmount() {
-    if (this.state.generatedTotp) {
+    if (this.state.didGeneratedTotp && this.props.viewer.totp) {
       TotpDeleteMutation({
         environment: this.props.relay.environment,
         variables: {
           input: {
-            id: this.state.generatedTotp.id
+            id: this.props.viewer.totp.id
           }
         }
       });
@@ -138,7 +144,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
             </PageHeader.Menu>
           </PageHeader>
           <div className="col-12 lg-col-6 mx-auto">
-            {this.hasTotp() ? this.renderCurrentStep() : (
+            {this.hasTotp ? this.renderCurrentStep() : (
               <React.Fragment>
                 <Spinner />
                 Getting ready to {this.props.viewer.totp ? 'reconfigure' : 'configure'} two-factor authentication…
@@ -152,17 +158,35 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
 
   renderCurrentStep() {
     const props = {
-      handlePreviousStep: this.handlePreviousStep,
-      handleNextStep: this.handleNextStep
+      onPreviousStep: this.handlePreviousStep,
+      onNextStep: this.handleNextStep
     };
 
     switch (this.state.step) {
       case STEPS.INTRODUCTION:
-        return <Introduction {...props} hasExistingTotp={this.hasExistingTotp} />;
+        return (
+          <Introduction
+            {...props}
+            hasExistingTotp={!this.didGenerateTotp}
+          />
+        );
       case STEPS.RECOVERY_CODES:
-        return <RecoveryCodes {...props} recoveryCodes={this.state.generatedTotp.recoveryCodes} />;
-      // case STEPS.CONFIGURE_OTP:  return <ConfigureTOTP />;
-      // case STEPS.ACTIVATE_TOTP:  return <ActivateTOTP />;
+        return (
+          <RecoveryCodes
+            {...props}
+            recoveryCodes={this.recoveryCodes}
+            onRegenerateRecoveryCodes={this.handleRegenerateRecoveryCodes}
+          />
+        );
+      case STEPS.ACTIVATE_TOTP:
+        return (
+          <ActivateTOTP
+            {...props}
+            hasExistingTotp={!this.didGenerateTotp}
+            provisioningUri={this.state.provisioningUri}
+            onActivateOtp={this.handleActivateOtp}
+          />
+        );
       // case STEPS.COMPLETE:       return <Complete />;
     }
   }
@@ -180,17 +204,101 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
       this.setState({ step });
     }
   }
+
+  handleRegenerateRecoveryCodes = (callback?: () => void) => {
+    if (this.props.viewer.totp) {
+      commitMutation(this.props.relay.environment, {
+        mutation: graphql`
+          mutation TwoFactorConfigureRecoveryCodeRegenerationMutation($input: TOTPRecoveryCodesRegenerateInput!) {
+            totpRecoveryCodesRegenerate(input: $input) {
+              totp {
+                id
+              }
+            }
+          }
+        `,
+        variables: { input: { totpId: this.props.viewer.totp.id } },
+        onCompleted: ({ totpRecoveryCodesRegenerate }) => {
+          this.props.relay.refetch({ totpId: totpRecoveryCodesRegenerate.totp.id }, null, () => {
+            if (callback) {
+              callback();
+            }
+          });
+        }
+      });
+    }
+  }
+
+  handleActivateOtp = (token: string, callback?: () => void) => {
+    if (this.props.viewer.totp) {
+      commitMutation(this.props.relay.environment, {
+        mutation: graphql`
+          mutation TwoFactorConfigureActivateMutation($input: TOTPActivateInput!) {
+            totpActivate(input: $input) {
+              clientMutationId
+              viewer {
+                totp {
+                  id
+                  recoveryCodes {
+                    ...RecoveryCodeList_recoveryCodes
+                    codes {
+                      code
+                      consumed
+                    }
+                  }
+                }
+              }
+            }
+          }
+        `,
+        variables: { input: { id: this.props.viewer.totp.id, token } },
+        onCompleted: () => {
+          if (callback) {
+            callback();
+          }
+        },
+        onError: (error) => {
+          if (error) {
+            if (error.source && error.source.type) {
+              switch (error.source.type) {
+                case GraphQLErrors.ESCALATION_ERROR:
+                  location.reload();
+                  return;
+                case GraphQLErrors.RECORD_VALIDATION_ERROR:
+                  return this.setState({ isActivating: false, errors: error.source.errors });
+                default:
+                  return;
+              }
+            } else {
+              alert(error);
+            }
+          }
+          if (callback) {
+            callback(error.source.errors);
+          }
+        }
+      });
+    }
+  }
 }
 
-export default createFragmentContainer(TwoFactorConfigure, {
-  viewer: graphql`
-    fragment TwoFactorConfigure_viewer on Viewer {
-      totp {
+export default createRefetchContainer(
+  TwoFactorConfigure,
+  graphql`
+    fragment TwoFactorConfigure_viewer on Viewer @argumentDefinitions(totpId: {type: "ID"}) {
+      totp(id: $totpId) {
         id
         recoveryCodes {
           ...RecoveryCodeList_recoveryCodes
         }
       }
     }
+  `,
+  graphql`
+    query TwoFactorConfigureRefetchQuery($totpId: ID!) {
+      viewer {
+        ...TwoFactorConfigure_viewer @arguments(totpId: $totpId)
+      }
+    }
   `
-});
+);
