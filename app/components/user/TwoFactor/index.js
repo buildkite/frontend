@@ -5,6 +5,7 @@ import DocumentTitle from 'react-document-title';
 import { createFragmentContainer, createRefetchContainer, graphql } from 'react-relay/compat';
 import Badge from 'app/components/shared/Badge';
 import Button from 'app/components/shared/Button';
+import Dropdown from "../../shared/Dropdown";
 import Icon from "app/components/shared/Icon";
 import PageHeader from "app/components/shared/PageHeader";
 import Panel from 'app/components/shared/Panel';
@@ -97,20 +98,43 @@ class TwoFactor extends React.PureComponent<Props> {
                 </p>
               </div>
               <div className="flex-none col-4 flex justify-end">
-                {this.props.viewer.totp ? (
-                  <React.Fragment>
-                    <Button theme="warning" className="mr3" outline={true} link="/user/two-factor/configure">
-                      Reconfigure
-                    </Button>
-                    <Button theme="error" outline={true} link="/user/two-factor/delete">
-                      Deactivate
-                    </Button>
-                  </React.Fragment>
-                ) : (
-                  <Button theme="success" outline={true} link="/user/two-factor/configure">
-                    Activate
+                <Dropdown width={270}>
+                  <Button
+                    theme="default"
+                    outline={true}
+                  >
+                  Radical Button
                   </Button>
-                )}
+                  <div className="my2 mx3">
+                    {this.props.viewer.totp ? (
+                      <React.Fragment>
+                        <Button
+                          theme="warning"
+                          className="mx2"
+                          outline={true}
+                          link="/user/two-factor/configure"
+                        >
+                        Reconfigure
+                        </Button>
+                        <Button
+                          theme="error"
+                          outline={true}
+                          link="/user/two-factor/delete"
+                        >
+                        Deactivate
+                        </Button>
+                      </React.Fragment>
+                    ) : (
+                      <Button
+                        theme="success"
+                        outline={true}
+                        link="/user/two-factor/configure"
+                      >
+                      Activate
+                      </Button>
+                    )}
+                  </div>
+                </Dropdown>
               </div>
             </div>
           </Panel.Section>
