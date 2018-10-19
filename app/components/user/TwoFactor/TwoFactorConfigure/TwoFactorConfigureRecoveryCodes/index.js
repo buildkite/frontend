@@ -2,17 +2,19 @@
 
 import * as React from "react";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import Panel from 'app/components/shared/Panel';
 import Button from 'app/components/shared/Button';
 import RecoveryCodeList from 'app/components/RecoveryCodeList';
 import type {
-  RecoveryCodeList_recoveryCodes as RecoveryCodes
-} from 'app/components/RecoveryCodeList/__generated__/RecoveryCodeList_recoveryCodes.graphql';
+  TwoFactorConfigureRecoveryCodes_recoveryCodes as recoveryCodes
+} from './__generated__/TwoFactorConfigureRecoveryCodes_recoveryCodes.graphql';
 
 type Props = {
   onRegenerateRecoveryCodes: (callback?: () => void) => void,
   onNextStep: () => void,
-  recoveryCodes: RecoveryCodes
+  relay: Object,
+  recoveryCodes: recoveryCodes
 };
 
 type State = {
@@ -20,17 +22,10 @@ type State = {
   didCopyRecoveryCodes: boolean
 };
 
-export default class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> {
+class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> {
   state = {
     didCopyRecoveryCodes: false,
     isRegeneratingCodes: false
-  }
-
-  get recoveryCodeText(): string {
-    if (!this.props.recoveryCodes.codes) {
-      return '';
-    }
-    return this.props.recoveryCodes.codes.map(({ code }) => code).join('\n');
   }
 
   render() {
@@ -65,7 +60,8 @@ export default class TwoFactorConfigureRecoveryCodes extends React.PureComponent
                 >
                   Regenerate
                 </Button>
-                <CopyToClipboard text={this.recoveryCodeText} onCopy={this.handleRecoveryCodeCopy}>
+
+                <CopyToClipboard text={this.recoveryCodeText()} onCopy={this.handleRecoveryCodeCopy}>
                   <Button
                     theme={this.state.didCopyRecoveryCodes ? 'default' : 'success'}
                     disabled={this.state.isRegeneratingCodes}
@@ -102,6 +98,13 @@ export default class TwoFactorConfigureRecoveryCodes extends React.PureComponent
     });
   }
 
+  recoveryCodeText = () => {
+    if (!this.props.recoveryCodes) {
+      return '';
+    }
+    return this.props.recoveryCodes.codes.map(({ code }) => code).join('\n');
+  }
+
   handleRecoveryCodeCopy = (_text: string, result: boolean) => {
     if (!result) {
       alert('We couldnʼt put this on your clipboard for you, please copy it manually!');
@@ -110,3 +113,15 @@ export default class TwoFactorConfigureRecoveryCodes extends React.PureComponent
     this.setState({ didCopyRecoveryCodes: true });
   }
 }
+
+export default createFragmentContainer(TwoFactorConfigureRecoveryCodes, {
+  recoveryCodes: graphql`
+    fragment TwoFactorConfigureRecoveryCodes_recoveryCodes on RecoveryCodeBatch {
+      ...RecoveryCodeList_recoveryCodes
+      codes {
+        code
+        consumed
+      }
+    }
+  `
+});

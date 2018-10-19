@@ -14,7 +14,7 @@ import RecoveryCodeList from 'app/components/RecoveryCodeList';
 import PageHeader from "app/components/shared/PageHeader";
 import WorkflowProgress from "app/components/shared/WorkflowProgress";
 import Introduction from './TwoFactorConfigureIntroduction';
-import RecoveryCodes from './TwoFactorConfigureRecoveryCodes';
+import TwoFactorConfigureRecoveryCodes from './TwoFactorConfigureRecoveryCodes';
 import ActivateTOTP from './TwoFactorConfigureActivate';
 // import Complete from './TwoFactorConfigureComplete';
 import TotpCreateMutation from './TotpCreateMutation';
@@ -188,7 +188,7 @@ class TwoFactorConfigure extends React.PureComponent<Props, State> {
       //   );
       case STEPS.RECOVERY_CODES:
         return (
-          <RecoveryCodes
+          <TwoFactorConfigureRecoveryCodes
             {...props}
             recoveryCodes={this.recoveryCodes}
             onRegenerateRecoveryCodes={this.handleRegenerateRecoveryCodes}
@@ -305,7 +305,7 @@ export default createRefetchContainer(
       totp(id: $totpId) {
         id
         recoveryCodes {
-          ...RecoveryCodeList_recoveryCodes
+          ...TwoFactorConfigureRecoveryCodes_recoveryCodes
         }
       }
     }
