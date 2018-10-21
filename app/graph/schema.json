@@ -15605,15 +15605,19 @@
               "description": "The recovery codes from this batch. Codes are consumed when used, and codes will be included in this list whether consumed or not",
               "args": [],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
+                  "kind": "LIST",
                   "name": null,
                   "ofType": {
-                    "kind": "OBJECT",
-                    "name": "RecoveryCode",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "RecoveryCode",
+                      "ofType": null
+                    }
                   }
                 }
               },

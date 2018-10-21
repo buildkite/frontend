@@ -11,6 +11,7 @@ import type {
 } from './__generated__/TwoFactorConfigureRecoveryCodes_recoveryCodes.graphql';
 
 type Props = {
+  onCreateNewTotp: (callback?: () => void) => void,
   onRegenerateRecoveryCodes: (callback?: () => void) => void,
   onNextStep: () => void,
   relay: Object,
@@ -18,14 +19,20 @@ type Props = {
 };
 
 type State = {
-  isRegeneratingCodes: boolean,
+  isLoading: boolean,
   didCopyRecoveryCodes: boolean
 };
 
 class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> {
   state = {
     didCopyRecoveryCodes: false,
-    isRegeneratingCodes: false
+    isLoading: true
+  }
+
+  componentDidMount() {
+    this.props.onCreateNewTotp(() => {
+      this.setState({ isLoading: false });
+    });
   }
 
   render() {
@@ -55,7 +62,7 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
                 <Button
                   theme="success"
                   outline={true}
-                  disabled={this.state.isRegeneratingCodes}
+                  disabled={this.state.isLoading}
                   onClick={this.handleRegenerateRecoveryCode}
                 >
                   Regenerate
@@ -64,7 +71,7 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
                 <CopyToClipboard text={this.recoveryCodeText()} onCopy={this.handleRecoveryCodeCopy}>
                   <Button
                     theme={this.state.didCopyRecoveryCodes ? 'default' : 'success'}
-                    disabled={this.state.isRegeneratingCodes}
+                    disabled={this.state.isLoading}
                   >
                     {this.state.didCopyRecoveryCodes ? 'Copied!' : 'Copy'}
                   </Button>
@@ -72,7 +79,7 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
               </div>
               <RecoveryCodeList
                 recoveryCodes={this.props.recoveryCodes}
-                isRegeneratingCodes={this.state.isRegeneratingCodes}
+                isLoading={this.state.isLoading}
               />
             </Panel.Section>
           </Panel>
@@ -80,6 +87,7 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
         <Panel.Footer>
           <Button
             className="col-12"
+            disabled={this.state.isLoading}
             theme={this.state.didCopyRecoveryCodes ? 'success' : 'default'}
             onClick={this.props.onNextStep}
           >
@@ -91,9 +99,9 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
   }
 
   handleRegenerateRecoveryCode = () => {
-    this.setState({ isRegeneratingCodes: true }, () => {
+    this.setState({ isLoading: true }, () => {
       this.props.onRegenerateRecoveryCodes(() => {
-        this.setState({ isRegeneratingCodes: false });
+        this.setState({ isLoading: false });
       });
     });
   }

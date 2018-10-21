@@ -32,6 +32,7 @@ const Step = styled.li`
   font-size: 0.65rem;
   line-height: 24px;
   z-index: 1;
+  color: #ccc;
 
   &:last-child {
     margin-right: 0;
@@ -39,25 +40,27 @@ const Step = styled.li`
 `;
 
 const DoingStep = styled(Step)`
-  border: 1px solid red;
-  background: red;
+  border: 1px solid #14CC80;
+  background: #14CC80;
+  color: #fff;
 `;
 
 const DoneStep = styled(Step)`
-  border: 1px solid blue;
-  background: blue;
+  border: 1px solid #ccc;
+  background: #ccc;
+  color: #fff;
 `;
 
 export default function WorkflowProgress({ stepCount, currentStepIndex, className }) {
   const steps = [...Array(stepCount).keys()];
   return (
-    <List className={classNames("flex", "list-reset", className)}>
+    <List className={classNames("flex", "list-reset", "m0", className)}>
       {steps.map((index: number) => {
         const stepIndex = index + 1;
-        if (stepIndex < currentStepIndex) {
+        if (index < currentStepIndex) {
           return <DoneStep key={index} className="monospace">{stepIndex}</DoneStep>;
         }
-        if (stepIndex === currentStepIndex) {
+        if (index === currentStepIndex) {
           return <DoingStep key={index} className="monospace">{stepIndex}</DoingStep>;
         }
         return <Step key={index} className="monospace">{stepIndex}</Step>;

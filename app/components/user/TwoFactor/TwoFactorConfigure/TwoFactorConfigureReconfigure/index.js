@@ -6,13 +6,13 @@ import Button from 'app/components/shared/Button';
 
 type Props = {
   onNextStep: () => void,
-  hasExistingTotp: boolean
+  hasActivatedTotp: boolean
 };
 
-export default function TwoFactorConfigureIntroduction({ hasExistingTotp, onNextStep }: Props) {
+export default function TwoFactorConfigureReconfigure({ hasActivatedTotp, onNextStep }: Props) {
   return (
     <React.Fragment>
-      {hasExistingTotp ? (
+      {hasActivatedTotp ? (
         <Panel className="mb3 orange border-orange">
           <Panel.Section>
             <React.Fragment>

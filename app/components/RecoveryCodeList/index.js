@@ -26,21 +26,17 @@ const ConsumedCode = styled.span`
 
 
 type Props = {
-  isRegeneratingCodes: boolean,
-  recoveryCodes: RecoveryCodeList_recoveryCodes
+  isLoading: boolean,
+  recoveryCodes: ?RecoveryCodeList_recoveryCodes
 };
 
 class RecoveryCodeList extends React.PureComponent<Props> {
   render() {
-    if (!this.props.recoveryCodes.codes) {
-      return null;
-    }
-
     return (
       <div className="flex justify-center items-center" style={{ minHeight: "360px" }}>
-        {this.props.isRegeneratingCodes ? <Spinner /> : (
+        {this.props.isLoading ? <Spinner /> : (
           <List className="list-reset center p4">
-            {
+            {(this.props.recoveryCodes && this.props.recoveryCodes.codes) ? (
               this.props.recoveryCodes.codes.map(({ code, consumed }) => (
                 <ListItem key={code}>
                   {consumed ? (
@@ -50,7 +46,7 @@ class RecoveryCodeList extends React.PureComponent<Props> {
                   )}
                 </ListItem>
               ))
-            }
+            ) : null}
           </List>
         )}
       </div>

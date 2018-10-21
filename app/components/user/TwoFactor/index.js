@@ -2,21 +2,21 @@
 
 import * as React from "react";
 import DocumentTitle from 'react-document-title';
-import { createFragmentContainer, createRefetchContainer, graphql } from 'react-relay/compat';
+import { createRefetchContainer, graphql } from 'react-relay/compat';
 import Badge from 'app/components/shared/Badge';
+// import Dropdown from "app/components/shared/Dropdown";
 import Button from 'app/components/shared/Button';
 import Dropdown from "../../shared/Dropdown";
 import Icon from "app/components/shared/Icon";
 import PageHeader from "app/components/shared/PageHeader";
 import Panel from 'app/components/shared/Panel';
 import RecoveryCodes from './RecoveryCodes';
+import type { RelayProp } from 'react-relay';
+import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
 
 type Props = {
-  viewer: {
-    totp: ?{
-      id: string
-    }
-  }
+  relay: RelayProp,
+  viewer: TwoFactor_viewer
 };
 
 class TwoFactor extends React.PureComponent<Props> {
@@ -27,6 +27,10 @@ class TwoFactor extends React.PureComponent<Props> {
         .length;
     }
     return null;
+  }
+
+  componentDidMount() {
+    // this.props.relay.refetch();
   }
 
   render() {
@@ -98,47 +102,37 @@ class TwoFactor extends React.PureComponent<Props> {
                 </p>
               </div>
               <div className="flex-none col-4 flex justify-end">
-                <Dropdown width={270}>
-                  <Button
-                    theme="default"
-                    outline={true}
-                  >
-                  Radical Button
-                  </Button>
-                  <div className="my2 mx3">
-                    {this.props.viewer.totp ? (
+                {this.props.viewer.totp ? (
+                  <Dropdown width={270}>
+                    <Button
+                      theme="default"
+                      outline={true}
+                    >
+                      Settings
+                    </Button>
+                    <div className="my2 mx3">
                       <React.Fragment>
-                        <Button
-                          theme="warning"
-                          className="mx2"
-                          outline={true}
-                          link="/user/two-factor/configure"
-                        >
-                        Reconfigure
+                        <Button theme="warning" className="mx2" outline={true} link="/user/two-factor/configure">
+                          Reconfigure
                         </Button>
-                        <Button
-                          theme="error"
-                          outline={true}
-                          link="/user/two-factor/delete"
-                        >
-                        Deactivate
+                        <Button theme="error" outline={true} link="/user/two-factor/delete">
+                          Deactivate
                         </Button>
                       </React.Fragment>
-                    ) : (
-                      <Button
-                        theme="success"
-                        outline={true}
-                        link="/user/two-factor/configure"
-                      >
-                      Activate
-                      </Button>
-                    )}
-                  </div>
-                </Dropdown>
+                    </div>
+                  </Dropdown>
+                ) : (
+                  <Button
+                    theme="success"
+                    outline={true}
+                    link="/user/two-factor/configure"
+                  >
+                  Activate
+                  </Button>
+                )}
               </div>
             </div>
           </Panel.Section>
-
           <Panel.Section>
             <div className="flex items-center">
               <div className="flex-auto">
@@ -177,7 +171,7 @@ class TwoFactor extends React.PureComponent<Props> {
   }
 }
 
-export default createFragmentContainer(
+export default createRefetchContainer(
   TwoFactor,
   graphql`
     fragment TwoFactor_viewer on Viewer {
@@ -191,6 +185,13 @@ export default createFragmentContainer(
             consumed
           }
         }
+      }
+    }
+  `,
+  graphql`
+    query TwoFactorRefetchQuery {
+      viewer {
+        ...TwoFactor_viewer
       }
     }
   `

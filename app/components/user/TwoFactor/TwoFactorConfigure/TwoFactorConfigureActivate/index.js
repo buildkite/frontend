@@ -61,11 +61,10 @@ type ValidationError = {
 };
 
 type Props = {
-  hasExistingTotp: boolean,
+  hasActivatedTotp: boolean,
   onNextStep: () => void,
   onActivateOtp: (token: string, callback?: () => void) => void,
-  provisioningUri: string,
-  totpId: ?string
+  provisioningUri: string
 };
 
 type State = {
@@ -92,7 +91,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
           </Panel.Header>
           <Panel.Section>
             <p>
-              To {this.props.hasExistingTotp ? 'reconfigure' : 'activate'} two-factor authentication, scan this
+              To {this.props.hasActivatedTotp ? 'reconfigure' : 'activate'} two-factor authentication, scan this
               QR Code with your Authenticator Application, and then confirm
             </p>
           </Panel.Section>
@@ -165,6 +164,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
     this.setState({ isActivating: true }, () => {
       this.props.onActivateOtp(value, () => {
         this.setState({ isActivating: false });
+        this.props.onNextStep();
       });
     });
   }

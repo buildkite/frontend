@@ -1,16 +1,14 @@
 // @flow
 
 import { graphql, commitMutation } from 'react-relay/compat';
-import type {
-  TotpDeleteMutationMutationVariables as Variables,
-  TotpDeleteMutationMutationResponse as Response
-} from './__generated__/TotpCreateMutation.graphql';
+import type { Environment as RelayEnvironment } from 'react-relay';
+import type { TotpDeleteMutationMutationVariables, TotpDeleteMutationMutationResponse } from './__generated__/TotpCreateMutation.graphql';
 
 type MutationParams = {
-  environment: *, // TODO
-  onCompleted?: (response: Response) => *,
+  environment: RelayEnvironment,
+  onCompleted?: (response: TotpDeleteMutationMutationResponse) => *,
   onError?: () => void,
-  variables?: Variables
+  variables?: TotpDeleteMutationMutationVariables
 };
 
 export default function TotpDeleteMutation({ environment, variables }: MutationParams): void {
