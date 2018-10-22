@@ -124,7 +124,6 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
               <Button
                 theme="default"
                 outline={true}
-                outline={this.state.copiedProvisioningUri}
               >
                 {this.state.copiedProvisioningUri
                   ? 'Copied'
