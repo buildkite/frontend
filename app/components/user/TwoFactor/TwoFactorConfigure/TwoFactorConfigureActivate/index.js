@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from "react";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { graphql, commitMutation } from 'react-relay/compat';
 import QRCode from 'qrcode.react';
 import styled from 'styled-components';
@@ -70,14 +71,16 @@ type Props = {
 type State = {
   errors: ?Array<ValidationError>,
   isActivating: boolean,
-  totpCodeValue: string
+  totpCodeValue: string,
+  copiedProvisioningUri: boolean
 };
 
 export default class TwoFactorConfigureActivate extends React.PureComponent<Props, State> {
   state = {
     errors: [],
     isActivating: false,
-    totpCodeValue: ''
+    totpCodeValue: '',
+    copiedProvisioningUri: false
   };
 
   render() {
@@ -113,25 +116,23 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
               </figure>
             </div>
           </Panel.Section>
-          <Panel.Footer>
-            <code>{this.props.provisioningUri}</code>
-          </Panel.Footer>
-          {/*
-          <Panel.Footer>
-            <Button
-              className="col-12"
-              theme="success"
-              onClick={this.props.onNextStep}
+          <Panel.Section>
+            <CopyToClipboard
+              text={this.props.provisioningUri}
+              onCopy={this.handleProvisioningUriCopy}
             >
-              Continue
-            </Button>
-          </Panel.Footer>
-          */}
-        </Panel>
-        <Panel>
-          <Panel.Header>
-            Activate Authenticator Application
-          </Panel.Header>
+              <Button
+                theme="default"
+                outline={true}
+                outline={this.state.copiedProvisioningUri}
+              >
+                {this.state.copiedProvisioningUri
+                  ? 'Copied'
+                  : 'Copy'
+                }
+              </Button>
+            </CopyToClipboard>
+          </Panel.Section>
           <Panel.Section>
             <TotpCodeInput
               errors={errors.findForField('token')}
@@ -168,4 +169,12 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
       });
     });
   }
+
+  handleProvisioningUriCopy = (_text, result) => {
+    if (!result) {
+      alert('We couldnʼt put this on your clipboard for you, please copy it manually!');
+      return;
+    }
+     this.setState({ copiedProvisioningUri: true });
+  };
 }
