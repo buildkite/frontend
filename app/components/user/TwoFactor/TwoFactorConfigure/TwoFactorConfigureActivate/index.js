@@ -87,7 +87,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
       <React.Fragment>
         <Panel className="mb3">
           <Panel.Header>
-            Configure Authenticator Application
+            {this.props.hasActivatedTotp ? 'Reconfigure' : 'Activate'} Authenticator Application
           </Panel.Header>
           <Panel.Section>
             <p>
@@ -147,7 +147,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
               theme="success"
               loading={this.state.isActivating && 'Activating…'}
             >
-              Activate
+              {this.props.hasActivatedTotp ? 'Reconfigure' : 'Activate'}
             </Button>
           </Panel.Footer>
         </Panel>
