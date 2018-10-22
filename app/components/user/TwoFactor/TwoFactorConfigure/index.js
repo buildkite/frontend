@@ -140,10 +140,6 @@ class TwoFactorConfigure extends React.Component<Props, State> {
             </PageHeader.Menu>
           </PageHeader>
           <div className="col-12 lg-col-7 mx-auto">
-
-            { <pre><code>{JSON.stringify(this.state, null, 2)}</code></pre> }
-            { <pre><code>{JSON.stringify(this.props.viewer, null, 2)}</code></pre> }
-
             {this.renderCurrentStep()}
           </div>
         </div>
