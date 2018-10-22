@@ -27,14 +27,6 @@ const STEPS = {
   COMPLETE: 'COMPLETE'
 };
 
-// const AUTHENTICATORS = {
-//   '1Password': 'https://1password.com',
-//   'OTP Auth': 'https://cooperrs.de/otpauth.html',
-//   'Duo Mobile': 'https://duo.com/product/trusted-users/two-factor-authentication/duo-mobile',
-//   'Authy': 'https://authy.com',
-//   'Google Authenticator': 'https://support.google.com/accounts/answer/1066447'
-// };
-
 type StepType = $Keys<typeof STEPS>;
 type TotpType = $PropertyType<TotpType, 'totp'>;
 type RecoveryCodesType = $PropertyType<TotpType, 'recoveryCodes'>;

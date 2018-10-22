@@ -24,6 +24,42 @@ type State = {
   dialogOpen: boolean
 };
 
+const AUTHENTICATORS = {
+  '1Password': 'https://1password.com',
+  'OTP Auth': 'https://cooperrs.de/otpauth.html',
+  'Duo Mobile': 'https://duo.com/product/trusted-users/two-factor-authentication/duo-mobile',
+  'Authy': 'https://authy.com',
+  'Google Authenticator': 'https://support.google.com/accounts/answer/1066447'
+};
+
+const AUTHENTICATOR_LIST = (
+  Object.keys(AUTHENTICATORS).map((authenticator_name) => (
+    <a
+      className="blue hover-navy text-decoration-none hover-underline"
+      key={authenticator_name}
+      href={AUTHENTICATORS[authenticator_name]}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {authenticator_name}
+    </a>
+  )).reduce((acc, link, index, items) => {
+    if (index > 0) {
+      if (index < items.length - 1) {
+        acc.push(', ');
+      }
+
+      if (index === items.length - 1) {
+        acc.push(' and ');
+      }
+    }
+
+    acc.push(link);
+
+    return acc;
+  }, [])
+);
+
 class TwoFactor extends React.PureComponent<Props> {
   state = {
     dialogOpen: false
@@ -106,8 +142,7 @@ class TwoFactor extends React.PureComponent<Props> {
                 </header>
                 <p className="m0">
                   Authenticator Applications generate automatically refreshing, single use One Time
-                  Passwords (OTPs). Some reliable Authenticator Applications include; 1Password, Google Authenticator,
-                  and Authy.
+                  Passwords (OTPs). Some reliable Authenticator Applications include {AUTHENTICATOR_LIST}.
                 </p>
               </div>
               <div className="flex-none col-4 flex justify-end">
