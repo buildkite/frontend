@@ -52,9 +52,6 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
             <PageHeader.Title>
               Remove Two-Factor Authentication
             </PageHeader.Title>
-            <PageHeader.Description>
-              Stop two-factor authentication from protecting your account.
-            </PageHeader.Description>
           </PageHeader>
 
           {this.renderCurrentStatus()}
@@ -87,22 +84,14 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
 
     return (
       <Panel className="mb4">
+        <Panel.Header>
+          Deactivate Two-factor Authentication
+        </Panel.Header>
         <Panel.Section>
-          <p>Two-factor authentication is currently activated.</p>
-          <p>We recommend keeping two-factor authentication activated to help secure your account.</p>
-        </Panel.Section>
-        <Panel.Section>
-          <p>Need to move to a new device, or suspect your TOTP tokens are compromised? You can simply reconfigure two-factor authentication.</p>
-          <Button
-            theme="success"
-            link="/user/two-factor/configure"
-            disabled={this.state.deletingTOTP}
-          >
-            Reconfigure Two-Factor Authentication
-          </Button>
-        </Panel.Section>
-        <Panel.Section>
+          <p>Two-factor authentication is currently activated. We recommend keeping two-factor authentication activated to help secure your account.</p>
           <p>Removing two-factor authentication will take effect immediately. You may reconfigure two-factor authentication at any time.</p>
+        </Panel.Section>
+        <Panel.Footer>
           <Button
             theme="error"
             outline={true}
@@ -111,7 +100,7 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
           >
             Remove Two-Factor Authentication
           </Button>
-        </Panel.Section>
+        </Panel.Footer>
       </Panel>
     );
   }
