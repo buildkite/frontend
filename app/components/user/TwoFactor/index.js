@@ -11,6 +11,7 @@ import Icon from "app/components/shared/Icon";
 import PageHeader from "app/components/shared/PageHeader";
 import Panel from 'app/components/shared/Panel';
 import RecoveryCodes from './RecoveryCodes';
+import RecoveryCodeDialog from './RecoveryCodes/RecoveryCodeDialog';
 import type { RelayProp } from 'react-relay';
 import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
 
@@ -19,7 +20,15 @@ type Props = {
   viewer: TwoFactor_viewer
 };
 
+type State = {
+  dialogOpen: boolean
+};
+
 class TwoFactor extends React.PureComponent<Props> {
+  state = {
+    dialogOpen: false
+  };
+
   get recoveryCodesRemaining(): number | null {
     if (this.props.viewer.totp) {
       return this.props.viewer.totp.recoveryCodes.codes
@@ -154,13 +163,21 @@ class TwoFactor extends React.PureComponent<Props> {
                 </p>
               </div>
               <div className="flex-none col-4 flex justify-end">
-                {this.props.viewer.totp ? (
-                  <Button theme="default" outline={true} disabled={true} link="/user/two-factor/configure">
-                    View Codes
-                    <Badge className="ml2" outline={true}>
-                      {this.recoveryCodesRemaining}
-                    </Badge>
-                  </Button>
+                <Button
+                  onClick={this.handleOpenDialogClick}
+                  theme="default"
+                  outline={true}
+                >
+                  View Codes
+                  <Badge className="ml2" outline={true}>
+                    {this.recoveryCodesRemaining}
+                  </Badge>
+                </Button>
+                {this.state.dialogOpen ? (
+                  <RecoveryCodeDialog
+                    onRequestClose={this.handleDialogClose}
+                    totp={this.props.viewer.totp}
+                  />
                 ) : null}
               </div>
             </div>
@@ -168,6 +185,14 @@ class TwoFactor extends React.PureComponent<Props> {
         </Panel>
       </React.Fragment>
     );
+  }
+
+  handleOpenDialogClick = () => {
+    this.setState({ dialogOpen: true });
+  }
+
+  handleDialogClose = () => {
+    this.setState({ dialogOpen: false });
   }
 }
 
