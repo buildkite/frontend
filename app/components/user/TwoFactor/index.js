@@ -14,7 +14,7 @@ import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disabl
 import RecoveryCodeDialog from './RecoveryCodes/RecoveryCodeDialog';
 import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
 
-function AuthenticatorUrl({ name, url }: {name: string, url: string}) {
+function AuthenticatorUrl({ name, url }: {|name: string, url: string|}) {
   return (
     <a
       className="blue hover-navy text-decoration-none hover-underline"

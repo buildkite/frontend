@@ -14,7 +14,6 @@ type Props = {
   onCreateNewTotp: (callback?: () => void) => void,
   onRegenerateRecoveryCodes: (callback?: () => void) => void,
   onNextStep: () => void,
-  relay: Object,
   recoveryCodes: recoveryCodes
 };
 
