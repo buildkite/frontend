@@ -88,15 +88,32 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
 
     return (
       <React.Fragment>
-        <Panel className="mb3">
+        <Panel className="mt4">
           <Panel.Header>
             {this.props.hasActivatedTotp ? 'Reconfigure' : 'Activate'} Authenticator Application
           </Panel.Header>
           <Panel.Section>
-            <p>
-              To {this.props.hasActivatedTotp ? 'reconfigure' : 'activate'} two-factor authentication, scan this
-              QR Code with your Authenticator Application, and then confirm
-            </p>
+            <div className="flex justify-center items-center">
+              <p>
+                To {this.props.hasActivatedTotp ? 'reconfigure' : 'activate'} two-factor authentication, scan this
+                QR Code with your Authenticator Application, and then confirm. Alternatively, you can copy the
+                provisioning URI.
+              </p>
+              <CopyToClipboard
+                text={this.props.provisioningUri}
+                onCopy={this.handleProvisioningUriCopy}
+              >
+                <Button
+                  theme="default"
+                  outline={true}
+                >
+                  {this.state.copiedProvisioningUri
+                    ? 'Copied'
+                    : 'Copy'
+                  }
+                </Button>
+              </CopyToClipboard>
+            </div>
           </Panel.Section>
           <Panel.Section>
             <div className="flex justify-center items-center" style={{ minHeight: "340px" }}>
@@ -115,22 +132,6 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
                 />
               </figure>
             </div>
-          </Panel.Section>
-          <Panel.Section>
-            <CopyToClipboard
-              text={this.props.provisioningUri}
-              onCopy={this.handleProvisioningUriCopy}
-            >
-              <Button
-                theme="default"
-                outline={true}
-              >
-                {this.state.copiedProvisioningUri
-                  ? 'Copied'
-                  : 'Copy'
-                }
-              </Button>
-            </CopyToClipboard>
           </Panel.Section>
           <Panel.Section>
             <TotpCodeInput
