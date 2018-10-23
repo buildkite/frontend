@@ -14,6 +14,34 @@ import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disabl
 import RecoveryCodeDialog from './RecoveryCodes/RecoveryCodeDialog';
 import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
 
+function AuthenticatorUrl({ name, url }: {name: string, url: string}) {
+  return (
+    <a
+      className="blue hover-navy text-decoration-none hover-underline"
+      key={name}
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {name}
+    </a>
+  );
+}
+
+const AUTHENTICATORS = [
+  { name: '1Password', url: 'https://1password.com' },
+  { name: 'OTP Auth', url: 'https://cooperrs.de/otpauth.html' },
+  { name: 'Duo Mobile', url: 'https://duo.com/product/trusted-users/two-factor-authentication/duo-mobile' },
+  { name: 'Authy', url: 'https://authy.com' },
+  { name: 'Google Authenticator', url: 'https://support.google.com/accounts/answer/1066447' }
+];
+
+const AUTHENTICATOR_LIST = AUTHENTICATORS.reduce((memo, authenticator, index, { length }) => [
+  ...memo,
+  <AuthenticatorUrl {...authenticator} key={authenticator.name} />,
+  ((index < length - 1) ? ((index < length - 2) ? ', ' : ' and ') : '')
+], []);
+
 type Props = {
   viewer: TwoFactor_viewer
 };
@@ -22,41 +50,6 @@ type State = {
   dialogOpen: boolean
 };
 
-const AUTHENTICATORS = {
-  '1Password': 'https://1password.com',
-  'OTP Auth': 'https://cooperrs.de/otpauth.html',
-  'Duo Mobile': 'https://duo.com/product/trusted-users/two-factor-authentication/duo-mobile',
-  'Authy': 'https://authy.com',
-  'Google Authenticator': 'https://support.google.com/accounts/answer/1066447'
-};
-
-const AUTHENTICATOR_LIST = (
-  Object.keys(AUTHENTICATORS).map((authenticator_name) => (
-    <a
-      className="blue hover-navy text-decoration-none hover-underline"
-      key={authenticator_name}
-      href={AUTHENTICATORS[authenticator_name]}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {authenticator_name}
-    </a>
-  )).reduce((acc, link, index, items) => {
-    if (index > 0) {
-      if (index < items.length - 1) {
-        acc.push(', ');
-      }
-
-      if (index === items.length - 1) {
-        acc.push(' and ');
-      }
-    }
-
-    acc.push(link);
-
-    return acc;
-  }, [])
-);
 
 class TwoFactor extends React.PureComponent<Props, State> {
   state = {
