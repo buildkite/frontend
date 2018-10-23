@@ -233,9 +233,10 @@ export default createRefetchContainer(
     fragment TwoFactor_viewer on Viewer {
       totp {
         ...RecoveryCodes_totp
+        ...RecoveryCodeDialog_totp
+
         id
         recoveryCodes {
-          ...RecoveryCodeList_recoveryCodes
           codes {
             code
             consumed
