@@ -4,19 +4,15 @@ import * as React from "react";
 import Panel from 'app/components/shared/Panel';
 import Button from 'app/components/shared/Button';
 
-type Props = {
-  onNextStep: () => void,
-};
-
-export default function TwoFactorConfigureComplete({ }: Props) {
+export default function TwoFactorConfigureComplete() {
   return (
     <React.Fragment>
       <Panel>
         <Panel.Header>
-          Yay you’re done!
+          Yay, you’re done!
         </Panel.Header>
         <Panel.Footer>
-          <Button className="col-12" theme="success">
+          <Button className="col-12" theme="success" link="/user/two-factor">
             Awesome!
           </Button>
         </Panel.Footer>

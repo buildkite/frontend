@@ -4,19 +4,45 @@ import * as React from "react";
 import DocumentTitle from 'react-document-title';
 import { createRefetchContainer, graphql } from 'react-relay/compat';
 import Badge from 'app/components/shared/Badge';
-// import Dropdown from "app/components/shared/Dropdown";
 import Button from 'app/components/shared/Button';
-import Dropdown from "../../shared/Dropdown";
+import Dropdown from "app/components/shared/Dropdown";
 import Icon from "app/components/shared/Icon";
 import PageHeader from "app/components/shared/PageHeader";
 import Panel from 'app/components/shared/Panel';
-import RecoveryCodes from './RecoveryCodes';
+import RecoveryCodes from './RecoveryCodes'; // eslint-disable-line
+import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disable-line
 import RecoveryCodeDialog from './RecoveryCodes/RecoveryCodeDialog';
-import type { RelayProp } from 'react-relay';
 import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
 
+function AuthenticatorUrl({ name, url }: {|name: string, url: string|}) {
+  return (
+    <a
+      className="blue hover-navy text-decoration-none hover-underline"
+      key={name}
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {name}
+    </a>
+  );
+}
+
+const AUTHENTICATORS = [
+  { name: '1Password', url: 'https://1password.com' },
+  { name: 'OTP Auth', url: 'https://cooperrs.de/otpauth.html' },
+  { name: 'Duo Mobile', url: 'https://duo.com/product/trusted-users/two-factor-authentication/duo-mobile' },
+  { name: 'Authy', url: 'https://authy.com' },
+  { name: 'Google Authenticator', url: 'https://support.google.com/accounts/answer/1066447' }
+];
+
+const AUTHENTICATOR_LIST = AUTHENTICATORS.reduce((memo, authenticator, index, { length }) => [
+  ...memo,
+  <AuthenticatorUrl {...authenticator} key={authenticator.name} />,
+  ((index < length - 1) ? ((index < length - 2) ? ', ' : ' and ') : '')
+], []);
+
 type Props = {
-  relay: RelayProp,
   viewer: TwoFactor_viewer
 };
 
@@ -24,43 +50,8 @@ type State = {
   dialogOpen: boolean
 };
 
-const AUTHENTICATORS = {
-  '1Password': 'https://1password.com',
-  'OTP Auth': 'https://cooperrs.de/otpauth.html',
-  'Duo Mobile': 'https://duo.com/product/trusted-users/two-factor-authentication/duo-mobile',
-  'Authy': 'https://authy.com',
-  'Google Authenticator': 'https://support.google.com/accounts/answer/1066447'
-};
 
-const AUTHENTICATOR_LIST = (
-  Object.keys(AUTHENTICATORS).map((authenticator_name) => (
-    <a
-      className="blue hover-navy text-decoration-none hover-underline"
-      key={authenticator_name}
-      href={AUTHENTICATORS[authenticator_name]}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {authenticator_name}
-    </a>
-  )).reduce((acc, link, index, items) => {
-    if (index > 0) {
-      if (index < items.length - 1) {
-        acc.push(', ');
-      }
-
-      if (index === items.length - 1) {
-        acc.push(' and ');
-      }
-    }
-
-    acc.push(link);
-
-    return acc;
-  }, [])
-);
-
-class TwoFactor extends React.PureComponent<Props> {
+class TwoFactor extends React.PureComponent<Props, State> {
   state = {
     dialogOpen: false
   };
@@ -72,10 +63,6 @@ class TwoFactor extends React.PureComponent<Props> {
         .length;
     }
     return null;
-  }
-
-  componentDidMount() {
-    // this.props.relay.refetch();
   }
 
   render() {
@@ -198,17 +185,19 @@ class TwoFactor extends React.PureComponent<Props> {
                 </p>
               </div>
               <div className="flex-none col-4 flex justify-end">
-                <Button
-                  onClick={this.handleOpenDialogClick}
-                  theme="default"
-                  outline={true}
-                >
-                  View Codes
-                  <Badge className="ml2" outline={true}>
-                    {this.recoveryCodesRemaining}
-                  </Badge>
-                </Button>
-                {this.state.dialogOpen ? (
+                {this.props.viewer.totp ? (
+                  <Button
+                    onClick={this.handleOpenDialogClick}
+                    theme="default"
+                    outline={true}
+                  >
+                    View Codes
+                    <Badge className="ml2" outline={true}>
+                      {this.recoveryCodesRemaining}
+                    </Badge>
+                  </Button>
+                ) : null}
+                {this.props.viewer.totp && this.state.dialogOpen ? (
                   <RecoveryCodeDialog
                     onRequestClose={this.handleDialogClose}
                     totp={this.props.viewer.totp}
@@ -237,6 +226,7 @@ export default createRefetchContainer(
     fragment TwoFactor_viewer on Viewer {
       totp {
         ...RecoveryCodes_totp
+        ...RecoveryCodeDialog_totp
 
         id
         recoveryCodes {

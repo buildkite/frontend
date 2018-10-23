@@ -89,7 +89,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    if (this.state.newTotpConfig) {
+    if (this.state.step !== STEPS.COMPLETE && this.state.newTotpConfig) {
       TotpDeleteMutation({
         environment: this.props.relay.environment,
         variables: {
@@ -168,9 +168,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
         );
       case STEPS.COMPLETE:
         return (
-          <TwoFactorConfigureComplete
-            onNextStep={this.handleNextStep}
-          />
+          <TwoFactorConfigureComplete />
         );
     }
   }
@@ -182,28 +180,32 @@ class TwoFactorConfigure extends React.Component<Props, State> {
     }
   }
 
+  refetchTotpById = (id: string): Promise<*> => {
+    return fetchQuery(
+      this.props.relay.environment,
+      graphql`
+        query TwoFactorConfigureRefetchNewTotpConfigQuery($id: ID!) {
+          viewer {
+            totp(id: $id) {
+              id
+              recoveryCodes {
+                ...TwoFactorConfigureRecoveryCodes_recoveryCodes
+              }
+            }
+          }
+        }
+      `,
+      {
+        id
+      }
+    );
+  }
+
   handleCreateNewTotp = (callback?: () => void) => {
     TotpCreateMutation({
       environment: this.props.relay.environment,
       onCompleted: ({ totpCreate }) => {
-        fetchQuery(
-          this.props.relay.environment,
-          graphql`
-            query TwoFactorConfigureRefetchNewTotpConfigQuery($id: ID!) {
-              viewer {
-                totp(id: $id) {
-                  id
-                  recoveryCodes {
-                    ...TwoFactorConfigureRecoveryCodes_recoveryCodes
-                  }
-                }
-              }
-            }
-          `,
-          {
-            id: totpCreate.totp.id
-          }
-        ).then(({ viewer: { totp } }) => {
+        this.refetchTotpById(totpCreate.totp.id).then(({ viewer: { totp } }) => {
           this.setState({ newTotpConfig: { totp, provisioningUri: totpCreate.provisioningUri } }, () => {
             if (callback) {
               callback();
@@ -215,10 +217,10 @@ class TwoFactorConfigure extends React.Component<Props, State> {
   }
 
   handleRegenerateRecoveryCodes = (callback?: () => void) => {
-    if (this.props.viewer.totp) {
+    if (this.state.newTotpConfig) {
       commitMutation(this.props.relay.environment, {
         mutation: graphql`
-          mutation TwoFactorConfigureRecoveryCodeRegenerationMutation($input: TOTPRecoveryCodesRegenerateInput!) {
+          mutation TwoFactorConfigureRecoveryCodeRegenerateMutation($input: TOTPRecoveryCodesRegenerateInput!) {
             totpRecoveryCodesRegenerate(input: $input) {
               totp {
                 id
@@ -226,12 +228,14 @@ class TwoFactorConfigure extends React.Component<Props, State> {
             }
           }
         `,
-        variables: { input: { id: this.props.viewer.totp.id } },
-        onCompleted: ({ totpRecoveryCodesRegenerate }) => {
-          this.props.relay.refetch({ id: totpRecoveryCodesRegenerate.totp.id }, null, () => {
-            if (callback) {
-              callback();
-            }
+        variables: { input: { totpId: this.state.newTotpConfig.totp.id } },
+        onCompleted: ({ totpRecoveryCodesRegenerate: { totp } }) => {
+          this.refetchTotpById(totp.id).then(({ viewer: { totp } }) => {
+            this.setState({ newTotpConfig: { ...this.state.newTotpConfig, totp } }, () => {
+              if (callback) {
+                callback();
+              }
+            });
           });
         }
       });
@@ -253,11 +257,9 @@ class TwoFactorConfigure extends React.Component<Props, State> {
         variables: { input: { id: this.state.newTotpConfig.totp.id, token } },
         onCompleted: () => {
           this.props.relay.refetch({}, {}, () => {
-            this.setState({ newTotpConfig: null }, () => {
-              if (callback) {
-                callback();
-              }
-            });
+            if (callback) {
+              callback();
+            }
           });
         },
         onError: (error) => {

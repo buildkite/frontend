@@ -21,7 +21,7 @@ const Code = styled.span`
 
 const ConsumedCode = styled.span`
   display: block;
-  line-through : 'none';
+  text-decoration: line-through;
 `;
 
 
