@@ -9,8 +9,8 @@ import Dropdown from "app/components/shared/Dropdown";
 import Icon from "app/components/shared/Icon";
 import PageHeader from "app/components/shared/PageHeader";
 import Panel from 'app/components/shared/Panel';
-import RecoveryCodes from './RecoveryCodes';
-import RecoveryCodeList from 'app/components/RecoveryCodeList';
+import RecoveryCodes from './RecoveryCodes'; // eslint-disable-line
+import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disable-line
 import RecoveryCodeDialog from './RecoveryCodes/RecoveryCodeDialog';
 import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
 
