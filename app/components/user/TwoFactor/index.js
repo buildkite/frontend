@@ -4,19 +4,17 @@ import * as React from "react";
 import DocumentTitle from 'react-document-title';
 import { createRefetchContainer, graphql } from 'react-relay/compat';
 import Badge from 'app/components/shared/Badge';
-// import Dropdown from "app/components/shared/Dropdown";
 import Button from 'app/components/shared/Button';
-import Dropdown from "../../shared/Dropdown";
+import Dropdown from "app/components/shared/Dropdown";
 import Icon from "app/components/shared/Icon";
 import PageHeader from "app/components/shared/PageHeader";
 import Panel from 'app/components/shared/Panel';
 import RecoveryCodes from './RecoveryCodes';
+import RecoveryCodeList from 'app/components/RecoveryCodeList';
 import RecoveryCodeDialog from './RecoveryCodes/RecoveryCodeDialog';
-import type { RelayProp } from 'react-relay';
 import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
 
 type Props = {
-  relay: RelayProp,
   viewer: TwoFactor_viewer
 };
 
@@ -60,7 +58,7 @@ const AUTHENTICATOR_LIST = (
   }, [])
 );
 
-class TwoFactor extends React.PureComponent<Props> {
+class TwoFactor extends React.PureComponent<Props, State> {
   state = {
     dialogOpen: false
   };
@@ -72,10 +70,6 @@ class TwoFactor extends React.PureComponent<Props> {
         .length;
     }
     return null;
-  }
-
-  componentDidMount() {
-    // this.props.relay.refetch();
   }
 
   render() {
@@ -198,17 +192,19 @@ class TwoFactor extends React.PureComponent<Props> {
                 </p>
               </div>
               <div className="flex-none col-4 flex justify-end">
-                <Button
-                  onClick={this.handleOpenDialogClick}
-                  theme="default"
-                  outline={true}
-                >
-                  View Codes
-                  <Badge className="ml2" outline={true}>
-                    {this.recoveryCodesRemaining}
-                  </Badge>
-                </Button>
-                {this.state.dialogOpen ? (
+                {this.props.viewer.totp ? (
+                  <Button
+                    onClick={this.handleOpenDialogClick}
+                    theme="default"
+                    outline={true}
+                  >
+                    View Codes
+                    <Badge className="ml2" outline={true}>
+                      {this.recoveryCodesRemaining}
+                    </Badge>
+                  </Button>
+                ) : null}
+                {this.props.viewer.totp && this.state.dialogOpen ? (
                   <RecoveryCodeDialog
                     onRequestClose={this.handleDialogClose}
                     totp={this.props.viewer.totp}
@@ -237,9 +233,9 @@ export default createRefetchContainer(
     fragment TwoFactor_viewer on Viewer {
       totp {
         ...RecoveryCodes_totp
-
         id
         recoveryCodes {
+          ...RecoveryCodeList_recoveryCodes
           codes {
             code
             consumed
