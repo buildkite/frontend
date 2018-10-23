@@ -12,13 +12,22 @@ import Spinner from '../../../shared/Spinner';
 import Dropdown from '../../../shared/Dropdown';
 import Icon from '../../../shared/Icon';
 import Badge from '../../../shared/Badge';
-import CachedStateWrapper from '../../../../lib/CachedStateWrapper';
 
 import Build from './build';
 import DropdownButton from './../dropdown-button';
 
+type ViewerPartial = {
+  scheduledBuilds: {
+    count: number
+  },
+  runningBuilds: {
+    count: number
+  },
+  user: Object
+};
+
 type Props = {
-  viewer?: Object,
+  viewer?: ViewerPartial,
   relay: Object
 };
 
@@ -29,27 +38,25 @@ type State = {
 };
 
 class MyBuilds extends React.Component<Props, State> {
-  state = {
-    isDropdownVisible: false,
-    scheduledBuildsCount: (
-      (this.props.viewer && this.props.viewer.scheduledBuilds)
-        ? this.props.viewer.scheduledBuilds.count
-        : 0
-    ),
-    runningBuildsCount: (
-      (this.props.viewer && this.props.viewer.runningBuilds)
-        ? this.props.viewer.runningBuilds.count
-        : 0
-    )
-  }
+  constructor(props) {
+    super(props);
 
-  getCachedState;
-  setCachedState;
+    // When the MyBuilds starts, see if we've got either cached or
+    // current build numbers so we can show something right away.
+    const initialState = {
+      isDropdownVisible: false,
+      scheduledBuildsCount: (
+        (this.props.viewer && this.props.viewer.scheduledBuilds)
+          ? this.props.viewer.scheduledBuilds.count
+          : 0
+      ),
+      runningBuildsCount: (
+        (this.props.viewer && this.props.viewer.runningBuilds)
+          ? this.props.viewer.runningBuilds.count
+          : 0
+      )
+    };
 
-  // When the MyBuilds mounts, we should see if we've got any cached
-  // builds numbers so we can show something right away.
-  componentWillMount() {
-    const initialState = {};
     const cachedState = this.getCachedState();
 
     if (!this.props.viewer || !this.props.viewer.scheduledBuilds) {
@@ -60,7 +67,28 @@ class MyBuilds extends React.Component<Props, State> {
       initialState.runningBuildsCount = cachedState.runningBuildsCount || 0;
     }
 
-    this.setState(initialState);
+    this.state = initialState;
+  }
+
+  // NOTE: the localStorage key is 'CachedState:MyBuilds:' for backwards
+  // compatibility with data stored by the CachedStateWrapper this used to use.
+  getCachedState() {
+    const { state, expiresAt } = JSON.parse(localStorage['CachedState:MyBuilds:'] || '{}');
+
+    if (!state || (expiresAt && expiresAt < Date.now())) {
+      return {};
+    }
+
+    return state;
+  }
+
+  setCachedState(state = {}) {
+    this.setState(state, () => {
+      localStorage['CachedState:MyBuilds:'] = JSON.stringify({
+        state,
+        expiresAt: Date.now() + hour.bind(1)
+      });
+    });
   }
 
   componentDidMount() {
@@ -85,17 +113,31 @@ class MyBuilds extends React.Component<Props, State> {
   // As we get new values for scheduledBuildsCount and runningBuildsCount from
   // Relay + GraphQL, we'll be sure to update the cached state with the latest
   // values so when the page re-loads, we can show the latest numbers.
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.viewer) {
+  componentDidUpdate(prevProps: { viewer?: ViewerPartial }) {
+    const { viewer } = this.props;
+    const { viewer: prevViewer } = prevProps;
+
+    // If we don't have a current Viewer object, we know we don't have fresh data
+    if (!viewer) {
       return;
     }
 
-    if (nextProps.viewer.scheduledBuilds || nextProps.viewer.runningBuilds) {
-      this.setCachedState({
-        scheduledBuildsCount: nextProps.viewer.scheduledBuilds.count,
-        runningBuildsCount: nextProps.viewer.runningBuilds.count
-      });
+    // If we have a previous viewer object with build data, let's
+    // check if any of the counts have changed, and abort if not
+    if (prevViewer && prevViewer.scheduledBuilds && prevViewer.runningBuilds) {
+      if (
+        viewer.scheduledBuilds.count === prevViewer.scheduledBuilds.count &&
+        viewer.runningBuilds.count === prevViewer.runningBuilds.count
+      ) {
+        return;
+      }
     }
+
+    // Finally, update the state
+    this.setCachedState({
+      scheduledBuildsCount: viewer.scheduledBuilds.count,
+      runningBuildsCount: viewer.runningBuilds.count
+    });
   }
 
   render() {
@@ -243,11 +285,7 @@ class MyBuilds extends React.Component<Props, State> {
   };
 }
 
-// Wrap the MyBuilds in a CachedStateWrapper so we get access to methods
-// like `setCachedState`
-const CachedMyBuilds = CachedStateWrapper(MyBuilds, { validLength: hour.bind(1) });
-
-export default Relay.createContainer(CachedMyBuilds, {
+export default Relay.createContainer(MyBuilds, {
   initialVariables: {
     includeBuilds: false,
     includeBuildCounts: false
