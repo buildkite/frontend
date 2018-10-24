@@ -6,7 +6,7 @@ env:
 steps:
   - group: "Setup"
     steps:
-      - name: ":docker: :package:"
+      - name: ":docker: Build Docker Image"
         plugins:
           docker-compose#v2.5.1:
             build: frontend
