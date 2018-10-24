@@ -24,7 +24,6 @@ const ConsumedCode = styled.span`
   text-decoration: line-through;
 `;
 
-
 type Props = {
   isLoading: boolean,
   recoveryCodes: ?RecoveryCodeList_recoveryCodes

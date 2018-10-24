@@ -14,11 +14,11 @@ import TwoFactorConfigureActivate from './TwoFactorConfigureActivate';
 import TwoFactorConfigureComplete from './TwoFactorConfigureComplete';
 import TotpCreateMutation from './TotpCreateMutation';
 import TotpDeleteMutation from './TotpDeleteMutation';
-import type { RelayProp } from 'react-relay';
-import type { TwoFactorConfigure_viewer } from './__generated__/TwoFactorConfigure_viewer.graphql';
 // Required for Relay fragments...
 import TwoFactor from 'app/components/user/TwoFactor'; // eslint-disable-line
 import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disable-line
+import type { RelayProp } from 'react-relay';
+import type { TwoFactorConfigure_viewer } from './__generated__/TwoFactorConfigure_viewer.graphql';
 
 const STEPS = {
   RECONFIGURE: 'RECONFIGURE',
@@ -47,7 +47,10 @@ type Props = {
 
 type State = {
   step: StepType,
-  newTotpConfig: ?Object
+  newTotpConfig: ?{
+    totp: TotpType,
+    provisioningUri: string
+  }
 };
 
 class TwoFactorConfigure extends React.Component<Props, State> {
@@ -256,11 +259,9 @@ class TwoFactorConfigure extends React.Component<Props, State> {
         `,
         variables: { input: { id: this.state.newTotpConfig.totp.id, token } },
         onCompleted: () => {
-          this.props.relay.refetch({}, {}, () => {
-            if (callback) {
-              callback();
-            }
-          });
+          if (callback) {
+            callback();
+          }
         },
         onError: (error) => {
           if (error) {
