@@ -39,8 +39,8 @@ const chunkFilenameFormat = IS_PRODUCTION ? "[chunkhash].chunk" : "[name].chunk"
 const devTool = IS_PRODUCTION ? "source-map" : "inline-cheap-source-map";
 
 var plugins = [
-  // Only add the 'whatwg-fetch' plugin if the browser doesn't support it
-  new webpack.ProvidePlugin({ 'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch' }),
+  // Add the 'whatwg-fetch' polyfill in case the browser doesn't support it
+  new webpack.ProvidePlugin({ 'fetch': ['babel-loader!whatwg-fetch', 'fetch'] }),
 
   // After Webpack compilation, spit out a 'manifest.json' file with a mapping
   // of file name, to compiled name.
@@ -86,8 +86,7 @@ module.exports = {
   },
 
   entry: {
-    app: path.join(__dirname, '../app/app.js'),
-    public: path.join(__dirname, '../app/public.js')
+    app: path.join(__dirname, '../app/app.js')
   },
 
   output: {

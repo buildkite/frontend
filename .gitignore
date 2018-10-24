@@ -4,6 +4,9 @@
 # OSX cache files
 .DS_Store
 
+# git head commit sha without .git
+/REVISION
+
 # Node
 node_modules
 npm-debug.log
