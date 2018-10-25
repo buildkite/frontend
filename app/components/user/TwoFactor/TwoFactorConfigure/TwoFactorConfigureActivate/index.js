@@ -93,27 +93,10 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
             {this.props.hasActivatedTotp ? 'Reconfigure' : 'Activate'} Authenticator Application
           </Panel.Header>
           <Panel.Section>
-            <div className="flex justify-center items-center">
-              <p>
-                To {this.props.hasActivatedTotp ? 'reconfigure' : 'activate'} two-factor authentication, scan this
-                QR Code with your Authenticator Application, and then confirm. Alternatively, you can copy the
-                provisioning URI.
-              </p>
-              <CopyToClipboard
-                text={this.props.provisioningUri}
-                onCopy={this.handleProvisioningUriCopy}
-              >
-                <Button
-                  theme="default"
-                  outline={true}
-                >
-                  {this.state.copiedProvisioningUri
-                    ? 'Copied'
-                    : 'Copy'
-                  }
-                </Button>
-              </CopyToClipboard>
-            </div>
+            <p>
+              To {this.props.hasActivatedTotp ? 'reconfigure' : 'activate'} two-factor authentication, scan this
+              QR Code with your Authenticator Application, and then confirm.
+            </p>
           </Panel.Section>
           <Panel.Section>
             <div className="flex justify-center items-center" style={{ minHeight: "340px" }}>
@@ -132,6 +115,29 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
                 />
               </figure>
             </div>
+          </Panel.Section>
+          <Panel.Section>
+            <p><strong>Provisioning URI</strong></p>
+            <div className="flex">
+              <div className="flex input mr2">
+                {this.props.provisioningUri}
+              </div>
+              <CopyToClipboard
+                text={this.props.provisioningUri}
+                onCopy={this.handleProvisioningUriCopy}
+              >
+                <Button
+                  theme="default"
+                  outline={true}
+                >
+                  {this.state.copiedProvisioningUri
+                    ? 'Copied'
+                    : 'Copy'
+                  }
+                </Button>
+              </CopyToClipboard>
+            </div>
+            <small className="dark-gray">You can use this OTP provisioning URI to manually configure your Authenticator</small>
           </Panel.Section>
           <Panel.Section>
             <TotpCodeInput
