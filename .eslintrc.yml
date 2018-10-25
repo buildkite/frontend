@@ -21,6 +21,7 @@ plugins:
   - import
   - react
   - flowtype
+  - relay
 
 rules:
   array-bracket-spacing:
@@ -202,3 +203,10 @@ rules:
   react/style-prop-object: warn
   react/jsx-tag-spacing: error
   react/void-dom-elements-no-children: error
+
+  relay/graphql-syntax: error
+  relay/compat-uses-vars: warn
+  relay/graphql-naming: error
+  relay/generated-flow-types: warn
+  relay/no-future-added-value: warn
+  relay/unused-fields: warn
