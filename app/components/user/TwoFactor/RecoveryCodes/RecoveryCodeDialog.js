@@ -13,6 +13,11 @@ type Props = {
   totp: RecoveryCodeDialog_totp
 };
 
+
+type State = {
+  copiedRecoveryCodes: boolean
+};
+
 type RecoveryCodes = $PropertyType<RecoveryCodeDialog_totp, 'recoveryCodes'>;
 
 function recoveryCodeText(recoveryCodes: RecoveryCodes): ?string {
@@ -22,7 +27,11 @@ function recoveryCodeText(recoveryCodes: RecoveryCodes): ?string {
   return '';
 }
 
-class RecoveryCodesDialog extends React.PureComponent<Props> {
+class RecoveryCodesDialog extends React.PureComponent<Props, State> {
+  state = {
+      copiedRecoveryCodes: false
+  }
+
   render() {
     return (
       <Dialog isOpen={true} onRequestClose={this.props.onRequestClose} width={540}>
@@ -35,8 +44,10 @@ class RecoveryCodesDialog extends React.PureComponent<Props> {
             text={recoveryCodeText(this.props.totp.recoveryCodes)}
             onCopy={this.handleRecoveryCodeCopy}
           >
-            <Button className="col-12" theme="success" outline={true}>
-              Copy Recovery Codes
+            <Button className="col-12" theme="success" outline={this.state.copiedRecoveryCodes}>
+              {this.state.copiedRecoveryCodes
+                ? 'Copied Recovery Codes'
+                : 'Copy Recovery Codes'}
             </Button>
           </CopyToClipboard>
         </div>
@@ -48,6 +59,7 @@ class RecoveryCodesDialog extends React.PureComponent<Props> {
     if (!result) {
       alert('We couldnʼt put this on your clipboard for you, please copy it manually!');
     }
+    this.setState({ copiedRecoveryCodes: true });
   }
 }
 
