@@ -142,6 +142,7 @@ module.exports = {
 
     'graphql/named-operations': [ WARN, { env: 'relay', schemaJson } ],
     'graphql/no-deprecated-fields': [ ERROR, { env: 'relay', schemaJson } ],
-    'graphql/template-strings': [ ERROR, { env: 'relay', tagName: 'graphql', schemaJson } ]
+    // Disabled for now — it’s just a bit too noisy.
+    // 'graphql/template-strings': [ WARN, { env: 'relay', validators: 'all', schemaJson } ]
   }
 };
