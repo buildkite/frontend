@@ -73,7 +73,7 @@
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-react": "7.11.1",
     "file-loader": "2.0.0",
-    "flow-bin": "0.83.0",
+    "flow-bin": "0.84.0",
     "html-sketchapp-cli": "0.6.2",
     "http-server": "0.11.1",
     "ignore-loader": "0.1.2",
