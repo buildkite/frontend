@@ -2,59 +2,12 @@
 
 import * as React from "react";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { graphql, commitMutation } from 'react-relay/compat';
 import QRCode from 'qrcode.react';
-import styled from 'styled-components';
 import ValidationErrors from 'app/lib/ValidationErrors';
-import GraphQLErrors from 'app/constants/GraphQLErrors';
-import FormTextField from 'app/components/shared/FormTextField';
 import Panel from 'app/components/shared/Panel';
 import Button from 'app/components/shared/Button';
+import TokenCodeInput from 'app/components/shared/TokenCodeInput';
 import buildkiteqr from './buildkite.svg';
-
-
-function TotpCodeInput({ value, onChange, onCodeComplete, errors }) {
-  const valueChars = value.split('');
-  const fieldChars = [...Array(6).keys()].map((index: number) => [`char-${index}`, valueChars[index]]);
-  const valueFilter = new RegExp(/^\d+$/);
-
-  function validCodeValue(value: string) {
-    if (value === "") {
-      return true;
-    }
-    return valueFilter.test(value);
-  }
-
-  function handleChange(event: SyntheticEvent<HTMLInputElement>) {
-    event.preventDefault();
-    const { value: nextValue } = event.currentTarget;
-    if (nextValue.length <= fieldChars.length && validCodeValue(nextValue)) {
-      onChange(event);
-    }
-    if (nextValue.length === fieldChars.length) {
-      onCodeComplete(nextValue);
-    }
-  }
-
-  return (
-    <div>
-      <div className="flex input p0">
-        {fieldChars.map(([key, char]) => (
-          <div className="p2 monospace h2" style={{ borderRight: "1px solid red" }} key={key}>
-            {char}
-          </div>
-        ))}
-      </div>
-      <FormTextField
-        label=""
-        value={value}
-        autoFocus={true}
-        onChange={handleChange}
-        errors={errors}
-      />
-    </div>
-  );
-}
 
 type ValidationError = {
   field: string,
@@ -162,25 +115,27 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
     );
   }
 
-  handleTotpCodeChange = (event: SyntheticEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    this.setState({ totpCodeValue: event.currentTarget.value });
+  handleTotpCodeChange = (totpCodeValue: string) => {
+    this.setState({ totpCodeValue });
   }
 
   handleTotpActivate = (value: string) => {
     this.setState({ isActivating: true }, () => {
-      this.props.onActivateOtp(value, () => {
-        this.setState({ isActivating: false });
-        this.props.onNextStep();
+      this.props.onActivateOtp(value, (errors) => {
+        this.setState({ errors, isActivating: false }, () => {
+          if (!errors) {
+            this.props.onNextStep();
+          }
+        });
       });
     });
   }
 
-  handleProvisioningUriCopy = (_text, result) => {
+  handleProvisioningUriCopy = (_text: string, result: boolean) => {
     if (!result) {
       alert('We couldnʼt put this on your clipboard for you, please copy it manually!');
       return;
     }
-     this.setState({ copiedProvisioningUri: true });
+    this.setState({ copiedProvisioningUri: true });
   };
 }

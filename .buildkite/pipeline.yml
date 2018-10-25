@@ -4,53 +4,61 @@ env:
   S3_URL: s3://buildkiteassets.com/frontend/
 
 steps:
-  - name: ":docker: :package:"
-    plugins:
-      docker-compose#v2.5.1:
-        build: frontend
-        image-repository: index.docker.io/buildkiteci/frontend
-    env:
-      RAILS_ENV: test
-    agents:
-      queue: elastic-builders
+  - group: "Setup"
+    steps:
+      - name: ":docker: Build Docker Image"
+        plugins:
+          docker-compose#v2.5.1:
+            build: frontend
+            image-repository: index.docker.io/buildkiteci/frontend
+        env:
+          RAILS_ENV: test
+        agents:
+          queue: elastic-builders
 
   - wait
 
-  - name: ":eslint:"
-    command: ".buildkite/steps/eslint.sh"
-    plugins:
-      docker-compose#v2.5.1:
-        run: frontend
+  - group: "Test"
+    steps:
+      - name: ":eslint: ESlint"
+        command: ".buildkite/steps/eslint.sh"
+        plugins:
+          docker-compose#v2.5.1:
+            run: frontend
 
-  - name: ":flowtype:"
-    command: ".buildkite/steps/flow.sh"
-    plugins:
-      docker-compose#v2.5.1:
-        run: frontend
+      - name: ":flowtype: Flow"
+        command: ".buildkite/steps/flow.sh"
+        plugins:
+          docker-compose#v2.5.1:
+            run: frontend
 
-  - name: ":jest:"
-    command: ".buildkite/steps/jest.sh"
-    artifact_paths: "coverage/*"
-    plugins:
-      docker-compose#v2.5.1:
-        run: frontend
+      - name: ":jest: Jest"
+        command: ".buildkite/steps/jest.sh"
+        artifact_paths: "coverage/*"
+        plugins:
+          docker-compose#v2.5.1:
+            run: frontend
 
-  - name: ":webpack:"
-    command: ".buildkite/steps/webpack.sh"
-    artifact_paths:
-      - "bundle-analysis/*"
-      - "dist/*"
-    plugins:
-      docker-compose#v2.5.1:
-        run: frontend
+  - group: "Build"
+    steps:
+      - name: ":webpack: Webpack"
+        command: ".buildkite/steps/webpack.sh"
+        artifact_paths:
+          - "bundle-analysis/*"
+          - "dist/*"
+        plugins:
+          docker-compose#v2.5.1:
+            run: frontend
 
   - wait
 
-  - name: ":rocket: :s3:"
-    command: ".buildkite/steps/deploy.sh"
-    branches: "master"
-    artifact_paths: "tmp/verify/*"
-    concurrency: 1
-    concurrency_group: "deployer" # Shared with buildkite/frontend
-    agents:
-      queue: "deploy"
+  - group: "Deploy :rocket:"
+    steps:
+      - name: ":s3: S3"
+        command: ".buildkite/steps/deploy.sh"
+        branches: "master"
+        artifact_paths: "tmp/verify/*"
+        concurrency: 1
+        concurrency_group: "deployer" # Shared with buildkite/frontend
+        agents:
+          queue: "deploy"
