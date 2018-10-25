@@ -106,11 +106,15 @@ class TwoFactor extends React.PureComponent<Props, State> {
               Adding a second authentication mechanism to your account is rad! Words words words about what 2FA is etc Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos corporis modi quo! Nostrum incidunt fugit laudantium quos rem odit, in obcaecati, ab ipsam voluptatum corrupti dicta itaque earum ipsum praesentium.
             </p>
           </Panel.Section>
-          <Panel.Footer>
-            <Button theme="success" link="/user/two-factor/configure">
-              Get Started
-            </Button>
-          </Panel.Footer>
+          {this.props.viewer.totp ? (
+            null
+          ) : (
+            <Panel.Footer>
+              <Button theme="success" link="/user/two-factor/configure">
+                Get Started
+              </Button>
+            </Panel.Footer>
+          )}
         </Panel>
         <Panel className="mb4">
           <Panel.Header>
