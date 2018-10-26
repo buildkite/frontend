@@ -72,7 +72,13 @@ class MemberRow extends React.PureComponent<Props> {
     if (this.props.organizationMember.security.twoFactorEnabled) {
       nodes.push(
         <div key="2fa" className="flex ml1">
-          <Badge outline={true} className="regular">2FA</Badge>
+          <Badge
+            title="Two-factor authentication is configured."
+            outline={true}
+            className="border-lime lime"
+          >
+            2FA
+          </Badge>
         </div>
       );
     }

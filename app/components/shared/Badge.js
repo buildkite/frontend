@@ -1,8 +1,17 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export default class Badge extends React.PureComponent {
+type Props = {
+  children: React.Node,
+  title?: string,
+  className?: string,
+  outline?: boolean
+};
+
+export default class Badge extends React.PureComponent<Props> {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
