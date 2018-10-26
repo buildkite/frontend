@@ -83,11 +83,9 @@ class MyBuilds extends React.Component<Props, State> {
   }
 
   setCachedState(state = {}) {
-    this.setState(state, () => {
-      localStorage['CachedState:MyBuilds:'] = JSON.stringify({
-        state,
-        expiresAt: Date.now() + hour.bind(1)
-      });
+    localStorage['CachedState:MyBuilds:'] = JSON.stringify({
+      state,
+      expiresAt: Date.now() + hour.bind(1)
     });
   }
 
