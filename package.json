@@ -67,7 +67,7 @@
     "babel-plugin-relay": "1.6.2",
     "css-loader": "1.0.0",
     "css-variables-loader": "2.0.2",
-    "eslint": "5.7.0",
+    "eslint": "5.8.0",
     "eslint-plugin-babel": "5.2.1",
     "eslint-plugin-flowtype": "3.1.1",
     "eslint-plugin-graphql": "2.1.1",
