@@ -25,7 +25,7 @@ export default function TwoFactorConfigureReconfigure({ hasActivatedTotp, onNext
       ) : null}
       <Panel>
         <Panel.Header>
-          Confgiure two-factor authentication
+          Reconfigure two-factor authentication
         </Panel.Header>
         <Panel.Footer>
           <Button className="col-12" theme="success" onClick={onNextStep}>
