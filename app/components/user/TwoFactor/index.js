@@ -137,14 +137,15 @@ class TwoFactor extends React.PureComponent<Props, State> {
                       Settings
                     </Button>
                     <div className="my2 mx3">
-                      <React.Fragment>
-                        <Button theme="warning" className="mx2" outline={true} link="/user/two-factor/configure">
+                      <p>Maybe have some words here about reconfiguing and deactivation? words words words how great are words words like to party</p>
+                      <div>
+                        <Button theme="warning" className="mr2" outline={true} link="/user/two-factor/configure">
                           Reconfigure
                         </Button>
                         <Button theme="error" outline={true} link="/user/two-factor/delete">
                           Deactivate
                         </Button>
-                      </React.Fragment>
+                      </div>
                     </div>
                   </Dropdown>
                 ) : (
