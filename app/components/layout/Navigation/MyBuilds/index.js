@@ -135,8 +135,8 @@ class MyBuilds extends React.Component<Props, State> {
 
     // Finally, update the state
     this.setCachedState({
-      scheduledBuildsCount: viewer.scheduledBuilds.count,
-      runningBuildsCount: viewer.runningBuilds.count
+      scheduledBuildsCount: (viewer.scheduledBuilds ? viewer.scheduledBuilds.count : 0),
+      runningBuildsCount: (viewer.runningBuilds ? viewer.runningBuilds.count : 0)
     });
   }
 
