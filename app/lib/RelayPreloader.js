@@ -3,6 +3,7 @@
 import Relay from 'react-relay/classic';
 import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
+
 const QUERIES = {
   "build_header/build": Relay.QL`
     query BuildsShowBuild($build: ID!) {
@@ -268,6 +269,15 @@ const QUERIES = {
       }
     }
   `,
+
+  /*
+  Disabling graphql/no-deprecated-fields here as I think there is some changes probably
+  required in the graph implementation so that we can actually use the alternatives to
+  `pingedAt`, `stoppedAt`, & `stoppedBy` fields as at the moment it seems like using these
+  fields will mean we need do a lot of extra fetching and checking on the client which
+  seems bad?
+  */
+  /* eslint-disable graphql/no-deprecated-fields */
   "agents/show": Relay.QL`
     query($slug: ID!) {
       agent(slug: $slug) {
@@ -327,6 +337,7 @@ const QUERIES = {
       }
     }
   `,
+  /* eslint-enable graphql/no-deprecated-fields */
   "teams/index": Relay.QL`
     query($organization: ID!) {
       organization(slug: $organization) {
