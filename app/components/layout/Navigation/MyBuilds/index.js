@@ -69,11 +69,11 @@ class MyBuilds extends React.Component<Props, State> {
   static getDerivedStateFromProps(props) {
     const derivedState = {};
 
-    if (props.viewer && props.viewer.scheduledBuilds && props.viewer.scheduledBuilds.count) {
+    if (props.viewer && props.viewer.scheduledBuilds) {
       derivedState.scheduledBuildsCount = props.viewer.scheduledBuilds.count;
     }
 
-    if (props.viewer && props.viewer.runningBuilds && props.viewer.runningBuilds.count) {
+    if (props.viewer && props.viewer.runningBuilds) {
       derivedState.runningBuildsCount = props.viewer.runningBuilds.count;
     }
 
