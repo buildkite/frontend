@@ -7,8 +7,6 @@ import styled from 'styled-components';
 
 import Badge from '../Badge';
 
-import cssVariables from '../../../css';
-
 import { formatNumber } from '../../../lib/number';
 
 const ACTIVE_CLASS_NAME = 'active';
@@ -26,7 +24,7 @@ const TabButton = styled(Link).attrs({
   &:hover {
     border-color: #D5EBA4;
   }
-  
+
   &.${ACTIVE_CLASS_NAME} {
     border-color: #14CC80;
   }
