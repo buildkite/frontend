@@ -116,11 +116,8 @@ class TwoFactorConfigure extends React.Component<Props, State> {
               />
             </PageHeader.Icon>
             <PageHeader.Title>
-              Configure Two-Factor Authentication
+              {this.props.viewer.totp ? 'Reconfigure' : 'Configure'} Two-Factor Authentication
             </PageHeader.Title>
-            <PageHeader.Description>
-              Manage your two-factor authentication settings.
-            </PageHeader.Description>
             <PageHeader.Menu>
               <WorkflowProgress
                 className="mr4"

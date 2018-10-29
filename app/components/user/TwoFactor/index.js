@@ -79,9 +79,6 @@ class TwoFactor extends React.PureComponent<Props, State> {
             <PageHeader.Title>
               Manage Two-Factor Authentication
             </PageHeader.Title>
-            <PageHeader.Description>
-              Manage your two-factor authentication settings.
-            </PageHeader.Description>
             <PageHeader.Menu>
               <Button theme="default" outline={true} href="/user/settings">
                 Back to Personal Settings
