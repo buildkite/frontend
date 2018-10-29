@@ -8,7 +8,6 @@ import Button from 'app/components/shared/Button';
 import Icon from "app/components/shared/Icon";
 import PageHeader from "app/components/shared/PageHeader";
 import WorkflowProgress from "app/components/shared/WorkflowProgress";
-import TwoFactorConfigureReconfigure from './TwoFactorConfigureReconfigure';
 import TwoFactorConfigureRecoveryCodes from './TwoFactorConfigureRecoveryCodes';
 import TwoFactorConfigureActivate from './TwoFactorConfigureActivate';
 import TwoFactorConfigureComplete from './TwoFactorConfigureComplete';
@@ -21,7 +20,6 @@ import type { RelayProp } from 'react-relay';
 import type { TwoFactorConfigure_viewer } from './__generated__/TwoFactorConfigure_viewer.graphql';
 
 const STEPS = {
-  RECONFIGURE: 'RECONFIGURE',
   RECOVERY_CODES: 'RECOVERY_CODES',
   ACTIVATE_TOTP: 'ACTIVATE_TOTP',
   COMPLETE: 'COMPLETE'
@@ -33,7 +31,6 @@ type RecoveryCodesType = $PropertyType<TotpType, 'recoveryCodes'>;
 
 function getNextStep(currentStep: StepType): ?StepType {
   switch (currentStep) {
-    case STEPS.RECONFIGURE: return STEPS.RECOVERY_CODES;
     case STEPS.RECOVERY_CODES: return STEPS.ACTIVATE_TOTP;
     case STEPS.ACTIVATE_TOTP: return STEPS.COMPLETE;
     case STEPS.COMPLETE: return STEPS.COMPLETE;
@@ -55,7 +52,7 @@ type State = {
 
 class TwoFactorConfigure extends React.Component<Props, State> {
   state = {
-    step: (this.props.viewer.totp ? STEPS.RECONFIGURE : STEPS.RECOVERY_CODES),
+    step: STEPS.RECOVERY_CODES,
     newTotpConfig: null
   };
 
@@ -82,7 +79,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
 
   get steps(): Array<StepType> {
     if (this.hasActivatedTotp) {
-      return [STEPS.RECONFIGURE, STEPS.RECOVERY_CODES, STEPS.ACTIVATE_TOTP, STEPS.COMPLETE];
+      return [STEPS.RECOVERY_CODES, STEPS.ACTIVATE_TOTP, STEPS.COMPLETE];
     }
     return [STEPS.RECOVERY_CODES, STEPS.ACTIVATE_TOTP, STEPS.COMPLETE];
   }
@@ -141,13 +138,6 @@ class TwoFactorConfigure extends React.Component<Props, State> {
 
   renderCurrentStep() {
     switch (this.state.step) {
-      case STEPS.RECONFIGURE:
-        return (
-          <TwoFactorConfigureReconfigure
-            onNextStep={this.handleNextStep}
-            hasActivatedTotp={this.hasActivatedTotp}
-          />
-        );
       case STEPS.RECOVERY_CODES:
         return (
           <TwoFactorConfigureRecoveryCodes

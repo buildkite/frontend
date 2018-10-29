@@ -48,10 +48,14 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
           <Panel className="mb3 orange border-orange">
             <Panel.Section>
               <p>
-                <strong>These codes should be treated just like your password!</strong>
+                <strong>Youʼre about to reconfigure two-factor authentication.</strong>
                 <br />
-                We’d suggest saving them into a secure password manager, or printing them off and storing them
+                This will invalidate your existing two-factor authentication configuration and recovery codes.
+
+                We’d suggest saving your recovery codes into a secure password manager, or printing them off and storing them
                 somewhere safe.
+
+                They should be treated just like your password!
               </p>
             </Panel.Section>
           </Panel>
