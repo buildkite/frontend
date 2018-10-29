@@ -2,51 +2,16 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import Menu from '../shared/Menu';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
+import Menu from 'app/components/shared/Menu';
+import type { SettingsMenu_viewer } from './__generated__/SettingsMenu_viewer.graphql';
 
 type Props = {
-  viewer: {
-    organizations: {
-      edges: Array<Object>
-    }
-  }
+  viewer: SettingsMenu_viewer
 };
 
-class SettingsMenu extends React.Component<Props> {
-  static propTypes = {
-    viewer: PropTypes.shape({
-      organizations: PropTypes.shape({
-        edges: PropTypes.array
-      }).isRequired
-    }).isRequired
-  };
-
+export default class SettingsMenu extends React.Component<Props> {
   render() {
-    const organizations = [];
-
-    this.props.viewer.organizations.edges.forEach((organization) => {
-      if (organization.node.permissions.organizationUpdate.allowed) {
-        organizations.push(
-          <Menu.Button
-            key={organization.node.slug}
-            href={`/organizations/${organization.node.slug}/settings`}
-            label={organization.node.name}
-          />
-        );
-      }
-    });
-
-    let organizationsMenu;
-    if (organizations.length > 0) {
-      organizationsMenu = (
-        <Menu>
-          <Menu.Header>Organization Settings</Menu.Header>
-          {organizations}
-        </Menu>
-      );
-    }
-
     return (
       <div>
         <Menu>
@@ -77,10 +42,45 @@ class SettingsMenu extends React.Component<Props> {
           />
         </Menu>
 
-        {organizationsMenu}
+        {this.props.viewer.organizations && this.props.viewer.organizations.edges ? (
+          this.props.viewer.organizations.edges.map((organization) => (
+            (
+              organization &&
+              organization.node &&
+              organization.node.permissions &&
+              organization.node.permissions.organizationUpdate &&
+              organization.node.permissions.organizationUpdate.allowed
+            ) ? (
+              <Menu.Button
+                key={organization.node.slug}
+                href={`/organizations/${organization.node.slug}/settings`}
+                label={organization.node.name}
+              />
+            ) : null
+          ))
+        ) : null}
       </div>
     );
   }
 }
 
-export default SettingsMenu;
+export const SettingsMenuFragment = createFragmentContainer(
+  SettingsMenu,
+  graphql`
+    fragment SettingsMenu_viewer on Viewer {
+      organizations(first: 10) {
+        edges {
+          node {
+            name
+            slug
+            permissions {
+              organizationUpdate {
+                allowed
+              }
+            }
+          }
+        }
+      }
+    }
+  `
+);
