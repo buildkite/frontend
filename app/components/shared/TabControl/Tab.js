@@ -7,6 +7,8 @@ import styled from 'styled-components';
 
 import Badge from '../Badge';
 
+import cssVariables from '../../../css/variables';
+
 import { formatNumber } from '../../../lib/number';
 
 const ACTIVE_CLASS_NAME = 'active';
@@ -21,12 +23,12 @@ const TabButton = styled(Link).attrs({
   margin-bottom: -1px;
   height: 44px; /* Needed because the badge causes the height to increase */
 
-  &:hover {
-    border-color: #D5EBA4;
-  }
-
   &.${ACTIVE_CLASS_NAME} {
-    border-color: #14CC80;
+    border-color: ${cssVariables['--lime']};
+  }
+  
+  &:hover:not(&.${ACTIVE_CLASS_NAME}) {
+    border-color: ${cssVariables['--light-lime']};
   }
 `;
 
