@@ -27,7 +27,7 @@ module.exports = {
               plugins: function() {
                 return [
                   require("postcss-import")(),
-                  require("postcss-cssnext")({ features: { rem: false } }),
+                  require("postcss-preset-env")({ features: { rem: false } }),
                   require('postcss-easings')(),
                   require("postcss-browser-reporter")(),
                   require("postcss-reporter")()
