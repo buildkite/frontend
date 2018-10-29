@@ -93,7 +93,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
             <small className="dark-gray">You can use this OTP provisioning URI to manually configure your Authenticator</small>
           </Panel.Section>
           <Panel.Section>
-            <TotpCodeInput
+            <TokenCodeInput
               errors={errors.findForField('token')}
               disabled={this.state.isActivating}
               value={this.state.totpCodeValue}
