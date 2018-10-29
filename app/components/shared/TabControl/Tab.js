@@ -23,11 +23,12 @@ const TabButton = styled(Link).attrs({
   margin-bottom: -1px;
   height: 44px; /* Needed because the badge causes the height to increase */
 
-  &.${ACTIVE_CLASS_NAME} {
-    border-color: ${cssVariables['--lime']};
+  &:hover {
+    border-color: #D5EBA4;
   }
-  &:hover:not(&.${ACTIVE_CLASS_NAME}) {
-    border-color: ${cssVariables['--light-lime']};
+  
+  &.${ACTIVE_CLASS_NAME} {
+    border-color: #14CC80;
   }
 `;
 
