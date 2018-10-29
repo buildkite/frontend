@@ -28,3 +28,5 @@ __generated__
 
 # Storybook exports generated using `yarn build-storybook`
 storybook-static
+
+.cache/
