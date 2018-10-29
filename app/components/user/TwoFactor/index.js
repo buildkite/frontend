@@ -1,13 +1,13 @@
 // @flow
 
-import * as React from "react";
+import * as React from 'react';
 import DocumentTitle from 'react-document-title';
 import { createRefetchContainer, graphql } from 'react-relay/compat';
 import Badge from 'app/components/shared/Badge';
 import Button from 'app/components/shared/Button';
-import Dropdown from "app/components/shared/Dropdown";
-import Icon from "app/components/shared/Icon";
-import PageHeader from "app/components/shared/PageHeader";
+import Dropdown from 'app/components/shared/Dropdown';
+import Icon from 'app/components/shared/Icon';
+import PageHeader from 'app/components/shared/PageHeader';
 import Panel from 'app/components/shared/Panel';
 import RecoveryCodes from './RecoveryCodes'; // eslint-disable-line
 import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disable-line
