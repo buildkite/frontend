@@ -7,6 +7,8 @@ import Badge from 'app/components/shared/Badge';
 import Button from 'app/components/shared/Button';
 import Dropdown from 'app/components/shared/Dropdown';
 import Panel from 'app/components/shared/Panel';
+import Dialog from 'app/components/shared/Dialog';
+import TwoFactorConfigure from 'app/components/user/TwoFactor/TwoFactorConfigure';
 import { SettingsMenuFragment as SettingsMenu } from 'app/components/user/SettingsMenu';
 import RecoveryCodes from './RecoveryCodes'; // eslint-disable-line
 import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disable-line
@@ -46,13 +48,15 @@ type Props = {
 };
 
 type State = {
-  dialogOpen: boolean
+  configureDialogOpen: boolean,
+  recoveryCodeDialogOpen: boolean
 };
 
 
 class TwoFactor extends React.PureComponent<Props, State> {
   state = {
-    dialogOpen: false
+    configureDialogOpen: false,
+    recoveryCodeDialogOpen: false
   };
 
   get recoveryCodesRemaining(): number | null {
@@ -105,6 +109,17 @@ class TwoFactor extends React.PureComponent<Props, State> {
                         Passwords (OTPs). Some reliable Authenticator Applications include {AUTHENTICATOR_LIST}.
                       </p>
                     </div>
+
+
+                    <Dialog
+                      isOpen={this.state.configureDialogOpen}
+                      width={600}
+                      onRequestClose={this.handleConfigureDialogClose}
+                    >
+                      <TwoFactorConfigure viewer={this.props.viewer} />
+                    </Dialog>
+
+
                     <div className="flex-none col-4 flex justify-end">
                       {this.props.viewer.totp ? (
                         <Dropdown width={270}>
@@ -115,9 +130,13 @@ class TwoFactor extends React.PureComponent<Props, State> {
                             Settings
                           </Button>
                           <div className="my2 mx3">
-                            <p>If your circumstances have changed you can re-configure two-factor authentication. There's also the option to deactivate but we strongly reccommend you keep two-factor authentication enabled.</p>
+                            <p>
+                              If your circumstances have changed you can re-configure two-factor authentication. 
+                              There's also the option to deactivate but we strongly reccommend you keep two-factor
+                              authentication enabled.
+                            </p>
                             <div>
-                              <Button theme="warning" className="mr2" outline={true} link="/user/two-factor/configure">
+                              <Button theme="warning" className="mr2" outline={true} onClick={this.handleConfigureDialogClick}>
                                 Reconfigure
                               </Button>
                               <Button theme="error" outline={true} link="/user/two-factor/delete">
@@ -127,11 +146,8 @@ class TwoFactor extends React.PureComponent<Props, State> {
                           </div>
                         </Dropdown>
                       ) : (
-                        <Button
-                          theme="success"
-                          link="/user/two-factor/configure"
-                        >
-                        Activate
+                        <Button theme="success" onClick={this.handleConfigureDialogClick}>
+                          Activate
                         </Button>
                       )}
                     </div>
@@ -148,7 +164,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                         )}
                         <h3 className="h3 m0">Recovery Code</h3>
                         {this.props.viewer.totp ? (
-                          <span className="ml3">{this.recoveryCodesRemaining} codes remaining</span>
+                          <small className="ml3">{this.recoveryCodesRemaining} codes remaining</small>
                         ) : null}
                       </header>
                       <p className="m0">
@@ -160,7 +176,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                     <div className="flex-none col-4 flex justify-end">
                       {this.props.viewer.totp ? (
                         <Button
-                          onClick={this.handleOpenDialogClick}
+                          onClick={this.handleRecoveryCodeDialogClick}
                           theme="default"
                           outline={true}
                         >
@@ -170,9 +186,9 @@ class TwoFactor extends React.PureComponent<Props, State> {
                           </Badge>
                         </Button>
                       ) : null}
-                      {this.props.viewer.totp && this.state.dialogOpen ? (
+                      {this.props.viewer.totp && this.state.recoveryCodeDialogOpen ? (
                         <RecoveryCodeDialog
-                          onRequestClose={this.handleDialogClose}
+                          onRequestClose={this.handleRecoveryCodeDialogClose}
                           totp={this.props.viewer.totp}
                         />
                       ) : null}
@@ -187,12 +203,20 @@ class TwoFactor extends React.PureComponent<Props, State> {
     );
   }
 
-  handleOpenDialogClick = () => {
-    this.setState({ dialogOpen: true });
+  handleConfigureDialogClick = () => {
+    this.setState({ configureDialogOpen: true });
   }
 
-  handleDialogClose = () => {
-    this.setState({ dialogOpen: false });
+  handleConfigureDialogClose = () => {
+    this.setState({ configureDialogOpen: false });
+  }
+
+  handleRecoveryCodeDialogClick = () => {
+    this.setState({ recoveryCodeDialogOpen: true });
+  }
+
+  handleRecoveryCodeDialogClose = () => {
+    this.setState({ recoveryCodeDialogOpen: false });
   }
 }
 
@@ -201,6 +225,7 @@ export default createRefetchContainer(
   graphql`
     fragment TwoFactor_viewer on Viewer {
       ...SettingsMenu_viewer
+      ...TwoFactorConfigure_viewer
 
       totp {
         ...RecoveryCodes_totp

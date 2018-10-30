@@ -29,6 +29,7 @@ type StepType = $Keys<typeof STEPS>;
 type TotpType = $PropertyType<TotpType, 'totp'>;
 type RecoveryCodesType = $PropertyType<TotpType, 'recoveryCodes'>;
 
+
 function getNextStep(currentStep: StepType): ?StepType {
   switch (currentStep) {
     case STEPS.RECOVERY_CODES: return STEPS.ACTIVATE_TOTP;
@@ -103,36 +104,29 @@ class TwoFactorConfigure extends React.Component<Props, State> {
 
   render() {
     return (
-      <DocumentTitle title="Configure Two-Factor Authentication">
-        <div className="container">
-          <PageHeader>
-            <PageHeader.Icon>
-              <Icon
-                icon="placeholder"
-                style={{ width: 34, height: 34, marginTop: 3, marginLeft: 3 }}
-              />
-            </PageHeader.Icon>
-            <PageHeader.Title>
-              {this.props.viewer.totp ? 'Reconfigure' : 'Configure'} Two-Factor Authentication
-            </PageHeader.Title>
-            <PageHeader.Menu>
-              <WorkflowProgress
-                className="mr4"
-                stepCount={this.steps.length}
-                currentStepIndex={this.currentStepIndex(this.state.step)}
-              />
-              {this.state.step === STEPS.COMPLETE ? (
-                <Button theme="success" outline={true} link="/user/two-factor">Done</Button>
-              ) : (
-                <Button theme="default" outline={true} link="/user/two-factor">Cancel</Button>
-              )}
-            </PageHeader.Menu>
-          </PageHeader>
-          <div className="col-12 lg-col-7 mx-auto">
-            {this.renderCurrentStep()}
-          </div>
+      <div style={{ padding: '20px' }}>
+        <PageHeader>
+          <PageHeader.Icon>
+            <Icon
+              icon="placeholder"
+              style={{ width: 34, height: 34, marginTop: 3, marginLeft: 3 }}
+            />
+          </PageHeader.Icon>
+          <PageHeader.Title>
+            {this.props.viewer.totp ? 'Reconfigure' : 'Configure'} Two-Factor Authentication
+          </PageHeader.Title>
+          <PageHeader.Menu>
+            <WorkflowProgress
+              className="mr4"
+              stepCount={this.steps.length}
+              currentStepIndex={this.currentStepIndex(this.state.step)}
+            />
+          </PageHeader.Menu>
+        </PageHeader>
+        <div>
+          {this.renderCurrentStep()}
         </div>
-      </DocumentTitle>
+      </div>
     );
   }
 
