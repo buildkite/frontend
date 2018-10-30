@@ -138,6 +138,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
             recoveryCodes={this.recoveryCodes}
             onCreateNewTotp={this.handleCreateNewTotp}
             onRegenerateRecoveryCodes={this.handleRegenerateRecoveryCodes}
+            hasActivatedTotp={this.hasActivatedTotp}
           />
         );
       case STEPS.ACTIVATE_TOTP:

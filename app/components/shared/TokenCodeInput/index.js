@@ -208,11 +208,11 @@ export default class TokenCodeInput extends React.PureComponent<Props, State> {
     }
   }
 
-  handleFocus = (_event: SyntheticEvent<HTMLInputElement>) => {
+  handleFocus = () => {
     this.setState({ focused: true });
   }
 
-  handleBlur = (_event: SyntheticEvent<HTMLInputElement>) => {
+  handleBlur = () => {
     this.setState({ focused: false });
   }
 
