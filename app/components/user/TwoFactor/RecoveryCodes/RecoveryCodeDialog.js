@@ -13,7 +13,6 @@ type Props = {
   totp: RecoveryCodeDialog_totp
 };
 
-
 type State = {
   copiedRecoveryCodes: boolean
 };
