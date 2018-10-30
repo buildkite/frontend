@@ -123,12 +123,12 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
       This will invalidate your existing two-factor authentication configuration and recovery codes.\
       We’d suggest saving your recovery codes into a secure password manager, or printing them off and storing them\
       somewhere safe.\
-      They should be treated just like your password!"
+      They should be treated just like your password!";
   }
 
-  renderConfigure  = () => {
+  renderConfigure = () => {
     return "Recovery codes should be treated just like your password!\
-    We’d suggest saving them into a secure password manager, or printing them off and storing them somewhere safe."
+    We’d suggest saving them into a secure password manager, or printing them off and storing them somewhere safe.";
   }
 }
 

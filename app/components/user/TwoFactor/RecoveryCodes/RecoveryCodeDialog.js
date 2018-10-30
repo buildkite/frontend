@@ -28,7 +28,7 @@ function recoveryCodeText(recoveryCodes: RecoveryCodes): ?string {
 
 class RecoveryCodesDialog extends React.PureComponent<Props, State> {
   state = {
-      copiedRecoveryCodes: false
+    copiedRecoveryCodes: false
   }
 
   render() {

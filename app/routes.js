@@ -131,7 +131,7 @@ export default (
             <Route path="configure" component={TwoFactorConfigure} queries={{ viewer: ViewerQuery.query }} />
             <Route path="delete" component={TwoFactorDelete} queries={{ viewer: ViewerQuery.query }} />
           </Route>
-        ): null}
+        ) : null}
 
         <Route path="graphql" component={GraphQLExplorer}>
           <IndexRedirect to="console" />

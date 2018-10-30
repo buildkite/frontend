@@ -9,7 +9,7 @@ import Dropdown from 'app/components/shared/Dropdown';
 import Icon from 'app/components/shared/Icon';
 import PageHeader from 'app/components/shared/PageHeader';
 import Panel from 'app/components/shared/Panel';
-import {SettingsMenuFragment as SettingsMenu} from 'app/components/user/SettingsMenu';
+import { SettingsMenuFragment as SettingsMenu } from 'app/components/user/SettingsMenu';
 import RecoveryCodes from './RecoveryCodes'; // eslint-disable-line
 import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disable-line
 import RecoveryCodeDialog from './RecoveryCodes/RecoveryCodeDialog';
