@@ -14,7 +14,8 @@ type Props = {
   onCreateNewTotp: (callback?: () => void) => void,
   onRegenerateRecoveryCodes: (callback?: () => void) => void,
   onNextStep: () => void,
-  recoveryCodes: recoveryCodes
+  recoveryCodes: recoveryCodes,
+  hasActivatedTotp: boolean
 };
 
 type State = {
@@ -47,16 +48,9 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
           </p>
           <Panel className="mb3 orange border-orange">
             <Panel.Section>
-              <p>
-                <strong>Youʼre about to reconfigure two-factor authentication.</strong>
-                <br />
-                This will invalidate your existing two-factor authentication configuration and recovery codes.
-
-                We’d suggest saving your recovery codes into a secure password manager, or printing them off and storing them
-                somewhere safe.
-
-                They should be treated just like your password!
-              </p>
+              <div>
+                {this.props.hasActivatedTotp ? this.renderReconfigure() : this.renderConfigure()}
+              </div>
             </Panel.Section>
           </Panel>
           <Panel>
@@ -122,6 +116,19 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
       return;
     }
     this.setState({ didCopyRecoveryCodes: true });
+  }
+
+  renderReconfigure = () => {
+    return "Youʼre about to reconfigure two-factor authentication.\
+      This will invalidate your existing two-factor authentication configuration and recovery codes.\
+      We’d suggest saving your recovery codes into a secure password manager, or printing them off and storing them\
+      somewhere safe.\
+      They should be treated just like your password!"
+  }
+
+  renderConfigure  = () => {
+    return "Recovery codes should be treated just like your password!\
+    We’d suggest saving them into a secure password manager, or printing them off and storing them somewhere safe."
   }
 }
 
