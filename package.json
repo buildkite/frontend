@@ -75,7 +75,7 @@
     "eslint-plugin-react": "7.11.1",
     "eslint-plugin-relay": "0.0.28",
     "file-loader": "2.0.0",
-    "flow-bin": "0.84.0",
+    "flow-bin": "0.85.0",
     "foreman": "3.0.1",
     "html-sketchapp-cli": "0.6.2",
     "http-server": "0.11.1",
