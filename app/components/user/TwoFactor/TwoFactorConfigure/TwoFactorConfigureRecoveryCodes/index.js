@@ -37,61 +37,54 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
 
   render() {
     return (
-      <Panel className="mt4">
-        <Panel.Header>
-          Recovery Codes
-        </Panel.Header>
-        <Panel.Section>
-          <p>
-            Recovery codes are used if you lose access to your OTP generator application. They’re the only way to get
-            back into your account if you lose access to your Authenticator Application once it’s configured.
-          </p>
-          <Panel className="mb3 orange border-orange">
-            <Panel.Section>
-              <div>
-                {this.props.hasActivatedTotp ? this.renderReconfigure() : this.renderConfigure()}
-              </div>
-            </Panel.Section>
-          </Panel>
-          <Panel>
-            <Panel.Section>
-              <div className="flex justify-between">
-                <Button
-                  theme="success"
-                  outline={true}
-                  disabled={this.state.isLoading}
-                  onClick={this.handleRegenerateRecoveryCode}
-                >
-                  Regenerate
-                </Button>
+      <React.Fragment>
+        <p>
+          Recovery codes are used if you lose access to your OTP generator application. They’re the only way to get
+          back into your account if you lose access to your Authenticator Application once it’s configured.
+        </p>
+        <Panel className="mb3 orange border-orange">
+          <Panel.Section>
+            <div>
+              {this.props.hasActivatedTotp ? this.renderReconfigure() : this.renderConfigure()}
+            </div>
+          </Panel.Section>
+        </Panel>
+        <Panel className="mb3">
+          <Panel.Section>
+            <div className="flex justify-between">
+              <Button
+                theme="success"
+                outline={true}
+                disabled={this.state.isLoading}
+                onClick={this.handleRegenerateRecoveryCode}
+              >
+                Regenerate
+              </Button>
 
-                <CopyToClipboard text={this.recoveryCodeText()} onCopy={this.handleRecoveryCodeCopy}>
-                  <Button
-                    theme={this.state.didCopyRecoveryCodes ? 'default' : 'success'}
-                    disabled={this.state.isLoading}
-                  >
-                    {this.state.didCopyRecoveryCodes ? 'Copied!' : 'Copy'}
-                  </Button>
-                </CopyToClipboard>
-              </div>
-              <RecoveryCodeList
-                recoveryCodes={this.props.recoveryCodes}
-                isLoading={this.state.isLoading}
-              />
-            </Panel.Section>
-          </Panel>
-        </Panel.Section>
-        <Panel.Footer>
-          <Button
-            className="col-12"
-            disabled={this.state.isLoading}
-            theme={this.state.didCopyRecoveryCodes ? 'success' : 'default'}
-            onClick={this.props.onNextStep}
-          >
-            Next
-          </Button>
-        </Panel.Footer>
-      </Panel>
+              <CopyToClipboard text={this.recoveryCodeText()} onCopy={this.handleRecoveryCodeCopy}>
+                <Button
+                  theme={this.state.didCopyRecoveryCodes ? 'default' : 'success'}
+                  disabled={this.state.isLoading}
+                >
+                  {this.state.didCopyRecoveryCodes ? 'Copied!' : 'Copy'}
+                </Button>
+              </CopyToClipboard>
+            </div>
+            <RecoveryCodeList
+              recoveryCodes={this.props.recoveryCodes}
+              isLoading={this.state.isLoading}
+            />
+          </Panel.Section>
+        </Panel>
+        <Button
+          className="col-12"
+          disabled={this.state.isLoading}
+          theme={this.state.didCopyRecoveryCodes ? 'success' : 'default'}
+          onClick={this.props.onNextStep}
+        >
+          Next
+        </Button>
+      </React.Fragment>
     );
   }
 

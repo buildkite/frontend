@@ -29,6 +29,7 @@ type StepType = $Keys<typeof STEPS>;
 type TotpType = $PropertyType<TotpType, 'totp'>;
 type RecoveryCodesType = $PropertyType<TotpType, 'recoveryCodes'>;
 
+
 function getNextStep(currentStep: StepType): ?StepType {
   switch (currentStep) {
     case STEPS.RECOVERY_CODES: return STEPS.ACTIVATE_TOTP;

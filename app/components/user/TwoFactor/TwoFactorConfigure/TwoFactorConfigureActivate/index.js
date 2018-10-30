@@ -3,6 +3,7 @@
 import * as React from "react";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import QRCode from 'qrcode.react';
+import styled from 'styled-components';
 import ValidationErrors from 'app/lib/ValidationErrors';
 import Panel from 'app/components/shared/Panel';
 import Button from 'app/components/shared/Button';
@@ -28,7 +29,15 @@ type State = {
   copiedProvisioningUri: boolean
 };
 
+const ProvisioningUri = styled.div`
+  text-overflow: ellipsis;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
 export default class TwoFactorConfigureActivate extends React.PureComponent<Props, State> {
+  tokenInputRef: React.Ref<typeof TokenCodeInput>;
   state = {
     errors: [],
     isActivating: false,
@@ -36,23 +45,24 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
     copiedProvisioningUri: false
   };
 
+  constructor(props: Props) {
+    super(props);
+    this.tokenInputRef = React.createRef();
+  }
+
   render() {
+    console.log(this.tokenInputRef)
     const errors = new ValidationErrors(this.state.errors);
 
     return (
       <React.Fragment>
-        <Panel className="mt4">
-          <Panel.Header>
-            {this.props.hasActivatedTotp ? 'Reconfigure' : 'Activate'} Authenticator Application
-          </Panel.Header>
+        <p>
+          To {this.props.hasActivatedTotp ? 'reconfigure' : 'activate'} two-factor authentication, scan this
+          QR Code with your Authenticator Application, and then confirm.
+        </p>
+        <Panel className="mb3">
           <Panel.Section>
-            <p>
-              To {this.props.hasActivatedTotp ? 'reconfigure' : 'activate'} two-factor authentication, scan this
-              QR Code with your Authenticator Application, and then confirm.
-            </p>
-          </Panel.Section>
-          <Panel.Section>
-            <div className="flex justify-center items-center" style={{ minHeight: "340px" }}>
+            <div className="flex justify-center items-center" style={{ minHeight: "300px" }}>
               <figure style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img style={{ position: 'absolute' }} src={buildkiteqr} />
                 <QRCode
@@ -72,45 +82,31 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
           <Panel.Section>
             <p><strong>Provisioning URI</strong></p>
             <div className="flex">
-              <div className="flex input mr2">
+              <ProvisioningUri className="flex input mr2 monospace">
                 {this.props.provisioningUri}
-              </div>
+              </ProvisioningUri>
               <CopyToClipboard
                 text={this.props.provisioningUri}
                 onCopy={this.handleProvisioningUriCopy}
               >
-                <Button
-                  theme="default"
-                  outline={true}
-                >
-                  {this.state.copiedProvisioningUri
-                    ? 'Copied'
-                    : 'Copy'
-                  }
+                <Button theme="default" outline={true}>
+                  Copy
                 </Button>
               </CopyToClipboard>
             </div>
-            <small className="dark-gray">You can use this OTP provisioning URI to manually configure your Authenticator</small>
+            <small className="dark-gray">
+              You can use this OTP provisioning URI to manually configure your Authenticator.
+            </small>
           </Panel.Section>
-          <Panel.Section>
-            <TokenCodeInput
-              errors={errors.findForField('token')}
-              disabled={this.state.isActivating}
-              value={this.state.totpCodeValue}
-              onChange={this.handleTotpCodeChange}
-              onCodeComplete={this.handleTotpActivate}
-            />
-          </Panel.Section>
-          <Panel.Footer>
-            <Button
-              className="col-12"
-              theme="success"
-              loading={this.state.isActivating && 'Activating…'}
-            >
-              {this.props.hasActivatedTotp ? 'Reconfigure' : 'Activate'}
-            </Button>
-          </Panel.Footer>
         </Panel>
+        <TokenCodeInput
+          ref={this.tokenInputRef}
+          errors={errors.findForField('token')}
+          disabled={this.state.isActivating}
+          value={this.state.totpCodeValue}
+          onChange={this.handleTotpCodeChange}
+          onCodeComplete={this.handleTotpActivate}
+        />
       </React.Fragment>
     );
   }
@@ -125,6 +121,10 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
         this.setState({ errors, isActivating: false }, () => {
           if (!errors) {
             this.props.onNextStep();
+          } else {
+            if (this.tokenInputRef.current) {
+              this.tokenInputRef.current.focus();
+            }
           }
         });
       });

@@ -164,7 +164,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                         )}
                         <h3 className="h3 m0">Recovery Code</h3>
                         {this.props.viewer.totp ? (
-                          <span className="ml3">{this.recoveryCodesRemaining} codes remaining</span>
+                          <small className="ml3">{this.recoveryCodesRemaining} codes remaining</small>
                         ) : null}
                       </header>
                       <p className="m0">
