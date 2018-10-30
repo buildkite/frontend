@@ -195,7 +195,7 @@ export default class TokenCodeInput extends React.PureComponent<Props, State> {
     this.focus();
   }
 
-  handleKeyDown = (event: SyntheticEvent<HTMLInputElement>) => {
+  handleKeyDown = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     const LEFT_ARROW = 37;
     const RIGHT_ARROW = 39;
     switch (event.keyCode) {
