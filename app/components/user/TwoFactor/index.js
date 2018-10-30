@@ -9,6 +9,8 @@ import Dropdown from 'app/components/shared/Dropdown';
 import Icon from 'app/components/shared/Icon';
 import PageHeader from 'app/components/shared/PageHeader';
 import Panel from 'app/components/shared/Panel';
+import Dialog from 'app/components/shared/Dialog';
+import TwoFactorConfigure from 'app/components/user/TwoFactor/TwoFactorConfigure';
 import {SettingsMenuFragment as SettingsMenu} from 'app/components/user/SettingsMenu';
 import RecoveryCodes from './RecoveryCodes'; // eslint-disable-line
 import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disable-line
@@ -48,13 +50,15 @@ type Props = {
 };
 
 type State = {
-  dialogOpen: boolean
+  configureDialogOpen: boolean,
+  recoveryCodeDialogOpen: boolean
 };
 
 
 class TwoFactor extends React.PureComponent<Props, State> {
   state = {
-    dialogOpen: false
+    configureDialogOpen: false,
+    recoveryCodeDialogOpen: false
   };
 
   get recoveryCodesRemaining(): number | null {
@@ -105,6 +109,17 @@ class TwoFactor extends React.PureComponent<Props, State> {
                         Passwords (OTPs). Some reliable Authenticator Applications include {AUTHENTICATOR_LIST}.
                       </p>
                     </div>
+
+
+                    <Dialog
+                      isOpen={this.state.configureDialogOpen}
+                      width={600}
+                      onRequestClose={() => this.setState({configureDialogOpen: false})}
+                    >
+                      <TwoFactorConfigure viewer={this.props.viewer} />
+                    </Dialog>
+
+
                     <div className="flex-none col-4 flex justify-end">
                       {this.props.viewer.totp ? (
                         <Dropdown width={270}>
@@ -129,9 +144,9 @@ class TwoFactor extends React.PureComponent<Props, State> {
                       ) : (
                         <Button
                           theme="success"
-                          link="/user/two-factor/configure"
+                          onClick={() => this.setState({configureDialogOpen: true})}
                         >
-                        Activate
+                          Activate
                         </Button>
                       )}
                     </div>
@@ -170,7 +185,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                           </Badge>
                         </Button>
                       ) : null}
-                      {this.props.viewer.totp && this.state.dialogOpen ? (
+                      {this.props.viewer.totp && this.state.recoveryCodeDialogOpen ? (
                         <RecoveryCodeDialog
                           onRequestClose={this.handleDialogClose}
                           totp={this.props.viewer.totp}
@@ -188,11 +203,11 @@ class TwoFactor extends React.PureComponent<Props, State> {
   }
 
   handleOpenDialogClick = () => {
-    this.setState({ dialogOpen: true });
+    this.setState({ recoveryCodeDialogOpen: true });
   }
 
   handleDialogClose = () => {
-    this.setState({ dialogOpen: false });
+    this.setState({ recoveryCodeDialogOpen: false });
   }
 }
 
@@ -201,6 +216,7 @@ export default createRefetchContainer(
   graphql`
     fragment TwoFactor_viewer on Viewer {
       ...SettingsMenu_viewer
+      ...TwoFactorConfigure_viewer
 
       totp {
         ...RecoveryCodes_totp
