@@ -47,8 +47,6 @@ import JobIndex from './components/job/Index';
 import BillingUpgrade from './components/billing/BillingUpgrade';
 
 import TwoFactorIndex from './components/user/TwoFactor';
-import TwoFactorConfigure from './components/user/TwoFactor/TwoFactorConfigure';
-import TwoFactorDelete from './components/user/TwoFactor/TwoFactorDelete';
 
 import GraphQLExplorer from './components/user/graphql/GraphQLExplorer';
 import GraphQLExplorerConsole from './components/user/graphql/GraphQLExplorerConsole';
@@ -128,8 +126,6 @@ export default (
         {Features.TwoFactorAuthentication ? (
           <Route path="two-factor">
             <IndexRoute component={TwoFactorIndex} queries={{ viewer: ViewerQuery.query }} />
-            <Route path="configure" component={TwoFactorConfigure} queries={{ viewer: ViewerQuery.query }} />
-            <Route path="delete" component={TwoFactorDelete} queries={{ viewer: ViewerQuery.query }} />
           </Route>
         ) : null}
 

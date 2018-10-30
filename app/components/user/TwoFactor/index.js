@@ -9,6 +9,7 @@ import Dropdown from 'app/components/shared/Dropdown';
 import Panel from 'app/components/shared/Panel';
 import Dialog from 'app/components/shared/Dialog';
 import TwoFactorConfigure from 'app/components/user/TwoFactor/TwoFactorConfigure';
+import TwoFactorDelete from 'app/components/user/TwoFactor/TwoFactorDelete';
 import { SettingsMenuFragment as SettingsMenu } from 'app/components/user/SettingsMenu';
 import RecoveryCodes from './RecoveryCodes'; // eslint-disable-line
 import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disable-line
@@ -26,6 +27,14 @@ function AuthenticatorUrl({ name, url }: {|name: string, url: string|}) {
     >
       {name}
     </a>
+  );
+}
+
+function ActiveStateBadge({ active }: {|active: boolean|}) {
+  return active ? (
+    <Badge className="mx0 mr2 bg-lime">ACTIVE</Badge>
+  ) : (
+    <Badge outline={true} className="mx0 mr2">INACTIVE</Badge>
   );
 }
 
@@ -49,14 +58,15 @@ type Props = {
 
 type State = {
   configureDialogOpen: boolean,
-  recoveryCodeDialogOpen: boolean
+  recoveryCodeDialogOpen: boolean,
+  deactivateDialogOpen: boolean
 };
-
 
 class TwoFactor extends React.PureComponent<Props, State> {
   state = {
     configureDialogOpen: false,
-    recoveryCodeDialogOpen: false
+    recoveryCodeDialogOpen: false,
+    deactivateDialogOpen: false
   };
 
   get recoveryCodesRemaining(): number | null {
@@ -66,6 +76,13 @@ class TwoFactor extends React.PureComponent<Props, State> {
         .length;
     }
     return null;
+  }
+
+  hasTotp(): boolean {
+    if (this.props.viewer.totp) {
+      return true;
+    }
+    return false;
   }
 
   render() {
@@ -97,11 +114,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                   <div className="flex items-center">
                     <div className="flex-auto">
                       <header className="flex items-center mb1">
-                        {this.props.viewer.totp ? (
-                          <Badge className="ml0 mr3 bg-lime">ACTIVE</Badge>
-                        ) : (
-                          <Badge outline={true} className="ml0 mr3">INACTIVE</Badge>
-                        )}
+                        <ActiveStateBadge active={this.hasTotp()} />
                         <h3 className="h3 m0">Authenticator Application</h3>
                       </header>
                       <p className="m0">
@@ -118,7 +131,14 @@ class TwoFactor extends React.PureComponent<Props, State> {
                     >
                       <TwoFactorConfigure viewer={this.props.viewer} />
                     </Dialog>
-
+                    <Dialog
+                      isOpen={this.state.deactivateDialogOpen}
+                      width={600}
+                      onRequestClose={this.handleDeactivateDialogClose}
+                    >
+                      <TwoFactorDelete viewer={this.props.viewer} />
+                    </Dialog>
+                    
 
                     <div className="flex-none col-4 flex justify-end">
                       {this.props.viewer.totp ? (
@@ -135,12 +155,12 @@ class TwoFactor extends React.PureComponent<Props, State> {
                               There's also the option to deactivate but we strongly reccommend you keep two-factor
                               authentication enabled.
                             </p>
-                            <div>
-                              <Button theme="warning" className="mr2" outline={true} onClick={this.handleConfigureDialogClick}>
-                                Reconfigure
+                            <div className="flex flex-column">
+                              <Button theme="warning" className="mb2 flex-auto" outline={true} onClick={this.handleConfigureDialogClick}>
+                                Reconfigure Authenticator
                               </Button>
-                              <Button theme="error" outline={true} link="/user/two-factor/delete">
-                                Deactivate
+                              <Button theme="error" className="flex-auto" outline={true} onClick={this.handleDeactivateDialogClick}>
+                                Deactivate Authenticator
                               </Button>
                             </div>
                           </div>
@@ -157,14 +177,10 @@ class TwoFactor extends React.PureComponent<Props, State> {
                   <div className="flex items-center">
                     <div className="flex-auto">
                       <header className="flex items-center mb1">
+                        <ActiveStateBadge active={this.hasTotp()} />
+                        <h3 className="h2 m0">Recovery Code</h3>
                         {this.props.viewer.totp ? (
-                          <Badge className="ml0 mr3 bg-lime">ACTIVE</Badge>
-                        ) : (
-                          <Badge outline={true} className="ml0 mr3">INACTIVE</Badge>
-                        )}
-                        <h3 className="h3 m0">Recovery Code</h3>
-                        {this.props.viewer.totp ? (
-                          <small className="ml3">{this.recoveryCodesRemaining} codes remaining</small>
+                          <span className="ml3">{this.recoveryCodesRemaining} codes remaining</span>
                         ) : null}
                       </header>
                       <p className="m0">
@@ -203,6 +219,14 @@ class TwoFactor extends React.PureComponent<Props, State> {
     );
   }
 
+  handleDeactivateDialogClick = () => {
+    this.setState({ deactivateDialogOpen: true });
+  }
+
+  handleDeactivateDialogClose = () => {
+    this.setState({ deactivateDialogOpen: false });
+  }
+
   handleConfigureDialogClick = () => {
     this.setState({ configureDialogOpen: true });
   }
@@ -226,6 +250,7 @@ export default createRefetchContainer(
     fragment TwoFactor_viewer on Viewer {
       ...SettingsMenu_viewer
       ...TwoFactorConfigure_viewer
+      ...TwoFactorDelete_viewer
 
       totp {
         ...RecoveryCodes_totp
