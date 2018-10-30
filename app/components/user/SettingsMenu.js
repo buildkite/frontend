@@ -60,7 +60,7 @@ export default class SettingsMenu extends React.Component<Props> {
           organization.node.permissions.organizationUpdate &&
           organization.node.permissions.organizationUpdate.allowed
         ) ? (
-          <Menu.Button
+            <Menu.Button
               key={organization.node.slug}
               href={`/organizations/${organization.node.slug}/settings`}
               label={organization.node.name}
