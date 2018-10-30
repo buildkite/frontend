@@ -40,30 +40,22 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
 
   render() {
     return (
-      <DocumentTitle title="Remove Two-Factor Authentication">
-        <div className="container">
-          <PageHeader>
-            <PageHeader.Icon>
-              <Icon
-                icon="placeholder"
-                style={{ width: 34, height: 34, marginTop: 3, marginLeft: 3 }}
-              />
-            </PageHeader.Icon>
-            <PageHeader.Title>
-              Remove Two-Factor Authentication
-            </PageHeader.Title>
-          </PageHeader>
-
+      <div style={{ padding: '20px' }}>
+        <PageHeader>
+          <PageHeader.Icon>
+            <Icon
+              icon="placeholder"
+              style={{ width: 34, height: 34, marginTop: 3, marginLeft: 3 }}
+            />
+          </PageHeader.Icon>
+          <PageHeader.Title>
+            Remove Two-Factor Authentication
+          </PageHeader.Title>
+        </PageHeader>
+        <div>
           {this.renderCurrentStatus()}
-
-          <Link
-            className="blue hover-navy text-decoration-none hover-underline"
-            to="/user/two-factor"
-          >
-            Back to Two-Factor Authentication Settings
-          </Link>
         </div>
-      </DocumentTitle>
+      </div>
     );
   }
 
@@ -74,7 +66,7 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
 
     if (!this.props.viewer.totp) {
       return (
-        <Panel className="mb4">
+        <Panel className="mb3">
           <Panel.Section>
             Two-factor authentication is not currently activated on your account, so we canʼt deactivate it!
           </Panel.Section>
@@ -83,25 +75,19 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Panel className="mb4">
-        <Panel.Header>
-          Deactivate Two-factor Authentication
-        </Panel.Header>
-        <Panel.Section>
-          <p>Two-factor authentication is currently activated. We recommend keeping two-factor authentication activated to help secure your account.</p>
-          <p>Removing two-factor authentication will take effect immediately. You may reconfigure two-factor authentication at any time.</p>
-        </Panel.Section>
-        <Panel.Footer>
-          <Button
-            theme="error"
-            outline={true}
-            onClick={this.handleDeleteClick}
-            loading={this.state.deletingTOTP && "Removing two-factor authentication…"}
-          >
-            Remove Two-Factor Authentication
-          </Button>
-        </Panel.Footer>
-      </Panel>
+      <React.Fragment>
+        <p>Two-factor authentication is currently activated. We recommend keeping two-factor authentication activated to help secure your account.</p>
+        <p>Removing two-factor authentication will take effect immediately. You may reconfigure two-factor authentication at any time.</p>
+      <Button
+        className="col-12"
+        theme="error"
+        outline={true}
+        onClick={this.handleDeleteClick}
+        loading={this.state.deletingTOTP && "Removing two-factor authentication…"}
+      >
+        Remove Two-Factor Authentication
+      </Button>
+      </React.Fragment>
     );
   }
 
