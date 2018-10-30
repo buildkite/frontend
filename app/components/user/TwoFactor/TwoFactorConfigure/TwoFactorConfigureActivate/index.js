@@ -34,6 +34,7 @@ const ProvisioningUri = styled.div`
   width: 200px;
   white-space: nowrap;
   overflow: hidden;
+  line-height: 1.8;
 `;
 
 export default class TwoFactorConfigureActivate extends React.PureComponent<Props, State> {
@@ -51,7 +52,6 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
   }
 
   render() {
-    console.log(this.tokenInputRef)
     const errors = new ValidationErrors(this.state.errors);
 
     return (
@@ -82,7 +82,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
           <Panel.Section>
             <p><strong>Provisioning URI</strong></p>
             <div className="flex">
-              <ProvisioningUri className="flex input mr2 monospace">
+              <ProvisioningUri className="input mr2 monospace">
                 {this.props.provisioningUri}
               </ProvisioningUri>
               <CopyToClipboard
@@ -99,14 +99,16 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
             </small>
           </Panel.Section>
         </Panel>
-        <TokenCodeInput
-          ref={this.tokenInputRef}
-          errors={errors.findForField('token')}
-          disabled={this.state.isActivating}
-          value={this.state.totpCodeValue}
-          onChange={this.handleTotpCodeChange}
-          onCodeComplete={this.handleTotpActivate}
-        />
+        <div className="py3">
+          <TokenCodeInput
+            ref={this.tokenInputRef}
+            errors={errors.findForField('token')}
+            disabled={this.state.isActivating}
+            value={this.state.totpCodeValue}
+            onChange={this.handleTotpCodeChange}
+            onCodeComplete={this.handleTotpActivate}
+          />
+        </div>
       </React.Fragment>
     );
   }
