@@ -156,8 +156,8 @@ class TwoFactor extends React.PureComponent<Props, State> {
                           </Button>
                           <div className="my2 mx3">
                             <p>
-                              If your circumstances have changed you can re-configure two-factor authentication. 
-                              There's also the option to deactivate but we strongly reccommend you keep two-factor
+                              If your circumstances have changed you can re-configure two-factor authentication.
+                              There’s also the option to deactivate but we strongly reccommend you keep two-factor
                               authentication enabled.
                             </p>
                             <div className="flex flex-column">

@@ -2,13 +2,10 @@
 
 import React from "react";
 import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
-import DocumentTitle from 'react-document-title';
-import { Link } from 'react-router';
 import GraphQLErrors from 'app/constants/GraphQLErrors';
 import Button from 'app/components/shared/Button';
 import PageHeader from "app/components/shared/PageHeader";
 import Panel from 'app/components/shared/Panel';
-import Icon from "app/components/shared/Icon";
 
 type ViewerType = {
   totp: ?{
@@ -68,15 +65,15 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
       <React.Fragment>
         <p>Two-factor authentication is currently activated. We recommend keeping two-factor authentication activated to help secure your account.</p>
         <p>Deactivating two-factor authentication will take effect immediately. You may reconfigure two-factor authentication at any time.</p>
-      <Button
-        className="col-12"
-        theme="error"
-        outline={true}
-        onClick={this.handleDeleteClick}
-        loading={this.state.deletingTOTP && "Deactivating two-factor authentication…"}
-      >
+        <Button
+          className="col-12"
+          theme="error"
+          outline={true}
+          onClick={this.handleDeleteClick}
+          loading={this.state.deletingTOTP && "Deactivating two-factor authentication…"}
+        >
         Deactivate Two-factor Authentication
-      </Button>
+        </Button>
       </React.Fragment>
     );
   }

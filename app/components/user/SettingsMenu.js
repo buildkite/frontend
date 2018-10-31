@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
 import Menu from 'app/components/shared/Menu';
 import type { SettingsMenu_viewer } from './__generated__/SettingsMenu_viewer.graphql';
@@ -60,12 +59,12 @@ export default class SettingsMenu extends React.Component<Props> {
           organization.node.permissions.organizationUpdate &&
           organization.node.permissions.organizationUpdate.allowed
         ) ? (
-            <Menu.Button
-              key={organization.node.slug}
-              href={`/organizations/${organization.node.slug}/settings`}
-              label={organization.node.name}
-            />
-          ) : null);
+          <Menu.Button
+            key={organization.node.slug}
+            href={`/organizations/${organization.node.slug}/settings`}
+            label={organization.node.name}
+          />
+        ) : null);
       }, []).filter(Boolean);
 
       if (organizations.length) {
