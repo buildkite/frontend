@@ -11,7 +11,8 @@ import type { RelayProp } from 'react-relay';
 
 type Props = {
   viewer: TwoFactorDelete_viewer,
-  relay: RelayProp
+  relay: RelayProp,
+  onDeactivationComplete: () => void
 };
 
 type State = {
@@ -40,16 +41,6 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
   }
 
   renderCurrentStatus() {
-    if (!this.props.viewer.totp) {
-      return (
-        <Panel className="mb3">
-          <Panel.Section>
-            Two-factor authentication is not currently activated on your account, so we canʼt deactivate it!
-          </Panel.Section>
-        </Panel>
-      );
-    }
-
     return (
       <React.Fragment>
         <p>Two-factor authentication is currently activated. We recommend keeping two-factor authentication activated to help secure your account.</p>
@@ -93,9 +84,14 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
     }
   };
 
-  handleDeleteMutationComplete = () => {
-    this.setState({ deletingTOTP: false });
-  };
+  handleDeleteMutationComplete = (callback?: (errors: *) => void) => {
+    this.setState({ deletingTOTP: false }), () => {
+      this.props.onDeactivationComplete();
+        if (callback) {
+          callback();
+        }
+      };
+    };
 
   handleDeleteMutationError = (error) => {
     if (error) {

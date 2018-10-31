@@ -198,6 +198,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
           >
             <TwoFactorDelete
               viewer={this.props.viewer}
+              onDeactivationComplete={this.handleDeactivateDialogClose}
             />
           </Dialog>
         </React.Fragment>
