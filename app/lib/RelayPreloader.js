@@ -170,6 +170,7 @@ const QUERIES = {
         permissions {
           pipelineView {
             allowed
+            code
           }
           agentView {
             allowed

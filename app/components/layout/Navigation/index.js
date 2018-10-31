@@ -169,6 +169,27 @@ class Navigation extends React.PureComponent<Props, State> {
     }
   }
 
+  // Decides whether or not the organization should appear in the dropdown
+  // list. The regular behavior is:
+  //
+  // > Don't include the org in the drop down if it's the current one
+  //
+  // The only exception to this rule is if the current org needs an SSO
+  // authorization before the user can see any data. If the current org needs
+  // SSO, then don't include it as the current one, and treat is like the
+  // others.
+  includeOrganizationInDropdown(org) {
+    if (this.props.organization && this.props.organization.id === org.id) {
+      if (!org.permissions.pipelineView.allowed && org.permissions.pipelineView.code === "sso_authorization_required") {
+        return true;
+      }
+      return false;
+
+    }
+
+    return true;
+  }
+
   renderOrganizationsList() {
     if (!this.props.viewer || !this.props.viewer.organizations) {
       return <SectionLoader />;
@@ -178,7 +199,7 @@ class Navigation extends React.PureComponent<Props, State> {
 
     this.props.viewer.organizations.edges.forEach((org) => {
       // Don't show the active organization in the selector
-      if (!this.props.organization || (org.node.slug !== this.props.organization.slug)) {
+      if (this.includeOrganizationInDropdown(org.node)) {
         // If the org needs SSO, show a badge
         let ssoRequiredBadge;
         if (!org.node.permissions.pipelineView.allowed && org.node.permissions.pipelineView.code === "sso_authorization_required") {
@@ -387,7 +408,7 @@ class Navigation extends React.PureComponent<Props, State> {
                 }}
               >
                 <span className="truncate">
-                  {this.props.organization ? this.props.organization.name : 'Organizations'}
+                  {this.props.organization && !this.includeOrganizationInDropdown(this.props.organization) ? this.props.organization.name : 'Organizations'}
                 </span>
                 <Icon icon="down-triangle" className="flex-none" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
               </ArrowDropdownButton>
@@ -477,6 +498,7 @@ export default Relay.createContainer(Navigation, {
           permissions {
             pipelineView {
               allowed
+              code
             }
             agentView {
               allowed
