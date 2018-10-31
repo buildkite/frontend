@@ -84,13 +84,8 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
     }
   };
 
-  handleDeleteMutationComplete = (callback?: (errors: *) => void) => {
-    this.setState({ deletingTOTP: false }, () => {
-      this.props.onDeactivationComplete();
-        if (callback) {
-          callback();
-        }
-    })
+  handleDeleteMutationComplete = () => {
+    this.setState({ deletingTOTP: false }, this.props.onDeactivationComplete);
   };
 
   handleDeleteMutationError = (error) => {
