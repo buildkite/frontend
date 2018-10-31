@@ -14,7 +14,7 @@ import AuditLogDrawer from './Drawer';
 
 import { indefiniteArticleFor } from '../../lib/words';
 
-import cssVariables from '../../css/variables';
+import cssVariables from '../../css';
 
 const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;
