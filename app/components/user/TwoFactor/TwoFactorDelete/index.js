@@ -6,33 +6,23 @@ import GraphQLErrors from 'app/constants/GraphQLErrors';
 import Button from 'app/components/shared/Button';
 import PageHeader from "app/components/shared/PageHeader";
 import Panel from 'app/components/shared/Panel';
-
-type ViewerType = {
-  totp: ?{
-    id: string
-  }
-};
+import type { TwoFactorDelete_viewer } from './__generated__/TwoFactorDelete_viewer.graphql';
+import type { TwoFactorDeleteMutationResponse } from './__generated__/TwoFactorDeleteMutation.graphql';
+import type { RelayProp } from 'react-relay';
 
 type Props = {
-  viewer: ViewerType,
-  relay: Object
+  viewer: TwoFactorDelete_viewer,
+  relay: RelayProp
 };
 
 type State = {
   deletingTOTP: boolean,
-  deletedTOTP: boolean
 };
 
-type TOTPDeleteReturnType = {
-  totpDelete: {
-    viewer: ViewerType
-  }
-};
 
 class TwoFactorDelete extends React.PureComponent<Props, State> {
   state = {
     deletingTOTP: false,
-    deletedTOTP: false
   };
 
   render() {
@@ -72,41 +62,40 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
           onClick={this.handleDeleteClick}
           loading={this.state.deletingTOTP && "Deactivating two-factor authentication…"}
         >
-        Deactivate Two-factor Authentication
+          Deactivate Two-factor Authentication
         </Button>
       </React.Fragment>
     );
   }
 
   handleDeleteClick = () => {
-    const totpId = this.props.viewer.totp.id;
+    if (this.props.viewer.totp) {
+      const totpId = this.props.viewer.totp.id;
 
-    this.setState({ deletingTOTP: true }, () => {
-      commitMutation(this.props.relay.environment, {
-        mutation: graphql`
-          mutation TwoFactorDeleteMutation($input: TOTPDeleteInput!) {
-            totpDelete(input: $input) {
-              clientMutationId
-              viewer {
-                totp {
-                  id
+      this.setState({ deletingTOTP: true }, () => {
+        commitMutation(this.props.relay.environment, {
+          mutation: graphql`
+            mutation TwoFactorDeleteMutation($input: TOTPDeleteInput!) {
+              totpDelete(input: $input) {
+                clientMutationId
+                viewer {
+                  totp {
+                    id
+                  }
                 }
               }
             }
-          }
-        `,
-        variables: { input: { id: totpId } },
-        onCompleted: this.handleDeleteMutationComplete,
-        onError: this.handleDeleteMutationError
+          `,
+          variables: { input: { id: totpId } },
+          onCompleted: this.handleDeleteMutationComplete,
+          onError: this.handleDeleteMutationError
+        });
       });
-    });
+    }
   };
 
-  handleDeleteMutationComplete = (mutationResult: TOTPDeleteReturnType) => {
-    this.setState({
-      deletingTOTP: false,
-      deletedTOTP: !mutationResult.totpDelete.viewer.totp
-    });
+  handleDeleteMutationComplete = () => {
+    this.setState({ deletingTOTP: false });
   };
 
   handleDeleteMutationError = (error) => {

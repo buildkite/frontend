@@ -131,6 +131,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
         if (errors) {
           this.setState({ errors, isActivating: false }, () => {
             if (this.tokenInputRef.current) {
+              // $FlowExpectError Typing createRefs seems broken at the moment, hopefully we can fis this at some point.
               this.tokenInputRef.current.focus();
             }
           });

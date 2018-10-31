@@ -185,8 +185,12 @@ export default class TokenCodeInput extends React.PureComponent<Props, State> {
 
   focus = () => {
     if (this.inputRef && this.inputRef.current) {
+      // Typing createRefs seems broken at the moment, hopefully we can fis this at some point.
+      // $FlowExpectError
       this.inputRef.current.focus();
+      // $FlowExpectError
       this.inputRef.current.value = '';
+      // $FlowExpectError
       this.inputRef.current.value = this.props.value;
     }
   }

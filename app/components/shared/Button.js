@@ -28,7 +28,7 @@ type Props = {
   link?: string,
   href?: string,
   outline?: boolean,
-  style?: {[string]: string},
+  style?: {[string]: string | number},
   onClick?: (event: SyntheticEvent<HTMLButtonElement | HTMLAnchorElement>) => void,
   tabIndex?: number,
   type?: string,
@@ -85,7 +85,7 @@ export default class Button extends React.PureComponent<Props> {
 
     // Merge the "btn" class onto the props, and toggle the disabled state
     // depending on whether or not this button is in it's "loading" state.
-    const props = {
+    let props = {
       className: classNames("btn nowrap", this.props.className, themes[this.props.theme], {
         "-icon-only": this.props.iconOnly,
         "is-disabled": (!!this.props.loading || this.props.disabled)
@@ -109,7 +109,7 @@ export default class Button extends React.PureComponent<Props> {
       );
     }
 
-    props.href = this.props.link || this.props.href;
+    props = { ...props, href: this.props.link || this.props.href };
 
     if (props.href) {
       return (
