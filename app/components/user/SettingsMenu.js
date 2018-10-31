@@ -52,19 +52,21 @@ export default class SettingsMenu extends React.Component<Props> {
   renderOrganizationMenu() {
     if (this.props.viewer.organizations && this.props.viewer.organizations.edges) {
       const organizations = this.props.viewer.organizations.edges.reduce((memo, organization) => {
-        return memo.concat((
-          organization &&
-          organization.node &&
-          organization.node.permissions &&
-          organization.node.permissions.organizationUpdate &&
-          organization.node.permissions.organizationUpdate.allowed
-        ) ? (
-          <Menu.Button
-            key={organization.node.slug}
-            href={`/organizations/${organization.node.slug}/settings`}
-            label={organization.node.name}
-          />
-        ) : null);
+        return memo.concat(
+          (
+            organization &&
+            organization.node &&
+            organization.node.permissions &&
+            organization.node.permissions.organizationUpdate &&
+            organization.node.permissions.organizationUpdate.allowed
+          ) ? (
+              <Menu.Button
+                key={organization.node.slug}
+                href={`/organizations/${organization.node.slug}/settings`}
+                label={organization.node.name}
+              />
+            ) : null
+        );
       }, []).filter(Boolean);
 
       if (organizations.length) {

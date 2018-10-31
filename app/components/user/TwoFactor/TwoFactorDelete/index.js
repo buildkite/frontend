@@ -7,7 +7,6 @@ import Button from 'app/components/shared/Button';
 import PageHeader from "app/components/shared/PageHeader";
 import Panel from 'app/components/shared/Panel';
 import type { TwoFactorDelete_viewer } from './__generated__/TwoFactorDelete_viewer.graphql';
-import type { TwoFactorDeleteMutationResponse } from './__generated__/TwoFactorDeleteMutation.graphql';
 import type { RelayProp } from 'react-relay';
 
 type Props = {
@@ -16,13 +15,13 @@ type Props = {
 };
 
 type State = {
-  deletingTOTP: boolean,
+  deletingTOTP: boolean
 };
 
 
 class TwoFactorDelete extends React.PureComponent<Props, State> {
   state = {
-    deletingTOTP: false,
+    deletingTOTP: false
   };
 
   render() {

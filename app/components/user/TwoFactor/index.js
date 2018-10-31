@@ -5,7 +5,6 @@ import DocumentTitle from 'react-document-title';
 import { createRefetchContainer, graphql } from 'react-relay/compat';
 import Badge from 'app/components/shared/Badge';
 import Button from 'app/components/shared/Button';
-import Dropdown from 'app/components/shared/Dropdown';
 import Panel from 'app/components/shared/Panel';
 import Dialog from 'app/components/shared/Dialog';
 import TwoFactorConfigure from 'app/components/user/TwoFactor/TwoFactorConfigure';
@@ -147,7 +146,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                     <header className="mb1 flex align-center">
                       <ActiveStateBadge active={this.hasTotp()} />
                       <h3 className="h3 m0">Recovery Code</h3>
-                       {this.hasTotp() ? <span className="ml3">{this.recoveryCodesRemaining} remaining</span> : null}
+                      {this.hasTotp() ? <span className="ml3">{this.recoveryCodesRemaining} remaining</span> : null}
                     </header>
                     <div>
                       <div className="flex">
