@@ -59,16 +59,14 @@ type Props = {
 type State = {
   configureDialogOpen: boolean,
   recoveryCodeDialogOpen: boolean,
-  deactivateDialogOpen: boolean,
-  handleDeactivateDialogClose: boolean
+  deactivateDialogOpen: boolean
 };
 
 class TwoFactor extends React.PureComponent<Props, State> {
   state = {
     configureDialogOpen: false,
     recoveryCodeDialogOpen: false,
-    deactivateDialogOpen: false,
-    handleDeactivateDialogClose: false
+    deactivateDialogOpen: false
   };
 
   get recoveryCodesRemaining(): number | null {
@@ -143,7 +141,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                     >
                       <TwoFactorDelete
                         viewer={this.props.viewer}
-                        onClick={this.state.handleDeactivateDialogClose}
+                        onDeactivationComplete={this.handleDeactivateDialogClose}
                       />
                     </Dialog>
 
@@ -232,6 +230,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
   }
 
   handleDeactivateDialogClose = () => {
+    console.log("this.deactivateDialogOpen")
     this.setState({ deactivateDialogOpen: false });
   }
 

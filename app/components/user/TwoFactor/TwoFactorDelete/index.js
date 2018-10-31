@@ -15,13 +15,13 @@ type ViewerType = {
 
 type Props = {
   viewer: ViewerType,
-  relay: Object
+  relay: Object,
+  onDeactivationComplete: () => void
 };
 
 type State = {
   deletingTOTP: boolean,
   deletedTOTP: boolean,
-  handleDeactivateDialogClose: boolean
 };
 
 type TOTPDeleteReturnType = {
@@ -34,7 +34,6 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
   state = {
     deletingTOTP: false,
     deletedTOTP: false,
-    handleDeactivateDialogClose: false
   };
 
   render() {
@@ -94,13 +93,17 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
     });
   };
 
-  handleDeleteMutationComplete = (mutationResult: TOTPDeleteReturnType) => {
+  handleDeleteMutationComplete = (mutationResult: TOTPDeleteReturnType, callback?: (errors: *) => void) => {
     this.setState({
       deletingTOTP: false,
-      deletedTOTP: !mutationResult.totpDelete.viewer.totp,
-      handleDeactivateDialogClose: true
-    });
-  };
+      deletedTOTP: !mutationResult.totpDelete.viewer.totp
+    }), () => {
+      this.props.onDeactivationComplete();
+        if (callback) {
+          callback();
+        }
+      }
+    };
 
   handleDeleteMutationError = (error) => {
     if (error) {
