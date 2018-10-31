@@ -90,7 +90,7 @@
     "postcss-easings": "2.0.0",
     "postcss-import": "11.1.0",
     "postcss-loader": "3.0.0",
-    "postcss-preset-env": "6.3.0",
+    "postcss-preset-env": "^6.3.0",
     "postcss-reporter": "6.0.0",
     "react-test-renderer": "16.6.0",
     "react-type-snob": "0.0.3",
