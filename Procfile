@@ -1,5 +1,5 @@
 # PORT=5700
-webpack: NODE_ENV=development FRONTEND_HOST=http://buildkite.localhost:$PORT/ ./node_modules/.bin/webpack-dev-server --config webpack/config.js --colors --cache --inline --hot --host "buildkite.localhost" --port "$PORT"
+webpack: NODE_ENV=development yarn run webpack-dev-server --no-progress
 
 # PORT=5800 (unused)
 relay: script/watch_graph

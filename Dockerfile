@@ -2,8 +2,7 @@ FROM node:10-stretch
 
 EXPOSE 4890
 
-ENV FRONTEND_HOST=http://buildkite.localhost:4890/_frontend/dist/ \
-    EMOJI_HOST=http://buildkite.localhost/_frontend/vendor/emojis
+ENV EMOJI_HOST=http://buildkite.localhost/_frontend/vendor/emojis
 
 WORKDIR /frontend
 
