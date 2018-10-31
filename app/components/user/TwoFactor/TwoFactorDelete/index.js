@@ -20,7 +20,8 @@ type Props = {
 
 type State = {
   deletingTOTP: boolean,
-  deletedTOTP: boolean
+  deletedTOTP: boolean,
+  handleDeactivateDialogClose: boolean
 };
 
 type TOTPDeleteReturnType = {
@@ -32,7 +33,8 @@ type TOTPDeleteReturnType = {
 class TwoFactorDelete extends React.PureComponent<Props, State> {
   state = {
     deletingTOTP: false,
-    deletedTOTP: false
+    deletedTOTP: false,
+    handleDeactivateDialogClose: false
   };
 
   render() {
@@ -51,16 +53,6 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
   }
 
   renderCurrentStatus() {
-    if (!this.props.viewer.totp) {
-      return (
-        <Panel className="mb3">
-          <Panel.Section>
-            Two-factor authentication is not currently activated on your account, so we canʼt deactivate it!
-          </Panel.Section>
-        </Panel>
-      );
-    }
-
     return (
       <React.Fragment>
         <p>Two-factor authentication is currently activated. We recommend keeping two-factor authentication activated to help secure your account.</p>
@@ -105,7 +97,8 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
   handleDeleteMutationComplete = (mutationResult: TOTPDeleteReturnType) => {
     this.setState({
       deletingTOTP: false,
-      deletedTOTP: !mutationResult.totpDelete.viewer.totp
+      deletedTOTP: !mutationResult.totpDelete.viewer.totp,
+      handleDeactivateDialogClose: true
     });
   };
 
