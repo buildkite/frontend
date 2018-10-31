@@ -65,7 +65,7 @@
     "babel-plugin-react-pure-components": "2.2.2",
     "babel-plugin-react-transform": "3.0.0",
     "babel-plugin-relay": "1.6.2",
-    "css-loader": "1.0.1",
+    "css-loader": "1.0.0",
     "css-variables-loader": "2.0.2",
     "eslint": "5.8.0",
     "eslint-plugin-babel": "5.2.1",
