@@ -51,7 +51,13 @@ const DoneStep = styled(Step)`
   color: #fff;
 `;
 
-export default function WorkflowProgress({ stepCount, currentStepIndex, className }) {
+type Props = {
+  stepCount: number,
+  currentStepIndex: number,
+  className?: string
+};
+
+export default function WorkflowProgress({ stepCount, currentStepIndex, className }: Props) {
   const steps = [...Array(stepCount).keys()];
   return (
     <List className={classNames("flex", "list-reset", "m0", className)}>
