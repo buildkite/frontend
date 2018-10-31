@@ -5,7 +5,6 @@ import { createFragmentContainer, graphql, commitMutation } from 'react-relay/co
 import GraphQLErrors from 'app/constants/GraphQLErrors';
 import Button from 'app/components/shared/Button';
 import PageHeader from "app/components/shared/PageHeader";
-import Panel from 'app/components/shared/Panel';
 import type { TwoFactorDelete_viewer } from './__generated__/TwoFactorDelete_viewer.graphql';
 import type { RelayProp } from 'react-relay';
 
