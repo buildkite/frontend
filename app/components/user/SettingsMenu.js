@@ -61,10 +61,10 @@ export default class SettingsMenu extends React.Component<Props> {
           organization.node.permissions.organizationUpdate.allowed
         ) ? (
             <Menu.Button
-              key={organization.node.slug}
-              href={`/organizations/${organization.node.slug}/settings`}
-              label={organization.node.name}
-            />
+            key={organization.node.slug}
+            href={`/organizations/${organization.node.slug}/settings`}
+            label={organization.node.name}
+          />
           ) : null);
       }, []).filter(Boolean);
 

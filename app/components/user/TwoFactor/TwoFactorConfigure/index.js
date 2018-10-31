@@ -2,10 +2,7 @@
 
 import * as React from "react";
 import { createRefetchContainer, graphql, fetchQuery, commitMutation } from 'react-relay/compat';
-import DocumentTitle from 'react-document-title';
 import GraphQLErrors from 'app/constants/GraphQLErrors';
-import Button from 'app/components/shared/Button';
-import Icon from "app/components/shared/Icon";
 import PageHeader from "app/components/shared/PageHeader";
 import WorkflowProgress from "app/components/shared/WorkflowProgress";
 import TwoFactorConfigureRecoveryCodes from './TwoFactorConfigureRecoveryCodes';
@@ -261,7 +258,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
             } else {
               alert(error);
             }
-          }         
+          }
           if (callback) {
             callback();
           }
