@@ -1034,7 +1034,7 @@
             },
             {
               "name": "totp",
-              "description": "The user's active TOTP configuration (if any), or\n\nThis field is private, requires an escalated session, and cannot be accessed via the public GraphQL API.\n",
+              "description": "The user's active TOTP configuration, if any.\n\nThis field is private, requires an escalated session, and cannot be accessed via the public GraphQL API.\n",
               "args": [
                 {
                   "name": "id",
