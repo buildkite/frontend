@@ -40,16 +40,10 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
 
   render() {
     return (
-      <div style={{ padding: '20px' }}>
+      <div className="p3">
         <PageHeader>
-          <PageHeader.Icon>
-            <Icon
-              icon="placeholder"
-              style={{ width: 34, height: 34, marginTop: 3, marginLeft: 3 }}
-            />
-          </PageHeader.Icon>
           <PageHeader.Title>
-            Remove Two-Factor Authentication
+            Deactivate Two-factor Authentication
           </PageHeader.Title>
         </PageHeader>
         <div>
@@ -60,10 +54,6 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
   }
 
   renderCurrentStatus() {
-    if (this.state.deletedTOTP) {
-      return this.renderDeletedStatus();
-    }
-
     if (!this.props.viewer.totp) {
       return (
         <Panel className="mb3">
@@ -77,44 +67,21 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
     return (
       <React.Fragment>
         <p>Two-factor authentication is currently activated. We recommend keeping two-factor authentication activated to help secure your account.</p>
-        <p>Removing two-factor authentication will take effect immediately. You may reconfigure two-factor authentication at any time.</p>
+        <p>Deactivating two-factor authentication will take effect immediately. You may reconfigure two-factor authentication at any time.</p>
       <Button
         className="col-12"
         theme="error"
         outline={true}
         onClick={this.handleDeleteClick}
-        loading={this.state.deletingTOTP && "Removing two-factor authentication…"}
+        loading={this.state.deletingTOTP && "Deactivating two-factor authentication…"}
       >
-        Remove Two-Factor Authentication
+        Deactivate Two-factor Authentication
       </Button>
       </React.Fragment>
     );
   }
 
-  renderDeletedStatus() {
-    return (
-      <Panel className="mb4">
-        <Panel.Section>
-          <p>Two-factor authentication has been removed from your account.</p>
-        </Panel.Section>
-        <Panel.Section>
-          <p>Need to configure two-factor authentication again?</p>
-          <Button
-            theme="success"
-            link="/user/two-factor/configure"
-          >
-            Configure Two-Factor Authentication
-          </Button>
-        </Panel.Section>
-      </Panel>
-    );
-  }
-
   handleDeleteClick = () => {
-    if (!this.props.viewer.totp) {
-      throw new Error('TOTP Delete called without an active TOTP configuration (This should not be possible!)');
-    }
-
     const totpId = this.props.viewer.totp.id;
 
     this.setState({ deletingTOTP: true }, () => {

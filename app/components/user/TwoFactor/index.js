@@ -257,6 +257,10 @@ export default createRefetchContainer(
       ...TwoFactorConfigure_viewer
       ...TwoFactorDelete_viewer
 
+      user {
+        hasPassword
+      }
+
       totp {
         ...RecoveryCodes_totp
         ...RecoveryCodeDialog_totp

@@ -45,6 +45,7 @@ type Props = {
 
 type State = {
   step: StepType,
+  didActivateNewOtp: boolean,
   newTotpConfig: ?{
     totp: TotpType,
     provisioningUri: string
@@ -54,7 +55,8 @@ type State = {
 class TwoFactorConfigure extends React.Component<Props, State> {
   state = {
     step: STEPS.RECOVERY_CODES,
-    newTotpConfig: null
+    newTotpConfig: null,
+    didActivateNewOtp: false
   };
 
   get recoveryCodes(): RecoveryCodesType {
@@ -94,7 +96,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    if (this.state.step !== STEPS.COMPLETE && this.state.newTotpConfig) {
+    if (this.state.newTotpConfig && !this.state.didActivateNewOtp) {
       TotpDeleteMutation({
         environment: this.props.relay.environment,
         variables: {
@@ -108,7 +110,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
 
   render() {
     return (
-      <div style={{ padding: '20px' }}>
+      <div className="p3">
         <PageHeader>
           <PageHeader.Title>
             {this.getStepTitle()}
@@ -234,10 +236,12 @@ class TwoFactorConfigure extends React.Component<Props, State> {
         `,
         variables: { input: { id: this.state.newTotpConfig.totp.id, token } },
         onCompleted: () => {
-          this.props.onConfigurationComplete();
-          if (callback) {
-            callback();
-          }
+          this.setState({ didActivateNewOtp: true }, () => {
+            this.props.onConfigurationComplete();
+            if (callback) {
+              callback();
+            }
+          });
         },
         onError: (error) => {
           if (error) {
