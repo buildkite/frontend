@@ -10,7 +10,6 @@ import PageHeader from "app/components/shared/PageHeader";
 import WorkflowProgress from "app/components/shared/WorkflowProgress";
 import TwoFactorConfigureRecoveryCodes from './TwoFactorConfigureRecoveryCodes';
 import TwoFactorConfigureActivate from './TwoFactorConfigureActivate';
-import TwoFactorConfigureComplete from './TwoFactorConfigureComplete';
 import TotpCreateMutation from './TotpCreateMutation';
 import TotpDeleteMutation from './TotpDeleteMutation';
 // Required for Relay fragments...
@@ -40,7 +39,8 @@ function getNextStep(currentStep: StepType): ?StepType {
 
 type Props = {
   relay: RelayProp,
-  viewer: TwoFactorConfigure_viewer
+  viewer: TwoFactorConfigure_viewer,
+  onConfigurationComplete: () => void
 };
 
 type State = {
@@ -79,14 +79,18 @@ class TwoFactorConfigure extends React.Component<Props, State> {
   }
 
   get steps(): Array<StepType> {
-    if (this.hasActivatedTotp) {
-      return [STEPS.RECOVERY_CODES, STEPS.ACTIVATE_TOTP, STEPS.COMPLETE];
-    }
-    return [STEPS.RECOVERY_CODES, STEPS.ACTIVATE_TOTP, STEPS.COMPLETE];
+    return [STEPS.RECOVERY_CODES, STEPS.ACTIVATE_TOTP];
   }
 
   currentStepIndex(currentStep: StepType): number {
     return this.steps.indexOf(currentStep);
+  }
+
+  getStepTitle(): string {
+    if (this.state.step === STEPS.RECOVERY_CODES) {
+      return 'Recovery Codes';
+    }
+    return 'Activate Authenticator Application';
   }
 
   componentWillUnmount() {
@@ -106,18 +110,11 @@ class TwoFactorConfigure extends React.Component<Props, State> {
     return (
       <div style={{ padding: '20px' }}>
         <PageHeader>
-          <PageHeader.Icon>
-            <Icon
-              icon="placeholder"
-              style={{ width: 34, height: 34, marginTop: 3, marginLeft: 3 }}
-            />
-          </PageHeader.Icon>
           <PageHeader.Title>
-            {this.props.viewer.totp ? 'Reconfigure' : 'Configure'} Two-Factor Authentication
+            {this.getStepTitle()}
           </PageHeader.Title>
           <PageHeader.Menu>
             <WorkflowProgress
-              className="mr4"
               stepCount={this.steps.length}
               currentStepIndex={this.currentStepIndex(this.state.step)}
             />
@@ -150,10 +147,6 @@ class TwoFactorConfigure extends React.Component<Props, State> {
             provisioningUri={this.provisioningUri}
             onActivateOtp={this.handleActivateOtp}
           />
-        );
-      case STEPS.COMPLETE:
-        return (
-          <TwoFactorConfigureComplete />
         );
     }
   }
@@ -241,6 +234,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
         `,
         variables: { input: { id: this.state.newTotpConfig.totp.id, token } },
         onCompleted: () => {
+          this.props.onConfigurationComplete();
           if (callback) {
             callback();
           }
@@ -263,9 +257,9 @@ class TwoFactorConfigure extends React.Component<Props, State> {
             } else {
               alert(error);
             }
-          }
+          }         
           if (callback) {
-            callback(error.source.errors);
+            callback();
           }
         }
       });

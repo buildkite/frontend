@@ -129,16 +129,21 @@ class TwoFactor extends React.PureComponent<Props, State> {
                       width={600}
                       onRequestClose={this.handleConfigureDialogClose}
                     >
-                      <TwoFactorConfigure viewer={this.props.viewer} />
+                      <TwoFactorConfigure
+                        viewer={this.props.viewer}
+                        onConfigurationComplete={this.handleConfigureDialogClose}
+                      />
                     </Dialog>
                     <Dialog
                       isOpen={this.state.deactivateDialogOpen}
                       width={600}
                       onRequestClose={this.handleDeactivateDialogClose}
                     >
-                      <TwoFactorDelete viewer={this.props.viewer} />
+                      <TwoFactorDelete
+                        viewer={this.props.viewer}
+                      />
                     </Dialog>
-                    
+
 
                     <div className="flex-none col-4 flex justify-end">
                       {this.props.viewer.totp ? (
@@ -178,7 +183,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                     <div className="flex-auto">
                       <header className="flex items-center mb1">
                         <ActiveStateBadge active={this.hasTotp()} />
-                        <h3 className="h2 m0">Recovery Code</h3>
+                        <h3 className="h3 m0">Recovery Code</h3>
                         {this.props.viewer.totp ? (
                           <span className="ml3">{this.recoveryCodesRemaining} codes remaining</span>
                         ) : null}

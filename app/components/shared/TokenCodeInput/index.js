@@ -80,7 +80,7 @@ type Props = {
   disabled?: boolean,
   help?: React.Node,
   onChange: (value: string) => void,
-  onCodeComplete: (value: string) => void,
+  onCodeComplete?: (value: string) => void,
   errors: ?Array<*>
 };
 
@@ -232,7 +232,7 @@ export default class TokenCodeInput extends React.PureComponent<Props, State> {
       }
       this.props.onChange(nextValue);
     }
-    if (nextValue.length === this.props.maxLength) {
+    if (this.props.onCodeComplete && nextValue.length === this.props.maxLength) {
       this.props.onCodeComplete(nextValue);
     }
   }

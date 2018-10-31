@@ -80,7 +80,9 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
             </div>
           </Panel.Section>
           <Panel.Section>
-            <p><strong>Provisioning URI</strong></p>
+            <div className="mb1">
+              <strong>Provisioning URI</strong>
+            </div>
             <div className="flex">
               <ProvisioningUri className="input mr2 monospace">
                 {this.props.provisioningUri}
@@ -99,16 +101,23 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
             </small>
           </Panel.Section>
         </Panel>
-        <div className="py3">
+        <div className="py3 mb3">
           <TokenCodeInput
             ref={this.tokenInputRef}
             errors={errors.findForField('token')}
             disabled={this.state.isActivating}
             value={this.state.totpCodeValue}
             onChange={this.handleTotpCodeChange}
-            onCodeComplete={this.handleTotpActivate}
           />
         </div>
+        <Button
+          className="col-12"
+          disabled={this.state.isActivating}
+          theme="success"
+          onClick={this.handleTotpActivate}
+        >
+          Activate
+        </Button>
       </React.Fragment>
     );
   }
@@ -117,18 +126,18 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
     this.setState({ totpCodeValue });
   }
 
-  handleTotpActivate = (value: string) => {
+  handleTotpActivate = () => {
     this.setState({ isActivating: true }, () => {
-      this.props.onActivateOtp(value, (errors) => {
-        this.setState({ errors, isActivating: false }, () => {
-          if (!errors) {
-            this.props.onNextStep();
-          } else {
+      this.props.onActivateOtp(this.state.totpCodeValue, (errors) => {
+        if (errors) {
+          this.setState({ errors, isActivating: false }, () => {
             if (this.tokenInputRef.current) {
               this.tokenInputRef.current.focus();
             }
-          }
-        });
+          });
+        } else {
+          this.setState({ errors: [], isActivating: false });
+        }
       });
     });
   }
