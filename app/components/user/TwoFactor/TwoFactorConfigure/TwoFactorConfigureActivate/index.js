@@ -63,7 +63,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
                   bgColor="transparent"
                   width="260"
                   height="260"
-                  className="block my4 mx-auto"
+                  className="block mx-auto"
                   level="H" // approx 30% error correction
                   style={{ maxWidth: '100%' }}
                   value={this.props.provisioningUri}
