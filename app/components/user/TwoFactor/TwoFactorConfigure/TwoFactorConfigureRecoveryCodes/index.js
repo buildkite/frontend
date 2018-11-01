@@ -52,23 +52,24 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
         <Panel className="mb3">
           <Panel.Section>
             <div className="flex justify-between">
-              <Button
-                theme="success"
-                outline={true}
-                disabled={this.state.isLoading}
-                onClick={this.handleRegenerateRecoveryCode}
-              >
-                Regenerate
-              </Button>
-
               <CopyToClipboard text={this.recoveryCodeText()} onCopy={this.handleRecoveryCodeCopy}>
                 <Button
-                  theme={this.state.didCopyRecoveryCodes ? 'default' : 'success'}
+                  theme="success"
                   disabled={this.state.isLoading}
                 >
                   {this.state.didCopyRecoveryCodes ? 'Copied!' : 'Copy'}
                 </Button>
               </CopyToClipboard>
+              {this.props.hasActivatedTotp ? (
+                <Button
+                  theme="success"
+                  outline={true}
+                  disabled={this.state.isLoading}
+                  onClick={this.handleRegenerateRecoveryCode}
+                >
+                  Regenerate
+                </Button>
+              ) : null}
             </div>
             <RecoveryCodeList
               recoveryCodes={this.props.recoveryCodes}
@@ -79,7 +80,7 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
         <Button
           className="col-12"
           disabled={this.state.isLoading}
-          theme={this.state.didCopyRecoveryCodes ? 'success' : 'default'}
+          theme="success"
           onClick={this.props.onNextStep}
         >
           Next
