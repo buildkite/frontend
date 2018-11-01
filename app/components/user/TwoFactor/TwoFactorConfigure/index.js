@@ -107,7 +107,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className="p3">
+      <div className="p4">
         <PageHeader>
           <PageHeader.Title>
             {this.getStepTitle()}
