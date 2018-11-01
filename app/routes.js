@@ -121,13 +121,9 @@ export default (
       <Route path="organizations/:organization/billing/upgrade" component={BillingUpgrade} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
       <Route path="user">
-
-        {/* $FlowExpectError */}
-        {Features.TwoFactorAuthentication ? (
-          <Route path="two-factor">
-            <IndexRoute component={TwoFactorIndex} queries={{ viewer: ViewerQuery.query }} />
-          </Route>
-        ) : null}
+        <Route path="two-factor">
+          <IndexRoute component={TwoFactorIndex} queries={{ viewer: ViewerQuery.query }} />
+        </Route>
 
         <Route path="graphql" component={GraphQLExplorer}>
           <IndexRedirect to="console" />
