@@ -53,7 +53,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
           <div className="flex justify-center items-center">
             <div className="mt1 mb3">
               <figure style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img style={{ position: 'absolute' }} src={buildkiteqr} />
+                <img style={{ position: 'absolute', width: 102, marginTop: 6 }} src={buildkiteqr} />
                 <QRCode
                   renderAs="svg"
                   fgColor="currentColor"
