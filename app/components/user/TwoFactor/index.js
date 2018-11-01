@@ -108,7 +108,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                           <div className="flex">
                             <div className="flex-auto pr3 mr3">
                               <p className="m0">
-                                Authenticator applications generate single use One Time Passwords (OTPs). 
+                                Authenticator applications generate single use One Time Passwords (OTPs).
                                 Recommended authenticator applications: {AUTHENTICATOR_LIST}.
                               </p>
                             </div>

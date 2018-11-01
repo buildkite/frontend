@@ -38,8 +38,7 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
     return (
       <React.Fragment>
         <p>
-          Recovery codes are the only way to get access to your account if you lose access 
-          to your authenticator application.
+          Recovery codes are the only way to get access to your account if you lose access to your authenticator application.
         </p>
         <Panel className="mb3 orange border-orange">
           <Panel.Section>
