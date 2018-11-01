@@ -7,6 +7,7 @@ import Badge from 'app/components/shared/Badge';
 import Button from 'app/components/shared/Button';
 import Panel from 'app/components/shared/Panel';
 import PageHeader from 'app/components/shared/PageHeader';
+import PageWithMenu from 'app/components/shared/PageWithMenu';
 import Dialog from 'app/components/shared/Dialog';
 import Icon from 'app/components/shared/Icon';
 import TwoFactorConfigure from 'app/components/user/TwoFactor/TwoFactorConfigure';
@@ -196,42 +197,36 @@ class TwoFactor extends React.PureComponent<Props, State> {
     return (
       <DocumentTitle title="Two-Factor Authentication">
         <React.Fragment>
-          <div className="container">
-            <div className="clearfix mxn2">
-              <div className="md-col md-col-3 px2">
-                <SettingsMenu viewer={this.props.viewer} />
-              </div>
-              <div className="md-col md-col-9 px2">
-                <PageHeader>
-                  <PageHeader.Icon>
-                    <Icon
-                      icon="two-factor"
-                      style={{ width: 40, height: 40 }}
-                    />
-                  </PageHeader.Icon>
-                  <PageHeader.Title>
-                    Two-Factor Authentication
-                  </PageHeader.Title>
-                  <PageHeader.Description>
-                    Two-factor authentication (2FA) adds an additional layer of security to your Buildkite account.
-                  </PageHeader.Description>
-                </PageHeader>
+          <PageWithMenu>
+            <SettingsMenu viewer={this.props.viewer} />
+            <PageHeader>
+              <PageHeader.Icon>
+                <Icon
+                  icon="two-factor"
+                  style={{ width: 40, height: 40 }}
+                />
+              </PageHeader.Icon>
+              <PageHeader.Title>
+                Two-Factor Authentication
+              </PageHeader.Title>
+              <PageHeader.Description>
+                Two-factor authentication (2FA) adds an additional layer of security to your Buildkite account.
+              </PageHeader.Description>
+            </PageHeader>
 
-                {contents}
+            {contents}
 
-                <Dialog
-                  isOpen={this.state.configureDialogOpen}
-                  width={570}
-                  onRequestClose={this.handleConfigureDialogClose}
-                >
-                  <TwoFactorConfigure
-                    viewer={this.props.viewer}
-                    onConfigurationComplete={this.handleConfigureDialogClose}
-                  />
-                </Dialog>
-              </div>
-            </div>
-          </div>
+            <Dialog
+              isOpen={this.state.configureDialogOpen}
+              width={570}
+              onRequestClose={this.handleConfigureDialogClose}
+            >
+              <TwoFactorConfigure
+                viewer={this.props.viewer}
+                onConfigurationComplete={this.handleConfigureDialogClose}
+              />
+            </Dialog>
+          </PageWithMenu>
         </React.Fragment>
       </DocumentTitle>
     );
