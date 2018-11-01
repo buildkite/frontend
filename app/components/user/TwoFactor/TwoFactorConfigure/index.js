@@ -93,13 +93,6 @@ class TwoFactorConfigure extends React.Component<Props, State> {
     return 'Step 2: Configure Authenticator Application';
   }
 
-  getStepNotice(): string {
-    if (this.state.step === STEPS.RECOVERY_CODES && this.hasActivatedTotp) {
-      return "Youʼre about to reconfigure two-factor authentication. \
-      This will invalidate your existing configuration and recovery codes."
-    }
-  }
-
   componentWillUnmount() {
     if (this.state.newTotpConfig && !this.state.didActivateNewOtp) {
       TotpDeleteMutation({
@@ -116,12 +109,12 @@ class TwoFactorConfigure extends React.Component<Props, State> {
   render() {
     return (
       <div className="p4">
-        {this.renderStepNotice()}
-        <div class="flex items-top mb3">
-          <div class="flex-auto">
-            <div class="flex">
+        {this.renderReconfigureNotice()}
+        <div className="flex items-top mb3">
+          <div className="flex-auto">
+            <div className="flex">
               <Icon icon="two-factor" className="mr1" />
-              <h1 className="m0 h2 semi-bold">Setup Two-Factor Authentication</h1>
+              <h1 className="m0 h2 semi-bold">{this.hasActivatedTotp ? "Reconfigure" : "Setup"} Two-Factor Authentication</h1>
             </div>
             <h2 className="m0 mt3 h4 bold mb5">{this.getStepTitle()}</h2>
           </div>
@@ -137,14 +130,12 @@ class TwoFactorConfigure extends React.Component<Props, State> {
     );
   }
 
-  renderStepNotice() {
-    const notice = this.getStepNotice();
-
-    if (notice) {
+  renderReconfigureNotice() {
+    if (this.state.step === STEPS.RECOVERY_CODES && this.hasActivatedTotp) {
       return (
-        <div class="mb4 border orange rounded border-orange p3">
-          <div class="bold mb1">Heads up!</div>
-          <div>{notice}</div>
+        <div className="mb4 border orange rounded border-orange p3">
+          <div className="bold">Youʼre about to reconfigure two-factor authentication.</div>
+          <div>This will invalidate your existing configuration and recovery codes.</div>
         </div>
       )
     }

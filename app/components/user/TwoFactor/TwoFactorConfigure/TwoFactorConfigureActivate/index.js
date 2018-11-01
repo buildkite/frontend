@@ -53,24 +53,22 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
           QR Code with your authenticator application, then enter the generated One Time Password below.
         </p>
         <Panel className="mb3">
-          <Panel.Section>
-            <div className="flex justify-center items-center" style={{ minHeight: "300px" }}>
-              <figure style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img style={{ position: 'absolute' }} src={buildkiteqr} />
-                <QRCode
-                  renderAs="svg"
-                  fgColor="currentColor"
-                  bgColor="transparent"
-                  width="260"
-                  height="260"
-                  className="block mx-auto"
-                  level="H" // approx 30% error correction
-                  style={{ maxWidth: '100%' }}
-                  value={this.props.provisioningUri}
-                />
-              </figure>
-            </div>
-          </Panel.Section>
+          <div className="flex justify-center items-center" style={{ minHeight: "300px" }}>
+            <figure style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img style={{ position: 'absolute' }} src={buildkiteqr} />
+              <QRCode
+                renderAs="svg"
+                fgColor="currentColor"
+                bgColor="transparent"
+                width="260"
+                height="260"
+                className="block mx-auto"
+                level="H" // approx 30% error correction
+                style={{ maxWidth: '100%' }}
+                value={this.props.provisioningUri}
+              />
+            </figure>
+          </div>
           <Panel.Section>
             <div>
               <strong>Secret Key</strong>

@@ -33,9 +33,8 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
   render() {
     return (
       <React.Fragment>
-        <p>
-          Recovery codes are the only way to get access to your account if you lose access to your authenticator application.
-        </p>
+        <p>Recovery codes are the only way to login to your account if you lose access to your authenticator application.</p>
+        <p>They should be treated like your password, so we suggest saving them in a secure password manager, or printing them and storing them somewhere safe.</p>
         <RecoveryCodeList
           recoveryCodes={this.props.recoveryCodes}
           isLoading={this.state.isLoading}
