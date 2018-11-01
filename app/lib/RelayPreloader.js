@@ -80,7 +80,7 @@ const QUERIES = {
         }
         allPipelines: pipelines(team: $team) {
           count
-        }
+       }
         pipelines(first: $pageSize, search: $pipelineFilter, team: $team, order: NAME_WITH_FAVORITES_FIRST) {
           edges {
             node {
@@ -527,6 +527,56 @@ const QUERIES = {
         query
         operationName
         url
+      }
+    }
+  `,
+  "user_settings_navigation/organizations": Relay.QL`
+    query UserSettingsNavigation {
+      viewer {
+        id
+        organizations(first: 10) {
+          edges {
+            node {
+              name
+              slug
+              permissions {
+                pipelineView {
+                  allowed
+                  code
+                }
+              }
+              id
+            }
+            cursor
+          }
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+          }
+        }
+      }
+    }
+  `,
+  "totp/viewer": Relay.QL`
+    query TOTPViewer {
+      viewer {
+        id
+        user {
+          id
+          hasPassword
+        }
+        totp {
+          id
+          verified
+          recoveryCodes {
+            id
+            active
+            codes {
+              code
+              consumed
+            }
+          }
+        }
       }
     }
   `
