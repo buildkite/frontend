@@ -163,7 +163,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                     </Panel>
                     <Dialog
                       isOpen={this.state.configureDialogOpen}
-                      width={600}
+                      width={540}
                       onRequestClose={this.handleConfigureDialogClose}
                     >
                       <TwoFactorConfigure

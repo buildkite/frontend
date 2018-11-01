@@ -87,9 +87,16 @@ class TwoFactorConfigure extends React.Component<Props, State> {
 
   getStepTitle(): string {
     if (this.state.step === STEPS.RECOVERY_CODES) {
-      return 'Recovery Codes';
+      return 'Step 1: Save Recovery Codes';
     }
-    return 'Activate Authenticator Application';
+    return 'Step 2: Activate Authenticator Application';
+  }
+
+  getStepNotice(): string {
+    if (this.state.step === STEPS.RECOVERY_CODES && this.hasActivatedTotp) {
+      return "Youʼre about to reconfigure two-factor authentication. \
+      This will invalidate your existing configuration and recovery codes."
+    }
   }
 
   componentWillUnmount() {
@@ -108,22 +115,32 @@ class TwoFactorConfigure extends React.Component<Props, State> {
   render() {
     return (
       <div className="p4">
-        <PageHeader>
-          <PageHeader.Title>
-            {this.getStepTitle()}
-          </PageHeader.Title>
-          <PageHeader.Menu>
-            <WorkflowProgress
-              stepCount={this.steps.length}
-              currentStepIndex={this.currentStepIndex(this.state.step)}
-            />
-          </PageHeader.Menu>
-        </PageHeader>
+        {this.renderStepNotice()}
+        <div class="flex items-center mb3">
+          <h1 className="m0 h2 semi-bold flex-auto">{this.getStepTitle()}</h1>
+          <WorkflowProgress
+            stepCount={this.steps.length}
+            currentStepIndex={this.currentStepIndex(this.state.step)}
+          />
+        </div>
         <div>
           {this.renderCurrentStep()}
         </div>
       </div>
     );
+  }
+
+  renderStepNotice() {
+    const notice = this.getStepNotice();
+
+    if (notice) {
+      return (
+        <div class="mb4 border orange rounded border-orange p3">
+          <div class="bold mb1">Heads up!</div>
+          <div>{notice}</div>
+        </div>
+      )
+    }
   }
 
   renderCurrentStep() {
@@ -134,7 +151,6 @@ class TwoFactorConfigure extends React.Component<Props, State> {
             onNextStep={this.handleNextStep}
             recoveryCodes={this.recoveryCodes}
             onCreateNewTotp={this.handleCreateNewTotp}
-            hasActivatedTotp={this.hasActivatedTotp}
           />
         );
       case STEPS.ACTIVATE_TOTP:
