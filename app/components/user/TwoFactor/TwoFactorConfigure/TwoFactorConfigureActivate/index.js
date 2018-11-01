@@ -30,7 +30,6 @@ type State = {
 
 const ProvisioningUri = styled.div`
   text-overflow: ellipsis;
-  width: 200px;
   white-space: nowrap;
   overflow: hidden;
   line-height: 1.8;
