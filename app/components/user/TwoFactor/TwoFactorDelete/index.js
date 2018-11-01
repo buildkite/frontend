@@ -42,8 +42,8 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
   renderCurrentStatus() {
     return (
       <React.Fragment>
-        <p>Two-factor authentication is currently activated. We recommend keeping two-factor authentication activated to help secure your account.</p>
-        <p>Deactivating two-factor authentication will take effect immediately. You may reconfigure two-factor authentication at any time.</p>
+        <p>We recommend keeping two-factor authentication active to help secure your account.</p>
+        <p>You may reconfigure two-factor authentication at any time.</p>
         <Button
           className="col-12"
           theme="error"

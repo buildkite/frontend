@@ -50,7 +50,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
       <React.Fragment>
         <p>
           To {this.props.hasActivatedTotp ? 'reconfigure' : 'activate'} two-factor authentication, scan this
-          QR Code with your Authenticator Application, and then confirm.
+          QR Code with your authenticator application, then enter the generated One Time Password below.
         </p>
         <Panel className="mb3">
           <Panel.Section>
