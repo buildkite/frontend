@@ -52,15 +52,16 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
         <Panel className="mb3">
           <Panel.Section>
             <div className="flex justify-between">
-              <Button
-                theme="success"
-                outline={true}
-                disabled={this.state.isLoading}
-                onClick={this.handleRegenerateRecoveryCode}
-              >
-                Regenerate
-              </Button>
-
+              {this.props.hasActivatedTotp ? (
+                <Button
+                  theme="success"
+                  outline={true}
+                  disabled={this.state.isLoading}
+                  onClick={this.handleRegenerateRecoveryCode}
+                >
+                  Regenerate
+                </Button>
+              ) : null}
               <CopyToClipboard text={this.recoveryCodeText()} onCopy={this.handleRecoveryCodeCopy}>
                 <Button
                   theme={this.state.didCopyRecoveryCodes ? 'default' : 'success'}
