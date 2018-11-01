@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { createFragmentContainer, graphql } from 'react-relay/compat';
-import Panel from 'app/components/shared/Panel';
 import Button from 'app/components/shared/Button';
 import RecoveryCodeList from 'app/components/RecoveryCodeList';
 import type {

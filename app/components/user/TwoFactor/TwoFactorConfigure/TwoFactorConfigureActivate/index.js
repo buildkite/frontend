@@ -16,7 +16,6 @@ type ValidationError = {
 };
 
 type Props = {
-  hasActivatedTotp: boolean,
   onActivateOtp: (token: string, callback?: () => void) => void,
   provisioningUri: string
 };

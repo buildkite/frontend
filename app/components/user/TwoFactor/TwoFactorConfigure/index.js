@@ -3,7 +3,6 @@
 import * as React from "react";
 import { createRefetchContainer, graphql, fetchQuery, commitMutation } from 'react-relay/compat';
 import GraphQLErrors from 'app/constants/GraphQLErrors';
-import PageHeader from "app/components/shared/PageHeader";
 import Icon from "app/components/shared/Icon";
 import WorkflowProgress from "app/components/shared/WorkflowProgress";
 import TwoFactorConfigureRecoveryCodes from './TwoFactorConfigureRecoveryCodes';
@@ -137,7 +136,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
           <div className="bold">Youʼre about to reconfigure two-factor authentication.</div>
           <div>This will invalidate your existing configuration and recovery codes.</div>
         </div>
-      )
+      );
     }
   }
 

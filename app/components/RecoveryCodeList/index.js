@@ -48,25 +48,26 @@ function recoveryCodeText(recoveryCodes: TOTPRecoveryCodes): ?string {
 let saveFileSupported;
 try {
   saveFileSupported = !!new Blob;
-} catch (e) {}
+} catch (exception) {
+  // empty
+}
 
-class RecoveryCodeList extends React.PureComponent<Props> {
+class RecoveryCodeList extends React.PureComponent<Props, State> {
   state = {
     copied: false
   }
 
   render() {
     return (
-      <div className="border border-gray rounded flex items-center justify-center" style={{minHeight: 330}}>
+      <div className="border border-gray rounded flex items-center justify-center" style={{ minHeight: 330 }}>
         {this.props.isLoading ? (
-          <Spinner/>
-        ): this.renderCodes()}
+          <Spinner />
+        ) : this.renderCodes()}
       </div>
     );
   }
 
   renderCodes() {
-
     return (
       <div className="flex-auto">
         <div className="flex justify-center items-center">
@@ -123,7 +124,7 @@ class RecoveryCodeList extends React.PureComponent<Props> {
   };
 
   handleRecoveryCodeDownload = () => {
-    var blob = new Blob([recoveryCodeText(this.props.recoveryCodes)], { type: "text/plain;charset=utf-8" });
+    const blob = new Blob([recoveryCodeText(this.props.recoveryCodes)], { type: "text/plain;charset=utf-8" });
 
     saveAs(blob, "Buildkite Recovery Codes.txt");
   }
