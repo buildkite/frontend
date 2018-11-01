@@ -61,7 +61,7 @@ class RecoveryCodes extends React.PureComponent<Props, State> {
       <>
         <div className="mb4 border green rounded border-green p3">
           <div className="bold">Here are your new recovery codes.</div>
-          <div>Your codes are no longer valid. Please make sure you store them in a safe place</div>
+          <div>Your previous codes have been removed. Please make sure you store them in a safe place</div>
         </div>
 
         <div className="mt4">

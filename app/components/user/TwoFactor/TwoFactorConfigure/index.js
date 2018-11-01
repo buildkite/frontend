@@ -85,7 +85,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
 
   getStepTitle(): string {
     if (this.state.step === STEPS.RECOVERY_CODES) {
-      return 'Step 1: Save Recovery Codes';
+      return 'Step 1: Store Recovery Codes';
     }
     return 'Step 2: Configure Authenticator Application';
   }
