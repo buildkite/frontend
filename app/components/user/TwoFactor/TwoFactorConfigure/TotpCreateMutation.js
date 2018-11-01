@@ -46,7 +46,7 @@ function handleCreateMutationError(error) {
           // Show an alert (the backend handling would show a similar flash, but I decided this was better than allowing for a potential infinite loop)
           alert([
             'You currently use Buildkite via Single Sign-On.',
-            'Two-factor authentication cannot be enabled on your account until you reset your password.',
+            'Two-Factor authentication cannot be enabled on your account until you reset your password.',
             'Weʼll take you back to your personal settings.'
           ].join('\n\n'));
           location.assign('/user/settings');

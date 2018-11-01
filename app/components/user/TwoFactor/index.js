@@ -98,7 +98,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                   <React.Fragment>
                     <Panel className="mb4">
                       <Panel.Header>
-                        Two-factor Authentication Methods
+                        Two-Factor Authentication Methods
                       </Panel.Header>
                       <Panel.Section>
                         <header className="mb1 flex align-center">
@@ -191,7 +191,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                   </React.Fragment>
                 ) : (
                   <p>
-                    You do not have a password set for your account. Two-factor Authentication is available without setting a password.
+                    You do not have a password set for your account. Two-factor authentication is available without setting a password.
                   </p>
                 )}
               </div>

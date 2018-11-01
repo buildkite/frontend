@@ -73,7 +73,7 @@ class MemberRow extends React.PureComponent<Props> {
       nodes.push(
         <div key="2fa" className="flex ml1">
           <Badge
-            title="Two-factor authentication is configured."
+            title="Two-Factor authentication is configured."
             outline={true}
             className="border-lime lime"
           >
