@@ -2,28 +2,53 @@
 
 import React from "react";
 import { createFragmentContainer, graphql } from 'react-relay/compat';
+import styled from 'styled-components';
+import Spinner from 'app/components/shared/Spinner';
+import type { RecoveryCodeList_recoveryCodes } from './__generated__/RecoveryCodeList_recoveryCodes.graphql';
+
+const List = styled.ul`
+  columns: 2;
+  column-gap: 60px;
+`;
+
+const ListItem = styled.li`
+  display: block;
+`;
+
+const Code = styled.span`
+  display: block;
+`;
+
+const ConsumedCode = styled.span`
+  display: block;
+  text-decoration: line-through;
+`;
 
 type Props = {
-  recoveryCodes: {
-    codes: Array<string>
-  }
+  isLoading: boolean,
+  recoveryCodes: ?RecoveryCodeList_recoveryCodes
 };
 
 class RecoveryCodeList extends React.PureComponent<Props> {
   render() {
     return (
-      <ul
-        className="list-reset center"
-        style={{
-          columns: 2
-        }}
-      >
-        {this.props.recoveryCodes.codes.map((code) => (
-          <li key={code}>
-            <code className="monospace h2">{code}</code>
-          </li>
-        ))}
-      </ul>
+      <div className="flex justify-center items-center" style={{ minHeight: "360px" }}>
+        {this.props.isLoading ? <Spinner /> : (
+          <List className="list-reset center p4">
+            {(this.props.recoveryCodes && this.props.recoveryCodes.codes) ? (
+              this.props.recoveryCodes.codes.map(({ code, consumed }) => (
+                <ListItem key={code}>
+                  {consumed ? (
+                    <ConsumedCode className="monospace h2">{code}</ConsumedCode>
+                  ) : (
+                    <Code className="monospace h2">{code}</Code>
+                  )}
+                </ListItem>
+              ))
+            ) : null}
+          </List>
+        )}
+      </div>
     );
   }
 }
@@ -31,7 +56,10 @@ class RecoveryCodeList extends React.PureComponent<Props> {
 export default createFragmentContainer(RecoveryCodeList, {
   recoveryCodes: graphql`
     fragment RecoveryCodeList_recoveryCodes on RecoveryCodeBatch {
-      codes
+      codes {
+        code
+        consumed
+      }
     }
   `
 });

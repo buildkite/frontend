@@ -6,20 +6,18 @@ import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 import DocumentTitle from 'react-document-title';
 
-import Dropdown from '../shared/Dropdown';
-import Icon from '../shared/Icon';
-import ShowMoreFooter from '../shared/ShowMoreFooter';
-import PageHeader from '../shared/PageHeader';
-import Panel from '../shared/Panel';
-import SearchField from '../shared/SearchField';
-import Spinner from '../shared/Spinner';
-import permissions from '../../lib/permissions';
-import { formatNumber } from '../../lib/number';
-
+import Dropdown from 'app/components/shared/Dropdown';
+import Icon from 'app/components/shared/Icon';
+import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
+import PageHeader from 'app/components/shared/PageHeader';
+import Panel from 'app/components/shared/Panel';
+import SearchField from 'app/components/shared/SearchField';
+import Spinner from 'app/components/shared/Spinner';
+import permissions from 'app/lib/permissions';
+import { formatNumber } from 'app/lib/number';
+import OrganizationMemberRoleConstants from 'app/constants/OrganizationMemberRoleConstants';
 import InvitationRow from './InvitationRow';
 import Row from './Row';
-
-import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
 
 const ORGANIZATION_ROLES = [
   { name: 'Everyone', id: null },

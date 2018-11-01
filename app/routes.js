@@ -47,8 +47,6 @@ import JobIndex from './components/job/Index';
 import BillingUpgrade from './components/billing/BillingUpgrade';
 
 import TwoFactorIndex from './components/user/TwoFactor';
-import TwoFactorConfigure from './components/user/TwoFactor/configure';
-import TwoFactorDelete from './components/user/TwoFactor/delete';
 
 import GraphQLExplorer from './components/user/graphql/GraphQLExplorer';
 import GraphQLExplorerConsole from './components/user/graphql/GraphQLExplorerConsole';
@@ -123,11 +121,13 @@ export default (
       <Route path="organizations/:organization/billing/upgrade" component={BillingUpgrade} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
       <Route path="user">
-        <Route path="two-factor">
-          <IndexRoute component={TwoFactorIndex} queries={{ viewer: ViewerQuery.query }} />
-          <Route path="configure" component={TwoFactorConfigure} queries={{ viewer: ViewerQuery.query }} />
-          <Route path="delete" component={TwoFactorDelete} queries={{ viewer: ViewerQuery.query }} />
-        </Route>
+
+        {/* $FlowExpectError */}
+        {Features.TwoFactorAuthentication ? (
+          <Route path="two-factor">
+            <IndexRoute component={TwoFactorIndex} queries={{ viewer: ViewerQuery.query }} />
+          </Route>
+        ) : null}
 
         <Route path="graphql" component={GraphQLExplorer}>
           <IndexRedirect to="console" />

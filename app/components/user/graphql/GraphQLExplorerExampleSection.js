@@ -80,6 +80,7 @@ class GraphQLExplorerExampleSection extends React.PureComponent<Props & LoadedPr
           theme="default"
           className="absolute bg-white"
           outline={true}
+          /* $FlowExpectError */
           onClick={this.handleCopyToConsoleClick}
         >
           Copy to Console

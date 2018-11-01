@@ -1,4 +1,6 @@
-import React from 'react';
+// @flow
+
+import * as React from "react";
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router';
@@ -19,7 +21,24 @@ export const OUTLINE_THEMES = {
   error: "btn-outline border-red red"
 };
 
-export default class Button extends React.PureComponent {
+
+type Props = {
+  children: React.Node,
+  className?: string,
+  link?: string,
+  href?: string,
+  outline?: boolean,
+  style?: {[string]: string | number},
+  onClick?: (event: SyntheticEvent<HTMLButtonElement | HTMLAnchorElement>) => void,
+  tabIndex?: number,
+  type?: string,
+  loading?: string | boolean,
+  iconOnly?: boolean,
+  theme: $Keys<typeof NORMAL_THEMES>,
+  disabled?: boolean
+};
+
+export default class Button extends React.PureComponent<Props> {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -66,12 +85,12 @@ export default class Button extends React.PureComponent {
 
     // Merge the "btn" class onto the props, and toggle the disabled state
     // depending on whether or not this button is in it's "loading" state.
-    const props = {
+    let props = {
       className: classNames("btn nowrap", this.props.className, themes[this.props.theme], {
         "-icon-only": this.props.iconOnly,
-        "is-disabled": !!this.props.loading
+        "is-disabled": (!!this.props.loading || this.props.disabled)
       }),
-      disabled: !!this.props.loading,
+      disabled: (!!this.props.loading || this.props.disabled),
       style: this.props.style,
       onClick: this.props.onClick,
       tabIndex: this.props.tabIndex,
@@ -90,7 +109,7 @@ export default class Button extends React.PureComponent {
       );
     }
 
-    props.href = this.props.link || this.props.href;
+    props = { ...props, href: this.props.link || this.props.href };
 
     if (props.href) {
       return (
