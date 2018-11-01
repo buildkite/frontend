@@ -13,7 +13,8 @@ class Button extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
     icon: PropTypes.string,
-    badge: PropTypes.number,
+    count: PropTypes.number,
+    badge: PropTypes.string,
     href: PropTypes.string,
     forceActive: PropTypes.bool,
     link: PropTypes.string
@@ -67,8 +68,8 @@ class Button extends React.Component {
       >
         <div className="flex-auto flex items-center">
           {this._renderIcon()}
-          <div className="flex-auto truncate">{this.props.label}</div>
-          {this._renderBadge()}
+          <div className="flex-auto truncate">{this.props.label}{this._renderBadge()}</div>
+          {this._renderCountBadge()}
         </div>
       </BaseButton>
     );
@@ -105,13 +106,23 @@ class Button extends React.Component {
   _renderBadge() {
     if (this.props.badge) {
       return (
+        <Badge outline={true}>
+          {this.props.badge}
+        </Badge>
+      );
+    }
+  }
+
+  _renderCountBadge() {
+    if (this.props.count) {
+      return (
         <Badge
           className={classNames(
             'flex-none hover-lime-child',
             { 'bg-lime': this._isActive() }
           )}
         >
-          {this.props.badge}
+          {this.props.count}
         </Badge>
       );
     }
