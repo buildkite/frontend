@@ -10,9 +10,8 @@ import Dialog from 'app/components/shared/Dialog';
 import TwoFactorConfigure from 'app/components/user/TwoFactor/TwoFactorConfigure';
 import TwoFactorDelete from 'app/components/user/TwoFactor/TwoFactorDelete';
 import { SettingsMenuFragment as SettingsMenu } from 'app/components/user/SettingsMenu';
-import RecoveryCodes from './RecoveryCodes'; // eslint-disable-line
 import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disable-line
-import RecoveryCodeDialog from './RecoveryCodes/RecoveryCodeDialog';
+import RecoveryCodes from './RecoveryCodes';
 import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
 
 function AuthenticatorUrl({ name, url }: {|name: string, url: string|}) {
@@ -157,12 +156,6 @@ class TwoFactor extends React.PureComponent<Props, State> {
                                   View
                                 </Button>
                               ) : null}
-                              {this.props.viewer.totp && this.state.recoveryCodeDialogOpen ? (
-                                <RecoveryCodeDialog
-                                  onRequestClose={this.handleRecoveryCodeDialogClose}
-                                  totp={this.props.viewer.totp}
-                                />
-                              ) : null}
                             </div>
                           </div>
                         </div>
@@ -188,6 +181,17 @@ class TwoFactor extends React.PureComponent<Props, State> {
                         onDeactivationComplete={this.handleDeactivateDialogClose}
                       />
                     </Dialog>
+                    {this.props.viewer.totp ? (
+                      <Dialog
+                        isOpen={this.state.recoveryCodeDialogOpen}
+                        width={540}
+                        onRequestClose={this.handleRecoveryCodeDialogClose}
+                      >
+                        <RecoveryCodes
+                          totp={this.props.viewer.totp}
+                        />
+                      </Dialog>
+                    ) : null}
                   </React.Fragment>
                 ) : (
                   <p>
@@ -241,7 +245,6 @@ export default createRefetchContainer(
 
       totp {
         ...RecoveryCodes_totp
-        ...RecoveryCodeDialog_totp
 
         id
         recoveryCodes {

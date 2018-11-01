@@ -134,7 +134,6 @@ class TwoFactorConfigure extends React.Component<Props, State> {
             onNextStep={this.handleNextStep}
             recoveryCodes={this.recoveryCodes}
             onCreateNewTotp={this.handleCreateNewTotp}
-            onRegenerateRecoveryCodes={this.handleRegenerateRecoveryCodes}
             hasActivatedTotp={this.hasActivatedTotp}
           />
         );
@@ -191,32 +190,6 @@ class TwoFactorConfigure extends React.Component<Props, State> {
         });
       }
     });
-  }
-
-  handleRegenerateRecoveryCodes = (callback?: () => void) => {
-    if (this.state.newTotpConfig) {
-      commitMutation(this.props.relay.environment, {
-        mutation: graphql`
-          mutation TwoFactorConfigureRecoveryCodeRegenerateMutation($input: TOTPRecoveryCodesRegenerateInput!) {
-            totpRecoveryCodesRegenerate(input: $input) {
-              totp {
-                id
-              }
-            }
-          }
-        `,
-        variables: { input: { totpId: this.state.newTotpConfig.totp.id } },
-        onCompleted: ({ totpRecoveryCodesRegenerate: { totp } }) => {
-          this.refetchTotpById(totp.id).then(({ viewer: { totp } }) => {
-            this.setState({ newTotpConfig: { ...this.state.newTotpConfig, totp } }, () => {
-              if (callback) {
-                callback();
-              }
-            });
-          });
-        }
-      });
-    }
   }
 
   handleActivateOtp = (token: string, callback?: (errors: *) => void) => {

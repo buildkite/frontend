@@ -12,7 +12,6 @@ import type {
 
 type Props = {
   onCreateNewTotp: (callback?: () => void) => void,
-  onRegenerateRecoveryCodes: (callback?: () => void) => void,
   onNextStep: () => void,
   recoveryCodes: recoveryCodes,
   hasActivatedTotp: boolean
@@ -60,16 +59,6 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
                   {this.state.didCopyRecoveryCodes ? 'Copied!' : 'Copy'}
                 </Button>
               </CopyToClipboard>
-              {this.props.hasActivatedTotp ? (
-                <Button
-                  theme="success"
-                  outline={true}
-                  disabled={this.state.isLoading}
-                  onClick={this.handleRegenerateRecoveryCode}
-                >
-                  Regenerate
-                </Button>
-              ) : null}
             </div>
             <RecoveryCodeList
               recoveryCodes={this.props.recoveryCodes}
@@ -87,14 +76,6 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
         </Button>
       </React.Fragment>
     );
-  }
-
-  handleRegenerateRecoveryCode = () => {
-    this.setState({ isLoading: true }, () => {
-      this.props.onRegenerateRecoveryCodes(() => {
-        this.setState({ isLoading: false });
-      });
-    });
   }
 
   recoveryCodeText = () => {
