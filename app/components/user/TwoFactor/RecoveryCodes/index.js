@@ -6,12 +6,12 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Button from 'app/components/shared/Button';
 import Panel from 'app/components/shared/Panel';
 import RecoveryCodeList from 'app/components/RecoveryCodeList';
-import type { CurrentRecoveryCodes_totp } from './__generated__/CurrentRecoveryCodes_totp.graphql';
+import type { RecoveryCodes_totp } from './__generated__/RecoveryCodes_totp.graphql';
 import type { RelayProp } from 'react-relay';
 
 type Props = {
   relay: RelayProp,
-  totp: CurrentRecoveryCodes_totp
+  totp: RecoveryCodes_totp
 };
 
 type State = {
@@ -19,16 +19,16 @@ type State = {
   generatingNewCodes: boolean
 };
 
-type RecoveryCodes = $PropertyType<CurrentRecoveryCodes_totp, 'recoveryCodes'>;
+type TOTPRecoveryCodes = $PropertyType<RecoveryCodes_totp, 'recoveryCodes'>;
 
-function recoveryCodeText(recoveryCodes: RecoveryCodes): ?string {
+function recoveryCodeText(recoveryCodes: TOTPRecoveryCodes): ?string {
   if (recoveryCodes && recoveryCodes.codes) {
     return recoveryCodes.codes.reduce((memo, { code }) => memo.concat(code), []).join('\n');
   }
   return '';
 }
 
-class CurrentRecoveryCodes extends React.PureComponent<Props, State> {
+class RecoveryCodes extends React.PureComponent<Props, State> {
   state = {
     copiedRecoveryCodes: false,
     generatingNewCodes: false
@@ -86,7 +86,7 @@ class CurrentRecoveryCodes extends React.PureComponent<Props, State> {
 
     commitMutation(this.props.relay.environment, {
       mutation: graphql`
-          mutation CurrentRecoveryCodesRegenerateMutation($input: TOTPRecoveryCodesRegenerateInput!) {
+          mutation RecoveryCodesRegenerateMutation($input: TOTPRecoveryCodesRegenerateInput!) {
             totpRecoveryCodesRegenerate(input: $input) {
               totp {
                 id
@@ -112,9 +112,9 @@ class CurrentRecoveryCodes extends React.PureComponent<Props, State> {
   }
 }
 
-export default createFragmentContainer(CurrentRecoveryCodes, {
+export default createFragmentContainer(RecoveryCodes, {
   totp: graphql`
-    fragment CurrentRecoveryCodes_totp on TOTP {
+    fragment RecoveryCodes_totp on TOTP {
       id
       recoveryCodes {
         id
