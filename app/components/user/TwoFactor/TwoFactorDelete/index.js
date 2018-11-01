@@ -4,7 +4,6 @@ import React from "react";
 import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
 import GraphQLErrors from 'app/constants/GraphQLErrors';
 import Button from 'app/components/shared/Button';
-import PageHeader from "app/components/shared/PageHeader";
 import type { TwoFactorDelete_viewer } from './__generated__/TwoFactorDelete_viewer.graphql';
 import type { RelayProp } from 'react-relay';
 
@@ -26,12 +25,8 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
 
   render() {
     return (
-      <div className="p3">
-        <PageHeader>
-          <PageHeader.Title>
-            Deactivate Two-Factor Authentication
-          </PageHeader.Title>
-        </PageHeader>
+      <div className="p4">
+        <h1 className="m0 h2 semi-bold mb3">Deactivate Two-Factor Authentication</h1>
         <div>
           {this.renderCurrentStatus()}
         </div>
@@ -45,7 +40,7 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
         <p>We recommend keeping two-factor authentication active to help secure your account.</p>
         <p>You may reconfigure two-factor authentication at any time.</p>
         <Button
-          className="col-12"
+          className="col-12 mt2"
           theme="error"
           outline={true}
           onClick={this.handleDeleteClick}
