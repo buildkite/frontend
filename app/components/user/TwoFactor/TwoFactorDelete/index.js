@@ -26,7 +26,7 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
   render() {
     return (
       <div className="p4">
-        <h1 class="m0 h2 semi-bold mb3">Deactivate Two-Factor Authentication</h1>
+        <h1 className="m0 h2 semi-bold mb3">Deactivate Two-Factor Authentication</h1>
         <div>
           {this.renderCurrentStatus()}
         </div>
