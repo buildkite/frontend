@@ -32,7 +32,7 @@ type Props = {
 class RecoveryCodeList extends React.PureComponent<Props> {
   render() {
     return (
-      <div className="flex justify-center items-center" style={{ minHeight: "360px" }}>
+      <div className="flex justify-center items-center" style={{ minHeight: "310px" }}>
         {this.props.isLoading ? <Spinner /> : (
           <List className="list-reset center p4">
             {(this.props.recoveryCodes && this.props.recoveryCodes.codes) ? (
