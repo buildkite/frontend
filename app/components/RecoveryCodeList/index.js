@@ -2,8 +2,11 @@
 
 import React from "react";
 import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import styled from 'styled-components';
+import saveAs from 'file-saver';
 import Spinner from 'app/components/shared/Spinner';
+import Button from 'app/components/shared/Button';
 import type { RecoveryCodeList_recoveryCodes } from './__generated__/RecoveryCodeList_recoveryCodes.graphql';
 
 const List = styled.ul`
@@ -29,12 +32,44 @@ type Props = {
   recoveryCodes: ?RecoveryCodeList_recoveryCodes
 };
 
-class RecoveryCodeList extends React.PureComponent<Props> {
+type State = {
+  copied: boolean
+};
+
+function recoveryCodeText(recoveryCodes: ?RecoveryCodeList_recoveryCodes): ?string {
+  if (recoveryCodes && recoveryCodes.codes) {
+    return recoveryCodes.codes.reduce((memo, { code }) => memo.concat(code), []).join('\n');
+  }
+  return '';
+}
+
+let saveFileSupported;
+try {
+  saveFileSupported = !!new Blob;
+} catch (exception) {
+  // empty
+}
+
+class RecoveryCodeList extends React.PureComponent<Props, State> {
+  state = {
+    copied: false
+  }
+
   render() {
     return (
-      <div className="flex justify-center items-center" style={{ minHeight: "310px" }}>
-        {this.props.isLoading ? <Spinner /> : (
-          <List className="list-reset center p4">
+      <div className="border border-gray rounded flex items-center justify-center" style={{ minHeight: 330 }}>
+        {this.props.isLoading ? (
+          <Spinner />
+        ) : this.renderCodes()}
+      </div>
+    );
+  }
+
+  renderCodes() {
+    return (
+      <div className="flex-auto">
+        <div className="flex justify-center items-center">
+          <List className="list-reset center">
             {(this.props.recoveryCodes && this.props.recoveryCodes.codes) ? (
               this.props.recoveryCodes.codes.map(({ code, consumed }) => (
                 <ListItem key={code}>
@@ -47,9 +82,49 @@ class RecoveryCodeList extends React.PureComponent<Props> {
               ))
             ) : null}
           </List>
-        )}
+        </div>
+
+        <div className="flex justify-center border-top border-gray p2">
+          <CopyToClipboard
+            text={recoveryCodeText(this.props.recoveryCodes)}
+            onCopy={this.handleRecoveryCodeCopy}
+          >
+            <Button outline={true} theme="default" disabled={this.state.copied}>
+              {this.state.copied
+                ? 'Copied to Clipboard!'
+                : 'Copy to Clipboard'}
+            </Button>
+          </CopyToClipboard>
+
+          {saveFileSupported ? (
+            <Button
+              outline={true}
+              theme="default"
+              className="ml2"
+              onClick={this.handleRecoveryCodeDownload}
+            >
+              Download
+            </Button>
+          ) : null}
+        </div>
       </div>
     );
+  }
+
+  handleRecoveryCodeCopy = (_text, result) => {
+    if (!result) {
+      alert('We couldnʼt put this on your clipboard for you, please copy it manually!');
+    }
+    this.setState({ copied: true });
+    setTimeout(() => {
+      this.setState({ copied: false });
+    }, 1000);
+  };
+
+  handleRecoveryCodeDownload = () => {
+    const blob = new Blob([recoveryCodeText(this.props.recoveryCodes)], { type: "text/plain;charset=utf-8" });
+
+    saveAs(blob, "Buildkite Recovery Codes.txt");
   }
 }
 

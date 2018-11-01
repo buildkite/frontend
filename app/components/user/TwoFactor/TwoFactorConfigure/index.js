@@ -3,7 +3,7 @@
 import * as React from "react";
 import { createRefetchContainer, graphql, fetchQuery, commitMutation } from 'react-relay/compat';
 import GraphQLErrors from 'app/constants/GraphQLErrors';
-import PageHeader from "app/components/shared/PageHeader";
+import Icon from "app/components/shared/Icon";
 import WorkflowProgress from "app/components/shared/WorkflowProgress";
 import TwoFactorConfigureRecoveryCodes from './TwoFactorConfigureRecoveryCodes';
 import TwoFactorConfigureActivate from './TwoFactorConfigureActivate';
@@ -87,9 +87,9 @@ class TwoFactorConfigure extends React.Component<Props, State> {
 
   getStepTitle(): string {
     if (this.state.step === STEPS.RECOVERY_CODES) {
-      return 'Recovery Codes';
+      return 'Step 1: Save Recovery Codes';
     }
-    return 'Activate Authenticator Application';
+    return 'Step 2: Configure Authenticator Application';
   }
 
   componentWillUnmount() {
@@ -108,22 +108,36 @@ class TwoFactorConfigure extends React.Component<Props, State> {
   render() {
     return (
       <div className="p4">
-        <PageHeader>
-          <PageHeader.Title>
-            {this.getStepTitle()}
-          </PageHeader.Title>
-          <PageHeader.Menu>
-            <WorkflowProgress
-              stepCount={this.steps.length}
-              currentStepIndex={this.currentStepIndex(this.state.step)}
-            />
-          </PageHeader.Menu>
-        </PageHeader>
+        {this.renderReconfigureNotice()}
+        <div className="flex items-top mb3">
+          <div className="flex-auto">
+            <div className="flex">
+              <Icon icon="two-factor" className="mr1" />
+              <h1 className="m0 h2 semi-bold">{this.hasActivatedTotp ? "Reconfigure" : "Setup"} Two-Factor Authentication</h1>
+            </div>
+            <h2 className="m0 mt3 h4 bold mb5">{this.getStepTitle()}</h2>
+          </div>
+          <WorkflowProgress
+            stepCount={this.steps.length}
+            currentStepIndex={this.currentStepIndex(this.state.step)}
+          />
+        </div>
         <div>
           {this.renderCurrentStep()}
         </div>
       </div>
     );
+  }
+
+  renderReconfigureNotice() {
+    if (this.state.step === STEPS.RECOVERY_CODES && this.hasActivatedTotp) {
+      return (
+        <div className="mb4 border orange rounded border-orange p3">
+          <div className="bold">Youʼre about to reconfigure two-factor authentication.</div>
+          <div>This will invalidate your existing configuration and recovery codes.</div>
+        </div>
+      );
+    }
   }
 
   renderCurrentStep() {
@@ -134,7 +148,6 @@ class TwoFactorConfigure extends React.Component<Props, State> {
             onNextStep={this.handleNextStep}
             recoveryCodes={this.recoveryCodes}
             onCreateNewTotp={this.handleCreateNewTotp}
-            hasActivatedTotp={this.hasActivatedTotp}
           />
         );
       case STEPS.ACTIVATE_TOTP:

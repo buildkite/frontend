@@ -1,9 +1,7 @@
 // @flow
 
 import * as React from "react";
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
-import Panel from 'app/components/shared/Panel';
 import Button from 'app/components/shared/Button';
 import RecoveryCodeList from 'app/components/RecoveryCodeList';
 import type {
@@ -13,18 +11,15 @@ import type {
 type Props = {
   onCreateNewTotp: (callback?: () => void) => void,
   onNextStep: () => void,
-  recoveryCodes: recoveryCodes,
-  hasActivatedTotp: boolean
+  recoveryCodes: recoveryCodes
 };
 
 type State = {
-  isLoading: boolean,
-  didCopyRecoveryCodes: boolean
+  isLoading: boolean
 };
 
 class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> {
   state = {
-    didCopyRecoveryCodes: false,
     isLoading: true
   }
 
@@ -37,36 +32,14 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
   render() {
     return (
       <React.Fragment>
-        <p>
-          Recovery codes are the only way to get access to your account if you lose access to your authenticator application.
-        </p>
-        <Panel className="mb3 orange border-orange">
-          <Panel.Section>
-            <div>
-              {this.props.hasActivatedTotp ? this.renderReconfigure() : this.renderConfigure()}
-            </div>
-          </Panel.Section>
-        </Panel>
-        <Panel className="mb3">
-          <Panel.Section>
-            <div className="flex justify-between">
-              <CopyToClipboard text={this.recoveryCodeText()} onCopy={this.handleRecoveryCodeCopy}>
-                <Button
-                  theme="success"
-                  disabled={this.state.isLoading}
-                >
-                  {this.state.didCopyRecoveryCodes ? 'Copied!' : 'Copy'}
-                </Button>
-              </CopyToClipboard>
-            </div>
-            <RecoveryCodeList
-              recoveryCodes={this.props.recoveryCodes}
-              isLoading={this.state.isLoading}
-            />
-          </Panel.Section>
-        </Panel>
+        <p>Recovery codes are the only way to login to your account if you lose access to your authenticator application.</p>
+        <p>They should be treated like your password, so we suggest saving them in a secure password manager, or printing them and storing them somewhere safe.</p>
+        <RecoveryCodeList
+          recoveryCodes={this.props.recoveryCodes}
+          isLoading={this.state.isLoading}
+        />
         <Button
-          className="col-12"
+          className="col-12 mt3"
           disabled={this.state.isLoading}
           theme="success"
           onClick={this.props.onNextStep}
@@ -82,14 +55,6 @@ class TwoFactorConfigureRecoveryCodes extends React.PureComponent<Props, State> 
       return '';
     }
     return this.props.recoveryCodes.codes.map(({ code }) => code).join('\n');
-  }
-
-  handleRecoveryCodeCopy = (_text: string, result: boolean) => {
-    if (!result) {
-      alert('We couldnʼt put this on your clipboard for you, please copy it manually!');
-      return;
-    }
-    this.setState({ didCopyRecoveryCodes: true });
   }
 
   renderReconfigure = () => {

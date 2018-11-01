@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from "react";
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import QRCode from 'qrcode.react';
 import { parseUrl } from 'query-string';
 import ValidationErrors from 'app/lib/ValidationErrors';
@@ -16,7 +15,6 @@ type ValidationError = {
 };
 
 type Props = {
-  hasActivatedTotp: boolean,
   onActivateOtp: (token: string, callback?: () => void) => void,
   provisioningUri: string
 };
@@ -49,12 +47,11 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
     return (
       <React.Fragment>
         <p>
-          To {this.props.hasActivatedTotp ? 'reconfigure' : 'activate'} two-factor authentication, scan this
-          QR Code with your authenticator application, then enter the generated One Time Password below.
+          To activate two-factor authentication, scan this barcode with your authenticator application, then enter the generated One Time Password below.
         </p>
         <Panel className="mb3">
-          <Panel.Section>
-            <div className="flex justify-center items-center" style={{ minHeight: "300px" }}>
+          <div className="flex justify-center items-center">
+            <div className="mt1 mb3">
               <figure style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img style={{ position: 'absolute' }} src={buildkiteqr} />
                 <QRCode
@@ -63,40 +60,17 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
                   bgColor="transparent"
                   width="260"
                   height="260"
-                  className="block my4 mx-auto"
+                  className="block mx-auto"
                   level="H" // approx 30% error correction
                   style={{ maxWidth: '100%' }}
                   value={this.props.provisioningUri}
                 />
               </figure>
-            </div>
-          </Panel.Section>
-          <Panel.Section>
-            <div>
-              <strong>Secret Key</strong>
-            </div>
-            <div className="dark-gray mb1">
-              Can’t use the QR code? You can use this secret key instead.
-            </div>
-            <div className="flex">
-              <div className="input mr2 monospace" style={{ lineHeight: 1.8 }}>
-                {provisioningUriSecret}
+              <div className="dark-gray center mt2">
+                Can’t use the barcode?<br />Type in this secret key instead: <span className="monospace rounded" style={{ fontSize: 13 }}>{provisioningUriSecret}</span>
               </div>
-              <CopyToClipboard
-                text={provisioningUriSecret}
-                onCopy={this.handleOTPSecretCopy}
-              >
-                <Button
-                  theme="default"
-                  outline={true}
-                  loading={this.state.copiedOTPSecretKey && "Copied!"}
-                  disabled={this.state.copiedOTPSecretKey}
-                >
-                  Copy
-                </Button>
-              </CopyToClipboard>
             </div>
-          </Panel.Section>
+          </div>
         </Panel>
         <div className="py3 mb3">
           <TokenCodeInput
@@ -139,12 +113,4 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
       });
     });
   }
-
-  handleOTPSecretCopy = (_text: string, result: boolean) => {
-    if (!result) {
-      alert('We couldnʼt copy this to your clipboard, please copy it manually!');
-      return;
-    }
-    this.setState({ copiedOTPSecretKey: true });
-  };
 }

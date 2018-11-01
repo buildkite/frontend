@@ -134,7 +134,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                       <Panel.Section>
                         <header className="mb1 flex align-center">
                           <ActiveStateBadge active={this.hasTotp()} />
-                          <h3 className="h3 m0">Recovery Code</h3>
+                          <h3 className="h3 m0">Recovery Codes</h3>
                           {this.hasTotp() ? <span className="ml3">{this.recoveryCodesRemaining} remaining</span> : null}
                         </header>
                         <div>
@@ -162,7 +162,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                     </Panel>
                     <Dialog
                       isOpen={this.state.configureDialogOpen}
-                      width={600}
+                      width={570}
                       onRequestClose={this.handleConfigureDialogClose}
                     >
                       <TwoFactorConfigure
@@ -183,7 +183,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                     {this.props.viewer.totp ? (
                       <Dialog
                         isOpen={this.state.recoveryCodeDialogOpen}
-                        width={540}
+                        width={570}
                         onRequestClose={this.handleRecoveryCodeDialogClose}
                       >
                         <RecoveryCodes
