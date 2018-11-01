@@ -197,11 +197,11 @@ class TwoFactor extends React.PureComponent<Props, State> {
       <DocumentTitle title="Two-Factor Authentication">
         <React.Fragment>
           <div className="container">
-            <div className="clearfix">
-              <div className="col col-3 pr3">
+            <div className="clearfix mxn2">
+              <div className="md-col md-col-3 px2">
                 <SettingsMenu viewer={this.props.viewer} />
               </div>
-              <div className="col col-9 pl3">
+              <div className="md-col md-col-9 px2">
                 <PageHeader>
                   <PageHeader.Icon>
                     <Icon
