@@ -26,7 +26,7 @@ class RecoveryCodes extends React.PureComponent<Props, State> {
   render() {
     return (
       <div className="p4">
-        <h2 className="m0 h2 semi-bold mb5">Current Recovery Codes</h2>
+        <h2 className="m0 h2 semi-bold mb5">Recovery Codes</h2>
         <p>Recovery codes are the only way to get access to your account if you lose access to your authenticator application.</p>
         <p>Recovery codes should be treated like your password. We suggest saving them in a secure password manager, or printing them and storing them somewhere safe.</p>
         <RecoveryCodeList
