@@ -36,9 +36,7 @@ type State = {
   copied: boolean
 };
 
-type TOTPRecoveryCodes = $PropertyType<RecoveryCodes_totp, 'recoveryCodes'>;
-
-function recoveryCodeText(recoveryCodes: TOTPRecoveryCodes): ?string {
+function recoveryCodeText(recoveryCodes: ?RecoveryCodeList_recoveryCodes): ?string {
   if (recoveryCodes && recoveryCodes.codes) {
     return recoveryCodes.codes.reduce((memo, { code }) => memo.concat(code), []).join('\n');
   }
