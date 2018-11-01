@@ -4,7 +4,6 @@ import React from "react";
 import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import styled from 'styled-components';
-import saveAs from 'file-saver';
 import Spinner from 'app/components/shared/Spinner';
 import Button from 'app/components/shared/Button';
 import type { RecoveryCodeList_recoveryCodes } from './__generated__/RecoveryCodeList_recoveryCodes.graphql';
@@ -124,7 +123,11 @@ class RecoveryCodeList extends React.PureComponent<Props, State> {
   handleRecoveryCodeDownload = () => {
     const blob = new Blob([recoveryCodeText(this.props.recoveryCodes)], { type: "text/plain;charset=utf-8" });
 
-    saveAs(blob, "Buildkite Recovery Codes.txt");
+    const anchor = document.createElement('a');
+    anchor.download = "bk-codes.txt";
+    anchor.href = (window.webkitURL || window.URL).createObjectURL(blob);
+    anchor.dataset.downloadurl = ['text/plain', anchor.download, anchor.href].join(':');
+    anchor.click();
   }
 }
 
