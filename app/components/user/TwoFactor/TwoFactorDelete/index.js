@@ -29,7 +29,7 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
       <div className="p3">
         <PageHeader>
           <PageHeader.Title>
-            Deactivate Two-factor Authentication
+            Deactivate Two-Factor Authentication
           </PageHeader.Title>
         </PageHeader>
         <div>
@@ -51,7 +51,7 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
           onClick={this.handleDeleteClick}
           loading={this.state.deletingTOTP && "Deactivating two-factor authentication…"}
         >
-          Deactivate Two-factor Authentication
+          Deactivate Two-Factor Authentication
         </Button>
       </React.Fragment>
     );

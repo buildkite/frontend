@@ -25,7 +25,7 @@ export default class SettingsMenu extends React.Component<Props> {
             <Menu.Button
               icon="two-factor"
               href="/user/two-factor"
-              label="Two-factor Authentication"
+              label="Two-Factor Authentication"
             />
           ) : null}
           <Menu.Button
