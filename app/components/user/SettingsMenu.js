@@ -20,14 +20,11 @@ export default class SettingsMenu extends React.Component<Props> {
             href="/user/settings"
             label="Profile & Password"
           />
-          {/* $FlowExpectError */}
-          {Features.TwoFactorAuthentication ? (
-            <Menu.Button
-              icon="two-factor"
-              href="/user/two-factor"
-              label="Two-Factor Authentication"
-            />
-          ) : null}
+          <Menu.Button
+            icon="two-factor"
+            href="/user/two-factor"
+            label="Two-Factor Authentication"
+          />
           <Menu.Button
             icon="emails"
             href="/user/emails"
