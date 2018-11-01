@@ -1,82 +1,129 @@
 // @flow
 
 import * as React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Button from 'app/components/shared/Button';
 import Panel from 'app/components/shared/Panel';
-import RecoveryCodeDialog from './RecoveryCodeDialog';
-import type { RecoveryCodes_totp } from './__generated__/RecoveryCodes_totp.graphql';
+import RecoveryCodeList from 'app/components/RecoveryCodeList';
+import type { CurrentRecoveryCodes_totp } from './__generated__/CurrentRecoveryCodes_totp.graphql';
+import type { RelayProp } from 'react-relay';
 
 type Props = {
-  totp: RecoveryCodes_totp
+  relay: RelayProp,
+  totp: CurrentRecoveryCodes_totp
 };
 
 type State = {
-  dialogOpen: boolean
+  copiedRecoveryCodes: boolean,
+  generatingNewCodes: boolean
 };
 
-class RecoveryCodes extends React.PureComponent<Props, State> {
+type RecoveryCodes = $PropertyType<CurrentRecoveryCodes_totp, 'recoveryCodes'>;
+
+function recoveryCodeText(recoveryCodes: RecoveryCodes): ?string {
+  if (recoveryCodes && recoveryCodes.codes) {
+    return recoveryCodes.codes.reduce((memo, { code }) => memo.concat(code), []).join('\n');
+  }
+  return '';
+}
+
+class CurrentRecoveryCodes extends React.PureComponent<Props, State> {
   state = {
-    dialogOpen: false
-  };
+    copiedRecoveryCodes: false,
+    generatingNewCodes: false
+  }
 
   render() {
     return (
-      <Panel className="mb4">
-        <Panel.Header>
-          Recovery Codes
-        </Panel.Header>
-        <Panel.Section>
-          {this.props.totp ? (
-            <React.Fragment>
-              <p>
-                Recovery codes will give access to your account if you lose access to your device and cannot
-                retrieve two-factor authentication codes.
-              </p>
-              <p>
-                Buildkite support cannot restore access to accounts with two-factor authentication enabled for security reasons.
-                {' '}
-                <strong>Keep your recovery codes in a safe place to ensure you are not locked out of your account.</strong>
-              </p>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <p>
-                You donʼt currently have any recovery codes; this probably means you activated two-factor
-                authentication during the earliest beta, nice work!
-              </p>
-            </React.Fragment>
-          )}
-        </Panel.Section>
-        <Panel.Footer>
-          <Button onClick={this.handleOpenDialogClick}>
-            {this.props.totp ? 'View' : 'Generate'} recovery codes
-          </Button>
-          {this.state.dialogOpen ? (
-            <RecoveryCodeDialog
-              onRequestClose={this.handleDialogClose}
-              totp={this.props.totp}
+      <div className="p4">
+        <h2 className="m0 h2 semi-bold mb5">Current Recovery Codes</h2>
+        <p>Recovery codes are used if you lose access to your code generator.</p>
+        <p>These codes should be treated just like your password. Weʼd suggest saving them into a secure password manager.</p>
+        <Panel className="mb3">
+          <Panel.Section>
+            <CopyToClipboard
+              text={recoveryCodeText(this.props.totp.recoveryCodes)}
+              onCopy={this.handleRecoveryCodeCopy}
+            >
+              <Button theme="default" outline={true}>
+                {this.state.copiedRecoveryCodes
+                  ? 'Copied!'
+                  : 'Copy'}
+              </Button>
+            </CopyToClipboard>
+            <RecoveryCodeList
+              recoveryCodes={this.props.totp.recoveryCodes}
+              isLoading={this.state.generatingNewCodes}
             />
-          ) : null}
-        </Panel.Footer>
-      </Panel>
+          </Panel.Section>
+        </Panel>
+        <h2 className="m0 h4 semi-bold mb5">Generate New Recovery Codes</h2>
+        <p>When you generate new recovery codes, your current codes will be removed. Please ensure you copy your new recovery codes after they’ve been generated.</p>
+        <Button
+          className="col-12"
+          theme="warning"
+          outline={true}
+          onClick={this.handleRegenerateRecoveryCodes}
+          loading={this.state.generatingNewCodes && "Generating New Recovery Codes…"}
+          disabled={this.state.generatingNewCodes}
+        >
+          Generate New Recovery Codes
+        </Button>
+      </div>
     );
   }
 
-  handleOpenDialogClick = () => {
-    this.setState({ dialogOpen: true });
-  }
+  handleRecoveryCodeCopy = (_text, result) => {
+    if (!result) {
+      alert('We couldnʼt put this on your clipboard for you, please copy it manually!');
+    }
+    this.setState({ copiedRecoveryCodes: true });
+  };
 
-  handleDialogClose = () => {
-    this.setState({ dialogOpen: false });
+  handleRegenerateRecoveryCodes = () => {
+    this.setState({ generatingNewCodes: true });
+
+    commitMutation(this.props.relay.environment, {
+      mutation: graphql`
+          mutation CurrentRecoveryCodesRegenerateMutation($input: TOTPRecoveryCodesRegenerateInput!) {
+            totpRecoveryCodesRegenerate(input: $input) {
+              totp {
+                id
+                recoveryCodes {
+                  id
+                  codes {
+                    code
+                    consumed
+                  }
+                }
+              }
+            }
+          }
+        `,
+      variables: { input: { totpId: this.props.totp.id } },
+      onCompleted: () => {
+        this.setState({ generatingNewCodes: false });
+      },
+      onError: (error) => {
+        alert(error);
+      }
+    });
   }
 }
 
-export default createFragmentContainer(RecoveryCodes, {
+export default createFragmentContainer(CurrentRecoveryCodes, {
   totp: graphql`
-    fragment RecoveryCodes_totp on TOTP {
+    fragment CurrentRecoveryCodes_totp on TOTP {
       id
-      ...RecoveryCodeDialog_totp
+      recoveryCodes {
+        id
+        ...RecoveryCodeList_recoveryCodes
+        codes {
+          code
+          consumed
+        }
+      }
     }
   `
 });
