@@ -3,7 +3,7 @@
 import * as React from "react";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import QRCode from 'qrcode.react';
-import styled from 'styled-components';
+import { parseUrl } from 'query-string';
 import ValidationErrors from 'app/lib/ValidationErrors';
 import Panel from 'app/components/shared/Panel';
 import Button from 'app/components/shared/Button';
@@ -25,15 +25,8 @@ type State = {
   errors: ?Array<ValidationError>,
   isActivating: boolean,
   totpCodeValue: string,
-  copiedProvisioningUri: boolean
+  copiedOTPSecretKey: boolean
 };
-
-const ProvisioningUri = styled.div`
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  line-height: 1.8;
-`;
 
 export default class TwoFactorConfigureActivate extends React.PureComponent<Props, State> {
   tokenInputRef: React.Ref<typeof TokenCodeInput>;
@@ -41,7 +34,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
     errors: [],
     isActivating: false,
     totpCodeValue: '',
-    copiedProvisioningUri: false
+    copiedOTPSecretKey: false
   };
 
   constructor(props: Props) {
@@ -51,6 +44,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
 
   render() {
     const errors = new ValidationErrors(this.state.errors);
+    const provisioningUriSecret = parseUrl(this.props.provisioningUri).query.secret;
 
     return (
       <React.Fragment>
@@ -78,25 +72,30 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
             </div>
           </Panel.Section>
           <Panel.Section>
-            <div className="mb1">
-              <strong>Provisioning URI</strong>
+            <div>
+              <strong>Secret Key</strong>
+            </div>
+            <div className="dark-gray mb1">
+              Can’t use the QR code? You can use this secret key instead.
             </div>
             <div className="flex">
-              <ProvisioningUri className="input mr2 monospace">
-                {this.props.provisioningUri}
-              </ProvisioningUri>
+              <div className="input mr2 monospace" style={{ lineHeight: 1.8 }}>
+                {provisioningUriSecret}
+              </div>
               <CopyToClipboard
-                text={this.props.provisioningUri}
-                onCopy={this.handleProvisioningUriCopy}
+                text={provisioningUriSecret}
+                onCopy={this.handleOTPSecretCopy}
               >
-                <Button theme="default" outline={true}>
+                <Button
+                  theme="default"
+                  outline={true}
+                  loading={this.state.copiedOTPSecretKey && "Copied!"}
+                  disabled={this.state.copiedOTPSecretKey}
+                >
                   Copy
                 </Button>
               </CopyToClipboard>
             </div>
-            <small className="dark-gray">
-              You can use this OTP provisioning URI to manually configure your Authenticator.
-            </small>
           </Panel.Section>
         </Panel>
         <div className="py3 mb3">
@@ -141,11 +140,11 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
     });
   }
 
-  handleProvisioningUriCopy = (_text: string, result: boolean) => {
+  handleOTPSecretCopy = (_text: string, result: boolean) => {
     if (!result) {
-      alert('We couldnʼt put this on your clipboard for you, please copy it manually!');
+      alert('We couldnʼt copy this to your clipboard, please copy it manually!');
       return;
     }
-    this.setState({ copiedProvisioningUri: true });
+    this.setState({ copiedOTPSecretKey: true });
   };
 }
