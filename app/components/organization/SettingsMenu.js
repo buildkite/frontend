@@ -88,7 +88,7 @@ class SettingsMenu extends React.Component {
             key={idx}
             icon="users"
             link={`/organizations/${this.props.organization.slug}/users`}
-            badge={this.calculateUsersCount()}
+            count={this.calculateUsersCount()}
             label="Users"
           />
         )
@@ -103,7 +103,7 @@ class SettingsMenu extends React.Component {
             key={idx}
             icon="teams"
             link={`/organizations/${this.props.organization.slug}/teams`}
-            badge={this.props.organization.teams && this.props.organization.teams.count}
+            count={this.props.organization.teams && this.props.organization.teams.count}
             label="Teams"
           />
         )
