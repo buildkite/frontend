@@ -67,7 +67,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
                 />
               </figure>
               <div className="dark-gray center mt2">
-                Can’t use the barcode?<br />Type in this secret key instead: <span className="monospace rounded" style={{ fontSize: 13 }}>{provisioningUriSecret}</span>
+                Can’t use the barcode?<br />You can use this secret key instead: <span className="monospace rounded" style={{ fontSize: 13 }}>{provisioningUriSecret}</span>
               </div>
             </div>
           </div>

@@ -42,7 +42,6 @@ class TwoFactorDelete extends React.PureComponent<Props, State> {
         <Button
           className="col-12 mt2"
           theme="error"
-          outline={true}
           onClick={this.handleDeleteClick}
           loading={this.state.deletingTOTP && "Deactivating two-factor authentication…"}
         >

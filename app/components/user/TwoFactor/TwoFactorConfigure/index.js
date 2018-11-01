@@ -3,7 +3,6 @@
 import * as React from "react";
 import { createRefetchContainer, graphql, fetchQuery, commitMutation } from 'react-relay/compat';
 import GraphQLErrors from 'app/constants/GraphQLErrors';
-import Icon from "app/components/shared/Icon";
 import WorkflowProgress from "app/components/shared/WorkflowProgress";
 import TwoFactorConfigureRecoveryCodes from './TwoFactorConfigureRecoveryCodes';
 import TwoFactorConfigureActivate from './TwoFactorConfigureActivate';
@@ -24,7 +23,6 @@ const STEPS = {
 type StepType = $Keys<typeof STEPS>;
 type TotpType = $PropertyType<TotpType, 'totp'>;
 type RecoveryCodesType = $PropertyType<TotpType, 'recoveryCodes'>;
-
 
 function getNextStep(currentStep: StepType): ?StepType {
   switch (currentStep) {
@@ -87,7 +85,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
 
   getStepTitle(): string {
     if (this.state.step === STEPS.RECOVERY_CODES) {
-      return 'Step 1: Save Recovery Codes';
+      return 'Step 1: Store Recovery Codes';
     }
     return 'Step 2: Configure Authenticator Application';
   }
@@ -112,7 +110,6 @@ class TwoFactorConfigure extends React.Component<Props, State> {
         <div className="flex items-top mb3">
           <div className="flex-auto">
             <div className="flex">
-              <Icon icon="two-factor" className="mr1" />
               <h1 className="m0 h2 semi-bold">{this.hasActivatedTotp ? "Reconfigure" : "Setup"} Two-Factor Authentication</h1>
             </div>
             <h2 className="m0 mt3 h4 bold mb5">{this.getStepTitle()}</h2>
