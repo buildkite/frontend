@@ -57,7 +57,7 @@ export default class SettingsMenu extends React.Component<Props> {
             key={org.node.slug}
             href={`/organizations/${org.node.slug}/settings`}
             label={org.node.name}
-            badge={!org.node.permissions.pipelineView.allowed && org.node.permissions.pipelineView.code == "sso_authorization_required" && "SSO"}
+            badge={!org.node.permissions.pipelineView.allowed && org.node.permissions.pipelineView.code === "sso_authorization_required" && "SSO"}
           />
         ) : null);
       }, []).filter(Boolean);
