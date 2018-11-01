@@ -108,8 +108,8 @@ class TwoFactor extends React.PureComponent<Props, State> {
                           <div className="flex">
                             <div className="flex-auto pr3 mr3">
                               <p className="m0">
-                                Authenticator Applications generate automatically refreshing, single use One Time
-                                Passwords (OTPs). Some reliable Authenticator Applications include {AUTHENTICATOR_LIST}.
+                                Authenticator applications generate single use One Time Passwords (OTPs).
+                                Recommended authenticator applications: {AUTHENTICATOR_LIST}.
                               </p>
                             </div>
                             <div className="flex-none flex flex-column col-3">
@@ -141,9 +141,8 @@ class TwoFactor extends React.PureComponent<Props, State> {
                           <div className="flex">
                             <div className="flex-auto pr3 mr3">
                               <p className="m0">
-                                Recovery Codes are special, single use codes that allow you to regain access to your account if
-                                you’re ever unable to use your configured autheticator application. They’re created when you
-                                configure an Authenticator Applicaiton.
+                                Recovery Codes are single use codes that can be used to access to your account if
+                                you lose access to your configured authenticator application.
                               </p>
                             </div>
                             <div className="flex-none flex flex-column col-3">
