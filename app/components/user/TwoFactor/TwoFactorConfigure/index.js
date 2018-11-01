@@ -4,6 +4,7 @@ import * as React from "react";
 import { createRefetchContainer, graphql, fetchQuery, commitMutation } from 'react-relay/compat';
 import GraphQLErrors from 'app/constants/GraphQLErrors';
 import PageHeader from "app/components/shared/PageHeader";
+import Icon from "app/components/shared/Icon";
 import WorkflowProgress from "app/components/shared/WorkflowProgress";
 import TwoFactorConfigureRecoveryCodes from './TwoFactorConfigureRecoveryCodes';
 import TwoFactorConfigureActivate from './TwoFactorConfigureActivate';
@@ -89,7 +90,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
     if (this.state.step === STEPS.RECOVERY_CODES) {
       return 'Step 1: Save Recovery Codes';
     }
-    return 'Step 2: Activate Authenticator Application';
+    return 'Step 2: Configure Authenticator Application';
   }
 
   getStepNotice(): string {
@@ -116,8 +117,14 @@ class TwoFactorConfigure extends React.Component<Props, State> {
     return (
       <div className="p4">
         {this.renderStepNotice()}
-        <div class="flex items-center mb3">
-          <h1 className="m0 h2 semi-bold flex-auto">{this.getStepTitle()}</h1>
+        <div class="flex items-top mb3">
+          <div class="flex-auto">
+            <div class="flex">
+              <Icon icon="two-factor" className="mr1" />
+              <h1 className="m0 h2 semi-bold">Activate Two-Factor Authentication</h1>
+            </div>
+            <h2 className="m0 mt3 h4 bold mb5">{this.getStepTitle()}</h2>
+          </div>
           <WorkflowProgress
             stepCount={this.steps.length}
             currentStepIndex={this.currentStepIndex(this.state.step)}
