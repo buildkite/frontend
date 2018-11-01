@@ -51,7 +51,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
         </p>
         <Panel className="mb3">
           <div className="flex justify-center items-center">
-            <div class="mt1 mb3">
+            <div className="mt1 mb3">
               <figure style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img style={{ position: 'absolute' }} src={buildkiteqr} />
                 <QRCode
@@ -67,7 +67,7 @@ export default class TwoFactorConfigureActivate extends React.PureComponent<Prop
                 />
               </figure>
               <div className="dark-gray center mt2">
-                Can’t use the barcode?<br/>Type in this secret key instead: <span className="monospace rounded" style={{fontSize: 13}}>{provisioningUriSecret}</span>
+                Can’t use the barcode?<br />Type in this secret key instead: <span className="monospace rounded" style={{ fontSize: 13 }}>{provisioningUriSecret}</span>
               </div>
             </div>
           </div>
