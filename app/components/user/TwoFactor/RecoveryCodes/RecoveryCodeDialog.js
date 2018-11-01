@@ -8,8 +8,10 @@ import Dialog from 'app/components/shared/Dialog';
 import Panel from 'app/components/shared/Panel';
 import RecoveryCodeList from 'app/components/RecoveryCodeList';
 import type { RecoveryCodeDialog_totp } from './__generated__/RecoveryCodeDialog_totp.graphql';
+import type { RelayProp } from 'react-relay';
 
 type Props = {
+  relay: RelayProp,
   onRequestClose: Function,
   totp: RecoveryCodeDialog_totp
 };
@@ -51,8 +53,8 @@ class RecoveryCodesDialog extends React.PureComponent<Props, State> {
                   {this.state.copiedRecoveryCodes
                     ? 'Copied!'
                     : 'Copy'}
-                  </Button>
-                </CopyToClipboard>
+                </Button>
+              </CopyToClipboard>
               <RecoveryCodeList
                 recoveryCodes={this.props.totp.recoveryCodes}
                 isLoading={this.state.generatingNewCodes}
@@ -60,7 +62,7 @@ class RecoveryCodesDialog extends React.PureComponent<Props, State> {
             </Panel.Section>
           </Panel>
           <h2 className="m0 h4 semi-bold mb5">Generate New Recovery Codes</h2>
-          <p>When you generate new recovery codes, your current codes will be removed. Please ensure you copy your new recovery codes after they've been generated.</p>
+          <p>When you generate new recovery codes, your current codes will be removed. Please ensure you copy your new recovery codes after they’ve been generated.</p>
           <Button
             className="col-12"
             theme="warning"
@@ -83,12 +85,12 @@ class RecoveryCodesDialog extends React.PureComponent<Props, State> {
     this.setState({ copiedRecoveryCodes: true });
   };
 
-  handleRegenerateRecoveryCodes = (callback?: () => void) => {
+  handleRegenerateRecoveryCodes = () => {
     this.setState({ generatingNewCodes: true });
 
     commitMutation(this.props.relay.environment, {
       mutation: graphql`
-          mutation TwoFactorConfigureRecoveryCodeRegenerateMutation($input: TOTPRecoveryCodesRegenerateInput!) {
+          mutation RecoveryCodeDialogRegenerateMutation($input: TOTPRecoveryCodesRegenerateInput!) {
             totpRecoveryCodesRegenerate(input: $input) {
               totp {
                 id
@@ -104,8 +106,11 @@ class RecoveryCodesDialog extends React.PureComponent<Props, State> {
           }
         `,
       variables: { input: { totpId: this.props.totp.id } },
-      onCompleted: ({ totpRecoveryCodesRegenerate: { totp } }) => {
+      onCompleted: () => {
         this.setState({ generatingNewCodes: false });
+      },
+      onError: (error) => {
+        alert(error);
       }
     });
   }
