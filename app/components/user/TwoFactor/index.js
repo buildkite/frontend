@@ -106,101 +106,109 @@ class TwoFactor extends React.PureComponent<Props, State> {
                     </p>
                   </Panel.Section>
                 </Panel>
-                <Panel className="mb4">
-                  <Panel.Header>
-                    Two-factor Authentication Methods
-                  </Panel.Header>
-                  <Panel.Section>
-                    <header className="mb1 flex align-center">
-                      <ActiveStateBadge active={this.hasTotp()} />
-                      <h3 className="h3 m0">Authenticator Application</h3>
-                    </header>
-                    <div>
-                      <div className="flex">
-                        <div className="flex-auto pr3 mr3">
-                          <p className="m0">
-                            Authenticator Applications generate automatically refreshing, single use One Time
-                            Passwords (OTPs). Some reliable Authenticator Applications include {AUTHENTICATOR_LIST}.
-                          </p>
+                {(this.props.viewer.user && this.props.viewer.user.hasPassword) ? (
+                  <React.Fragment>
+                    <Panel className="mb4">
+                      <Panel.Header>
+                        Two-factor Authentication Methods
+                      </Panel.Header>
+                      <Panel.Section>
+                        <header className="mb1 flex align-center">
+                          <ActiveStateBadge active={this.hasTotp()} />
+                          <h3 className="h3 m0">Authenticator Application</h3>
+                        </header>
+                        <div>
+                          <div className="flex">
+                            <div className="flex-auto pr3 mr3">
+                              <p className="m0">
+                                Authenticator Applications generate automatically refreshing, single use One Time
+                                Passwords (OTPs). Some reliable Authenticator Applications include {AUTHENTICATOR_LIST}.
+                              </p>
+                            </div>
+                            <div className="flex-none flex flex-column col-3">
+                              {this.props.viewer.totp ? (
+                                <React.Fragment>
+                                  <Button theme="warning" className="mb2 flex-auto" outline={true} onClick={this.handleConfigureDialogClick}>
+                                    Reconfigure
+                                  </Button>
+                                  <Button theme="error" className="flex-auto" outline={true} onClick={this.handleDeactivateDialogClick}>
+                                    Deactivate
+                                  </Button>
+                                </React.Fragment>
+                              ) : (
+                                <Button theme="success" onClick={this.handleConfigureDialogClick}>
+                                  Activate
+                                </Button>
+                              )}
+                            </div>
+                          </div>
                         </div>
-                        <div className="flex-none flex flex-column col-3">
-                          {this.props.viewer.totp ? (
-                            <React.Fragment>
-                              <Button theme="warning" className="mb2 flex-auto" outline={true} onClick={this.handleConfigureDialogClick}>
-                                Reconfigure
-                              </Button>
-                              <Button theme="error" className="flex-auto" outline={true} onClick={this.handleDeactivateDialogClick}>
-                                Deactivate
-                              </Button>
-                            </React.Fragment>
-                          ) : (
-                            <Button theme="success" onClick={this.handleConfigureDialogClick}>
-                              Activate
-                            </Button>
-                          )}
+                      </Panel.Section>
+                      <Panel.Section>
+                        <header className="mb1 flex align-center">
+                          <ActiveStateBadge active={this.hasTotp()} />
+                          <h3 className="h3 m0">Recovery Code</h3>
+                          {this.hasTotp() ? <span className="ml3">{this.recoveryCodesRemaining} remaining</span> : null}
+                        </header>
+                        <div>
+                          <div className="flex">
+                            <div className="flex-auto pr3 mr3">
+                              <p className="m0">
+                                Recovery Codes are special, single use codes that allow you to regain access to your account if
+                                you’re ever unable to use your configured autheticator application. They’re created when you
+                                configure an Authenticator Applicaiton.
+                              </p>
+                            </div>
+                            <div className="flex-none flex flex-column col-3">
+                              {this.props.viewer.totp ? (
+                                <Button
+                                  onClick={this.handleRecoveryCodeDialogClick}
+                                  theme="default"
+                                  outline={true}
+                                >
+                                  View
+                                </Button>
+                              ) : null}
+                              {this.props.viewer.totp && this.state.recoveryCodeDialogOpen ? (
+                                <RecoveryCodeDialog
+                                  onRequestClose={this.handleRecoveryCodeDialogClose}
+                                  totp={this.props.viewer.totp}
+                                />
+                              ) : null}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </Panel.Section>
-                  <Panel.Section>
-                    <header className="mb1 flex align-center">
-                      <ActiveStateBadge active={this.hasTotp()} />
-                      <h3 className="h3 m0">Recovery Code</h3>
-                      {this.hasTotp() ? <span className="ml3">{this.recoveryCodesRemaining} remaining</span> : null}
-                    </header>
-                    <div>
-                      <div className="flex">
-                        <div className="flex-auto pr3 mr3">
-                          <p className="m0">
-                            Recovery Codes are special, single use codes that allow you to regain access to your account if
-                            you’re ever unable to use your configured autheticator application. They’re created when you
-                            configure an Authenticator Applicaiton.
-                          </p>
-                        </div>
-                        <div className="flex-none flex flex-column col-3">
-                          {this.props.viewer.totp ? (
-                            <Button
-                              onClick={this.handleRecoveryCodeDialogClick}
-                              theme="default"
-                              outline={true}
-                            >
-                              View
-                            </Button>
-                          ) : null}
-                          {this.props.viewer.totp && this.state.recoveryCodeDialogOpen ? (
-                            <RecoveryCodeDialog
-                              onRequestClose={this.handleRecoveryCodeDialogClose}
-                              totp={this.props.viewer.totp}
-                            />
-                          ) : null}
-                        </div>
-                      </div>
-                    </div>
-                  </Panel.Section>
-                </Panel>
+                      </Panel.Section>
+                    </Panel>
+                    <Dialog
+                      isOpen={this.state.configureDialogOpen}
+                      width={600}
+                      onRequestClose={this.handleConfigureDialogClose}
+                    >
+                      <TwoFactorConfigure
+                        viewer={this.props.viewer}
+                        onConfigurationComplete={this.handleConfigureDialogClose}
+                      />
+                    </Dialog>
+                    <Dialog
+                      isOpen={this.state.deactivateDialogOpen}
+                      width={600}
+                      onRequestClose={this.handleDeactivateDialogClose}
+                    >
+                      <TwoFactorDelete
+                        viewer={this.props.viewer}
+                        onDeactivationComplete={this.handleDeactivateDialogClose}
+                      />
+                    </Dialog>
+                  </React.Fragment>
+                ) : (
+                  <p>
+                    You do not have a password set for your account. Two-factor Authentication is available without setting a password.
+                  </p>
+                )}
               </div>
             </div>
           </div>
-          <Dialog
-            isOpen={this.state.configureDialogOpen}
-            width={600}
-            onRequestClose={this.handleConfigureDialogClose}
-          >
-            <TwoFactorConfigure
-              viewer={this.props.viewer}
-              onConfigurationComplete={this.handleConfigureDialogClose}
-            />
-          </Dialog>
-          <Dialog
-            isOpen={this.state.deactivateDialogOpen}
-            width={600}
-            onRequestClose={this.handleDeactivateDialogClose}
-          >
-            <TwoFactorDelete
-              viewer={this.props.viewer}
-              onDeactivationComplete={this.handleDeactivateDialogClose}
-            />
-          </Dialog>
         </React.Fragment>
       </DocumentTitle>
     );
