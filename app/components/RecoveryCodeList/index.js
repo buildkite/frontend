@@ -43,13 +43,6 @@ function recoveryCodeText(recoveryCodes: ?RecoveryCodeList_recoveryCodes): ?stri
   return '';
 }
 
-let saveFileSupported;
-try {
-  saveFileSupported = !!new Blob;
-} catch (exception) {
-  // empty
-}
-
 class RecoveryCodeList extends React.PureComponent<Props, State> {
   state = {
     copied: false
