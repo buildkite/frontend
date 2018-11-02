@@ -98,7 +98,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
       <React.Fragment>
         <Panel className="mb4">
           <Panel.Section>
-            <div className="flex items-center">
+            <div className="flex flex-wrap items-center">
               <div className="flex-auto">
                 <div className="flex mb1">
                   <strong>Two-Factor Authentication</strong>
@@ -106,16 +106,18 @@ class TwoFactor extends React.PureComponent<Props, State> {
                 </div>
                 <div>Your account is secured with two-factor authentication</div>
               </div>
-              <Button theme="default" outline={true} onClick={this.handleConfigureDialogClick} className="mr2">
-                Reconfigure
-              </Button>
-              <Button theme="default" outline={true} onClick={this.handleDeactivateDialogClick}>
-                Deactivate
-              </Button>
+              <div className="flex flex-wrap">
+                <Button theme="default" outline={true} onClick={this.handleConfigureDialogClick} className="m1">
+                  Reconfigure
+                </Button>
+                <Button theme="default" outline={true} onClick={this.handleDeactivateDialogClick} className="m1">
+                  Deactivate
+                </Button>
+              </div>
             </div>
           </Panel.Section>
           <Panel.Section>
-            <div className="flex items-center">
+            <div className="flex flex-wrap items-center">
               <div className="flex-auto">
                 <header className="bold mb1">Recovery Codes</header>
                 <p className="p0 m0">There are <a onClick={this.handleRecoveryCodeListDialogClick} className="cursor-pointer blue hover-navy text-decoration-none hover-underline">{this.recoveryCodesRemaining} recovery codes</a> remaining</p>
@@ -124,6 +126,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
                 onClick={this.handleRecoveryCodeDialogClick}
                 theme="default"
                 outline={true}
+                className="m1"
               >
                 Generate New Codes
               </Button>
