@@ -100,17 +100,6 @@ class RecoveryCodeList extends React.PureComponent<Props, State> {
                 : 'Copy to Clipboard'}
             </Button>
           </CopyToClipboard>
-
-          {saveFileSupported ? (
-            <Button
-              outline={true}
-              theme="default"
-              className="m1"
-              onClick={this.handleRecoveryCodeDownload}
-            >
-              Download
-            </Button>
-          ) : null}
         </div>
       </div>
     );
@@ -125,16 +114,6 @@ class RecoveryCodeList extends React.PureComponent<Props, State> {
       this.setState({ copied: false });
     }, 1000);
   };
-
-  handleRecoveryCodeDownload = () => {
-    const blob = new Blob([recoveryCodeText(this.props.recoveryCodes)], { type: "text/plain;charset=utf-8" });
-
-    const anchor = document.createElement('a');
-    anchor.download = "bk-codes.txt";
-    anchor.href = (window.webkitURL || window.URL).createObjectURL(blob);
-    anchor.dataset.downloadurl = ['text/plain', anchor.download, anchor.href].join(':');
-    anchor.click();
-  }
 }
 
 export default createFragmentContainer(RecoveryCodeList, {
