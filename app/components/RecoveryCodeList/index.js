@@ -9,8 +9,9 @@ import Button from 'app/components/shared/Button';
 import type { RecoveryCodeList_recoveryCodes } from './__generated__/RecoveryCodeList_recoveryCodes.graphql';
 
 const List = styled.ul`
-  columns: 2;
+  columns: 145px;
   column-gap: 60px;
+  width: 100%;
 `;
 
 const ListItem = styled.li`
@@ -68,7 +69,7 @@ class RecoveryCodeList extends React.PureComponent<Props, State> {
     return (
       <div className="flex-auto">
         <div className="flex justify-center items-center">
-          <List className="list-reset center">
+          <List className="list-reset center mx2">
             {(this.props.recoveryCodes && this.props.recoveryCodes.codes) ? (
               this.props.recoveryCodes.codes.map(({ code, consumed }) => (
                 <ListItem key={code}>
@@ -83,12 +84,17 @@ class RecoveryCodeList extends React.PureComponent<Props, State> {
           </List>
         </div>
 
-        <div className="flex justify-center border-top border-gray p2">
+        <div className="flex flex-wrap justify-center border-top border-gray p1">
           <CopyToClipboard
             text={recoveryCodeText(this.props.recoveryCodes)}
             onCopy={this.handleRecoveryCodeCopy}
           >
-            <Button outline={true} theme="default" disabled={this.state.copied}>
+            <Button
+              className="m1"
+              outline={true}
+              theme="default"
+              disabled={this.state.copied}
+            >
               {this.state.copied
                 ? 'Copied to Clipboard!'
                 : 'Copy to Clipboard'}
