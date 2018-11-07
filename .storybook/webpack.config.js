@@ -12,6 +12,11 @@ module.exports = {
   plugins: [
     // your custom plugins
   ],
+  resolve: {
+    alias: {
+      app: path.resolve(__dirname, '../app')
+    }
+  },
   module: {
     rules: [
       {
