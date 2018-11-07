@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import BaseButton from '../Button';
+import BaseButton from 'app/components/shared/Button';
 
 export default class Button extends React.PureComponent {
   static displayName = "PageHeader.Button";

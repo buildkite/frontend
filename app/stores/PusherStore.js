@@ -2,7 +2,7 @@
 
 import EventEmitter from 'eventemitter3';
 import Pusher from 'pusher-js';
-import Logger from '../lib/Logger';
+import Logger from 'app/lib/Logger';
 
 class PusherStore extends EventEmitter {
   name: string;

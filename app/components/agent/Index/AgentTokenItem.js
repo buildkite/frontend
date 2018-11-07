@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
 
-import Badge from '../../shared/Badge';
-import Panel from '../../shared/Panel';
-import RevealButton from '../../shared/RevealButton';
+import Badge from 'app/components/shared/Badge';
+import Panel from 'app/components/shared/Panel';
+import RevealButton from 'app/components/shared/RevealButton';
 
 class AgentTokenItem extends React.PureComponent {
   static propTypes = {

@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import BuildStatusDescription from '../../shared/BuildStatusDescription';
-import Duration from '../../shared/Duration';
-import Emojify from '../../shared/Emojify';
-import UserAvatar from '../../shared/UserAvatar';
+import BuildStatusDescription from 'app/components/shared/BuildStatusDescription';
+import Duration from 'app/components/shared/Duration';
+import Emojify from 'app/components/shared/Emojify';
+import UserAvatar from 'app/components/shared/UserAvatar';
 
-import { buildTime } from '../../../lib/builds';
-import { shortMessage, shortCommit } from '../../../lib/commits';
+import { buildTime } from 'app/lib/builds';
+import { shortMessage, shortCommit } from 'app/lib/commits';
 
 class BuildTooltip extends React.PureComponent {
   static propTypes = {

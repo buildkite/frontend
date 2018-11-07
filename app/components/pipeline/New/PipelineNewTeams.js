@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
 
-import FormInputLabel from '../../shared/FormInputLabel';
-import FormInputHelp from '../../shared/FormInputHelp';
-import FormInputErrors from '../../shared/FormInputErrors';
+import FormInputLabel from 'app/components/shared/FormInputLabel';
+import FormInputHelp from 'app/components/shared/FormInputHelp';
+import FormInputErrors from 'app/components/shared/FormInputErrors';
 
-import MemberTeamRow from '../../member/MemberTeamRow';
+import MemberTeamRow from 'app/components/member/MemberTeamRow';
 
 const filterAllowedTeams = (connection) => {
   const teams = [];

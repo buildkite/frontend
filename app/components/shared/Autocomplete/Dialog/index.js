@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Dialog from '../../Dialog';
-import SearchField from '../../SearchField';
+import Dialog from 'app/components/shared/Dialog';
+import SearchField from 'app/components/shared/SearchField';
 import Suggestion from './suggestion';
-import ErrorMessage from '../error-message';
-import Loader from '../loader';
+import ErrorMessage from 'app/components/shared/Autocomplete/error-message';
+import Loader from 'app/components/shared/Autocomplete/loader';
 
 class AutocompleteDialog extends React.PureComponent {
   static propTypes = {

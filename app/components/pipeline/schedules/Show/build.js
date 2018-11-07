@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import FriendlyTime from '../../../shared/FriendlyTime';
-import Panel from '../../../shared/Panel';
+import FriendlyTime from 'app/components/shared/FriendlyTime';
+import Panel from 'app/components/shared/Panel';
 
 class Build extends React.PureComponent {
   static propTypes = {

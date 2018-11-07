@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import FormCheckbox from '../../shared/FormCheckbox';
-import FormTextField from '../../shared/FormTextField';
-import FormTextarea from '../../shared/FormTextarea';
-import ValidationErrors from '../../../lib/ValidationErrors';
+import FormCheckbox from 'app/components/shared/FormCheckbox';
+import FormTextField from 'app/components/shared/FormTextField';
+import FormTextarea from 'app/components/shared/FormTextarea';
+import ValidationErrors from 'app/lib/ValidationErrors';
 
 class Form extends React.Component {
   static propTypes = {

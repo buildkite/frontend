@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Panel from '../../shared/Panel';
-import Button from '../../shared/Button';
-import PageHeader from '../../shared/PageHeader';
-import PageWithContainer from '../../shared/PageWithContainer';
+import Panel from 'app/components/shared/Panel';
+import Button from 'app/components/shared/Button';
+import PageHeader from 'app/components/shared/PageHeader';
+import PageWithContainer from 'app/components/shared/PageWithContainer';
 
 import Jobs from './jobs';
 import SearchInput from './search-input';

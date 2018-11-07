@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Button from '../../shared/Button';
-import Panel from '../../shared/Panel';
+import Button from 'app/components/shared/Button';
+import Panel from 'app/components/shared/Panel';
 
-import FlashesStore from '../../../stores/FlashesStore';
+import FlashesStore from 'app/stores/FlashesStore';
 
-import OrganizationMemberDeleteMutation from '../../../mutations/OrganizationMemberDelete';
+import OrganizationMemberDeleteMutation from 'app/mutations/OrganizationMemberDelete';
 
 class Remove extends React.PureComponent {
   static displayName = "Member.Edit.Remove";

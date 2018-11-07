@@ -7,9 +7,9 @@ import { second } from 'metrick/duration';
 
 import Bar from './bar';
 
-import { buildTime } from '../../../lib/builds';
+import { buildTime } from 'app/lib/builds';
 
-import BuildStates from '../../../constants/BuildStates';
+import BuildStates from 'app/constants/BuildStates';
 
 import { MAXIMUM_NUMBER_OF_BUILDS, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT, GRAPH_WIDTH } from './constants';
 

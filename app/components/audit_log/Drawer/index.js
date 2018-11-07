@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Spinner from '../../shared/Spinner';
+import Spinner from 'app/components/shared/Spinner';
 
 import AuditLogEventSection from './eventSection';
 import AuditLogSubjectSection from './subjectSection';

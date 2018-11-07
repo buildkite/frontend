@@ -6,7 +6,7 @@ import Relay from 'react-relay/classic';
 import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 
-import PusherStore from '../../stores/PusherStore';
+import PusherStore from 'app/stores/PusherStore';
 
 type Props = {
   className?: string,

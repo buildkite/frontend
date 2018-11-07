@@ -6,12 +6,12 @@ import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 import { hour, seconds } from 'metrick/duration';
 
-import PusherStore from '../../../../stores/PusherStore';
-import Button from '../../../shared/Button';
-import Spinner from '../../../shared/Spinner';
-import Dropdown from '../../../shared/Dropdown';
-import Icon from '../../../shared/Icon';
-import Badge from '../../../shared/Badge';
+import PusherStore from 'app/stores/PusherStore';
+import Button from 'app/components/shared/Button';
+import Spinner from 'app/components/shared/Spinner';
+import Dropdown from 'app/components/shared/Dropdown';
+import Icon from 'app/components/shared/Icon';
+import Badge from 'app/components/shared/Badge';
 
 import Build from './build';
 import DropdownButton from './../dropdown-button';

@@ -8,20 +8,20 @@ import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
 import AgentStateIcon from './state-icon';
-import Badge from '../shared/Badge';
-import Button from '../shared/Button';
-import FlashesStore from '../../stores/FlashesStore';
-import FriendlyTime from '../shared/FriendlyTime';
-import JobLink from '../shared/JobLink';
-import JobState from '../icons/JobState';
-import PageWithContainer from '../shared/PageWithContainer';
-import Panel from '../shared/Panel';
-import permissions from '../../lib/permissions';
+import Badge from 'app/components/shared/Badge';
+import Button from 'app/components/shared/Button';
+import FlashesStore from 'app/stores/FlashesStore';
+import FriendlyTime from 'app/components/shared/FriendlyTime';
+import JobLink from 'app/components/shared/JobLink';
+import JobState from 'app/components/icons/JobState';
+import PageWithContainer from 'app/components/shared/PageWithContainer';
+import Panel from 'app/components/shared/Panel';
+import permissions from 'app/lib/permissions';
 import { getLabelForConnectionState } from './shared';
 
-import { formatNumber } from '../../lib/number';
+import { formatNumber } from 'app/lib/number';
 
-import AgentStopMutation from '../../mutations/AgentStop';
+import AgentStopMutation from 'app/mutations/AgentStop';
 
 const ExtrasTable = styled.table`
   @media (max-width: 720px) {

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import update from 'react-addons-update';
 import escape from 'escape-html';
 
-import Logger from '../../../lib/Logger';
+import Logger from 'app/lib/Logger';
 
 const svgContent = ((icon_context) => (
   (name, title) => {

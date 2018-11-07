@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Spinner from '../../shared/Spinner';
+import Spinner from 'app/components/shared/Spinner';
 
 import Option from './option';
 

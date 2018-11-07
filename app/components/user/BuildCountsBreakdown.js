@@ -3,8 +3,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import PusherStore from '../../stores/PusherStore';
-import StateSwitcher from '../build/StateSwitcher';
+import PusherStore from 'app/stores/PusherStore';
+import StateSwitcher from 'app/components/build/StateSwitcher';
 
 type Props = {
   viewer: {

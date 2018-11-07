@@ -3,11 +3,11 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import Button from '../shared/Button';
-import Icon from '../shared/Icon';
-import Panel from '../shared/Panel';
-import PageHeader from '../shared/PageHeader';
-import Spinner from '../shared/Spinner';
+import Button from 'app/components/shared/Button';
+import Icon from 'app/components/shared/Icon';
+import Panel from 'app/components/shared/Panel';
+import PageHeader from 'app/components/shared/PageHeader';
+import Spinner from 'app/components/shared/Spinner';
 
 class SSOIndex extends React.PureComponent {
   static propTypes = {

@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { formatNumber } from '../../lib/number';
+import { formatNumber } from 'app/lib/number';
 
 type Props = {
   buildsCount: number,

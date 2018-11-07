@@ -7,7 +7,7 @@ import 'intersection-observer';
 import VisibilityObserver from 'react-intersection-observer';
 import { second } from 'metrick/duration';
 import moment from 'moment';
-import { getDuration, getDurationString } from '../../lib/date';
+import { getDuration, getDurationString } from 'app/lib/date';
 
 type Props = {
   from?: (moment$Moment | string | number | Date | number[]),

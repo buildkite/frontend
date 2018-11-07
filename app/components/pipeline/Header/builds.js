@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import BuildStateSwitcher from '../../build/StateSwitcher';
+import BuildStateSwitcher from 'app/components/build/StateSwitcher';
 
-import PusherStore from '../../../stores/PusherStore';
+import PusherStore from 'app/stores/PusherStore';
 
 class Builds extends React.Component {
   static propTypes = {

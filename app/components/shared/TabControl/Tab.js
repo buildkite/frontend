@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styled from 'styled-components';
 
-import Badge from '../Badge';
+import Badge from 'app/components/shared/Badge';
 
-import { formatNumber } from '../../../lib/number';
+import { formatNumber } from 'app/lib/number';
 
 const ACTIVE_CLASS_NAME = 'active';
 

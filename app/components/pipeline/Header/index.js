@@ -6,16 +6,16 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import styled from 'styled-components';
 
-import Button from '../../shared/Button';
-import Dropdown from '../../shared/Dropdown';
-import Emojify from '../../shared/Emojify';
-import Icon from '../../shared/Icon';
+import Button from 'app/components/shared/Button';
+import Dropdown from 'app/components/shared/Dropdown';
+import Emojify from 'app/components/shared/Emojify';
+import Icon from 'app/components/shared/Icon';
 
-import CreateBuildDialog from '../CreateBuildDialog';
+import CreateBuildDialog from 'app/components/pipeline/CreateBuildDialog';
 import Builds from './builds';
 
-import permissions from '../../../lib/permissions';
-import { repositoryProviderIcon } from '../../../lib/repositories';
+import permissions from 'app/lib/permissions';
+import { repositoryProviderIcon } from 'app/lib/repositories';
 
 const HeaderVitals = styled.div.attrs({
   className: 'flex flex-auto items-center my2'

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import Badge from '../Badge';
-import BaseButton from '../Button';
-import Icon from '../Icon';
+import Badge from 'app/components/shared/Badge';
+import BaseButton from 'app/components/shared/Button';
+import Icon from 'app/components/shared/Icon';
 
 class Button extends React.Component {
   static displayName = "Menu.Button";

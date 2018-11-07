@@ -5,10 +5,10 @@ import Relay from 'react-relay/classic';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import BuildState from '../icons/BuildState';
+import BuildState from 'app/components/icons/BuildState';
 import { getColourForConnectionState, getLabelForConnectionState } from './shared';
 
-import BuildStates from '../../constants/BuildStates';
+import BuildStates from 'app/constants/BuildStates';
 
 type Props = {
   agent: {

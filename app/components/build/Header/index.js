@@ -5,15 +5,15 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { RootContainer } from 'react-relay/classic';
 
-import * as BuildQuery from '../../../queries/Build';
-import * as ViewerQuery from '../../../queries/Viewer';
+import * as BuildQuery from 'app/queries/Build';
+import * as ViewerQuery from 'app/queries/Viewer';
 
-import BuildStatusDescription from '../../shared/BuildStatusDescription';
-import UserAvatar from '../../shared/UserAvatar';
-import AvatarWithUnknownEmailPrompt from '../AvatarWithUnknownEmailPrompt';
-import Emojify from '../../shared/Emojify';
+import BuildStatusDescription from 'app/components/shared/BuildStatusDescription';
+import UserAvatar from 'app/components/shared/UserAvatar';
+import AvatarWithUnknownEmailPrompt from 'app/components/build/AvatarWithUnknownEmailPrompt';
+import Emojify from 'app/components/shared/Emojify';
 
-import { shortCommit } from '../../../lib/commits';
+import { shortCommit } from 'app/lib/commits';
 
 import Pipeline from './pipeline';
 

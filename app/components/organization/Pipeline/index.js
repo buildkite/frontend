@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Favorite from '../../icons/Favorite';
-import Emojify from '../../shared/Emojify';
+import Favorite from 'app/components/icons/Favorite';
+import Emojify from 'app/components/shared/Emojify';
 
-import permissions from '../../../lib/permissions';
+import permissions from 'app/lib/permissions';
 
-import PusherStore from '../../../stores/PusherStore';
+import PusherStore from 'app/stores/PusherStore';
 
-import PipelineFavoriteMutation from '../../../mutations/PipelineFavorite';
+import PipelineFavoriteMutation from 'app/mutations/PipelineFavorite';
 
 import Status from './status';
 import Metrics from './Metrics';

@@ -3,8 +3,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
-import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
-import Badge from '../shared/Badge';
+import TeamPrivacyConstants from 'app/constants/TeamPrivacyConstants';
+import Badge from 'app/components/shared/Badge';
 import type { Labels_team } from './__generated__/Labels_team.graphql';
 
 type Props = {

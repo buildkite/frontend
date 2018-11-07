@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Button from '../shared/Button';
-import Dropdown from '../shared/Dropdown';
-import Icon from '../shared/Icon';
-import Spinner from '../shared/Spinner';
-import UserAvatar from '../shared/UserAvatar';
+import Button from 'app/components/shared/Button';
+import Dropdown from 'app/components/shared/Dropdown';
+import Icon from 'app/components/shared/Icon';
+import Spinner from 'app/components/shared/Spinner';
+import UserAvatar from 'app/components/shared/UserAvatar';
 
-import FlashesStore from '../../stores/FlashesStore';
+import FlashesStore from 'app/stores/FlashesStore';
 
-import EmailCreateMutation from '../../mutations/EmailCreate';
-import NoticeDismissMutation from '../../mutations/NoticeDismiss';
+import EmailCreateMutation from 'app/mutations/EmailCreate';
+import NoticeDismissMutation from 'app/mutations/NoticeDismiss';
 
 class AvatarWithUnknownEmailPrompt extends React.PureComponent {
   static propTypes = {

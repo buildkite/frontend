@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { minute } from 'metrick/duration';
-import { getDateString, getRelativeDateString } from '../../lib/date';
-import { buildStatus } from '../../lib/builds';
+import { getDateString, getRelativeDateString } from 'app/lib/date';
+import { buildStatus } from 'app/lib/builds';
 
 class BuildStatusDescription extends React.PureComponent {
   static propTypes = {

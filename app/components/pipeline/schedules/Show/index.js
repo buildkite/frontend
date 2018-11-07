@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import PipelineScheduleUpdateMutation from '../../../../mutations/PipelineScheduleUpdate';
-import PipelineScheduleDeleteMutation from '../../../../mutations/PipelineScheduleDelete';
+import PipelineScheduleUpdateMutation from 'app/mutations/PipelineScheduleUpdate';
+import PipelineScheduleDeleteMutation from 'app/mutations/PipelineScheduleDelete';
 
-import Button from '../../../shared/Button';
-import PageHeader from '../../../shared/PageHeader';
-import Panel from '../../../shared/Panel';
-import Emojify from '../../../shared/Emojify';
-import FriendlyTime from '../../../shared/FriendlyTime';
+import Button from 'app/components/shared/Button';
+import PageHeader from 'app/components/shared/PageHeader';
+import Panel from 'app/components/shared/Panel';
+import Emojify from 'app/components/shared/Emojify';
+import FriendlyTime from 'app/components/shared/FriendlyTime';
 
-import permissions from '../../../../lib/permissions';
+import permissions from 'app/lib/permissions';
 
 import Build from './build';
 

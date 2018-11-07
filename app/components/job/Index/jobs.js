@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import searchQuery from 'search-query-parser';
 
-import Spinner from '../../shared/Spinner';
-import Panel from '../../shared/Panel';
-import Button from '../../shared/Button';
+import Spinner from 'app/components/shared/Spinner';
+import Panel from 'app/components/shared/Panel';
+import Button from 'app/components/shared/Button';
 
 import Row from './row';
 

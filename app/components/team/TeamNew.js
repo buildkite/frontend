@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
 
-import PageHeader from '../shared/PageHeader';
-import Panel from '../shared/Panel';
+import PageHeader from 'app/components/shared/PageHeader';
+import Panel from 'app/components/shared/Panel';
 import TeamForm from './Form';
 
-import GraphQLErrors from '../../constants/GraphQLErrors';
-import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
-import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
+import GraphQLErrors from 'app/constants/GraphQLErrors';
+import TeamMemberRoleConstants from 'app/constants/TeamMemberRoleConstants';
+import TeamPrivacyConstants from 'app/constants/TeamPrivacyConstants';
 
 class TeamNew extends React.Component {
   static propTypes = {
