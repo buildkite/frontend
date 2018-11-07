@@ -4,7 +4,7 @@ import React from 'react';
 import Loadable from 'react-loadable';
 import PropTypes from 'prop-types';
 
-import Button from "../../shared/Button";
+import Button from 'app/components/shared/Button';
 import { interpolateQuery } from "./query";
 import consoleState from "./consoleState";
 

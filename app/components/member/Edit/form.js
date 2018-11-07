@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Button from '../../shared/Button';
-import FormRadioGroup from '../../shared/FormRadioGroup';
-import Panel from '../../shared/Panel';
+import Button from 'app/components/shared/Button';
+import FormRadioGroup from 'app/components/shared/FormRadioGroup';
+import Panel from 'app/components/shared/Panel';
 
-import FlashesStore from '../../../stores/FlashesStore';
+import FlashesStore from 'app/stores/FlashesStore';
 
-import OrganizationMemberUpdateMutation from '../../../mutations/OrganizationMemberUpdate';
+import OrganizationMemberUpdateMutation from 'app/mutations/OrganizationMemberUpdate';
 
-import OrganizationMemberRoleConstants from '../../../constants/OrganizationMemberRoleConstants';
-import OrganizationMemberSSOModeConstants from '../../../constants/OrganizationMemberSSOModeConstants';
+import OrganizationMemberRoleConstants from 'app/constants/OrganizationMemberRoleConstants';
+import OrganizationMemberSSOModeConstants from 'app/constants/OrganizationMemberSSOModeConstants';
 
 class Form extends React.PureComponent {
   static displayName = "Member.Edit.Form";

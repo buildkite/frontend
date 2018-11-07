@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import PageWithContainer from '../../shared/PageWithContainer';
+import PageWithContainer from 'app/components/shared/PageWithContainer';
 
 import Agents from './agents';
 import AgentTokenList from './AgentTokenList';

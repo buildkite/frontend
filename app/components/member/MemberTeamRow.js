@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Emojify from '../shared/Emojify';
+import Emojify from 'app/components/shared/Emojify';
 
-import TeamLabels from '../team/Labels';
+import TeamLabels from 'app/components/team/Labels';
 
 class MemberTeamRow extends React.Component {
   static propTypes = {

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Loadable from 'react-loadable';
 
-import Spinner from '../Spinner';
+import Spinner from 'app/components/shared/Spinner';
 
 const CODEMIRROR_BUFFER = 8;
 const CODEMIRROR_LINE_HEIGHT = 17;

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import PageHeader from '../shared/PageHeader';
-import UserAvatar from '../shared/UserAvatar';
-import TabControl from '../shared/TabControl';
-import permissions from '../../lib/permissions';
+import PageHeader from 'app/components/shared/PageHeader';
+import UserAvatar from 'app/components/shared/UserAvatar';
+import TabControl from 'app/components/shared/TabControl';
+import permissions from 'app/lib/permissions';
 
 const AVATAR_SIZE = 50;
 

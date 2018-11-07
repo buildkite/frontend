@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 
-import Panel from '../../../shared/Panel';
-import Emojify from '../../../shared/Emojify';
-import Spinner from '../../../shared/Spinner';
-import Button from '../../../shared/Button';
+import Panel from 'app/components/shared/Panel';
+import Emojify from 'app/components/shared/Emojify';
+import Spinner from 'app/components/shared/Spinner';
+import Button from 'app/components/shared/Button';
 
-import FlashesStore from '../../../../stores/FlashesStore';
-import permissions from '../../../../lib/permissions';
+import FlashesStore from 'app/stores/FlashesStore';
+import permissions from 'app/lib/permissions';
 
-import AccessLevel from '../../../team/Pipelines/access-level';
+import AccessLevel from 'app/components/team/Pipelines/access-level';
 
-import TeamPipelineUpdateMutation from '../../../../mutations/TeamPipelineUpdate';
-import TeamPipelineDeleteMutation from '../../../../mutations/TeamPipelineDelete';
+import TeamPipelineUpdateMutation from 'app/mutations/TeamPipelineUpdate';
+import TeamPipelineDeleteMutation from 'app/mutations/TeamPipelineDelete';
 
 class Row extends React.Component {
   static displayName = "PipelineTeamIndex.Row";

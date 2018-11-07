@@ -1,6 +1,6 @@
 export { default } from 'codemirror';
 
-import '../../../css/codemirror.css';
+import 'app/css/codemirror.css';
 
 import 'codemirror/addon/hint/show-hint.css';
 import 'codemirror/addon/hint/show-hint';

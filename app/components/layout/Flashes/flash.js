@@ -3,7 +3,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import FlashesStore, { type FlashItem } from '../../../stores/FlashesStore';
+import FlashesStore, { type FlashItem } from 'app/stores/FlashesStore';
 
 type Props = {
   flash: FlashItem,

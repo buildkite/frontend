@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 
-import Panel from '../../shared/Panel';
-import SearchField from '../../shared/SearchField';
-import ShowMoreFooter from '../../shared/ShowMoreFooter';
+import Panel from 'app/components/shared/Panel';
+import SearchField from 'app/components/shared/SearchField';
+import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
 
-import FlashesStore from '../../../stores/FlashesStore';
+import FlashesStore from 'app/stores/FlashesStore';
 
-import { formatNumber } from '../../../lib/number';
+import { formatNumber } from 'app/lib/number';
 
-import TeamPipelineUpdateMutation from '../../../mutations/TeamPipelineUpdate';
-import TeamPipelineDeleteMutation from '../../../mutations/TeamPipelineDelete';
+import TeamPipelineUpdateMutation from 'app/mutations/TeamPipelineUpdate';
+import TeamPipelineDeleteMutation from 'app/mutations/TeamPipelineDelete';
 
 import Chooser from './chooser';
 import Row from './row';

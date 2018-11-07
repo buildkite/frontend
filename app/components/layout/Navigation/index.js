@@ -5,16 +5,16 @@ import Relay from 'react-relay/classic';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
-import UserAvatar from '../../shared/UserAvatar';
-import Dropdown from '../../shared/Dropdown';
-import Badge from '../../shared/Badge';
-import Icon from '../../shared/Icon';
-import SectionLoader from '../../shared/SectionLoader';
-import AgentsCount from '../../organization/AgentsCount';
-import NewChangelogsBadge from '../../user/NewChangelogsBadge';
-import permissions from '../../../lib/permissions';
+import UserAvatar from 'app/components/shared/UserAvatar';
+import Dropdown from 'app/components/shared/Dropdown';
+import Badge from 'app/components/shared/Badge';
+import Icon from 'app/components/shared/Icon';
+import SectionLoader from 'app/components/shared/SectionLoader';
+import AgentsCount from 'app/components/organization/AgentsCount';
+import NewChangelogsBadge from 'app/components/user/NewChangelogsBadge';
+import permissions from 'app/lib/permissions';
 
-import UserSessionStore from '../../../stores/UserSessionStore';
+import UserSessionStore from 'app/stores/UserSessionStore';
 
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';

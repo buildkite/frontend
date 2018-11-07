@@ -165,7 +165,8 @@
       "<rootDir>/app/**/*.js"
     ],
     "coveragePathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "/__generated__/"
     ],
     "testMatch": [
       "<rootDir>/app/**/__tests__/**/*.js",
@@ -173,7 +174,8 @@
     ],
     "moduleDirectories": [
       "<rootDir>/node_modules",
-      "<rootDir>/app"
+      "<rootDir>/app",
+      "<rootDir>"
     ]
   }
 }

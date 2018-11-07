@@ -4,21 +4,21 @@ import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 import DocumentTitle from 'react-document-title';
 
-import Button from '../shared/Button';
-import Dropdown from '../shared/Dropdown';
-import Icon from '../shared/Icon';
-import PageHeader from '../shared/PageHeader';
-import Panel from '../shared/Panel';
-import SearchField from '../shared/SearchField';
-import ShowMoreFooter from '../shared/ShowMoreFooter';
-import Spinner from '../shared/Spinner';
+import Button from 'app/components/shared/Button';
+import Dropdown from 'app/components/shared/Dropdown';
+import Icon from 'app/components/shared/Icon';
+import PageHeader from 'app/components/shared/PageHeader';
+import Panel from 'app/components/shared/Panel';
+import SearchField from 'app/components/shared/SearchField';
+import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
+import Spinner from 'app/components/shared/Spinner';
 
-import { formatNumber } from '../../lib/number';
-import permissions from '../../lib/permissions';
+import { formatNumber } from 'app/lib/number';
+import permissions from 'app/lib/permissions';
 
 import Row from './Row';
 
-import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
+import TeamPrivacyConstants from 'app/constants/TeamPrivacyConstants';
 
 const TEAM_PRIVACIES = [
   { name: 'All Teams', id: null },

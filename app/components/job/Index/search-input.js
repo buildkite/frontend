@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Icon from '../../shared/Icon';
+import Icon from 'app/components/shared/Icon';
 
 export default class SearchInput extends React.PureComponent {
   static propTypes = {

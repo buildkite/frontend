@@ -3,24 +3,24 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import Button from '../shared/Button';
-import FormRadioGroup from '../shared/FormRadioGroup';
-import FormTextarea from '../shared/FormTextarea';
-import FormInputLabel from '../shared/FormInputLabel';
-import FormInputHelp from '../shared/FormInputHelp';
-import Panel from '../shared/Panel';
-import PageHeader from '../shared/PageHeader';
+import Button from 'app/components/shared/Button';
+import FormRadioGroup from 'app/components/shared/FormRadioGroup';
+import FormTextarea from 'app/components/shared/FormTextarea';
+import FormInputLabel from 'app/components/shared/FormInputLabel';
+import FormInputHelp from 'app/components/shared/FormInputHelp';
+import Panel from 'app/components/shared/Panel';
+import PageHeader from 'app/components/shared/PageHeader';
 import MemberTeamRow from './MemberTeamRow';
 
-import FlashesStore from '../../stores/FlashesStore';
-import ValidationErrors from '../../lib/ValidationErrors';
+import FlashesStore from 'app/stores/FlashesStore';
+import ValidationErrors from 'app/lib/ValidationErrors';
 
-import OrganizationInvitationCreateMutation from '../../mutations/OrganizationInvitationCreate';
+import OrganizationInvitationCreateMutation from 'app/mutations/OrganizationInvitationCreate';
 
-import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
-import OrganizationMemberSSOModeConstants from '../../constants/OrganizationMemberSSOModeConstants';
-import GraphQLErrors from '../../constants/GraphQLErrors';
-import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
+import OrganizationMemberRoleConstants from 'app/constants/OrganizationMemberRoleConstants';
+import OrganizationMemberSSOModeConstants from 'app/constants/OrganizationMemberSSOModeConstants';
+import GraphQLErrors from 'app/constants/GraphQLErrors';
+import TeamMemberRoleConstants from 'app/constants/TeamMemberRoleConstants';
 
 class MemberNew extends React.PureComponent {
   static propTypes = {

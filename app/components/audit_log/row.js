@@ -5,16 +5,16 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import styled from 'styled-components';
 
-import FriendlyTime from '../shared/FriendlyTime';
-import RevealableDownChevron from '../shared/Icon/RevealableDownChevron';
-import Panel from '../shared/Panel';
-import UserAvatar from '../shared/UserAvatar';
+import FriendlyTime from 'app/components/shared/FriendlyTime';
+import RevealableDownChevron from 'app/components/shared/Icon/RevealableDownChevron';
+import Panel from 'app/components/shared/Panel';
+import UserAvatar from 'app/components/shared/UserAvatar';
 
 import AuditLogDrawer from './Drawer';
 
-import { indefiniteArticleFor } from '../../lib/words';
+import { indefiniteArticleFor } from 'app/lib/words';
 
-import cssVariables from '../../css';
+import cssVariables from 'app/css';
 
 const TransitionMaxHeight = styled.div`
   transition: max-height 400ms;

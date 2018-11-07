@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { RootContainer } from 'react-relay/classic';
 
-import * as BuildQuery from '../../queries/Build';
+import * as BuildQuery from 'app/queries/Build';
 import AnnotationsList from './AnnotationsList';
 import Header from './Header';
 

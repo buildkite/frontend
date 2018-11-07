@@ -1,6 +1,6 @@
 // @flow
 
-import JobStates from '../constants/JobStates';
+import JobStates from 'app/constants/JobStates';
 
 export function jobTime(job: Object) {
   const { state, startedAt, finishedAt, canceledAt, timedOutAt } = job;

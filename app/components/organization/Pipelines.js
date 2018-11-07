@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import SectionLoader from '../shared/SectionLoader';
-import ShowMoreFooter from '../shared/ShowMoreFooter';
+import SectionLoader from 'app/components/shared/SectionLoader';
+import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
 
-import FlashesStore from '../../stores/FlashesStore';
-import UserSessionStore from '../../stores/UserSessionStore';
+import FlashesStore from 'app/stores/FlashesStore';
+import UserSessionStore from 'app/stores/UserSessionStore';
 
 import Pipeline from './Pipeline';
 import Welcome from './Welcome';

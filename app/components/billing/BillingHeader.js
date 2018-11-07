@@ -3,9 +3,9 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import classNames from 'classnames';
 
-import Icon from '../shared/Icon';
-import PageHeader from '../shared/PageHeader';
-import TabControl from '../shared/TabControl';
+import Icon from 'app/components/shared/Icon';
+import PageHeader from 'app/components/shared/PageHeader';
+import TabControl from 'app/components/shared/TabControl';
 
 class BillingHeader extends React.PureComponent {
   static propTypes = {

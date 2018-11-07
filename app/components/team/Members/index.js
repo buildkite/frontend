@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 
-import Panel from '../../shared/Panel';
-import SearchField from '../../shared/SearchField';
-import ShowMoreFooter from '../../shared/ShowMoreFooter';
+import Panel from 'app/components/shared/Panel';
+import SearchField from 'app/components/shared/SearchField';
+import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
 
-import { formatNumber } from '../../../lib/number';
+import { formatNumber } from 'app/lib/number';
 
-import TeamMemberUpdateMutation from '../../../mutations/TeamMemberUpdate';
-import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
+import TeamMemberUpdateMutation from 'app/mutations/TeamMemberUpdate';
+import TeamMemberDeleteMutation from 'app/mutations/TeamMemberDelete';
 
 import Chooser from './chooser';
 import Row from './row';

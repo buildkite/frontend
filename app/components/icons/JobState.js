@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import BuildStates from '../../constants/BuildStates';
-import JobStates from '../../constants/JobStates';
+import BuildStates from 'app/constants/BuildStates';
+import JobStates from 'app/constants/JobStates';
 
 import BuildState from './BuildState';
 

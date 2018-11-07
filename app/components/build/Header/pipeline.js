@@ -4,12 +4,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 
-import Emojify from '../../shared/Emojify';
-import Icon from '../../shared/Icon';
-import Dropdown from '../../shared/Dropdown';
+import Emojify from 'app/components/shared/Emojify';
+import Icon from 'app/components/shared/Icon';
+import Dropdown from 'app/components/shared/Dropdown';
 
-import jobCommandOneliner from '../../../lib/jobCommandOneliner';
-import BootstrapTooltipMixin from '../../../lib/BootstrapTooltipMixin';
+import jobCommandOneliner from 'app/lib/jobCommandOneliner';
+import BootstrapTooltipMixin from 'app/lib/BootstrapTooltipMixin';
 
 class ParallelJobGroup {
   constructor(id) {

@@ -1,6 +1,6 @@
 // @flow
 
-import BuildStates from '../constants/BuildStates';
+import BuildStates from 'app/constants/BuildStates';
 
 export function buildTime(build: Object) {
   const { state, startedAt, canceledAt, finishedAt, scheduledAt } = build;

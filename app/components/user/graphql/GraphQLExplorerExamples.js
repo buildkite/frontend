@@ -3,8 +3,8 @@
 import React from "react";
 import { createFragmentContainer, graphql } from "react-relay/compat";
 
-import Panel from "../../shared/Panel";
-import Dropdown from "../../shared/Dropdown";
+import Panel from 'app/components/shared/Panel';
+import Dropdown from 'app/components/shared/Dropdown';
 
 import GraphQLExplorerExampleSection from "./GraphQLExplorerExampleSection";
 import EXAMPLES from "./examples";

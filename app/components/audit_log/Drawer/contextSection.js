@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import FriendlyTime from '../../shared/FriendlyTime';
+import FriendlyTime from 'app/components/shared/FriendlyTime';
 
 import { Section, SectionHeading } from './shared';
 

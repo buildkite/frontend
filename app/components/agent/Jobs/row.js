@@ -3,10 +3,10 @@
 import React from 'react';
 import Relay from 'react-relay/classic';
 
-import FriendlyTime from '../../shared/FriendlyTime';
-import JobState from '../../icons/JobState';
-import JobTitle from '../../shared/JobTitle';
-import Panel from '../../shared/Panel';
+import FriendlyTime from 'app/components/shared/FriendlyTime';
+import JobState from 'app/components/icons/JobState';
+import JobTitle from 'app/components/shared/JobTitle';
+import Panel from 'app/components/shared/Panel';
 
 type Props = {
   job: {

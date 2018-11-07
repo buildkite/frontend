@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Button from '../shared/Button';
-import Panel from '../shared/Panel';
+import Button from 'app/components/shared/Button';
+import Panel from 'app/components/shared/Panel';
 
-import TeamDeleteMutation from '../../mutations/TeamDelete';
+import TeamDeleteMutation from 'app/mutations/TeamDelete';
 
 class TeamDelete extends React.Component {
   static propTypes = {

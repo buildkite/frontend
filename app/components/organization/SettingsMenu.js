@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Menu from '../shared/Menu';
-import permissions from '../../lib/permissions';
+import Menu from 'app/components/shared/Menu';
+import permissions from 'app/lib/permissions';
 
 class SettingsMenu extends React.Component {
   static propTypes = {

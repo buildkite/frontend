@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import AutocompleteDialog from '../../shared/Autocomplete/Dialog';
-import Button from '../../shared/Button';
-import Emojify from '../../shared/Emojify';
-import permissions from '../../../lib/permissions';
+import AutocompleteDialog from 'app/components/shared/Autocomplete/Dialog';
+import Button from 'app/components/shared/Button';
+import Emojify from 'app/components/shared/Emojify';
+import permissions from 'app/lib/permissions';
 
-import FlashesStore from '../../../stores/FlashesStore';
+import FlashesStore from 'app/stores/FlashesStore';
 
 class Chooser extends React.Component {
   static displayName = "Team.Pipelines.Chooser";

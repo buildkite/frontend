@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Panel from '../../shared/Panel';
-import Spinner from '../../shared/Spinner';
+import Panel from 'app/components/shared/Panel';
+import Spinner from 'app/components/shared/Spinner';
 
 import AgentTokenItem from './AgentTokenItem';
 

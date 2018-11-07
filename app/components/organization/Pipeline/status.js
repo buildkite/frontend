@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import AnchoredPopover from '../../shared/Popover/anchored';
-import BuildState from '../../icons/BuildState';
+import AnchoredPopover from 'app/components/shared/Popover/anchored';
+import BuildState from 'app/components/icons/BuildState';
 
 import BuildTooltip from './build-tooltip';
 

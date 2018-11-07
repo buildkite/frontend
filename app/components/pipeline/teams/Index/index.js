@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import Emojify from '../../../shared/Emojify';
-import Panel from '../../../shared/Panel';
+import Emojify from 'app/components/shared/Emojify';
+import Panel from 'app/components/shared/Panel';
 
 import Chooser from './chooser';
 import Row from './row';

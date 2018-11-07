@@ -4,13 +4,13 @@ import Relay from 'react-relay/classic';
 import { second, seconds } from 'metrick/duration';
 import throttle from 'throttleit';
 
-import Panel from '../../shared/Panel';
-import SearchField from '../../shared/SearchField';
-import ShowMoreFooter from '../../shared/ShowMoreFooter';
-import Spinner from '../../shared/Spinner';
-import { formatNumber } from '../../../lib/number';
+import Panel from 'app/components/shared/Panel';
+import SearchField from 'app/components/shared/SearchField';
+import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
+import Spinner from 'app/components/shared/Spinner';
+import { formatNumber } from 'app/lib/number';
 
-import PusherStore from '../../../stores/PusherStore';
+import PusherStore from 'app/stores/PusherStore';
 
 import AgentRow from './row';
 

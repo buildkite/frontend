@@ -5,10 +5,10 @@ import DocumentTitle from 'react-document-title';
 import styled from 'styled-components';
 import { stringify } from 'query-string';
 
-import Button from '../shared/Button';
-import Icon from '../shared/Icon';
-import PageWithContainer from '../shared/PageWithContainer';
-import SearchField from '../shared/SearchField';
+import Button from 'app/components/shared/Button';
+import Icon from 'app/components/shared/Icon';
+import PageWithContainer from 'app/components/shared/PageWithContainer';
+import SearchField from 'app/components/shared/SearchField';
 
 import Pipelines from './Pipelines';
 import Teams from './Teams';

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import Chooser from '../shared/Chooser';
-import Emojify from '../shared/Emojify';
+import Chooser from 'app/components/shared/Chooser';
+import Emojify from 'app/components/shared/Emojify';
 
 const PipelineChooser = styled(Chooser)`
   margin: -5px;

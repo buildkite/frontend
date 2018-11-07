@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Button from '../shared/Button';
-import Panel from '../shared/Panel';
-import Badge from '../shared/Badge';
+import Button from 'app/components/shared/Button';
+import Panel from 'app/components/shared/Panel';
+import Badge from 'app/components/shared/Badge';
 
-import FlashesStore from '../../stores/FlashesStore';
+import FlashesStore from 'app/stores/FlashesStore';
 
-import OrganizationInvitationResend from '../../mutations/OrganizationInvitationResend';
-import OrganizationInvitationRevoke from '../../mutations/OrganizationInvitationRevoke';
+import OrganizationInvitationResend from 'app/mutations/OrganizationInvitationResend';
+import OrganizationInvitationRevoke from 'app/mutations/OrganizationInvitationRevoke';
 
-import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
-import OrganizationMemberSSOModeConstants from '../../constants/OrganizationMemberSSOModeConstants';
+import OrganizationMemberRoleConstants from 'app/constants/OrganizationMemberRoleConstants';
+import OrganizationMemberSSOModeConstants from 'app/constants/OrganizationMemberSSOModeConstants';
 
 class InvitationRow extends React.PureComponent {
   static propTypes = {

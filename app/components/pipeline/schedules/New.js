@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import PipelineScheduleCreateMutation from '../../../mutations/PipelineScheduleCreate';
-import GraphQLErrors from '../../../constants/GraphQLErrors';
+import PipelineScheduleCreateMutation from 'app/mutations/PipelineScheduleCreate';
+import GraphQLErrors from 'app/constants/GraphQLErrors';
 
-import Panel from '../../shared/Panel';
-import Button from '../../shared/Button';
+import Panel from 'app/components/shared/Panel';
+import Button from 'app/components/shared/Button';
 
 import Form from './Form';
 

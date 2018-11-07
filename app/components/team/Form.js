@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import FormCheckbox from '../shared/FormCheckbox';
-import FormRadioGroup from '../shared/FormRadioGroup';
-import FormTextField from '../shared/FormTextField';
-import Panel from '../shared/Panel';
-import Button from '../shared/Button';
+import FormCheckbox from 'app/components/shared/FormCheckbox';
+import FormRadioGroup from 'app/components/shared/FormRadioGroup';
+import FormTextField from 'app/components/shared/FormTextField';
+import Panel from 'app/components/shared/Panel';
+import Button from 'app/components/shared/Button';
 
-import ValidationErrors from '../../lib/ValidationErrors';
-import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
+import ValidationErrors from 'app/lib/ValidationErrors';
+import TeamPrivacyConstants from 'app/constants/TeamPrivacyConstants';
 
 class TeamForm extends React.Component {
   static propTypes = {

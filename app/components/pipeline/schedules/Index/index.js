@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import Panel from '../../../shared/Panel';
-import Button from '../../../shared/Button';
-import permissions from '../../../../lib/permissions';
+import Panel from 'app/components/shared/Panel';
+import Button from 'app/components/shared/Button';
+import permissions from 'app/lib/permissions';
 
 import Row from './row';
 

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import shuffle from 'shuffle-array';
 import styled, { keyframes } from 'styled-components';
 
-import Button from '../../shared/Button';
-import Dialog from '../../shared/Dialog';
-import Emojify from '../../shared/Emojify';
+import Button from 'app/components/shared/Button';
+import Dialog from 'app/components/shared/Dialog';
+import Emojify from 'app/components/shared/Emojify';
 
 const IMAGE_DIAMETER = 70;
 const IMAGE_OVERLAP_HORIZONTAL = 6;

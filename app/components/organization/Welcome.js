@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import PipelineIcon from '../icons/Pipeline';
+import PipelineIcon from 'app/components/icons/Pipeline';
 
 class Welcome extends React.PureComponent {
   static propTypes = {

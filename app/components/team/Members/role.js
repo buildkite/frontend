@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Chooser from '../../shared/Chooser';
-import Dropdown from '../../shared/Dropdown';
-import PermissionSelectOptionDescriptions from '../../shared/PermissionSelectOptionDescriptions';
-import PermissionDescription from '../../shared/PermissionDescription';
+import Chooser from 'app/components/shared/Chooser';
+import Dropdown from 'app/components/shared/Dropdown';
+import PermissionSelectOptionDescriptions from 'app/components/shared/PermissionSelectOptionDescriptions';
+import PermissionDescription from 'app/components/shared/PermissionDescription';
 
-import TeamMemberRoleConstants from '../../../constants/TeamMemberRoleConstants';
+import TeamMemberRoleConstants from 'app/constants/TeamMemberRoleConstants';
 
 export default class MemberRole extends React.PureComponent {
   static displayName = "Team.Pipelines.Role";

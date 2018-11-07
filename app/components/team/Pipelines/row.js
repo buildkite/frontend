@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from '../../shared/Button';
-import Emojify from '../../shared/Emojify';
-import Panel from '../../shared/Panel';
-import Spinner from '../../shared/Spinner';
+import Button from 'app/components/shared/Button';
+import Emojify from 'app/components/shared/Emojify';
+import Panel from 'app/components/shared/Panel';
+import Spinner from 'app/components/shared/Spinner';
 
-import FlashesStore from '../../../stores/FlashesStore';
-import permissions from '../../../lib/permissions';
+import FlashesStore from 'app/stores/FlashesStore';
+import permissions from 'app/lib/permissions';
 
 import AccessLevel from './access-level';
 

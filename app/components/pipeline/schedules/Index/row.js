@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Panel from '../../../shared/Panel';
-import Emojify from '../../../shared/Emojify';
+import Panel from 'app/components/shared/Panel';
+import Emojify from 'app/components/shared/Emojify';
 
 class Row extends React.PureComponent {
   static propTypes = {

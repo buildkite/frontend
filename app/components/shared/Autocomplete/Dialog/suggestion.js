@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Button from '../../Button';
+import Button from 'app/components/shared/Button';
 
 export default class Suggestion extends React.PureComponent {
   static displayName = "AutocompleteDialog.Suggestion";
