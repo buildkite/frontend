@@ -79,7 +79,7 @@ module.exports = {
     'flowtype/require-valid-file-annotation': ERROR,
     'flowtype/semi': ERROR,
 
-    'import/extensions': ERROR,
+    'import/extensions': [ERROR, "never", {"css": "always"}],
     'import/unambiguous': OFF,
     'import/no-unresolved': OFF, // Handled by Flow.
 
