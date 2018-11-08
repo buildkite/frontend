@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Panel from '../../shared/Panel';
-import JobLink from '../../shared/JobLink';
-import FriendlyTime from '../../shared/FriendlyTime';
+import Panel from 'app/components/shared/Panel';
+import JobLink from 'app/components/shared/JobLink';
+import FriendlyTime from 'app/components/shared/FriendlyTime';
 
 class Row extends React.PureComponent {
   static propTypes = {

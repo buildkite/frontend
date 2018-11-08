@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { getTypeInfo, types as CardType } from 'credit-card-type';
 
-import CreditCardInput from '../shared/CreditCardInput';
-import labelled from '../shared/labelledFormComponent';
+import CreditCardInput from 'app/components/shared/CreditCardInput';
+import labelled from 'app/components/shared/labelledFormComponent';
 const FormCreditCardField = labelled(CreditCardInput);
 
-import FormInputLabel from '../shared/FormInputLabel';
-import FormInputErrors from '../shared/FormInputErrors';
-import FormTextField from '../shared/FormTextField';
-import FormSelect from '../shared/FormSelect';
+import FormInputLabel from 'app/components/shared/FormInputLabel';
+import FormInputErrors from 'app/components/shared/FormInputErrors';
+import FormTextField from 'app/components/shared/FormTextField';
+import FormSelect from 'app/components/shared/FormSelect';
 
-import ValidationErrors from '../../lib/ValidationErrors';
+import ValidationErrors from 'app/lib/ValidationErrors';
 
 type Props = {
   onChange: Function,

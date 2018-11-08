@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { parse } from 'query-string';
 
-import Button from '../shared/Button';
-import CollapsableArea from '../shared/CollapsableArea';
-import Dialog from '../shared/Dialog';
-import FormTextField from '../shared/FormTextField';
-import FormTextarea from '../shared/FormTextarea';
+import Button from 'app/components/shared/Button';
+import CollapsableArea from 'app/components/shared/CollapsableArea';
+import Dialog from 'app/components/shared/Dialog';
+import FormTextField from 'app/components/shared/FormTextField';
+import FormTextarea from 'app/components/shared/FormTextarea';
 
 type Props = {
   pipeline: Object,

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Chooser from '../../shared/Chooser';
-import Dropdown from '../../shared/Dropdown';
-import PermissionSelectOptionDescriptions from '../../shared/PermissionSelectOptionDescriptions';
-import PermissionDescription from '../../shared/PermissionDescription';
+import Chooser from 'app/components/shared/Chooser';
+import Dropdown from 'app/components/shared/Dropdown';
+import PermissionSelectOptionDescriptions from 'app/components/shared/PermissionSelectOptionDescriptions';
+import PermissionDescription from 'app/components/shared/PermissionDescription';
 
 const MANAGE_BUILD_AND_READ = "MANAGE_BUILD_AND_READ";
 const BUILD_AND_READ = "BUILD_AND_READ";
@@ -15,13 +15,28 @@ export default class AccessLevel extends React.PureComponent {
 
   static propTypes = {
     teamPipeline: PropTypes.shape({
-      accessLevel: PropTypes.string.isRequired
+      accessLevel: PropTypes.string.isRequired,
+      permissions: PropTypes.shape({
+        teamPipelineUpdate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
+        }).isRequired
+      })
     }).isRequired,
     onAccessLevelChange: PropTypes.func.isRequired,
     saving: PropTypes.string
   };
 
   render() {
+    if (this.props.teamPipeline.permissions.teamPipelineUpdate.allowed) {
+      return this.renderDropdownWithChooser();
+    }
+    return (
+      <span className="dark-gray">{this.label(this.props.teamPipeline.accessLevel)}</span>
+    );
+
+  }
+
+  renderDropdownWithChooser() {
     const saving = this.props.saving;
     const selected = this.props.teamPipeline.accessLevel;
 

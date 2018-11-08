@@ -2,8 +2,8 @@
 
 import escapeHtml from 'escape-html';
 
-import BUILDKITE_EMOJI from '../emoji/buildkite';
-import UNICODE_EMOJI from '../emoji/apple';
+import BUILDKITE_EMOJI from 'app/emoji/buildkite';
+import UNICODE_EMOJI from 'app/emoji/apple';
 
 const EMOJI_CATALOGUES = [
   BUILDKITE_EMOJI,

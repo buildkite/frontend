@@ -52,7 +52,8 @@ export default class OrganizationInvitationCreate extends Relay.Mutation {
       organizationID: this.props.organization.id,
       emails: this.props.emails,
       teams: this.props.teams,
-      role: this.props.role
+      role: this.props.role,
+      sso: this.props.sso
     };
   }
 }

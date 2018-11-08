@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Panel from '../../shared/Panel';
-import ShowMoreFooter from '../../shared/ShowMoreFooter';
+import Panel from 'app/components/shared/Panel';
+import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
 
 import Row from './row';
 import Chooser from './chooser';
@@ -17,6 +17,13 @@ class TeamMemberships extends React.PureComponent {
   static propTypes = {
     organizationMember: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
+      organization: PropTypes.shape({
+        permissions: PropTypes.shape({
+          teamAdmin: PropTypes.shape({
+            allowed: PropTypes.bool.isRequired
+          }).isRequired
+        }).isRequired
+      }).isRequired,
       teams: PropTypes.shape({
         count: PropTypes.number.isRequired,
         edges: PropTypes.arrayOf(
@@ -36,10 +43,7 @@ class TeamMemberships extends React.PureComponent {
   render() {
     return (
       <div>
-        <Chooser
-          organizationMember={this.props.organizationMember}
-          onChoose={this.handleTeamMemberAdd}
-        />
+        {this.renderTeamAddButton()}
         <Panel>
           {this.renderTeams()}
           <ShowMoreFooter
@@ -51,6 +55,17 @@ class TeamMemberships extends React.PureComponent {
         </Panel>
       </div>
     );
+  }
+
+  renderTeamAddButton() {
+    if (this.props.organizationMember.organization.permissions.teamAdmin.allowed) {
+      return (
+        <Chooser
+          organizationMember={this.props.organizationMember}
+          onChoose={this.handleTeamMemberAdd}
+        />
+      );
+    }
   }
 
   handleTeamMemberAdd = () => {
@@ -105,6 +120,13 @@ export default Relay.createContainer(TeamMemberships, {
         uuid
         user {
           id
+        }
+        organization {
+          permissions {
+            teamAdmin {
+              allowed
+            }
+          }
         }
         teams(first: $teamsPageSize, order: NAME) {
           ${ShowMoreFooter.getFragment('connection')}

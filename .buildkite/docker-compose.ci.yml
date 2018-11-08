@@ -1,8 +1,0 @@
-version: '2.1'
-
-services:
-  frontend:
-    volumes:
-      - "./bundle-analysis:/frontend/bundle-analysis"
-      - "./coverage:/frontend/coverage"
-      - "./dist:/host/dist"

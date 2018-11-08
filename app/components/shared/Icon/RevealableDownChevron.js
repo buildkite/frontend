@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import Icon from '../Icon';
+import Icon from 'app/components/shared/Icon';
 
 const RevealableDownChevron = styled(Icon).attrs({
   icon: "chevron-right"

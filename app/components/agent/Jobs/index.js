@@ -6,9 +6,9 @@ import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
-import PageWithContainer from '../../shared/PageWithContainer';
-import Panel from '../../shared/Panel';
-import ShowMoreFooter from '../../shared/ShowMoreFooter';
+import PageWithContainer from 'app/components/shared/PageWithContainer';
+import Panel from 'app/components/shared/Panel';
+import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
 
 import AgentJobRow from './row';
 

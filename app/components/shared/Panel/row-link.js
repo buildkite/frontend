@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import Icon from '../../shared/Icon';
+import Icon from 'app/components/shared/Icon';
 
 type Props = {
   children: React$Node,

@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autosize from 'autosize';
-import MarkdownEditor from '../../lib/MarkdownEditor';
-import AssetUploader from '../../lib/AssetUploader';
-import Button from '../shared/Button';
+import MarkdownEditor from 'app/lib/MarkdownEditor';
+import AssetUploader from 'app/lib/AssetUploader';
+import Button from 'app/components/shared/Button';
 
 class FormMarkdownEditorField extends React.Component {
   static propTypes = {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
 import BuildTooltip from './build-tooltip';
-import AnchoredPopover from '../../shared/Popover/anchored';
+import AnchoredPopover from 'app/components/shared/Popover/anchored';
 
 import { BAR_HEIGHT_MINIMUM, BAR_WIDTH, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT } from './constants';
 

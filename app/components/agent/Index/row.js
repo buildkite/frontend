@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 
-import AgentStateIcon from '../state-icon';
+import AgentStateIcon from 'app/components/agent/state-icon';
 
-import Badge from '../../shared/Badge';
-import Panel from '../../shared/Panel';
-import JobLink from '../../shared/JobLink';
+import Badge from 'app/components/shared/Badge';
+import Panel from 'app/components/shared/Panel';
+import JobLink from 'app/components/shared/JobLink';
 
 type Props = {
   agent: {

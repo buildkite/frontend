@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import parseEmoji from '../../lib/parseEmoji';
+import parseEmoji from 'app/lib/parseEmoji';
 
 export default class Emojify extends React.PureComponent {
   static propTypes = {

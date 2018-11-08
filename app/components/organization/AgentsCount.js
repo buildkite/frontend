@@ -4,9 +4,9 @@ import Relay from 'react-relay/classic';
 import throttle from 'throttleit';
 import { seconds } from 'metrick/duration';
 
-import PusherStore from '../../stores/PusherStore';
+import PusherStore from 'app/stores/PusherStore';
 
-import { formatNumber } from '../../lib/number';
+import { formatNumber } from 'app/lib/number';
 
 // We need a `requestUpdate` queue above the React component level so
 // AgentsCount components will only perform one `forceFetch` in any

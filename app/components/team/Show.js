@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import PageHeader from '../shared/PageHeader';
-import Emojify from '../shared/Emojify';
-import permissions from '../../lib/permissions';
-import TabControl from '../shared/TabControl';
+import PageHeader from 'app/components/shared/PageHeader';
+import Emojify from 'app/components/shared/Emojify';
+import permissions from 'app/lib/permissions';
+import TabControl from 'app/components/shared/TabControl';
 import TeamLabels from './Labels';
 
 import Pipelines from './Pipelines';

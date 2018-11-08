@@ -4,11 +4,64 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 
-import Emojify from '../../shared/Emojify';
-import Icon from '../../shared/Icon';
+import Emojify from 'app/components/shared/Emojify';
+import Icon from 'app/components/shared/Icon';
+import Dropdown from 'app/components/shared/Dropdown';
 
-import jobCommandOneliner from '../../../lib/jobCommandOneliner';
-import BootstrapTooltipMixin from '../../../lib/BootstrapTooltipMixin';
+import jobCommandOneliner from 'app/lib/jobCommandOneliner';
+import BootstrapTooltipMixin from 'app/lib/BootstrapTooltipMixin';
+
+class ParallelJobGroup {
+  constructor(id) {
+    this.id = id;
+    this.type = "parallel_group";
+    this.jobs = [];
+
+    this.name = null;
+    this.command = null;
+    this.state = "scheduled";
+    this.passed = null;
+    this.total = null;
+
+    this.finished = 0;
+  }
+
+  appendJob(job) {
+    // Set some of the initial values based on the first job we see
+    if (!this.total) {
+      this.name = job.name;
+      this.command = job.command;
+      this.state = job.state;
+      this.passed = job.passed;
+      this.total = job.parallelGroupTotal;
+    }
+
+    // Keep track of jobs that haven't finished yet
+    if (job.state === "finished" ||
+      job.state === "waiting_failed" ||
+      job.state === "blocked_failed" ||
+      job.state === "canceled" ||
+      job.state === "timed_out" ||
+      job.state === "skipped" ||
+      job.state === "broken") {
+      this.finished += 1;
+    }
+
+    // If any job hasn't passed, then the entire group didn't pass
+    if (!job.passed) {
+      this.passed = false;
+    }
+
+    // Figure out the state of the current group
+    if (this.finished === this.total) {
+      this.state = "finished";
+    } else if (job.state === "running" || (this.finished > 0 && (this.finished !== this.total))) {
+      this.state = "running";
+    }
+
+    this.jobs.push(job);
+  }
+}
 
 const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line react/prefer-es6-class
   displayName: 'BuildHeaderPipelineComponent',
@@ -86,9 +139,71 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
       );
     }
 
-    const jobs = this.state.showHiddenJobs
+    let jobs = this.state.showHiddenJobs
       ? this.props.build.jobs
       : this.props.build.jobs.filter(({ state, retriedInJobUuid }) => state !== 'broken' && !retriedInJobUuid);
+
+    if (Features.ParallelJobGroups) {
+      let groupedJobs = [];
+      let currentParallelGroup = null;
+      for (const job of jobs) {
+        // Ah! We've stumbled onto a parallel job, let's try and group it.
+        if (job.parallelGroupTotal) {
+          // If there's no current group being tracked, create one. If there *is*
+          // one, and it's different to the current group, we'll finish off that
+          // one and create a new group.
+          if (!currentParallelGroup) {
+            currentParallelGroup = new ParallelJobGroup(job.stepUuid);
+          } else if (currentParallelGroup.id !== job.stepUuid) {
+            // Only commit the parallel group if we were able to collect all
+            // the jobs for it (we may only be showing a partial list of jobs)
+            if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
+              groupedJobs.push(currentParallelGroup);
+            } else {
+              groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
+            }
+
+            currentParallelGroup = new ParallelJobGroup(job.stepUuid);
+          }
+
+          currentParallelGroup.appendJob(job);
+        } else {
+          // If this job doesn't have a `parallelGroupTotal`, and there's a
+          // `currentParallelGroup` in the mix, we know we've now progressed
+          // passed the group onto a new job.
+          if (currentParallelGroup) {
+            // Only commit the parallel group if we were able to collect all the
+            // jobs for it (we may only be showing a partial list of jobs)
+            if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
+              groupedJobs.push(currentParallelGroup);
+            } else {
+              groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
+            }
+
+            // We can stop tracking it now
+            currentParallelGroup = null;
+          }
+
+          groupedJobs.push(job);
+        }
+      }
+
+      // If there was a dangling parallel group, add it to the list of jobs to
+      // render as well.
+      if (currentParallelGroup) {
+        // Only commit the parallel group if we were able to collect all the
+        // jobs for it (we may only be showing a partial list of jobs)
+        if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
+          groupedJobs.push(currentParallelGroup);
+        } else {
+          groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
+        }
+
+        currentParallelGroup = null;
+      }
+
+      jobs = groupedJobs;
+    }
 
     const renderedJobs = jobs.map((job) => this.pipelineStep(job));
 
@@ -155,6 +270,8 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
           {this.jobName(job)}
         </a>
       );
+    } else if (job.type === 'parallel_group') {
+      return this.renderParallelGroup(job);
     } else if (job.type === 'waiter') {
       if (job.continueOnFailure) {
         return (
@@ -209,7 +326,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
   },
 
   stepClassName(job) {
-    const state = job.state === 'finished' && (job.type === 'script' || job.type === 'trigger')
+    const state = job.state === 'finished' && (job.type === 'script' || job.type === 'trigger' || job.type === "parallel_group")
       ? (
         job.passed
           ? 'passed'
@@ -224,6 +341,32 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
       'truncate',
       'align-middle'
     ].join(' ');
+  },
+
+  renderParallelGroup(group) {
+    let labelBackgroundColor;
+    if (group.state === "running") {
+      labelBackgroundColor = "#9c7c14"; // Yellow-ish
+    } else if (group.state === "finished" && group.passed) {
+      labelBackgroundColor = "#69A770"; // Green
+    } else if (group.state === "finished" && !group.passed) {
+      labelBackgroundColor = "#a94442"; // Red
+    } else {
+      labelBackgroundColor = "#afafaf"; // Gray
+    }
+
+    return (
+      <Dropdown key={group.id} width={409} className={this.stepClassName(group).replace("truncate", "")}>
+        <div className="right flex items-center">
+          <span className="truncate" style={{ maxWidth: "12em" }}>{this.jobName(group)}</span>
+          <span className="ml1 rounded white semi-bold small relative cursor-default" style={{ padding: "0px 4px", height: "19px", lineHeight: "20px", top: -1, backgroundColor: labelBackgroundColor }}>{group.finished}/{group.total}</span>
+        </div>
+
+        <div className="build-pipeline-job-popup ml2 mb2 mr1">
+          {group.jobs.map((job) => this.pipelineStep(job))}
+        </div>
+      </Dropdown>
+    );
   },
 
   handleScriptJobClick(job) {

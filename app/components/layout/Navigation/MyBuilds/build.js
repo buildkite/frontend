@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import styled from 'styled-components';
 
-import Emojify from '../../../shared/Emojify';
-import Duration from '../../../shared/Duration';
+import Emojify from 'app/components/shared/Emojify';
+import Duration from 'app/components/shared/Duration';
 
-import PusherStore from '../../../../stores/PusherStore';
-import BuildState from '../../../icons/BuildState';
+import PusherStore from 'app/stores/PusherStore';
+import BuildState from 'app/components/icons/BuildState';
 
-import { buildStatus } from '../../../../lib/builds';
-import { shortMessage } from '../../../../lib/commits';
-import { getDateString } from '../../../../lib/date';
+import { buildStatus } from 'app/lib/builds';
+import { shortMessage } from 'app/lib/commits';
+import { getDateString } from 'app/lib/date';
 
 const BuildLink = styled.a.attrs({
   className: 'flex text-decoration-none dark-gray hover-lime mb2'

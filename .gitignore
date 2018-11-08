@@ -4,6 +4,9 @@
 # OSX cache files
 .DS_Store
 
+# git head commit sha without .git
+/REVISION
+
 # Node
 node_modules
 npm-debug.log
@@ -22,3 +25,8 @@ bundle-analysis
 
 # Babel generated files (from relay-compiler)
 __generated__
+
+# Storybook exports generated using `yarn build-storybook`
+storybook-static
+
+.cache/

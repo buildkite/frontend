@@ -3,9 +3,9 @@
 import React from "react";
 import DocumentTitle from "react-document-title";
 
-import PageHeader from "../../shared/PageHeader";
-import TabControl from "../../shared/TabControl";
-import Icon from "../../shared/Icon";
+import PageHeader from 'app/components/shared/PageHeader';
+import TabControl from 'app/components/shared/TabControl';
+import Icon from 'app/components/shared/Icon';
 
 declare var Features: {
   GraphQLExplorerDocs: boolean

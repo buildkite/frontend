@@ -4,7 +4,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 
 import Link from './link';
-import Icon from '../../shared/Icon';
+import Icon from 'app/components/shared/Icon';
 
 type Props = {
   viewer?: {

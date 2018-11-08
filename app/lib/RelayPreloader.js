@@ -3,6 +3,7 @@
 import Relay from 'react-relay/classic';
 import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
+
 const QUERIES = {
   "build_header/build": Relay.QL`
     query BuildsShowBuild($build: ID!) {
@@ -77,6 +78,9 @@ const QUERIES = {
             hasPreviousPage
           }
         }
+        allPipelines: pipelines(team: $team) {
+          count
+       }
         pipelines(first: $pageSize, search: $pipelineFilter, team: $team, order: NAME_WITH_FAVORITES_FIRST) {
           edges {
             node {
@@ -164,6 +168,13 @@ const QUERIES = {
           count
         }
         permissions {
+          pipelineView {
+            allowed
+            code
+          }
+          agentView {
+            allowed
+          }
           organizationUpdate {
             allowed
           }
@@ -176,7 +187,7 @@ const QUERIES = {
           organizationBillingUpdate {
             allowed
           }
-          teamAdmin {
+          teamView {
             allowed
           }
         }
@@ -210,7 +221,7 @@ const QUERIES = {
           organizationUpdate {
             allowed
           }
-          organizationInvitationCreate {
+          organizationMemberView {
             allowed
           }
           notificationServiceUpdate {
@@ -219,10 +230,10 @@ const QUERIES = {
           organizationBillingUpdate {
             allowed
           }
-          teamAdmin {
+          teamView {
             allowed
           }
-          teamCreate {
+          teamEnabledChange {
             allowed
           }
           auditEventsView {
@@ -259,6 +270,15 @@ const QUERIES = {
       }
     }
   `,
+
+  /*
+  Disabling graphql/no-deprecated-fields here as I think there is some changes probably
+  required in the graph implementation so that we can actually use the alternatives to
+  `pingedAt`, `stoppedAt`, & `stoppedBy` fields as at the moment it seems like using these
+  fields will mean we need do a lot of extra fetching and checking on the client which
+  seems bad?
+  */
+  /* eslint-disable graphql/no-deprecated-fields */
   "agents/show": Relay.QL`
     query($slug: ID!) {
       agent(slug: $slug) {
@@ -318,6 +338,7 @@ const QUERIES = {
       }
     }
   `,
+  /* eslint-enable graphql/no-deprecated-fields */
   "teams/index": Relay.QL`
     query($organization: ID!) {
       organization(slug: $organization) {
@@ -325,6 +346,16 @@ const QUERIES = {
         name
         slug
         permissions {
+          teamView {
+            allowed
+            code
+            message
+          }
+          teamEnabledChange {
+            allowed
+            code
+            message
+          }
           teamCreate {
             allowed
           }
@@ -395,10 +426,20 @@ const QUERIES = {
     query($pipeline: ID!) {
       pipeline(slug: $pipeline) {
         id
+        name
+        slug
+        organization {
+          slug
+          permissions {
+            teamView {
+              allowed
+            }
+          }
+        }
         repository {
           provider {
-            name
             __typename
+            name
           }
         }
         teams {
@@ -406,6 +447,11 @@ const QUERIES = {
         }
         schedules {
           count
+        }
+        permissions {
+          pipelineUpdate {
+            allowed
+          }
         }
       }
     }
@@ -481,6 +527,56 @@ const QUERIES = {
         query
         operationName
         url
+      }
+    }
+  `,
+  "user_settings_navigation/organizations": Relay.QL`
+    query UserSettingsNavigation {
+      viewer {
+        id
+        organizations(first: 10) {
+          edges {
+            node {
+              name
+              slug
+              permissions {
+                pipelineView {
+                  allowed
+                  code
+                }
+              }
+              id
+            }
+            cursor
+          }
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+          }
+        }
+      }
+    }
+  `,
+  "totp/viewer": Relay.QL`
+    query TOTPViewer {
+      viewer {
+        id
+        user {
+          id
+          hasPassword
+        }
+        totp {
+          id
+          verified
+          recoveryCodes {
+            id
+            active
+            codes {
+              code
+              consumed
+            }
+          }
+        }
       }
     }
   `

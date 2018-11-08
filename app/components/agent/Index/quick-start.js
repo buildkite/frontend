@@ -4,8 +4,8 @@ import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 
-import Emojify from '../../shared/Emojify';
-import Panel from '../../shared/Panel';
+import Emojify from 'app/components/shared/Emojify';
+import Panel from 'app/components/shared/Panel';
 
 import 'highlight.js/styles/atom-one-light.css';
 

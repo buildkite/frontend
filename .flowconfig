@@ -1,6 +1,6 @@
 [ignore]
-.*/node_modules/.*
-.*/__generated__/.*
+# This JSON file is invalid and breaks flow with an "Unexpected string" error.
+.*/node_modules/config-chain/test/broken.json
 
 [include]
 
@@ -11,5 +11,7 @@ all=warn
 
 [options]
 emoji=true
+suppress_comment=\\(.\\|\n\\)*\\$FlowExpectError
 module.use_strict=true
 module.ignore_non_literal_requires=true
+module.name_mapper='^app/\(.*\)$' -> '<PROJECT_ROOT>/app/\1'

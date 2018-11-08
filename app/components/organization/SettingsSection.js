@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import PageWithMenu from '../shared/PageWithMenu';
+import PageWithMenu from 'app/components/shared/PageWithMenu';
 import SettingsMenu from './SettingsMenu';
 
 class SettingsSection extends React.PureComponent {

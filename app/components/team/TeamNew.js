@@ -3,19 +3,26 @@ import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
 
-import PageHeader from '../shared/PageHeader';
+import PageHeader from 'app/components/shared/PageHeader';
+import Panel from 'app/components/shared/Panel';
 import TeamForm from './Form';
 
-import GraphQLErrors from '../../constants/GraphQLErrors';
-import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
-import TeamPrivacyConstants from '../../constants/TeamPrivacyConstants';
+import GraphQLErrors from 'app/constants/GraphQLErrors';
+import TeamMemberRoleConstants from 'app/constants/TeamMemberRoleConstants';
+import TeamPrivacyConstants from 'app/constants/TeamPrivacyConstants';
 
 class TeamNew extends React.Component {
   static propTypes = {
     organization: PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      slug: PropTypes.string.isRequired
+      slug: PropTypes.string.isRequired,
+      permissions: PropTypes.shape({
+        teamCreate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired,
+          message: PropTypes.string
+        })
+      })
     }).isRequired,
     relay: PropTypes.object.isRequired
   };
@@ -35,26 +42,48 @@ class TeamNew extends React.Component {
   };
 
   render() {
+    let content;
+    if (this.props.organization.permissions.teamCreate.allowed) {
+      content = this.renderForm();
+    } else {
+      content = this.renderPermissionErrorMessage();
+    }
+
     return (
       <DocumentTitle title={`New Team · ${this.props.organization.name}`}>
         <form onSubmit={this.handleFormSubmit}>
           <PageHeader>
             <PageHeader.Title>New Team</PageHeader.Title>
           </PageHeader>
-
-          <TeamForm
-            onChange={this.handleFormChange}
-            errors={this.state.errors}
-            name={this.state.name}
-            description={this.state.description}
-            privacy={this.state.privacy}
-            isDefaultTeam={this.state.isDefaultTeam}
-            autofocus={true}
-            saving={this.state.saving}
-            button={this.state.saving ? "Creating team…" : "Create Team"}
-          />
+          {content}
         </form>
       </DocumentTitle>
+    );
+  }
+
+  renderForm() {
+    return (
+      <TeamForm
+        onChange={this.handleFormChange}
+        errors={this.state.errors}
+        name={this.state.name}
+        description={this.state.description}
+        privacy={this.state.privacy}
+        isDefaultTeam={this.state.isDefaultTeam}
+        autofocus={true}
+        saving={this.state.saving}
+        button={this.state.saving ? "Creating team…" : "Create Team"}
+      />
+    );
+  }
+
+  renderPermissionErrorMessage() {
+    return (
+      <Panel>
+        <Panel.Section>
+          <p className="red">{this.props.organization.permissions.teamCreate.message}</p>
+        </Panel.Section>
+      </Panel>
     );
   }
 
@@ -132,6 +161,12 @@ export default createFragmentContainer(TeamNew, {
       id
       name
       slug
+      permissions {
+        teamCreate {
+          allowed
+          message
+        }
+      }
     }
   `
 });

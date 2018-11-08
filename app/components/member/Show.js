@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import PageHeader from '../shared/PageHeader';
-import UserAvatar from '../shared/UserAvatar';
-import TabControl from '../shared/TabControl';
-import permissions from '../../lib/permissions';
+import PageHeader from 'app/components/shared/PageHeader';
+import UserAvatar from 'app/components/shared/UserAvatar';
+import TabControl from 'app/components/shared/TabControl';
+import permissions from 'app/lib/permissions';
 
 const AVATAR_SIZE = 50;
 
@@ -20,7 +20,7 @@ class Show extends React.PureComponent {
       organization: PropTypes.shape({
         slug: PropTypes.string.isRequired,
         permissions: PropTypes.shape({
-          teamAdmin: PropTypes.shape({
+          teamView: PropTypes.shape({
             allowed: PropTypes.bool.isRequired
           }).isRequired
         }).isRequired
@@ -88,8 +88,7 @@ class Show extends React.PureComponent {
         )
       },
       {
-        always: "teamAdmin",
-        and: () => Features.organizationHasTeams,
+        allowed: "teamView",
         render: (idx) => (
           <TabControl.Tab
             key={idx}
@@ -118,7 +117,7 @@ export default Relay.createContainer(Show, {
         organization {
           slug
           permissions {
-            teamAdmin {
+            teamView {
               allowed
             }
           }

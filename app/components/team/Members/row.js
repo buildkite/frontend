@@ -2,20 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Panel from '../../shared/Panel';
-import Button from '../../shared/Button';
-import Spinner from '../../shared/Spinner';
+import Panel from 'app/components/shared/Panel';
+import Button from 'app/components/shared/Button';
+import Spinner from 'app/components/shared/Spinner';
 
-import FlashesStore from '../../../stores/FlashesStore';
-import permissions from '../../../lib/permissions';
+import FlashesStore from 'app/stores/FlashesStore';
+import permissions from 'app/lib/permissions';
 
 // NOTE: While these mutations *run* from cosumers of the Row component,
 //       in order for the data passed out to be consistent, their fragments
 //       must be included within this component's fragment.
-import TeamMemberUpdateMutation from '../../../mutations/TeamMemberUpdate';
-import TeamMemberDeleteMutation from '../../../mutations/TeamMemberDelete';
+import TeamMemberUpdateMutation from 'app/mutations/TeamMemberUpdate';
+import TeamMemberDeleteMutation from 'app/mutations/TeamMemberDelete';
 
-import User from '../../shared/User';
+import User from 'app/components/shared/User';
 import Role from './role';
 
 class Row extends React.PureComponent {
@@ -70,13 +70,14 @@ class Row extends React.PureComponent {
 
     return permissions(this.props.teamMember.permissions).collect(
       {
-        allowed: "teamMemberUpdate",
+        always: true,
         render: (idx) => (
           <Role
             key={idx}
             teamMember={this.props.teamMember}
             onRoleChange={this.handleRoleChange}
             savingNewRole={this.state.savingNewRole}
+            teamMemberUpdatePermission={this.props.teamMember.permissions.teamMemberUpdate}
           />
         )
       },

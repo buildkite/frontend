@@ -2,25 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
+import moment from 'moment';
 import styled from 'styled-components';
 import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';
 
 import AgentStateIcon from './state-icon';
-import Badge from '../shared/Badge';
-import Button from '../shared/Button';
-import FlashesStore from '../../stores/FlashesStore';
-import FriendlyTime from '../shared/FriendlyTime';
-import JobLink from '../shared/JobLink';
-import JobState from '../icons/JobState';
-import PageWithContainer from '../shared/PageWithContainer';
-import Panel from '../shared/Panel';
-import permissions from '../../lib/permissions';
+import Badge from 'app/components/shared/Badge';
+import Button from 'app/components/shared/Button';
+import FlashesStore from 'app/stores/FlashesStore';
+import FriendlyTime from 'app/components/shared/FriendlyTime';
+import JobLink from 'app/components/shared/JobLink';
+import JobState from 'app/components/icons/JobState';
+import PageWithContainer from 'app/components/shared/PageWithContainer';
+import Panel from 'app/components/shared/Panel';
+import permissions from 'app/lib/permissions';
 import { getLabelForConnectionState } from './shared';
 
-import { formatNumber } from '../../lib/number';
+import { formatNumber } from 'app/lib/number';
 
-import AgentStopMutation from '../../mutations/AgentStop';
+import AgentStopMutation from 'app/mutations/AgentStop';
 
 const ExtrasTable = styled.table`
   @media (max-width: 720px) {
@@ -44,6 +45,8 @@ class AgentShow extends React.Component {
       uuid: PropTypes.string,
       name: PropTypes.string,
       connectionState: PropTypes.string,
+      disconnectedAt: PropTypes.string,
+      stoppedAt: PropTypes.string,
       job: PropTypes.object,
       permissions: PropTypes.shape({
         agentStop: PropTypes.shape({
@@ -60,7 +63,8 @@ class AgentShow extends React.Component {
   };
 
   state = {
-    stopping: false
+    stopping: false,
+    forceStopping: false
   };
 
   componentDidMount() {
@@ -112,9 +116,9 @@ class AgentShow extends React.Component {
     );
   }
 
-  renderExtraItem(title, content) {
+  renderExtraItem(title, content, options) {
     return (
-      <tr key={title} style={{ marginTop: 3 }} className="border-gray border-bottom flex-wrap">
+      <tr key={title} style={{ marginTop: 3 }} className={`${(!options || options.borderBottom !== false) && 'border-gray border-bottom'} flex-wrap`}>
         <th className="h4 p2 semi-bold left-align align-top" width={120}>{title}</th>
         <td className="h4 p2" style={{ flexGrow: 1 }}>{content}</td>
       </tr>
@@ -124,20 +128,10 @@ class AgentShow extends React.Component {
   renderExtras(agent) {
     const extras = [];
 
-    let extraStoppingInfo;
-    if (agent.connectionState === "stopping") {
-      extraStoppingInfo = (
-        <div className="dark-gray mt1">
-          If the agent doesn’t respond to the stop signal within a few minutes, Buildkite will forcefully disconnect the agent and remove it from your pool of agents.
-        </div>
-      );
-    }
-
     extras.push(this.renderExtraItem('State', (
       <div>
         <AgentStateIcon agent={agent} style={{ marginRight: '.4em' }} />
         {getLabelForConnectionState(agent.connectionState)}
-        {extraStoppingInfo}
       </div>
     )));
 
@@ -180,13 +174,15 @@ class AgentShow extends React.Component {
     if (agent.connectedAt) {
       extras.push(this.renderExtraItem(
         'Connected',
-        <span>
-          <FriendlyTime value={agent.connectedAt} />
-          {agent.pingedAt && agent.connectionState === 'connected' &&
-            <span> (last check-in was <FriendlyTime value={agent.pingedAt} capitalized={false} />)</span>
-          }
-        </span>
+        <FriendlyTime value={agent.connectedAt} />
       ));
+
+      if (agent.pingedAt) {
+        extras.push(this.renderExtraItem(
+          'Last Ping',
+          <FriendlyTime value={agent.pingedAt} />
+        ));
+      }
     }
 
     if (agent.connectionState === 'disconnected') {
@@ -201,9 +197,9 @@ class AgentShow extends React.Component {
       ));
     } else if (agent.connectionState === 'stopped' || agent.connectionState === 'stopping') {
       extras.push(this.renderExtraItem(
-        'Stopped',
+        'Stopped By',
         <span>
-          <FriendlyTime value={agent.stoppedAt} /> by {agent.stoppedBy.name}
+          {agent.stoppedBy.name} <FriendlyTime value={agent.stoppedAt} capitalized={false} />
         </span>
       ));
 
@@ -211,11 +207,6 @@ class AgentShow extends React.Component {
         extras.push(this.renderExtraItem(
           'Disconnected',
           <FriendlyTime value={agent.disconnectedAt} />
-        ));
-      } else {
-        extras.push(this.renderExtraItem(
-          'Disconnected',
-          '-'
         ));
       }
     }
@@ -230,8 +221,9 @@ class AgentShow extends React.Component {
       });
     }
     extras.push(this.renderExtraItem(
-      'Meta-data',
-      <pre className="black bg-silver rounded border border-gray p2 m0 mb1 monospace" style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{metaDataContent}</pre>
+      'Tags',
+      <pre className="black bg-silver rounded border border-gray p2 m0 mb1 monospace" style={{ fontSize: 13, whiteSpace: 'pre-wrap' }}>{metaDataContent}</pre>,
+      { borderBottom: false }
     ));
 
     return (
@@ -282,31 +274,51 @@ class AgentShow extends React.Component {
   handleStopButtonClick = (evt) => {
     evt.preventDefault();
 
-    this.setState({ stopping: true });
+    this.setState({ stopping: true }, () => {
+      // We add a delay in case it executes so quickly that the user can't
+      // understand what just flashed past their face.
+      setTimeout(() => {
+        this.sendAgentStopMutation(true, this.handleStopMutationSuccess, this.handleStopMutationError);
+      }, 1250);
+    });
+  }
 
-    // We add a delay in case it executes so quickly that the user can't
-    // understand what just flashed past their face.
-    setTimeout(() => {
-      const mutation = new AgentStopMutation({
+  handleForceStopButtonClick = (evt) => {
+    evt.preventDefault();
+
+    this.setState({ forceStopping: true }, () => {
+      this.sendAgentStopMutation(false, this.handleForceStopMutationSuccess, this.handleForceStopMutationError);
+    });
+  }
+
+  sendAgentStopMutation = (graceful, onSuccess, onFailure) => {
+    Relay.Store.commitUpdate(
+      new AgentStopMutation({
         agent: this.props.agent,
-        graceful: false
-      });
-
-      Relay.Store.commitUpdate(mutation, {
-        onSuccess: this.handleMutationSuccess,
-        onFailure: this.handleMutationError
-      });
-    }, 1250);
+        graceful
+      }),
+      { onSuccess, onFailure }
+    );
   };
 
-  handleMutationSuccess = () => {
+  handleStopMutationSuccess = () => {
     this.setState({ stopping: false });
   };
 
-  handleMutationError = (transaction) => {
+  handleStopMutationError = (transaction) => {
     FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
 
     this.setState({ stopping: false });
+  };
+
+  handleForceStopMutationSuccess = () => {
+    // Force stopping state stays on, because it doesn't change the connectionState
+  };
+
+  handleForceStopMutationError = (transaction) => {
+    FlashesStore.flash(FlashesStore.ERROR, transaction.getError());
+
+    this.setState({ forceStopping: false });
   };
 
   render() {
@@ -336,13 +348,16 @@ class AgentShow extends React.Component {
 
             <Panel.Row key="info">
               {this.renderExtras(agent)}
-              <p>
-                You can use the agent’s meta-data to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
-                See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/agent-meta-data">Agent Meta-data Documentation</a> and <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/queues">Agent Queues Documentation</a> for more details.
-              </p>
+              {(this.props.agent.connectionState === 'connected' || this.props.agent.connectionState === 'stopping') &&
+                <p className="m0">
+                  You can use the agent’s tags to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
+                  See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/v3/cli-start">Agent Tags and Queue Documentation</a> for more details.
+                </p>
+              }
             </Panel.Row>
 
             {this.renderStopRow()}
+            {this.renderForceStopRow()}
           </Panel>
         </PageWithContainer>
       </DocumentTitle>
@@ -350,39 +365,75 @@ class AgentShow extends React.Component {
   }
 
   renderStopRow() {
-    if (this.props.agent.connectionState !== 'connected') {
+    if (this.props.agent.disconnectedAt !== null) {
+      return null;
+    }
+    if (this.props.agent.connectionState === 'stopped') {
+      return null;
+    }
+    if (!permissions(this.props.agent.permissions).isPermissionAllowed("agentStop")) {
       return null;
     }
 
-    return permissions(this.props.agent.permissions).collect(
-      {
-        allowed: "agentStop",
-        render: (idx) => (
-          <Panel.Row key={idx}>
-            <Button
-              theme="default"
-              outline={true}
-              loading={this.state.stopping ? "Stopping…" : false}
-              onClick={this.handleStopButtonClick}
-              className="mb1"
-            >
-              Stop Agent
-            </Button>
-            {this.renderStopWarningMessage()}
-          </Panel.Row>
-        )
-      }
+    const stopping = this.state.stopping || this.props.agent.connectionState === 'stopping';
+
+    return (
+      <Panel.Row>
+        <div className="flex items-center">
+          <Button
+            theme="default"
+            outline={true}
+            loading={stopping ? "Stopping…" : false}
+            onClick={this.handleStopButtonClick}
+            className="mb1 mr3 flex-none"
+          >
+            Stop Agent
+          </Button>
+          <p className="dark-gray m0 flex-1">
+            {!this.props.agent.job && !this.props.agent.stoppedAt && 'Send a signal to the agent that it should disconnect.'}
+            {this.props.agent.job && !this.props.agent.stoppedAt && 'Send a signal to the agent that it should disconnect once its current job has completed.'}
+            {this.props.agent.job && this.props.agent.stoppedAt && 'Waiting for the agent to complete its current job and disconnect.'}
+            {!this.props.agent.job && this.props.agent.stoppedAt && 'Waiting for the agent to disconnect.'}
+            {!this.props.agent.job && this.props.agent.stoppedAt && moment().diff(this.props.agent.stoppedAt, 'seconds') > 5 && ' If the agent doesn’t respond within a few minutes, it will be forcefully removed from your agent pool.'}
+          </p>
+        </div>
+      </Panel.Row>
     );
   }
 
-  renderStopWarningMessage() {
-    if (this.props.agent.job) {
-      return (
-        <span className="dark-gray pl3">
-          The running job will be canceled.
-        </span>
-      );
+  renderForceStopRow() {
+    if (this.state.stopping || this.props.agent.connectionState !== 'stopping') {
+      return null;
     }
+
+    if (this.props.agent.stoppedAt && moment().diff(this.props.agent.stoppedAt, 'seconds') < 5) {
+      return null;
+    }
+
+    // if the user can't stop an agent, abort
+    if (!permissions(this.props.agent.permissions).isPermissionAllowed("agentStop")) {
+      return null;
+    }
+
+    return (
+      <Panel.Row>
+        <div className="flex items-center">
+          <Button
+            theme="default"
+            outline={true}
+            loading={this.state.forceStopping ? "Force Stopping…" : false}
+            onClick={this.handleForceStopButtonClick}
+            className="mb1 mr3 flex-none"
+          >
+            Force Stop Agent
+          </Button>
+          <p className="dark-gray m0 flex-1">
+            {!this.props.agent.job && !this.state.forceStopping && 'Forcefully remove this agent from your agent pool.'}
+            {this.props.agent.job && 'Cancel the running job, and forcefully remove this agent from your agent pool.'}
+          </p>
+        </div>
+      </Panel.Row>
+    );
   }
 
   renderPublicBadge() {
@@ -394,6 +445,14 @@ class AgentShow extends React.Component {
   }
 }
 
+/*
+Disabling graphql/no-deprecated-fields here as I think there is some changes probably
+required in the graph implementation so that we can actually use the alternatives to
+`pingedAt`, `stoppedAt`, & `stoppedBy` fields as at the moment it seems like using these
+fields will mean we need do a lot of extra fetching and checking on the client which
+seems bad?
+*/
+/* eslint-disable graphql/no-deprecated-fields */
 export default Relay.createContainer(AgentShow, {
   initialVariables: {
     jobPageSize: 10

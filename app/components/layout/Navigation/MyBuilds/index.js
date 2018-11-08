@@ -6,19 +6,28 @@ import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 import { hour, seconds } from 'metrick/duration';
 
-import PusherStore from '../../../../stores/PusherStore';
-import Button from '../../../shared/Button';
-import Spinner from '../../../shared/Spinner';
-import Dropdown from '../../../shared/Dropdown';
-import Icon from '../../../shared/Icon';
-import Badge from '../../../shared/Badge';
-import CachedStateWrapper from '../../../../lib/CachedStateWrapper';
+import PusherStore from 'app/stores/PusherStore';
+import Button from 'app/components/shared/Button';
+import Spinner from 'app/components/shared/Spinner';
+import Dropdown from 'app/components/shared/Dropdown';
+import Icon from 'app/components/shared/Icon';
+import Badge from 'app/components/shared/Badge';
 
 import Build from './build';
 import DropdownButton from './../dropdown-button';
 
+type ViewerPartial = {
+  scheduledBuilds: {
+    count: number
+  },
+  runningBuilds: {
+    count: number
+  },
+  user: Object
+};
+
 type Props = {
-  viewer?: Object,
+  viewer?: ViewerPartial,
   relay: Object
 };
 
@@ -28,39 +37,70 @@ type State = {
   runningBuildsCount: number
 };
 
+// This component caches the current builds count between page refreshes so
+// that we don't animate in the value once it loads via relay. Because of this
+// we do some munging of props into state. Pusher updates tell Relay to refetch
+// the GraphQL query which updates the props, and we turn that into derived
+// state for rendering.  We also look at the state and cache it on component
+// update. Sorry.
 class MyBuilds extends React.Component<Props, State> {
-  state = {
-    isDropdownVisible: false,
-    scheduledBuildsCount: (
-      (this.props.viewer && this.props.viewer.scheduledBuilds)
-        ? this.props.viewer.scheduledBuilds.count
-        : 0
-    ),
-    runningBuildsCount: (
-      (this.props.viewer && this.props.viewer.runningBuilds)
-        ? this.props.viewer.runningBuilds.count
-        : 0
-    )
+  constructor(props) {
+    super(props);
+
+    const cachedState = MyBuilds.getCachedState();
+
+    const initialState = {
+      isDropdownVisible: false,
+      scheduledBuildsCount: (
+        this.props.viewer && this.props.viewer.scheduledBuilds
+          ? this.props.viewer.scheduledBuilds.count
+          : (cachedState && cachedState.scheduledBuildsCount ? cachedState.scheduledBuildsCount : 0)
+      ),
+      runningBuildsCount: (
+        this.props.viewer && this.props.viewer.runningBuilds
+          ? this.props.viewer.runningBuilds.count
+          : (cachedState && cachedState.runningBuildsCount ? cachedState.runningBuildsCount : 0)
+      )
+    };
+
+    this.state = initialState;
   }
 
-  getCachedState;
-  setCachedState;
+  static getDerivedStateFromProps(props) {
+    const derivedState = {};
 
-  // When the MyBuilds mounts, we should see if we've got any cached
-  // builds numbers so we can show something right away.
-  componentWillMount() {
-    const initialState = {};
-    const cachedState = this.getCachedState();
-
-    if (!this.props.viewer || !this.props.viewer.scheduledBuilds) {
-      initialState.scheduledBuildsCount = cachedState.scheduledBuildsCount || 0;
+    if (props.viewer && props.viewer.scheduledBuilds) {
+      derivedState.scheduledBuildsCount = props.viewer.scheduledBuilds.count;
     }
 
-    if (!this.props.viewer || !this.props.viewer.runningBuilds) {
-      initialState.runningBuildsCount = cachedState.runningBuildsCount || 0;
+    if (props.viewer && props.viewer.runningBuilds) {
+      derivedState.runningBuildsCount = props.viewer.runningBuilds.count;
     }
 
-    this.setState(initialState);
+    return derivedState;
+  }
+
+  static getCachedState() {
+    const serializedState = localStorage['CachedState:MyBuilds:'];
+
+    if (!serializedState) {
+      return {};
+    }
+
+    const { state, expiresAt } = JSON.parse(serializedState);
+
+    if (!state || (expiresAt && expiresAt < Date.now())) {
+      return {};
+    }
+
+    return state;
+  }
+
+  static setCachedState(state = {}) {
+    localStorage['CachedState:MyBuilds:'] = JSON.stringify({
+      state,
+      expiresAt: Date.now() + hour.bind(1)
+    });
   }
 
   componentDidMount() {
@@ -77,25 +117,18 @@ class MyBuilds extends React.Component<Props, State> {
     setTimeout(this.handlePusherConnected, seconds.bind(3));
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { scheduledBuildsCount, runningBuildsCount } = this.state;
+    const { scheduledBuildsCount: prevScheduledBuildsCount, runningBuildsCount: prevRunningBuildsCount } = prevState;
+
+    if (scheduledBuildsCount !== prevScheduledBuildsCount || runningBuildsCount !== prevRunningBuildsCount) {
+      MyBuilds.setCachedState({ scheduledBuildsCount, runningBuildsCount });
+    }
+  }
+
   componentWillUnmount() {
     PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent);
     PusherStore.off("connected", this.handlePusherConnected);
-  }
-
-  // As we get new values for scheduledBuildsCount and runningBuildsCount from
-  // Relay + GraphQL, we'll be sure to update the cached state with the latest
-  // values so when the page re-loads, we can show the latest numbers.
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.viewer) {
-      return;
-    }
-
-    if (nextProps.viewer.scheduledBuilds || nextProps.viewer.runningBuilds) {
-      this.setCachedState({
-        scheduledBuildsCount: nextProps.viewer.scheduledBuilds.count,
-        runningBuildsCount: nextProps.viewer.runningBuilds.count
-      });
-    }
   }
 
   render() {
@@ -243,11 +276,7 @@ class MyBuilds extends React.Component<Props, State> {
   };
 }
 
-// Wrap the MyBuilds in a CachedStateWrapper so we get access to methods
-// like `setCachedState`
-const CachedMyBuilds = CachedStateWrapper(MyBuilds, { validLength: hour.bind(1) });
-
-export default Relay.createContainer(CachedMyBuilds, {
+export default Relay.createContainer(MyBuilds, {
   initialVariables: {
     includeBuilds: false,
     includeBuildCounts: false

@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Panel from '../shared/Panel';
+import Panel from 'app/components/shared/Panel';
 
 import TeamForm from './Form';
 import TeamDelete from './TeamDelete';
 
-import TeamUpdateMutation from '../../mutations/TeamUpdate';
-import GraphQLErrors from '../../constants/GraphQLErrors';
-import FlashesStore from '../../stores/FlashesStore';
+import TeamUpdateMutation from 'app/mutations/TeamUpdate';
+import GraphQLErrors from 'app/constants/GraphQLErrors';
+import FlashesStore from 'app/stores/FlashesStore';
 
 class TeamEdit extends React.Component {
   static propTypes = {

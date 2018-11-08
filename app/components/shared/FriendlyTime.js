@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { minute } from 'metrick/duration';
-import { getDateString, getRelativeDateString } from '../../lib/date';
+import { getDateString, getRelativeDateString } from 'app/lib/date';
 
 export default class FriendlyTime extends React.PureComponent {
   static propTypes = {

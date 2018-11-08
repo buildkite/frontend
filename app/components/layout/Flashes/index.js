@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import FlashesStore, { type FlashItem } from '../../../stores/FlashesStore';
-import PusherStore from '../../../stores/PusherStore';
+import FlashesStore, { type FlashItem } from 'app/stores/FlashesStore';
+import PusherStore from 'app/stores/PusherStore';
 
 import Flash from './flash';
 

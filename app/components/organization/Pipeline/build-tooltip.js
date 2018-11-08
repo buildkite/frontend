@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import BuildStatusDescription from '../../shared/BuildStatusDescription';
-import Duration from '../../shared/Duration';
-import Emojify from '../../shared/Emojify';
-import UserAvatar from '../../shared/UserAvatar';
+import BuildStatusDescription from 'app/components/shared/BuildStatusDescription';
+import Duration from 'app/components/shared/Duration';
+import Emojify from 'app/components/shared/Emojify';
+import UserAvatar from 'app/components/shared/UserAvatar';
 
-import { buildTime } from '../../../lib/builds';
-import { shortMessage, shortCommit } from '../../../lib/commits';
+import { buildTime } from 'app/lib/builds';
+import { shortMessage, shortCommit } from 'app/lib/commits';
 
 class BuildTooltip extends React.PureComponent {
   static propTypes = {
@@ -27,10 +27,17 @@ class BuildTooltip extends React.PureComponent {
   };
 
   render() {
+    let userAvatarNode;
+    if (this.props.build.createdBy) {
+      userAvatarNode = (
+        <UserAvatar user={this.props.build.createdBy} className="block" style={{ width: 30, height: 30 }} />
+      );
+    }
+
     return (
       <div className="flex items-top mx2 my1">
         <div className="no-flex mr2 center">
-          <UserAvatar user={this.props.build.createdBy} className="block" style={{ width: 30, height: 30 }} />
+          {userAvatarNode}
           <small className="dark-gray">
             <Duration.Micro {...buildTime(this.props.build)} tabularNumerals={false} />
           </small>

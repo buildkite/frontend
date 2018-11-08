@@ -32,24 +32,42 @@ class PermissionManager {
     return thisPermissionAllowed && !othersAllowed;
   }
 
-  // Returns true if _any_ of the permissions in the hash are allowed -
-  // otherwise returns false.
-  areAnyPermissionsAllowed() {
-    for (const name in this.permissions) {
-      if (this.find(name).allowed) {
-        return true;
+  // Returns true if _any_ of the permissions are allowed. Passing `true` will
+  // look across all the permissions, alternativly you can pass an array to
+  // just check those permissions.
+  areAnyPermissionsAllowed(keys) {
+    if (Array.isArray(keys)) {
+      for (const name of keys) {
+        if (this.find(name).allowed) {
+          return true;
+        }
+      }
+    } else {
+      for (const name in this.permissions) {
+        if (this.find(name).allowed) {
+          return true;
+        }
       }
     }
 
     return false;
   }
 
-  // Returns true if _all of the permissions in the hash are allowed -
-  // otherwise returns false.
-  areAllPermissionsAllowed() {
-    for (const name in this.permissions) {
-      if (!this.find(name).allowed) {
-        return false;
+  // Returns true if all of the permissions in the hash are allowed - otherwise
+  // returns false. An optional hash can be passed to specify which
+  // permissions should be checked, and their expected values.
+  areAllPermissionsAllowed(permissions) {
+    if (typeof (permissions) == 'object') {
+      for (const name in permissions) {
+        if (this.find(name).allowed !== permissions[name]) {
+          return false;
+        }
+      }
+    } else {
+      for (const name in this.permissions) {
+        if (!this.find(name).allowed) {
+          return false;
+        }
       }
     }
 
@@ -85,11 +103,11 @@ class PermissionManager {
     if (config.always) {
       return config.render(...args);
     } else if (config.all) {
-      if (this.areAllPermissionsAllowed()) {return config.render(...args);}
+      if (this.areAllPermissionsAllowed(config.all)) {return config.render(...args);}
     } else if (config.allowed) {
       if (this.isPermissionAllowed(config.allowed)) {return config.render(...args);}
     } else if (config.any) {
-      if (this.areAnyPermissionsAllowed()) {return config.render(...args);}
+      if (this.areAnyPermissionsAllowed(config.any)) {return config.render(...args);}
     } else if (config.only) {
       if (this.isPermissionOnlyOneAllowed(config.only)) {return config.render(...args);}
     } else {

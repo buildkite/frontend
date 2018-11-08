@@ -5,10 +5,10 @@ import classNames from 'classnames';
 
 import TeamLabels from './Labels';
 
-import { formatNumber } from '../../lib/number';
-import Panel from '../shared/Panel';
-import UserAvatar from '../shared/UserAvatar';
-import Emojify from '../shared/Emojify';
+import { formatNumber } from 'app/lib/number';
+import Panel from 'app/components/shared/Panel';
+import UserAvatar from 'app/components/shared/UserAvatar';
+import Emojify from 'app/components/shared/Emojify';
 
 const maxAvatars = 4;
 const avatarSize = 30;

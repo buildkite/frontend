@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import AutocompleteDialog from '../../shared/Autocomplete/Dialog';
-import Button from '../../shared/Button';
-import permissions from '../../../lib/permissions';
+import AutocompleteDialog from 'app/components/shared/Autocomplete/Dialog';
+import Button from 'app/components/shared/Button';
+import Emojify from 'app/components/shared/Emojify';
+import permissions from 'app/lib/permissions';
 
-import FlashesStore from '../../../stores/FlashesStore';
-
-import Pipeline from './pipeline';
+import FlashesStore from 'app/stores/FlashesStore';
 
 class Chooser extends React.Component {
   static displayName = "Team.Pipelines.Chooser";
@@ -20,7 +19,18 @@ class Chooser extends React.Component {
       slug: PropTypes.string.isRequired,
       organization: PropTypes.shape({
         pipelines: PropTypes.shape({
-          edges: PropTypes.array.isRequired
+          edges: PropTypes.arrayOf(
+            PropTypes.shape({
+              node: PropTypes.shape({
+                pipeline: PropTypes.shape({
+                  name: PropTypes.string.isRequired,
+                  repository: PropTypes.shape({
+                    url: PropTypes.string.isRequired
+                  }).isRequired
+                }).isRequired
+              }).isRequired
+            }).isRequired
+          )
         })
       }),
       permissions: PropTypes.shape({
@@ -81,7 +91,15 @@ class Chooser extends React.Component {
     // Either render the sugggestions, or show a "not found" error
     if (this.props.team.organization.pipelines.edges.length > 0) {
       return this.props.team.organization.pipelines.edges.map(({ node }) => {
-        return [<Pipeline key={node.id} pipeline={node} />, node];
+        return [
+          <div key={node.id}>
+            <strong className="truncate semi-bold block" title={node.name}>
+              <Emojify text={node.name} />
+            </strong>
+            <small className="truncate dark-gray block" title={node.repository.url}>{node.repository.url}</small>
+          </div>,
+          node
+        ];
       });
     } else if (pipelineAddSearch !== "") {
       return [

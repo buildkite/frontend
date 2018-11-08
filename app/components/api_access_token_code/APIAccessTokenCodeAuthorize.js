@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import PageWithContainer from '../shared/PageWithContainer';
-import Button from '../shared/Button';
-import Spinner from '../shared/Spinner';
+import PageWithContainer from 'app/components/shared/PageWithContainer';
+import Button from 'app/components/shared/Button';
+import Spinner from 'app/components/shared/Spinner';
 
-import APIAccessTokenCodeAuthorizeMutation from '../../mutations/APIAccessTokenCodeAuthorize';
+import APIAccessTokenCodeAuthorizeMutation from 'app/mutations/APIAccessTokenCodeAuthorize';
 
-import FlashesStore from '../../stores/FlashesStore';
+import FlashesStore from 'app/stores/FlashesStore';
 
 type Props = {
   apiAccessTokenCode: {
@@ -96,8 +96,7 @@ class APIAccessTokenCodeAuthorize extends React.Component<Props, State> {
     this.setState({ authorizing: true });
 
     const mutation = new APIAccessTokenCodeAuthorizeMutation({
-      apiAccessTokenCode: this.props.apiAccessTokenCode,
-      graceful: false
+      apiAccessTokenCode: this.props.apiAccessTokenCode
     });
 
     Relay.Store.commitUpdate(mutation, {

@@ -1,7 +1,7 @@
 /* global describe, it, expect */
 import moment from 'moment';
 import MockDate from 'mockdate';
-import { getDateString, getDurationString, getRelativeDateString } from './date';
+import { getDateString, getDuration, getDurationString, getRelativeDateString } from './date';
 
 const BOOL_FIXTURES = [
   undefined,
@@ -78,6 +78,22 @@ const DURATION_FIXTURES = [
   { from: undefined, to: "2016-10-06T08:09:25.000+10:00" }
 ];
 
+describe('getDuration', () => {
+  DURATION_FIXTURES.forEach(({ from, to }) => {
+    it(`when given \`${from}\` and \`${to}\``, () => {
+      expect(getDuration(from, to)).toMatchSnapshot();
+    });
+  });
+
+  it('falls back to `now` when not supplied a `to` value', () => {
+    MockDate.set("2016-10-06T08:10:25.000+10:00");
+    expect(getDuration("2016-10-05T03:40:02.000+10:00")).toMatchSnapshot();
+    expect(getDuration("2016-10-05T03:40:02.000+10:00", undefined)).toMatchSnapshot();
+    expect(getDuration(undefined, undefined)).toMatchSnapshot();
+    MockDate.reset();
+  });
+});
+
 describe('getDurationString', () => {
   describe('formats', () => {
     it('are supplied as an array', () => {
@@ -87,7 +103,7 @@ describe('getDurationString', () => {
   });
 
   it('defaults to full dates', () => {
-    expect(getDurationString("2016-10-05T03:39:57.000+10:00", "2016-10-05T03:40:02.000+10:00")).toMatchSnapshot();
+    expect(getDurationString(getDuration("2016-10-05T03:39:57.000+10:00", "2016-10-05T03:40:02.000+10:00"))).toMatchSnapshot();
   });
 
   getDurationString.formats.map((format) => {
@@ -95,7 +111,7 @@ describe('getDurationString', () => {
       DURATION_FIXTURES.forEach(({ from, to }) => {
         describe(`when given \`${from}\` and \`${to}\``, () => {
           it(`and no format override`, () => {
-            expect(getDurationString(from, to, format)).toMatchSnapshot();
+            expect(getDurationString(getDuration(from, to), format)).toMatchSnapshot();
           });
         });
       });
@@ -104,13 +120,13 @@ describe('getDurationString', () => {
 
   it('falls back to `now` when not supplied a `to` value', () => {
     MockDate.set("2016-10-06T08:10:25.000+10:00");
-    expect(getDurationString("2016-10-05T03:40:02.000+10:00")).toMatchSnapshot();
-    expect(getDurationString("2016-10-05T03:40:02.000+10:00", undefined, "short")).toMatchSnapshot();
-    expect(getDurationString(undefined, undefined, "short")).toMatchSnapshot();
+    expect(getDurationString(getDuration("2016-10-05T03:40:02.000+10:00"))).toMatchSnapshot();
+    expect(getDurationString(getDuration("2016-10-05T03:40:02.000+10:00", undefined), "short")).toMatchSnapshot();
+    expect(getDurationString(getDuration(undefined, undefined), "short")).toMatchSnapshot();
     MockDate.reset();
   });
 
   it('throws if supplied with an unknown format', () => {
-    expect(() => getDurationString("2016-10-05T03:40:02.000+10:00", "2016-10-05T03:40:02.000+10:00", "not-a-date-format")).toThrowErrorMatchingSnapshot();
+    expect(() => getDurationString(getDuration("2016-10-05T03:40:02.000+10:00", "2016-10-05T03:40:02.000+10:00"), "not-a-date-format")).toThrowErrorMatchingSnapshot();
   });
 });

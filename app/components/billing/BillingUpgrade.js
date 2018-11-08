@@ -4,13 +4,13 @@ import Relay from 'react-relay/classic';
 import classNames from 'classnames';
 import DocumentTitle from 'react-document-title';
 
-import Panel from '../shared/Panel';
-import Button from '../shared/Button';
-import FormRadioGroup from '../shared/FormRadioGroup';
-import FormInputLabel from '../shared/FormInputLabel';
+import Panel from 'app/components/shared/Panel';
+import Button from 'app/components/shared/Button';
+import FormRadioGroup from 'app/components/shared/FormRadioGroup';
+import FormInputLabel from 'app/components/shared/FormInputLabel';
 
-import { formatNumber } from '../../lib/number';
-import { createCardToken } from '../../lib/credit-card';
+import { formatNumber } from 'app/lib/number';
+import { createCardToken } from 'app/lib/credit-card';
 
 import BillingCreditCardForm from './BillingCreditCardForm';
 

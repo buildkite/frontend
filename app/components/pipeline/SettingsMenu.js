@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Menu from '../shared/Menu';
+import Menu from 'app/components/shared/Menu';
 
-import permissions from '../../lib/permissions';
-import { repositoryProviderIcon } from '../../lib/repositories';
+import permissions from 'app/lib/permissions';
+import { repositoryProviderIcon } from 'app/lib/repositories';
 
 class SettingsMenu extends React.Component {
   static propTypes = {
@@ -86,7 +86,7 @@ class SettingsMenu extends React.Component {
       },
       {
         allowed: "pipelineUpdate",
-        and: Features.organizationHasTeams,
+        and: this.props.pipeline.organization.permissions.teamView.allowed,
         render: (idx) => (
           <Menu.Button
             key={idx}
@@ -144,10 +144,16 @@ export default Relay.createContainer(SettingsMenu, {
   fragments: {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
+        id
         name
         slug
         organization {
           slug
+          permissions {
+            teamView {
+              allowed
+            }
+          }
         }
         repository {
           provider {

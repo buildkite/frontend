@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql, commitMutation } from "react-relay/compat";
 import type { RelayProp } from 'react-relay';
 
-import Button from "../../shared/Button";
-import Dropdown from "../../shared/Dropdown";
+import Button from 'app/components/shared/Button';
+import Dropdown from 'app/components/shared/Dropdown';
 
-import FlashesStore from '../../../stores/FlashesStore';
+import FlashesStore from 'app/stores/FlashesStore';
 
 import GraphQLExplorerConsoleEditor from "./GraphQLExplorerConsoleEditor";
 import GraphQLExplorerConsoleResultsViewer from "./GraphQLExplorerConsoleResultsViewer";
@@ -371,6 +371,12 @@ export default createFragmentContainer(GraphQLExplorerConsole, {
             id
             name
             slug
+            permissions {
+              pipelineView {
+                allowed
+                code
+              }
+            }
           }
         }
       }

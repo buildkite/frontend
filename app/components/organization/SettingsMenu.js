@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Menu from '../shared/Menu';
-import permissions from '../../lib/permissions';
+import Menu from 'app/components/shared/Menu';
+import permissions from 'app/lib/permissions';
 
 class SettingsMenu extends React.Component {
   static propTypes = {
@@ -23,10 +23,13 @@ class SettingsMenu extends React.Component {
         organizationUpdate: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
         }).isRequired,
-        organizationInvitationCreate: PropTypes.shape({
+        organizationMemberView: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
         }).isRequired,
-        teamAdmin: PropTypes.shape({
+        teamView: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired
+        }).isRequired,
+        teamEnabledChange: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
         }).isRequired,
         notificationServiceUpdate: PropTypes.shape({
@@ -79,25 +82,28 @@ class SettingsMenu extends React.Component {
         )
       },
       {
-        always: true,
+        always: "organizationMemberView",
         render: (idx) => (
           <Menu.Button
             key={idx}
             icon="users"
             link={`/organizations/${this.props.organization.slug}/users`}
-            badge={this.calculateUsersCount()}
+            count={this.calculateUsersCount()}
             label="Users"
           />
         )
       },
       {
-        always: true,
+        any: [
+          "teamEnabledChange",
+          "teamView"
+        ],
         render: (idx) => (
           <Menu.Button
             key={idx}
             icon="teams"
             link={`/organizations/${this.props.organization.slug}/teams`}
-            badge={this.props.organization.teams && this.props.organization.teams.count}
+            count={this.props.organization.teams && this.props.organization.teams.count}
             label="Teams"
           />
         )
@@ -180,7 +186,7 @@ export default Relay.createContainer(SettingsMenu, {
           organizationUpdate {
             allowed
           }
-          organizationInvitationCreate {
+          organizationMemberView {
             allowed
           }
           notificationServiceUpdate {
@@ -189,7 +195,10 @@ export default Relay.createContainer(SettingsMenu, {
           organizationBillingUpdate {
             allowed
           }
-          teamAdmin {
+          teamView {
+            allowed
+          }
+          teamEnabledChange {
             allowed
           }
           auditEventsView {

@@ -3,29 +3,36 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
-import Button from '../shared/Button';
-import FormRadioGroup from '../shared/FormRadioGroup';
-import FormTextarea from '../shared/FormTextarea';
-import FormInputLabel from '../shared/FormInputLabel';
-import FormInputHelp from '../shared/FormInputHelp';
-import Panel from '../shared/Panel';
-import PageHeader from '../shared/PageHeader';
+import Button from 'app/components/shared/Button';
+import FormRadioGroup from 'app/components/shared/FormRadioGroup';
+import FormTextarea from 'app/components/shared/FormTextarea';
+import FormInputLabel from 'app/components/shared/FormInputLabel';
+import FormInputHelp from 'app/components/shared/FormInputHelp';
+import Panel from 'app/components/shared/Panel';
+import PageHeader from 'app/components/shared/PageHeader';
 import MemberTeamRow from './MemberTeamRow';
 
-import FlashesStore from '../../stores/FlashesStore';
-import ValidationErrors from '../../lib/ValidationErrors';
+import FlashesStore from 'app/stores/FlashesStore';
+import ValidationErrors from 'app/lib/ValidationErrors';
 
-import OrganizationInvitationCreateMutation from '../../mutations/OrganizationInvitationCreate';
+import OrganizationInvitationCreateMutation from 'app/mutations/OrganizationInvitationCreate';
 
-import OrganizationMemberRoleConstants from '../../constants/OrganizationMemberRoleConstants';
-import GraphQLErrors from '../../constants/GraphQLErrors';
-import TeamMemberRoleConstants from '../../constants/TeamMemberRoleConstants';
+import OrganizationMemberRoleConstants from 'app/constants/OrganizationMemberRoleConstants';
+import OrganizationMemberSSOModeConstants from 'app/constants/OrganizationMemberSSOModeConstants';
+import GraphQLErrors from 'app/constants/GraphQLErrors';
+import TeamMemberRoleConstants from 'app/constants/TeamMemberRoleConstants';
 
 class MemberNew extends React.PureComponent {
   static propTypes = {
     organization: PropTypes.shape({
       name: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired,
+      permissions: PropTypes.shape({
+        organizationInvitationCreate: PropTypes.shape({
+          allowed: PropTypes.bool.isRequired,
+          message: PropTypes.string
+        })
+      }),
       teams: PropTypes.shape({
         count: PropTypes.number.isRequired,
         edges: PropTypes.arrayOf(
@@ -37,7 +44,10 @@ class MemberNew extends React.PureComponent {
             }).isRequired
           })
         ).isRequired
-      })
+      }),
+      ssoProviders: PropTypes.shape({
+        count: PropTypes.number.isRequired
+      }).isRequired
     }).isRequired,
     relay: PropTypes.object.isRequired
   };
@@ -50,6 +60,7 @@ class MemberNew extends React.PureComponent {
     emails: '',
     teams: null, // when mounted we set this to the default teams
     role: OrganizationMemberRoleConstants.MEMBER,
+    ssoMode: OrganizationMemberSSOModeConstants.REQUIRED,
     errors: null
   };
 
@@ -69,7 +80,12 @@ class MemberNew extends React.PureComponent {
   }
 
   render() {
-    const errors = new ValidationErrors(this.state.errors);
+    let content;
+    if (this.props.organization.permissions.organizationInvitationCreate.allowed) {
+      content = this.renderForm();
+    } else {
+      content = this.renderPermissionErrorMessage();
+    }
 
     return (
       <DocumentTitle title={`Users · ${this.props.organization.name}`}>
@@ -79,46 +95,63 @@ class MemberNew extends React.PureComponent {
               Invite Users
             </PageHeader.Title>
           </PageHeader>
-          <Panel>
-            <Panel.Section>
-              <FormTextarea
-                label="Email Addresses"
-                help="This list of email addresses to invite, each one separated with a space or a new line"
-                value={this.state.emails}
-                errors={errors.findForField("emails")}
-                onChange={this.handleEmailsChange}
-                rows={3}
-                required={true}
-              />
-            </Panel.Section>
-            <Panel.Section>
-              <FormRadioGroup
-                name="role"
-                label="Role"
-                help="What type of organization-wide permissions will the invited users have?"
-                value={this.state.role}
-                onChange={this.handleAdminChange}
-                required={true}
-                options={[
-                  { label: "User", value: OrganizationMemberRoleConstants.MEMBER, help: "Can view, create and manage pipelines and builds." },
-                  { label: "Administrator", value: OrganizationMemberRoleConstants.ADMIN, help: "Can view and edit everything in the organization." }
-                ]}
-              />
-            </Panel.Section>
-            <Panel.Section>
-              {this.renderTeamSection()}
-            </Panel.Section>
-            <Panel.Section>
-              <Button
-                onClick={this.handleCreateInvitationClick}
-                loading={this.state.inviting && 'Sending Invitations…'}
-              >
-                Send Invitations
-              </Button>
-            </Panel.Section>
-          </Panel>
+          {content}
         </div>
       </DocumentTitle>
+    );
+  }
+
+  renderForm() {
+    const errors = new ValidationErrors(this.state.errors);
+
+    return (
+      <Panel>
+        <Panel.Section>
+          <FormTextarea
+            label="Email Addresses"
+            help="This list of email addresses to invite, each one separated with a space or a new line"
+            value={this.state.emails}
+            errors={errors.findForField("emails")}
+            onChange={this.handleEmailsChange}
+            rows={3}
+            required={true}
+          />
+        </Panel.Section>
+        <Panel.Section>
+          <FormRadioGroup
+            name="role"
+            label="Role"
+            help="What type of organization-wide permissions will the invited users have?"
+            value={this.state.role}
+            onChange={this.handleAdminChange}
+            required={true}
+            options={[
+              { label: "User", value: OrganizationMemberRoleConstants.MEMBER, help: "Can view, create and manage pipelines and builds." },
+              { label: "Administrator", value: OrganizationMemberRoleConstants.ADMIN, help: "Can view and edit everything in the organization." }
+            ]}
+          />
+        </Panel.Section>
+        {this.renderTeamSection()}
+        {this.renderSSOSection()}
+        <Panel.Section>
+          <Button
+            onClick={this.handleCreateInvitationClick}
+            loading={this.state.inviting && 'Sending Invitations…'}
+          >
+            Send Invitations
+          </Button>
+        </Panel.Section>
+      </Panel>
+    );
+  }
+
+  renderPermissionErrorMessage() {
+    return (
+      <Panel>
+        <Panel.Section>
+          <p className="red">{this.props.organization.permissions.organizationInvitationCreate.message}</p>
+        </Panel.Section>
+      </Panel>
     );
   }
 
@@ -156,11 +189,17 @@ class MemberNew extends React.PureComponent {
       });
     }
 
+    let sso;
+    if (this.props.organization.ssoProviders.count > 0) {
+      sso = { mode: this.state.ssoMode };
+    }
+
     const mutation = new OrganizationInvitationCreateMutation({
       organization: this.props.organization,
       emails,
       teams,
-      role
+      role,
+      sso
     });
 
     // Run the mutation
@@ -203,7 +242,7 @@ class MemberNew extends React.PureComponent {
     const teamEdges = this.props.organization.teams.edges;
 
     return (
-      <div>
+      <Panel.Section>
         <FormInputLabel label="Teams" />
         <FormInputHelp>You can give the invited users additional permissions by adding them to one or more teams.</FormInputHelp>
         <div className="flex flex-wrap content-around mxn1 mt1">
@@ -216,7 +255,7 @@ class MemberNew extends React.PureComponent {
             />
           ))}
         </div>
-      </div>
+      </Panel.Section>
     );
   }
 
@@ -235,6 +274,48 @@ class MemberNew extends React.PureComponent {
 
     this.setState({ teams });
   };
+
+  renderSSOSection() {
+    // If the sso provider count hasn't loaded yet
+    if (!this.props.organization.ssoProviders) {
+      return null;
+    }
+
+    // If there aren't any sso providers then we don't need this section
+    if (this.props.organization.ssoProviders.count === 0) {
+      return null;
+    }
+
+    return (
+      <Panel.Section>
+        <FormRadioGroup
+          label="Single Sign-On"
+          value={this.state.ssoMode}
+          onChange={this.handleSSOModeChange}
+          required={true}
+          options={[
+            {
+              label: "Required",
+              value: OrganizationMemberSSOModeConstants.REQUIRED,
+              help: "Invited users will be required to authorize via SSO before they can accept the invitation.",
+              badge: "Recomended"
+            },
+            {
+              label: "Optional",
+              value: OrganizationMemberSSOModeConstants.OPTIONAL,
+              help: "The user can access accept the invitation without requiring a verified SSO authorization."
+            }
+          ]}
+        />
+      </Panel.Section>
+    );
+  }
+
+  handleSSOModeChange = (evt) => {
+    this.setState({
+      ssoMode: evt.target.value
+    });
+  };
 }
 
 export default Relay.createContainer(MemberNew, {
@@ -247,6 +328,15 @@ export default Relay.createContainer(MemberNew, {
       fragment on Organization {
         name
         slug
+        permissions {
+          organizationInvitationCreate {
+            allowed
+            message
+          }
+        }
+        ssoProviders {
+          count
+        }
         teams(first: 50) @include(if: $isMounted) {
           count
           edges {

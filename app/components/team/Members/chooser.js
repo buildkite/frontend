@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import shallowCompare from 'react-addons-shallow-compare';
 
-import AutocompleteDialog from '../../shared/Autocomplete/Dialog';
-import Button from '../../shared/Button';
-import permissions from '../../../lib/permissions';
+import AutocompleteDialog from 'app/components/shared/Autocomplete/Dialog';
+import Button from 'app/components/shared/Button';
+import permissions from 'app/lib/permissions';
 
-import FlashesStore from '../../../stores/FlashesStore';
+import FlashesStore from 'app/stores/FlashesStore';
 
-import User from '../../shared/User';
+import User from 'app/components/shared/User';
 
 class Chooser extends React.Component {
   static displayName = "Team.Members.Chooser";

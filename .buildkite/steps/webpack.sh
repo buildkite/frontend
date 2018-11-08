@@ -9,8 +9,10 @@ echo "--- :information_desk_person: Appending SHA1 of webpack/config.js to \$FRO
 
 echo "\$FRONTEND_HOST is now $FRONTEND_HOST"
 
-echo "--- :webpack: Building webpack assets for production"
-yarn run build-production
+mkdir -p bundle-analysis dist
+
+echo "--- :webpack: Building Webpack assets for production, and analysing bundle"
+GENERATE_BUNDLE_REPORT=true yarn run build-production
 
 echo "--- :javascript: Checking valid JS"
 node --check dist/*.js && echo "👍 Javascript looks valid!"

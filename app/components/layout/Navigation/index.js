@@ -5,16 +5,16 @@ import Relay from 'react-relay/classic';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
-import UserAvatar from '../../shared/UserAvatar';
-import Dropdown from '../../shared/Dropdown';
-import Badge from '../../shared/Badge';
-import Icon from '../../shared/Icon';
-import SectionLoader from '../../shared/SectionLoader';
-import AgentsCount from '../../organization/AgentsCount';
-import NewChangelogsBadge from '../../user/NewChangelogsBadge';
-import permissions from '../../../lib/permissions';
+import UserAvatar from 'app/components/shared/UserAvatar';
+import Dropdown from 'app/components/shared/Dropdown';
+import Badge from 'app/components/shared/Badge';
+import Icon from 'app/components/shared/Icon';
+import SectionLoader from 'app/components/shared/SectionLoader';
+import AgentsCount from 'app/components/organization/AgentsCount';
+import NewChangelogsBadge from 'app/components/user/NewChangelogsBadge';
+import permissions from 'app/lib/permissions';
 
-import UserSessionStore from '../../../stores/UserSessionStore';
+import UserSessionStore from 'app/stores/UserSessionStore';
 
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
@@ -169,6 +169,27 @@ class Navigation extends React.PureComponent<Props, State> {
     }
   }
 
+  // Decides whether or not the organization should appear in the dropdown
+  // list. The regular behavior is:
+  //
+  // > Don't include the org in the drop down if it's the current one
+  //
+  // The only exception to this rule is if the current org needs an SSO
+  // authorization before the user can see any data. If the current org needs
+  // SSO, then don't include it as the current one, and treat is like the
+  // others.
+  includeOrganizationInDropdown(org) {
+    if (this.props.organization && this.props.organization.id === org.id) {
+      if (!org.permissions.pipelineView.allowed && org.permissions.pipelineView.code === "sso_authorization_required") {
+        return true;
+      }
+      return false;
+
+    }
+
+    return true;
+  }
+
   renderOrganizationsList() {
     if (!this.props.viewer || !this.props.viewer.organizations) {
       return <SectionLoader />;
@@ -178,14 +199,22 @@ class Navigation extends React.PureComponent<Props, State> {
 
     this.props.viewer.organizations.edges.forEach((org) => {
       // Don't show the active organization in the selector
-      if (!this.props.organization || (org.node.slug !== this.props.organization.slug)) {
+      if (this.includeOrganizationInDropdown(org.node)) {
+        // If the org needs SSO, show a badge
+        let ssoRequiredBadge;
+        if (!org.node.permissions.pipelineView.allowed && org.node.permissions.pipelineView.code === "sso_authorization_required") {
+          ssoRequiredBadge = (
+            <Badge outline={true} className="regular">SSO</Badge>
+          );
+        }
+
         nodes.push(
           <NavigationButton
             key={org.node.slug}
             href={`/${org.node.slug}`}
             className="block"
           >
-            {org.node.name}
+            {org.node.name}{ssoRequiredBadge}
           </NavigationButton>
         );
       }
@@ -224,39 +253,70 @@ class Navigation extends React.PureComponent<Props, State> {
     if (organization) {
       return (
         <div className={classNames("flex", options.className)}>
-          <NavigationButton className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={true}>Pipelines</NavigationButton>
-          <NavigationButton className="py0" href={`/organizations/${organization.slug}/agents`} linkIf={true}>
-            {'Agents'}
-            <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
-          </NavigationButton>
-
-          {this.renderOrganizationSettingsButton()}
+          {this.renderOrganizationButtons(paddingLeft)}
         </div>
       );
     }
   }
 
-  renderOrganizationSettingsButton() {
+  renderOrganizationButtons(paddingLeft) {
     const organization = this.props.organization;
 
+    // This is already checked in `renderOrganizationMenu`, but we check here
+    // again to make flow play nice.
     if (!organization) {
       return;
     }
 
-    // The settings page will redirect to the first section the user has access
-    // to. If they _just_ have teams admin enabled, skip the redirect and go
-    // straight to the teams page.
-    return permissions(organization.permissions).first(
+    return permissions(organization.permissions).collect(
       {
-        only: "teamAdmin",
-        render: () => <NavigationButton className="py0" href={`/organizations/${organization.slug}/teams`}>Settings</NavigationButton>
+        allowed: "pipelineView",
+        render: () => {
+          return (
+            <NavigationButton key={1} className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={true}>Pipelines</NavigationButton>
+          );
+        }
       },
       {
-        any: true,
+        allowed: "agentView",
+        render: () => {
+          return (
+            <NavigationButton key={2} className="py0" href={`/organizations/${organization.slug}/agents`} linkIf={true}>
+              {'Agents'}
+              <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
+            </NavigationButton>
+          );
+        }
+      },
+      // The settings page will redirect to the first section the user has access
+      // to. If they _just_ have teams view enabled, skip the redirect and go
+      // straight to the teams page.
+      {
+        all: {
+          organizationUpdate: false,
+          organizationInvitationCreate: false,
+          notificationServiceUpdate: false,
+          organizationBillingUpdate: false,
+          teamView: true
+        },
+        render: () => {
+          return (
+            <NavigationButton key={3} className="py0" href={`/organizations/${organization.slug}/teams`}>Teams</NavigationButton>
+          );
+        }
+      },
+      {
+        // If any of these permissions are allowed, render the buttons
+        any: [
+          "organizationUpdate",
+          "organizationInvitationCreate",
+          "notificationServiceUpdate",
+          "organizationBillingUpdate"
+        ],
         render: () => {
           return [
-            <NavigationButton key={1} className="py0" href={`/organizations/${organization.slug}/users`} linkIf={true}>Users</NavigationButton>,
-            <NavigationButton key={2} className="py0" href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+            <NavigationButton key={4} className="py0" href={`/organizations/${organization.slug}/users`} linkIf={true}>Users</NavigationButton>,
+            <NavigationButton key={5} className="py0" href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
           ];
         }
       }
@@ -285,16 +345,6 @@ class Navigation extends React.PureComponent<Props, State> {
           </span>
         </span>
       </React.Fragment>
-    );
-  }
-
-  renderGraphQLExplorerLink() {
-    if (!window.Features.GraphQLExplorer) {
-      return null;
-    }
-
-    return (
-      <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer <span className="ml1 orange small">Beta</span></NavigationButton>
     );
   }
 
@@ -358,7 +408,7 @@ class Navigation extends React.PureComponent<Props, State> {
                 }}
               >
                 <span className="truncate">
-                  {this.props.organization ? this.props.organization.name : 'Organizations'}
+                  {this.props.organization && !this.includeOrganizationInDropdown(this.props.organization) ? this.props.organization.name : 'Organizations'}
                 </span>
                 <Icon icon="down-triangle" className="flex-none" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
               </ArrowDropdownButton>
@@ -383,7 +433,7 @@ class Navigation extends React.PureComponent<Props, State> {
             </NavigationButton>
 
             <Dropdown
-              width={window.Features.GraphQLExplorer ? 180 : 170}
+              width={180}
               className="flex"
               style={{ flex: '0 1 auto', minWidth: 55 }}
               ref={(userDropdown) => this.userDropdown = userDropdown}
@@ -406,7 +456,7 @@ class Navigation extends React.PureComponent<Props, State> {
               </DropdownButton>
 
               <NavigationButton href="/user/settings">Personal Settings</NavigationButton>
-              {this.renderGraphQLExplorerLink()}
+              <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer <span className="ml1 orange small">Beta</span></NavigationButton>
 
               <div className="md-hide lg-hide">
                 <NavigationButton className="md-hide lg-hide" href={`/docs`}>Documentation</NavigationButton>
@@ -446,6 +496,13 @@ export default Relay.createContainer(Navigation, {
           id
           slug
           permissions {
+            pipelineView {
+              allowed
+              code
+            }
+            agentView {
+              allowed
+            }
             organizationUpdate {
               allowed
             }
@@ -458,7 +515,7 @@ export default Relay.createContainer(Navigation, {
             organizationBillingUpdate {
               allowed
             }
-            teamAdmin {
+            teamView {
               allowed
             }
           }
@@ -474,11 +531,18 @@ export default Relay.createContainer(Navigation, {
               url
             }
           }
-          organizations(first: 500) @include(if: $isMounted) {
+          organizations(first: 100) @include(if: $isMounted) {
             edges {
               node {
-                slug
+                id
                 name
+                slug
+                permissions {
+                  pipelineView {
+                    allowed
+                    code
+                  }
+                }
               }
             }
           }

@@ -17,6 +17,14 @@ class AgentStop extends Relay.Mutation {
     `;
   }
 
+  /*
+  Disabling graphql/no-deprecated-fields here as I think there is some changes probably
+  required in the graph implementation so that we can actually use the alternatives to
+  `pingedAt`, `stoppedAt`, & `stoppedBy` fields as at the moment it seems like using these
+  fields will mean we need do a lot of extra fetching and checking on the client which
+  seems bad?
+  */
+  /* eslint-disable graphql/no-deprecated-fields */
   getFatQuery() {
     return Relay.QL`
       fragment on AgentStopPayload {
@@ -31,6 +39,7 @@ class AgentStop extends Relay.Mutation {
       }
     `;
   }
+  /* eslint-enable graphql/no-deprecated-fields */
 
   getConfigs() {
     return [{

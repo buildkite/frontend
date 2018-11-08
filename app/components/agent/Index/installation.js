@@ -4,10 +4,10 @@ import Relay from 'react-relay/classic';
 import { seconds } from 'metrick/duration';
 import Confetti from 'react-confetti';
 
-import Button from '../../shared/Button';
-import Dialog from '../../shared/Dialog';
-import Emojify from '../../shared/Emojify';
-import Panel from '../../shared/Panel';
+import Button from 'app/components/shared/Button';
+import Dialog from 'app/components/shared/Dialog';
+import Emojify from 'app/components/shared/Emojify';
+import Panel from 'app/components/shared/Panel';
 
 class AgentInstallation extends React.PureComponent {
   static propTypes = {

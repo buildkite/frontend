@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import SearchField from '../../SearchField';
+import SearchField from 'app/components/shared/SearchField';
 import Suggestion from './suggestion';
-import ErrorMessage from '../error-message';
+import ErrorMessage from 'app/components/shared/Autocomplete/error-message';
 
 const KEYCODE_UP = 38;
 const KEYCODE_DOWN = 40;

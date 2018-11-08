@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
-import Dropdown from '../shared/Dropdown';
-import Chooser from '../shared/Chooser';
-import Emojify from '../shared/Emojify';
-import Icon from '../shared/Icon';
+import Dropdown from 'app/components/shared/Dropdown';
+import Chooser from 'app/components/shared/Chooser';
+import Emojify from 'app/components/shared/Emojify';
+import Icon from 'app/components/shared/Icon';
 
 class Teams extends React.Component {
   static propTypes = {
