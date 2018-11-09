@@ -79,11 +79,12 @@ class Header extends React.Component<Props, State> {
     const actions = this.getAvailableActions();
 
     return (
-      <div>
+      <div data-testid="PipelineHeader">
         <div className="flex mb1 items-center flex-wrap" style={{ marginTop: -10 }}>
           <HeaderVitals>
             <div className="flex-auto">
               <a
+                data-testid="PipelineUrl"
                 href={this.props.pipeline.url}
                 className="inline-block line-height-1 color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent truncate"
               >
@@ -100,6 +101,7 @@ class Header extends React.Component<Props, State> {
             {this.renderDropdownForActions(actions)}
           </HeaderVitals>
           <HeaderBuilds
+            testId="PipelineBuildCounts"
             pipeline={this.props.pipeline}
             buildState={this.props.buildState}
           />

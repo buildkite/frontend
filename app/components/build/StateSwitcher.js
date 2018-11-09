@@ -12,7 +12,8 @@ type Props = {
   scheduledBuildsCount: number,
   className?: string,
   state?: string,
-  path: string
+  path: string,
+  testId?: string
 };
 
 class StateSwitcher extends React.PureComponent<Props> {
@@ -22,7 +23,8 @@ class StateSwitcher extends React.PureComponent<Props> {
     scheduledBuildsCount: PropTypes.number.isRequired,
     className: PropTypes.string,
     state: PropTypes.string,
-    path: PropTypes.string.isRequired
+    path: PropTypes.string.isRequired,
+    testId: PropTypes.string,
   };
 
   renderLink(label: React$Node, state: ?string, count: number) {
@@ -52,14 +54,14 @@ class StateSwitcher extends React.PureComponent<Props> {
     const buildsTitle = this.props.buildsCount === 1 ? "Build" : "Builds";
 
     return (
-      <div className={classNames('flex', this.props.className)}>
-        <div className="rounded-left border-left border-top border-bottom border-gray flex-auto flex items-center">
+      <div data-testid={this.props.testId} className={classNames('flex', this.props.className)}>
+        <div data-testid="BuildCount" className="rounded-left border-left border-top border-bottom border-gray flex-auto flex items-center">
           {this.renderLink(buildsTitle, null, this.props.buildsCount)}
         </div>
-        <div className="border-left border-top border-bottom border-gray flex-auto flex items-center">
+        <div data-testid="RunningBuildCount" className="border-left border-top border-bottom border-gray flex-auto flex items-center">
           {this.renderLink("Running", "running", this.props.runningBuildsCount)}
         </div>
-        <div className="rounded-right border border-gray flex-auto flex items-center">
+        <div data-testid="ScheduledBuildCount" className="rounded-right border border-gray flex-auto flex items-center">
           {this.renderLink("Scheduled", "scheduled", this.props.scheduledBuildsCount)}
         </div>
       </div>
