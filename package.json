@@ -9,7 +9,7 @@
   },
   "scripts": {
     "env": "env",
-    "start": "nf --port 6000 start -s",
+    "start": "nf --port ${PORT:=5700} start -s",
     "test": "jest --colors",
     "test-with-coverage": "jest --coverage --colors",
     "flow": "flow",
