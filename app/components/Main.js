@@ -18,13 +18,15 @@ class Main extends React.PureComponent<Props> {
   render() {
     return (
       <DocumentTitle title="Buildkite">
-        <div>
+        <div className="flex flex-column" style={{ minHeight: '100vh' }}>
           <Navigation
             organization={this.props.organization}
             viewer={this.props.viewer}
           />
           <Flashes />
-          {this.props.children}
+          <div className="flex-auto">
+            {this.props.children}
+          </div>
           <Footer viewer={this.props.viewer} />
         </div>
       </DocumentTitle>
