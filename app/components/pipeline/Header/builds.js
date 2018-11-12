@@ -11,7 +11,8 @@ class Builds extends React.Component {
     pipeline: PropTypes.object.isRequired,
     relay: PropTypes.object.isRequired,
     className: PropTypes.string,
-    buildState: PropTypes.string
+    buildState: PropTypes.string,
+    testId: PropTypes.string
   };
 
   componentDidMount() {
@@ -25,6 +26,7 @@ class Builds extends React.Component {
   render() {
     return (
       <BuildStateSwitcher
+        testId={this.props.testId}
         className={this.props.className}
         buildsCount={this.props.pipeline.builds.count}
         runningBuildsCount={this.props.pipeline.runningBuilds.count}
