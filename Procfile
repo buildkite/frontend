@@ -1,8 +1,8 @@
-# PORT=6000
+# PORT=5700
 webpack: NODE_ENV=development ./node_modules/.bin/webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --host "buildkite.localhost" --port "$PORT"
 
-# PORT=6100 (unused)
+# PORT=5800 (unused)
 relay: script/watch_graph
 
-# PORT=6200
+# PORT=5900
 storybook: yarn storybook
