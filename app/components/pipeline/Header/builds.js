@@ -12,7 +12,7 @@ class Builds extends React.Component {
     relay: PropTypes.object.isRequired,
     className: PropTypes.string,
     buildState: PropTypes.string,
-    testId: PropTypes.string,
+    testId: PropTypes.string
   };
 
   componentDidMount() {

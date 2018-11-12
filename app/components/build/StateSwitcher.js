@@ -24,7 +24,7 @@ class StateSwitcher extends React.PureComponent<Props> {
     className: PropTypes.string,
     state: PropTypes.string,
     path: PropTypes.string.isRequired,
-    testId: PropTypes.string,
+    testId: PropTypes.string
   };
 
   renderLink(label: React$Node, state: ?string, count: number) {
