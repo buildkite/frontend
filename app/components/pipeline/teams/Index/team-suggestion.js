@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+import Relay from 'react-relay/compat';
 
 import TeamLabels from 'app/components/team/Labels';
 import Emojify from 'app/components/shared/Emojify';

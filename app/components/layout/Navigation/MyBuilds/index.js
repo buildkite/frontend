@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import Relay from 'react-relay/classic';
+import Relay from 'react-relay/compat';
 import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 import { hour, seconds } from 'metrick/duration';

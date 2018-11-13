@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import Relay from 'react-relay/classic';
+import Relay from 'react-relay/compat';
 
 import FriendlyTime from 'app/components/shared/FriendlyTime';
 import JobState from 'app/components/icons/JobState';

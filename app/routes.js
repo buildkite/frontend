@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import Relay from 'react-relay/classic';
+import Relay from 'react-relay/compat';
 import useRelay from 'react-router-relay';
 import {
   Router,

@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import Relay from 'react-relay/classic';
+import Relay from 'react-relay/compat';
 import classNames from 'classnames';
 import styled from 'styled-components';
 

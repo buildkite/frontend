@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+import Relay from 'react-relay/compat';
 
 import BuildStatusDescription from 'app/components/shared/BuildStatusDescription';
 import Duration from 'app/components/shared/Duration';

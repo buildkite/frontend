@@ -1,6 +1,6 @@
 // @flow
 
-import Relay from 'react-relay/classic';
+import Relay from 'react-relay/compat';
 
 // Note: Ensure whatever variable you use as the $slug is unique and doesn't
 // match any existing variables in any other queries otherwise React Relay

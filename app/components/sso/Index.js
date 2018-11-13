@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import Relay from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
 
 import Button from 'app/components/shared/Button';

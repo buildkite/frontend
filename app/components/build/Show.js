@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
-import { RootContainer } from 'react-relay/classic';
+import { RootContainer } from 'react-relay/compat';
 
 import * as BuildQuery from 'app/queries/Build';
 import AnnotationsList from './AnnotationsList';
