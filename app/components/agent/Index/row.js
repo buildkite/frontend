@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 
 import AgentStateIcon from 'app/components/agent/state-icon';

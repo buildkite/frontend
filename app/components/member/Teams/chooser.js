@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import AutocompleteDialog from 'app/components/shared/Autocomplete/Dialog';

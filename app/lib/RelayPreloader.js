@@ -1,6 +1,6 @@
 // @flow
 
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
 

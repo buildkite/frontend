@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 
 import AnchoredPopover from 'app/components/shared/Popover/anchored';
 import BuildState from 'app/components/icons/BuildState';

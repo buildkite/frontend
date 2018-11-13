@@ -1,4 +1,4 @@
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 
 class TeamDelete extends Relay.Mutation {
   static fragments = {

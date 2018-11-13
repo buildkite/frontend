@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
 import { seconds } from 'metrick/duration';

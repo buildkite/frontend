@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 
 import SectionLoader from 'app/components/shared/SectionLoader';
 import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';

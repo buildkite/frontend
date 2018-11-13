@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 import { second } from 'metrick/duration';
 
 import Panel from 'app/components/shared/Panel';

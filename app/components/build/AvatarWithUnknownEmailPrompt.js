@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 
 import Button from 'app/components/shared/Button';
 import Dropdown from 'app/components/shared/Dropdown';

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 
 import Dropdown from 'app/components/shared/Dropdown';
 import Chooser from 'app/components/shared/Chooser';

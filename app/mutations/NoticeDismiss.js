@@ -1,4 +1,4 @@
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 
 class NoticeDismiss extends Relay.Mutation {
   static fragments = {

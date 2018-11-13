@@ -1,4 +1,4 @@
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 
 class EmailResendVerification extends Relay.Mutation {
   getMutation() {

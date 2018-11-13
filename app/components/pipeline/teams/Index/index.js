@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 
 import Emojify from 'app/components/shared/Emojify';
