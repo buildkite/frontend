@@ -1,9 +1,9 @@
-export const MAXIMUM_NUMBER_OF_BUILDS = 30;
+// @flow weak
 
+export const MAXIMUM_NUMBER_OF_BUILDS = 30;
 export const BAR_HEIGHT_MINIMUM = 3;
 export const BAR_WIDTH = 7;
 export const BAR_SEPERATOR_WIDTH = 1;
 export const BAR_WIDTH_WITH_SEPERATOR = BAR_WIDTH + BAR_SEPERATOR_WIDTH;
-
 export const GRAPH_HEIGHT = 35;
 export const GRAPH_WIDTH = (BAR_WIDTH * MAXIMUM_NUMBER_OF_BUILDS) + ((MAXIMUM_NUMBER_OF_BUILDS * BAR_SEPERATOR_WIDTH) - 1);
