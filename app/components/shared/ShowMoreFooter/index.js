@@ -1,12 +1,23 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+import {createFragmentContainer, graphql} from 'react-relay/compat';
 import classNames from 'classnames';
+import Button from 'app/components/shared/Button';
+import Spinner from 'app/components/shared/Spinner';
+import type {ShowMoreFooter_connection} from './__generated__/ShowMoreFooter_connection.graphql';
 
-import Button from './Button';
-import Spinner from './Spinner';
+type Props = {
+  connection: ShowMoreFooter_connection,
+  onShowMore: () => void,
+  label: string,
+  loading: boolean,
+  searching: boolean,
+  className?: string
+};
 
-export class ShowMoreFooter extends React.PureComponent {
+export class ShowMoreFooter extends React.PureComponent<Props> {
   static propTypes = {
     connection: PropTypes.shape({
       pageInfo: PropTypes.shape({
@@ -63,14 +74,10 @@ export class ShowMoreFooter extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(ShowMoreFooter, {
-  fragments: {
-    connection: () => Relay.QL`
-      fragment on Connection {
-        pageInfo {
-          hasNextPage
-        }
-      }
-    `
+export default createFragmentContainer(ShowMoreFooter, graphql`
+  fragment ShowMoreFooter_connection on PipelineConnection {
+    pageInfo {
+      hasNextPage
+    }
   }
-});
+`);

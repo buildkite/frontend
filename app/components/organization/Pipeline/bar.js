@@ -1,26 +1,31 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
-
-import BuildTooltip from './build-tooltip';
+import {createRefetchContainer, graphql} from 'react-relay/compat';
+import BuildTooltip from './BuildTooltip';
 import AnchoredPopover from 'app/components/shared/Popover/anchored';
-
 import { BAR_HEIGHT_MINIMUM, BAR_WIDTH, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT } from './constants';
+import type {Bar_build} from './__generated__/Bar_build.graphql';
 
-class Bar extends React.PureComponent {
-  static propTypes = {
-    href: PropTypes.string,
-    color: PropTypes.string.isRequired,
-    hoverColor: PropTypes.string.isRequired,
-    duration: PropTypes.number,
-    graph: PropTypes.shape({
-      maximumDuration: PropTypes.number
-    }).isRequired,
-    left: PropTypes.number.isRequired,
-    build: PropTypes.object,
-    showFullGraph: PropTypes.bool.isRequired
-  };
+type Props = {
+  href?: string,
+  color: string,
+  hoverColor: string,
+  duration?: number,
+  graph: {
+    maximumDuration?: number
+  },
+  left: number,
+  build: Bar_build,
+  showFullGraph: boolean
+};
 
+type State = {
+  hover: boolean,
+};
+
+class Bar extends React.Component<Props, State> {
   static defaultProps = {
     showFullGraph: true
   };
@@ -114,12 +119,8 @@ class Bar extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(Bar, {
-  fragments: {
-    build: () => Relay.QL`
-      fragment on Build {
-        ${BuildTooltip.getFragment('build')}
-      }
-    `
-  }
-});
+export default createRefetchContainer(Bar, graphql`
+  fragment Bar_build on Build {
+      ...BuildTooltip_build
+    }
+`);

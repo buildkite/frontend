@@ -1,28 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+// @flow
+
+import * as React from 'react';
+import {createFragmentContainer, graphql} from 'react-relay/compat';
 import classNames from 'classnames';
+import type {Metric_metric} from './__generated__/Metric_metric.graphql';
 
-class Metric extends React.PureComponent {
-  static propTypes = {
-    pipelineMetric: PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string,
-      url: PropTypes.string
-    }).isRequired
-  };
+type Props = {
+  metric: Metric_metric
+}
 
+class Metric extends React.Component<Props> {
   render() {
+    if (!this.props.metric) {
+      return null;
+    }
+
     return (
-      <a href={this.props.pipelineMetric.url} className="flex flex-column text-decoration-none color-inherit" style={{ width: '7em' }}>
-        <span className="h6 regular dark-gray truncate">{this.props.pipelineMetric.label}</span>
+      <a href={this.props.metric.url} className="flex flex-column text-decoration-none color-inherit" style={{ width: '7em' }}>
+        <span className="h6 regular dark-gray truncate">{this.props.metric.label}</span>
         {this.renderValue()}
       </a>
     );
   }
 
   renderValue() {
-    const match = String(this.props.pipelineMetric.value).match(/([\d.]+)(.*)/);
+    const match = String(this.props.metric.value).match(/([\d.]+)(.*)/);
     const valueClasses = "h1 light m0 line-height-1";
 
     if (match) {
@@ -32,11 +34,12 @@ class Metric extends React.PureComponent {
           <span className="h6 regular m0 line-height-1 dark-gray">{match[2]}</span>
         </span>
       );
-    } else if (this.props.pipelineMetric.value) {
+    } else if (this.props.metric.value) {
       return (
-        <span className={classNames(valueClasses, "truncate")}>{this.props.pipelineMetric.value}</span>
+        <span className={classNames(valueClasses, "truncate")}>{this.props.metric.value}</span>
       );
     }
+
 
     return (
       <span className={classNames(valueClasses, "gray")}>-</span>
@@ -44,14 +47,12 @@ class Metric extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(Metric, {
-  fragments: {
-    pipelineMetric: () => Relay.QL`
-      fragment on PipelineMetric {
-        label
-        value
-        url
-      }
-    `
-  }
+export default createFragmentContainer(Metric, {
+  metric: graphql`
+    fragment Metric_metric on PipelineMetric {
+      label
+      value
+      url
+    }
+  `
 });

@@ -1,43 +1,33 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+// @flow
 
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import {createRefetchContainer, graphql} from 'react-relay/compat';
 import SectionLoader from 'app/components/shared/SectionLoader';
 import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
-
 import FlashesStore from 'app/stores/FlashesStore';
 import UserSessionStore from 'app/stores/UserSessionStore';
-
 import Pipeline from './Pipeline';
 import Welcome from './Welcome';
+import type { RelayProp } from 'react-relay';
+import type {Pipelines_organization} from './__generated__/Pipelines_organization.graphql';
 
 const INITIAL_PAGE_SIZE = 30;
 const PAGE_SIZE = 50;
 
-class OrganizationPipelines extends React.Component {
-  static propTypes = {
-    organization: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      slug: PropTypes.string.isRequired,
-      allPipelines: PropTypes.shape({
-        count: PropTypes.number.isRequired
-      }),
-      pipelines: PropTypes.shape({
-        edges: PropTypes.arrayOf(
-          PropTypes.shape({
-            node: PropTypes.shape({
-              id: PropTypes.string.isRequired,
-              name: PropTypes.string.isRequired
-            }).isRequired
-          }).isRequired
-        )
-      })
-    }),
-    relay: PropTypes.object.isRequired,
-    team: PropTypes.string,
-    filter: PropTypes.string
-  };
+type Props = {
+  relay: RelayProp,
+  team: string,
+  filter: string,
+  organization: Pipelines_organization
+};
 
+type State = {
+  loading: boolean,
+  loadingMore: boolean
+};
+
+class Pipelines extends React.Component<Props, State> {
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
@@ -48,9 +38,14 @@ class OrganizationPipelines extends React.Component {
   };
 
   get useLocalSearch() {
-    return this.props.organization.pipelines &&
-      this.props.organization.allPipelines.count <= INITIAL_PAGE_SIZE &&
-      !this.props.relay.variables.pipelineFilter;
+    return false
+    // return this.props.organization.pipelines &&
+    //   this.props.organization.allPipelines.count <= INITIAL_PAGE_SIZE &&
+    //   !this.props.relay.variables.pipelineFilter;
+  }
+
+  get includeGraphData() {
+    return true;
   }
 
   get useRemoteSearch() {
@@ -58,47 +53,62 @@ class OrganizationPipelines extends React.Component {
   }
 
   componentDidMount() {
-    // After the `OrganizationPipelines` component has mounted, kick off a
-    // Relay query to load in all the pipelines. `includeGraphData` is still
-    // false at this point because we'll load in that data after this.
-    this.props.relay.setVariables(
-      {
-        isMounted: true,
-        teamSearch: this.props.team,
-        pipelineFilter: this.props.filter
-      },
-      ({ done, error }) => {
-        if (done) {
-          // Now kick off a full reload, which will grab the pipelines again, but
-          // this time with all the graph data.
-          setTimeout(() => {
-            this.props.relay.forceFetch({ includeGraphData: true });
-          }, 0);
-        } else if (error) {
-          // if we couldn't find that team in GraphQL, let's redirect to not requesting a team!
-          if (error.source.errors.some(({ message }) => message === 'No team found')) {
-            this.context.router.push(`/${this.props.organization.slug}`);
-            this.maybeUpdateDefaultTeam(this.props.organization.id, null);
-            // WARNING: We need to set isMounted here because it didn't get successfuly
-            // updated by the parent setVariables call!
-            this.props.relay.setVariables({ isMounted: true, teamSearch: null }, (readyState) => {
-              // flash error once we've got data so it behaves more like its backend counterpart!
-              //
-              // NOTE: We check `aborted` as well as `done` because it *should* return `done` but
-              // it looks like if it's canceled during a query it'll return `aborted` but render
-              // the right data.
-              if (readyState.aborted || readyState.done) {
-                FlashesStore.flash(FlashesStore.ERROR, "The requested team couldn’t be found! Switched back to All teams.");
-              }
-            });
-          }
-        }
-      }
-    );
+    const refetchVariables = {
+      organizationSlug: 'test',
+      teamSearch: this.props.team,
+      includeGraphData: false,
+      pageSize: INITIAL_PAGE_SIZE,
+      pipelineFilter: this.props.filter,
+      isMounted: true
+    };
 
-    // We might've started out with a new team, so let's see about updating the default!
-    this.maybeUpdateDefaultTeam(this.props.organization.id, this.props.team);
+    this.props.relay.refetch(refetchVariables, null, () => {
+      this.props.relay.refetch({...refetchVariables, includeGraphData: true});
+    });
   }
+
+//   componentDidMount() {
+//     // After the `Pipelines` component has mounted, kick off a
+//     // Relay query to load in all the pipelines. `includeGraphData` is still
+//     // false at this point because we'll load in that data after this.
+//     this.props.relay.setVariables(
+//       {
+//         isMounted: true,
+//         teamSearch: this.props.team,
+//         pipelineFilter: this.props.filter
+//       },
+//       ({ done, error }) => {
+//         if (done) {
+//           // Now kick off a full reload, which will grab the pipelines again, but
+//           // this time with all the graph data.
+//           setTimeout(() => {
+//             this.props.relay.forceFetch({ includeGraphData: true });
+//           }, 0);
+//         } else if (error) {
+//           // if we couldn't find that team in GraphQL, let's redirect to not requesting a team!
+//           if (error.source.errors.some(({ message }) => message === 'No team found')) {
+//             this.context.router.push(`/${this.props.organization.slug}`);
+//             this.maybeUpdateDefaultTeam(this.props.organization.id, null);
+//             // WARNING: We need to set isMounted here because it didn't get successfuly
+//             // updated by the parent setVariables call!
+//             this.props.relay.setVariables({ isMounted: true, teamSearch: null }, (readyState) => {
+//               // flash error once we've got data so it behaves more like its backend counterpart!
+//               //
+//               // NOTE: We check `aborted` as well as `done` because it *should* return `done` but
+//               // it looks like if it's canceled during a query it'll return `aborted` but render
+//               // the right data.
+//               if (readyState.aborted || readyState.done) {
+//                 FlashesStore.flash(FlashesStore.ERROR, "The requested team couldn’t be found! Switched back to All teams.");
+//               }
+//             });
+//           }
+//         }
+//       }
+//     );
+//
+//     // We might've started out with a new team, so let's see about updating the default!
+//     this.maybeUpdateDefaultTeam(this.props.organization.id, this.props.team);
+//   }
 
   componentWillReceiveProps(nextProps) {
     const nextRelayVariables = {};
@@ -212,9 +222,21 @@ class OrganizationPipelines extends React.Component {
     for (const edge of relevantPipelines) {
       // Put the favorites in the own section
       if (edge.node.favorite) {
-        favorited.push(<Pipeline key={edge.node.id} pipeline={edge.node} includeGraphData={this.props.relay.variables.includeGraphData} />);
+        favorited.push(
+          <Pipeline
+            key={edge.node.id}
+            pipeline={edge.node}
+            includeGraphData={this.includeGraphData}
+          />
+        );
       } else {
-        remainder.push(<Pipeline key={edge.node.id} pipeline={edge.node} includeGraphData={this.props.relay.variables.includeGraphData} />);
+        remainder.push(
+          <Pipeline
+            key={edge.node.id}
+            pipeline={edge.node}
+            includeGraphData={this.includeGraphData}
+          />
+        );
       }
     }
 
@@ -249,36 +271,53 @@ class OrganizationPipelines extends React.Component {
   };
 }
 
-export default Relay.createContainer(OrganizationPipelines, {
-  initialVariables: {
-    teamSearch: null,
-    includeGraphData: false,
-    pageSize: INITIAL_PAGE_SIZE,
-    pipelineFilter: null,
-    isMounted: false
-  },
-
-  fragments: {
-    organization: (variables) => Relay.QL`
-      fragment on Organization {
-        ${Welcome.getFragment('organization')}
-        id
-        slug
-        allPipelines: pipelines(team: $teamSearch) @include(if: $isMounted) {
-          count
-        }
-        pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, order: NAME_WITH_FAVORITES_FIRST) @include(if: $isMounted) {
-          ${ShowMoreFooter.getFragment('connection')}
-          edges {
-            node {
-              id
-              name
-              favorite
-              ${Pipeline.getFragment('pipeline', { includeGraphData: variables.includeGraphData })}
-            }
+export default createRefetchContainer(
+  Pipelines,
+  graphql`
+    fragment Pipelines_organization on Organization @argumentDefinitions(
+      teamSearch: {type: "TeamSelector"},
+      includeGraphData: {type: "Boolean", defaultValue: false},
+      pageSize: {type: "Int", defaultValue: 30},
+      pipelineFilter: {type: "String"},
+      isMounted: {type: "Boolean", defaultValue: false},
+    ) {
+      ...Welcome_organization
+      id
+      slug
+      allPipelines: pipelines(team: $teamSearch) @include(if: $isMounted) {
+        count
+      }
+      pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, order: NAME_WITH_FAVORITES_FIRST) @include(if: $isMounted) {
+        ...ShowMoreFooter_connection
+        edges {
+          node {
+            id
+            name
+            favorite
+            ...Pipeline_pipeline @arguments(includeGraphData: $includeGraphData)
           }
         }
       }
-    `
-  }
-});
+    }
+  `,
+  graphql`
+    query PipelinesRefetchQuery(
+      $organizationSlug: ID!,
+      $teamSearch: TeamSelector,
+      $includeGraphData: Boolean!,
+      $pageSize: Int!,
+      $pipelineFilter: String,
+      $isMounted: Boolean
+    ) {
+      organization(slug: $organizationSlug) {
+        ...Pipelines_organization @arguments(
+          teamSearch: $teamSearch,
+          includeGraphData: $includeGraphData,
+          pageSize: $pageSize,
+          pipelineFilter: $pipelineFilter,
+          isMounted: $isMounted,
+        )
+      }
+    }
+  `
+);

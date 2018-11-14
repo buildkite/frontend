@@ -1,13 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+// @flow
 
+import * as React from 'react';
+import {createFragmentContainer, graphql} from 'react-relay/compat';
+import PropTypes from 'prop-types';
 import AnchoredPopover from 'app/components/shared/Popover/anchored';
 import BuildState from 'app/components/icons/BuildState';
+import BuildTooltip from './BuildTooltip';
+import type {Status_pipeline} from './__generated__/Status_pipeline.graphql';
 
-import BuildTooltip from './build-tooltip';
+type Props = {
+  pipeline: Status_pipeline
+};
 
-class Status extends React.Component {
+type State = {
+  hover: boolean,
+};
+
+
+class Status extends React.Component<Props,State> {
   static propTypes = {
     pipeline: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -64,21 +74,17 @@ class Status extends React.Component {
   }
 }
 
-export default Relay.createContainer(Status, {
-  fragments: {
-    pipeline: () => Relay.QL`
-      fragment on Pipeline {
-        id
-        builds(first: 1, branch: "%default", state: [ RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED ]) {
-          edges {
-            node {
-              state
-              url
-              ${BuildTooltip.getFragment('build')}
-            }
-          }
+export default createFragmentContainer(Status, graphql`
+  fragment Status_pipeline on Pipeline {
+    id
+    builds(first: 1, branch: "%default", state: [ RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED ]) {
+      edges {
+        node {
+          state
+          url
+          ...BuildTooltip_build
         }
       }
-    `
+    }
   }
-});
+`);

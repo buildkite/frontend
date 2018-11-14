@@ -1,18 +1,16 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
-
+import {createFragmentContainer, graphql} from 'react-relay/compat';
 import PipelineIcon from 'app/components/icons/Pipeline';
+import type {Welcome_organization} from './__generated__/Welcome_organization.graphql';
 
-class Welcome extends React.PureComponent {
-  static propTypes = {
-    organization: PropTypes.shape({
-      slug: PropTypes.string.isRequired,
-      permissions: PropTypes.object.isRequired
-    }),
-    team: PropTypes.string
-  };
+type Props = {
+  organization: Welcome_organization,
+  team: string
+};
 
+class Welcome extends React.PureComponent<Props> {
   render() {
     if (this.props.organization.permissions.pipelineCreate.code === "not_member_of_team") {
       return this.renderNoPipelineCreatePermission();
@@ -62,19 +60,15 @@ class Welcome extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(Welcome, {
-  fragments: {
-    organization: () => Relay.QL`
-      fragment on Organization {
-        slug
-        permissions {
-          pipelineCreate {
-            code
-            allowed
-            message
-          }
-        }
+export default createFragmentContainer(Welcome, graphql`
+  fragment Welcome_organization on Organization {
+    slug
+    permissions {
+      pipelineCreate {
+        code
+        allowed
+        message
       }
-    `
+    }
   }
-});
+`);

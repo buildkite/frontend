@@ -1,19 +1,22 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-
+import {createFragmentContainer, graphql} from 'react-relay/compat';
 import Dropdown from 'app/components/shared/Dropdown';
 import Chooser from 'app/components/shared/Chooser';
 import Emojify from 'app/components/shared/Emojify';
 import Icon from 'app/components/shared/Icon';
+import type {Teams_organization} from './__generated__/Teams_organization.graphql';
 
-class Teams extends React.Component {
-  static propTypes = {
-    selected: PropTypes.string,
-    organization: PropTypes.object.isRequired,
-    onTeamChange: PropTypes.func.isRequired
-  };
+type Props = {
+  selected: string,
+  organization: Teams_organization,
+  onTeamChange: () => void
+};
 
+class Teams extends React.Component<Props> {
   render() {
     // Collect all the teams that we're allowed to see pipelines on
     const teams = [];
@@ -82,26 +85,22 @@ class Teams extends React.Component {
   };
 }
 
-export default Relay.createContainer(Teams, {
-  fragments: {
-    organization: () => Relay.QL`
-      fragment on Organization {
-        teams(first: 100) {
-          edges {
-            node {
-              id
-              name
-              slug
-              description
-              permissions {
-                pipelineView {
-                  allowed
-                }
-              }
+export default createFragmentContainer(Teams, graphql`
+  fragment Teams_organization on Organization {
+    teams(first: 100) {
+      edges {
+        node {
+          id
+          name
+          slug
+          description
+          permissions {
+            pipelineView {
+              allowed
             }
           }
         }
       }
-    `
+    }
   }
-});
+`);

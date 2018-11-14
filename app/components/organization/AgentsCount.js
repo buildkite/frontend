@@ -1,19 +1,28 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+import {createFragmentContainer, graphql} from 'react-relay/compat';
 import throttle from 'throttleit';
 import { seconds } from 'metrick/duration';
-
 import PusherStore from 'app/stores/PusherStore';
-
 import { formatNumber } from 'app/lib/number';
+import type {AgentsCount_organization} from './__generated__/AgentsCount_organization.graphql';
+
+type Props = {
+  organization: AgentsCount_organization
+};
+
+type State = {
+  agentCount: number
+};
 
 // We need a `requestUpdate` queue above the React component level so
 // AgentsCount components will only perform one `forceFetch` in any
 // given time window. I wish this was cleaner, kid, I really do.
 const requestUpdate = throttle((callback) => callback(), 3::seconds);
 
-class AgentsCount extends React.PureComponent {
+class AgentsCount extends React.Component<Props,State> {
   static propTypes = {
     organization: PropTypes.shape({
       agents: PropTypes.shape({
@@ -63,14 +72,10 @@ class AgentsCount extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(AgentsCount, {
-  fragments: {
-    organization: () => Relay.QL`
-        fragment on Organization {
-          agents {
-            count
-          }
-        }
-      `
+export default createFragmentContainer(AgentsCount, graphql`
+  fragment AgentsCount_organization on Organization {
+    agents {
+      count
+    }
   }
-});
+`);

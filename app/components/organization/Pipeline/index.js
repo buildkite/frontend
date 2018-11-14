@@ -1,39 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+// @flow
 
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import {createRefetchContainer, graphql} from 'react-relay/compat';
 import Favorite from 'app/components/icons/Favorite';
 import Emojify from 'app/components/shared/Emojify';
-
 import permissions from 'app/lib/permissions';
-
 import PusherStore from 'app/stores/PusherStore';
-
 import PipelineFavoriteMutation from 'app/mutations/PipelineFavorite';
-
 import Status from './status';
 import Metrics from './Metrics';
 import Graph from './graph';
+import type { RelayProp } from 'react-relay';
+import type {Pipeline_pipeline} from './__generated__/Pipeline_pipeline.graphql';
 
-class Pipeline extends React.Component {
-  static propTypes = {
-    pipeline: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      slug: PropTypes.string.isRequired,
-      description: PropTypes.string,
-      defaultBranch: PropTypes.string.isRequired,
-      favorite: PropTypes.bool.isRequired,
-      url: PropTypes.string.isRequired,
-      permissions: PropTypes.shape({
-        pipelineFavorite: PropTypes.shape({
-          allowed: PropTypes.bool.isRequired
-        }).isRequired
-      })
-    }).isRequired,
-    relay: PropTypes.object.isRequired
-  };
+type Props = {
+  pipeline: Pipeline_pipeline,
+  includeGraphData: boolean,
+  relay: RelayProp
+};
 
+type State = {
+  showingMenu: boolean
+};
+
+class Pipeline extends React.Component<Props, State> {
   state = {
     showingMenu: false
   };
@@ -87,7 +78,7 @@ class Pipeline extends React.Component {
     // Toggle between showing the graph, or showing a placeholder until the
     // data is finally loaded in.
     let graph;
-    if (this.props.relay.variables.includeGraphData) {
+    if (this.props.includeGraphData) {
       graph = (
         <div>
           <div className="h6 regular dark-gray mb1 line-height-1">{this.props.pipeline.defaultBranch}</div>
@@ -136,7 +127,8 @@ class Pipeline extends React.Component {
 
   handlePusherWebsocketEvent = (payload) => {
     if (payload.event === "project:updated" && payload.graphql.id === this.props.pipeline.id) {
-      this.props.relay.forceFetch();
+      const { pipeline: { id }, includeGraphData } = this.props
+      this.props.relay.refetch({ id, includeGraphData }, null, null, { force: true });
     }
   };
 
@@ -160,31 +152,35 @@ class Pipeline extends React.Component {
   }
 }
 
-export default Relay.createContainer(Pipeline, {
-  initialVariables: {
-    includeGraphData: false
-  },
-
-  fragments: {
-    pipeline: (variables) => Relay.QL`
-      fragment on Pipeline {
-        ${PipelineFavoriteMutation.getFragment('pipeline')}
-        ${Status.getFragment('pipeline')}
-        ${Metrics.getFragment('pipeline')}
-        ${Graph.getFragment('pipeline').if(variables.includeGraphData)}
-        id
-        name
-        slug
-        description
-        defaultBranch
-        url
-        favorite
-        permissions {
-          pipelineFavorite {
-            allowed
-          }
+// ${PipelineFavoriteMutation.getFragment('pipeline')}
+export default createRefetchContainer(
+  Pipeline,
+  graphql`
+    fragment Pipeline_pipeline on Pipeline @argumentDefinitions(
+      includeGraphData: {type: "Boolean!"},
+    ) {
+      ...Status_pipeline
+      ...Metrics_pipeline
+      ...Graph_pipeline @arguments(includeGraphData: $includeGraphData)
+      id
+      name
+      slug
+      description
+      defaultBranch
+      url
+      favorite
+      permissions {
+        pipelineFavorite {
+          allowed
         }
       }
-    `
-  }
-});
+    }
+  `,
+  graphql`
+    query PipelineRefetchQuery($id: ID!, $includeGraphData: Boolean!) {
+      node(id: $id) {
+        ...Pipeline_pipeline @arguments(includeGraphData: $includeGraphData)
+      }
+    }
+  `
+);

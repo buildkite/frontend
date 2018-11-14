@@ -1,31 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+// @flow
 
+import * as React from 'react';
+import {createFragmentContainer, graphql} from 'react-relay/compat';
 import BuildStatusDescription from 'app/components/shared/BuildStatusDescription';
 import Duration from 'app/components/shared/Duration';
 import Emojify from 'app/components/shared/Emojify';
 import UserAvatar from 'app/components/shared/UserAvatar';
-
 import { buildTime } from 'app/lib/builds';
 import { shortMessage, shortCommit } from 'app/lib/commits';
 
-class BuildTooltip extends React.PureComponent {
-  static propTypes = {
-    build: PropTypes.shape({
-      commit: PropTypes.string,
-      createdBy: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        avatar: PropTypes.shape({
-          url: PropTypes.string
-        }).isRequired
-      }),
-      message: PropTypes.string,
-      startedAt: PropTypes.string,
-      finishedAt: PropTypes.string
-    }).isRequired
-  };
+import type {BuildTooltip_build} from './__generated__/BuildTooltip_build.graphql';
 
+type Props = {
+  build: BuildTooltip_build
+}
+
+class BuildTooltip extends React.PureComponent<Props> {
   render() {
     let userAvatarNode;
     if (this.props.build.createdBy) {
@@ -55,33 +45,29 @@ class BuildTooltip extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(BuildTooltip, {
-  fragments: {
-    build: () => Relay.QL`
-      fragment on Build {
-        message
-        url
-        commit
-        state
-        startedAt
-        finishedAt
-        canceledAt
-        scheduledAt
-        createdBy {
-          ... on User {
-            name
-            avatar {
-              url
-            }
-          }
-          ...on UnregisteredUser {
-            name
-            avatar {
-              url
-            }
-          }
+export default createFragmentContainer(BuildTooltip, graphql`
+  fragment BuildTooltip_build on Build {
+    message
+    url
+    commit
+    state
+    startedAt
+    finishedAt
+    canceledAt
+    scheduledAt
+    createdBy {
+      ... on User {
+        name
+        avatar {
+          url
         }
       }
-    `
+      ...on UnregisteredUser {
+        name
+        avatar {
+          url
+        }
+      }
+    }
   }
-});
+`);

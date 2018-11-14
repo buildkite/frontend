@@ -1,46 +1,38 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+import {createFragmentContainer, graphql} from 'react-relay/compat';
+import Metric from './Metric';
+import type {Metrics_pipeline} from './__generated__/Metrics_pipeline.graphql';
 
-import Metric from './metric';
+type Props = {
+  pipeline: Metrics_pipeline
+}
 
-class Metrics extends React.Component {
-  static propTypes = {
-    pipeline: PropTypes.shape({
-      metrics: PropTypes.shape({
-        edges: PropTypes.arrayOf(
-          PropTypes.shape({
-            node: PropTypes.shape({
-              label: PropTypes.string.isRequired
-            }).isRequired
-          }).isRequired
-        )
-      }).isRequired
-    }).isRequired
-  };
-
+class Metrics extends React.Component<Props> {
   render() {
     return (
       <div className="flex items-center">
-        {this.props.pipeline.metrics.edges.map((edge) => <Metric key={edge.node.label} pipelineMetric={edge.node} />)}
+        {this.props.pipeline.metrics.edges.map((edge) => (
+          <Metric key={edge.node.label} pipelineMetric={edge.node} />
+        ))}
       </div>
     );
   }
 }
 
-export default Relay.createContainer(Metrics, {
-  fragments: {
-    pipeline: () => Relay.QL`
-      fragment on Pipeline {
-        metrics(first: 6) {
-          edges {
-            node {
-              label
-              ${Metric.getFragment('pipelineMetric')}
-            }
+export default createFragmentContainer(Metric, {
+  pipeline: graphql`
+    fragment Metrics_pipeline on Pipeline {
+      metrics(first: 6) {
+        edges {
+          node {
+            label
+            ...Metric_metric
           }
         }
       }
-    `
-  }
+    }
+  `
 });

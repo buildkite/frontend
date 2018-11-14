@@ -1,17 +1,16 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
+import {createFragmentContainer, graphql} from 'react-relay/compat';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
 import moment from 'moment';
 import classNames from 'classnames';
 import { second } from 'metrick/duration';
-
-import Bar from './bar';
-
 import { buildTime } from 'app/lib/builds';
-
 import BuildStates from 'app/constants/BuildStates';
-
+import Bar from './Bar';
 import { MAXIMUM_NUMBER_OF_BUILDS, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT, GRAPH_WIDTH } from './constants';
+import type {Graph_pipeline} from './__generated__/Graph_pipeline.graphql';
 
 const PASSED_COLOR = "#B0DF21";
 const PASSED_COLOR_HOVER = "#669611";
@@ -28,33 +27,19 @@ const SKIPPED_COLOR_HOVER = "#3769A2";
 const NOT_RUN_COLOR = SKIPPED_COLOR;
 const NOT_RUN_COLOR_HOVER = SKIPPED_COLOR_HOVER;
 
-class Graph extends React.Component {
-  static propTypes = {
-    pipeline: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      builds: PropTypes.shape({
-        edges: PropTypes.arrayOf(
-          PropTypes.shape({
-            node: PropTypes.shape({
-              state: PropTypes.string.isRequired,
-              url: PropTypes.string.isRequired,
-              startedAt: PropTypes.string,
-              finishedAt: PropTypes.string,
-              canceledAt: PropTypes.string,
-              scheduledAt: PropTypes.string
-            }).isRequired
-          }).isRequired
-        )
-      }).isRequired
-    }).isRequired
-  };
+type Props = {
+  pipeline: Graph_pipeline
+};
 
+class Graph extends React.Component<Props> {
   state = {
     showFullGraph: false
   };
 
   componentDidMount() {
-    this.toggleRenderInterval(this.props.pipeline.builds.edges);
+    if (this.props.pipeline.builds && this.props.pipeline.builds.edges) {
+      this.toggleRenderInterval(this.props.pipeline.builds.edges);
+    }
 
     // As soon as the graph has mounted, animate the bars growing into view.
     setTimeout(() => {
@@ -63,12 +48,14 @@ class Graph extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const thisLatestBuild = this.props.pipeline.builds.edges[0];
-    const nextLatestBuild = nextProps.pipeline.builds.edges[0];
+    if (this.props.pipeline.builds && this.props.pipeline.builds.edges) {
+      const thisLatestBuild = this.props.pipeline.builds.edges[0];
+      const nextLatestBuild = nextProps.pipeline.builds.edges[0];
 
-    // Set `shifting` if all the builds are being moved due to a new one coming in.
-    if ((thisLatestBuild && nextLatestBuild) && thisLatestBuild.node.id !== nextLatestBuild.node.id) {
-      this._shifting = true;
+      // Set `shifting` if all the builds are being moved due to a new one coming in.
+      if ((thisLatestBuild && nextLatestBuild) && thisLatestBuild.node.id !== nextLatestBuild.node.id) {
+        this._shifting = true;
+      }
     }
   }
 
@@ -80,7 +67,9 @@ class Graph extends React.Component {
   }
 
   componentDidUpdate() {
-    this.toggleRenderInterval(this.props.pipeline.builds.edges);
+    if (this.props.pipeline.builds && this.props.pipeline.builds.edges) {
+      this.toggleRenderInterval(this.props.pipeline.builds.edges);
+    }
 
     delete this._shifting;
   }
@@ -98,6 +87,10 @@ class Graph extends React.Component {
   }
 
   renderBars() {
+    if (!this.props.pipeline.builds || !this.props.pipeline.builds.edges) {
+      return null;
+    }
+
     const bars = [];
 
     // `maximumDuration` is wrapped in an object so it's passed by
@@ -215,26 +208,27 @@ class Graph extends React.Component {
   }
 }
 
-export default Relay.createContainer(Graph, {
-  fragments: {
-    pipeline: () => Relay.QL`
-      fragment on Pipeline {
-        id
-        builds(first: 30, branch: "%default", state: [ SCHEDULED, RUNNING, PASSED, FAILED, CANCELED, CANCELING, BLOCKED ]) {
-          edges {
-            node {
-              id
-              state
-              url
-              startedAt
-              finishedAt
-              canceledAt
-              scheduledAt
-              ${Bar.getFragment('build')}
-            }
-          }
+export default createFragmentContainer(Graph, graphql`
+  fragment Graph_pipeline on Pipeline @argumentDefinitions(
+    includeGraphData: {type: "Boolean!"},
+  ) {
+    builds(
+      first: 30,
+      branch: "%default",
+      state: [ SCHEDULED, RUNNING, PASSED, FAILED, CANCELED, CANCELING, BLOCKED ]
+    ) @include(if: $includeGraphData) {
+      edges {
+        node {
+          id
+          state
+          url
+          startedAt
+          finishedAt
+          canceledAt
+          scheduledAt
+          ...Bar_build
         }
       }
-    `
+    }
   }
-});
+`);
