@@ -45,6 +45,7 @@ class Pipelines extends React.Component<Props, State> {
 
   get useLocalSearch() {
     return this.props.organization.pipelines &&
+      this.props.organization.allPipelines &&
       this.props.organization.allPipelines.count <= INITIAL_PAGE_SIZE &&
       !this.props.nameFilter;
   }
@@ -255,7 +256,12 @@ export default createRefetchContainer(
       allPipelines: pipelines(team: $teamSearch) @include(if: $isMounted) {
         count
       }
-      pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, order: NAME_WITH_FAVORITES_FIRST) @include(if: $isMounted) {
+      pipelines(
+        search: $pipelineFilter,
+        first: $pageSize,
+        team: $teamSearch,
+        order: NAME_WITH_FAVORITES_FIRST
+      ) @include(if: $isMounted) {
         ...ShowMoreFooter_connection
         edges {
           node {
