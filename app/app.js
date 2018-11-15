@@ -1,5 +1,7 @@
 // @flow
 
+import './public-path';
+
 import React from 'react';
 import Relay from 'react-relay/classic';
 import reactRender from './lib/reactRenderer';
