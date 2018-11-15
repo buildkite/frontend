@@ -93,6 +93,28 @@ li.CodeMirror-hint-active {
   color: #999;
 }
 
+/* Custom Conditional Editor Theme*/
+
+.cm-s-conditional .cm-punctuation {
+  color: #555;
+}
+
+.cm-s-conditional .cm-keyword {
+  color: #1F61A0;
+}
+
+.cm-s-conditional .cm-string {
+  color: #388a26;
+}
+
+.cm-s-conditional .cm-regex {
+  color: #ca1655;
+}
+
+.cm-s-conditional .cm-comment {
+  color: #999;
+}
+
 /* Custom GraphQL Editor Theme. These colors have been copied from the offical
  * GraphQL editor theme as seen here:
  * http://graphql.org/learn/queries/#fragments */
