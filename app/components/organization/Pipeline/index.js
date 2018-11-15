@@ -3,6 +3,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import {createRefetchContainer, graphql} from 'react-relay/compat';
+import Relay from 'react-relay/classic';
 import Favorite from 'app/components/icons/Favorite';
 import Emojify from 'app/components/shared/Emojify';
 import permissions from 'app/lib/permissions';

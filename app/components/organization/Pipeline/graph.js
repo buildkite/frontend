@@ -31,7 +31,11 @@ type Props = {
   pipeline: Graph_pipeline
 };
 
-class Graph extends React.Component<Props> {
+type State = {
+  showFullGraph: boolean
+};
+
+class Graph extends React.Component<Props, State> {
   state = {
     showFullGraph: false
   };
@@ -91,8 +95,6 @@ class Graph extends React.Component<Props> {
       return null;
     }
 
-    const bars = [];
-
     // `maximumDuration` is wrapped in an object so it's passed by
     // reference, which means all bars get the final, correct value
     // despite the generating loop only occuring once
@@ -100,9 +102,9 @@ class Graph extends React.Component<Props> {
       maximumDuration: 1 // starts as 1 to avoid a `0/0` when we calculate percentages
     };
 
-    for (let buildIndex = 0; buildIndex < MAXIMUM_NUMBER_OF_BUILDS; buildIndex++) {
-      const index = MAXIMUM_NUMBER_OF_BUILDS - buildIndex - 1;
-      const buildEdge = this.props.pipeline.builds.edges[buildIndex];
+    return Array.from(Array(MAXIMUM_NUMBER_OF_BUILDS).keys(), (bar) => {
+      const index = MAXIMUM_NUMBER_OF_BUILDS - bar - 1;
+      const buildEdge = this.props.pipeline.builds.edges[index];
 
       if (buildEdge) {
         const { from, to } = buildTime(buildEdge.node);
@@ -112,38 +114,36 @@ class Graph extends React.Component<Props> {
           graphProps.maximumDuration = duration;
         }
 
-        bars[index] = (
+        return (
           <Bar
-            key={index}
+            key={bar}
             color={this.colorForBuild(buildEdge.node)}
             hoverColor={this.hoverColorForBuild(buildEdge.node)}
             duration={duration}
             href={buildEdge.node.url}
             build={buildEdge.node}
-            left={index * BAR_WIDTH_WITH_SEPERATOR}
-            width={BAR_WIDTH_WITH_SEPERATOR}
-            graph={graphProps}
-            showFullGraph={this.state.showFullGraph}
-          />
-        );
-      } else {
-        bars[index] = (
-          <Bar
-            key={index}
-            color={PENDING_COLOR}
-            hoverColor={PENDING_COLOR_HOVER}
-            duration={0}
-            build={null}
-            left={index * BAR_WIDTH_WITH_SEPERATOR}
+            left={bar * BAR_WIDTH_WITH_SEPERATOR}
             width={BAR_WIDTH_WITH_SEPERATOR}
             graph={graphProps}
             showFullGraph={this.state.showFullGraph}
           />
         );
       }
-    }
 
-    return bars;
+      return (
+        <Bar
+          key={bar}
+          color={PENDING_COLOR}
+          hoverColor={PENDING_COLOR_HOVER}
+          duration={0}
+          build={null}
+          left={bar * BAR_WIDTH_WITH_SEPERATOR}
+          width={BAR_WIDTH_WITH_SEPERATOR}
+          graph={graphProps}
+          showFullGraph={this.state.showFullGraph}
+        />
+      );
+    });
   }
 
   colorForBuild(build) {

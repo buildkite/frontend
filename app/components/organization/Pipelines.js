@@ -74,6 +74,7 @@ class Pipelines extends React.Component<Props, State> {
       this.setState({ includeGraphData: true }, () => {
         this.props.relay.refetch(this.defaultVariables, null, (error: ?Error) => {
           // TODO: can we make this more explicit? Seems weird...
+          // $FlowExpectError
           if (error && error.source.errors.some(({ message }) => message === 'No team found')) {
             this.context.router.push(`/${this.props.organization.slug}`);
             this.maybeUpdateDefaultTeam(this.props.organization.id, null);
@@ -192,28 +193,18 @@ class Pipelines extends React.Component<Props, State> {
   renderPipelines(relevantPipelines) {
     // Split the pipelines into "favorited" and non "favorited". We don't
     // user a `sort` method so we preserve the current order the pipelines.
-    const favorited = [];
-    const remainder = [];
-    for (const edge of relevantPipelines) {
-      // Put the favorites in the own section
-      if (edge.node.favorite) {
-        favorited.push(
+    const [favorited, remainder] = relevantPipelines.reduce((pipelines, pipeline) => {
+      if (pipeline && pipeline.node) {
+        pipelines[pipeline.node.favorite ? 0 : 1].push(
           <Pipeline
-            key={edge.node.id}
-            pipeline={edge.node}
-            includeGraphData={this.includeGraphData}
-          />
-        );
-      } else {
-        remainder.push(
-          <Pipeline
-            key={edge.node.id}
-            pipeline={edge.node}
+            key={pipeline.node.id}
+            pipeline={pipeline.node}
             includeGraphData={this.includeGraphData}
           />
         );
       }
-    }
+      return pipelines;
+    }, [[], []]);
 
     if (favorited.length > 0 && remainder.length > 0) {
       return favorited.concat(

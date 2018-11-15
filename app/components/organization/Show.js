@@ -53,6 +53,14 @@ class OrganizationShow extends React.Component<Props> {
     router: PropTypes.object.isRequired
   };
 
+  get teamFilter(): ?string {
+    return this.props.location.query.team || null;
+  }
+
+  get nameFilter(): ?string {
+    return this.props.location.query.filter || null;
+  }
+
   render() {
     return (
       <DocumentTitle title={`${this.props.organization.name}`}>
@@ -68,11 +76,10 @@ class OrganizationShow extends React.Component<Props> {
               {this.renderFilter()}
               {this.renderNewPipelineButton()}
             </div>
-
             <Pipelines
               organization={this.props.organization}
-              teamFilter={this.props.location.query.team || null}
-              nameFilter={this.props.location.query.filter || null}
+              teamFilter={this.teamFilter}
+              nameFilter={this.nameFilter}
             />
           </PageWithContainer>
         </div>
@@ -100,10 +107,7 @@ class OrganizationShow extends React.Component<Props> {
         theme="default"
         outline={true}
         className="p0 ml-auto flex circle items-center justify-center"
-        style={{
-          width: 34,
-          height: 34
-        }}
+        style={{ width: 34, height: 34 }}
         href={newPipelineURL}
         title="New Pipeline"
       >
@@ -111,10 +115,6 @@ class OrganizationShow extends React.Component<Props> {
       </Button>
     );
   }
-
-  handleTeamChange = (team) => {
-    this.updateRoute({ team });
-  };
 
   renderFilter() {
     return (
@@ -129,21 +129,20 @@ class OrganizationShow extends React.Component<Props> {
     );
   }
 
-  handleFilterChange = (filter) => {
+  handleTeamChange = (team: string) => {
+    this.updateRoute({ team });
+  };
+
+  handleFilterChange = (filter: string) => {
     this.updateRoute({ filter });
   };
 
-  updateRoute = (variables) => {
-    const queryObject = Object.assign({}, this.props.location.query, variables);
-
-    // Prevent ugly URL's that look like "/acme-inc?team="
-    Object.keys(queryObject).forEach((key) => {
-      if (!queryObject[key]) {
-        delete queryObject[key];
-      }
-    });
-
-    const query = stringify(queryObject);
+  updateRoute = (params: {|filter?: string, team?: string|}) => {
+    const query = stringify(
+      Object
+        .entries({...this.props.location.query, ...params})
+        .reduce((query, [key, value]) => (value ? {...query, [key]: value} : query), {})
+    );
 
     if (query) {
       this.context.router.push(`/${this.props.organization.slug}?${query}`);
