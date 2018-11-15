@@ -10,15 +10,15 @@ import UserSessionStore from 'app/stores/UserSessionStore';
 import Pipeline from './Pipeline';
 import Welcome from './Welcome';
 import type { RelayProp } from 'react-relay';
-import type {Pipelines_organization} from './__generated__/Pipelines_organization.graphql';
+import type { Pipelines_organization } from './__generated__/Pipelines_organization.graphql';
 
 const INITIAL_PAGE_SIZE = 30;
 const PAGE_SIZE = 50;
 
 type Props = {
   relay: RelayProp,
-  team: string,
-  filter: string,
+  teamFilter: string | null,
+  nameFilter: string | null,
   organization: Pipelines_organization
 };
 
@@ -38,10 +38,9 @@ class Pipelines extends React.Component<Props, State> {
   };
 
   get useLocalSearch() {
-    return false
-    // return this.props.organization.pipelines &&
-    //   this.props.organization.allPipelines.count <= INITIAL_PAGE_SIZE &&
-    //   !this.props.relay.variables.pipelineFilter;
+    return this.props.organization.pipelines &&
+      this.props.organization.allPipelines.count <= INITIAL_PAGE_SIZE &&
+      !this.props.nameFilter;
   }
 
   get includeGraphData() {
@@ -55,10 +54,10 @@ class Pipelines extends React.Component<Props, State> {
   componentDidMount() {
     const refetchVariables = {
       organizationSlug: 'test',
-      teamSearch: this.props.team,
+      teamSearch: this.props.teamFilter,
       includeGraphData: false,
       pageSize: INITIAL_PAGE_SIZE,
-      pipelineFilter: this.props.filter,
+      pipelineFilter: this.props.nameFilter,
       isMounted: true
     };
 
@@ -75,7 +74,7 @@ class Pipelines extends React.Component<Props, State> {
 //       {
 //         isMounted: true,
 //         teamSearch: this.props.team,
-//         pipelineFilter: this.props.filter
+//         pipelineFilter: this.props.nameFilter
 //       },
 //       ({ done, error }) => {
 //         if (done) {
@@ -114,14 +113,14 @@ class Pipelines extends React.Component<Props, State> {
     const nextRelayVariables = {};
 
     // Are we switching teams?
-    if (this.props.team !== nextProps.team) {
-      nextRelayVariables.teamSearch = nextProps.team;
+    if (this.props.teamFilter !== nextProps.teamFilter) {
+      nextRelayVariables.teamSearch = nextProps.teamFilter;
     }
 
     // Are we filtering, and can we do this locally?
-    if (this.props.filter !== nextProps.filter && this.useRemoteSearch) {
+    if (this.props.nameFilter !== nextProps.nameFilter && this.useRemoteSearch) {
       // if not, go to the server
-      nextRelayVariables.pipelineFilter = nextProps.filter;
+      nextRelayVariables.pipelineFilter = nextProps.nameFilter;
     }
 
     if (Object.keys(nextRelayVariables).length > 0) {
@@ -162,10 +161,10 @@ class Pipelines extends React.Component<Props, State> {
   }
 
   getRelevantPipelines() {
-    const filter = (this.props.filter || '').toLowerCase().trim();
+    const filter = (this.props.nameFilter || '').toLowerCase().trim();
 
     // if we're searching remotely, or there's no filter, it's all of 'em, baby
-    if (this.useRemoteSearch || this.props.relay.variables.pipelineFilter || !filter) {
+    if (this.useRemoteSearch || this.props.nameFilter || !filter) {
       return this.props.organization.pipelines.edges;
     }
 
@@ -201,16 +200,16 @@ class Pipelines extends React.Component<Props, State> {
           />
         </div>
       );
-    } else if (this.props.filter) {
+    } else if (this.props.nameFilter) {
       return (
         <p className="semi-bold my4 center" style={{ paddingBottom: 1 }}>
-          {`No pipelines matching “${this.props.filter}”`}
+          {`No pipelines matching “${this.props.nameFilter}”`}
         </p>
       );
     }
 
     return (
-      <Welcome organization={this.props.organization} team={this.props.team} />
+      <Welcome organization={this.props.organization} team={this.props.teamFilter} />
     );
   }
 

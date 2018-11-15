@@ -72,10 +72,13 @@ class AgentsCount extends React.Component<Props,State> {
   }
 }
 
-export default createFragmentContainer(AgentsCount, graphql`
-  fragment AgentsCount_organization on Organization {
-    agents {
-      count
+export default createFragmentContainer(
+  AgentsCount,
+  graphql`
+    fragment AgentsCount_organization on Organization {
+      agents {
+        count
+      }
     }
-  }
-`);
+  `
+);

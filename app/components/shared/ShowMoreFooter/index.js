@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import {createFragmentContainer, graphql} from 'react-relay/compat';
 import classNames from 'classnames';
 import Button from 'app/components/shared/Button';
@@ -18,19 +17,6 @@ type Props = {
 };
 
 export class ShowMoreFooter extends React.PureComponent<Props> {
-  static propTypes = {
-    connection: PropTypes.shape({
-      pageInfo: PropTypes.shape({
-        hasNextPage: PropTypes.bool.isRequired
-      }).isRequired
-    }),
-    onShowMore: PropTypes.func.isRequired,
-    label: PropTypes.string,
-    loading: PropTypes.bool,
-    searching: PropTypes.bool,
-    className: PropTypes.string
-  };
-
   static defaultProps = {
     loading: false,
     searching: false,

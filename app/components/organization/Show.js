@@ -1,8 +1,8 @@
 // @flow
 
 import * as React from 'react';
+import {createFragmentContainer, graphql} from 'react-relay/compat';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
 import styled from 'styled-components';
 import { stringify } from 'query-string';
@@ -12,6 +12,7 @@ import PageWithContainer from 'app/components/shared/PageWithContainer';
 import SearchField from 'app/components/shared/SearchField';
 import Pipelines from './Pipelines';
 import Teams from './Teams';
+import type {Show_organization} from './__generated__/Show_organization.graphql';
 
 const FilterField = styled(SearchField)`
   flex-basis: 100%;
@@ -40,7 +41,12 @@ FilterField.defaultProps = {
   className: 'light flex-auto'
 };
 
-class OrganizationShow extends React.Component {
+type Props = {
+  organization: Show_organization,
+  location: Object
+}
+
+class OrganizationShow extends React.Component<Props> {
   static propTypes = {
     organization: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -67,16 +73,14 @@ class OrganizationShow extends React.Component {
                 organization={this.props.organization}
                 onTeamChange={this.handleTeamChange}
               />
-
               {this.renderFilter()}
-
               {this.renderNewPipelineButton()}
             </div>
 
             <Pipelines
               organization={this.props.organization}
-              team={this.props.location.query.team || null}
-              filter={this.props.location.query.filter || null}
+              teamFilter={this.props.location.query.team || null}
+              nameFilter={this.props.location.query.filter || null}
             />
           </PageWithContainer>
         </div>
@@ -155,23 +159,23 @@ class OrganizationShow extends React.Component {
   };
 }
 
-export default Relay.createContainer(OrganizationShow, {
-  fragments: {
-    organization: () => Relay.QL`
-      fragment on Organization {
-        ${Teams.getFragment('organization')}
-        ${Pipelines.getFragment('organization')}
-        id
-        slug
-        name
-        permissions {
-          pipelineCreate {
-            code
-            allowed
-            message
-          }
+export default createFragmentContainer(
+  OrganizationShow,
+  graphql`
+    fragment Show_organization on Organization {
+      ...Teams_organization
+      ...Pipelines_organization
+
+      id
+      slug
+      name
+      permissions {
+        pipelineCreate {
+          code
+          allowed
+          message
         }
       }
-    `
-  }
-});
+    }
+  `
+);

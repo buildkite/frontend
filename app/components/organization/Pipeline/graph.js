@@ -147,35 +147,27 @@ class Graph extends React.Component<Props> {
   }
 
   colorForBuild(build) {
-    if (build.state === BuildStates.SCHEDULED) {
-      return SCHEDULED_COLOR;
-    } else if (build.state === BuildStates.RUNNING) {
-      return RUNNING_COLOR;
-    } else if (build.state === BuildStates.PASSED || build.state === BuildStates.BLOCKED) {
-      return PASSED_COLOR;
-    } else if (build.state === BuildStates.SKIPPED) {
-      return SKIPPED_COLOR;
-    } else if (build.state === BuildStates.NOT_RUN) {
-      return NOT_RUN_COLOR;
+    switch (build.state) {
+      case BuildStates.SCHEDULED: return SCHEDULED_COLOR;
+      case BuildStates.RUNNING: return SCHEDULED_COLOR;
+      case BuildStates.PASSED: return PASSED_COLOR;
+      case BuildStates.BLOCKED: return PASSED_COLOR;
+      case BuildStates.SKIPPED: return SKIPPED_COLOR;
+      case BuildStates.NOT_RUN: return NOT_RUN_COLOR;
+      default: return FAILED_COLOR
     }
-
-    return FAILED_COLOR;
   }
 
   hoverColorForBuild(build) {
-    if (build.state === BuildStates.SCHEDULED) {
-      return SCHEDULED_COLOR_HOVER;
-    } else if (build.state === BuildStates.RUNNING) {
-      return RUNNING_COLOR_HOVER;
-    } else if (build.state === BuildStates.PASSED || build.state === BuildStates.BLOCKED) {
-      return PASSED_COLOR_HOVER;
-    } else if (build.state === BuildStates.SKIPPED) {
-      return SKIPPED_COLOR_HOVER;
-    } else if (build.state === BuildStates.NOT_RUN) {
-      return NOT_RUN_COLOR_HOVER;
+    switch (build.state) {
+      case BuildStates.SCHEDULED: return SCHEDULED_COLOR_HOVER;
+      case BuildStates.RUNNING: return SCHEDULED_COLOR_HOVER;
+      case BuildStates.PASSED: return PASSED_COLOR_HOVER;
+      case BuildStates.BLOCKED: return PASSED_COLOR_HOVER;
+      case BuildStates.SKIPPED: return SKIPPED_COLOR_HOVER;
+      case BuildStates.NOT_RUN: return NOT_RUN_COLOR_HOVER;
+      default: return FAILED_COLOR_HOVER;
     }
-
-    return FAILED_COLOR_HOVER;
   }
 
   toggleRenderInterval(buildEdges) {
