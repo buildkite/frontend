@@ -43,20 +43,12 @@ FilterField.defaultProps = {
 
 type Props = {
   organization: Show_organization,
-  location: Object
+  location: {
+    query: Object
+  }
 }
 
 class OrganizationShow extends React.Component<Props> {
-  static propTypes = {
-    organization: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      slug: PropTypes.string.isRequired,
-      permissions: PropTypes.object.isRequired
-    }).isRequired,
-    location: PropTypes.object.isRequired
-  };
-
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
@@ -89,9 +81,11 @@ class OrganizationShow extends React.Component<Props> {
   }
 
   renderNewPipelineButton() {
+    const {permissions} = this.props.organization;
+
     // Don't render the "New Pipeline" button if they're not allowed to due to
     // a `not_member_of_team` permsission error.
-    if (this.props.organization.permissions.pipelineCreate.code === "not_member_of_team") {
+    if (permissions && permissions.pipelineCreate && permissions.pipelineCreate.code === "not_member_of_team") {
       return null;
     }
 

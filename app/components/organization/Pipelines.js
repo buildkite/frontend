@@ -12,8 +12,10 @@ import Welcome from './Welcome';
 import type { RelayProp } from 'react-relay';
 import type { Pipelines_organization } from './__generated__/Pipelines_organization.graphql';
 
-const INITIAL_PAGE_SIZE = 30;
-const PAGE_SIZE = 50;
+// const INITIAL_PAGE_SIZE = 30;
+// const PAGE_SIZE = 50;
+const INITIAL_PAGE_SIZE = 2;
+const PAGE_SIZE = 2;
 
 type Props = {
   relay: RelayProp,
@@ -24,7 +26,9 @@ type Props = {
 
 type State = {
   loading: boolean,
-  loadingMore: boolean
+  loadingMore: boolean,
+  pageSize: number,
+  includeGraphData: boolean
 };
 
 class Pipelines extends React.Component<Props, State> {
@@ -34,7 +38,9 @@ class Pipelines extends React.Component<Props, State> {
 
   state = {
     loading: false,
-    loadingMore: false
+    loadingMore: false,
+    pageSize: INITIAL_PAGE_SIZE,
+    includeGraphData: false
   };
 
   get useLocalSearch() {
@@ -51,63 +57,41 @@ class Pipelines extends React.Component<Props, State> {
     return !this.useLocalSearch;
   }
 
-  componentDidMount() {
-    const refetchVariables = {
+  get defaultVariables() {
+    return {
       organizationSlug: 'test',
       teamSearch: this.props.teamFilter,
-      includeGraphData: false,
-      pageSize: INITIAL_PAGE_SIZE,
+      includeGraphData: this.state.includeGraphData,
+      pageSize: this.state.pageSize,
       pipelineFilter: this.props.nameFilter,
       isMounted: true
     };
-
-    this.props.relay.refetch(refetchVariables, null, () => {
-      this.props.relay.refetch({...refetchVariables, includeGraphData: true});
-    });
   }
 
-//   componentDidMount() {
-//     // After the `Pipelines` component has mounted, kick off a
-//     // Relay query to load in all the pipelines. `includeGraphData` is still
-//     // false at this point because we'll load in that data after this.
-//     this.props.relay.setVariables(
-//       {
-//         isMounted: true,
-//         teamSearch: this.props.team,
-//         pipelineFilter: this.props.nameFilter
-//       },
-//       ({ done, error }) => {
-//         if (done) {
-//           // Now kick off a full reload, which will grab the pipelines again, but
-//           // this time with all the graph data.
-//           setTimeout(() => {
-//             this.props.relay.forceFetch({ includeGraphData: true });
-//           }, 0);
-//         } else if (error) {
-//           // if we couldn't find that team in GraphQL, let's redirect to not requesting a team!
-//           if (error.source.errors.some(({ message }) => message === 'No team found')) {
-//             this.context.router.push(`/${this.props.organization.slug}`);
-//             this.maybeUpdateDefaultTeam(this.props.organization.id, null);
-//             // WARNING: We need to set isMounted here because it didn't get successfuly
-//             // updated by the parent setVariables call!
-//             this.props.relay.setVariables({ isMounted: true, teamSearch: null }, (readyState) => {
-//               // flash error once we've got data so it behaves more like its backend counterpart!
-//               //
-//               // NOTE: We check `aborted` as well as `done` because it *should* return `done` but
-//               // it looks like if it's canceled during a query it'll return `aborted` but render
-//               // the right data.
-//               if (readyState.aborted || readyState.done) {
-//                 FlashesStore.flash(FlashesStore.ERROR, "The requested team couldn’t be found! Switched back to All teams.");
-//               }
-//             });
-//           }
-//         }
-//       }
-//     );
-//
-//     // We might've started out with a new team, so let's see about updating the default!
-//     this.maybeUpdateDefaultTeam(this.props.organization.id, this.props.team);
-//   }
+  componentDidMount() {
+    this.props.relay.refetch(this.defaultVariables, null, () => {
+      this.setState({ includeGraphData: true }, () => {
+        this.props.relay.refetch(this.defaultVariables, null, (error: ?Error) => {
+          // TODO: can we make this more explicit? Seems weird...
+          if (error && error.source.errors.some(({ message }) => message === 'No team found')) {
+            this.context.router.push(`/${this.props.organization.slug}`);
+            this.maybeUpdateDefaultTeam(this.props.organization.id, null);
+            // WARNING: We need to set isMounted here because it didn't get successfuly
+            // updated by the parent setVariables call!
+            this.props.relay.refetch({ ...this.defaultVariables, isMounted: true, teamSearch: null }, null, (error: ?Error) => {
+              // flash error once we've got data so it behaves more like its backend counterpart!
+              if (error) {
+                FlashesStore.flash(FlashesStore.ERROR, "The requested team couldn’t be found! Switched back to All teams.");
+              }
+            });
+          }
+        });
+      })
+    });
+
+    // We might've started out with a new team, so let's see about updating the default!
+    this.maybeUpdateDefaultTeam(this.props.organization.id, this.props.teamFilter);
+  }
 
   componentWillReceiveProps(nextProps) {
     const nextRelayVariables = {};
@@ -125,27 +109,18 @@ class Pipelines extends React.Component<Props, State> {
 
     if (Object.keys(nextRelayVariables).length > 0) {
       // Start by changing the `loading` state to show the spinner
-      this.setState(
-        { loading: true },
-        () => {
-          // Once state has been set, force a full re-fetch of the pipelines
-          this.props.relay.forceFetch(
-            nextRelayVariables,
-            ({ done }) => {
-              // Now that we've got the data, turn off the spinner
-              if (done) {
-                this.setState({ loading: false });
-              }
-            }
-          );
-        }
-      );
+      this.setState({ loading: true }, () => {
+        // Once state has been set, force a full re-fetch of the pipelines
+        this.props.relay.refetch({...this.defaultVariables, ...nextRelayVariables}, null, () => {
+          this.setState({ loading: false });
+        });
+      });
     }
 
     // Let's try updating the default team - we don't rely on the last team
     // being different here because the store might've gotten out of sync,
     // and we do out own check!
-    this.maybeUpdateDefaultTeam(nextProps.organization.id, nextProps.team);
+    this.maybeUpdateDefaultTeam(nextProps.organization.id, nextProps.teamFilter);
   }
 
   maybeUpdateDefaultTeam(organization, team) {
@@ -255,18 +230,12 @@ class Pipelines extends React.Component<Props, State> {
   }
 
   handleShowMorePipelines = () => {
-    this.setState({ loadingMore: true });
-
-    this.props.relay.setVariables(
-      {
-        pageSize: this.props.relay.variables.pageSize + PAGE_SIZE
-      },
-      (readyState) => {
-        if (readyState.done) {
-          this.setState({ loadingMore: false });
-        }
-      }
-    );
+    const pageSize = this.state.pageSize + PAGE_SIZE;
+    this.setState({ loadingMore: true, pageSize }, () => {
+      this.props.relay.refetch({ ...this.defaultVariables, pageSize }, null, () => {
+        this.setState({ loadingMore: false });
+      });
+    });
   };
 }
 
