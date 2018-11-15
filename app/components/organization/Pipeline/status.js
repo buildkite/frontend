@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import {createFragmentContainer, graphql} from 'react-relay/compat';
-import PropTypes from 'prop-types';
+import get from 'lodash.get';
 import AnchoredPopover from 'app/components/shared/Popover/anchored';
 import BuildState from 'app/components/icons/BuildState';
 import BuildTooltip from './BuildTooltip';
@@ -17,45 +17,45 @@ type State = {
 };
 
 
-class Status extends React.Component<Props,State> {
-  static propTypes = {
-    pipeline: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      builds: PropTypes.shape({
-        edges: PropTypes.arrayOf(
-          PropTypes.shape({
-            node: PropTypes.shape({
-              state: PropTypes.string.isRequired,
-              url: PropTypes.string.isRequired
-            }).isRequired
-          }).isRequired
-        )
-      }).isRequired
-    }).isRequired
-  };
-
+class Status extends React.Component<Props, State> {
   state = {
     hover: false
   }
 
+  get buildsEdges() {
+    if (this.props.pipeline.builds && this.props.pipeline.builds.edges) {
+      return this.props.pipeline.builds.edges;
+    }
+    return [];
+  }
+
+  get mostRecentBuild() {
+    const builds = this.buildsEdges;
+    if (builds && builds[0] && builds[0].node) {
+      return builds[0].node;
+    }
+  }
+
   render() {
-    const buildEdge = this.props.pipeline.builds.edges[0];
-
-    if (buildEdge) {
-      const build = buildEdge.node;
-
+    const mostRecentBuild = this.mostRecentBuild;
+    if (mostRecentBuild) {
       return (
         <AnchoredPopover>
           <a
-            href={build.url}
+            href={mostRecentBuild.url}
             className="color-inherit relative"
             onMouseOver={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}
             width={300}
           >
-            <span className="block line-height-1"><BuildState.Regular state={build.state} /></span>
+            <span className="block line-height-1"><BuildState.Regular state={mostRecentBuild.state} /></span>
           </a>
-          <BuildTooltip build={build} visible={this.state.hover} left={-8} top={44} />
+          <BuildTooltip
+            build={mostRecentBuild}
+            visible={this.state.hover}
+            left={-8}
+            top={44}
+          />
         </AnchoredPopover>
       );
     }

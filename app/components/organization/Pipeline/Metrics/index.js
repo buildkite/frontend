@@ -11,18 +11,27 @@ type Props = {
 }
 
 class Metrics extends React.Component<Props> {
+  get metricsEdges() {
+    if (this.props.pipeline.metrics && this.props.pipeline.metrics.edges) {
+      return this.props.pipeline.metrics.edges;
+    }
+    return [];
+  }
+
   render() {
     return (
       <div className="flex items-center">
-        {this.props.pipeline.metrics.edges.map((edge) => (
-          <Metric key={edge.node.label} pipelineMetric={edge.node} />
+        {this.metricsEdges.map((metricsEdge) => (
+          metricsEdge && metricsEdge.node ? (
+            <Metric key={metricsEdge.node.label} metric={metricsEdge.node} />
+          ) : null
         ))}
       </div>
     );
   }
 }
 
-export default createFragmentContainer(Metric, {
+export default createFragmentContainer(Metrics, {
   pipeline: graphql`
     fragment Metrics_pipeline on Pipeline {
       metrics(first: 6) {

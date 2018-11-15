@@ -12,10 +12,8 @@ import Welcome from './Welcome';
 import type { RelayProp } from 'react-relay';
 import type { Pipelines_organization } from './__generated__/Pipelines_organization.graphql';
 
-// const INITIAL_PAGE_SIZE = 30;
-// const PAGE_SIZE = 50;
-const INITIAL_PAGE_SIZE = 2;
-const PAGE_SIZE = 2;
+const INITIAL_PAGE_SIZE = 30;
+const PAGE_SIZE = 50;
 
 type Props = {
   relay: RelayProp,
@@ -207,9 +205,12 @@ class Pipelines extends React.Component<Props, State> {
     }, [[], []]);
 
     if (favorited.length > 0 && remainder.length > 0) {
-      return favorited.concat(
-        [<hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{ height: 1 }} />],
-        remainder
+      return (
+        <>
+          {favorited}
+          <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{ height: 1 }} />
+          {remainder}
+        </>
       );
     } else if (favorited.length > 0) {
       return favorited;

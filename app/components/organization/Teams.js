@@ -13,18 +13,33 @@ import type {Teams_organization} from './__generated__/Teams_organization.graphq
 type Props = {
   selected: string,
   organization: Teams_organization,
-  onTeamChange: () => void
+  onTeamChange: (teamSlug: string) => void
 };
 
 class Teams extends React.Component<Props> {
+  dropdownNode: ?Dropdown;
+
+  get teamEdges() {
+    if (this.props.organization.teams && this.props.organization.teams.edges) {
+      return this.props.organization.teams.edges;
+    }
+    return [];
+  }
+
   render() {
     // Collect all the teams that we're allowed to see pipelines on
-    const teams = [];
-    for (const edge of this.props.organization.teams.edges) {
-      if (edge.node.permissions.pipelineView.allowed) {
-        teams.push(edge.node);
-      }
-    }
+    const teams = this.teamEdges.reduce((teams, teamEdge) => (
+      teamEdge &&
+      teamEdge.node &&
+      teamEdge.node.permissions &&
+      teamEdge.node.permissions.pipelineView &&
+      teamEdge.node.permissions.pipelineView.allowed ? (
+        teams.concat(teamEdge.node)
+      ) : (
+        teams
+      )
+    ), []);
+
 
     // Don't render the select if there aren't any teams that can be viewed
     if (teams.length === 0) {
@@ -58,15 +73,11 @@ class Teams extends React.Component<Props> {
 
   renderLabel() {
     if (this.props.selected) {
-      for (const edge of this.props.organization.teams.edges) {
-        if (edge.node.slug === this.props.selected) {
-          return (
-            <Emojify className="block" text={edge.node.name} />
-          );
-        }
+      const selectedTeam = this.teamEdges.filter(Boolean).find(({node}) => node && node.slug === this.props.selected);
+      if (selectedTeam && selectedTeam.node) {
+        return <Emojify className="block" text={selectedTeam.node.name} />
       }
     }
-
     return "All teams";
   }
 
@@ -79,9 +90,11 @@ class Teams extends React.Component<Props> {
     );
   }
 
-  handleDropdownSelect = (slug) => {
-    this.dropdownNode.setShowing(false);
-    this.props.onTeamChange(slug);
+  handleDropdownSelect = (slug: string) => {
+    if (this.dropdownNode) {
+      this.dropdownNode.setShowing(false);
+      this.props.onTeamChange(slug);
+    }
   };
 }
 

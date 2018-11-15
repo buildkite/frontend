@@ -47,12 +47,10 @@ class Metric extends React.Component<Props> {
   }
 }
 
-export default createFragmentContainer(Metric, {
-  metric: graphql`
-    fragment Metric_metric on PipelineMetric {
-      label
-      value
-      url
-    }
-  `
-});
+export default createFragmentContainer(Metric, graphql`
+  fragment Metric_metric on PipelineMetric {
+    label
+    value
+    url
+  }
+`);
