@@ -28,12 +28,9 @@ type State = {
 const Moment = moment().constructor;
 
 function makeDurationFormat(format: DurationFormats) {
-  return class extends React.PureComponent<Props> {
-    static displayName = format.charAt(0).toUpperCase() + format.slice(1);
-    render() {
-      return <Duration {...this.props} format={format} />;
-    }
-  };
+  const Component = (props: Props) => <Duration {...props} format={format} />;
+  Component.displayName = format.charAt(0).toUpperCase() + format.slice(1);
+  return Component;
 }
 
 export default class Duration extends React.PureComponent<Props, State> {

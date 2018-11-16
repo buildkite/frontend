@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
 import Metric from './Metric';
 import type { Metrics_pipeline } from './__generated__/Metrics_pipeline.graphql';

@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
 import { buildTime } from 'app/lib/builds';
@@ -160,7 +159,7 @@ class Graph extends React.Component<Props, State> {
   colorForBuild(build) {
     switch (build.state) {
       case BuildStates.SCHEDULED: return SCHEDULED_COLOR;
-      case BuildStates.RUNNING: return SCHEDULED_COLOR;
+      case BuildStates.RUNNING: return RUNNING_COLOR;
       case BuildStates.PASSED: return PASSED_COLOR;
       case BuildStates.BLOCKED: return PASSED_COLOR;
       case BuildStates.SKIPPED: return SKIPPED_COLOR;
@@ -172,7 +171,7 @@ class Graph extends React.Component<Props, State> {
   hoverColorForBuild(build) {
     switch (build.state) {
       case BuildStates.SCHEDULED: return SCHEDULED_COLOR_HOVER;
-      case BuildStates.RUNNING: return SCHEDULED_COLOR_HOVER;
+      case BuildStates.RUNNING: return RUNNING_COLOR_HOVER;
       case BuildStates.PASSED: return PASSED_COLOR_HOVER;
       case BuildStates.BLOCKED: return PASSED_COLOR_HOVER;
       case BuildStates.SKIPPED: return SKIPPED_COLOR_HOVER;

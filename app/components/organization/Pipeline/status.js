@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
-import get from 'lodash.get';
 import AnchoredPopover from 'app/components/shared/Popover/anchored';
 import BuildState from 'app/components/icons/BuildState';
 import BuildTooltip from './BuildTooltip';
@@ -34,6 +33,7 @@ class Status extends React.Component<Props, State> {
     if (builds && builds[0] && builds[0].node) {
       return builds[0].node;
     }
+    return null;
   }
 
   render() {

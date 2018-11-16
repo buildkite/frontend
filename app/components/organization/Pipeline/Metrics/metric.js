@@ -9,7 +9,7 @@ type Props = {
   metric: Metric_metric
 };
 
-class Metric extends React.Component<Props> {
+class Metric extends React.PureComponent<Props> {
   render() {
     if (!this.props.metric) {
       return null;

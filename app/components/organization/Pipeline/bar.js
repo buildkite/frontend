@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { createRefetchContainer, graphql } from 'react-relay/compat';
 import BuildTooltip from './BuildTooltip';
 import AnchoredPopover from 'app/components/shared/Popover/anchored';
