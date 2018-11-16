@@ -1,4 +1,7 @@
-/* global jest, describe, it, expect, xdescribe */
+/* global jest, describe, it, expect */
+/* eslint-disable react/display-name */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-multi-spaces */
 
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
@@ -18,7 +21,7 @@ describe('Duration', () => {
     ];
     describe.each(formats)('Duration.%s', (format, from, to, expected) => {
       const DurationFormat = Duration[format];
-      const props = {from, to, updateFrequency: 0};
+      const props = { from, to, updateFrequency: 0 };
 
       it('renders', () => {
         expect.assertions(2);
@@ -37,7 +40,7 @@ describe('Duration', () => {
           expect(rendered.root.findByType('span').props).toHaveProperty('className', '');
         });
       });
-    })
+    });
   });
 
   describe('updateFrequency', () => {
