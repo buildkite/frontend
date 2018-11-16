@@ -44,27 +44,39 @@ describe('Duration', () => {
   });
 
   describe('updateFrequency', () => {
-    it('sets an interval if supplied with a frequency greater than zero', () => {
-      expect.assertions(3);
+    beforeEach(() => {
       jest.useFakeTimers();
+    });
 
-      const from = new Date();
-      const rendered = ReactTestRenderer.create(<Duration.Full from={from} updateFrequency={1} />);
+    it('sets an interval if supplied with a frequency greater than zero', () => {
+      expect.assertions(4);
+
+      const now = Date.now();
+      const from = new Date(now);
+
+      const rendered = ReactTestRenderer.create(<Duration.Full from={from} updateFrequency={1000} />);
       expect(rendered.root.findByType('div').children).toEqual(['0 seconds']);
-      jest.advanceTimersByTime(10000);
+      jest.spyOn(Date, 'now').mockImplementation(() => now + 1000);
+      jest.advanceTimersByTime(1000);
       expect(rendered.root.findByType('div').children).toEqual(['1 second']);
-      jest.advanceTimersByTime(10000);
+      jest.spyOn(Date, 'now').mockImplementation(() => now + 2000);
+      jest.advanceTimersByTime(1000);
       expect(rendered.root.findByType('div').children).toEqual(['2 seconds']);
+      jest.spyOn(Date, 'now').mockImplementation(() => now + 200000);
+      jest.advanceTimersByTime(1000);
+      expect(rendered.root.findByType('div').children).toEqual(['3 minutes, 20 seconds']);
     });
 
     it('sets no interval if supplied with a frequency of zero', () => {
       expect.assertions(2);
-      jest.useFakeTimers();
 
-      const from = new Date();
+      const now = Date.now();
+      const from = new Date(now);
+
       const rendered = ReactTestRenderer.create(<Duration.Full from={from} updateFrequency={0} />);
       expect(rendered.root.findByType('div').children).toEqual(['0 seconds']);
-      jest.advanceTimersByTime(10000);
+      jest.spyOn(Date, 'now').mockImplementation(() => now + 1000);
+      jest.advanceTimersByTime(1000);
       expect(rendered.root.findByType('div').children).toEqual(['0 seconds']);
     });
   });

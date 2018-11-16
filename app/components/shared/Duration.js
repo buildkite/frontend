@@ -69,12 +69,9 @@ export default class Duration extends React.PureComponent<Props, State> {
 
   tick() {
     const { from, to } = this.props;
+    const seconds = getDuration(from, to).asSeconds();
 
-    this.setState({
-      seconds: getDuration(from, to).asSeconds()
-    }, () => {
-      this.maybeScheduleTick();
-    });
+    this.setState({ seconds }, this.maybeScheduleTick)
   }
 
   componentDidMount() {
@@ -87,7 +84,9 @@ export default class Duration extends React.PureComponent<Props, State> {
     // We only want to schedule ticks if our duration is indeterminate,
     // and our update frequency isn't zero
     if (!(from && to) && typeof updateFrequency == 'number' && updateFrequency > 0) {
-      this._timeout = setTimeout(() => this.tick(), updateFrequency);
+      this._timeout = setTimeout(() => {
+        this.tick()
+      }, updateFrequency);
     }
   }
 
