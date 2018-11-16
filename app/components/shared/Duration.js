@@ -71,7 +71,7 @@ export default class Duration extends React.PureComponent<Props, State> {
     const { from, to } = this.props;
     const seconds = getDuration(from, to).asSeconds();
 
-    this.setState({ seconds }, this.maybeScheduleTick)
+    this.setState({ seconds }, this.maybeScheduleTick);
   }
 
   componentDidMount() {
@@ -85,7 +85,7 @@ export default class Duration extends React.PureComponent<Props, State> {
     // and our update frequency isn't zero
     if (!(from && to) && typeof updateFrequency == 'number' && updateFrequency > 0) {
       this._timeout = setTimeout(() => {
-        this.tick()
+        this.tick();
       }, updateFrequency);
     }
   }

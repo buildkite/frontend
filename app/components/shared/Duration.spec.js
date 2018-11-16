@@ -1,4 +1,4 @@
-/* global jest, describe, it, expect */
+/* global jest, describe, it, expect, beforeEach */
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-multi-spaces */
