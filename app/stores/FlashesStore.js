@@ -15,7 +15,7 @@ type Message = GraphqlExceptionMessage | StringMessage;
 export type FlashItem = {
   id: number | 'FLASH_CONN_ERROR',
   type: FlashType,
-  message: Message
+  message: StringMessage | React.Node
 };
 
 import EventEmitter from 'eventemitter3';
@@ -42,8 +42,8 @@ class FlashesStore extends EventEmitter {
 
     // See if the message is actually a GraphQL exception
     if (message.message && message.source) {
-      // $FlowFixMe
-      if (message.source.errors && message.source.errors[0] && message.source.errors[0].message) {
+      // $FlowExpectError
+      if (message.source.errors.length && message.source.errors[0] && message.source.errors[0].message) {
         if (message.source.type === "unknown_error") {
           returnMessage = "Sorry, there’s been an unexpected error and our engineers have been notified";
         } else {

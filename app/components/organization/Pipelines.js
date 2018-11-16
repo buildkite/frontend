@@ -56,6 +56,13 @@ class Pipelines extends React.Component<Props, State> {
     return !this.useLocalSearch;
   }
 
+  get pipelines() {
+    if (this.props.organization.pipelines && this.props.organization.pipelines.edges) {
+      return this.props.organization.pipelines.edges
+    }
+    return [];
+  }
+
   get defaultVariables() {
     return {
       organizationSlug: 'test',
@@ -140,13 +147,18 @@ class Pipelines extends React.Component<Props, State> {
 
     // if we're searching remotely, or there's no filter, it's all of 'em, baby
     if (this.useRemoteSearch || this.props.nameFilter || !filter) {
-      return this.props.organization.pipelines.edges;
+      return this.pipelines;
     }
 
     // otherwise, let's filter 'em
-    return this.props.organization.pipelines.edges.filter(({ node }) => (
-      node.name.toLowerCase().indexOf(filter) !== -1 ||
-      node.description && node.description.toLowerCase().indexOf(filter) !== -1
+    return this.pipelines.filter((pipeline) => (
+      pipeline &&
+      pipeline.node &&
+      (
+        pipeline.node.name.toLowerCase().indexOf(filter) !== -1 ||
+        // $FlowExpectError
+        pipeline.node.description && pipeline.node.description.toLowerCase().indexOf(filter) !== -1
+      )
     ));
   }
 
@@ -259,6 +271,7 @@ export default createRefetchContainer(
           node {
             id
             name
+            description
             favorite
             ...Pipeline_pipeline @arguments(includeGraphData: $includeGraphData)
           }

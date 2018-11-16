@@ -1,4 +1,4 @@
-// @flow
+// @flow weak
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -9,12 +9,14 @@ import { second } from 'metrick/duration';
 import moment from 'moment';
 import { getDuration, getDurationString } from 'app/lib/date';
 
+type DurationFormats = 'full' | 'medium' | 'short' | 'micro';
+
 type Props = {
   from?: (moment$Moment | string | number | Date | number[]),
   to?: (moment$Moment | string | number | Date | number[]),
   className?: string,
   tabularNumerals: boolean,
-  format: getDurationString.formats,
+  format: DurationFormats,
   updateFrequency?: number
 };
 
@@ -25,7 +27,21 @@ type State = {
 // Grab a copy of the Moment constructor so we can test PropTypes
 const Moment = moment().constructor;
 
-class Duration extends React.PureComponent<Props, State> {
+function makeDurationFormat(format: DurationFormats) {
+  return class extends React.PureComponent<Props> {
+    static displayName = format.charAt(0).toUpperCase() + format.slice(1);
+    render() {
+      return <Duration {...this.props} format={format} />;
+    }
+  }
+}
+
+export default class Duration extends React.PureComponent<Props, State> {
+  static Full = makeDurationFormat('full');
+  static Medium = makeDurationFormat('medium');
+  static Short = makeDurationFormat('short');
+  static Micro = makeDurationFormat('micro');
+
   static propTypes = {
     from: PropTypes.oneOfType([
       PropTypes.string,
@@ -142,16 +158,3 @@ class Duration extends React.PureComponent<Props, State> {
     );
   }
 }
-
-const exported = {};
-
-getDurationString.formats.forEach((format) => {
-  const componentName = format.charAt(0).toUpperCase() + format.slice(1);
-
-  const component = (props) => <Duration {...props} format={format} />;
-  component.displayName = `Duration.${componentName}`;
-
-  exported[componentName] = component;
-});
-
-export default exported;

@@ -7,7 +7,7 @@ import Logger from 'app/lib/Logger';
 //       as Flow doesn't understand Webpack's require extensions.
 const context = (require: Object).context('!raw-loader!./', false, /\.svg$/)
 
-export default function svgContent(name: string, title: string) {
+export default function svgContent(name: string, title?: string) {
   let icon = context('./placeholder.svg');
 
   try {

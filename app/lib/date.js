@@ -1,4 +1,4 @@
-import moment from 'moment';
+// import moment from 'moment';
 import 'moment-duration-format';
 
 // gets the clock time formatter

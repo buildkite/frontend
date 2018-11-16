@@ -12,9 +12,9 @@ type Props = {
   href?: string,
   color: string,
   hoverColor: string,
-  duration?: number,
+  duration: number,
   graph: {
-    maximumDuration?: number
+    maximumDuration: number
   },
   left: number,
   build: Bar_build,

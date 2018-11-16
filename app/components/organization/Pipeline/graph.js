@@ -5,7 +5,6 @@ import {createFragmentContainer, graphql} from 'react-relay/compat';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
-import { second } from 'metrick/duration';
 import { buildTime } from 'app/lib/builds';
 import BuildStates from 'app/constants/BuildStates';
 import Bar from './Bar';
@@ -36,28 +35,39 @@ type State = {
 };
 
 class Graph extends React.Component<Props, State> {
+  _shifting: boolean;
+  _interval: IntervalID;
+
   state = {
     showFullGraph: false
   };
 
-  componentDidMount() {
+  get buildsEdges() {
     if (this.props.pipeline.builds && this.props.pipeline.builds.edges) {
-      this.toggleRenderInterval(this.props.pipeline.builds.edges);
+      return this.props.pipeline.builds.edges;
+    }
+    return [];
+  }
+
+  componentDidMount() {
+    if (this.buildsEdges.length) {
+      this.toggleRenderInterval(this.buildsEdges);
     }
 
     // As soon as the graph has mounted, animate the bars growing into view.
-    setTimeout(() => {
-      this.setState({ showFullGraph: true });
-    }, 0);
+    setTimeout(() => { this.setState({ showFullGraph: true }); }, 0);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.pipeline.builds && this.props.pipeline.builds.edges) {
-      const thisLatestBuild = this.props.pipeline.builds.edges[0];
-      const nextLatestBuild = nextProps.pipeline.builds.edges[0];
+    const {builds} = this.props.pipeline;
+    const {builds: nextBuilds} = nextProps.pipeline;
+
+    if (builds && builds.edges && nextBuilds && nextBuilds.edges) {
+      const build = builds.edges[0];
+      const nextBuild = nextBuilds.edges[0];
 
       // Set `shifting` if all the builds are being moved due to a new one coming in.
-      if ((thisLatestBuild && nextLatestBuild) && thisLatestBuild.node.id !== nextLatestBuild.node.id) {
+      if ((build && build.node && nextBuild && nextBuild.node) && build.node.id !== nextBuild.node.id) {
         this._shifting = true;
       }
     }
@@ -91,7 +101,7 @@ class Graph extends React.Component<Props, State> {
   }
 
   renderBars() {
-    if (!this.props.pipeline.builds || !this.props.pipeline.builds.edges) {
+    if (this.buildsEdges.length === 0) {
       return null;
     }
 
@@ -104,10 +114,11 @@ class Graph extends React.Component<Props, State> {
 
     return Array.from(Array(MAXIMUM_NUMBER_OF_BUILDS).keys(), (bar) => {
       const index = MAXIMUM_NUMBER_OF_BUILDS - bar - 1;
-      const buildEdge = this.props.pipeline.builds.edges[index];
+      const buildEdge = this.buildsEdges[index];
 
-      if (buildEdge) {
-        const { from, to } = buildTime(buildEdge.node);
+      if (buildEdge && buildEdge.node) {
+        const { node } = buildEdge;
+        const { from, to } = buildTime(node);
         const duration = moment(to).diff(moment(from));
 
         if (duration > graphProps.maximumDuration) {
@@ -117,11 +128,11 @@ class Graph extends React.Component<Props, State> {
         return (
           <Bar
             key={bar}
-            color={this.colorForBuild(buildEdge.node)}
-            hoverColor={this.hoverColorForBuild(buildEdge.node)}
+            color={this.colorForBuild(node)}
+            hoverColor={this.hoverColorForBuild(node)}
             duration={duration}
-            href={buildEdge.node.url}
-            build={buildEdge.node}
+            href={node.url}
+            build={node}
             left={bar * BAR_WIDTH_WITH_SEPERATOR}
             width={BAR_WIDTH_WITH_SEPERATOR}
             graph={graphProps}
@@ -174,7 +185,7 @@ class Graph extends React.Component<Props, State> {
     // See if there is a build running
     let running = false;
     for (const edge of buildEdges) {
-      if (edge.node.state === BuildStates.RUNNING) {
+      if (edge && edge.node && edge.node.state === BuildStates.RUNNING) {
         running = true;
         break;
       }
@@ -186,9 +197,7 @@ class Graph extends React.Component<Props, State> {
       if (this._interval) {
         // no-op, interval already running
       } else {
-        this._interval = setInterval(() => {
-          this.forceUpdate();
-        }, 1::second);
+        this._interval = setInterval(() => { this.forceUpdate(); }, 1);
       }
     } else {
       // Clear the interval now that nothing is running

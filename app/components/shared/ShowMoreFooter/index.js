@@ -33,7 +33,7 @@ export class ShowMoreFooter extends React.PureComponent<Props> {
 
     // don't show any footer if we haven't ever loaded
     // any items, or if there's no next page
-    if (!connection || !connection.pageInfo.hasNextPage) {
+    if (!connection || !connection.pageInfo || !connection.pageInfo.hasNextPage) {
       return null;
     }
 

@@ -11,8 +11,17 @@ type Props = {
 };
 
 class Welcome extends React.PureComponent<Props> {
+  get canCreatePipeline(): boolean {
+    return (
+      this.props.organization.permissions &&
+      this.props.organization.permissions.pipelineCreate &&
+      this.props.organization.permissions.pipelineCreate.code === "not_member_of_team"
+    ? true : false);
+  }
+
+
   render() {
-    if (this.props.organization.permissions.pipelineCreate.code === "not_member_of_team") {
+    if (!this.canCreatePipeline) {
       return this.renderNoPipelineCreatePermission();
     }
     return this.renderWelcomeMessage();
