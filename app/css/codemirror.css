@@ -43,6 +43,10 @@ li.CodeMirror-hint-active {
   background-color: var(--lime);
 }
 
+li.CodeMirror-hint-active .dark-gray {
+  color: white;
+}
+
 /* Prettier lint errors */
 
 .CodeMirror-lint-tooltip {
@@ -95,7 +99,7 @@ li.CodeMirror-hint-active {
 
 /* Custom Conditional Editor Theme*/
 
-.cm-s-conditional .cm-punctuation {
+.cm-s-conditional .cm-punctuation, .cm-s-conditional .cm-operator {
   color: #555;
 }
 

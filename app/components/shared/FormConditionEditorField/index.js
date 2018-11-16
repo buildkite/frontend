@@ -6,7 +6,7 @@ import Spinner from 'app/components/shared/Spinner';
 
 const CODEMIRROR_BUFFER = 8;
 const CODEMIRROR_LINE_HEIGHT = 17;
-const CODEMIRROR_MIN_HEIGHT = 70;
+const CODEMIRROR_MIN_HEIGHT = CODEMIRROR_BUFFER + CODEMIRROR_LINE_HEIGHT;
 
 const CODEMIRROR_CONFIG = {
   lineNumbers: true,
@@ -23,9 +23,14 @@ const CODEMIRROR_CONFIG = {
     'Ctrl-Left': 'goSubwordLeft',
     'Ctrl-Right': 'goSubwordRight',
     'Alt-Left': 'goGroupLeft',
-    'Alt-Right': 'goGroupRight'
+    'Alt-Right': 'goGroupRight',
+    'Cmd-Space': (cm) => cm.showHint({ completeSingle: true }),
+    'Ctrl-Space': (cm) => cm.showHint({ completeSingle: true }),
+    'Alt-Space': (cm) => cm.showHint({ completeSingle: true })
   }
 };
+
+const AUTO_COMPLETE_AFTER_KEY = /^[a-zA-Z_]$/;
 
 class FormConditionEdtiorField extends React.Component {
   static propTypes = {
@@ -39,6 +44,57 @@ class FormConditionEdtiorField extends React.Component {
 
     const config = {
       ...CODEMIRROR_CONFIG,
+      hintOptions: {
+        closeOnUnfocus: false,
+        completeSingle: false,
+        "hint": (cm, options) => {
+          return new Promise((accept) => {
+            let cursor = cm.getCursor(), line = cm.getLine(cursor.line)
+            let start = cursor.ch, end = cursor.ch
+            while (start && /\w/.test(line.charAt(start - 1))) --start
+            while (end < line.length && /\w/.test(line.charAt(end))) ++end
+            var word = line.slice(start, end).toLowerCase();
+
+            if (word.length < 2) {
+              return accept(null);
+            }
+
+            var suggestions = [];
+            for (var i = 0; i < this.props.autocompleteWords.length; i++) {
+              if (this.props.autocompleteWords[i].toLowerCase().indexOf(word) != -1) {
+                suggestions.push({
+                  text: this.props.autocompleteWords[i],
+                  render: (el, self, data) => {
+                    var labelElement = document.createElement("DIV");
+                    labelElement.className = "monospace";
+                    labelElement.appendChild(document.createTextNode(data.text));
+
+                    var descriptionElement = document.createElement("DIV");
+                    descriptionElement.className = "system dark-gray";
+                    descriptionElement.appendChild(document.createTextNode("Very important information"));
+
+                    var suggestionElement = document.createElement("DIV");
+                    suggestionElement.appendChild(labelElement);
+                    suggestionElement.appendChild(descriptionElement);
+
+                    el.appendChild(suggestionElement);
+                  }
+                });
+              }
+            }
+
+            if (suggestions.length) {
+              return accept({
+                list: suggestions,
+                from: CodeMirror.Pos(cursor.line, start),
+                to: CodeMirror.Pos(cursor.line, end)
+              });
+            } else {
+              return accept(null);
+            }
+          });
+        }
+      },
       lint: {
         "getAnnotations": (text, updateLinting, options, cm) => {
           this.props.fetchParseErrors(text, (parseErrors) => {
@@ -58,6 +114,7 @@ class FormConditionEdtiorField extends React.Component {
     }
 
     this.editor = CodeMirror.fromTextArea(this.input, config);
+    this.editor.on("keyup", this.onEditorKeyUp);
   }
 
   componentWillUnmount() {
@@ -78,6 +135,12 @@ class FormConditionEdtiorField extends React.Component {
       </div>
     );
   }
+
+  onEditorKeyUp = (codeMirrorInstance: CodeMirrorInstance, event: { key: string }) => {
+    if (AUTO_COMPLETE_AFTER_KEY.test(event.key) || event.key === "Backspace") {
+      codeMirrorInstance.execCommand('autocomplete');
+    }
+  };
 }
 
 const FormConditionEdtiorFieldLoader = (props) => {
@@ -146,6 +209,7 @@ const FormConditionEdtiorFieldLoader = (props) => {
           name={props.name}
           value={props.value}
           fetchParseErrors={props.fetchParseErrors}
+          autocompleteWords={props.autocompleteWords}
         />
       );
     }
