@@ -8,9 +8,9 @@ import Emojify from 'app/components/shared/Emojify';
 import permissions from 'app/lib/permissions';
 import PusherStore from 'app/stores/PusherStore';
 import PipelineFavoriteMutation from 'app/mutations/PipelineFavorite';
-import Status from './status';
+import Status from './Status';
 import Metrics from './Metrics';
-import Graph from './graph';
+import Graph from './Graph';
 import type { RelayProp } from 'react-relay';
 import type { Pipeline_pipeline } from './__generated__/Pipeline_pipeline.graphql';
 
