@@ -1,19 +1,19 @@
 // @flow
 
 import * as React from 'react';
-import {createFragmentContainer, graphql} from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import get from 'lodash.get';
 import AnchoredPopover from 'app/components/shared/Popover/anchored';
 import BuildState from 'app/components/icons/BuildState';
 import BuildTooltip from './BuildTooltip';
-import type {Status_pipeline} from './__generated__/Status_pipeline.graphql';
+import type { Status_pipeline } from './__generated__/Status_pipeline.graphql';
 
 type Props = {
   pipeline: Status_pipeline
 };
 
 type State = {
-  hover: boolean,
+  hover: boolean
 };
 
 

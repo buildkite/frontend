@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import {createRefetchContainer, graphql} from 'react-relay/compat';
+import { createRefetchContainer, graphql } from 'react-relay/compat';
 import SectionLoader from 'app/components/shared/SectionLoader';
 import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
 import FlashesStore from 'app/stores/FlashesStore';
@@ -58,7 +58,7 @@ class Pipelines extends React.Component<Props, State> {
 
   get pipelines() {
     if (this.props.organization.pipelines && this.props.organization.pipelines.edges) {
-      return this.props.organization.pipelines.edges
+      return this.props.organization.pipelines.edges;
     }
     return [];
   }
@@ -93,7 +93,7 @@ class Pipelines extends React.Component<Props, State> {
             });
           }
         });
-      })
+      });
     });
 
     // We might've started out with a new team, so let's see about updating the default!
@@ -118,7 +118,7 @@ class Pipelines extends React.Component<Props, State> {
       // Start by changing the `loading` state to show the spinner
       this.setState({ loading: true }, () => {
         // Once state has been set, force a full re-fetch of the pipelines
-        this.props.relay.refetch({...this.defaultVariables, ...nextRelayVariables}, null, () => {
+        this.props.relay.refetch({ ...this.defaultVariables, ...nextRelayVariables }, null, () => {
           this.setState({ loading: false });
         });
       });

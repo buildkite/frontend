@@ -1,11 +1,11 @@
 // @flow
 
 import * as React from 'react';
-import {createFragmentContainer, graphql} from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import classNames from 'classnames';
 import Button from 'app/components/shared/Button';
 import Spinner from 'app/components/shared/Spinner';
-import type {ShowMoreFooter_connection} from './__generated__/ShowMoreFooter_connection.graphql';
+import type { ShowMoreFooter_connection } from './__generated__/ShowMoreFooter_connection.graphql';
 
 type Props = {
   connection: ShowMoreFooter_connection,

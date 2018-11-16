@@ -2,12 +2,12 @@
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import {createFragmentContainer, graphql} from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import throttle from 'throttleit';
 import PusherStore from 'app/stores/PusherStore';
 import { formatNumber } from 'app/lib/number';
 import type { RelayProp } from 'react-relay';
-import type {AgentsCount_organization} from './__generated__/AgentsCount_organization.graphql';
+import type { AgentsCount_organization } from './__generated__/AgentsCount_organization.graphql';
 
 type Props = {
   organization: AgentsCount_organization,
@@ -23,7 +23,7 @@ type State = {
 // given time window. I wish this was cleaner, kid, I really do.
 const requestUpdate = throttle((callback) => callback(), 3);
 
-class AgentsCount extends React.Component<Props,State> {
+class AgentsCount extends React.Component<Props, State> {
   state = {
     agentCount: this.props.organization.agents ? this.props.organization.agents.count : 0
   };

@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import {createFragmentContainer, graphql} from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import BuildStatusDescription from 'app/components/shared/BuildStatusDescription';
 import Duration from 'app/components/shared/Duration';
 import Emojify from 'app/components/shared/Emojify';
@@ -9,11 +9,11 @@ import UserAvatar from 'app/components/shared/UserAvatar';
 import { buildTime } from 'app/lib/builds';
 import { shortMessage, shortCommit } from 'app/lib/commits';
 
-import type {BuildTooltip_build} from './__generated__/BuildTooltip_build.graphql';
+import type { BuildTooltip_build } from './__generated__/BuildTooltip_build.graphql';
 
 type Props = {
   build: BuildTooltip_build
-}
+};
 
 class BuildTooltip extends React.PureComponent<Props> {
   render() {

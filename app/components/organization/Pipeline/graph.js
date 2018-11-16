@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import {createFragmentContainer, graphql} from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -9,7 +9,7 @@ import { buildTime } from 'app/lib/builds';
 import BuildStates from 'app/constants/BuildStates';
 import Bar from './Bar';
 import { MAXIMUM_NUMBER_OF_BUILDS, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT, GRAPH_WIDTH } from './constants';
-import type {Graph_pipeline} from './__generated__/Graph_pipeline.graphql';
+import type { Graph_pipeline } from './__generated__/Graph_pipeline.graphql';
 
 const PASSED_COLOR = "#B0DF21";
 const PASSED_COLOR_HOVER = "#669611";
@@ -59,8 +59,8 @@ class Graph extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {builds} = this.props.pipeline;
-    const {builds: nextBuilds} = nextProps.pipeline;
+    const { builds } = this.props.pipeline;
+    const { builds: nextBuilds } = nextProps.pipeline;
 
     if (builds && builds.edges && nextBuilds && nextBuilds.edges) {
       const build = builds.edges[0];
@@ -165,7 +165,7 @@ class Graph extends React.Component<Props, State> {
       case BuildStates.BLOCKED: return PASSED_COLOR;
       case BuildStates.SKIPPED: return SKIPPED_COLOR;
       case BuildStates.NOT_RUN: return NOT_RUN_COLOR;
-      default: return FAILED_COLOR
+      default: return FAILED_COLOR;
     }
   }
 

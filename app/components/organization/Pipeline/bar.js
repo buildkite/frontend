@@ -2,11 +2,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {createRefetchContainer, graphql} from 'react-relay/compat';
+import { createRefetchContainer, graphql } from 'react-relay/compat';
 import BuildTooltip from './BuildTooltip';
 import AnchoredPopover from 'app/components/shared/Popover/anchored';
 import { BAR_HEIGHT_MINIMUM, BAR_WIDTH, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT } from './constants';
-import type {Bar_build} from './__generated__/Bar_build.graphql';
+import type { Bar_build } from './__generated__/Bar_build.graphql';
 
 type Props = {
   href?: string,
@@ -22,7 +22,7 @@ type Props = {
 };
 
 type State = {
-  hover: boolean,
+  hover: boolean
 };
 
 class Bar extends React.Component<Props, State> {

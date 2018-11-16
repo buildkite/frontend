@@ -33,7 +33,7 @@ function makeDurationFormat(format: DurationFormats) {
     render() {
       return <Duration {...this.props} format={format} />;
     }
-  }
+  };
 }
 
 export default class Duration extends React.PureComponent<Props, State> {

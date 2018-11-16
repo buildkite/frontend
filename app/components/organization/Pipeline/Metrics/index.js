@@ -2,13 +2,13 @@
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import {createFragmentContainer, graphql} from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import Metric from './Metric';
-import type {Metrics_pipeline} from './__generated__/Metrics_pipeline.graphql';
+import type { Metrics_pipeline } from './__generated__/Metrics_pipeline.graphql';
 
 type Props = {
   pipeline: Metrics_pipeline
-}
+};
 
 class Metrics extends React.Component<Props> {
   get metricsEdges() {

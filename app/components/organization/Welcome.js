@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react';
-import {createFragmentContainer, graphql} from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import PipelineIcon from 'app/components/icons/Pipeline';
-import type {Welcome_organization} from './__generated__/Welcome_organization.graphql';
+import type { Welcome_organization } from './__generated__/Welcome_organization.graphql';
 
 type Props = {
   organization: Welcome_organization,
@@ -16,7 +16,7 @@ class Welcome extends React.PureComponent<Props> {
       this.props.organization.permissions &&
       this.props.organization.permissions.pipelineCreate &&
       this.props.organization.permissions.pipelineCreate.code === "not_member_of_team"
-    ? true : false);
+        ? true : false);
   }
 
 

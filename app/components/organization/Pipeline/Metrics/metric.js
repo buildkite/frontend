@@ -1,13 +1,13 @@
 // @flow
 
 import * as React from 'react';
-import {createFragmentContainer, graphql} from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import classNames from 'classnames';
-import type {Metric_metric} from './__generated__/Metric_metric.graphql';
+import type { Metric_metric } from './__generated__/Metric_metric.graphql';
 
 type Props = {
   metric: Metric_metric
-}
+};
 
 class Metric extends React.Component<Props> {
   render() {

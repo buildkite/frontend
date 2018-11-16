@@ -3,12 +3,12 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-import {createFragmentContainer, graphql} from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import Dropdown from 'app/components/shared/Dropdown';
 import Chooser from 'app/components/shared/Chooser';
 import Emojify from 'app/components/shared/Emojify';
 import Icon from 'app/components/shared/Icon';
-import type {Teams_organization} from './__generated__/Teams_organization.graphql';
+import type { Teams_organization } from './__generated__/Teams_organization.graphql';
 
 type Props = {
   selected: string,
@@ -34,10 +34,10 @@ class Teams extends React.Component<Props> {
       teamEdge.node.permissions &&
       teamEdge.node.permissions.pipelineView &&
       teamEdge.node.permissions.pipelineView.allowed ? (
-        teams.concat(teamEdge.node)
-      ) : (
-        teams
-      )
+          teams.concat(teamEdge.node)
+        ) : (
+          teams
+        )
     ), []);
 
 
@@ -73,9 +73,9 @@ class Teams extends React.Component<Props> {
 
   renderLabel() {
     if (this.props.selected) {
-      const selectedTeam = this.teamEdges.filter(Boolean).find(({node}) => node && node.slug === this.props.selected);
+      const selectedTeam = this.teamEdges.filter(Boolean).find(({ node }) => node && node.slug === this.props.selected);
       if (selectedTeam && selectedTeam.node) {
-        return <Emojify className="block" text={selectedTeam.node.name} />
+        return <Emojify className="block" text={selectedTeam.node.name} />;
       }
     }
     return "All teams";

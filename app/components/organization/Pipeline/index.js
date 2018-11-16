@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import {createRefetchContainer, graphql} from 'react-relay/compat';
+import { createRefetchContainer, graphql } from 'react-relay/compat';
 import Relay from 'react-relay/classic';
 import Favorite from 'app/components/icons/Favorite';
 import Emojify from 'app/components/shared/Emojify';
@@ -13,7 +13,7 @@ import Status from './status';
 import Metrics from './Metrics';
 import Graph from './graph';
 import type { RelayProp } from 'react-relay';
-import type {Pipeline_pipeline} from './__generated__/Pipeline_pipeline.graphql';
+import type { Pipeline_pipeline } from './__generated__/Pipeline_pipeline.graphql';
 
 type Props = {
   pipeline: Pipeline_pipeline,
@@ -128,7 +128,7 @@ class Pipeline extends React.Component<Props, State> {
 
   handlePusherWebsocketEvent = (payload) => {
     if (payload.event === "project:updated" && payload.graphql.id === this.props.pipeline.id) {
-      const { pipeline: { id }, includeGraphData } = this.props
+      const { pipeline: { id }, includeGraphData } = this.props;
       this.props.relay.refetch({ id, includeGraphData }, null, null, { force: true });
     }
   };

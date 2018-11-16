@@ -5,7 +5,7 @@ import Logger from 'app/lib/Logger';
 
 // NOTE: We cast `require` to an Object here so we can call `context`,
 //       as Flow doesn't understand Webpack's require extensions.
-const context = (require: Object).context('!raw-loader!./', false, /\.svg$/)
+const context = (require: Object).context('!raw-loader!./', false, /\.svg$/);
 
 export default function svgContent(name: string, title?: string) {
   let icon = context('./placeholder.svg');
@@ -17,4 +17,4 @@ export default function svgContent(name: string, title?: string) {
   }
 
   return (title ? `<title>${escape(title)}</title>` : '') + icon;
-};
+}

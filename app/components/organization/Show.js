@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import {createFragmentContainer, graphql} from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ import PageWithContainer from 'app/components/shared/PageWithContainer';
 import SearchField from 'app/components/shared/SearchField';
 import Pipelines from './Pipelines';
 import Teams from './Teams';
-import type {Show_organization} from './__generated__/Show_organization.graphql';
+import type { Show_organization } from './__generated__/Show_organization.graphql';
 
 const FilterField = styled(SearchField)`
   flex-basis: 100%;
@@ -46,7 +46,7 @@ type Props = {
   location: {
     query: Object
   }
-}
+};
 
 class OrganizationShow extends React.Component<Props> {
   static contextTypes = {
@@ -88,7 +88,7 @@ class OrganizationShow extends React.Component<Props> {
   }
 
   renderNewPipelineButton() {
-    const {permissions} = this.props.organization;
+    const { permissions } = this.props.organization;
 
     // Don't render the "New Pipeline" button if they're not allowed to due to
     // a `not_member_of_team` permsission error.
@@ -140,8 +140,8 @@ class OrganizationShow extends React.Component<Props> {
   updateRoute = (params: {|filter?: string, team?: string|}) => {
     const query = stringify(
       Object
-        .entries({...this.props.location.query, ...params})
-        .reduce((query, [key, value]) => (value ? {...query, [key]: value} : query), {})
+        .entries({ ...this.props.location.query, ...params })
+        .reduce((query, [key, value]) => (value ? { ...query, [key]: value } : query), {})
     );
 
     if (query) {
