@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { createRefetchContainer, graphql } from 'react-relay/compat';
+import { createRefetchContainer, graphql } from 'react-relay';
 import Relay from 'react-relay/classic';
 import Favorite from 'app/components/icons/Favorite';
 import Emojify from 'app/components/shared/Emojify';
@@ -20,15 +20,7 @@ type Props = {
   relay: RelayProp
 };
 
-type State = {
-  showingMenu: boolean
-};
-
-class Pipeline extends React.Component<Props, State> {
-  state = {
-    showingMenu: false
-  };
-
+class Pipeline extends React.Component<Props> {
   componentDidMount() {
     PusherStore.on("websocket:event", this.handlePusherWebsocketEvent);
   }
@@ -132,10 +124,6 @@ class Pipeline extends React.Component<Props, State> {
     }
   };
 
-  handleMenuToggle = (visible) => {
-    this.setState({ showingMenu: visible });
-  };
-
   handleFavoriteClick = () => {
     const mutation = new PipelineFavoriteMutation({
       pipeline: this.props.pipeline,
@@ -157,7 +145,7 @@ export default createRefetchContainer(
   Pipeline,
   graphql`
     fragment Pipeline_pipeline on Pipeline @argumentDefinitions(
-      includeGraphData: {type: "Boolean!"},
+      includeGraphData: {type: "Boolean"},
     ) {
       ...Status_pipeline
       ...Metrics_pipeline

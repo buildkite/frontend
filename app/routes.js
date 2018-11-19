@@ -117,7 +117,12 @@ export default (
 
     <Route path="/" component={Main} getQueries={getMainQueries} render={renderMain} onChange={routeChangeHandler}>
       <Route path="authorize/:code" component={APIAccessTokenCodeAuthorize} queries={{ apiAccessTokenCode: APIAccessTokenCodeQuery.query }} />
-      <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+      <Route
+        path=":organization"
+        component={OrganizationShow}
+        // queries={{ organization: OrganizationQuery.query }}
+        // render={renderSectionLoading}
+      />
       <Route path="organizations/:organization/billing/upgrade" component={BillingUpgrade} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
       <Route path="user">

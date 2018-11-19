@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { QueryRenderer, graphql } from 'react-relay';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 import styled from 'styled-components';
@@ -10,6 +10,7 @@ import Button from 'app/components/shared/Button';
 import Icon from 'app/components/shared/Icon';
 import PageWithContainer from 'app/components/shared/PageWithContainer';
 import SearchField from 'app/components/shared/SearchField';
+import environment from 'app/lib/relay/environment';
 import Pipelines from './Pipelines';
 import Teams from './Teams';
 import type { Show_organization } from './__generated__/Show_organization.graphql';
@@ -48,10 +49,14 @@ type Props = {
   }
 };
 
-class OrganizationShow extends React.Component<Props> {
+export default class OrganizationShow extends React.Component<Props> {
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
+
+  get slug(): string {
+    return this.props.params.organization;
+  }
 
   get teamFilter(): ?string {
     return this.props.location.query.team || null;
@@ -63,23 +68,62 @@ class OrganizationShow extends React.Component<Props> {
 
   render() {
     return (
-      <DocumentTitle title={`${this.props.organization.name}`}>
+      <DocumentTitle
+        title="TODO"
+        //title={`${this.props.organization.name}`}
+      >
         <div>
           <PageWithContainer>
-            <div className="flex flex-wrap items-start mb2">
-              <h1 className="h1 p0 m0 regular line-height-1 inline-block">Pipelines</h1>
-              <Teams
-                selected={this.props.location.query.team}
-                organization={this.props.organization}
-                onTeamChange={this.handleTeamChange}
-              />
-              {this.renderFilter()}
-              {this.renderNewPipelineButton()}
-            </div>
-            <Pipelines
-              organization={this.props.organization}
-              teamFilter={this.teamFilter}
-              nameFilter={this.nameFilter}
+            <QueryRenderer
+              environment={environment}
+              query={graphql`
+                query ShowQuery($organization: ID!) {
+                  organization(slug: $organization) {
+                    ...Teams_organization
+                    ...Pipelines_organization
+
+                    id
+                    slug
+                    name
+                    permissions {
+                      pipelineCreate {
+                        code
+                        allowed
+                        message
+                      }
+                    }
+                  }
+                }
+              `}
+              variables={{
+                organization: this.slug
+              }}
+              render={({error, props}) => {
+                if (error) {
+                  return <div>{error.message}</div>;
+                } else if (props) {
+                  return (
+                    <div>
+                      <div className="flex flex-wrap items-start mb2">
+                        <h1 className="h1 p0 m0 regular line-height-1 inline-block">Pipelines</h1>
+                        <Teams
+                          selected={this.props.location.query.team}
+                          organization={props.organization}
+                          onTeamChange={this.handleTeamChange}
+                        />
+                        {this.renderFilter()}
+                        {this.renderNewPipelineButton(props)}
+                      </div>
+                      <Pipelines
+                        organization={props.organization}
+                        teamFilter={this.teamFilter}
+                        nameFilter={this.nameFilter}
+                      />
+                    </div>
+                  );
+                }
+                return <div>Loading</div>;
+              }}
             />
           </PageWithContainer>
         </div>
@@ -87,8 +131,8 @@ class OrganizationShow extends React.Component<Props> {
     );
   }
 
-  renderNewPipelineButton() {
-    const { permissions } = this.props.organization;
+  renderNewPipelineButton(props) {
+    const { permissions } = props.organization;
 
     // Don't render the "New Pipeline" button if they're not allowed to due to
     // a `not_member_of_team` permsission error.
@@ -97,7 +141,7 @@ class OrganizationShow extends React.Component<Props> {
     }
 
     // Attach the current team to the "New Pipeline" URL
-    let newPipelineURL = `/organizations/${this.props.organization.slug}/pipelines/new`;
+    let newPipelineURL = `/organizations/${this.slug}/pipelines/new`;
     if (this.props.location.query.team) {
       newPipelineURL += `?team=${this.props.location.query.team}`;
     }
@@ -145,30 +189,9 @@ class OrganizationShow extends React.Component<Props> {
     );
 
     if (query) {
-      this.context.router.push(`/${this.props.organization.slug}?${query}`);
+      this.context.router.push(`/${this.slug}?${query}`);
     } else {
-      this.context.router.push(`/${this.props.organization.slug}`);
+      this.context.router.push(`/${this.slug}`);
     }
   };
 }
-
-export default createFragmentContainer(
-  OrganizationShow,
-  graphql`
-    fragment Show_organization on Organization {
-      ...Teams_organization
-      ...Pipelines_organization
-
-      id
-      slug
-      name
-      permissions {
-        pipelineCreate {
-          code
-          allowed
-          message
-        }
-      }
-    }
-  `
-);

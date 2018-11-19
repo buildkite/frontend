@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { createRefetchContainer, graphql } from 'react-relay/compat';
+import { createRefetchContainer, graphql } from 'react-relay';
 import SectionLoader from 'app/components/shared/SectionLoader';
 import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
 import FlashesStore from 'app/stores/FlashesStore';
@@ -46,10 +46,6 @@ class Pipelines extends React.Component<Props, State> {
       this.props.organization.allPipelines &&
       this.props.organization.allPipelines.count <= INITIAL_PAGE_SIZE &&
       !this.props.nameFilter;
-  }
-
-  get includeGraphData() {
-    return true;
   }
 
   get useRemoteSearch() {
@@ -209,7 +205,7 @@ class Pipelines extends React.Component<Props, State> {
           <Pipeline
             key={pipeline.node.id}
             pipeline={pipeline.node}
-            includeGraphData={this.includeGraphData}
+            includeGraphData={this.state.includeGraphData}
           />
         );
       }
@@ -249,10 +245,10 @@ export default createRefetchContainer(
   graphql`
     fragment Pipelines_organization on Organization @argumentDefinitions(
       teamSearch: {type: "TeamSelector"},
-      includeGraphData: {type: "Boolean", defaultValue: false},
+      includeGraphData: {type: "Boolean"},
       pageSize: {type: "Int", defaultValue: 30},
       pipelineFilter: {type: "String"},
-      isMounted: {type: "Boolean", defaultValue: false},
+      isMounted: {type: "Boolean"},
     ) {
       ...Welcome_organization
       id
@@ -286,7 +282,7 @@ export default createRefetchContainer(
       $includeGraphData: Boolean!,
       $pageSize: Int!,
       $pipelineFilter: String,
-      $isMounted: Boolean
+      $isMounted: Boolean!
     ) {
       organization(slug: $organizationSlug) {
         ...Pipelines_organization @arguments(

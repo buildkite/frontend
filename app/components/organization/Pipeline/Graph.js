@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 import moment from 'moment';
 import classNames from 'classnames';
 import { buildTime } from 'app/lib/builds';
@@ -210,7 +210,7 @@ class Graph extends React.Component<Props, State> {
 
 export default createFragmentContainer(Graph, graphql`
   fragment Graph_pipeline on Pipeline @argumentDefinitions(
-    includeGraphData: {type: "Boolean!"},
+    includeGraphData: {type: "Boolean"},
   ) {
     builds(
       first: 30,

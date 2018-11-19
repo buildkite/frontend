@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 import PipelineIcon from 'app/components/icons/Pipeline';
 import type { Welcome_organization } from './__generated__/Welcome_organization.graphql';
 

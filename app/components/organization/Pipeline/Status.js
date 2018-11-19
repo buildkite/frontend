@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 import AnchoredPopover from 'app/components/shared/Popover/anchored';
 import BuildState from 'app/components/icons/BuildState';
 import BuildTooltip from './BuildTooltip';
@@ -21,15 +21,15 @@ class Status extends React.Component<Props, State> {
     hover: false
   }
 
-  get buildsEdges() {
-    if (this.props.pipeline.builds && this.props.pipeline.builds.edges) {
-      return this.props.pipeline.builds.edges;
+  get lastBuild() {
+    if (this.props.pipeline.lastBuild && this.props.pipeline.lastBuild.edges) {
+      return this.props.pipeline.lastBuild.edges;
     }
     return [];
   }
 
   get mostRecentBuild() {
-    const builds = this.buildsEdges;
+    const builds = this.lastBuild;
     if (builds && builds[0] && builds[0].node) {
       return builds[0].node;
     }
@@ -77,7 +77,7 @@ class Status extends React.Component<Props, State> {
 export default createFragmentContainer(Status, graphql`
   fragment Status_pipeline on Pipeline {
     id
-    builds(first: 1, branch: "%default", state: [ RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED ]) {
+    lastBuild: builds(first: 1, branch: "%default", state: [ RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED ]) {
       edges {
         node {
           state
