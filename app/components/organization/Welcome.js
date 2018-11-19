@@ -16,7 +16,7 @@ class Welcome extends React.PureComponent<Props> {
       this.props.organization.permissions &&
       this.props.organization.permissions.pipelineCreate &&
       this.props.organization.permissions.pipelineCreate.code === "not_member_of_team"
-        ? true : false);
+        ? false : true);
   }
 
 
