@@ -456,7 +456,7 @@ class Navigation extends React.PureComponent<Props, State> {
               </DropdownButton>
 
               <NavigationButton href="/user/settings">Personal Settings</NavigationButton>
-              <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer <span className="ml1 orange small">Beta</span></NavigationButton>
+              <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer</NavigationButton>
 
               <div className="md-hide lg-hide">
                 <NavigationButton className="md-hide lg-hide" href={`/docs`}>Documentation</NavigationButton>
