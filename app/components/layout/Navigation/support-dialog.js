@@ -99,7 +99,7 @@ export default class SupportDialog extends React.Component<Props, State> {
   };
 
   handleDialogHide = () => {
-    this.setState({ people: shuffle(PEOPLE) })
+    this.setState({ people: shuffle(PEOPLE) });
   }
 
   render() {
