@@ -115,7 +115,6 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
               name="build[message]"
               label="Message"
               placeholder="Description of this build"
-              required={true}
               defaultValue={this.state.defaultValues.message}
               ref={(tf) => this.buildMessageTextField = tf}
             />
@@ -124,8 +123,7 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
               name="build[commit]"
               label="Commit"
               placeholder="HEAD"
-              defaultValue={this.state.defaultValues.commit || 'HEAD'}
-              required={true}
+              defaultValue={this.state.defaultValues.commit}
               ref={(tf) => this.buildCommitTextField = tf}
             />
 
@@ -133,8 +131,7 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
               name="build[branch]"
               label="Branch"
               placeholder={this.props.pipeline.defaultBranch}
-              defaultValue={this.state.defaultValues.branch || this.props.pipeline.defaultBranch}
-              required={true}
+              defaultValue={this.state.defaultValues.branch}
               ref={(tf) => this.buildBranchTextField = tf}
             />
 
@@ -182,29 +179,7 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
   handleCreateBuildButtonClick = (event) => {
     event.preventDefault();
 
-    if (this.isValid()) {
-      this.setState({ creatingBuild: true });
-      this.form && this.form.submit();
-    }
-  }
-
-  isValid() {
-    // Ideally these required fields should prevent themselves from being
-    // submitted… but somehow they don't?
-    if (!this.buildMessageTextField.value) {
-      this.buildMessageTextField.focus();
-      return false;
-    }
-    if (!this.buildCommitTextField.value) {
-      this.buildCommitTextField.focus();
-      return false;
-    }
-    if (!this.buildBranchTextField.value) {
-      this.buildBranchTextField.focus();
-      return false;
-    }
-
-    return true;
+    this.form && this.form.submit();
   }
 
   handleOptionsToggle = () => {
