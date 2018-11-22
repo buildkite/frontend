@@ -57,7 +57,9 @@ class Header extends React.Component<Props, State> {
   static propTypes = {
     pipeline: PropTypes.object.isRequired,
     isCurrentOrganizationMember: PropTypes.bool,
-    buildState: PropTypes.string
+    buildState: PropTypes.string,
+    newBuildCommitSuggestions: PropTypes.arrayOf(PropTypes.string.isRequired),
+    newBuildBranchSuggestions: PropTypes.arrayOf(PropTypes.string.isRequired)
   };
 
   state = {
@@ -111,6 +113,8 @@ class Header extends React.Component<Props, State> {
           isOpen={this.state.showingCreateBuildDialog}
           onRequestClose={this.handleCreateBuildDialogClose}
           pipeline={this.props.pipeline}
+          commitSuggestions={this.props.newBuildCommitSuggestions}
+          branchSuggestions={this.props.newBuildBranchSuggestions}
         />
       </div>
     );

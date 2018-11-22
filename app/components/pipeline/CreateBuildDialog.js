@@ -10,6 +10,7 @@ import CollapsableArea from 'app/components/shared/CollapsableArea';
 import Dialog from 'app/components/shared/Dialog';
 import FormTextField from 'app/components/shared/FormTextField';
 import FormTextarea from 'app/components/shared/FormTextarea';
+import FormDataList from 'app/components/shared/FormDataList';
 
 type Props = {
   pipeline: Object,
@@ -34,7 +35,9 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
   static propTypes = {
     pipeline: PropTypes.object.isRequired,
     isOpen: PropTypes.bool,
-    onRequestClose: PropTypes.func
+    onRequestClose: PropTypes.func,
+    commitSuggestions: PropTypes.arrayOf(PropTypes.string.isRequired),
+    branchSuggestions: PropTypes.arrayOf(PropTypes.string.isRequired)
   };
 
   state = {
@@ -119,18 +122,30 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
               ref={(tf) => this.buildMessageTextField = tf}
             />
 
+            <FormDataList
+              id="new-build-commit-suggestions"
+              values={this.props.commitSuggestions}
+            />
+
             <FormTextField
               name="build[commit]"
               label="Commit"
               placeholder="HEAD"
+              list="new-build-commit-suggestions"
               defaultValue={this.state.defaultValues.commit}
               ref={(tf) => this.buildCommitTextField = tf}
+            />
+
+            <FormDataList
+              id="new-build-branch-suggestions"
+              values={this.props.branchSuggestions}
             />
 
             <FormTextField
               name="build[branch]"
               label="Branch"
               placeholder={this.props.pipeline.defaultBranch}
+              list="new-build-branch-suggestions"
               defaultValue={this.state.defaultValues.branch}
               ref={(tf) => this.buildBranchTextField = tf}
             />
