@@ -6,7 +6,6 @@ import Spinner from 'app/components/shared/Spinner';
 
 const CODEMIRROR_BUFFER = 8;
 const CODEMIRROR_LINE_HEIGHT = 17;
-const CODEMIRROR_MIN_HEIGHT = 150;
 
 const CODEMIRROR_CONFIG = {
   lineNumbers: true,
@@ -52,7 +51,7 @@ class FormYAMLEdtiorField extends React.Component {
 
   render() {
     return (
-      <div style={{ minHeight: CODEMIRROR_MIN_HEIGHT }}>
+      <div>
         <textarea
           name={this.props.name}
           defaultValue={this.props.value}
@@ -86,10 +85,7 @@ const FormYAMLEdtiorFieldLoader = (props) => {
     }
 
     const lines = props.value.split("\n").length;
-    let height = CODEMIRROR_BUFFER + (lines * CODEMIRROR_LINE_HEIGHT);
-    if (CODEMIRROR_MIN_HEIGHT > height) {
-      height = CODEMIRROR_MIN_HEIGHT;
-    }
+    const height = CODEMIRROR_BUFFER + (lines * CODEMIRROR_LINE_HEIGHT);
 
     return (
       <div className="flex items-center justify-center" style={{ height: height }}>
