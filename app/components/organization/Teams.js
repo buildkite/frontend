@@ -38,7 +38,6 @@ class Teams extends React.Component<Props> {
         )
     ), []);
 
-
     // Don't render the select if there aren't any teams that can be viewed
     if (teams.length === 0) {
       return null;

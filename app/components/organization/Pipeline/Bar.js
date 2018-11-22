@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { createRefetchContainer, graphql } from 'react-relay/compat';
+import { createRefetchContainer, graphql } from 'react-relay';
 import BuildTooltip from './BuildTooltip';
 import AnchoredPopover from 'app/components/shared/Popover/anchored';
 import { BAR_HEIGHT_MINIMUM, BAR_WIDTH, BAR_WIDTH_WITH_SEPERATOR, GRAPH_HEIGHT } from './constants';

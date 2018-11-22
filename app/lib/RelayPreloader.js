@@ -1,6 +1,7 @@
 // @flow
 
 import Relay from 'react-relay/classic';
+import { graphql } from 'react-relay/compat';
 import fromGraphQL from 'react-relay/lib/fromGraphQL';
 
 
@@ -45,8 +46,8 @@ const QUERIES = {
       }
     }
   `,
-  "organization_show/organization": Relay.QL`
-    query PipelinesList($organization: ID!, $team: TeamSelector, $pageSize: Int, $pipelineFilter: String) {
+  "organization_show/organization": graphql`
+    query RelayPreloaderOrganizationPipelineQuery($organization: ID!, $team: TeamSelector, $pageSize: Int, $pipelineFilter: String) {
       organization(slug: $organization) {
         id
         slug
@@ -502,7 +503,7 @@ const QUERIES = {
     query BuildAnnotations($build: ID!) {
       build(slug: $build) {
         id
-	annotations(first: 10) {
+	       annotations(first: 10) {
           edges {
             node {
               id
@@ -582,21 +583,30 @@ const QUERIES = {
   `
 };
 
-class RelayPreloader {
-  preload(id: string, payload: Object, variables: Object) {
+export default class RelayPreloader {
+  static fetch(id: string) {
     // Get the concrete query
     const concrete = QUERIES[id];
     if (!concrete) {
       throw new Error(`No concrete query defined for \`${id}\``);
     }
+    return concrete;
+  }
 
+  static preload(id: string, payload: Object, variables: Object) {
     // Create a Relay-readable GraphQL query with the variables loaded in
-    const query = fromGraphQL.Query(concrete);
+    const preloadQuery = this.fetch(id);
+    if (preloadQuery.modern) {
+      console.log(preloadQuery.modern())
+      console.log({payload})
+      console.log({variables})
+      return
+    }
+
+    const query = fromGraphQL.Query(preloadQuery);
     query.__variables__ = variables;
 
     // Load it with the payload into the Relay store
     Relay.Store.getStoreData().handleQueryPayload(query, payload);
   }
 }
-
-export default new RelayPreloader();

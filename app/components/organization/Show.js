@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { QueryRenderer, graphql } from 'react-relay';
+import { createOperationSelector } from 'relay-runtime';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 import styled from 'styled-components';
@@ -10,7 +11,8 @@ import Button from 'app/components/shared/Button';
 import Icon from 'app/components/shared/Icon';
 import PageWithContainer from 'app/components/shared/PageWithContainer';
 import SearchField from 'app/components/shared/SearchField';
-import environment from 'app/lib/relay/environment';
+import { createEnvironment } from 'app/lib/relay/environment';
+import RelayPreloader from 'app/lib/RelayPreloader';
 import Pipelines from './Pipelines';
 import Teams from './Teams';
 import type { Show_organization } from './__generated__/Show_organization.graphql';
@@ -67,6 +69,11 @@ export default class OrganizationShow extends React.Component<Props> {
   }
 
   render() {
+    const request = RelayPreloader.fetch('organization_show/organization').modern();
+    const operationSelector = createOperationSelector(request, {organization: "test", team: null, pageSize: 30, pipelineFilter: null});
+    const environment = createEnvironment({});
+    environment.commitPayload(operationSelector, window.__RELAY_PRELOAD_PAYLOAD);
+
     return (
       <DocumentTitle
         title="TODO"
@@ -75,6 +82,7 @@ export default class OrganizationShow extends React.Component<Props> {
         <div>
           <PageWithContainer>
             <QueryRenderer
+              dataFrom="STORE_THEN_NETWORK"
               environment={environment}
               query={graphql`
                 query ShowQuery($organization: ID!) {

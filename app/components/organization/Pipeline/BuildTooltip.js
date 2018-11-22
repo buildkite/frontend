@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 import BuildStatusDescription from 'app/components/shared/BuildStatusDescription';
 import Duration from 'app/components/shared/Duration';
 import Emojify from 'app/components/shared/Emojify';
