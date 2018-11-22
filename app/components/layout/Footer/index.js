@@ -42,7 +42,7 @@ class Footer extends React.PureComponent<Props> {
             <Link href="https://github.com/buildkite/feedback/issues">Feedback</Link>
             <Link href="/privacy-policy">Privacy</Link>
             <Link href="/terms-of-service">Terms</Link>
-            <Link href="mailto:support@buildkite.com">Support</Link>
+            <Link href="https://forum.buildkite.community/">Forum</Link>
             <Link href="https://buildkitestatus.com/">System Status</Link>
           </div>
           <div className="mt4 mb4">
