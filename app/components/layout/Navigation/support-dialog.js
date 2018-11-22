@@ -80,44 +80,35 @@ type Person = {
 
 type Props = {
   isOpen: boolean,
-  onRequestClose: () => void,
-  people: Array<Person>
+  onRequestClose: () => void
 };
 
 type State = {
-  people: Array<Person>
+  people: Array<Person> | null
 };
 
 export default class SupportDialog extends React.Component<Props, State> {
-  state: State = {
-    people: []
-  };
-
   static displayName = "Navigation.SupportDialog";
-
   static propTypes = {
     isOpen: PropTypes.bool,
     onRequestClose: PropTypes.func
   };
 
-  constructor(props: Props) {
-    super(props);
-    this.state = { people: shuffle(PEOPLE) };
-  }
+  state: State = {
+    people: shuffle(PEOPLE)
+  };
 
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.isOpen && !this.props.isOpen) {
-      this.setState({ people: shuffle(PEOPLE) })
-    }
+  handleDialogHide = () => {
+    this.setState({ people: shuffle(PEOPLE) })
   }
 
   render() {
-    if (!this.props.isOpen) {
-      return null
-    }
-
     return (
-      <Dialog isOpen={true} onRequestClose={this.props.onRequestClose}>
+      <Dialog
+        isOpen={this.props.isOpen}
+        onRequestClose={this.props.onRequestClose}
+        onHide={this.handleDialogHide}
+      >
         <div className="center" style={{ padding: "10% 2%" }}>
           {/* fyi the h1 class here is only necessary so this doesn't break on Bootstrap pages */}
           <h1 className="bold h1 mt0 mt2 mb4">
@@ -126,7 +117,7 @@ export default class SupportDialog extends React.Component<Props, State> {
             We’re here to help!
           </h1>
           <Mugshots className="mb2">
-            {this.state.people.map(({ name, image, backgroundColor }) => (
+            {this.state.people && this.state.people.map(({ name, image, backgroundColor }) => (
               <Mugshot
                 key={name}
                 className="circle border border-white"
