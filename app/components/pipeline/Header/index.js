@@ -45,7 +45,9 @@ const HeaderBuilds = styled(Builds)`
 type Props = {
   pipeline: Object,
   isCurrentOrganizationMember: boolean,
-  buildState?: string
+  buildState?: string,
+  newBuildCommitSuggestions?: Array<string>,
+  newBuildBranchSuggestions?: Array<string>
 };
 
 type State = {

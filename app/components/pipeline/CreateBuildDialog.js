@@ -15,7 +15,9 @@ import FormDataList from 'app/components/shared/FormDataList';
 type Props = {
   pipeline: Object,
   isOpen: ?boolean,
-  onRequestClose: Function
+  onRequestClose: Function,
+  commitSuggestions: Array<string>,
+  branchSuggestions: Array<string>
 };
 
 type State = {
