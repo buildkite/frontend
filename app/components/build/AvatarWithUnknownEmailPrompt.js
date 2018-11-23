@@ -94,6 +94,12 @@ class AvatarWithUnknownEmailPrompt extends React.PureComponent {
     // Make sure that the associated user on this build is not a Buildkite user
     // and has an email we can link to.
     if (this.isUnregisteredCreatorWithEmail(createdBy)) {
+      // If there is no viewer, then the user viewing the build is not authenticated, so it makes
+      // no sense to show them a prompt.
+      if (!this.props.viewer) {
+        return;
+      }
+
       // Make sure that if this is a private  GitHub email address, we don't
       // prompt the user about it unless they have no GitHub account authorized
       if (this.isPrivateGitHubAddress(createdBy.email)) {
