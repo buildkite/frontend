@@ -121,16 +121,17 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
             <FormTextField
               name="build[message]"
               label="Message"
-              placeholder={this.props.messagePlaceholder}
+              placeholder={this.props.messagePlaceholder || "…"}
               help="Description of the build. If no message is provided, the commit message will be used"
               defaultValue={this.state.defaultValues.message}
               ref={(tf) => this.buildMessageTextField = tf}
             />
 
-            <FormDataList
-              id="new-build-commit-suggestions"
-              values={this.props.commitSuggestions}
-            />
+            {this.props.commitSuggestions &&
+              <FormDataList
+                id="new-build-commit-suggestions"
+                values={this.props.commitSuggestions}
+              />}
 
             <FormTextField
               name="build[commit]"
@@ -141,10 +142,11 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
               ref={(tf) => this.buildCommitTextField = tf}
             />
 
-            <FormDataList
-              id="new-build-branch-suggestions"
-              values={this.props.branchSuggestions}
-            />
+            {this.props.branchSuggestions &&
+              <FormDataList
+                id="new-build-branch-suggestions"
+                values={this.props.branchSuggestions}
+              />}
 
             <FormTextField
               name="build[branch]"
