@@ -47,7 +47,8 @@ type Props = {
   isCurrentOrganizationMember: boolean,
   buildState?: string,
   newBuildCommitSuggestions?: Array<string>,
-  newBuildBranchSuggestions?: Array<string>
+  newBuildBranchSuggestions?: Array<string>,
+  newBuildMessagePlaceholder?: string
 };
 
 type State = {
@@ -61,7 +62,8 @@ class Header extends React.Component<Props, State> {
     isCurrentOrganizationMember: PropTypes.bool,
     buildState: PropTypes.string,
     newBuildCommitSuggestions: PropTypes.arrayOf(PropTypes.string.isRequired),
-    newBuildBranchSuggestions: PropTypes.arrayOf(PropTypes.string.isRequired)
+    newBuildBranchSuggestions: PropTypes.arrayOf(PropTypes.string.isRequired),
+    newBuildMessagePlaceholder: PropTypes.string
   };
 
   state = {
@@ -117,6 +119,7 @@ class Header extends React.Component<Props, State> {
           pipeline={this.props.pipeline}
           commitSuggestions={this.props.newBuildCommitSuggestions}
           branchSuggestions={this.props.newBuildBranchSuggestions}
+          messagePlaceholder={this.props.newBuildMessagePlaceholder}
         />
       </div>
     );

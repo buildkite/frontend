@@ -17,7 +17,8 @@ type Props = {
   isOpen: ?boolean,
   onRequestClose: Function,
   commitSuggestions: Array<string>,
-  branchSuggestions: Array<string>
+  branchSuggestions: Array<string>,
+  messagePlaceholder: string
 };
 
 type State = {
@@ -39,7 +40,8 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
     isOpen: PropTypes.bool,
     onRequestClose: PropTypes.func,
     commitSuggestions: PropTypes.arrayOf(PropTypes.string.isRequired),
-    branchSuggestions: PropTypes.arrayOf(PropTypes.string.isRequired)
+    branchSuggestions: PropTypes.arrayOf(PropTypes.string.isRequired),
+    messagePlaceholder: PropTypes.string
   };
 
   state = {
@@ -119,7 +121,7 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
             <FormTextField
               name="build[message]"
               label="Message"
-              placeholder="…"
+              placeholder={this.props.messagePlaceholder}
               help="Description of the build. If no message is provided, the commit message will be used"
               defaultValue={this.state.defaultValues.message}
               ref={(tf) => this.buildMessageTextField = tf}
