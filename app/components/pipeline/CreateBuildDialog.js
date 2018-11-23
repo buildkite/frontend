@@ -4,6 +4,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { parse } from 'query-string';
+import unique from 'array-unique';
 
 import Button from 'app/components/shared/Button';
 import CollapsableArea from 'app/components/shared/CollapsableArea';
@@ -14,11 +15,9 @@ import FormDataList from 'app/components/shared/FormDataList';
 
 type Props = {
   pipeline: Object,
+  build: ?Object,
   isOpen: ?boolean,
-  onRequestClose: Function,
-  commitSuggestions: Array<string>,
-  branchSuggestions: Array<string>,
-  messagePlaceholder: string
+  onRequestClose: Function
 };
 
 type State = {
@@ -38,10 +37,7 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
   static propTypes = {
     pipeline: PropTypes.object.isRequired,
     isOpen: PropTypes.bool,
-    onRequestClose: PropTypes.func,
-    commitSuggestions: PropTypes.arrayOf(PropTypes.string.isRequired),
-    branchSuggestions: PropTypes.arrayOf(PropTypes.string.isRequired),
-    messagePlaceholder: PropTypes.string
+    onRequestClose: PropTypes.func
   };
 
   state = {
@@ -103,6 +99,29 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
   }
 
   render() {
+    const branchSuggestions = [this.props.pipeline.defaultBranch];
+    const commitSuggestions = [this.props.pipeline.defaultCommit];
+
+    // Add suggestions from the current build. This code is weird because Flow
+    // is weird...
+    if (this.props.build && this.props.build.branch) {
+      branchSuggestions.push(this.props.build.branch);
+    }
+    if (this.props.build && this.props.build.commit) {
+      commitSuggestions.push(this.props.build.commit);
+    }
+
+    // Add suggestions from the URL
+    if (window.location.search) {
+      const queryParams = parse(window.location.search);
+      if (queryParams["branch"]) {
+        branchSuggestions.push(queryParams["branch"]);
+      }
+      if (queryParams["commit"]) {
+        commitSuggestions.push(queryParams["commit"]);
+      }
+    }
+
     return (
       <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose} width={400}>
         <form
@@ -121,39 +140,34 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
             <FormTextField
               name="build[message]"
               label="Message"
-              placeholder={this.props.messagePlaceholder || "…"}
               help="Description of the build. If no message is provided, the commit message will be used"
-              defaultValue={this.state.defaultValues.message}
+              defaultValue={this.state.defaultValues.message || this.props.pipeline.defaultMessage}
               ref={(tf) => this.buildMessageTextField = tf}
             />
 
-            {this.props.commitSuggestions &&
-              <FormDataList
-                id="new-build-commit-suggestions"
-                values={this.props.commitSuggestions}
-              />}
+            <FormDataList
+              id="new-build-commit-suggestions"
+              values={unique(commitSuggestions)}
+            />
 
             <FormTextField
               name="build[commit]"
               label="Commit"
-              placeholder="HEAD"
               list="new-build-commit-suggestions"
-              defaultValue={this.state.defaultValues.commit}
+              defaultValue={this.state.defaultValues.commit || this.props.pipeline.defaultCommit}
               ref={(tf) => this.buildCommitTextField = tf}
             />
 
-            {this.props.branchSuggestions &&
-              <FormDataList
-                id="new-build-branch-suggestions"
-                values={this.props.branchSuggestions}
-              />}
+            <FormDataList
+              id="new-build-branch-suggestions"
+              values={unique(branchSuggestions)}
+            />
 
             <FormTextField
               name="build[branch]"
               label="Branch"
-              placeholder={this.props.pipeline.defaultBranch}
               list="new-build-branch-suggestions"
-              defaultValue={this.state.defaultValues.branch}
+              defaultValue={this.state.defaultValues.branch || this.props.pipeline.defaultBranch}
               ref={(tf) => this.buildBranchTextField = tf}
             />
 
@@ -211,9 +225,17 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
 
 export default Relay.createContainer(CreateBuildDialog, {
   fragments: {
+    build: () => Relay.QL`
+      fragment on Build {
+        commit
+        branch
+      }
+    `,
     pipeline: () => Relay.QL`
       fragment on Pipeline {
         slug
+        defaultMessage
+        defaultCommit
         defaultBranch
         organization {
           slug

@@ -377,6 +377,15 @@ const QUERIES = {
       }
     }
   `,
+  "pipeline/header/build": Relay.QL`
+    query($buildSlug: ID!) {
+      build(slug: $buildSlug) {
+        id
+        branch
+        commit
+      }
+    }
+  `,
   "pipeline/header": Relay.QL`
     query($pipeline: ID!) {
       pipeline(slug: $pipeline) {
@@ -385,6 +394,8 @@ const QUERIES = {
         description
         url
         slug
+        defaultMessage
+        defaultCommit
         defaultBranch
         organization {
           name
