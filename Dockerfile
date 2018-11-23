@@ -13,7 +13,7 @@ RUN yarn install
 
 # Add the soure code to the image and check it builds
 ADD . /frontend/
-RUN yarn relay-compile build
+RUN yarn build
 
 # Serve via webpack-dev-server
 CMD ["yarn", "run", "webpack-dev-server"]
