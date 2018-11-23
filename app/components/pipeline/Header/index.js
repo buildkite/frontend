@@ -44,6 +44,7 @@ const HeaderBuilds = styled(Builds)`
 
 type Props = {
   pipeline: Object,
+  build?: Object,
   isCurrentOrganizationMember: boolean,
   buildState?: string
 };
@@ -56,6 +57,7 @@ type State = {
 class Header extends React.Component<Props, State> {
   static propTypes = {
     pipeline: PropTypes.object.isRequired,
+    build: PropTypes.object,
     isCurrentOrganizationMember: PropTypes.bool,
     buildState: PropTypes.string
   };
@@ -111,6 +113,7 @@ class Header extends React.Component<Props, State> {
           isOpen={this.state.showingCreateBuildDialog}
           onRequestClose={this.handleCreateBuildDialogClose}
           pipeline={this.props.pipeline}
+          build={this.props.build}
         />
       </div>
     );
@@ -260,6 +263,11 @@ class Header extends React.Component<Props, State> {
 
 export default Relay.createContainer(Header, {
   fragments: {
+    build: () => Relay.QL`
+      fragment on Build {
+        ${CreateBuildDialog.getFragment('build')}
+      }
+    `,
     pipeline: () => Relay.QL`
       fragment on Pipeline {
         ${CreateBuildDialog.getFragment('pipeline')}

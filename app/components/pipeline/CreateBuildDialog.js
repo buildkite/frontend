@@ -4,15 +4,18 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { parse } from 'query-string';
+import unique from 'array-unique';
 
 import Button from 'app/components/shared/Button';
 import CollapsableArea from 'app/components/shared/CollapsableArea';
 import Dialog from 'app/components/shared/Dialog';
 import FormTextField from 'app/components/shared/FormTextField';
 import FormTextarea from 'app/components/shared/FormTextarea';
+import FormDataList from 'app/components/shared/FormDataList';
 
 type Props = {
   pipeline: Object,
+  build: ?Object,
   isOpen: ?boolean,
   onRequestClose: Function
 };
@@ -96,6 +99,29 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
   }
 
   render() {
+    const branchSuggestions = [this.props.pipeline.defaultBranch];
+    const commitSuggestions = [];
+
+    // Add suggestions from the current build. This code is weird because Flow
+    // is weird...
+    if (this.props.build && this.props.build.branch) {
+      branchSuggestions.push(this.props.build.branch);
+    }
+    if (this.props.build && this.props.build.commit) {
+      commitSuggestions.push(this.props.build.commit);
+    }
+
+    // Add suggestions from the URL
+    if (window.location.search) {
+      const queryParams = parse(window.location.search);
+      if (queryParams["branch"]) {
+        branchSuggestions.push(queryParams["branch"]);
+      }
+      if (queryParams["commit"]) {
+        commitSuggestions.push(queryParams["commit"]);
+      }
+    }
+
     return (
       <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose} width={400}>
         <form
@@ -114,27 +140,36 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
             <FormTextField
               name="build[message]"
               label="Message"
-              placeholder="Description of this build"
-              required={true}
+              help="Description of the build. If left blank, the commit message will be used once the build starts"
               defaultValue={this.state.defaultValues.message}
               ref={(tf) => this.buildMessageTextField = tf}
+            />
+
+            <FormDataList
+              id="new-build-commit-suggestions"
+              values={unique(commitSuggestions)}
             />
 
             <FormTextField
               name="build[commit]"
               label="Commit"
-              placeholder="HEAD"
-              defaultValue={this.state.defaultValues.commit || 'HEAD'}
+              list="new-build-commit-suggestions"
               required={true}
+              defaultValue={this.state.defaultValues.commit || "HEAD"}
               ref={(tf) => this.buildCommitTextField = tf}
+            />
+
+            <FormDataList
+              id="new-build-branch-suggestions"
+              values={unique(branchSuggestions)}
             />
 
             <FormTextField
               name="build[branch]"
               label="Branch"
-              placeholder={this.props.pipeline.defaultBranch}
-              defaultValue={this.state.defaultValues.branch || this.props.pipeline.defaultBranch}
+              list="new-build-branch-suggestions"
               required={true}
+              defaultValue={this.state.defaultValues.branch || this.props.pipeline.defaultBranch}
               ref={(tf) => this.buildBranchTextField = tf}
             />
 
@@ -191,10 +226,6 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
   isValid() {
     // Ideally these required fields should prevent themselves from being
     // submitted… but somehow they don't?
-    if (!this.buildMessageTextField.value) {
-      this.buildMessageTextField.focus();
-      return false;
-    }
     if (!this.buildCommitTextField.value) {
       this.buildCommitTextField.focus();
       return false;
@@ -214,6 +245,12 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
 
 export default Relay.createContainer(CreateBuildDialog, {
   fragments: {
+    build: () => Relay.QL`
+      fragment on Build {
+        commit
+        branch
+      }
+    `,
     pipeline: () => Relay.QL`
       fragment on Pipeline {
         slug

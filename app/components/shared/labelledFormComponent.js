@@ -60,6 +60,7 @@ export default function labelledFormComponent(FormComponent) {
 
     focus() {
       this.input.focus();
+      this.input.selectionStart = this.input.selectionEnd = this.input.value.length;
     }
   };
 }
