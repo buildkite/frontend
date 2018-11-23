@@ -1,2 +1,4 @@
 .hover-bg-silver:hover { background-color: var(--silver) }
+.hover-bg-gray:hover { background-color: var(--gray) }
+.hover-bg-dark-gray:hover { background-color: var(--dark-gray) }
 .hover-bg-white:hover { background-color: white; }

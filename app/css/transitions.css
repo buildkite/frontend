@@ -74,3 +74,27 @@
   transform: translateY(-15px);
   transition: opacity 200ms linear, transform 500ms ease-in-back;
 }
+
+/* transition slide-down-fast */
+
+.transition-slide-down-fast-enter {
+  opacity: 0;
+  transform: translateY(-15px);
+}
+
+.transition-slide-down-fast-enter.transition-slide-down-fast-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 50ms linear, transform 150ms ease-out-back;
+}
+
+.transition-slide-down-fast-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.transition-slide-down-fast-exit.transition-slide-down-fast-exit-active {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 100ms linear, transform 250ms ease-in-back;
+}
