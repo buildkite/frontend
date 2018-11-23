@@ -154,6 +154,7 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
               name="build[commit]"
               label="Commit"
               list="new-build-commit-suggestions"
+              required={true}
               defaultValue={this.state.defaultValues.commit || this.props.pipeline.defaultCommit}
               ref={(tf) => this.buildCommitTextField = tf}
             />
@@ -167,6 +168,7 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
               name="build[branch]"
               label="Branch"
               list="new-build-branch-suggestions"
+              required={true}
               defaultValue={this.state.defaultValues.branch || this.props.pipeline.defaultBranch}
               ref={(tf) => this.buildBranchTextField = tf}
             />
@@ -215,7 +217,25 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
   handleCreateBuildButtonClick = (event) => {
     event.preventDefault();
 
-    this.form && this.form.submit();
+    if (this.isValid()) {
+      this.setState({ creatingBuild: true });
+      this.form && this.form.submit();
+    }
+  }
+
+  isValid() {
+    // Ideally these required fields should prevent themselves from being
+    // submitted… but somehow they don't?
+    if (!this.buildCommitTextField.value) {
+      this.buildCommitTextField.focus();
+      return false;
+    }
+    if (!this.buildBranchTextField.value) {
+      this.buildBranchTextField.focus();
+      return false;
+    }
+
+    return true;
   }
 
   handleOptionsToggle = () => {
