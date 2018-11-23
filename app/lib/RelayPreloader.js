@@ -394,8 +394,6 @@ const QUERIES = {
         description
         url
         slug
-        defaultMessage
-        defaultCommit
         defaultBranch
         organization {
           name

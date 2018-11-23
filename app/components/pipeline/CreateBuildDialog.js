@@ -100,7 +100,7 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
 
   render() {
     const branchSuggestions = [this.props.pipeline.defaultBranch];
-    const commitSuggestions = [this.props.pipeline.defaultCommit];
+    const commitSuggestions = [];
 
     // Add suggestions from the current build. This code is weird because Flow
     // is weird...
@@ -141,7 +141,7 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
               name="build[message]"
               label="Message"
               help="Description of the build. If left blank, the commit message will be used once the build starts"
-              defaultValue={this.state.defaultValues.message || this.props.pipeline.defaultMessage}
+              defaultValue={this.state.defaultValues.message}
               ref={(tf) => this.buildMessageTextField = tf}
             />
 
@@ -155,7 +155,7 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
               label="Commit"
               list="new-build-commit-suggestions"
               required={true}
-              defaultValue={this.state.defaultValues.commit || this.props.pipeline.defaultCommit}
+              defaultValue={this.state.defaultValues.commit || "HEAD"}
               ref={(tf) => this.buildCommitTextField = tf}
             />
 
@@ -254,8 +254,6 @@ export default Relay.createContainer(CreateBuildDialog, {
     pipeline: () => Relay.QL`
       fragment on Pipeline {
         slug
-        defaultMessage
-        defaultCommit
         defaultBranch
         organization {
           slug
