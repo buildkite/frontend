@@ -53,7 +53,10 @@ export default function labelledFormComponent(FormComponent) {
       );
     }
 
-    // DOM Proxy Zone
+    set value(val) {
+      return this.input ? this.input.value = val : null;
+    }
+
     get value() {
       return this.input ? this.input.value : this.props.defaultValue;
     }
