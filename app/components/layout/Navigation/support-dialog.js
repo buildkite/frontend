@@ -1,8 +1,9 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import shuffle from 'shuffle-array';
 import styled, { keyframes } from 'styled-components';
-
 import Button from 'app/components/shared/Button';
 import Dialog from 'app/components/shared/Dialog';
 import Emojify from 'app/components/shared/Emojify';
@@ -71,17 +72,43 @@ const Mugshot = styled.img`
   margin: ${-IMAGE_OVERLAP_VERTICAL}px ${-IMAGE_OVERLAP_HORIZONTAL}px;
 `;
 
-class SupportDialog extends React.PureComponent {
-  static displayName = "Navigation.SupportDialog";
+type Person = {
+  name: string,
+  image: string,
+  backgroundColor: string
+};
 
+type Props = {
+  isOpen: boolean,
+  onRequestClose: () => void
+};
+
+type State = {
+  people: Array<Person> | null
+};
+
+export default class SupportDialog extends React.Component<Props, State> {
+  static displayName = "Navigation.SupportDialog";
   static propTypes = {
     isOpen: PropTypes.bool,
     onRequestClose: PropTypes.func
   };
 
+  state: State = {
+    people: shuffle(PEOPLE)
+  };
+
+  handleDialogHide = () => {
+    this.setState({ people: shuffle(PEOPLE) });
+  }
+
   render() {
     return (
-      <Dialog isOpen={this.props.isOpen} onRequestClose={this.props.onRequestClose}>
+      <Dialog
+        isOpen={this.props.isOpen}
+        onRequestClose={this.props.onRequestClose}
+        onHide={this.handleDialogHide}
+      >
         <div className="center" style={{ padding: "10% 2%" }}>
           {/* fyi the h1 class here is only necessary so this doesn't break on Bootstrap pages */}
           <h1 className="bold h1 mt0 mt2 mb4">
@@ -90,7 +117,7 @@ class SupportDialog extends React.PureComponent {
             We’re here to help!
           </h1>
           <Mugshots className="mb2">
-            {shuffle(PEOPLE).map(({ name, image, backgroundColor }) => (
+            {this.state.people && this.state.people.map(({ name, image, backgroundColor }) => (
               <Mugshot
                 key={name}
                 className="circle border border-white"
@@ -114,5 +141,3 @@ class SupportDialog extends React.PureComponent {
     );
   }
 }
-
-export default SupportDialog;

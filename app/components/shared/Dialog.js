@@ -75,6 +75,7 @@ class Dialog extends React.Component {
     closeable: PropTypes.bool,
     isOpen: PropTypes.bool,
     onRequestClose: PropTypes.func,
+    onHide: PropTypes.func,
     width: PropTypes.number
   };
 
@@ -122,7 +123,9 @@ class Dialog extends React.Component {
         // Give the animation some time to finish, then remove the dialog from
         // the DOM
         setTimeout(() => {
-          this.setState({ rendered: false });
+          this.setState({ rendered: false }, () => {
+            this.props.onHide && this.props.onHide();
+          });
         }, 150);
       });
     }
