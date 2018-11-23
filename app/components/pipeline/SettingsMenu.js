@@ -92,7 +92,7 @@ class SettingsMenu extends React.Component {
             key={idx}
             icon="teams"
             link={`${url}/teams`}
-            badge={this.props.pipeline.teams.count}
+            count={this.props.pipeline.teams.count}
             label="Teams"
           />
         )
@@ -104,7 +104,7 @@ class SettingsMenu extends React.Component {
             key={idx}
             icon="schedules"
             link={`${url}/schedules`}
-            badge={this.props.pipeline.schedules.count}
+            count={this.props.pipeline.schedules.count}
             label="Schedules"
           />
         )
