@@ -5,13 +5,14 @@ import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { parse } from 'query-string';
 import unique from 'array-unique';
+import classNames from 'classnames';
 
 import Button from 'app/components/shared/Button';
 import CollapsableArea from 'app/components/shared/CollapsableArea';
 import Dialog from 'app/components/shared/Dialog';
 import FormTextField from 'app/components/shared/FormTextField';
+import FormTextFieldWithSuggestions from 'app/components/shared/FormTextFieldWithSuggestions';
 import FormTextarea from 'app/components/shared/FormTextarea';
-import FormDataList from 'app/components/shared/FormDataList';
 
 type Props = {
   pipeline: Object,
@@ -98,9 +99,22 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
     }
   }
 
+  prepareSuggestions(suggestions) {
+    return unique(suggestions).map((value) => {
+      return {
+        value: value,
+        component: (selected) => {
+          return (
+            <div className={classNames({ "lime": selected })}>{value}</div>
+          )
+        }
+      }
+    });
+  }
+
   render() {
     const branchSuggestions = [this.props.pipeline.defaultBranch];
-    const commitSuggestions = [];
+    const commitSuggestions = ["HEAD"];
 
     // Add suggestions from the current build. This code is weird because Flow
     // is weird...
@@ -142,35 +156,26 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
               label="Message"
               help="Description of the build. If left blank, the commit message will be used once the build starts"
               defaultValue={this.state.defaultValues.message}
+              autoComplete="off"
               ref={(tf) => this.buildMessageTextField = tf}
             />
 
-            <FormDataList
-              id="new-build-commit-suggestions"
-              values={unique(commitSuggestions)}
-            />
-
-            <FormTextField
+            <FormTextFieldWithSuggestions
               name="build[commit]"
               label="Commit"
-              list="new-build-commit-suggestions"
               required={true}
               defaultValue={this.state.defaultValues.commit || "HEAD"}
               ref={(tf) => this.buildCommitTextField = tf}
+              suggestions={this.prepareSuggestions(commitSuggestions)}
             />
 
-            <FormDataList
-              id="new-build-branch-suggestions"
-              values={unique(branchSuggestions)}
-            />
-
-            <FormTextField
+            <FormTextFieldWithSuggestions
               name="build[branch]"
               label="Branch"
-              list="new-build-branch-suggestions"
               required={true}
               defaultValue={this.state.defaultValues.branch || this.props.pipeline.defaultBranch}
               ref={(tf) => this.buildBranchTextField = tf}
+              suggestions={this.prepareSuggestions(branchSuggestions)}
             />
 
             <CollapsableArea
