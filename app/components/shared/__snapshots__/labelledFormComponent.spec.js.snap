@@ -14,7 +14,7 @@ Object {
   "configurable": true,
   "enumerable": false,
   "get": [Function],
-  "set": undefined,
+  "set": [Function],
 }
 `;
 
