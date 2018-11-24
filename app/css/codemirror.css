@@ -43,6 +43,30 @@ li.CodeMirror-hint-active {
   background-color: var(--lime);
 }
 
+/* Prettier lint errors */
+
+.CodeMirror-lint-tooltip {
+  font-family: var(--font-family-mono) !important;
+  font-size: 11px !important;
+  border: 0 !important;
+  border-radius: 3px !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.03) !important;
+  padding: 0 !important;
+}
+.CodeMirror-lint-message-error {
+  background-image: none !important;
+  background-color: var(--red);
+  color: white;
+  padding: 5px 10px !important;
+  margin: 0 !important;
+  font-weight: bold;
+}
+.CodeMirror-lint-marker-error {
+  border: 1px solid yellow;
+}
+
 /* Custom YAML Editor Theme. Mostly copied the GitHub file viewer colors */
 
 .cm-s-yaml {
