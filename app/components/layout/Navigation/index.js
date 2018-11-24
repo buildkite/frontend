@@ -37,6 +37,7 @@ type Props = {
     id: string,
     slug: string,
     name: string,
+    iconUrl: string,
     permissions: Object
   },
   relay: Object
@@ -212,9 +213,16 @@ class Navigation extends React.PureComponent<Props, State> {
           <NavigationButton
             key={org.node.slug}
             href={`/${org.node.slug}`}
-            className="block"
+            className="block py1"
           >
-            {org.node.name}{ssoRequiredBadge}
+            <img
+              src={org.node.iconUrl}
+              width="26"
+              height="26"
+              className="circle border border-gray bg-white mr1"
+              alt={`Icon for ${org.node.name}`}
+              title={`Icon for ${org.node.name}`}
+            />{org.node.name}{ssoRequiredBadge}
           </NavigationButton>
         );
       }
@@ -224,9 +232,17 @@ class Navigation extends React.PureComponent<Props, State> {
       <NavigationButton
         key="newOrganization"
         href="/organizations/new"
-        className="block"
+        className="block py1"
       >
-        <Icon icon="plus-circle" className="icon-mr" style={{ width: 12, height: 12 }} />Create New Organization
+        <Icon
+          icon="plus-circle"
+          className="mr1"
+          style={{
+            width: 26,
+            height: 26,
+            padding: 1
+          }}
+        />Create New Organization
       </NavigationButton>
     );
 
@@ -407,6 +423,16 @@ class Navigation extends React.PureComponent<Props, State> {
                   minWidth: 0
                 }}
               >
+                {this.props.organization && (
+                  <img
+                    src={this.props.organization.iconUrl}
+                    width="26"
+                    height="26"
+                    className="xs-hide circle border border-gray bg-white mr1"
+                    alt={`Icon for ${this.props.organization.name}`}
+                    title={`Icon for ${this.props.organization.name}`}
+                  />
+                )}
                 <span className="truncate">
                   {this.props.organization && !this.includeOrganizationInDropdown(this.props.organization) ? this.props.organization.name : 'Organizations'}
                 </span>
@@ -495,6 +521,7 @@ export default Relay.createContainer(Navigation, {
           name
           id
           slug
+          iconUrl
           permissions {
             pipelineView {
               allowed
@@ -537,6 +564,7 @@ export default Relay.createContainer(Navigation, {
                 id
                 name
                 slug
+                iconUrl
                 permissions {
                   pipelineView {
                     allowed

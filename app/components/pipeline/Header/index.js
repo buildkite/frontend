@@ -84,7 +84,17 @@ class Header extends React.Component<Props, State> {
       <div data-testid="PipelineHeader">
         <div className="flex mb1 items-center flex-wrap" style={{ marginTop: -10 }}>
           <HeaderVitals>
-            <div className="flex-auto">
+            {this.props.isCurrentOrganizationMember || (
+              <img
+                src={this.props.pipeline.organization.iconUrl}
+                width="38"
+                height="38"
+                className="xs-hide circle border border-gray bg-white mr2"
+                alt={`Icon for ${this.props.pipeline.organization.name}`}
+                title={`Icon for ${this.props.pipeline.organization.name}`}
+              />
+            )}
+            <div className="flex flex-auto items-center">
               <a
                 data-testid="PipelineUrl"
                 href={this.props.pipeline.url}
@@ -278,6 +288,7 @@ export default Relay.createContainer(Header, {
         url
         organization {
           name
+          iconUrl
         }
         repository {
           url
