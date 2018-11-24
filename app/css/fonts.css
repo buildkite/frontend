@@ -1,3 +1,7 @@
+.system {
+  font-family: var(--font-family-system);
+}
+
 .monospace {
   font-family: var(--font-family-mono);
 }
