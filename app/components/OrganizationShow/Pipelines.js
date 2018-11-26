@@ -266,7 +266,7 @@ export default createRefetchContainer(
         team: $teamSearch,
         order: NAME_WITH_FAVORITES_FIRST
       ) @include(if: $isMounted) {
-        ...ShowMoreFooter_connection
+
         edges {
           node {
             id
