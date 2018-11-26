@@ -113,14 +113,7 @@ export default class OrganizationShow extends React.Component<Props> {
                 query={query}
                 variables={variables}
                 render={({error, props}) => {
-                  console.log(arguments)
-                  return null
-                  if (error) {
-                    return <div>{error.message}</div>;
-                  } else if (props) {
-                    return <pre><code>{JSON.stringify(props, null, 4)}</code></pre>;
-                  }
-                  return <div>Loading</div>;
+                  return <pre><code>{JSON.stringify(props, null, 4)}</code></pre>;
                 }}
               />
 
