@@ -15,6 +15,7 @@ import SectionLoader from './components/shared/SectionLoader';
 import APIAccessTokenCodeAuthorize from './components/api_access_token_code/APIAccessTokenCodeAuthorize';
 import BuildCommentsList from './components/build/CommentsList';
 import OrganizationShow from './components/organization/Show';
+import OrganizationShowBeta from './components/OrganizationShow';
 import OrganizationSettingsSection from './components/organization/SettingsSection';
 import AgentIndex from './components/agent/Index';
 import AgentShow from './components/agent/Show';
@@ -118,7 +119,12 @@ export default (
     <Route path="/" component={Main} getQueries={getMainQueries} render={renderMain} onChange={routeChangeHandler}>
       <Route path="authorize/:code" component={APIAccessTokenCodeAuthorize} queries={{ apiAccessTokenCode: APIAccessTokenCodeQuery.query }} />
 
-      <Route path="__sneaky__/:organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+      <Route
+        path="__sneaky__/:organization"
+        component={OrganizationShowBeta}
+        render={renderSectionLoading}
+      />
+
       <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
       <Route path="organizations/:organization/billing/upgrade" component={BillingUpgrade} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
