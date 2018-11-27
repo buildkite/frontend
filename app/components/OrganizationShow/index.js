@@ -8,23 +8,20 @@ import styled from 'styled-components';
 import { stringify } from 'query-string';
 import Button from 'app/components/shared/Button';
 import Icon from 'app/components/shared/Icon';
+import SectionLoader from 'app/components/shared/SectionLoader';
 import PageWithContainer from 'app/components/shared/PageWithContainer';
 import SearchField from 'app/components/shared/SearchField';
 import Pipelines from './Pipelines';
 import Teams from './Teams';
 import RelayModernPreloader from 'app/lib/RelayModernPreloader';
 import Environment from 'app/lib/relay/environment';
+import * as constants from './constants';
 
 import type {
   OrganizationShowQueryVariables,
   OrganizationShowQueryResponse
 } from './__generated__/OrganizationShowQuery.graphql';
 type Organization = $NonMaybeType<$ElementType<OrganizationShowQueryResponse, 'organization'>>;
-
-// const INITIAL_PAGE_SIZE = 30;
-// const PAGE_SIZE = 50;
-const INITIAL_PAGE_SIZE = 2;
-const PAGE_SIZE = 2;
 
 const FilterField = styled(SearchField)`
   flex-basis: 100%;
@@ -72,8 +69,8 @@ type Props = {
 
 export default class OrganizationShow extends React.Component<Props, State> {
   state = {
-    includeGraphData: false,
-    pageSize: INITIAL_PAGE_SIZE,
+    includeGraphData: true,
+    pageSize: constants.PIPELINES_INITIAL_PAGE_SIZE,
   };
 
   static contextTypes = {
@@ -92,17 +89,11 @@ export default class OrganizationShow extends React.Component<Props, State> {
     return this.props.location.query.filter || null;
   }
 
-  componentDidMount() {
-    // this.setState({ includeGraphData: true })
-  }
-
   render() {
-    const environment = Environment.get();
     const variables = {
       organizationSlug: this.organizationSlug,
       teamSearch: this.teamFilter,
       pipelineFilter: this.nameFilter,
-      includeGraphData: this.state.includeGraphData,
       pageSize: this.state.pageSize,
     };
 
@@ -110,7 +101,6 @@ export default class OrganizationShow extends React.Component<Props, State> {
       query OrganizationShowQuery(
         $organizationSlug: ID!
         $teamSearch: TeamSelector,
-        $includeGraphData: Boolean!,
         $pageSize: Int!,
         $pipelineFilter: String,
       ) {
@@ -118,7 +108,6 @@ export default class OrganizationShow extends React.Component<Props, State> {
           ...Teams_organization
           ...Pipelines_organization @arguments(
             teamSearch: $teamSearch,
-            includeGraphData: $includeGraphData,
             pageSize: $pageSize,
             pipelineFilter: $pipelineFilter,
           )
@@ -137,12 +126,13 @@ export default class OrganizationShow extends React.Component<Props, State> {
       }
     `;
 
+    const environment = Environment.get();
+    RelayModernPreloader.preload(query, variables, environment);
+
     // console.log(environment)
     // console.log(variables)
     // console.log(query.modern())
     // console.log(query.modern().text)
-
-    RelayModernPreloader.preload(query, variables, environment)
 
     return (
       <QueryRenderer
@@ -178,12 +168,11 @@ export default class OrganizationShow extends React.Component<Props, State> {
                       teamFilter={this.teamFilter}
                       nameFilter={this.nameFilter}
                       includeGraphData={this.state.includeGraphData}
-                      onLoadMorePipelines={this.handleLoadMorePipelines}
                     />
                   </PageWithContainer>
                 </div>
               </DocumentTitle>
-            ) : <div>LOADING!</div>
+            ) : <SectionLoader />
           ) : (
             <div>BONK!</div>
           )
@@ -228,11 +217,6 @@ export default class OrganizationShow extends React.Component<Props, State> {
   handleFilterChange = (organization: Organization) => (filter: string) => {
     this.updateRoute(organization, { filter });
   };
-
-  handleLoadMorePipelines = () => {
-    console.log('handleLoadMorePipelines')
-    this.setState({ pageSize: this.state.pageSize + PAGE_SIZE});
-  }
 
   updateRoute = (organization: Organization, params: {|filter?: string, team?: string|}) => {
     const query = stringify(

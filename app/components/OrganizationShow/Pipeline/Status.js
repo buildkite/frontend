@@ -77,7 +77,7 @@ class Status extends React.Component<Props, State> {
 export default createFragmentContainer(Status, graphql`
   fragment Status_pipeline on Pipeline {
     id
-    builds(first: 1, branch: "%default", state: [ RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED ]) {
+    firstBuild: builds(first: 1, branch: "%default", state: [ RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED ]) {
       edges {
         node {
           state

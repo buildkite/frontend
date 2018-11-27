@@ -9,6 +9,7 @@ function compatUnpackQuery(query) {
 }
 
 function getRequestPayload(requestId: string) {
+  // TODO: throw here if `requestId` is not in `REQUEST_PAYLOADS`
   return REQUEST_PAYLOADS[requestId];
 }
 
@@ -17,10 +18,12 @@ export default class RelayModernPreloader {
     REQUEST_PAYLOADS = {...REQUEST_PAYLOADS, [id]: payload}
   }
 
-	static preload(query, variables, environment) {
+	static preload(query, variables: Object, environment) {
     const modernQuery = compatUnpackQuery(query);
     const requestPayload = getRequestPayload(modernQuery.name)
-    const operationSelector = RelayRuntime.createOperationSelector(modernQuery, variables);
-    environment.commitPayload(operationSelector, requestPayload);
+    if (requestPayload) {
+      const operationSelector = RelayRuntime.createOperationSelector(modernQuery, variables);
+      environment.commitPayload(operationSelector, requestPayload);
+    }
 	}
 }

@@ -2,15 +2,18 @@
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createRefetchContainer, graphql } from 'react-relay/compat';
 import SectionLoader from 'app/components/shared/SectionLoader';
 import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
 import FlashesStore from 'app/stores/FlashesStore';
 import UserSessionStore from 'app/stores/UserSessionStore';
 import Pipeline from './Pipeline';
 import Welcome from './Welcome';
+import * as constants from './constants';
 import type { RelayProp } from 'react-relay';
 import type { Pipelines_organization } from './__generated__/Pipelines_organization.graphql';
+
+
 
 type Props = {
   relay: RelayProp,
@@ -24,6 +27,7 @@ type Props = {
 type State = {
   loading: boolean,
   loadingMore: boolean,
+  pageSize: number,
 };
 
 class Pipelines extends React.Component<Props, State> {
@@ -34,6 +38,7 @@ class Pipelines extends React.Component<Props, State> {
   state = {
     loading: false,
     loadingMore: false,
+    pageSize: constants.PIPELINES_INITIAL_PAGE_SIZE
   };
 
 //   get useLocalSearch() {
@@ -163,7 +168,7 @@ class Pipelines extends React.Component<Props, State> {
             connection={this.props.organization.pipelines}
             label="pipelines"
             loading={this.state.loadingMore}
-            onShowMore={this.props.onLoadMorePipelines}
+            onShowMore={this.handleShowMorePipelines}
           />
         </div>
       );
@@ -213,9 +218,18 @@ class Pipelines extends React.Component<Props, State> {
     // Just in case
     return [];
   }
+
+  handleShowMorePipelines = () => {
+    const pageSize = this.state.pageSize + constants.PIPELINES_PAGE_SIZE;
+    this.setState({ loadingMore: true, pageSize }, () => {
+      this.props.relay.refetch((lastVars) => ({ ...lastVars, pageSize }), null, () => {
+        this.setState({ loadingMore: false });
+      });
+    });
+  }
 }
 
-export default createFragmentContainer(
+export default createRefetchContainer(
   Pipelines,
   graphql`
     fragment Pipelines_organization on Organization @argumentDefinitions(
@@ -246,6 +260,24 @@ export default createFragmentContainer(
             ...Pipeline_pipeline @arguments(includeGraphData: $includeGraphData)
           }
         }
+      }
+    }
+  `,
+  graphql`
+    query PipelinesRefetchQuery(
+      $organizationSlug: ID!,
+      $teamSearch: TeamSelector,
+      $includeGraphData: Boolean!,
+      $pageSize: Int!,
+      $pipelineFilter: String,
+    ) {
+      organization(slug: $organizationSlug) {
+        ...Pipelines_organization @arguments(
+          teamSearch: $teamSearch,
+          includeGraphData: $includeGraphData,
+          pageSize: $pageSize,
+          pipelineFilter: $pipelineFilter,
+        )
       }
     }
   `

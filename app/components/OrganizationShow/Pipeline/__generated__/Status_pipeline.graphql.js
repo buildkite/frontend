@@ -14,7 +14,7 @@ import type { FragmentReference } from "relay-runtime";
 declare export opaque type Status_pipeline$ref: FragmentReference;
 export type Status_pipeline = {|
   +id: string,
-  +builds: ?{|
+  +firstBuild: ?{|
     +edges: ?$ReadOnlyArray<?{|
       +node: ?{|
         +state: BuildStates,
@@ -44,7 +44,7 @@ const node/*: ConcreteFragment*/ = {
     },
     {
       "kind": "LinkedField",
-      "alias": null,
+      "alias": "firstBuild",
       "name": "builds",
       "storageKey": "builds(branch:\"%default\",first:1,state:[\"RUNNING\",\"CANCELING\",\"PASSED\",\"FAILED\",\"CANCELED\",\"BLOCKED\"])",
       "args": [
@@ -123,5 +123,5 @@ const node/*: ConcreteFragment*/ = {
   ]
 };
 // prettier-ignore
-(node/*: any*/).hash = 'e05b6c25c52198abdf25b0f339188e44';
+(node/*: any*/).hash = 'aba85b452c65acf0f3e6ae9551cc64cf';
 module.exports = node;

@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash cd2eb802034a0fb266344c4a783958ed
+ * @relayHash 5f29393ab368e4e3279735379bb668e8
  */
 
 /* eslint-disable */
@@ -58,7 +58,7 @@ fragment Pipeline_pipeline_77nm2 on Pipeline {
 
 fragment Status_pipeline on Pipeline {
   id
-  builds(first: 1, branch: "%default", state: [RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED]) {
+  firstBuild: builds(first: 1, branch: "%default", state: [RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED]) {
     edges {
       node {
         state
@@ -190,7 +190,62 @@ v5 = {
   "args": null,
   "storageKey": null
 },
-v6 = [
+v6 = {
+  "kind": "Literal",
+  "name": "branch",
+  "value": "%default",
+  "type": "[String!]"
+},
+v7 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "state",
+  "args": null,
+  "storageKey": null
+},
+v8 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "message",
+  "args": null,
+  "storageKey": null
+},
+v9 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "commit",
+  "args": null,
+  "storageKey": null
+},
+v10 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "startedAt",
+  "args": null,
+  "storageKey": null
+},
+v11 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "finishedAt",
+  "args": null,
+  "storageKey": null
+},
+v12 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "canceledAt",
+  "args": null,
+  "storageKey": null
+},
+v13 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "scheduledAt",
+  "args": null,
+  "storageKey": null
+},
+v14 = [
   v5,
   {
     "kind": "LinkedField",
@@ -204,13 +259,36 @@ v6 = [
       v4
     ]
   }
-];
+],
+v15 = {
+  "kind": "LinkedField",
+  "alias": null,
+  "name": "createdBy",
+  "storageKey": null,
+  "args": null,
+  "concreteType": null,
+  "plural": false,
+  "selections": [
+    v2,
+    v3,
+    {
+      "kind": "InlineFragment",
+      "type": "UnregisteredUser",
+      "selections": v14
+    },
+    {
+      "kind": "InlineFragment",
+      "type": "User",
+      "selections": v14
+    }
+  ]
+};
 return {
   "kind": "Request",
   "operationKind": "query",
   "name": "PipelineRefetchQuery",
   "id": null,
-  "text": "query PipelineRefetchQuery(\n  $id: ID!\n  $includeGraphData: Boolean!\n) {\n  node(id: $id) {\n    __typename\n    ...Pipeline_pipeline_77nm2\n    id\n  }\n}\n\nfragment Pipeline_pipeline_77nm2 on Pipeline {\n  ...Status_pipeline\n  ...Metrics_pipeline\n  ...Graph_pipeline_77nm2\n  id\n  name\n  slug\n  description\n  defaultBranch\n  url\n  favorite\n  permissions {\n    pipelineFavorite {\n      allowed\n    }\n  }\n}\n\nfragment Status_pipeline on Pipeline {\n  id\n  builds(first: 1, branch: \"%default\", state: [RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED]) {\n    edges {\n      node {\n        state\n        url\n        ...BuildTooltip_build\n        id\n      }\n    }\n  }\n}\n\nfragment Metrics_pipeline on Pipeline {\n  metrics(first: 6) {\n    edges {\n      node {\n        label\n        ...Metric_metric\n        id\n      }\n    }\n  }\n}\n\nfragment Graph_pipeline_77nm2 on Pipeline {\n  builds(first: 30, branch: \"%default\", state: [SCHEDULED, RUNNING, PASSED, FAILED, CANCELED, CANCELING, BLOCKED]) @include(if: $includeGraphData) {\n    edges {\n      node {\n        id\n        state\n        url\n        startedAt\n        finishedAt\n        canceledAt\n        scheduledAt\n        ...Bar_build\n      }\n    }\n  }\n}\n\nfragment Bar_build on Build {\n  ...BuildTooltip_build\n}\n\nfragment BuildTooltip_build on Build {\n  message\n  url\n  commit\n  state\n  startedAt\n  finishedAt\n  canceledAt\n  scheduledAt\n  createdBy {\n    __typename\n    ... on User {\n      name\n      avatar {\n        url\n      }\n    }\n    ... on UnregisteredUser {\n      name\n      avatar {\n        url\n      }\n    }\n    ... on Node {\n      id\n    }\n  }\n}\n\nfragment Metric_metric on PipelineMetric {\n  label\n  value\n  url\n}\n",
+  "text": "query PipelineRefetchQuery(\n  $id: ID!\n  $includeGraphData: Boolean!\n) {\n  node(id: $id) {\n    __typename\n    ...Pipeline_pipeline_77nm2\n    id\n  }\n}\n\nfragment Pipeline_pipeline_77nm2 on Pipeline {\n  ...Status_pipeline\n  ...Metrics_pipeline\n  ...Graph_pipeline_77nm2\n  id\n  name\n  slug\n  description\n  defaultBranch\n  url\n  favorite\n  permissions {\n    pipelineFavorite {\n      allowed\n    }\n  }\n}\n\nfragment Status_pipeline on Pipeline {\n  id\n  firstBuild: builds(first: 1, branch: \"%default\", state: [RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED]) {\n    edges {\n      node {\n        state\n        url\n        ...BuildTooltip_build\n        id\n      }\n    }\n  }\n}\n\nfragment Metrics_pipeline on Pipeline {\n  metrics(first: 6) {\n    edges {\n      node {\n        label\n        ...Metric_metric\n        id\n      }\n    }\n  }\n}\n\nfragment Graph_pipeline_77nm2 on Pipeline {\n  builds(first: 30, branch: \"%default\", state: [SCHEDULED, RUNNING, PASSED, FAILED, CANCELED, CANCELING, BLOCKED]) @include(if: $includeGraphData) {\n    edges {\n      node {\n        id\n        state\n        url\n        startedAt\n        finishedAt\n        canceledAt\n        scheduledAt\n        ...Bar_build\n      }\n    }\n  }\n}\n\nfragment Bar_build on Build {\n  ...BuildTooltip_build\n}\n\nfragment BuildTooltip_build on Build {\n  message\n  url\n  commit\n  state\n  startedAt\n  finishedAt\n  canceledAt\n  scheduledAt\n  createdBy {\n    __typename\n    ... on User {\n      name\n      avatar {\n        url\n      }\n    }\n    ... on UnregisteredUser {\n      name\n      avatar {\n        url\n      }\n    }\n    ... on Node {\n      id\n    }\n  }\n}\n\nfragment Metric_metric on PipelineMetric {\n  label\n  value\n  url\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -337,16 +415,11 @@ return {
               v5,
               {
                 "kind": "LinkedField",
-                "alias": null,
+                "alias": "firstBuild",
                 "name": "builds",
                 "storageKey": "builds(branch:\"%default\",first:1,state:[\"RUNNING\",\"CANCELING\",\"PASSED\",\"FAILED\",\"CANCELED\",\"BLOCKED\"])",
                 "args": [
-                  {
-                    "kind": "Literal",
-                    "name": "branch",
-                    "value": "%default",
-                    "type": "[String!]"
-                  },
+                  v6,
                   {
                     "kind": "Literal",
                     "name": "first",
@@ -388,79 +461,15 @@ return {
                         "concreteType": "Build",
                         "plural": false,
                         "selections": [
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "name": "state",
-                            "args": null,
-                            "storageKey": null
-                          },
+                          v7,
                           v4,
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "name": "message",
-                            "args": null,
-                            "storageKey": null
-                          },
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "name": "commit",
-                            "args": null,
-                            "storageKey": null
-                          },
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "name": "startedAt",
-                            "args": null,
-                            "storageKey": null
-                          },
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "name": "finishedAt",
-                            "args": null,
-                            "storageKey": null
-                          },
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "name": "canceledAt",
-                            "args": null,
-                            "storageKey": null
-                          },
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "name": "scheduledAt",
-                            "args": null,
-                            "storageKey": null
-                          },
-                          {
-                            "kind": "LinkedField",
-                            "alias": null,
-                            "name": "createdBy",
-                            "storageKey": null,
-                            "args": null,
-                            "concreteType": null,
-                            "plural": false,
-                            "selections": [
-                              v2,
-                              v3,
-                              {
-                                "kind": "InlineFragment",
-                                "type": "UnregisteredUser",
-                                "selections": v6
-                              },
-                              {
-                                "kind": "InlineFragment",
-                                "type": "User",
-                                "selections": v6
-                              }
-                            ]
-                          },
+                          v8,
+                          v9,
+                          v10,
+                          v11,
+                          v12,
+                          v13,
+                          v15,
                           v3
                         ]
                       }
@@ -507,6 +516,78 @@ return {
                         "name": "allowed",
                         "args": null,
                         "storageKey": null
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "Condition",
+                "passingValue": true,
+                "condition": "includeGraphData",
+                "selections": [
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "name": "builds",
+                    "storageKey": "builds(branch:\"%default\",first:30,state:[\"SCHEDULED\",\"RUNNING\",\"PASSED\",\"FAILED\",\"CANCELED\",\"CANCELING\",\"BLOCKED\"])",
+                    "args": [
+                      v6,
+                      {
+                        "kind": "Literal",
+                        "name": "first",
+                        "value": 30,
+                        "type": "Int"
+                      },
+                      {
+                        "kind": "Literal",
+                        "name": "state",
+                        "value": [
+                          "SCHEDULED",
+                          "RUNNING",
+                          "PASSED",
+                          "FAILED",
+                          "CANCELED",
+                          "CANCELING",
+                          "BLOCKED"
+                        ],
+                        "type": "[BuildStates!]"
+                      }
+                    ],
+                    "concreteType": "BuildConnection",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "name": "edges",
+                        "storageKey": null,
+                        "args": null,
+                        "concreteType": "BuildEdge",
+                        "plural": true,
+                        "selections": [
+                          {
+                            "kind": "LinkedField",
+                            "alias": null,
+                            "name": "node",
+                            "storageKey": null,
+                            "args": null,
+                            "concreteType": "Build",
+                            "plural": false,
+                            "selections": [
+                              v3,
+                              v7,
+                              v4,
+                              v10,
+                              v11,
+                              v12,
+                              v13,
+                              v8,
+                              v9,
+                              v15
+                            ]
+                          }
+                        ]
                       }
                     ]
                   }

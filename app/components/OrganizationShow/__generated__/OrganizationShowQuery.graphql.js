@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 0e00c4e1a820834f79445f58640f4ab8
+ * @relayHash 02f8c5696968e859727e2df158ad5b3e
  */
 
 /* eslint-disable */
@@ -14,7 +14,6 @@ type Teams_organization$ref = any;
 export type OrganizationShowQueryVariables = {|
   organizationSlug: string,
   teamSearch?: ?any,
-  includeGraphData: boolean,
   pageSize: number,
   pipelineFilter?: ?string,
 |};
@@ -44,13 +43,12 @@ export type OrganizationShowQuery = {|
 query OrganizationShowQuery(
   $organizationSlug: ID!
   $teamSearch: TeamSelector
-  $includeGraphData: Boolean!
   $pageSize: Int!
   $pipelineFilter: String
 ) {
   organization(slug: $organizationSlug) {
     ...Teams_organization
-    ...Pipelines_organization_1JDUSM
+    ...Pipelines_organization_12c8MI
     id
     slug
     name
@@ -82,7 +80,7 @@ fragment Teams_organization on Organization {
   }
 }
 
-fragment Pipelines_organization_1JDUSM on Organization {
+fragment Pipelines_organization_12c8MI on Organization {
   ...Welcome_organization
   id
   slug
@@ -97,7 +95,7 @@ fragment Pipelines_organization_1JDUSM on Organization {
         name
         description
         favorite
-        ...Pipeline_pipeline_77nm2
+        ...Pipeline_pipeline_1BBA2j
       }
     }
   }
@@ -120,10 +118,9 @@ fragment ShowMoreFooter_connection on Connection {
   }
 }
 
-fragment Pipeline_pipeline_77nm2 on Pipeline {
+fragment Pipeline_pipeline_1BBA2j on Pipeline {
   ...Status_pipeline
   ...Metrics_pipeline
-  ...Graph_pipeline_77nm2
   id
   name
   slug
@@ -140,7 +137,7 @@ fragment Pipeline_pipeline_77nm2 on Pipeline {
 
 fragment Status_pipeline on Pipeline {
   id
-  builds(first: 1, branch: "%default", state: [RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED]) {
+  firstBuild: builds(first: 1, branch: "%default", state: [RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED]) {
     edges {
       node {
         state
@@ -164,25 +161,10 @@ fragment Metrics_pipeline on Pipeline {
   }
 }
 
-fragment Graph_pipeline_77nm2 on Pipeline {
-  builds(first: 30, branch: "%default", state: [SCHEDULED, RUNNING, PASSED, FAILED, CANCELED, CANCELING, BLOCKED]) @include(if: $includeGraphData) {
-    edges {
-      node {
-        id
-        state
-        url
-        startedAt
-        finishedAt
-        canceledAt
-        scheduledAt
-        ...Bar_build
-      }
-    }
-  }
-}
-
-fragment Bar_build on Build {
-  ...BuildTooltip_build
+fragment Metric_metric on PipelineMetric {
+  label
+  value
+  url
 }
 
 fragment BuildTooltip_build on Build {
@@ -213,12 +195,6 @@ fragment BuildTooltip_build on Build {
     }
   }
 }
-
-fragment Metric_metric on PipelineMetric {
-  label
-  value
-  url
-}
 */
 
 const node/*: ConcreteRequest*/ = (function(){
@@ -233,12 +209,6 @@ var v0 = [
     "kind": "LocalArgument",
     "name": "teamSearch",
     "type": "TeamSelector",
-    "defaultValue": null
-  },
-  {
-    "kind": "LocalArgument",
-    "name": "includeGraphData",
-    "type": "Boolean!",
     "defaultValue": null
   },
   {
@@ -371,7 +341,7 @@ return {
   "operationKind": "query",
   "name": "OrganizationShowQuery",
   "id": null,
-  "text": "query OrganizationShowQuery(\n  $organizationSlug: ID!\n  $teamSearch: TeamSelector\n  $includeGraphData: Boolean!\n  $pageSize: Int!\n  $pipelineFilter: String\n) {\n  organization(slug: $organizationSlug) {\n    ...Teams_organization\n    ...Pipelines_organization_1JDUSM\n    id\n    slug\n    name\n    permissions {\n      pipelineCreate {\n        code\n        allowed\n        message\n      }\n    }\n  }\n}\n\nfragment Teams_organization on Organization {\n  teams(first: 100) {\n    edges {\n      node {\n        id\n        name\n        slug\n        description\n        permissions {\n          pipelineView {\n            allowed\n          }\n        }\n      }\n    }\n  }\n}\n\nfragment Pipelines_organization_1JDUSM on Organization {\n  ...Welcome_organization\n  id\n  slug\n  allPipelines: pipelines(team: $teamSearch) {\n    count\n  }\n  pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, order: NAME_WITH_FAVORITES_FIRST) {\n    ...ShowMoreFooter_connection\n    edges {\n      node {\n        id\n        name\n        description\n        favorite\n        ...Pipeline_pipeline_77nm2\n      }\n    }\n  }\n}\n\nfragment Welcome_organization on Organization {\n  slug\n  permissions {\n    pipelineCreate {\n      code\n      allowed\n      message\n    }\n  }\n}\n\nfragment ShowMoreFooter_connection on Connection {\n  pageInfo {\n    hasNextPage\n  }\n}\n\nfragment Pipeline_pipeline_77nm2 on Pipeline {\n  ...Status_pipeline\n  ...Metrics_pipeline\n  ...Graph_pipeline_77nm2\n  id\n  name\n  slug\n  description\n  defaultBranch\n  url\n  favorite\n  permissions {\n    pipelineFavorite {\n      allowed\n    }\n  }\n}\n\nfragment Status_pipeline on Pipeline {\n  id\n  builds(first: 1, branch: \"%default\", state: [RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED]) {\n    edges {\n      node {\n        state\n        url\n        ...BuildTooltip_build\n        id\n      }\n    }\n  }\n}\n\nfragment Metrics_pipeline on Pipeline {\n  metrics(first: 6) {\n    edges {\n      node {\n        label\n        ...Metric_metric\n        id\n      }\n    }\n  }\n}\n\nfragment Graph_pipeline_77nm2 on Pipeline {\n  builds(first: 30, branch: \"%default\", state: [SCHEDULED, RUNNING, PASSED, FAILED, CANCELED, CANCELING, BLOCKED]) @include(if: $includeGraphData) {\n    edges {\n      node {\n        id\n        state\n        url\n        startedAt\n        finishedAt\n        canceledAt\n        scheduledAt\n        ...Bar_build\n      }\n    }\n  }\n}\n\nfragment Bar_build on Build {\n  ...BuildTooltip_build\n}\n\nfragment BuildTooltip_build on Build {\n  message\n  url\n  commit\n  state\n  startedAt\n  finishedAt\n  canceledAt\n  scheduledAt\n  createdBy {\n    __typename\n    ... on User {\n      name\n      avatar {\n        url\n      }\n    }\n    ... on UnregisteredUser {\n      name\n      avatar {\n        url\n      }\n    }\n    ... on Node {\n      id\n    }\n  }\n}\n\nfragment Metric_metric on PipelineMetric {\n  label\n  value\n  url\n}\n",
+  "text": "query OrganizationShowQuery(\n  $organizationSlug: ID!\n  $teamSearch: TeamSelector\n  $pageSize: Int!\n  $pipelineFilter: String\n) {\n  organization(slug: $organizationSlug) {\n    ...Teams_organization\n    ...Pipelines_organization_12c8MI\n    id\n    slug\n    name\n    permissions {\n      pipelineCreate {\n        code\n        allowed\n        message\n      }\n    }\n  }\n}\n\nfragment Teams_organization on Organization {\n  teams(first: 100) {\n    edges {\n      node {\n        id\n        name\n        slug\n        description\n        permissions {\n          pipelineView {\n            allowed\n          }\n        }\n      }\n    }\n  }\n}\n\nfragment Pipelines_organization_12c8MI on Organization {\n  ...Welcome_organization\n  id\n  slug\n  allPipelines: pipelines(team: $teamSearch) {\n    count\n  }\n  pipelines(search: $pipelineFilter, first: $pageSize, team: $teamSearch, order: NAME_WITH_FAVORITES_FIRST) {\n    ...ShowMoreFooter_connection\n    edges {\n      node {\n        id\n        name\n        description\n        favorite\n        ...Pipeline_pipeline_1BBA2j\n      }\n    }\n  }\n}\n\nfragment Welcome_organization on Organization {\n  slug\n  permissions {\n    pipelineCreate {\n      code\n      allowed\n      message\n    }\n  }\n}\n\nfragment ShowMoreFooter_connection on Connection {\n  pageInfo {\n    hasNextPage\n  }\n}\n\nfragment Pipeline_pipeline_1BBA2j on Pipeline {\n  ...Status_pipeline\n  ...Metrics_pipeline\n  id\n  name\n  slug\n  description\n  defaultBranch\n  url\n  favorite\n  permissions {\n    pipelineFavorite {\n      allowed\n    }\n  }\n}\n\nfragment Status_pipeline on Pipeline {\n  id\n  firstBuild: builds(first: 1, branch: \"%default\", state: [RUNNING, CANCELING, PASSED, FAILED, CANCELED, BLOCKED]) {\n    edges {\n      node {\n        state\n        url\n        ...BuildTooltip_build\n        id\n      }\n    }\n  }\n}\n\nfragment Metrics_pipeline on Pipeline {\n  metrics(first: 6) {\n    edges {\n      node {\n        label\n        ...Metric_metric\n        id\n      }\n    }\n  }\n}\n\nfragment Metric_metric on PipelineMetric {\n  label\n  value\n  url\n}\n\nfragment BuildTooltip_build on Build {\n  message\n  url\n  commit\n  state\n  startedAt\n  finishedAt\n  canceledAt\n  scheduledAt\n  createdBy {\n    __typename\n    ... on User {\n      name\n      avatar {\n        url\n      }\n    }\n    ... on UnregisteredUser {\n      name\n      avatar {\n        url\n      }\n    }\n    ... on Node {\n      id\n    }\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -398,12 +368,6 @@ return {
             "kind": "FragmentSpread",
             "name": "Pipelines_organization",
             "args": [
-              {
-                "kind": "Variable",
-                "name": "includeGraphData",
-                "variableName": "includeGraphData",
-                "type": null
-              },
               {
                 "kind": "Variable",
                 "name": "pageSize",
@@ -599,63 +563,8 @@ return {
                     "concreteType": "Pipeline",
                     "plural": false,
                     "selections": [
-                      {
-                        "kind": "LinkedField",
-                        "alias": null,
-                        "name": "metrics",
-                        "storageKey": "metrics(first:6)",
-                        "args": [
-                          {
-                            "kind": "Literal",
-                            "name": "first",
-                            "value": 6,
-                            "type": "Int"
-                          }
-                        ],
-                        "concreteType": "PipelineMetricConnection",
-                        "plural": false,
-                        "selections": [
-                          {
-                            "kind": "LinkedField",
-                            "alias": null,
-                            "name": "edges",
-                            "storageKey": null,
-                            "args": null,
-                            "concreteType": "PipelineMetricEdge",
-                            "plural": true,
-                            "selections": [
-                              {
-                                "kind": "LinkedField",
-                                "alias": null,
-                                "name": "node",
-                                "storageKey": null,
-                                "args": null,
-                                "concreteType": "PipelineMetric",
-                                "plural": false,
-                                "selections": [
-                                  {
-                                    "kind": "ScalarField",
-                                    "alias": null,
-                                    "name": "label",
-                                    "args": null,
-                                    "storageKey": null
-                                  },
-                                  {
-                                    "kind": "ScalarField",
-                                    "alias": null,
-                                    "name": "value",
-                                    "args": null,
-                                    "storageKey": null
-                                  },
-                                  v11,
-                                  v2
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      },
                       v2,
+                      v4,
                       v8,
                       {
                         "kind": "ScalarField",
@@ -666,7 +575,7 @@ return {
                       },
                       {
                         "kind": "LinkedField",
-                        "alias": null,
+                        "alias": "firstBuild",
                         "name": "builds",
                         "storageKey": "builds(branch:\"%default\",first:1,state:[\"RUNNING\",\"CANCELING\",\"PASSED\",\"FAILED\",\"CANCELED\",\"BLOCKED\"])",
                         "args": [
@@ -797,8 +706,62 @@ return {
                           }
                         ]
                       },
-                      v4,
-                      v11,
+                      {
+                        "kind": "LinkedField",
+                        "alias": null,
+                        "name": "metrics",
+                        "storageKey": "metrics(first:6)",
+                        "args": [
+                          {
+                            "kind": "Literal",
+                            "name": "first",
+                            "value": 6,
+                            "type": "Int"
+                          }
+                        ],
+                        "concreteType": "PipelineMetricConnection",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "kind": "LinkedField",
+                            "alias": null,
+                            "name": "edges",
+                            "storageKey": null,
+                            "args": null,
+                            "concreteType": "PipelineMetricEdge",
+                            "plural": true,
+                            "selections": [
+                              {
+                                "kind": "LinkedField",
+                                "alias": null,
+                                "name": "node",
+                                "storageKey": null,
+                                "args": null,
+                                "concreteType": "PipelineMetric",
+                                "plural": false,
+                                "selections": [
+                                  {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "name": "label",
+                                    "args": null,
+                                    "storageKey": null
+                                  },
+                                  {
+                                    "kind": "ScalarField",
+                                    "alias": null,
+                                    "name": "value",
+                                    "args": null,
+                                    "storageKey": null
+                                  },
+                                  v11,
+                                  v2
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
                       v3,
                       {
                         "kind": "ScalarField",
@@ -807,6 +770,7 @@ return {
                         "args": null,
                         "storageKey": null
                       },
+                      v11,
                       {
                         "kind": "LinkedField",
                         "alias": null,
@@ -842,5 +806,5 @@ return {
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'd1b97ecef62655528b788ca7f9cfe6a4';
+(node/*: any*/).hash = '152d0cff17f4bc3e3e29b4b156649b70';
 module.exports = node;
