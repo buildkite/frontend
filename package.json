@@ -21,7 +21,7 @@
     "prebuild-production": "yarn run relay-compile",
     "build-production": "NODE_ENV=production webpack --config webpack/config.js --progress --bail",
     "bundle-analyze": "COLLECT_BUNDLE_STATS=true yarn run build-production",
-    "webpack-dev-server": "NODE_ENV=development webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --host buildkite.localhost --port 4890",
+    "webpack-dev-server": "NODE_ENV=development webpack-dev-server --config webpack/config.js --progress --colors --cache --inline --hot --host localhost --port ${PORT:-4890} --output-public-path http://localhost:${PORT:-4890}",
     "storybook": "start-storybook -p $PORT --ci",
     "build-storybook": "build-storybook",
     "build-storybook-sketch": "mkdir -p dist && yarn run html-sketchapp --url 'http://localhost:6006/iframe.html?selectedKind=Sketch&selectedStory=Export' --out-dir dist"
