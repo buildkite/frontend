@@ -152,12 +152,11 @@ class Pipeline extends React.Component<Props, State> {
   }
 }
 
-// ${PipelineFavoriteMutation.getFragment('pipeline')}
 export default createRefetchContainer(
   Pipeline,
   graphql`
     fragment Pipeline_pipeline on Pipeline @argumentDefinitions(
-      includeGraphData: {type: "Boolean!"},
+      includeGraphData: {type: "Boolean!"}
     ) {
       ...Status_pipeline
       ...Metrics_pipeline

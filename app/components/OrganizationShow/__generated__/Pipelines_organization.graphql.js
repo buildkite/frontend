@@ -65,12 +65,6 @@ return {
     },
     {
       "kind": "LocalArgument",
-      "name": "includeGraphData",
-      "type": "Boolean",
-      "defaultValue": false
-    },
-    {
-      "kind": "LocalArgument",
       "name": "pageSize",
       "type": "Int",
       "defaultValue": 30
@@ -80,6 +74,12 @@ return {
       "name": "pipelineFilter",
       "type": "String",
       "defaultValue": null
+    },
+    {
+      "kind": "LocalArgument",
+      "name": "includeGraphData",
+      "type": "Boolean",
+      "defaultValue": false
     }
   ],
   "selections": [
@@ -212,5 +212,5 @@ return {
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'd8f8bfefcd9578b42512adfdc5d3ffa4';
+(node/*: any*/).hash = '01de56d092ced356f831ac6c2981c491';
 module.exports = node;

@@ -20,7 +20,6 @@ type Props = {
   teamFilter: string | null,
   nameFilter: string | null,
   organization: Pipelines_organization,
-  includeGraphData: boolean,
   onLoadMorePipelines: () => void
 };
 
@@ -28,6 +27,7 @@ type State = {
   loading: boolean,
   loadingMore: boolean,
   pageSize: number,
+  includeGraphData: boolean,
 };
 
 class Pipelines extends React.Component<Props, State> {
@@ -38,7 +38,8 @@ class Pipelines extends React.Component<Props, State> {
   state = {
     loading: false,
     loadingMore: false,
-    pageSize: constants.PIPELINES_INITIAL_PAGE_SIZE
+    pageSize: constants.PIPELINES_INITIAL_PAGE_SIZE,
+    includeGraphData: false
   };
 
 //   get useLocalSearch() {
@@ -57,6 +58,12 @@ class Pipelines extends React.Component<Props, State> {
       return this.props.organization.pipelines.edges;
     }
     return [];
+  }
+
+  componentDidMount() {
+    this.props.relay.refetch((lastVars) => ({ ...lastVars, includeGraphData: true }), null, () => {
+      this.setState({ includeGraphData: true });
+    });
   }
 
 //   componentDidMount() {
@@ -181,7 +188,10 @@ class Pipelines extends React.Component<Props, State> {
     }
 
     return (
-      <Welcome organization={this.props.organization} team={this.props.teamFilter} />
+      <Welcome
+        organization={this.props.organization}
+        team={this.props.teamFilter}
+      />
     );
   }
 
@@ -194,7 +204,7 @@ class Pipelines extends React.Component<Props, State> {
           <Pipeline
             key={pipeline.node.id}
             pipeline={pipeline.node}
-            includeGraphData={this.props.includeGraphData}
+            includeGraphData={this.state.includeGraphData}
           />
         );
       }
@@ -222,7 +232,7 @@ class Pipelines extends React.Component<Props, State> {
   handleShowMorePipelines = () => {
     const pageSize = this.state.pageSize + constants.PIPELINES_PAGE_SIZE;
     this.setState({ loadingMore: true, pageSize }, () => {
-      this.props.relay.refetch((lastVars) => ({ ...lastVars, pageSize }), null, () => {
+      this.props.relay.refetch((lastVars) => ({ ...lastVars, pageSize, includeGraphData: true }), null, () => {
         this.setState({ loadingMore: false });
       });
     });
@@ -233,10 +243,10 @@ export default createRefetchContainer(
   Pipelines,
   graphql`
     fragment Pipelines_organization on Organization @argumentDefinitions(
-      teamSearch: {type: "TeamSelector"},
-      includeGraphData: {type: "Boolean", defaultValue: false},
-      pageSize: {type: "Int", defaultValue: 30},
-      pipelineFilter: {type: "String"},
+      teamSearch: {type: "TeamSelector"}
+      pageSize: {type: "Int", defaultValue: 30}
+      pipelineFilter: {type: "String"}
+      includeGraphData: {type: "Boolean", defaultValue: false}
     ) {
       ...Welcome_organization
       id
@@ -245,9 +255,9 @@ export default createRefetchContainer(
         count
       }
       pipelines(
-        search: $pipelineFilter,
-        first: $pageSize,
-        team: $teamSearch,
+        search: $pipelineFilter
+        first: $pageSize
+        team: $teamSearch
         order: NAME_WITH_FAVORITES_FIRST
       ) {
         ...ShowMoreFooter_connection
@@ -265,18 +275,18 @@ export default createRefetchContainer(
   `,
   graphql`
     query PipelinesRefetchQuery(
-      $organizationSlug: ID!,
-      $teamSearch: TeamSelector,
-      $includeGraphData: Boolean!,
-      $pageSize: Int!,
-      $pipelineFilter: String,
+      $organizationSlug: ID!
+      $teamSearch: TeamSelector
+      $includeGraphData: Boolean!
+      $pageSize: Int!
+      $pipelineFilter: String
     ) {
       organization(slug: $organizationSlug) {
         ...Pipelines_organization @arguments(
-          teamSearch: $teamSearch,
-          includeGraphData: $includeGraphData,
-          pageSize: $pageSize,
-          pipelineFilter: $pipelineFilter,
+          teamSearch: $teamSearch
+          includeGraphData: $includeGraphData
+          pageSize: $pageSize
+          pipelineFilter: $pipelineFilter
         )
       }
     }

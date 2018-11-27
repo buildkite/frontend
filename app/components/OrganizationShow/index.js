@@ -37,21 +37,22 @@ const FilterField = styled(SearchField)`
   @media (min-width: 480px) {
     font-size: 16px;
     flex-basis: 200px;
+    /*
+    NOTE: the large-screen margin-left is ~half right to adjust for
+    the position of SearchField's icon
+    */
     margin-left: .5em;
     margin-right: 1em;
     margin-top: -.25em;
     order: initial;
   }
 `;
-// NOTE: the large-screen margin-left is ~half right
-// to adjust for the position of SearchField's icon
 
 FilterField.defaultProps = {
   className: 'light flex-auto'
 };
 
 type State = {
-  includeGraphData: boolean,
   pageSize: number,
 }
 
@@ -69,7 +70,6 @@ type Props = {
 
 export default class OrganizationShow extends React.Component<Props, State> {
   state = {
-    includeGraphData: true,
     pageSize: constants.PIPELINES_INITIAL_PAGE_SIZE,
   };
 
@@ -100,18 +100,17 @@ export default class OrganizationShow extends React.Component<Props, State> {
     const query = graphql`
       query OrganizationShowQuery(
         $organizationSlug: ID!
-        $teamSearch: TeamSelector,
-        $pageSize: Int!,
-        $pipelineFilter: String,
+        $teamSearch: TeamSelector
+        $pageSize: Int!
+        $pipelineFilter: String
       ) {
         organization(slug: $organizationSlug) {
           ...Teams_organization
           ...Pipelines_organization @arguments(
-            teamSearch: $teamSearch,
-            pageSize: $pageSize,
-            pipelineFilter: $pipelineFilter,
+            teamSearch: $teamSearch
+            pageSize: $pageSize
+            pipelineFilter: $pipelineFilter
           )
-
           id
           slug
           name
@@ -132,7 +131,7 @@ export default class OrganizationShow extends React.Component<Props, State> {
     // console.log(environment)
     // console.log(variables)
     // console.log(query.modern())
-    // console.log(query.modern().text)
+    console.log(query.modern().text)
 
     return (
       <QueryRenderer
@@ -167,7 +166,6 @@ export default class OrganizationShow extends React.Component<Props, State> {
                       organization={props.organization}
                       teamFilter={this.teamFilter}
                       nameFilter={this.nameFilter}
-                      includeGraphData={this.state.includeGraphData}
                     />
                   </PageWithContainer>
                 </div>
