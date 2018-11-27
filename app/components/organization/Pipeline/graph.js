@@ -62,7 +62,7 @@ class Graph extends React.Component {
     }, 0);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const thisLatestBuild = this.props.pipeline.builds.edges[0];
     const nextLatestBuild = nextProps.pipeline.builds.edges[0];
 

@@ -69,7 +69,7 @@ class Header extends React.Component<Props, State> {
 
   actionsDropdown: ?Dropdown;
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (window.location.hash.split('?').shift() === '#new') {
       this.setState({
         showingCreateBuildDialog: true

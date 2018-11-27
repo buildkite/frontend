@@ -48,7 +48,7 @@ export default class CreditCardInput extends React.PureComponent {
   // NOTE: We make the input a controlled component within the
   // context of the credit card field so that usages can reset the value
   // via defaultValue without controlling the entire component themselves
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.defaultValue) {
       this.setState({ value: this.props.defaultValue });
     }
@@ -59,7 +59,7 @@ export default class CreditCardInput extends React.PureComponent {
     this.input.addEventListener('paste', this.handlePaste);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.defaultValue !== this.props.defaultValue) {
       this.setState({ value: nextProps.defaultValue || '' });
     }
