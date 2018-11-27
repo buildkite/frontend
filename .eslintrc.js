@@ -30,6 +30,12 @@ module.exports = {
     'relay',
     'graphql'
   ],
+  settings: {
+    react: {
+      version: "16.6",
+      flowVersion: "0.84"
+    }
+  },
   rules: {
   'array-bracket-spacing': [ ERROR, 'never' ],
     'arrow-parens': WARN,
