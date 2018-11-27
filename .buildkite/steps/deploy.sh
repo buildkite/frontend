@@ -24,7 +24,7 @@ if [ ! -f "dist/manifest.json" ]; then
 fi
 
 # Download the files in manifest.json
-for URL in $(cat dist/manifest.json | jq -r '.[].js | strings, arrays[]'); do
+for URL in $(cat dist/manifest.json | jq -r '.[][] | strings, arrays[]'); do
   echo "Downloading $URL"
   ( cd tmp/verify && curl --silent --show-error --remote-name "${FRONTEND_HOST}${URL}" )
 done
