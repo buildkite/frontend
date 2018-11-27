@@ -61,7 +61,7 @@ export class ShowMoreFooter extends React.PureComponent<Props> {
 }
 
 export default createFragmentContainer(ShowMoreFooter, graphql`
-  fragment ShowMoreFooter_connection on PipelineConnection {
+  fragment ShowMoreFooter_connection on Connection {
     pageInfo {
       hasNextPage
     }

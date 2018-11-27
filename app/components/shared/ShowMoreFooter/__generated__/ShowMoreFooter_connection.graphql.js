@@ -22,7 +22,7 @@ export type ShowMoreFooter_connection = {|
 const node/*: ConcreteFragment*/ = {
   "kind": "Fragment",
   "name": "ShowMoreFooter_connection",
-  "type": "PipelineConnection",
+  "type": "Connection",
   "metadata": null,
   "argumentDefinitions": [],
   "selections": [
@@ -47,5 +47,5 @@ const node/*: ConcreteFragment*/ = {
   ]
 };
 // prettier-ignore
-(node/*: any*/).hash = '87a7378b5314471872bcdbc46cbd118b';
+(node/*: any*/).hash = '8023885da685f32c87207a39ff7adf4b';
 module.exports = node;

@@ -1,6 +1,6 @@
 // @flow
 
-import { Environment, Network, RecordSource, Store } from 'relay-runtime';
+import { Environment as RelayEnvironment, Network, RecordSource, Store } from 'relay-runtime';
 
 if (process.env.NODE_ENV === 'development') {
   require('relay-devtools').installRelayDevTools();
@@ -33,15 +33,18 @@ function fetchQuery(operation, variables, cacheConfig, uploadables) {
 
 let relayEnvironment = null
 
-export function createEnvironment() {
-  if (relayEnvironment === null) {
-    const network = Network.create(wrapFetch(fetchQuery));
-    const source = new RecordSource({});
-    const store = new Store(source);
-    const handlerProvider = null;
-    relayEnvironment = new Environment({handlerProvider, network, store});
+export default class Environment {
+  static get(): RelayEnvironment | null {
+    return relayEnvironment;
   }
-  return relayEnvironment;
-}
 
-export default relayEnvironment;
+  static create(): RelayEnvironment {
+    if (relayEnvironment === null) {
+      const network = Network.create(wrapFetch(fetchQuery));
+      const source = new RecordSource({});
+      const store = new Store(source);
+      const handlerProvider = null;
+      relayEnvironment = new RelayEnvironment({handlerProvider, network, store});
+    }
+  }
+}

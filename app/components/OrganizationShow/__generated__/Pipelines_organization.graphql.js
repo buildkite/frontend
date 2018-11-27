@@ -9,16 +9,17 @@
 /*::
 import type { ConcreteFragment } from 'relay-runtime';
 type Pipeline_pipeline$ref = any;
+type ShowMoreFooter_connection$ref = any;
 type Welcome_organization$ref = any;
 import type { FragmentReference } from "relay-runtime";
 declare export opaque type Pipelines_organization$ref: FragmentReference;
 export type Pipelines_organization = {|
   +id: string,
   +slug: string,
-  +allPipelines?: ?{|
+  +allPipelines: ?{|
     +count: number
   |},
-  +pipelines?: ?{|
+  +pipelines: ?{|
     +edges: ?$ReadOnlyArray<?{|
       +node: ?{|
         +id: string,
@@ -27,7 +28,8 @@ export type Pipelines_organization = {|
         +favorite: boolean,
         +$fragmentRefs: Pipeline_pipeline$ref,
       |}
-    |}>
+    |}>,
+    +$fragmentRefs: ShowMoreFooter_connection$ref,
   |},
   +$fragmentRefs: Welcome_organization$ref,
   +$refType: Pipelines_organization$ref,
@@ -78,12 +80,6 @@ return {
       "name": "pipelineFilter",
       "type": "String",
       "defaultValue": null
-    },
-    {
-      "kind": "LocalArgument",
-      "name": "isMounted",
-      "type": "Boolean",
-      "defaultValue": false
     }
   ],
   "selections": [
@@ -101,110 +97,108 @@ return {
       "storageKey": null
     },
     {
-      "kind": "Condition",
-      "passingValue": true,
-      "condition": "isMounted",
+      "kind": "LinkedField",
+      "alias": "allPipelines",
+      "name": "pipelines",
+      "storageKey": null,
+      "args": [
+        v1
+      ],
+      "concreteType": "PipelineConnection",
+      "plural": false,
       "selections": [
         {
-          "kind": "LinkedField",
-          "alias": "allPipelines",
-          "name": "pipelines",
-          "storageKey": null,
-          "args": [
-            v1
-          ],
-          "concreteType": "PipelineConnection",
-          "plural": false,
-          "selections": [
-            {
-              "kind": "ScalarField",
-              "alias": null,
-              "name": "count",
-              "args": null,
-              "storageKey": null
-            }
-          ]
+          "kind": "ScalarField",
+          "alias": null,
+          "name": "count",
+          "args": null,
+          "storageKey": null
+        }
+      ]
+    },
+    {
+      "kind": "LinkedField",
+      "alias": null,
+      "name": "pipelines",
+      "storageKey": null,
+      "args": [
+        {
+          "kind": "Variable",
+          "name": "first",
+          "variableName": "pageSize",
+          "type": "Int"
+        },
+        {
+          "kind": "Literal",
+          "name": "order",
+          "value": "NAME_WITH_FAVORITES_FIRST",
+          "type": "PipelineOrders"
+        },
+        {
+          "kind": "Variable",
+          "name": "search",
+          "variableName": "pipelineFilter",
+          "type": "String"
+        },
+        v1
+      ],
+      "concreteType": "PipelineConnection",
+      "plural": false,
+      "selections": [
+        {
+          "kind": "FragmentSpread",
+          "name": "ShowMoreFooter_connection",
+          "args": null
         },
         {
           "kind": "LinkedField",
           "alias": null,
-          "name": "pipelines",
+          "name": "edges",
           "storageKey": null,
-          "args": [
-            {
-              "kind": "Variable",
-              "name": "first",
-              "variableName": "pageSize",
-              "type": "Int"
-            },
-            {
-              "kind": "Literal",
-              "name": "order",
-              "value": "NAME_WITH_FAVORITES_FIRST",
-              "type": "PipelineOrders"
-            },
-            {
-              "kind": "Variable",
-              "name": "search",
-              "variableName": "pipelineFilter",
-              "type": "String"
-            },
-            v1
-          ],
-          "concreteType": "PipelineConnection",
-          "plural": false,
+          "args": null,
+          "concreteType": "PipelineEdge",
+          "plural": true,
           "selections": [
             {
               "kind": "LinkedField",
               "alias": null,
-              "name": "edges",
+              "name": "node",
               "storageKey": null,
               "args": null,
-              "concreteType": "PipelineEdge",
-              "plural": true,
+              "concreteType": "Pipeline",
+              "plural": false,
               "selections": [
+                v0,
                 {
-                  "kind": "LinkedField",
+                  "kind": "ScalarField",
                   "alias": null,
-                  "name": "node",
-                  "storageKey": null,
+                  "name": "name",
                   "args": null,
-                  "concreteType": "Pipeline",
-                  "plural": false,
-                  "selections": [
-                    v0,
+                  "storageKey": null
+                },
+                {
+                  "kind": "ScalarField",
+                  "alias": null,
+                  "name": "description",
+                  "args": null,
+                  "storageKey": null
+                },
+                {
+                  "kind": "ScalarField",
+                  "alias": null,
+                  "name": "favorite",
+                  "args": null,
+                  "storageKey": null
+                },
+                {
+                  "kind": "FragmentSpread",
+                  "name": "Pipeline_pipeline",
+                  "args": [
                     {
-                      "kind": "ScalarField",
-                      "alias": null,
-                      "name": "name",
-                      "args": null,
-                      "storageKey": null
-                    },
-                    {
-                      "kind": "ScalarField",
-                      "alias": null,
-                      "name": "description",
-                      "args": null,
-                      "storageKey": null
-                    },
-                    {
-                      "kind": "ScalarField",
-                      "alias": null,
-                      "name": "favorite",
-                      "args": null,
-                      "storageKey": null
-                    },
-                    {
-                      "kind": "FragmentSpread",
-                      "name": "Pipeline_pipeline",
-                      "args": [
-                        {
-                          "kind": "Variable",
-                          "name": "includeGraphData",
-                          "variableName": "includeGraphData",
-                          "type": null
-                        }
-                      ]
+                      "kind": "Variable",
+                      "name": "includeGraphData",
+                      "variableName": "includeGraphData",
+                      "type": null
                     }
                   ]
                 }
@@ -218,5 +212,5 @@ return {
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'c64a9c46e2247be823f41c8914b5505a';
+(node/*: any*/).hash = 'd8f8bfefcd9578b42512adfdc5d3ffa4';
 module.exports = node;
