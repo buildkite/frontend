@@ -24,11 +24,9 @@ if [ ! -f "dist/manifest.json" ]; then
 fi
 
 # Download the files in manifest.json
-for url in $(cat dist/manifest.json | jq -r '.[].js | strings, arrays[]'); do
-  pushd "tmp/verify" >> /dev/null
+for URL in $(cat dist/manifest.json | jq -r '.[].js | strings, arrays[]'); do
   echo "Downloading $URL"
-  curl -OsS "${FRONTENV_HOST}${URL}"
-  popd >> /dev/null
+  ( cd tmp/verify && curl --silent --show-error --remote-name "${FRONTENV_HOST}${URL}" )
 done
 
 echo "--- :mag: Verifiying the files uploaded match the downloads"
