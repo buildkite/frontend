@@ -7,16 +7,16 @@ rm -rf "dist"
 mkdir -p "dist"
 buildkite-agent artifact download "dist/*" "dist/"
 
-echo "--- :s3: Deploying frontend to $S3_URL/"
+echo "--- :s3: Deploying frontend to $S3_URL"
 
-aws s3 sync --region "us-east-1" --acl "public-read" --exclude="manifest.json" "dist/" "$S3_URL/"
+aws s3 sync --region "us-east-1" --acl "public-read" --exclude="manifest.json" "dist/" "$S3_URL"
 
 echo "--- :wastebasket: Cleaning up.."
 
 rm -rf "tmp/verify"
 mkdir -p "tmp/verify"
 
-echo "--- :earth_asia: Downloading files from $FRONTEND_HOST/"
+echo "--- :earth_asia: Downloading files from $FRONTEND_HOST"
 
 if [ ! -f "dist/manifest.json" ]; then
   echo "❌ Couldn't find dist/manifest.json"
