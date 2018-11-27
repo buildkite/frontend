@@ -25,12 +25,9 @@ fi
 
 # Download the files in manifest.json
 for url in $(cat dist/manifest.json | jq -r '.[].js | strings, arrays[]'); do
-  # Make sure the URL is prefixed with https (if it's just got //)
-  URL=$(echo "$url" | sed -e 's/^\/\//https:\/\//')
-
   pushd "tmp/verify" >> /dev/null
   echo "Downloading $URL"
-  curl -OsS "$URL"
+  curl -OsS "${FRONTENV_HOST}${URL}"
   popd >> /dev/null
 done
 
