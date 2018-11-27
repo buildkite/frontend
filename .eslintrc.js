@@ -126,6 +126,7 @@ module.exports = {
     'react/no-string-refs': ERROR,
     'react/no-unescaped-entities': ERROR,
     'react/no-unknown-property': ERROR,
+    'react/no-unsafe': WARN,
     'react/no-unused-prop-types': ERROR,
     'react/prefer-es6-class': ERROR,
     'react/prefer-stateless-function': OFF,
