@@ -1,6 +1,7 @@
 // @flow
 
-export const MockMakeFetch = () => {
-    console.log(arguments)
-    return jest.fn();
+export const MockFetch = jest.fn();
+
+export default function MockMakeFetch(operation, variables, cacheConfig, uploadables) {
+  return MockFetch(operation, variables, cacheConfig, uploadables);
 }

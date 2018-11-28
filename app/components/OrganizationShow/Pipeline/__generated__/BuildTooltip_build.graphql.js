@@ -21,7 +21,7 @@ export type BuildTooltip_build = {|
   +canceledAt: ?any,
   +scheduledAt: ?any,
   +createdBy: ?{|
-    +name?: string,
+    +name?: ?string,
     +avatar?: ?{|
       +url: string
     |},

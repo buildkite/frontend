@@ -60,11 +60,11 @@ class Pipelines extends React.Component<Props, State> {
     return [];
   }
 
-  componentDidMount() {
-    this.props.relay.refetch((lastVars) => ({ ...lastVars, includeGraphData: true }), null, () => {
-      this.setState({ includeGraphData: true });
-    });
-  }
+  // componentDidMount() {
+  //   this.props.relay.refetch((lastVars) => ({ ...lastVars, includeGraphData: true }), null, () => {
+  //     this.setState({ includeGraphData: true });
+  //   });
+  // }
 
 //   componentDidMount() {
 //     this.props.relay.refetch(this.defaultVariables, null, () => {

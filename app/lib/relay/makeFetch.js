@@ -1,6 +1,7 @@
 // @flow
 
 export default function makeFetch(operation, variables, cacheConfig, uploadables) {
+  console.log('****************************************')
   return fetch(window._graphql.url, {
     method: 'POST',
     headers: {

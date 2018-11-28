@@ -4,10 +4,33 @@ import * as React from 'react';
 import renderer from 'react-test-renderer';
 import PropTypes from 'prop-types';
 import Environment from 'app/lib/relay/environment';
-import {MockMakeFetch} from 'app/lib/relay/makeFetch';
+import {MockFetch} from 'app/lib/relay/makeFetch';
 import OrganizationShow from '..';
+import Teams from '../Teams';
 
-jest.mock('app/components/shared/Icon/svgContent', () => {});
+import { graphql, buildClientSchema } from 'graphql';
+import { addMockFunctionsToSchema } from 'graphql-tools';
+import * as introspectionResult from 'app/graph/schema.json';
+
+async function Derp() {
+  const schema = buildClientSchema(introspectionResult.data);
+  addMockFunctionsToSchema({schema, mocks: {
+    DateTime: () => '123123123123',
+    Pipeline: () => ({
+      name: 'Foobar',
+      description: 'OMGOMGOMGOMGOMGOGMGMG,'
+    })
+  }});
+
+  const query = OrganizationShow.query.modern().text;
+  const foo = await graphql(schema, query, null, null, {
+    organizationSlug: 'foo',
+    pageSize: 30
+  });
+
+  return foo;
+}
+
 jest.mock('app/lib/relay/makeFetch')
 
 class MockRouterContext extends React.Component {
@@ -27,10 +50,12 @@ class MockRouterContext extends React.Component {
 }
 
 describe.only('OrganizationShow', () => {
-  test('it renders', () => {
+  test('it renders', async (done) => {
+
+    const blah = Derp();
 
     Environment.create();
-    MockMakeFetch.mockReturnValue(Promise.resolve({foo: 'bar'}))
+    MockFetch.mockResolvedValue(blah)
 
     const render = renderer.create(
       <MockRouterContext>
@@ -47,11 +72,16 @@ describe.only('OrganizationShow', () => {
       </MockRouterContext>
     );
 
-    console.log('----------------------------')
-    console.log(render.toTree())
-    console.log(render.toJSON())
-    console.log(render.root.children)
-    console.log('----------------------------')
-    console.log(MockMakeFetch)
+    setTimeout(() => {
+      expect(render.toJSON()).toMatchSnapshot()
+      done()
+    }, 2000)
+
+    // console.log('----------------------------')
+    // console.log(render.toTree())
+    // console.log(render.toJSON())
+    // console.log(render.root.children)
+    // console.log('----------------------------')
+    // console.log(MockFetch)
   });
 });

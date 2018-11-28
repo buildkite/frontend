@@ -73,6 +73,34 @@ export default class OrganizationShow extends React.Component<Props, State> {
     pageSize: constants.PIPELINES_INITIAL_PAGE_SIZE,
   };
 
+  static query = graphql`
+    query OrganizationShowQuery(
+      $organizationSlug: ID!
+      $teamSearch: TeamSelector
+      $pageSize: Int!
+      $pipelineFilter: String
+    ) {
+      organization(slug: $organizationSlug) {
+        ...Teams_organization
+        ...Pipelines_organization @arguments(
+          teamSearch: $teamSearch
+          pageSize: $pageSize
+          pipelineFilter: $pipelineFilter
+        )
+        id
+        slug
+        name
+        permissions {
+          pipelineCreate {
+            code
+            allowed
+            message
+          }
+        }
+      }
+    }
+  `;
+
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
@@ -97,41 +125,8 @@ export default class OrganizationShow extends React.Component<Props, State> {
       pageSize: this.state.pageSize,
     };
 
-    const query = graphql`
-      query OrganizationShowQuery(
-        $organizationSlug: ID!
-        $teamSearch: TeamSelector
-        $pageSize: Int!
-        $pipelineFilter: String
-      ) {
-        organization(slug: $organizationSlug) {
-          ...Teams_organization
-          ...Pipelines_organization @arguments(
-            teamSearch: $teamSearch
-            pageSize: $pageSize
-            pipelineFilter: $pipelineFilter
-          )
-          id
-          slug
-          name
-          permissions {
-            pipelineCreate {
-              code
-              allowed
-              message
-            }
-          }
-        }
-      }
-    `;
-
     const environment = Environment.get();
-
-    // console.log('-----------------------------------')
-    // console.log(environment)
-    // console.log('-----------------------------------')
-
-    RelayModernPreloader.preload(query, variables, environment);
+    // RelayModernPreloader.preload(query, variables, environment);
 
     // console.log(environment)
     // console.log(variables)
@@ -142,10 +137,11 @@ export default class OrganizationShow extends React.Component<Props, State> {
       <QueryRenderer
         dataFrom="STORE_THEN_NETWORK"
         environment={environment}
-        query={query}
+        query={OrganizationShow.query}
         variables={variables}
-        render={({ error, props }: {error: ?Error, props: OrganizationShowQueryResponse}) => (
-          !error ? (
+        render={({ error, props }: {error: ?Error, props: OrganizationShowQueryResponse}) => {
+          console.log({ error, props })
+          return !error ? (
             props && props.organization ? (
               <DocumentTitle title={`${props.organization.name}`}>
                 <div>
@@ -175,7 +171,12 @@ export default class OrganizationShow extends React.Component<Props, State> {
                   </PageWithContainer>
                 </div>
               </DocumentTitle>
-            ) : <SectionLoader />
+            ) : (
+              <div>
+                sdfsdfsdf
+                <SectionLoader />
+              </div>
+            )
           ) : (
             <div>
               ERROR
@@ -183,7 +184,7 @@ export default class OrganizationShow extends React.Component<Props, State> {
               {JSON.stringify(error, null, 4)}
             </div>
           )
-        )}
+        }}
       />
     );
   }

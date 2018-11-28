@@ -53,15 +53,15 @@ export default class SearchField extends React.PureComponent {
   }
 
   clear() {
-    this._inputNode.value = '';
+    this._inputNode && (this._inputNode.value = '');
   }
 
   focus() {
-    this._inputNode.focus();
+    this._inputNode && (this._inputNode.focus());
   }
 
   blur() {
-    this._inputNode.blur();
+    this._inputNode && (this._inputNode.blur());
   }
 
   render() {

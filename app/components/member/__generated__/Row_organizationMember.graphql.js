@@ -22,7 +22,7 @@ export type Row_organizationMember = {|
     +twoFactorEnabled: boolean
   |},
   +user: ?{|
-    +name: string,
+    +name: ?string,
     +email: string,
     +avatar: ?{|
       +url: string
