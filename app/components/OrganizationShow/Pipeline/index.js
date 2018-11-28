@@ -1,13 +1,12 @@
 // @flow
 
 import * as React from 'react';
-import { createRefetchContainer, graphql } from 'react-relay/compat';
-import Relay from 'react-relay/classic';
+import { createRefetchContainer, commitMutation, graphql } from 'react-relay/compat';
 import Favorite from 'app/components/icons/Favorite';
 import Emojify from 'app/components/shared/Emojify';
 import permissions from 'app/lib/permissions';
 import PusherStore from 'app/stores/PusherStore';
-import PipelineFavoriteMutation from 'app/mutations/PipelineFavorite';
+import Environment from 'app/lib/relay/environment';
 import Status from './Status';
 import Metrics from './Metrics';
 import Graph from './Graph';
@@ -128,7 +127,7 @@ class Pipeline extends React.Component<Props, State> {
   handlePusherWebsocketEvent = (payload) => {
     if (payload.event === "project:updated" && payload.graphql.id === this.props.pipeline.id) {
       const { pipeline: { id }, includeGraphData } = this.props;
-      this.props.relay.refetch({ id, includeGraphData }, null, null, { force: true });
+      this.props.relay.refetch({ id, includeGraphData });
     }
   };
 
@@ -137,18 +136,23 @@ class Pipeline extends React.Component<Props, State> {
   };
 
   handleFavoriteClick = () => {
-    const mutation = new PipelineFavoriteMutation({
-      pipeline: this.props.pipeline,
-      favorite: !this.props.pipeline.favorite
-    });
+    const environment = Environment.get();
+    const { pipeline } = this.props;
+    const favorite = !pipeline.favorite;
 
-    Relay.Store.commitUpdate(mutation, {
-      onFailure: this.handlePipelineFavoriteMutationFailure
+    commitMutation(environment, {
+      mutation: graphql`
+        mutation PipelineFavoriteMutation($input: PipelineFavoriteInput!) {
+          pipelineFavorite(input: $input) {
+            pipeline {
+              favorite
+            }
+          }
+        }
+      `,
+      variables: { input: { id: pipeline.id, favorite } },
+      optimisticResponse: { pipelineFavorite: { favorite } }
     });
-  }
-
-  handlePipelineFavoriteMutationFailure = (transaction) => {
-    alert(transaction.getError());
   }
 }
 

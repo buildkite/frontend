@@ -2,13 +2,13 @@
 
 import { Environment as RelayEnvironment, Network, RecordSource, Store } from 'relay-runtime';
 
-if (process.env.NODE_ENV === 'development') {
-  require('relay-devtools').installRelayDevTools();
-}
+// if (process.env.NODE_ENV === 'development') {
+//   require('relay-devtools').installRelayDevTools();
+// }
 
 function wrapFetch(wrapped) {
   if (process.env.NODE_ENV === 'development') {
-    const {createRelayNetworkLogger, RelayNetworkLoggerTransaction} = require('relay-runtime');
+    const { createRelayNetworkLogger, RelayNetworkLoggerTransaction } = require('relay-runtime');
     const logger = createRelayNetworkLogger(RelayNetworkLoggerTransaction);
     return logger.wrapFetch(wrapped);
   }
