@@ -126,12 +126,17 @@ export default class OrganizationShow extends React.Component<Props, State> {
     `;
 
     const environment = Environment.get();
+
+    // console.log('-----------------------------------')
+    // console.log(environment)
+    // console.log('-----------------------------------')
+
     RelayModernPreloader.preload(query, variables, environment);
 
     // console.log(environment)
     // console.log(variables)
     // console.log(query.modern())
-    console.log(query.modern().text)
+    // console.log(query.modern().text)
 
     return (
       <QueryRenderer
@@ -172,7 +177,11 @@ export default class OrganizationShow extends React.Component<Props, State> {
               </DocumentTitle>
             ) : <SectionLoader />
           ) : (
-            <div>BONK!</div>
+            <div>
+              ERROR
+              {JSON.stringify(props, null, 4)}
+              {JSON.stringify(error, null, 4)}
+            </div>
           )
         )}
       />
