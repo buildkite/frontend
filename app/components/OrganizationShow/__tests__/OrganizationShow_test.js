@@ -23,12 +23,10 @@ async function Derp() {
   }});
 
   const query = OrganizationShow.query.modern().text;
-  const foo = await graphql(schema, query, null, null, {
+  return await graphql(schema, query, null, null, {
     organizationSlug: 'foo',
     pageSize: 30
   });
-
-  return foo;
 }
 
 jest.mock('app/lib/relay/makeFetch')
@@ -72,9 +70,9 @@ describe.only('OrganizationShow', () => {
       </MockRouterContext>
     );
 
-    setTimeout(() => {
-      expect(render.toJSON()).toMatchSnapshot()
-      done()
-    }, 2000);
+    setImmediate(() => {
+      expect(render.toJSON()).toMatchSnapshot();
+      done();
+    });
   });
 });

@@ -156,22 +156,22 @@ exports[`OrganizationShow it renders 1`] = `
                 cx="16"
                 cy="16"
                 fill="none"
-                id="BuildState_4c03d7c9-4853-4e63-9180-9f834e007ebf_circle"
+                id="BuildState_287c7820-605d-47ee-bb10-d9a617913e5e_circle"
                 r="15"
                 stroke="#cdcccc"
                 strokeWidth={4}
               />
               <clipPath
-                id="BuildState_4c03d7c9-4853-4e63-9180-9f834e007ebf_strokeClipPath"
+                id="BuildState_287c7820-605d-47ee-bb10-d9a617913e5e_strokeClipPath"
               >
                 <use
-                  xlinkHref="#BuildState_4c03d7c9-4853-4e63-9180-9f834e007ebf_circle"
+                  xlinkHref="#BuildState_287c7820-605d-47ee-bb10-d9a617913e5e_circle"
                 />
               </clipPath>
             </defs>
             <use
-              clipPath="url(#BuildState_4c03d7c9-4853-4e63-9180-9f834e007ebf_strokeClipPath)"
-              xlinkHref="#BuildState_4c03d7c9-4853-4e63-9180-9f834e007ebf_circle"
+              clipPath="url(#BuildState_287c7820-605d-47ee-bb10-d9a617913e5e_strokeClipPath)"
+              xlinkHref="#BuildState_287c7820-605d-47ee-bb10-d9a617913e5e_circle"
             />
             <path
               d="M11,16H21"
@@ -265,7 +265,7 @@ exports[`OrganizationShow it renders 1`] = `
               <span
                 className="h6 regular dark-gray truncate"
               >
-                4cd0f5c3-14fa-4ac7-8973-920e2b93a3c7
+                81d7d872-f728-42e9-a83d-8af382cb503d
               </span>
               <span
                 className="h1 light m0 line-height-1 truncate"
@@ -285,7 +285,7 @@ exports[`OrganizationShow it renders 1`] = `
               <span
                 className="h6 regular dark-gray truncate"
               >
-                7f84167a-456b-4633-ba3d-b1297ff506d1
+                beae748e-8214-47e1-8911-5d468a4f19f9
               </span>
               <span
                 className="h1 light m0 line-height-1 truncate"
@@ -297,40 +297,8 @@ exports[`OrganizationShow it renders 1`] = `
         </div>
         <div
           className="flex flex-none flex-column justify-center ml-auto pr2"
-        >
-          <button
-            className="btn p0 dark-gray line-height-1"
-            onClick={[Function]}
-          >
-            <svg
-              className="sc-bdVaJa daifPi"
-              height="15px"
-              viewBox="0 0 16 15"
-              width="20px"
-            >
-              <title>
-                Favorite
-              </title>
-              <g
-                className="star"
-                transform="translate(-1103, -19)"
-              >
-                <polygon
-                  points="1111 31 1106.29772 33.472136 1107.19577 28.236068 1103.39155 24.527864 1108.64886 23.763932 1111 19 1113.35114 23.763932 1118.60845 24.527864 1114.80423 28.236068 1115.70228 33.472136"
-                />
-              </g>
-            </svg>
-          </button>
-        </div>
+        />
       </div>
-      <hr
-        className="my4 bg-gray mx-auto max-width-1 border-none height-0"
-        style={
-          Object {
-            "height": 1,
-          }
-        }
-      />
       <div
         className="flex items-stretch border border-gray rounded px2 mb2"
         style={
@@ -352,22 +320,22 @@ exports[`OrganizationShow it renders 1`] = `
                 cx="16"
                 cy="16"
                 fill="none"
-                id="BuildState_7694c2c9-aad9-4b8e-9206-b9ae21247a3f_circle"
+                id="BuildState_772a2399-d058-49d3-87b8-c788fd801a32_circle"
                 r="15"
                 stroke="#cdcccc"
                 strokeWidth={4}
               />
               <clipPath
-                id="BuildState_7694c2c9-aad9-4b8e-9206-b9ae21247a3f_strokeClipPath"
+                id="BuildState_772a2399-d058-49d3-87b8-c788fd801a32_strokeClipPath"
               >
                 <use
-                  xlinkHref="#BuildState_7694c2c9-aad9-4b8e-9206-b9ae21247a3f_circle"
+                  xlinkHref="#BuildState_772a2399-d058-49d3-87b8-c788fd801a32_circle"
                 />
               </clipPath>
             </defs>
             <use
-              clipPath="url(#BuildState_7694c2c9-aad9-4b8e-9206-b9ae21247a3f_strokeClipPath)"
-              xlinkHref="#BuildState_7694c2c9-aad9-4b8e-9206-b9ae21247a3f_circle"
+              clipPath="url(#BuildState_772a2399-d058-49d3-87b8-c788fd801a32_strokeClipPath)"
+              xlinkHref="#BuildState_772a2399-d058-49d3-87b8-c788fd801a32_circle"
             />
             <path
               d="M11,16H21"
@@ -461,7 +429,7 @@ exports[`OrganizationShow it renders 1`] = `
               <span
                 className="h6 regular dark-gray truncate"
               >
-                57b36496-afbe-4df7-af76-57493e24dd37
+                baa9603c-52ee-4692-bed2-b6da8a989719
               </span>
               <span
                 className="h1 light m0 line-height-1 truncate"
@@ -481,7 +449,7 @@ exports[`OrganizationShow it renders 1`] = `
               <span
                 className="h6 regular dark-gray truncate"
               >
-                c1ab5151-e3e2-4d97-983a-90df841ee7f4
+                14496276-8bf2-4ea5-aff7-cb8bb02d98d3
               </span>
               <span
                 className="h1 light m0 line-height-1 truncate"
@@ -499,7 +467,7 @@ exports[`OrganizationShow it renders 1`] = `
             onClick={[Function]}
           >
             <svg
-              className="sc-bdVaJa ixRRAY"
+              className="sc-bdVaJa daifPi"
               height="15px"
               viewBox="0 0 16 15"
               width="20px"

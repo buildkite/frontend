@@ -126,7 +126,7 @@ export default class OrganizationShow extends React.Component<Props, State> {
     };
 
     const environment = Environment.get();
-    // RelayModernPreloader.preload(query, variables, environment);
+    RelayModernPreloader.preload(OrganizationShow.query, variables, environment);
 
     // console.log(environment)
     // console.log(variables)
@@ -140,7 +140,6 @@ export default class OrganizationShow extends React.Component<Props, State> {
         query={OrganizationShow.query}
         variables={variables}
         render={({ error, props }: {error: ?Error, props: OrganizationShowQueryResponse}) => {
-          console.log({ error, props })
           return !error ? (
             props && props.organization ? (
               <DocumentTitle title={`${props.organization.name}`}>
