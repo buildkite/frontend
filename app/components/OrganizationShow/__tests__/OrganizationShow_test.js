@@ -51,11 +51,11 @@ class MockRouterContext extends React.Component {
 
 describe.only('OrganizationShow', () => {
   test('it renders', async (done) => {
+    expect.assertions(1);
 
-    const blah = Derp();
-
+    const fetchResolvedValue = await Derp();
     Environment.create();
-    MockFetch.mockResolvedValue(blah)
+    MockFetch.mockResolvedValue(fetchResolvedValue)
 
     const render = renderer.create(
       <MockRouterContext>
@@ -75,13 +75,6 @@ describe.only('OrganizationShow', () => {
     setTimeout(() => {
       expect(render.toJSON()).toMatchSnapshot()
       done()
-    }, 2000)
-
-    // console.log('----------------------------')
-    // console.log(render.toTree())
-    // console.log(render.toJSON())
-    // console.log(render.root.children)
-    // console.log('----------------------------')
-    // console.log(MockFetch)
+    }, 2000);
   });
 });
