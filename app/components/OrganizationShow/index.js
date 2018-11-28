@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { QueryRenderer, createFragmentContainer, graphql } from 'react-relay/compat';
+import { QueryRenderer, graphql } from 'react-relay/compat';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 import styled from 'styled-components';
@@ -17,10 +17,7 @@ import RelayModernPreloader from 'app/lib/RelayModernPreloader';
 import Environment from 'app/lib/relay/environment';
 import * as constants from './constants';
 
-import type {
-  OrganizationShowQueryVariables,
-  OrganizationShowQueryResponse
-} from './__generated__/OrganizationShowQuery.graphql';
+import type { OrganizationShowQueryResponse } from './__generated__/OrganizationShowQuery.graphql';
 type Organization = $NonMaybeType<$ElementType<OrganizationShowQueryResponse, 'organization'>>;
 
 const FilterField = styled(SearchField)`
@@ -53,8 +50,8 @@ FilterField.defaultProps = {
 };
 
 type State = {
-  pageSize: number,
-}
+  pageSize: number
+};
 
 type Props = {
   params: {
@@ -63,15 +60,43 @@ type Props = {
   location: {
     query: {
       team?: string,
-      filter?: string,
+      filter?: string
     }
   }
 };
 
 export default class OrganizationShow extends React.Component<Props, State> {
   state = {
-    pageSize: constants.PIPELINES_INITIAL_PAGE_SIZE,
+    pageSize: constants.PIPELINES_INITIAL_PAGE_SIZE
   };
+
+  static query = graphql`
+    query OrganizationShowQuery(
+      $organizationSlug: ID!
+      $teamSearch: TeamSelector
+      $pageSize: Int!
+      $pipelineFilter: String
+    ) {
+      organization(slug: $organizationSlug) {
+        ...Teams_organization
+        ...Pipelines_organization @arguments(
+          teamSearch: $teamSearch
+          pageSize: $pageSize
+          pipelineFilter: $pipelineFilter
+        )
+        id
+        slug
+        name
+        permissions {
+          pipelineCreate {
+            code
+            allowed
+            message
+          }
+        }
+      }
+    }
+  `;
 
   static contextTypes = {
     router: PropTypes.object.isRequired
@@ -89,57 +114,32 @@ export default class OrganizationShow extends React.Component<Props, State> {
     return this.props.location.query.filter || null;
   }
 
-  render() {
-    const variables = {
+  get queryVariables() {
+    return {
       organizationSlug: this.organizationSlug,
       teamSearch: this.teamFilter,
       pipelineFilter: this.nameFilter,
-      pageSize: this.state.pageSize,
+      pageSize: this.state.pageSize
     };
+  }
 
-    const query = graphql`
-      query OrganizationShowQuery(
-        $organizationSlug: ID!
-        $teamSearch: TeamSelector
-        $pageSize: Int!
-        $pipelineFilter: String
-      ) {
-        organization(slug: $organizationSlug) {
-          ...Teams_organization
-          ...Pipelines_organization @arguments(
-            teamSearch: $teamSearch
-            pageSize: $pageSize
-            pipelineFilter: $pipelineFilter
-          )
-          id
-          slug
-          name
-          permissions {
-            pipelineCreate {
-              code
-              allowed
-              message
-            }
-          }
-        }
-      }
-    `;
+  componentDidMount() {
+    RelayModernPreloader.preload(
+      OrganizationShow.query,
+      this.queryVariables,
+      this.context.relay.environment
+    );
+  }
 
-    const environment = Environment.get();
-    RelayModernPreloader.preload(query, variables, environment);
-
-    // console.log(environment)
-    // console.log(variables)
-    // console.log(query.modern())
-    console.log(query.modern().text)
-
+  render() {
+    // const environment = Environment.get();
     return (
       <QueryRenderer
         dataFrom="STORE_THEN_NETWORK"
-        environment={environment}
-        query={query}
-        variables={variables}
-        render={({error, props}: {error: ?Error, props: OrganizationShowQueryResponse}) => (
+        environment={this.context.relay.environment}
+        query={OrganizationShow.query}
+        variables={this.queryVariables}
+        render={({ error, props }: { error: ?Error, props: OrganizationShowQueryResponse }) => (
           !error ? (
             props && props.organization ? (
               <DocumentTitle title={`${props.organization.name}`}>
