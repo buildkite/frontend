@@ -66,6 +66,7 @@ type Props = {
 };
 
 export default class OrganizationShow extends React.Component<Props, State> {
+  environment = Environment.get();
   state = {
     pageSize: constants.PIPELINES_INITIAL_PAGE_SIZE
   };
@@ -123,60 +124,71 @@ export default class OrganizationShow extends React.Component<Props, State> {
     };
   }
 
-  componentDidMount() {
+  constructor(props: Props) {
+    super(props);
+
     RelayModernPreloader.preload(
       OrganizationShow.query,
       this.queryVariables,
-      this.context.relay.environment
+      this.environment
     );
   }
 
   render() {
-    // const environment = Environment.get();
     return (
       <QueryRenderer
         dataFrom="STORE_THEN_NETWORK"
-        environment={this.context.relay.environment}
+        environment={this.environment}
         query={OrganizationShow.query}
         variables={this.queryVariables}
-        render={({ error, props }: { error: ?Error, props: OrganizationShowQueryResponse }) => (
-          !error ? (
-            props && props.organization ? (
-              <DocumentTitle title={`${props.organization.name}`}>
-                <div>
-                  <PageWithContainer>
-                    <div className="flex flex-wrap items-start mb2">
-                      <h1 className="h1 p0 m0 regular line-height-1 inline-block">Pipelines</h1>
-                      <Teams
-                        selected={this.teamFilter}
-                        organization={props.organization}
-                        onTeamChange={this.handleTeamChange(props.organization)}
-                      />
-                      <FilterField
-                        borderless={true}
-                        onChange={this.handleFilterChange(props.organization)}
-                        defaultValue={this.nameFilter}
-                        searching={false}
-                        placeholder="Filter"
-                        autofocus={true}
-                      />
-                      {this.renderNewPipelineButton(props.organization)}
-                    </div>
-                    <Pipelines
-                      organization={props.organization}
-                      teamFilter={this.teamFilter}
-                      nameFilter={this.nameFilter}
-                    />
-                  </PageWithContainer>
-                </div>
-              </DocumentTitle>
-            ) : <SectionLoader />
-          ) : (
-            <div>BONK!</div>
-          )
-        )}
+        render={this.renderQuery}
       />
     );
+  }
+
+  renderQuery = ({ error, props }: { error: ?Error, props: OrganizationShowQueryResponse }) => {
+    if (error) {
+      return (<div>BONK!</div>);
+    }
+
+    if (!props) {
+      return (<SectionLoader />);
+    }
+
+    if (props && props.organization) {
+      const { organization } = props;
+
+      return (
+        <DocumentTitle title={`${organization.name}`}>
+          <div>
+            <PageWithContainer>
+              <div className="flex flex-wrap items-start mb2">
+                <h1 className="h1 p0 m0 regular line-height-1 inline-block">Pipelines</h1>
+                <Teams
+                  selected={this.teamFilter}
+                  organization={organization}
+                  onTeamChange={this.handleTeamChange(organization)}
+                />
+                <FilterField
+                  borderless={true}
+                  onChange={this.handleFilterChange(organization)}
+                  defaultValue={this.nameFilter}
+                  searching={false}
+                  placeholder="Filter"
+                  autofocus={true}
+                />
+                {this.renderNewPipelineButton(organization)}
+              </div>
+              <Pipelines
+                organization={props.organization}
+                teamFilter={this.teamFilter}
+                nameFilter={this.nameFilter}
+              />
+            </PageWithContainer>
+          </div>
+        </DocumentTitle>
+      );
+    }
   }
 
   renderNewPipelineButton(organization: Organization) {

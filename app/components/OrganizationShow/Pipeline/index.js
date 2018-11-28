@@ -138,7 +138,7 @@ class Pipeline extends React.Component<Props, State> {
   handleFavoriteClick = () => {
     const environment = Environment.get();
     const { pipeline } = this.props;
-    const favorite = !pipeline.favorite;
+    const input = { id: pipeline.id, favorite: !pipeline.favorite };
 
     commitMutation(environment, {
       mutation: graphql`
@@ -150,8 +150,8 @@ class Pipeline extends React.Component<Props, State> {
           }
         }
       `,
-      variables: { input: { id: pipeline.id, favorite } },
-      optimisticResponse: { pipelineFavorite: { favorite } }
+      variables: { input },
+      optimisticResponse: { pipelineFavorite: { pipeline: input } }
     });
   }
 }
