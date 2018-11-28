@@ -14,16 +14,16 @@ function getRequestPayload(requestId: string) {
 }
 
 export default class RelayModernPreloader {
-  static registerRequest(id: string, payload: Object, variables: Object) {
-    REQUEST_PAYLOADS = {...REQUEST_PAYLOADS, [id]: payload}
+  static registerRequest(id: string, payload: Object, _variables: Object) {
+    REQUEST_PAYLOADS = { ...REQUEST_PAYLOADS, [id]: payload };
   }
 
-	static preload(query, variables: Object, environment) {
+  static preload(query, variables: Object, environment) {
     const modernQuery = compatUnpackQuery(query);
-    const requestPayload = getRequestPayload(modernQuery.name)
+    const requestPayload = getRequestPayload(modernQuery.name);
     if (requestPayload) {
       const operationSelector = RelayRuntime.createOperationSelector(modernQuery, variables);
       environment.commitPayload(operationSelector, requestPayload);
     }
-	}
+  }
 }

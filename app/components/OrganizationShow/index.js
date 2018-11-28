@@ -139,7 +139,7 @@ export default class OrganizationShow extends React.Component<Props, State> {
         environment={environment}
         query={query}
         variables={variables}
-        render={({error, props}: {error: ?Error, props: OrganizationShowQueryResponse}) => (
+        render={({ error, props }: {error: ?Error, props: OrganizationShowQueryResponse}) => (
           !error ? (
             props && props.organization ? (
               <DocumentTitle title={`${props.organization.name}`}>
