@@ -3,19 +3,9 @@ const webpack = require('webpack');
 const AssetsPlugin = require('assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-// Ensure a FRONTEND_HOST is setup since we embed it in the assets.json file
-if (!process.env.FRONTEND_HOST) {
-  throw "No FRONTEND_HOST set";
-}
-
 // Ensure a NODE_ENV is also present
 if (!process.env.NODE_ENV) {
   throw "No NODE_ENV set";
-}
-
-// The FRONTEND_HOST must end with a /
-if (process.env.FRONTEND_HOST.slice(-1) !== "/") {
-  throw "FRONTEND_HOST must end with a /";
 }
 
 // Ensure a EMOJI_HOST is setup since we need it for emoji
@@ -92,8 +82,7 @@ module.exports = {
   output: {
     filename: `${filenameFormat}.js`,
     chunkFilename: `${chunkFilenameFormat}.js`,
-    path: path.join(__dirname, '..', 'dist'),
-    publicPath: process.env.FRONTEND_HOST
+    path: path.join(__dirname, '..', 'dist')
   },
 
   resolve: {

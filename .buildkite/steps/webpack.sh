@@ -1,15 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
-# Add the SHA1 sum of the webpack file to the host path
-WEBPACK_CONFIG_SHA1=$(openssl sha1 webpack/config.js | sed 's/^.* //')
-FRONTEND_HOST="$FRONTEND_HOST$WEBPACK_CONFIG_SHA1/"
-
-echo "--- :information_desk_person: Appending SHA1 of webpack/config.js to \$FRONTEND_HOST"
-
-echo "\$FRONTEND_HOST is now $FRONTEND_HOST"
-
 mkdir -p bundle-analysis dist
+
+# Remove anything already in dist. The Dockerfile builds the assets already,
+# but not the production versions, so paths like app.js exist, and we don't
+# want to deploy those to production.
+rm dist/*
 
 echo "--- :webpack: Building Webpack assets for production, and analysing bundle"
 GENERATE_BUNDLE_REPORT=true yarn run build-production

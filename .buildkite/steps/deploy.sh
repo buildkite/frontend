@@ -1,25 +1,22 @@
 #!/bin/bash
 set -euo pipefail
 
-# Add the SHA1 sum of the webpack file to the host path
-WEBPACK_CONFIG_SHA1=$(openssl sha1 webpack/config.js | sed 's/^.* //')
-
 echo "--- :buildkite: Downloading webpack artifacts"
 
 rm -rf "dist"
 mkdir -p "dist"
 buildkite-agent artifact download "dist/*" "dist/"
 
-echo "--- :s3: Deploying frontend to $S3_URL$WEBPACK_CONFIG_SHA1/"
+echo "--- :s3: Deploying frontend to $S3_URL"
 
-aws s3 sync --region "us-east-1" --acl "public-read" --exclude="manifest.json" "dist/" "$S3_URL$WEBPACK_CONFIG_SHA1/"
+aws s3 sync --region "us-east-1" --acl "public-read" --exclude="manifest.json" "dist/" "$S3_URL"
 
 echo "--- :wastebasket: Cleaning up.."
 
 rm -rf "tmp/verify"
 mkdir -p "tmp/verify"
 
-echo "--- :earth_asia: Downloading files from $FRONTEND_HOST$WEBPACK_CONFIG_SHA1/"
+echo "--- :earth_asia: Downloading files from $FRONTEND_HOST"
 
 if [ ! -f "dist/manifest.json" ]; then
   echo "❌ Couldn't find dist/manifest.json"
@@ -27,14 +24,9 @@ if [ ! -f "dist/manifest.json" ]; then
 fi
 
 # Download the files in manifest.json
-for url in $(cat dist/manifest.json | jq -r '.[].js | strings, arrays[]'); do
-  # Make sure the URL is prefixed with https (if it's just got //)
-  URL=$(echo "$url" | sed -e 's/^\/\//https:\/\//')
-
-  pushd "tmp/verify" >> /dev/null
+for URL in $(cat dist/manifest.json | jq -r '.[].js | strings, arrays[]'); do
   echo "Downloading $URL"
-  curl -OsS "$URL"
-  popd >> /dev/null
+  ( cd tmp/verify && curl --silent --show-error --remote-name "${FRONTEND_HOST}${URL}" )
 done
 
 echo "--- :mag: Verifiying the files uploaded match the downloads"
