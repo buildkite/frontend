@@ -20,6 +20,15 @@ import * as constants from './constants';
 import type { OrganizationShowQueryResponse } from './__generated__/OrganizationShowQuery.graphql';
 type Organization = $NonMaybeType<$ElementType<OrganizationShowQueryResponse, 'organization'>>;
 
+function canCreatePipelineForOrganization(organization: Organization): boolean {
+  return (
+    organization &&
+    organization.permissions &&
+    organization.permissions.pipelineCreate &&
+    organization.permissions.pipelineCreate.code === "not_member_of_team"
+  ) ? false : true;
+}
+
 const FilterField = styled(SearchField)`
   flex-basis: 100%;
   order: 3;
@@ -50,7 +59,8 @@ FilterField.defaultProps = {
 };
 
 type State = {
-  pageSize: number
+  pageSize: number,
+  pipelineFilter: ?string
 };
 
 type Props = {
@@ -68,7 +78,8 @@ type Props = {
 export default class OrganizationShow extends React.Component<Props, State> {
   environment = Environment.get();
   state = {
-    pageSize: constants.PIPELINES_INITIAL_PAGE_SIZE
+    pageSize: constants.PIPELINES_INITIAL_PAGE_SIZE,
+    pipelineFilter: this.nameFilter
   };
 
   static query = graphql`
@@ -119,7 +130,7 @@ export default class OrganizationShow extends React.Component<Props, State> {
     return {
       organizationSlug: this.organizationSlug,
       teamSearch: this.teamFilter,
-      pipelineFilter: this.nameFilter,
+      pipelineFilter: this.state.pipelineFilter,
       pageSize: this.state.pageSize
     };
   }
@@ -141,12 +152,13 @@ export default class OrganizationShow extends React.Component<Props, State> {
         environment={this.environment}
         query={OrganizationShow.query}
         variables={this.queryVariables}
-        render={this.renderQuery}
+        render={this.renderQuery()}
       />
     );
   }
 
-  renderQuery = ({ error, props }: { error: ?Error, props: OrganizationShowQueryResponse }) => {
+  /* eslint-disable react/no-unused-prop-types */
+  renderQuery = () => ({ error, props }: { error: ?Error, props: OrganizationShowQueryResponse }) => {
     if (error) {
       return (<div>BONK!</div>);
     }
@@ -192,18 +204,16 @@ export default class OrganizationShow extends React.Component<Props, State> {
   }
 
   renderNewPipelineButton(organization: Organization) {
-    const { permissions } = organization;
-
     // Don't render the "New Pipeline" button if they're not allowed to due to
     // a `not_member_of_team` permsission error.
-    if (permissions && permissions.pipelineCreate && permissions.pipelineCreate.code === "not_member_of_team") {
+    if (!canCreatePipelineForOrganization(organization)) {
       return null;
     }
 
     // Attach the current team to the "New Pipeline" URL
     let newPipelineURL = `/organizations/${organization.slug}/pipelines/new`;
-    if (this.props.location.query.team) {
-      newPipelineURL += `?team=${this.props.location.query.team}`;
+    if (this.teamFilter) {
+      newPipelineURL += `?team=${this.teamFilter}`;
     }
 
     return (

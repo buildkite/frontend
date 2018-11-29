@@ -82,6 +82,7 @@
     "ignore-loader": "0.1.2",
     "image-webpack-loader": "4.4.0",
     "jest": "23.6.0",
+    "lodash.difference": "^4.5.0",
     "mini-css-extract-plugin": "0.4.4",
     "mockdate": "2.0.2",
     "node-fetch": "2.2.0",

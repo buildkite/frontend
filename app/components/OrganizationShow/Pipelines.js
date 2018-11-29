@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { createRefetchContainer, graphql } from 'react-relay/compat';
 import SectionLoader from 'app/components/shared/SectionLoader';
 import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
-import FlashesStore from 'app/stores/FlashesStore';
 import UserSessionStore from 'app/stores/UserSessionStore';
 import Pipeline from './Pipeline';
 import Welcome from './Welcome';
@@ -13,21 +12,18 @@ import * as constants from './constants';
 import type { RelayRefetchProp } from 'react-relay';
 import type { Pipelines_organization } from './__generated__/Pipelines_organization.graphql';
 
-
-
 type Props = {
   relay: RelayRefetchProp,
-  teamFilter: string | null,
-  nameFilter: string | null,
-  organization: Pipelines_organization,
-  onLoadMorePipelines: () => void
+  teamFilter: string,
+  nameFilter: string,
+  organization: Pipelines_organization
 };
 
 type State = {
   loading: boolean,
   loadingMore: boolean,
   pageSize: number,
-  includeGraphData: boolean,
+  includeGraphData: boolean
 };
 
 class Pipelines extends React.Component<Props, State> {
@@ -42,85 +38,58 @@ class Pipelines extends React.Component<Props, State> {
     includeGraphData: false
   };
 
-//   get useLocalSearch() {
-//     return this.props.organization.pipelines &&
-//       this.props.organization.allPipelines &&
-//       this.props.organization.allPipelines.count <= INITIAL_PAGE_SIZE &&
-//       !this.props.nameFilter;
-//   }
-//
-//   get useRemoteSearch() {
-//     return !this.useLocalSearch;
-//   }
+  get useLocalSearch() {
+    return (
+      this.props.organization.pipelines &&
+      this.props.organization.allPipelines &&
+      this.props.organization.allPipelines.count <= constants.PIPELINES_INITIAL_PAGE_SIZE
+    );
+  }
+
+  get useRemoteSearch() {
+    return !this.useLocalSearch;
+  }
 
   get pipelines() {
-    if (this.props.organization.pipelines && this.props.organization.pipelines.edges) {
-      return this.props.organization.pipelines.edges;
-    }
-    return [];
+    return (
+      this.props.organization.pipelines &&
+      this.props.organization.pipelines.edges
+    ) ? this.props.organization.pipelines.edges : [];
   }
 
   componentDidMount() {
     this.props.relay.refetch((lastVars) => ({ ...lastVars, includeGraphData: true }), null, () => {
       this.setState({ includeGraphData: true });
     });
+
+    // We might've started out with a new team, so let's see about updating the default!
+    this.maybeUpdateDefaultTeam(this.props.organization.id, this.props.teamFilter);
   }
 
-//   componentDidMount() {
-//     this.props.relay.refetch(this.defaultVariables, null, () => {
-//       this.setState({ includeGraphData: true }, () => {
-//         this.props.relay.refetch(this.defaultVariables, null, (error: ?Error) => {
-//           // TODO: can we make this more explicit? Seems weird...
-//           // $FlowExpectError
-//           if (error && error.source.errors.some(({ message }) => message === 'No team found')) {
-//             this.context.router.push(`/${this.props.organization.slug}`);
-//             this.maybeUpdateDefaultTeam(this.props.organization.id, null);
-//             // WARNING: We need to set isMounted here because it didn't get successfuly
-//             // updated by the parent setVariables call!
-//             this.props.relay.refetch({ ...this.defaultVariables, isMounted: true, teamSearch: null }, null, (error: ?Error) => {
-//               // flash error once we've got data so it behaves more like its backend counterpart!
-//               if (error) {
-//                 FlashesStore.flash(FlashesStore.ERROR, "The requested team couldn’t be found! Switched back to All teams.");
-//               }
-//             });
-//           }
-//         });
-//       });
-//     });
-//
-//     // We might've started out with a new team, so let's see about updating the default!
-//     this.maybeUpdateDefaultTeam(this.props.organization.id, this.props.teamFilter);
-//   }
+  componentWillReceiveProps(nextProps: Props) {
+    const nextVars = {};
 
-//   componentWillReceiveProps(nextProps) {
-//     const nextRelayVariables = {};
-//
-//     // Are we switching teams?
-//     if (this.props.teamFilter !== nextProps.teamFilter) {
-//       nextRelayVariables.teamSearch = nextProps.teamFilter;
-//     }
-//
-//     // Are we filtering, and can we do this locally?
-//     if (this.props.nameFilter !== nextProps.nameFilter && this.useRemoteSearch) {
-//       // if not, go to the server
-//       nextRelayVariables.pipelineFilter = nextProps.nameFilter;
-//     }
-//
-//     if (Object.keys(nextRelayVariables).length > 0) {
-//       // Start by changing the `loading` state to show the spinner
-//       this.setState({ loading: true }, () => {
-//         // Once state has been set, force a full re-fetch of the pipelines
-//         this.props.relay.refetch({ ...this.defaultVariables, ...nextRelayVariables }, null, () => {
-//           this.setState({ loading: false });
-//         });
-//       });
-//     }
-//
-//     // Let's try updating the default team - we don't rely on the last team
-//     // being different here because the store might've gotten out of sync,
-//     // and we do out own check!
-//     this.maybeUpdateDefaultTeam(nextProps.organization.id, nextProps.teamFilter);
-//   }
+    // Are we filtering, and can we do this locally?
+    if (this.props.nameFilter !== nextProps.nameFilter && this.useRemoteSearch) {
+      // if not, go to the server
+      nextVars.pipelineFilter = nextProps.nameFilter;
+    }
+
+    if (Object.keys(nextVars).length > 0) {
+      // Start by changing the `loading` state to show the spinner
+      this.setState({ loading: true }, () => {
+        // Once state has been set, force a full re-fetch of the pipelines
+        this.props.relay.refetch((lastVars) => ({ ...lastVars, ...nextVars }), null, () => {
+          this.setState({ loading: false });
+        });
+      });
+    }
+
+    // Let's try updating the default team - we don't rely on the last team
+    // being different here because the store might've gotten out of sync,
+    // and we do out own check!
+    this.maybeUpdateDefaultTeam(nextProps.organization.id, nextProps.teamFilter);
+  }
 
   maybeUpdateDefaultTeam(organization, team) {
     const orgDefaultTeamKey = `organization-default-team:${organization}`;
@@ -138,7 +107,7 @@ class Pipelines extends React.Component<Props, State> {
     const filter = (this.props.nameFilter || '').toLowerCase().trim();
 
     // if we're searching remotely, or there's no filter, it's all of 'em, baby
-    if (this.useRemoteSearch || this.props.nameFilter || !filter) {
+    if (this.useRemoteSearch || !this.props.nameFilter || !filter) {
       return this.pipelines;
     }
 

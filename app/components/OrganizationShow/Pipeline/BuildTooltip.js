@@ -34,7 +34,8 @@ class BuildTooltip extends React.PureComponent<Props> {
         </div>
         <div className="flex-auto line-height-2">
           <span className="block line-height-3 overflow-hidden overflow-ellipsis">
-            <Emojify className="semi-bold" text={shortMessage(this.props.build.message)} /> <span className="dark-gray">{shortCommit(this.props.build.commit)}</span>
+            <Emojify className="semi-bold" text={shortMessage(this.props.build.message)} />
+            <span className="dark-gray">{shortCommit(this.props.build.commit)}</span>
           </span>
           <small className="dark-gray">
             <BuildStatusDescription build={this.props.build} updateFrequency={0} />
