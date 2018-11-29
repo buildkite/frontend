@@ -126,6 +126,7 @@
     "graphql": "14.0.2",
     "graphql-relay": "0.5.5",
     "intersection-observer": "0.5.1",
+    "invariant": "^2.2.4",
     "markdown-component-loader": "1.1.0",
     "metrick": "0.2.0",
     "mojibaka": "1.0.2",

@@ -10,13 +10,13 @@ import Environment from 'app/lib/relay/environment';
 import Status from './Status';
 import Metrics from './Metrics';
 import Graph from './Graph';
-import type { RelayProp } from 'react-relay';
+import type { RelayRefetchProp } from 'react-relay';
 import type { Pipeline_pipeline } from './__generated__/Pipeline_pipeline.graphql';
 
 type Props = {
   pipeline: Pipeline_pipeline,
   includeGraphData: boolean,
-  relay: RelayProp
+  relay: RelayRefetchProp
 };
 
 type State = {

@@ -22,8 +22,8 @@ class Status extends React.Component<Props, State> {
   }
 
   get buildsEdges() {
-    if (this.props.pipeline.builds && this.props.pipeline.builds.edges) {
-      return this.props.pipeline.builds.edges;
+    if (this.props.pipeline.firstBuild && this.props.pipeline.firstBuild.edges) {
+      return this.props.pipeline.firstBuild.edges;
     }
     return [];
   }

@@ -10,13 +10,13 @@ import UserSessionStore from 'app/stores/UserSessionStore';
 import Pipeline from './Pipeline';
 import Welcome from './Welcome';
 import * as constants from './constants';
-import type { RelayProp } from 'react-relay';
+import type { RelayRefetchProp } from 'react-relay';
 import type { Pipelines_organization } from './__generated__/Pipelines_organization.graphql';
 
 
 
 type Props = {
-  relay: RelayProp,
+  relay: RelayRefetchProp,
   teamFilter: string | null,
   nameFilter: string | null,
   organization: Pipelines_organization,

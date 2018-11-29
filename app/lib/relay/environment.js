@@ -1,5 +1,6 @@
 // @flow
 
+import invariant from 'invariant';
 import { Environment as RelayEnvironment, Network, RecordSource, Store } from 'relay-runtime';
 
 // if (process.env.NODE_ENV === 'development') {
@@ -34,7 +35,8 @@ function fetchQuery(operation, variables, cacheConfig, uploadables) {
 let relayEnvironment = null
 
 export default class Environment {
-  static get(): RelayEnvironment | null {
+  static get(): RelayEnvironment {
+    invariant(relayEnvironment, `Cannot get the current Relay Environment as one has not yet been configured!`);
     return relayEnvironment;
   }
 
@@ -46,5 +48,6 @@ export default class Environment {
       const handlerProvider = null;
       relayEnvironment = new RelayEnvironment({handlerProvider, network, store});
     }
+    return relayEnvironment;
   }
 }
