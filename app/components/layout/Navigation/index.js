@@ -16,6 +16,8 @@ import permissions from 'app/lib/permissions';
 
 import UserSessionStore from 'app/stores/UserSessionStore';
 
+import defaultAvatar from '../../../images/avatar_default.png';
+
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
 import SupportDialog from './support-dialog';
@@ -37,7 +39,7 @@ type Props = {
     id: string,
     slug: string,
     name: string,
-    iconUrl: string,
+    iconUrl: ?string,
     permissions: Object
   },
   relay: Object
@@ -170,25 +172,11 @@ class Navigation extends React.PureComponent<Props, State> {
     }
   }
 
-  // Decides whether or not the organization should appear in the dropdown
-  // list. The regular behavior is:
-  //
-  // > Don't include the org in the drop down if it's the current one
-  //
-  // The only exception to this rule is if the current org needs an SSO
-  // authorization before the user can see any data. If the current org needs
-  // SSO, then don't include it as the current one, and treat is like the
-  // others.
-  includeOrganizationInDropdown(org) {
-    if (this.props.organization && this.props.organization.id === org.id) {
-      if (!org.permissions.pipelineView.allowed && org.permissions.pipelineView.code === "sso_authorization_required") {
-        return true;
-      }
-      return false;
-
-    }
-
-    return true;
+  organizationRequiresSSO({ permissions }) {
+    return (
+      !permissions.pipelineView.allowed
+      && permissions.pipelineView.code === "sso_authorization_required"
+    );
   }
 
   renderOrganizationsList() {
@@ -199,33 +187,32 @@ class Navigation extends React.PureComponent<Props, State> {
     const nodes = [];
 
     this.props.viewer.organizations.edges.forEach((org) => {
-      // Don't show the active organization in the selector
-      if (this.includeOrganizationInDropdown(org.node)) {
-        // If the org needs SSO, show a badge
-        let ssoRequiredBadge;
-        if (!org.node.permissions.pipelineView.allowed && org.node.permissions.pipelineView.code === "sso_authorization_required") {
-          ssoRequiredBadge = (
-            <Badge outline={true} className="regular">SSO</Badge>
-          );
-        }
-
-        nodes.push(
-          <NavigationButton
-            key={org.node.slug}
-            href={`/${org.node.slug}`}
-            className="block py1"
-          >
-            <img
-              src={org.node.iconUrl}
-              width="26"
-              height="26"
-              className="circle border border-gray bg-white mr1"
-              alt={`Icon for ${org.node.name}`}
-              title={`Icon for ${org.node.name}`}
-            />{org.node.name}{ssoRequiredBadge}
-          </NavigationButton>
+      // If the org needs SSO, show a badge
+      let ssoRequiredBadge;
+      if (!org.node.permissions.pipelineView.allowed && org.node.permissions.pipelineView.code === "sso_authorization_required") {
+        ssoRequiredBadge = (
+          <Badge outline={true} className="regular">SSO</Badge>
         );
       }
+
+      nodes.push(
+        <NavigationButton
+          key={org.node.slug}
+          href={`/${org.node.slug}`}
+          className="block py1"
+        >
+          <img
+            src={org.node.iconUrl || defaultAvatar}
+            alt={`Icon for ${org.node.name}`}
+            title={`Icon for ${org.node.name}`}
+            className="circle border border-gray bg-white mr1"
+            style={{
+              width: 26,
+              height: 26
+            }}
+          />{org.node.name}{ssoRequiredBadge}
+        </NavigationButton>
+      );
     });
 
     nodes.push(
@@ -423,19 +410,24 @@ class Navigation extends React.PureComponent<Props, State> {
                   minWidth: 0
                 }}
               >
-                {this.props.organization && (
-                  <img
-                    src={this.props.organization.iconUrl}
-                    width="26"
-                    height="26"
-                    className="xs-hide circle border border-gray bg-white mr1"
-                    alt={`Icon for ${this.props.organization.name}`}
-                    title={`Icon for ${this.props.organization.name}`}
-                  />
-                )}
-                <span className="truncate">
-                  {this.props.organization && !this.includeOrganizationInDropdown(this.props.organization) ? this.props.organization.name : 'Organizations'}
-                </span>
+                {this.props.organization && this.props.organization.iconUrl
+                  ? (
+                    <img
+                      src={this.props.organization.iconUrl}
+                      alt={`Icon for ${this.props.organization.name}`}
+                      title={`Icon for ${this.props.organization.name}`}
+                      className="circle border border-gray bg-white"
+                      style={{
+                        width: 26,
+                        height: 26
+                      }}
+                    />
+                  )
+                  : (
+                    <span className="truncate">
+                      {this.props.organization && !this.organizationRequiresSSO(this.props.organization) ? this.props.organization.name : 'Organizations'}
+                    </span>
+                  )}
                 <Icon icon="down-triangle" className="flex-none" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
               </ArrowDropdownButton>
               {this.renderOrganizationsList()}
