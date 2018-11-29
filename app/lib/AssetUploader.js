@@ -104,11 +104,14 @@ class AssetUploader {
       method: 'post',
       body: formData
     }).then((response) => {
-      if (response.ok) {
-        this._finalizeFileUpload(upload, file);
-      } else {
-        this.options.onError(new AssetUploaderError("There was an error uploading the file. Please try again."));
+      if (!response.ok) {
+        throw null;
       }
+      this._finalizeFileUpload(upload, file);
+    }).catch(() => {
+      this.options.onError(
+        new AssetUploaderError("There was an error uploading the file. Please try again.")
+      );
     });
   }
 
