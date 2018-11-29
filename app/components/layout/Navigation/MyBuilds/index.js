@@ -133,7 +133,7 @@ class MyBuilds extends React.Component<Props, State> {
 
   render() {
     return (
-      <Dropdown width={320} className="flex ml-auto" onToggle={this.handleDropdownToggle}>
+      <Dropdown width={320} className="flex flex-none ml-auto" onToggle={this.handleDropdownToggle}>
         <DropdownButton className={classNames("flex-none py0", { "lime": this.state.isDropdownVisible })} onMouseEnter={this.handleButtonMouseEnter}>
           {'My Builds '}
           <div className="xs-hide">

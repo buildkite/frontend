@@ -411,7 +411,7 @@ class Navigation extends React.PureComponent<Props, State> {
                 }}
               >
                 {this.props.organization && this.props.organization.iconUrl
-                  ? (
+                  && (
                     <img
                       src={this.props.organization.iconUrl}
                       alt={`Icon for ${this.props.organization.name}`}
@@ -422,12 +422,14 @@ class Navigation extends React.PureComponent<Props, State> {
                         height: 26
                       }}
                     />
-                  )
-                  : (
-                    <span className="truncate">
-                      {this.props.organization && !this.organizationRequiresSSO(this.props.organization) ? this.props.organization.name : 'Organizations'}
-                    </span>
                   )}
+                <span
+                  className={classNames("truncate", {
+                    "ml1 xs-hide lg-hide": this.props.organization && this.props.organization.iconUrl
+                  })}
+                >
+                  {this.props.organization && !this.organizationRequiresSSO(this.props.organization) ? this.props.organization.name : 'Organizations'}
+                </span>
                 <Icon icon="down-triangle" className="flex-none" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
               </ArrowDropdownButton>
               {this.renderOrganizationsList()}
