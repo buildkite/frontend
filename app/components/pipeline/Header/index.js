@@ -84,7 +84,7 @@ class Header extends React.Component<Props, State> {
       <div data-testid="PipelineHeader">
         <div className="flex mb1 items-center flex-wrap" style={{ marginTop: -10 }}>
           <HeaderVitals>
-            {this.props.isCurrentOrganizationMember || (
+            {(!this.props.isCurrentOrganizationMember && this.props.pipeline.organization.iconUrl) && (
               <img
                 src={this.props.pipeline.organization.iconUrl}
                 width="38"
