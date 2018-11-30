@@ -188,9 +188,7 @@ class Navigation extends React.PureComponent<Props, State> {
       return <SectionLoader />;
     }
 
-    const nodes = [];
-
-    this.props.viewer.organizations.edges.forEach((org) => {
+    const nodes = this.props.viewer.organizations.edges.map((org) => {
       // If the org needs SSO, show a badge
       let ssoRequiredBadge;
       if (!org.node.permissions.pipelineView.allowed && org.node.permissions.pipelineView.code === "sso_authorization_required") {
@@ -199,7 +197,7 @@ class Navigation extends React.PureComponent<Props, State> {
         );
       }
 
-      nodes.push(
+      return (
         <NavigationButton
           key={org.node.slug}
           href={`/${org.node.slug}`}
@@ -218,7 +216,9 @@ class Navigation extends React.PureComponent<Props, State> {
                 height: 26
               }}
             />
-          )}{org.node.name}{ssoRequiredBadge}
+          )}
+          {org.node.name}
+          {ssoRequiredBadge}
         </NavigationButton>
       );
     });
@@ -245,7 +245,8 @@ class Navigation extends React.PureComponent<Props, State> {
               height: 12
             }
           }
-        />Create New Organization
+        />
+        Create New Organization
       </NavigationButton>
     );
 
@@ -440,7 +441,8 @@ class Navigation extends React.PureComponent<Props, State> {
                         height: 26
                       }}
                     />
-                  )}
+                  )
+                }
                 <span
                   className={classNames("truncate", {
                     "ml1 xs-hide lg-hide": (
@@ -450,9 +452,20 @@ class Navigation extends React.PureComponent<Props, State> {
                     )
                   })}
                 >
-                  {this.props.organization && !this.organizationRequiresSSO(this.props.organization) ? this.props.organization.name : 'Organizations'}
+                  {this.props.organization && !this.organizationRequiresSSO(this.props.organization)
+                    ? this.props.organization.name
+                    : 'Organizations'
+                  }
                 </span>
-                <Icon icon="down-triangle" className="flex-none" style={{ width: 7, height: 7, marginLeft: '.5em' }} />
+                <Icon
+                  icon="down-triangle"
+                  className="flex-none"
+                  style={{
+                    width: 7,
+                    height: 7,
+                    marginLeft: '.5em'
+                  }}
+                />
               </ArrowDropdownButton>
               {this.renderOrganizationsList()}
             </Dropdown>
