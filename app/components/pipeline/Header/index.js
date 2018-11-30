@@ -17,6 +17,10 @@ import Builds from './builds';
 import permissions from 'app/lib/permissions';
 import { repositoryProviderIcon } from 'app/lib/repositories';
 
+declare var Features: {
+  UserAssetUploadingOmnibus: boolean
+};
+
 const HeaderVitals = styled.div.attrs({
   className: 'flex flex-auto items-center my2'
 })`
@@ -84,16 +88,20 @@ class Header extends React.Component<Props, State> {
       <div data-testid="PipelineHeader">
         <div className="flex mb1 items-center flex-wrap" style={{ marginTop: -10 }}>
           <HeaderVitals>
-            {(!this.props.isCurrentOrganizationMember && this.props.pipeline.organization.iconUrl) && (
-              <img
-                src={this.props.pipeline.organization.iconUrl}
-                width="38"
-                height="38"
-                className="xs-hide circle border border-gray bg-white mr2"
-                alt={`Icon for ${this.props.pipeline.organization.name}`}
-                title={`Icon for ${this.props.pipeline.organization.name}`}
-              />
-            )}
+            {Features.UserAssetUploadingOmnibus
+              && !this.props.isCurrentOrganizationMember
+              && this.props.pipeline.organization.iconUrl
+              && (
+                <img
+                  src={this.props.pipeline.organization.iconUrl}
+                  width="38"
+                  height="38"
+                  className="xs-hide circle border border-gray bg-white mr2"
+                  alt={`Icon for ${this.props.pipeline.organization.name}`}
+                  title={`Icon for ${this.props.pipeline.organization.name}`}
+                />
+              )
+            }
             <div className="flex flex-auto items-center">
               <a
                 data-testid="PipelineUrl"
