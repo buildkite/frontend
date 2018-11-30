@@ -4,26 +4,57 @@ import React from 'react';
 // import classNames from 'classnames';
 
 type Props = {
-  imageUuidInputName: string,
-  fileInputId: string,
-  currentImageUrl: string
+  imageUrl: string,
+  onChange?: Function,
+  onError?: Function
 };
 
 export default class ImageUploadField extends React.PureComponent<Props> {
-  state = {
-  };
+  // state = {
+  // };
 
   render() {
     return (
       <div className="form-group">
-        <div className="flex items-center p1 mxn1 border border-transparent" style={{ borderRadius: 60 }}>
-          <input type="hidden" name={this.props.imageUuidInputName} />
-          <input type="file" id={this.props.fileInputId} accept="image/*" className="hidden" disabled={true} />
-          <button className="circle border border-gray relative p0" style={{ height: 52, width: 52, overflow: 'hidden' }}>
-            <div className="flex items-center justify-center absolute p1 white circle" style={{ top: 0, bottom: 0, left: 0, right: 0, background: "rgba(20,204,128,0.76)", textShadow: '0px 0px 4px black' }}>
+        <div
+          className="flex items-center p1 mxn1 border border-transparent"
+          style={{
+            borderRadius: 60
+          }}
+        >
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            disabled={true}
+          />
+          <button
+            className="circle border border-gray relative p0"
+            style={{
+              height: 52,
+              width: 52,
+              overflow: 'hidden'
+            }}
+          >
+            <div
+              className="flex items-center justify-center absolute p1 white circle"
+              style={{
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                background: "rgba(20,204,128,0.76)",
+                textShadow: '0px 0px 4px black'
+              }}
+            >
               Edit
             </div>
-            <img src={this.props.currentImageUrl} height="100%" width="100%" alt="Current Organization Icon"/>
+            <img
+              src={this.props.imageUrl}
+              height="100%"
+              width="100%"
+              alt="Current Organization Icon"
+            />
           </button>
           <p className="flex flex-stretch items-center">
             <small className="hint-block m0 ml2">
