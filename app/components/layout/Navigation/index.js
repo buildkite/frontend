@@ -242,7 +242,7 @@ class Navigation extends React.PureComponent<Props, State> {
             }
             : {
               width: 12,
-              height: 12,
+              height: 12
             }
           }
         />Create New Organization
