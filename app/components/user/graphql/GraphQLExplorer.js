@@ -7,9 +7,7 @@ import PageHeader from 'app/components/shared/PageHeader';
 import TabControl from 'app/components/shared/TabControl';
 import Icon from 'app/components/shared/Icon';
 
-declare var Features: {
-  GraphQLExplorerDocs: boolean
-};
+declare var Features;
 
 type Props = {
   children: React$Node

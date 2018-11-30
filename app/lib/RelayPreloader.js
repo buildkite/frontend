@@ -164,6 +164,7 @@ const QUERIES = {
         name
         id
         slug
+        iconUrl
         agents {
           count
         }
@@ -398,6 +399,7 @@ const QUERIES = {
         organization {
           name
           slug
+          iconUrl
           id
         }
         repository {
