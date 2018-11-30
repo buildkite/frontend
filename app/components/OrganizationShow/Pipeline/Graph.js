@@ -100,10 +100,6 @@ class Graph extends React.Component<Props, State> {
   }
 
   renderBars() {
-    if (this.buildsEdges.length === 0) {
-      return null;
-    }
-
     // `maximumDuration` is wrapped in an object so it's passed by
     // reference, which means all bars get the final, correct value
     // despite the generating loop only occuring once
