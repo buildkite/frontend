@@ -69,6 +69,11 @@ class Pipelines extends React.Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     const nextVars = {};
 
+    // Are we switching teams?
+    if (this.props.teamFilter !== nextProps.teamFilter) {
+      nextVars.teamSearch = nextProps.teamFilter;
+    }
+
     // Are we filtering, and can we do this locally?
     if (this.props.nameFilter !== nextProps.nameFilter && this.useRemoteSearch) {
       // if not, go to the server

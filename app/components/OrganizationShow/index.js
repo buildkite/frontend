@@ -60,7 +60,8 @@ FilterField.defaultProps = {
 
 type State = {
   pageSize: number,
-  pipelineFilter: ?string
+  pipelineFilter: ?string,
+  teamFilter: ?string
 };
 
 type Props = {
@@ -79,6 +80,7 @@ export default class OrganizationShow extends React.Component<Props, State> {
   environment = Environment.get();
   state = {
     pageSize: constants.PIPELINES_INITIAL_PAGE_SIZE,
+    teamFilter: this.teamFilter,
     pipelineFilter: this.nameFilter
   };
 
@@ -129,7 +131,7 @@ export default class OrganizationShow extends React.Component<Props, State> {
   get queryVariables() {
     return {
       organizationSlug: this.organizationSlug,
-      teamSearch: this.teamFilter,
+      teamSearch: this.state.teamFilter,
       pipelineFilter: this.state.pipelineFilter,
       pageSize: this.state.pageSize
     };
