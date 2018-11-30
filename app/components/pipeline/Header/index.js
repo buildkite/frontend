@@ -17,9 +17,7 @@ import Builds from './builds';
 import permissions from 'app/lib/permissions';
 import { repositoryProviderIcon } from 'app/lib/repositories';
 
-declare var Features: {
-  UserAssetUploadingOmnibus: boolean
-};
+declare var Features;
 
 const HeaderVitals = styled.div.attrs({
   className: 'flex flex-auto items-center my2'

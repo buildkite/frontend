@@ -23,9 +23,7 @@ import DropdownButton from './dropdown-button';
 import SupportDialog from './support-dialog';
 import MyBuilds from './MyBuilds';
 
-declare var Features: {
-  UserAssetUploadingOmnibus: boolean
-};
+declare var Features;
 
 const ArrowDropdownButton = styled(DropdownButton)`
   background-repeat: no-repeat;
