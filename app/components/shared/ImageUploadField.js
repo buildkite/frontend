@@ -1,236 +1,340 @@
 // @flow
 
 import React from 'react';
-// import classNames from 'classnames';
+import classNames from 'classnames';
+import styled from 'styled-components';
+
+import AssetUploader from 'app/lib/AssetUploader';
+import Spinner from 'app/components/shared/Spinner';
+
+const DropArea = styled('div')`
+  border-radius: 60px;
+  transition: border-color 150ms ease-in-out;
+`;
+
+const PreviewButton = styled('button').attrs({
+  type: 'button',
+  className: 'circle border border-gray relative p0'
+})`
+  height: 52px;
+  width: 52px;
+  overflow: hidden;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: wait;
+  }
+`;
+
+const PreviewButtonLabel = styled('div').attrs({
+  className: 'flex items-center justify-center absolute p1 white circle'
+})`
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(20, 204, 128, 0.76);
+  text-shadow: 0px 0px 4px black;
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
+
+  ${PreviewButton}:hover > &,
+  ${PreviewButton}:focus > &,
+  ${PreviewButton}:active > & {
+    opacity: 1;
+  }
+
+  ${PreviewButton}:disabled:hover > &,
+  ${PreviewButton}:disabled:focus > &,
+  ${PreviewButton}:disabled:active > & {
+    opacity: 0;
+  }
+`;
 
 type Props = {
   imageUrl: string,
-  onChange?: Function,
+  onUpload?: Function,
   onError?: Function
 };
 
-export default class ImageUploadField extends React.PureComponent<Props> {
-  // state = {
-  // };
+type State = {
+  allowFileInput: boolean,
+  documentHover: boolean,
+  dropAreaHover: boolean,
+  uploading: boolean,
+  uploaded: boolean,
+  error: ?Error,
+  currentImageUrl: ?string,
+  lastImageUrl: ?string
+};
+
+export default class ImageUploadField extends React.PureComponent<Props, State> {
+  state = {
+    allowFileInput: false,
+    documentHover: false,
+    dropAreaHover: false,
+    uploading: false,
+    uploaded: false,
+    error: null,
+    currentImageUrl: null,
+    lastImageUrl: null
+  };
+
+  _iconInput: ?HTMLInputElement;
+  assetUploader: AssetUploader;
+  dragTimeout: TimeoutID;
+
+  componentDidMount() {
+    this.assetUploader = new AssetUploader({
+      onAssetUploaded: this.handleAssetUploaded,
+      onError: this.handleAssetUploadError
+    });
+
+    document.addEventListener('dragenter', this.handleDocumentDragEnter);
+  }
+
+  componentWillUnmount() {
+    delete this.assetUploader;
+
+    document.removeEventListener('dragenter', this.handleDocumentDragEnter);
+  }
+
+  handleAssetUploaded = (file: File, asset: Object) => {
+    if (this.props.onUpload) {
+      this.props.onUpload(asset);
+    }
+
+    this.setState({
+      uploading: false,
+      uploaded: true,
+      error: null
+    });
+  }
+
+  handleAssetUploadError = (error: Error) => {
+    if (this.props.onError) {
+      this.props.onError(error);
+    }
+
+    if (this.state.currentImageUrl) {
+      URL.revokeObjectURL(this.state.currentImageUrl);
+    }
+
+    this.setState({
+      uploading: false,
+      uploaded: false,
+      currentImageUrl: this.state.lastImageUrl,
+      lastImageUrl: null,
+      error
+    });
+  }
+
+  handleDocumentDragEnter = () => {
+    this.setState(
+      { documentHover: true },
+      () => {
+        if (this.dragTimeout) {
+          clearTimeout(this.dragTimeout);
+        }
+
+        this.dragTimeout = setTimeout(this.handleDocumentDragTimeout, 2000);
+      }
+    );
+  }
+
+  handleDocumentDragTimeout = () => {
+    this.setState({ documentHover: false });
+  }
+
+  handleDropAreaDragOver = (event: DragEvent) => {
+    event.preventDefault();
+
+    this.setState(
+      { dropAreaHover: true },
+      () => {
+        if (this.dragTimeout) {
+          clearTimeout(this.dragTimeout);
+        }
+      }
+    );
+  }
+
+  handleDropAreaDrop = (event: DragEvent) => {
+    event.preventDefault();
+    (event: Object).persist();
+
+    this.setState(
+      {
+        allowFileInput: false,
+        documentHover: false,
+        dropAreaHover: false,
+        uploading: false,
+        uploaded: false,
+        error: null
+      },
+      () => {
+        const imageFiles = Array.prototype.filter.call(
+          (event.dataTransfer ? event.dataTransfer.files : new FileList()),
+          (file) => file.type.indexOf("image/") === 0
+        );
+
+        if (imageFiles.length === 1) {
+          if (this.state.lastImageUrl) {
+            URL.revokeObjectURL(this.state.lastImageUrl);
+          }
+
+          this.setState({
+            uploading: true,
+            currentImageUrl: URL.createObjectURL(imageFiles[0]),
+            lastImageUrl: this.state.currentImageUrl
+          });
+          this.assetUploader.uploadFromEvent(event);
+        } else if (imageFiles.length > 1) {
+          this.setState({
+            error: new Error('Only one image can be uploaded.')
+          });
+        } else {
+          this.setState({
+            error: new Error('You can only upload images.')
+          });
+        }
+      }
+    );
+  }
+
+  iconInputRef = (ref: ?HTMLInputElement) => this._iconInput = ref;
+
+  handleIconInputChange = (event: MouseEvent) => {
+    if (!this._iconInput) {
+      this.setState({ allowFileInput: false });
+      return;
+    }
+
+    (event: Object).persist();
+
+    this.setState(
+      {
+        allowFileInput: false,
+        documentHover: false,
+        dropAreaHover: false,
+        uploading: false,
+        uploaded: false,
+        error: null
+      },
+      () => {
+        const imageFiles = Array.prototype.filter.call(
+          (this._iconInput ? this._iconInput.files : new FileList()),
+          (file) => file.type.indexOf("image/") === 0
+        );
+
+        if (imageFiles.length === 1) {
+          if (this.state.lastImageUrl) {
+            URL.revokeObjectURL(this.state.lastImageUrl);
+          }
+
+          this.setState({
+            uploading: true,
+            currentImageUrl: URL.createObjectURL(imageFiles[0]),
+            lastImageUrl: this.state.currentImageUrl
+          });
+          this.assetUploader.uploadFromElement(event.target);
+        } else if (imageFiles.length > 1) {
+          this.setState({
+            error: new Error('Only one image can be uploaded.')
+          });
+        } else {
+          this.setState({
+            error: new Error('You can only upload images.')
+          });
+        }
+      }
+    );
+  }
+
+  handlePreviewButtonClick = (event: MouseEvent) => {
+    event.preventDefault();
+
+    this.setState(
+      { allowFileInput: true },
+      () => {
+        if (this._iconInput) {
+          this._iconInput.click();
+        }
+      }
+    );
+  }
 
   render() {
+    const { documentHover, dropAreaHover } = this.state;
+
     return (
       <div className="form-group">
-        <div
-          className="flex items-center p1 mxn1 border border-transparent"
-          style={{
-            borderRadius: 60
-          }}
+        <DropArea
+          className={classNames("flex items-center p1 mxn1 border border-transparent", {
+            'border-transparent': !(documentHover && dropAreaHover),
+            'border-gray': documentHover && !dropAreaHover,
+            'border-lime': dropAreaHover
+          })}
+          onDragOver={this.handleDropAreaDragOver}
+          onDrop={this.handleDropAreaDrop}
         >
           <input
             type="file"
             accept="image/*"
             className="hidden"
-            disabled={true}
+            disabled={!this.state.allowFileInput}
+            ref={this.iconInputRef}
+            onChange={this.handleIconInputChange}
           />
-          <button
-            className="circle border border-gray relative p0"
-            style={{
-              height: 52,
-              width: 52,
-              overflow: 'hidden'
-            }}
-          >
-            <div
-              className="flex items-center justify-center absolute p1 white circle"
-              style={{
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                background: "rgba(20,204,128,0.76)",
-                textShadow: '0px 0px 4px black'
-              }}
-            >
-              Edit
-            </div>
+          <PreviewButton onClick={this.handlePreviewButtonClick}>
+            <PreviewButtonLabel>Edit</PreviewButtonLabel>
             <img
-              src={this.props.imageUrl}
+              src={this.state.currentImageUrl || this.props.imageUrl}
               height="100%"
               width="100%"
               alt="Current Organization Icon"
             />
-          </button>
-          <p className="flex flex-stretch items-center">
-            <small className="hint-block m0 ml2">
-              Drag and drop, or click to choose an image to upload.<br />
-              Images should be square, and at least 500px wide.
-            </small>
-          </p>
-        </div>
+          </PreviewButton>
+          {this.renderOutput()}
+        </DropArea>
+      </div>
+    );
+  }
+
+  renderOutput() {
+    const { documentHover, dropAreaHover, uploading, uploaded, error } = this.state;
+
+    let message = (
+      <>
+        Drag and drop, or click to choose an image to upload.<br />
+        Images should be square, and at least 500px wide.
+      </>
+    );
+
+    if (documentHover) {
+      message = (
+        <>Drop your new icon here.</>
+      );
+    } else if (dropAreaHover) {
+      message = (
+        <>Thatʼs it! Right here.</>
+      );
+    } else if (uploading) {
+      message = (
+        <><Spinner />Uploading&hellip;</>
+      );
+    } else if (uploaded) {
+      message = null;
+    } else if (error) {
+      message = error.message;
+    }
+
+    return (
+      <div className="flex flex-stretch items-center">
+        <small className="hint-block m0 ml2">
+          {message}
+        </small>
       </div>
     );
   }
 }
-
-// TODO: Migrate styles
-// #drop_area {
-//   transition: border-color 150ms ease-in-out;
-// }
-
-// #icon_button {
-//   cursor: pointer;
-// }
-
-// #icon_button:disabled {
-//   cursor: wait;
-// }
-
-// #icon_button > #icon_button_label {
-//   opacity: 0;
-//   transition: opacity 150ms ease-in-out;
-// }
-
-// #icon_button:hover > #icon_button_label,
-// #icon_button:focus > #icon_button_label,
-// #icon_button:active > #icon_button_label {
-//   opacity: 1;
-// }
-
-// #icon_button:disabled:hover > #icon_button_label,
-// #icon_button:disabled:focus > #icon_button_label,
-// #icon_button:disabled:active > #icon_button_label {
-//   opacity: 0;
-// }
-
-// TODO: Migrate JS
-// (function(
-//   AssetUploader,
-//   iconFormGroup, iconDropArea, iconInput, iconButton, iconButtonImage, iconErrorParagraph, iconUUIDInput,
-//   accountSubmit,
-//   uploaderOutput
-// ) {
-
-//   var resetOutput = function(options) {
-//     var options = options || {};
-//     uploaderOutput.innerHTML = (options.message !== undefined) ? options.message : 'Drag and drop, or click to choose an image to upload.<br/>Images should be square, and at least 500px wide.'
-//     iconButton.disabled = false;
-//     accountSubmit.disabled = false;
-//     iconFormGroup.classList.remove('has-error');
-//     iconDropArea.classList.remove('border-gray');
-//     iconDropArea.classList.remove('border-lime');
-//     iconDropArea.classList.add('border-transparent');
-//     setIconFieldError(null);
-//   };
-
-//   var setIconFieldError = function(errorMessage) {
-//     if (errorMessage) {
-//       resetOutput();
-//       iconFormGroup.classList.add('has-error');
-//       iconErrorParagraph.textContent = errorMessage;
-//       iconErrorParagraph.classList.remove('hidden');
-//     } else {
-//       iconFormGroup.classList.remove('has-error');
-//       iconErrorParagraph.classList.add('hidden');
-//     }
-//   }
-
-//   var uploader = new AssetUploader({
-//     onAssetUploaded: function handleAssetUploaded(file, asset) {
-//       iconUUIDInput.value = asset.id;
-//       resetOutput({ message: '' });
-//     },
-
-//     onError: function handleAssetUploadError(exception) {
-//       setIconFieldError('Upload failed. ' + exception.message);
-//       throw exception;
-//     }
-//   });
-
-//   var updateImageSrc = function(element, src) {
-//     var previousSrc = element.src;
-
-//     element.src = src;
-
-//     // Just in case, we invalidate any blob urls we're replacing
-//     if (previousSrc.indexOf('blob:') === 0) {
-//       URL.revokeObjectURL(previousSrc);
-//     }
-//   };
-
-//   var dragTimeout;
-
-
-//   var uploadFiles = function(files) {
-//     var imageFiles = Array.prototype.filter.call(
-//       files,
-//       function(file) {
-//         return file.type.indexOf("image/") === 0
-//       }
-//     );
-
-//     if (imageFiles.length === 1) {
-//       iconInput.disabled = true;
-//       iconButton.disabled = true;
-//       accountSubmit.disabled = true;
-//       updateImageSrc(iconButtonImage, URL.createObjectURL(imageFiles[0]));
-//       uploaderOutput.innerHTML = '<i class="fa fa-spin fa-spinner"></i> Uploading&hellip;';
-//       uploader.uploadFromEvent(event);
-//     } else if (imageFiles.length > 1) {
-//       setIconFieldError('Only one image can be uploaded.')
-//     } else {
-//       setIconFieldError('You can only upload images.')
-//     }
-//   };
-
-//   document.addEventListener('dragenter', function(event) {
-//     event.stopPropagation();
-//     event.preventDefault();
-//     resetOutput();
-//     uploaderOutput.innerHTML = 'Drop your new icon here.';
-//     iconDropArea.classList.remove('border-transparent');
-//     iconDropArea.classList.remove('border-lime');
-//     iconDropArea.classList.add('border-gray');
-//     clearTimeout(dragTimeout);
-//     dragTimeout = setTimeout(resetOutput, 2000);
-//   });
-
-//   iconDropArea.addEventListener('dragover', function(event) {
-//     event.stopPropagation();
-//     event.preventDefault();
-//     uploaderOutput.innerHTML = 'Thatʼs it! Right here.';
-//     iconDropArea.classList.remove('border-transparent');
-//     iconDropArea.classList.remove('border-gray');
-//     iconDropArea.classList.add('border-lime');
-//     clearTimeout(dragTimeout);
-//   });
-
-//   iconDropArea.addEventListener('drop', function(event) {
-//     event.stopPropagation();
-//     event.preventDefault();
-
-//     iconDropArea.classList.remove('border-gray');
-//     iconDropArea.classList.remove('border-lime');
-//     iconDropArea.classList.add('border-transparent');
-
-//     clearTimeout(dragTimeout);
-    
-//     uploadFiles(event.dataTransfer.files);
-//   });
-
-//   iconButton.addEventListener('click', function(event) {
-//     event.preventDefault();
-//     iconInput.disabled = false;
-//     iconInput.click();
-//   });
-
-//   iconInput.addEventListener('change', function() {
-//     uploadFiles(iconInput.files);
-//   });
-// })(
-//   Webpack.require('lib/AssetUploader'),
-//   document.getElementById('icon_form_group'),
-//   document.getElementById('drop_area'),
-//   document.getElementById('icon_file'),
-//   document.getElementById('icon_button'),
-//   document.getElementById('icon_button_image'),
-//   document.getElementById('icon_error_paragraph'),
-//   document.getElementById('account_icon_uuid'),
-//   document.querySelector('form.edit_account input[type="submit"]'),
-//   document.getElementById('uploader_output')
-// );
