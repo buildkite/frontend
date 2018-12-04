@@ -312,13 +312,9 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     );
 
     if (documentHover) {
-      message = (
-        <>Drop your new icon here.</>
-      );
+      message = 'Drop your new icon here.';
     } else if (dropAreaHover) {
-      message = (
-        <>Thatʼs it! Right here.</>
-      );
+      message = 'Thatʼs it! Right here.';
     } else if (uploading) {
       message = (
         <><Spinner />Uploading&hellip;</>
