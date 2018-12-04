@@ -53,6 +53,7 @@ const PreviewButtonLabel = styled('div').attrs({
 
 type Props = {
   imageUrl: string,
+  onChange?: Function,
   onUpload?: Function,
   onError?: Function
 };
@@ -193,6 +194,10 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
   }
 
   upload = (files: ?FileList) => {
+    if (this.props.onChange) {
+      this.props.onChange();
+    }
+
     this.setState(
       {
         allowFileInput: false,
@@ -220,13 +225,25 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
 
           this.assetUploader.uploadFromArray(imageFiles);
         } else if (imageFiles.length > 1) {
-          this.setState({
-            error: new Error('Only one image can be uploaded.')
-          });
+          const error = new Error('Only one image can be uploaded.');
+          this.setState(
+            { error },
+            () => {
+              if (this.props.onError) {
+                this.props.onError(error);
+              }
+            }
+          );
         } else {
-          this.setState({
-            error: new Error('You can only upload images.')
-          });
+          const error = new Error('You can only upload images.');
+          this.setState(
+            { error },
+            () => {
+              if (this.props.onError) {
+                this.props.onError(error);
+              }
+            }
+          );
         }
       }
     );
