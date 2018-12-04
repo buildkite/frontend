@@ -266,38 +266,36 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     const { documentHover, dropAreaHover } = this.state;
 
     return (
-      <div className="form-group">
-        <DropArea
-          className={classNames("flex items-center p1 mxn1 border border-transparent", {
-            'border-transparent': !(documentHover && dropAreaHover),
-            'border-gray': documentHover && !dropAreaHover,
-            'border-lime': dropAreaHover
-          })}
-          // TODO: Port to forwardRef once we land styled-components v4
-          innerRef={this.dragAreaRef}
-          onDragOver={this.handleDropAreaDragOver}
-          onDrop={this.handleDropAreaDrop}
-        >
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-            disabled={!this.state.allowFileInput}
-            ref={this.iconInputRef}
-            onChange={this.handleIconInputChange}
+      <DropArea
+        className={classNames("flex items-center p1 mxn1 border border-transparent", {
+          'border-transparent': !(documentHover && dropAreaHover),
+          'border-gray': documentHover && !dropAreaHover,
+          'border-lime': dropAreaHover
+        })}
+        // TODO: Port to forwardRef once we land styled-components v4
+        innerRef={this.dragAreaRef}
+        onDragOver={this.handleDropAreaDragOver}
+        onDrop={this.handleDropAreaDrop}
+      >
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          disabled={!this.state.allowFileInput}
+          ref={this.iconInputRef}
+          onChange={this.handleIconInputChange}
+        />
+        <PreviewButton onClick={this.handleUploadClick}>
+          <PreviewButtonLabel>Edit</PreviewButtonLabel>
+          <img
+            src={this.state.currentImageUrl || this.props.imageUrl}
+            height="100%"
+            width="100%"
+            alt="Current Organization Icon"
           />
-          <PreviewButton onClick={this.handleUploadClick}>
-            <PreviewButtonLabel>Edit</PreviewButtonLabel>
-            <img
-              src={this.state.currentImageUrl || this.props.imageUrl}
-              height="100%"
-              width="100%"
-              alt="Current Organization Icon"
-            />
-          </PreviewButton>
-          {this.renderOutput()}
-        </DropArea>
-      </div>
+        </PreviewButton>
+        {this.renderOutput()}
+      </DropArea>
     );
   }
 
