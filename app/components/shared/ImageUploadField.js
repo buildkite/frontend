@@ -304,7 +304,9 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
 
     let message = (
       <span>
-        <a href="#" onClick={this.handleUploadClick}>Choose an image</a> to upload.<br />
+        <a href="#" onClick={this.handleUploadClick} className="blue text-decoration-none hover-navy hover-underline">
+          Choose an image
+        </a> to upload.<br />
         Images should be square, and at least 500px wide.
       </span>
     );
