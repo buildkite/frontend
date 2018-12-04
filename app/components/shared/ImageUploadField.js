@@ -14,7 +14,7 @@ const DropArea = styled('div')`
 
 const PreviewButton = styled('button').attrs({
   type: 'button',
-  className: 'circle bg-white border border-gray relative p0 mr2'
+  className: 'flex-none circle bg-white border border-gray relative p0 mr2'
 })`
   height: 52px;
   width: 52px;
@@ -232,7 +232,7 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     );
   }
 
-  handlePreviewButtonClick = (event: MouseEvent) => {
+  handleUploadClick = (event: MouseEvent) => {
     event.preventDefault();
 
     this.setState(
@@ -269,7 +269,7 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
             ref={this.iconInputRef}
             onChange={this.handleIconInputChange}
           />
-          <PreviewButton onClick={this.handlePreviewButtonClick}>
+          <PreviewButton onClick={this.handleUploadClick}>
             <PreviewButtonLabel>Edit</PreviewButtonLabel>
             <img
               src={this.state.currentImageUrl || this.props.imageUrl}
@@ -288,10 +288,10 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     const { documentHover, dropAreaHover, uploading, uploaded, error } = this.state;
 
     let message = (
-      <>
-        Drag and drop, or click to choose an image to upload.<br />
+      <span>
+        <a href="#" onClick={this.handleUploadClick}>Choose an image</a> to upload.<br />
         Images should be square, and at least 500px wide.
-      </>
+      </span>
     );
 
     if (dropAreaHover) {
@@ -312,7 +312,7 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     }
 
     return (
-      <small className="flex flex-stretch items-center hint-block m0">
+      <small className="flex flex-stretch items-center hint-block m0 line-height-3 h5 regular">
         {message}
       </small>
     );
