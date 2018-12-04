@@ -12,7 +12,8 @@ class FormMarkdownEditorField extends React.Component {
     name: PropTypes.string,
     value: PropTypes.string,
     placeholder: PropTypes.string,
-    rows: PropTypes.number
+    rows: PropTypes.number,
+    onChange: PropTypes.func
   };
 
   state = {
@@ -120,14 +121,21 @@ class FormMarkdownEditorField extends React.Component {
         }
       });
 
-      autosize.update(this.textarea);
-      this.textarea.focus();
+      this._changed();
+    }
+  }
+
+  _changed() {
+    autosize.update(this.textarea);
+    if (this.props.onChange) {
+      this.props.onChange();
     }
   }
 
   handleAssetUploaded = (file, { url }) => {
     // Replace the "uploading..." version of the file with the correct path
     this.markdownEditor.replace("[Uploading " + file.name + "...]()", "[" + file.name + "](" + url + ")");
+    this._changed();
   };
 
   handleAssetUploadError = (exception) => {
@@ -144,7 +152,7 @@ class FormMarkdownEditorField extends React.Component {
     evt.preventDefault();
 
     this.markdownEditor.bold();
-    autosize.update(this.textarea);
+    this._changed();
     this.textarea.focus();
   };
 
@@ -152,7 +160,7 @@ class FormMarkdownEditorField extends React.Component {
     evt.preventDefault();
 
     this.markdownEditor.italic();
-    autosize.update(this.textarea);
+    this._changed();
     this.textarea.focus();
   };
 
@@ -160,7 +168,7 @@ class FormMarkdownEditorField extends React.Component {
     evt.preventDefault();
 
     this.markdownEditor.quote();
-    autosize.update(this.textarea);
+    this._changed();
     this.textarea.focus();
   };
 
@@ -168,7 +176,7 @@ class FormMarkdownEditorField extends React.Component {
     evt.preventDefault();
 
     this.markdownEditor.numberedList();
-    autosize.update(this.textarea);
+    this._changed();
     this.textarea.focus();
   };
 
@@ -176,7 +184,7 @@ class FormMarkdownEditorField extends React.Component {
     evt.preventDefault();
 
     this.markdownEditor.bulletedList();
-    autosize.update(this.textarea);
+    this._changed();
     this.textarea.focus();
   };
 
@@ -184,7 +192,7 @@ class FormMarkdownEditorField extends React.Component {
     evt.preventDefault();
 
     this.markdownEditor.code();
-    autosize.update(this.textarea);
+    this._changed();
     this.textarea.focus();
   };
 
@@ -192,7 +200,7 @@ class FormMarkdownEditorField extends React.Component {
     evt.preventDefault();
 
     this.markdownEditor.link();
-    autosize.update(this.textarea);
+    this._changed();
     this.textarea.focus();
   };
 
