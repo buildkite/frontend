@@ -14,7 +14,7 @@ const DropArea = styled('div')`
 
 const PreviewButton = styled('button').attrs({
   type: 'button',
-  className: 'circle border border-gray relative p0'
+  className: 'circle bg-white border border-gray relative p0 mr2'
 })`
   height: 52px;
   width: 52px;
@@ -80,9 +80,14 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     lastImageUrl: null
   };
 
-  _iconInput: ?HTMLInputElement;
   assetUploader: AssetUploader;
   dragTimeout: TimeoutID;
+
+  _iconInput: ?HTMLInputElement;
+  iconInputRef = (ref: ?HTMLInputElement) => this._iconInput = ref;
+
+  _dragArea: ?HTMLDivElement;
+  dragAreaRef = (ref: ?HTMLDivElement) => this._dragArea = ref;
 
   componentDidMount() {
     this.assetUploader = new AssetUploader({
@@ -90,13 +95,13 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
       onError: this.handleAssetUploadError
     });
 
-    document.addEventListener('dragenter', this.handleDocumentDragEnter);
+    document.addEventListener('dragover', this.handleDocumentDragOver);
   }
 
   componentWillUnmount() {
     delete this.assetUploader;
 
-    document.removeEventListener('dragenter', this.handleDocumentDragEnter);
+    document.removeEventListener('dragover', this.handleDocumentDragOver);
   }
 
   handleAssetUploaded = (file: File, asset: Object) => {
@@ -129,89 +134,65 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     });
   }
 
-  handleDocumentDragEnter = () => {
-    this.setState(
-      { documentHover: true },
-      () => {
-        if (this.dragTimeout) {
-          clearTimeout(this.dragTimeout);
-        }
+  handleDocumentDragOver = (event: DragEvent) => {
+    // Skip any events which are inside our drop target, so we're not resetting constantly
+    if (this._dragArea && this._dragArea.contains(((event.target: any): HTMLDivElement))) {
+      return;
+    }
 
-        this.dragTimeout = setTimeout(this.handleDocumentDragTimeout, 2000);
-      }
-    );
-  }
-
-  handleDocumentDragTimeout = () => {
-    this.setState({ documentHover: false });
-  }
-
-  handleDropAreaDragOver = (event: DragEvent) => {
+    event.stopPropagation();
     event.preventDefault();
-
-    this.setState(
-      { dropAreaHover: true },
-      () => {
-        if (this.dragTimeout) {
-          clearTimeout(this.dragTimeout);
-        }
-      }
-    );
-  }
-
-  handleDropAreaDrop = (event: DragEvent) => {
-    event.preventDefault();
-    (event: Object).persist();
 
     this.setState(
       {
-        allowFileInput: false,
-        documentHover: false,
         dropAreaHover: false,
-        uploading: false,
-        uploaded: false,
-        error: null
+        documentHover: true
       },
-      () => {
-        const imageFiles = Array.prototype.filter.call(
-          (event.dataTransfer ? event.dataTransfer.files : new FileList()),
-          (file) => file.type.indexOf("image/") === 0
-        );
-
-        if (imageFiles.length === 1) {
-          if (this.state.lastImageUrl) {
-            URL.revokeObjectURL(this.state.lastImageUrl);
-          }
-
-          this.setState({
-            uploading: true,
-            currentImageUrl: URL.createObjectURL(imageFiles[0]),
-            lastImageUrl: this.state.currentImageUrl
-          });
-          this.assetUploader.uploadFromEvent(event);
-        } else if (imageFiles.length > 1) {
-          this.setState({
-            error: new Error('Only one image can be uploaded.')
-          });
-        } else {
-          this.setState({
-            error: new Error('You can only upload images.')
-          });
-        }
-      }
+      this.setDragTimeout
     );
   }
 
-  iconInputRef = (ref: ?HTMLInputElement) => this._iconInput = ref;
+  setDragTimeout = () => {
+    this.cancelDragTimeout();
+    this.dragTimeout = setTimeout(this.handleDragCancelled, 500);
+  }
 
-  handleIconInputChange = (event: MouseEvent) => {
+  cancelDragTimeout = () => {
+    if (this.dragTimeout) {
+      clearTimeout(this.dragTimeout);
+    }
+  }
+
+  handleDragCancelled = () => {
+    this.setState({ documentHover: false, dropAreaHover: false });
+  }
+
+  handleDropAreaDragOver = (event: DragEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    this.setState({ dropAreaHover: true }, this.setDragTimeout);
+  }
+
+  handleDropAreaDrop = (event: DragEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    this.upload(event.dataTransfer && event.dataTransfer.files);
+  }
+
+  handleIconInputChange = () => {
+    // If we don't have a ref to _iconInput, something's gone weird;
+    // re-render and abort this event
     if (!this._iconInput) {
       this.setState({ allowFileInput: false });
       return;
     }
 
-    (event: Object).persist();
+    this.upload(this._iconInput && this._iconInput.files);
+  }
 
+  upload = (files: ?FileList) => {
     this.setState(
       {
         allowFileInput: false,
@@ -223,8 +204,7 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
       },
       () => {
         const imageFiles = Array.prototype.filter.call(
-          (this._iconInput ? this._iconInput.files : new FileList()),
-          (file) => file.type.indexOf("image/") === 0
+          files, (file) => file.type.indexOf("image/") === 0
         );
 
         if (imageFiles.length === 1) {
@@ -237,7 +217,8 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
             currentImageUrl: URL.createObjectURL(imageFiles[0]),
             lastImageUrl: this.state.currentImageUrl
           });
-          this.assetUploader.uploadFromElement(event.target);
+
+          this.assetUploader.uploadFromArray(imageFiles);
         } else if (imageFiles.length > 1) {
           this.setState({
             error: new Error('Only one image can be uploaded.')
@@ -275,6 +256,8 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
             'border-gray': documentHover && !dropAreaHover,
             'border-lime': dropAreaHover
           })}
+          // TODO: Port to forwardRef once we land styled-components v4
+          innerRef={this.dragAreaRef}
           onDragOver={this.handleDropAreaDragOver}
           onDrop={this.handleDropAreaDrop}
         >
@@ -311,13 +294,16 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
       </>
     );
 
-    if (documentHover) {
-      message = 'Drop your new icon here.';
-    } else if (dropAreaHover) {
+    if (dropAreaHover) {
       message = 'Thatʼs it! Right here.';
+    } else if (documentHover) {
+      message = 'Drop your new icon here.';
     } else if (uploading) {
       message = (
-        <><Spinner />Uploading&hellip;</>
+        <>
+          <Spinner className="mr1" />
+          Uploading&hellip;
+        </>
       );
     } else if (uploaded) {
       message = null;
@@ -326,11 +312,9 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     }
 
     return (
-      <div className="flex flex-stretch items-center">
-        <small className="hint-block m0 ml2">
-          {message}
-        </small>
-      </div>
+      <small className="flex flex-stretch items-center hint-block m0">
+        {message}
+      </small>
     );
   }
 }
