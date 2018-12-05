@@ -53,6 +53,7 @@ class BuildHeaderComponent extends React.PureComponent {
     }).isRequired,
     showRebuild: PropTypes.bool,
     showProject: PropTypes.bool,
+    showOrganization: PropTypes.bool,
     showUnknownEmailPrompt: PropTypes.bool
   };
 
@@ -434,11 +435,11 @@ class BuildHeaderComponent extends React.PureComponent {
       return (
         <div style={{ marginBottom: 10 }}>
           <a href={this.props.build.project.url} className="dark-gray">
-            {`${this.props.build.account.name} / ${this.props.build.project.name}`}
+            {this.props.showOrganization && `${this.props.build.account.name} / `}
+            {this.props.build.project.name}
           </a>
         </div>
       );
-
     }
   };
 
