@@ -291,7 +291,16 @@ class Navigation extends React.PureComponent<Props, State> {
         allowed: "pipelineView",
         render: () => {
           return (
-            <NavigationButton key={1} className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={true}>Pipelines</NavigationButton>
+            <NavigationButton key={10} className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={true}>Pipelines</NavigationButton>
+          );
+        }
+      },
+      {
+        allowed: "pipelineView",
+        and: Features.OrganizationBuildsPage,
+        render: () => {
+          return (
+            <NavigationButton key={15} className="py0" href={`/${organization.slug}/builds`}>Builds</NavigationButton>
           );
         }
       },
@@ -299,7 +308,7 @@ class Navigation extends React.PureComponent<Props, State> {
         allowed: "agentView",
         render: () => {
           return (
-            <NavigationButton key={2} className="py0" href={`/organizations/${organization.slug}/agents`} linkIf={true}>
+            <NavigationButton key={20} className="py0" href={`/organizations/${organization.slug}/agents`} linkIf={true}>
               {'Agents'}
               <Badge className="hover-lime-child"><AgentsCount organization={organization} /></Badge>
             </NavigationButton>
@@ -319,7 +328,7 @@ class Navigation extends React.PureComponent<Props, State> {
         },
         render: () => {
           return (
-            <NavigationButton key={3} className="py0" href={`/organizations/${organization.slug}/teams`}>Teams</NavigationButton>
+            <NavigationButton key={30} className="py0" href={`/organizations/${organization.slug}/teams`}>Teams</NavigationButton>
           );
         }
       },
@@ -333,8 +342,8 @@ class Navigation extends React.PureComponent<Props, State> {
         ],
         render: () => {
           return [
-            <NavigationButton key={4} className="py0" href={`/organizations/${organization.slug}/users`} linkIf={true}>Users</NavigationButton>,
-            <NavigationButton key={5} className="py0" href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
+            <NavigationButton key={40} className="py0" href={`/organizations/${organization.slug}/users`} linkIf={true}>Users</NavigationButton>,
+            <NavigationButton key={50} className="py0" href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
           ];
         }
       }
