@@ -300,7 +300,7 @@ class Navigation extends React.PureComponent<Props, State> {
         and: Features.OrganizationBuildsPage,
         render: () => {
           return (
-            <NavigationButton key={15} className="py0" href={`/${organization.slug}/builds`} linkIf={true}>Builds</NavigationButton>
+            <NavigationButton key={15} className="py0" href={`/${organization.slug}/builds`}>Builds</NavigationButton>
           );
         }
       },
