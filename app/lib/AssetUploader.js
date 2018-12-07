@@ -27,11 +27,7 @@ class AssetUploader {
       throw `Unknown event for asset upload \`${event.type}\``;
     }
 
-    if (files.length > 0) {
-      this._startUploadingFiles(files);
-    }
-
-    return files;
+    return this.uploadFromArray(files);
   }
 
   uploadFromElement(element) {
@@ -39,7 +35,11 @@ class AssetUploader {
       throw (`Unsuitable element for asset upload \`<${element.nodeName.toLowerCase()} type="${element.type}" />\``);
     }
 
-    const files = Array.from(element.files);
+    return this.uploadFromArray(element.files);
+  }
+
+  uploadFromArray(files) {
+    files = Array.from(files);
 
     if (files.length > 0) {
       this._startUploadingFiles(files);

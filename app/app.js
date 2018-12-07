@@ -67,6 +67,7 @@ window["Webpack"] = {
     "components/shared/FormTextField": require("./components/shared/FormTextField").default,
     "components/shared/FriendlyTime": require("./components/shared/FriendlyTime").default,
     "components/shared/Icon": require("./components/shared/Icon").default,
+    "components/shared/ImageUploadField": require("./components/shared/ImageUploadField").default,
     "components/shared/UserAvatar": require("./components/shared/UserAvatar").default,
     "components/user/BuildCountsBreakdown": require("./components/user/BuildCountsBreakdown").default,
     "components/user/SettingsMenu": require("./components/user/SettingsMenu").default,
