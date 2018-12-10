@@ -3,6 +3,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import styled from 'styled-components';
+import loadImage from 'blueimp-load-image';
 
 import AssetUploader from 'app/lib/AssetUploader';
 import Spinner from 'app/components/shared/Spinner';
@@ -179,7 +180,7 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     event.stopPropagation();
     event.preventDefault();
 
-    this.upload(event.dataTransfer && event.dataTransfer.files);
+    this.startUpload(event.dataTransfer && event.dataTransfer.files);
   }
 
   handleIconInputChange = () => {
@@ -190,10 +191,10 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
       return;
     }
 
-    this.upload(this._iconInput && this._iconInput.files);
+    this.startUpload(this._iconInput && this._iconInput.files);
   }
 
-  upload = (files: ?FileList) => {
+  startUpload = (files: ?FileList) => {
     if (this.props.onChange) {
       this.props.onChange();
     }
@@ -213,37 +214,74 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
         );
 
         if (imageFiles.length === 1) {
-          if (this.state.lastImageUrl) {
-            URL.revokeObjectURL(this.state.lastImageUrl);
+          const imageFile = imageFiles[0];
+
+          // If the image is less than 256 kb, or is a gif less than 768kb, don't even bother resizing
+          if (imageFile.size <= 262144 || (imageFile.type === 'image/gif' && imageFile.size <= 786432)) {
+            this.processUpload(imageFile);
+            return;
           }
 
-          this.setState({
-            uploading: true,
-            currentImageUrl: URL.createObjectURL(imageFiles[0]),
-            lastImageUrl: this.state.currentImageUrl
-          });
-
-          this.assetUploader.uploadFromArray(imageFiles);
+          loadImage(
+            imageFile,
+            (processed: HTMLImageElement | HTMLCanvasElement | Event) => {
+              if (processed instanceof HTMLCanvasElement) {
+                processed.toBlob(
+                  (blob: Blob) => {
+                    console.debug({ originalSize: imageFile.size, processedSize: blob.size });
+                    // If we didn't improve things, then let's just upload the original
+                    if (blob.size >= imageFile.size) {
+                      this.processUpload(imageFile);
+                    } else {
+                      this.processUpload(blob);
+                    }
+                  },
+                  imageFile.type
+                );
+              } else {
+                // If loadImage gives us an <img/>, or otherwise couldn't resize it, fall back
+                this.processUpload(imageFile);
+              }
+            },
+            {
+              minHeight: 50,
+              minWidth: 50,
+              maxHeight: 500,
+              maxWidth: 500,
+              orientation: true
+            }
+          );
         } else if (imageFiles.length > 1) {
-          const error = new Error('Only one image can be uploaded.');
-          this.setState(
-            { error },
-            () => {
-              if (this.props.onError) {
-                this.props.onError(error);
-              }
-            }
-          );
+          this.setError(new Error('Only one image can be uploaded.'));
         } else {
-          const error = new Error('You can only upload images.');
-          this.setState(
-            { error },
-            () => {
-              if (this.props.onError) {
-                this.props.onError(error);
-              }
-            }
-          );
+          this.setError(new Error('You can only upload images.'));
+        }
+      }
+    );
+  }
+
+  processUpload = (imageFile: File | Blob) => {
+    const processedUrl = URL.createObjectURL(imageFile);
+
+    if (this.state.lastImageUrl) {
+      URL.revokeObjectURL(this.state.lastImageUrl);
+    }
+
+    this.setState({
+      uploading: true,
+      currentImageUrl: processedUrl,
+      lastImageUrl: this.state.currentImageUrl
+    });
+
+    this.assetUploader.uploadFromArray([imageFile]);
+  };
+
+  setError = (error: Error) => {
+    this.setState(
+      { error },
+      () => {
+        if (this.props.onError) {
+          this.props.onError(error);
         }
       }
     );
