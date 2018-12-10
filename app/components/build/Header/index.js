@@ -29,7 +29,8 @@ class BuildHeaderComponent extends React.PureComponent {
       project: PropTypes.shape({
         name: PropTypes.string.isRequired,
         url: PropTypes.string.isRequired,
-        slug: PropTypes.string.isRequired
+        slug: PropTypes.string.isRequired,
+        public: PropTypes.bool.isRequired
       }).isRequired,
       account: PropTypes.shape({
         name: PropTypes.string.isRequired,
@@ -448,10 +449,12 @@ class BuildHeaderComponent extends React.PureComponent {
       return null;
     }
 
-    // Only show the avatar node if `showUnknownEmailPrompt` has been turned on,
-    // and we don't have an associated authorUuid (which is only present if
-    // there's an actual user on the build)
-    if (this.props.showUnknownEmailPrompt && !this.props.build.authorUuid) {
+    // Only show the email prompt if the project is private, `showUnknownEmailPrompt`
+    // has been turned on, and we don't have an associated `authorUuid` (which is
+    // only present if there's an actual user on the build)
+    if (!this.props.build.project.public &&
+        this.props.showUnknownEmailPrompt &&
+        !this.props.build.authorUuid) {
       return (
         <RootContainer
           Component={AvatarWithUnknownEmailPrompt}
