@@ -3,7 +3,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import styled from 'styled-components';
-import loadImage from 'blueimp-load-image';
 
 import AssetUploader from 'app/lib/AssetUploader';
 import Spinner from 'app/components/shared/Spinner';
@@ -91,6 +90,8 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
   _dragArea: ?HTMLDivElement;
   dragAreaRef = (ref: ?HTMLDivElement) => this._dragArea = ref;
 
+  _loadImage: ?Promise<{ default: Function }>;
+
   componentDidMount() {
     this.assetUploader = new AssetUploader({
       onAssetUploaded: this.handleAssetUploaded,
@@ -145,6 +146,9 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     event.stopPropagation();
     event.preventDefault();
 
+    // Make sure we're loading the image processing code now the user is dragging something around
+    this.getLoadImage();
+
     this.setState(
       {
         dropAreaHover: false,
@@ -173,6 +177,10 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     event.stopPropagation();
     event.preventDefault();
 
+    // Make sure we're now loading (hopefully _have loaded_!) the image
+    // processing code now that the user is dragging over the drop area
+    this.getLoadImage();
+
     this.setState({ dropAreaHover: true }, this.setDragTimeout);
   }
 
@@ -194,6 +202,22 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     this.startUpload(this._iconInput && this._iconInput.files);
   }
 
+  getLoadImage = () => {
+    // If we don't have our import promise stored, create it
+    if (!this._loadImage) {
+      this._loadImage = import('blueimp-load-image');
+    }
+
+    // Finally, return the promise
+    return this._loadImage;
+  }
+
+  withLoadImage = (callback: Function) => {
+    // Call back with the default loadImage
+    // function, once the import promise resolves
+    this.getLoadImage().then((module) => callback(module.default));
+  }
+
   startUpload = (files: ?FileList) => {
     if (this.props.onChange) {
       this.props.onChange();
@@ -204,7 +228,7 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
         allowFileInput: false,
         documentHover: false,
         dropAreaHover: false,
-        uploading: false,
+        uploading: true,
         uploaded: false,
         error: null
       },
@@ -224,33 +248,35 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
             return;
           }
 
-          loadImage(
-            imageFile,
-            (processed: HTMLImageElement | HTMLCanvasElement | Event) => {
-              if (processed instanceof HTMLCanvasElement) {
-                processed.toBlob(
-                  (blob: Blob) => {
-                    // If we didn't improve things, then let's just upload the original
-                    if (blob.size >= imageFile.size) {
-                      this.processUpload(imageFile);
-                    } else {
-                      this.processUpload(blob);
-                    }
-                  },
-                  imageFile.type
-                );
-              } else {
-                // If loadImage gives us an <img/>, or otherwise couldn't resize it, fall back
-                this.processUpload(imageFile);
+          this.withLoadImage(
+            (loadImage: Function) => loadImage(
+              imageFile,
+              (processed: HTMLImageElement | HTMLCanvasElement | Event) => {
+                if (processed instanceof HTMLCanvasElement) {
+                  processed.toBlob(
+                    (blob: Blob) => {
+                      // If we didn't improve things, then let's just upload the original
+                      if (blob.size >= imageFile.size) {
+                        this.processUpload(imageFile);
+                      } else {
+                        this.processUpload(blob);
+                      }
+                    },
+                    imageFile.type
+                  );
+                } else {
+                  // If loadImage gives us an <img/>, or otherwise couldn't resize it, fall back
+                  this.processUpload(imageFile);
+                }
+              },
+              {
+                minHeight: 50,
+                minWidth: 50,
+                maxHeight: 500,
+                maxWidth: 500,
+                orientation: true
               }
-            },
-            {
-              minHeight: 50,
-              minWidth: 50,
-              maxHeight: 500,
-              maxWidth: 500,
-              orientation: true
-            }
+            )
           );
         } else if (imageFiles.length > 1) {
           this.setError(new Error('Only one image can be uploaded.'));
@@ -269,7 +295,6 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     }
 
     this.setState({
-      uploading: true,
       currentImageUrl: processedUrl,
       lastImageUrl: this.state.currentImageUrl
     });
@@ -279,7 +304,10 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
 
   setError = (error: Error) => {
     this.setState(
-      { error },
+      {
+        uploading: false,
+        error
+      },
       () => {
         if (this.props.onError) {
           this.props.onError(error);
@@ -290,6 +318,9 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
 
   handleUploadClick = (event: MouseEvent) => {
     event.preventDefault();
+
+    // Start loading the image processing code while the user browses for a file
+    this.getLoadImage();
 
     this.setState(
       { allowFileInput: true },
