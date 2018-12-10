@@ -216,8 +216,10 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
         if (imageFiles.length === 1) {
           const imageFile = imageFiles[0];
 
-          // If the image is less than 256 kb, or is a gif less than 768kb, don't even bother resizing
-          if (imageFile.size <= 262144 || (imageFile.type === 'image/gif' && imageFile.size <= 786432)) {
+          // If the image is less than 256 kb, is an svg, or is a gif less than 768kb, don't even bother resizing
+          if (imageFile.size <= 262144 ||
+              imageFile.type === 'image/svg' ||
+              (imageFile.type === 'image/gif' && imageFile.size <= 786432)) {
             this.processUpload(imageFile);
             return;
           }
@@ -228,7 +230,6 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
               if (processed instanceof HTMLCanvasElement) {
                 processed.toBlob(
                   (blob: Blob) => {
-                    console.debug({ originalSize: imageFile.size, processedSize: blob.size });
                     // If we didn't improve things, then let's just upload the original
                     if (blob.size >= imageFile.size) {
                       this.processUpload(imageFile);
