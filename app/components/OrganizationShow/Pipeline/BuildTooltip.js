@@ -17,25 +17,29 @@ type Props = {
 
 class BuildTooltip extends React.PureComponent<Props> {
   render() {
-    let userAvatarNode;
-    if (this.props.build.createdBy) {
-      userAvatarNode = (
-        <UserAvatar user={this.props.build.createdBy} className="block" style={{ width: 30, height: 30 }} />
-      );
-    }
+    const { createdBy } = this.props.build;
 
     return (
       <div className="flex items-top mx2 my1">
         <div className="no-flex mr2 center">
-          {userAvatarNode}
+          {createdBy ? (
+            <UserAvatar
+              user={{
+                avatar: createdBy.avatar,
+                name: createdBy.name || createdBy.maybeName
+              }}
+              className="block"
+              style={{ width: 30, height: 30 }}
+            />
+          ) : null}
           <small className="dark-gray">
             <Duration.Micro {...buildTime(this.props.build)} tabularNumerals={false} />
           </small>
         </div>
         <div className="flex-auto line-height-2">
           <span className="block line-height-3 overflow-hidden overflow-ellipsis">
-            <Emojify className="semi-bold" text={shortMessage(this.props.build.message)} />
-            <span className="dark-gray">{shortCommit(this.props.build.commit)}</span>
+            <Emojify className="semi-bold mr1" text={shortMessage(this.props.build.message)} />
+            <span className="dark-gray monospace">{shortCommit(this.props.build.commit)}</span>
           </span>
           <small className="dark-gray">
             <BuildStatusDescription build={this.props.build} updateFrequency={0} />
@@ -64,7 +68,7 @@ export default createFragmentContainer(BuildTooltip, graphql`
         }
       }
       ...on UnregisteredUser {
-        name
+        maybeName: name
         avatar {
           url
         }
