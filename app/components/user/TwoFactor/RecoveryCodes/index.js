@@ -78,21 +78,21 @@ class RecoveryCodes extends React.PureComponent<Props, State> {
 
     commitMutation(this.props.relay.environment, {
       mutation: graphql`
-          mutation RecoveryCodesRegenerateMutation($input: TOTPRecoveryCodesRegenerateInput!) {
-            totpRecoveryCodesRegenerate(input: $input) {
-              totp {
+        mutation RecoveryCodesRegenerateMutation($input: TOTPRecoveryCodesRegenerateInput!) {
+          totpRecoveryCodesRegenerate(input: $input) {
+            totp {
+              id
+              recoveryCodes {
                 id
-                recoveryCodes {
-                  id
-                  codes {
-                    code
-                    consumed
-                  }
+                codes {
+                  code
+                  consumed
                 }
               }
             }
           }
-        `,
+        }
+      `,
       variables: { input: { totpId: this.props.totp.id } },
       onCompleted: () => {
         this.setState({ newCodesAvailable: true });

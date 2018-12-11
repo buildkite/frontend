@@ -52,7 +52,7 @@ class TeamNew extends React.Component {
 
     return (
       <DocumentTitle title={`New Team · ${this.props.organization.name}`}>
-        <form onSubmit={this.handleFormSubmit}>
+        <form data-testid="TeamNew" onSubmit={this.handleFormSubmit}>
           <PageHeader>
             <PageHeader.Title>New Team</PageHeader.Title>
           </PageHeader>

@@ -125,7 +125,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
   render() {
     return (
-      <div>
+      <div data-testid="GraphQLExplorerConsole">
         <div className="mb3 flex justify-start">
           <div className="flex items-center">
             <Button onClick={this.handleExecuteClick} loading={this.state.executing && "Executing…"}>Execute</Button>

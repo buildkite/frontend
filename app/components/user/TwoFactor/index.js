@@ -211,7 +211,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
 
     return (
       <DocumentTitle title="Two-Factor Authentication">
-        <React.Fragment>
+        <div data-testid="TwoFactor">
           <PageWithMenu>
             <SettingsMenu viewer={this.props.viewer} />
             <PageHeader>
@@ -242,7 +242,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
               />
             </Dialog>
           </PageWithMenu>
-        </React.Fragment>
+        </div>
       </DocumentTitle>
     );
   }

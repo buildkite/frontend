@@ -105,7 +105,7 @@ class TwoFactorConfigure extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className="p4">
+      <div className="p4" data-testid="TwoFactorConfigure">
         {this.renderReconfigureNotice()}
         <div className="flex items-top mb3">
           <div className="flex-auto">
