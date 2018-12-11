@@ -240,7 +240,8 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
         if (imageFiles.length === 1) {
           const imageFile = imageFiles[0];
 
-          // If the image is less than 256 kb, is an svg, or is a gif less than 768kb, don't even bother resizing
+          // If the image is less than 256 kb, is an svg (and thus can't be
+          // resized!), or is a gif less than 768kb, don't bother resizing
           if (imageFile.size <= 262144 ||
               imageFile.type === 'image/svg' ||
               (imageFile.type === 'image/gif' && imageFile.size <= 786432)) {
@@ -265,16 +266,25 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
                     imageFile.type
                   );
                 } else {
-                  // If loadImage gives us an <img/>, or otherwise couldn't resize it, fall back
+                  // If loadImage gives us an <img/> (means the browser couldn't
+                  // do canvas), or otherwise couldn't resize it, use the original
                   this.processUpload(imageFile);
                 }
               },
               {
-                minHeight: 50,
-                minWidth: 50,
+                // NOTE: Minimum heights and widths are merely so the library
+                // doesn't try to upscale the images. For what it's worth, most
+                // tiny images won't ever reach this point anyway due to byte
+                // size, so we won't likely be processing any 1px tracking gifs
+                // via this code, but might as well be lossless when acceptable.
+                minHeight: 1,
+                minWidth: 1,
+                // This asks the resize library to respect EXIF orientation
+                // information in JPEGs, so we don't end up with sideways avatars
+                orientation: true,
+                // Finally, this is the size we will downscale larger images to
                 maxHeight: 500,
-                maxWidth: 500,
-                orientation: true
+                maxWidth: 500
               }
             )
           );
@@ -288,6 +298,15 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
   }
 
   processUpload = (imageFile: File | Blob) => {
+    if (imageFile.size > 2097152) {
+      this.setError(
+        new Error(
+          'Sorry, that image is too large. Please try one smaller than 2 megabytes.'
+        )
+      );
+      return;
+    }
+
     const processedUrl = URL.createObjectURL(imageFile);
 
     if (this.state.lastImageUrl) {
