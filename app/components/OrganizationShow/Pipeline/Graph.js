@@ -57,7 +57,7 @@ class Graph extends React.Component<Props, State> {
     setTimeout(() => { this.setState({ showFullGraph: true }); }, 0);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { builds } = this.props.pipeline;
     const { builds: nextBuilds } = nextProps.pipeline;
 
