@@ -282,7 +282,12 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
                 // This asks the resize library to respect EXIF orientation
                 // information in JPEGs, so we don't end up with sideways avatars
                 orientation: true,
-                // Finally, this is the size we will downscale larger images to
+                // Finally, this is the size we will downscale larger images to.
+                //
+                // 500px was chosen to balance byte size and utility because we'd
+                // like the ability to display larger images in the future, but
+                // don't currently have tech to resize for each display size, so
+                // this avoids us displaying a 1024px image in 25px img tags!
                 maxHeight: 500,
                 maxWidth: 500
               }
