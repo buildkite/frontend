@@ -199,22 +199,18 @@ class Navigation extends React.PureComponent<Props, State> {
         <NavigationButton
           key={org.node.slug}
           href={`/${org.node.slug}`}
-          className={classNames("block", {
-            "py1": Features.UserAssetUploadingOmnibus
-          })}
+          className="block py1"
         >
-          {Features.UserAssetUploadingOmnibus && (
-            <img
-              src={org.node.iconUrl || defaultAvatar}
-              alt={`Icon for ${org.node.name}`}
-              title={`Icon for ${org.node.name}`}
-              className="circle border border-gray bg-white mr1"
-              style={{
-                width: 26,
-                height: 26
-              }}
-            />
-          )}
+          <img
+            src={org.node.iconUrl || defaultAvatar}
+            alt={`Icon for ${org.node.name}`}
+            title={`Icon for ${org.node.name}`}
+            className="circle border border-gray bg-white mr1 flex-none"
+            style={{
+              width: 26,
+              height: 26
+            }}
+          />
           {org.node.name}
           {ssoRequiredBadge}
         </NavigationButton>
@@ -225,24 +221,16 @@ class Navigation extends React.PureComponent<Props, State> {
       <NavigationButton
         key="newOrganization"
         href="/organizations/new"
-        className={classNames("block", {
-          "py1": Features.UserAssetUploadingOmnibus
-        })}
+        className="block py1"
       >
         <Icon
           icon="plus-circle"
-          className={Features.UserAssetUploadingOmnibus ? "mr1" : "icon-mr"}
-          style={Features.UserAssetUploadingOmnibus
-            ? {
-              width: 26,
-              height: 26,
-              padding: 1
-            }
-            : {
-              width: 12,
-              height: 12
-            }
-          }
+          className="mr1"
+          style={{
+            width: 26,
+            height: 26,
+            padding: 1
+          }}
         />
         Create New Organization
       </NavigationButton>
@@ -434,15 +422,14 @@ class Navigation extends React.PureComponent<Props, State> {
                   minWidth: 0
                 }}
               >
-                {Features.UserAssetUploadingOmnibus
-                  && this.props.organization
+                {this.props.organization
                   && this.props.organization.iconUrl
                   && (
                     <img
                       src={this.props.organization.iconUrl}
                       alt={`Icon for ${this.props.organization.name}`}
                       title={`Icon for ${this.props.organization.name}`}
-                      className="circle border border-gray bg-white"
+                      className="circle border border-gray bg-white flex-none"
                       style={{
                         width: 26,
                         height: 26
@@ -453,8 +440,7 @@ class Navigation extends React.PureComponent<Props, State> {
                 <span
                   className={classNames("truncate", {
                     "ml1 xs-hide lg-hide": (
-                      Features.UserAssetUploadingOmnibus
-                      && this.props.organization
+                      this.props.organization
                       && this.props.organization.iconUrl
                     )
                   })}
