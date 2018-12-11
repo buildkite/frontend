@@ -66,7 +66,7 @@ class Pipelines extends React.Component<Props, State> {
     this.maybeUpdateDefaultTeam(this.props.organization.id, this.props.teamFilter);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const nextVars = {};
 
     // Are we switching teams?
