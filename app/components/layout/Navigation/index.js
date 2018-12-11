@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import UserAvatar from 'app/components/shared/UserAvatar';
 import Dropdown from 'app/components/shared/Dropdown';
 import Badge from 'app/components/shared/Badge';
+import Emojify from 'app/components/shared/Emojify';
 import Icon from 'app/components/shared/Icon';
 import SectionLoader from 'app/components/shared/SectionLoader';
 import AgentsCount from 'app/components/organization/AgentsCount';
@@ -297,7 +298,6 @@ class Navigation extends React.PureComponent<Props, State> {
       },
       {
         allowed: "pipelineView",
-        and: Features.OrganizationBuildsPage,
         render: () => {
           return (
             <NavigationButton key={15} className="py0" href={`/${organization.slug}/builds`}>Builds</NavigationButton>
@@ -342,7 +342,6 @@ class Navigation extends React.PureComponent<Props, State> {
         ],
         render: () => {
           return [
-            <NavigationButton key={40} className="py0" href={`/organizations/${organization.slug}/users`} linkIf={true}>Users</NavigationButton>,
             <NavigationButton key={50} className="py0" href={`/organizations/${organization.slug}/settings`}>Settings</NavigationButton>
           ];
         }
@@ -366,11 +365,6 @@ class Navigation extends React.PureComponent<Props, State> {
           className="flex-none flex items-center"
           style={{ width: 26, height: 26 }}
         />
-        <span className="flex items-center xs-hide sm-flex ml1 flex-auto">
-          <span className="truncate" data-current-user-name={true}>
-            {this.props.viewer.user.name}
-          </span>
-        </span>
       </React.Fragment>
     );
   }
@@ -452,7 +446,7 @@ class Navigation extends React.PureComponent<Props, State> {
                 }
                 <span
                   className={classNames("truncate", {
-                    "ml1 xs-hide lg-hide": (
+                    "ml1": (
                       Features.UserAssetUploadingOmnibus
                       && this.props.organization
                       && this.props.organization.iconUrl
@@ -483,19 +477,14 @@ class Navigation extends React.PureComponent<Props, State> {
 
             <NavigationButton
               className="py0 xs-hide sm-hide"
-              href={`/docs`}
+              href={`/changelog`}
             >
-              Documentation
-            </NavigationButton>
-            <NavigationButton
-              className="py0 xs-hide sm-hide"
-              onClick={this.handleSupportClick}
-            >
-              Support
+              {'Changelog'}
+              <Badge className="hover-lime-child">3</Badge>
             </NavigationButton>
 
             <Dropdown
-              width={180}
+              width={230}
               className="flex"
               style={{ flex: '0 1 auto', minWidth: 55 }}
               ref={(userDropdown) => this.userDropdown = userDropdown}
@@ -517,13 +506,24 @@ class Navigation extends React.PureComponent<Props, State> {
                 </span>
               </DropdownButton>
 
-              <NavigationButton href="/user/settings">Personal Settings</NavigationButton>
-              <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer</NavigationButton>
-
-              <div className="md-hide lg-hide">
-                <NavigationButton className="md-hide lg-hide" href={`/docs`}>Documentation</NavigationButton>
-                <NavigationButton className="md-hide lg-hide" onClick={this.handleSupportClick}>Support</NavigationButton>
+              <div class="border-gray border-bottom">
+                <a href="/user/settings" className="btn flex items-center black focus-lime hover-lime hover-color-inherit-parent" style={{padding: "0.45em 1em 0.8em"}}>
+                  <div className="flex">
+                    <UserAvatar
+                      user={this.props.viewer.user}
+                      className="flex-none flex items-center mr1"
+                      style={{ width: 30, height: 30 }}
+                    />
+                    <div className="flex-auto">
+                      <div className="semi-bold truncate">{this.props.viewer.user.name}</div>
+                      <div className="dark-gray truncate hover-color-inherit">{this.props.viewer.user.email}</div>
+                    </div>
+                  </div>
+                </a>
               </div>
+
+              <NavigationButton href="/user/graphql/console" linkIf={true} onClick={this.handleGraphQLExplorerClick}>GraphQL Explorer</NavigationButton>
+              <NavigationButton onClick={this.handleSupportClick}>Help</NavigationButton>
 
               <form action="/logout" method="post" ref={(logoutFormNode) => this.logoutFormNode = logoutFormNode}>
                 <input type="hidden" name="_method" value={"delete"} />
@@ -590,6 +590,7 @@ export default Relay.createContainer(Navigation, {
           ${NewChangelogsBadge.getFragment('viewer', variables)}
           user {
             name
+            email
             avatar {
               url
             }
