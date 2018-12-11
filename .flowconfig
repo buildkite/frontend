@@ -11,6 +11,7 @@ all=warn
 
 [options]
 emoji=true
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectError
 module.use_strict=true
 module.ignore_non_literal_requires=true

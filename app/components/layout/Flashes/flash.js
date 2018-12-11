@@ -2,15 +2,14 @@
 
 import React from 'react';
 import classNames from 'classnames';
-
 import FlashesStore, { type FlashItem } from 'app/stores/FlashesStore';
 
 type Props = {
   flash: FlashItem,
-  onRemoveClick: Function
+  onRemoveClick: (flash: FlashItem) => void
 };
 
-class Flash extends React.PureComponent<Props> {
+export default class Flash extends React.PureComponent<Props> {
   render() {
     const classes = classNames("flex items-center mb2 border rounded border-dark-gray", {
       "border-red red": this.props.flash.type === FlashesStore.ERROR,
@@ -40,5 +39,3 @@ class Flash extends React.PureComponent<Props> {
     this.props.onRemoveClick(this.props.flash);
   };
 }
-
-export default Flash;

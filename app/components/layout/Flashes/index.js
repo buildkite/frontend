@@ -1,10 +1,8 @@
 // @flow
 
 import React from 'react';
-
 import FlashesStore, { type FlashItem } from 'app/stores/FlashesStore';
 import PusherStore from 'app/stores/PusherStore';
-
 import Flash from './flash';
 
 const FLASH_CONN_ERROR_ID = 'FLASH_CONN_ERROR';
