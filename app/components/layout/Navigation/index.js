@@ -64,7 +64,7 @@ class Navigation extends React.PureComponent<Props, State> {
     UserSessionStore.on('change', this.handleSessionDataChange);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // When the page loads, we want to pull the last default team out of the UserSessionStore.
     if (this.props.organization && this.props.organization.id) {
       this.setState({
@@ -73,7 +73,7 @@ class Navigation extends React.PureComponent<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // If we're moving between organizations, we need to pull out the new
     // organization's default team setting, if it's available.
     if (

@@ -100,7 +100,7 @@ class OrganizationPipelines extends React.Component {
     this.maybeUpdateDefaultTeam(this.props.organization.id, this.props.team);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const nextRelayVariables = {};
 
     // Are we switching teams?

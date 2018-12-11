@@ -23,7 +23,7 @@ class AutocompleteDialog extends React.PureComponent {
     searching: false
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.items && this.state.searching) {
       // We can turn off searching now since we've got some items
       this.setState({ searching: false });

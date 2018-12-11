@@ -48,7 +48,7 @@ class BuildStatusDescription extends React.PureComponent {
     this.maybeClearInterval();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { build, updateFrequency } = nextProps;
 
     if (updateFrequency !== this.props.updateFrequency) {

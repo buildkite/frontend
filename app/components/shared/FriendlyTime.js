@@ -51,7 +51,7 @@ export default class FriendlyTime extends React.PureComponent {
     this.maybeClearInterval();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { value, capitalized, seconds, updateFrequency } = nextProps;
 
     if (updateFrequency !== this.props.updateFrequency) {

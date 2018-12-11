@@ -57,7 +57,7 @@ class AgentInstallation extends React.PureComponent {
     );
   };
 
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     if (nextProps.organization.agents && this.props.organization.agents && nextProps.organization.agents.count > this.props.organization.agents.count) {
       this.setState({ isDialogOpen: true });
     }

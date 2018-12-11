@@ -58,7 +58,7 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
   buildCommitTextField: FormTextField;
   buildBranchTextField: FormTextField;
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const [hashPath, hashQuery] = window.location.hash.split('?');
 
     if (hashPath === '#new') {

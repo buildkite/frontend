@@ -22,7 +22,7 @@ class AutocompleteField extends React.PureComponent {
     visible: false
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.items) {
       let found = false;
 

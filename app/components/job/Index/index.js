@@ -28,7 +28,7 @@ class JobIndex extends React.Component {
     this.state = { query: query, searchInputValue: query };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // When the `q` param in the URL changes, do a new search
     const query = nextProps.location.query.q;
     if (query !== undefined && this.state.query !== query){

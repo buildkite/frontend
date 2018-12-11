@@ -109,7 +109,7 @@ class Dialog extends React.Component {
     document.documentElement.removeEventListener('keydown', this.handleDocumentKeyDown);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // Opening the dialog
     if (!this.props.isOpen && nextProps.isOpen) {
       this.setState({ rendered: true }, () => {
