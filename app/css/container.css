@@ -18,9 +18,11 @@
 }
 
 .container-widescreen {
-  width: 100%;
-  padding-left: 20px;
-  padding-right: 20px;
+  @media (min-width: 1200px) {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 
 /* Override the breakpoints set in basscss-hide so they match up with the container
