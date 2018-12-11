@@ -47,6 +47,14 @@ const AUTHENTICATOR_LIST = AUTHENTICATORS.reduce((memo, authenticator, index, { 
   ((index < length - 1) ? ((index < length - 2) ? ', ' : ' and ') : '')
 ], []);
 
+const TwoFactorQuery = graphql`
+  query TwoFactorQuery {
+    viewer {
+      ...TwoFactor_viewer
+    }
+  }
+`;
+
 type Props = {
   viewer: TwoFactor_viewer
 };
@@ -296,38 +304,27 @@ const TwoFactorRefetchContainer = createRefetchContainer(
       }
     }
   `,
-  graphql`
-    query TwoFactorRefetchQuery {
-      viewer {
-        ...TwoFactor_viewer
-      }
-    }
-  `
+  TwoFactorQuery
 );
 
-export default class TwoFactorQueryContainer extends React.PureComponent<Props, State> {
+/* eslint-disable react/no-multi-comp */
+export default class TwoFactorQueryContainer extends React.PureComponent<{}> {
   environment = Environment.get();
-  static query = graphql`
-    query TwoFactorQueryContainer {
-      viewer {
-        ...TwoFactor_viewer
-      }
-    }
-  `;
 
   render() {
     return (
       <QueryRenderer
         environment={this.environment}
-        query={TwoFactorQueryContainer.query}
-        render={({props}) => {
-          if(props) {
-            return <TwoFactorRefetchContainer {...props}/>
-          } else {
-            return <SectionLoader />
-          }
-        }}
+        query={TwoFactorQuery}
+        render={this.renderQuery}
       />
     );
+  }
+
+  renderQuery({ props }) {
+    if (props) {
+      return <TwoFactorRefetchContainer {...props} />;
+    }
+    return <SectionLoader />;
   }
 }
