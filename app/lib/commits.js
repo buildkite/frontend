@@ -1,11 +1,7 @@
 // @flow
 
-export function shortMessage(message: ?string): string {
-  if (message) {
-    return message.split('\n')[0];
-  }
-
-  return '';
+export function shortMessage(message: string): string {
+  return message.split('\n')[0];
 }
 
 export function shortCommit(commitish: string): string {

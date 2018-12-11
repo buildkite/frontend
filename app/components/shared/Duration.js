@@ -1,4 +1,4 @@
-// @flow weak
+// @flow
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -9,14 +9,12 @@ import { second } from 'metrick/duration';
 import moment from 'moment';
 import { getDuration, getDurationString } from 'app/lib/date';
 
-type DurationFormats = 'full' | 'medium' | 'short' | 'micro';
-
 type Props = {
   from?: (moment$Moment | string | number | Date | number[]),
   to?: (moment$Moment | string | number | Date | number[]),
   className?: string,
   tabularNumerals: boolean,
-  format: DurationFormats,
+  format: getDurationString.formats,
   updateFrequency?: number
 };
 
@@ -27,18 +25,7 @@ type State = {
 // Grab a copy of the Moment constructor so we can test PropTypes
 const Moment = moment().constructor;
 
-function makeDurationFormat(format: DurationFormats) {
-  const Component = (props: Props) => <Duration {...props} format={format} />;
-  Component.displayName = format.charAt(0).toUpperCase() + format.slice(1);
-  return Component;
-}
-
-export default class Duration extends React.PureComponent<Props, State> {
-  static Full = makeDurationFormat('full');
-  static Medium = makeDurationFormat('medium');
-  static Short = makeDurationFormat('short');
-  static Micro = makeDurationFormat('micro');
-
+class Duration extends React.PureComponent<Props, State> {
   static propTypes = {
     from: PropTypes.oneOfType([
       PropTypes.string,
@@ -69,9 +56,12 @@ export default class Duration extends React.PureComponent<Props, State> {
 
   tick() {
     const { from, to } = this.props;
-    const seconds = getDuration(from, to).asSeconds();
 
-    this.setState({ seconds }, this.maybeScheduleTick);
+    this.setState({
+      seconds: getDuration(from, to).asSeconds()
+    }, () => {
+      this.maybeScheduleTick();
+    });
   }
 
   componentDidMount() {
@@ -84,9 +74,7 @@ export default class Duration extends React.PureComponent<Props, State> {
     // We only want to schedule ticks if our duration is indeterminate,
     // and our update frequency isn't zero
     if (!(from && to) && typeof updateFrequency == 'number' && updateFrequency > 0) {
-      this._timeout = setTimeout(() => {
-        this.tick();
-      }, updateFrequency);
+      this._timeout = setTimeout(() => this.tick(), updateFrequency);
     }
   }
 
@@ -154,3 +142,16 @@ export default class Duration extends React.PureComponent<Props, State> {
     );
   }
 }
+
+const exported = {};
+
+getDurationString.formats.forEach((format) => {
+  const componentName = format.charAt(0).toUpperCase() + format.slice(1);
+
+  const component = (props) => <Duration {...props} format={format} />;
+  component.displayName = `Duration.${componentName}`;
+
+  exported[componentName] = component;
+});
+
+export default exported;

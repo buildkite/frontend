@@ -5,12 +5,10 @@ import './public-path';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import reactRender from './lib/reactRenderer';
-import Routes from './routes';
-import EmojiStyleManager from './lib/EmojiStyleManager';
-import Environment from 'app/lib/relay/environment';
 
-// Create the a Relay Modern environment
-Environment.create();
+import Routes from './routes';
+
+import EmojiStyleManager from './lib/EmojiStyleManager';
 
 // Detect and adjust for custom emoji scaling
 EmojiStyleManager.apply();
@@ -86,7 +84,6 @@ window["Webpack"] = {
     "lib/parseEmoji": require("./lib/parseEmoji").default,
     "lib/reactRenderer": require("./lib/reactRenderer").default,
     "lib/RelayPreloader": require("./lib/RelayPreloader").default,
-    "lib/RelayModernPreloader": require("./lib/RelayModernPreloader").default,
     "lib/BootstrapTooltipMixin": require('./lib/BootstrapTooltipMixin').default,
     "queries/Agent": require("./queries/Agent"),
     "queries/Build": require("./queries/Build"),

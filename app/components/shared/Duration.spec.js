@@ -1,83 +1,98 @@
-/* global jest, describe, it, expect, beforeEach */
-/* eslint-disable react/display-name */
-/* eslint-disable react/prop-types */
-/* eslint-disable no-multi-spaces */
-
+/* global jest, describe, it, expect, xdescribe */
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
+
 import Duration from './Duration';
 
-jest.mock('react-intersection-observer', () => ({ children }) => <div>{children}</div>);
+const MOCKED_DURATION_SECONDS = 42069;
+const MOCKED_DURATION = {
+  asSeconds() {
+    return MOCKED_DURATION_SECONDS;
+  }
+};
+
+jest.mock('../../lib/date', () => {
+  const getDurationString = jest.fn(() => 'MOCKED-DURATION');
+  getDurationString.formats = ['expected'];
+  const getDuration = jest.fn(() => MOCKED_DURATION);
+  return { getDuration, getDurationString };
+});
 
 describe('Duration', () => {
-  describe('formats', () => {
-    const formats = [
-      ['Full',   new Date("1986-08-28T06:00:00"), new Date("1986-08-28T07:01:01"), '1 hour, 1 minute, 1 second'],
-      ['Full',   new Date("1986-08-28T06:00:00"), new Date("1986-08-28T08:02:02"), '2 hours, 2 minutes, 2 seconds'],
-      ['Medium', new Date("1986-08-28T06:00:00"), new Date("1986-08-28T07:01:01"), '1 hour'],
-      ['Medium', new Date("1986-08-28T06:00:00"), new Date("1986-08-28T08:01:01"), '2 hours'],
-      ['Short',  new Date("1986-08-28T06:00:00"), new Date("1986-08-28T07:01:01"), '1h 1m'],
-      ['Micro',  new Date("1986-08-28T06:00:00"), new Date("1986-08-28T07:01:01"), '1h']
-    ];
-    describe.each(formats)('Duration.%s', (format, from, to, expected) => {
-      const DurationFormat = Duration[format];
-      const props = { from, to, updateFrequency: 0 };
+  const componentList = Object.keys(Duration);
+  const DurationComponent = Duration.Expected;
 
-      it('renders', () => {
-        expect.assertions(2);
+  it('provides stateless Components named after `getDurationString.formats`', () => {
+    expect(componentList).toEqual(['Expected']);
+  });
 
-        const rendered = ReactTestRenderer.create(<DurationFormat {...props} />);
-        expect(rendered.root.findByType('span').children).toEqual([expected]);
-        expect(rendered.root.findByType('span').props).toHaveProperty('className', 'tabular-numerals');
-      });
+  it('calls through to `getDurationString`', () => {
+    const getDuration = require('../../lib/date').getDuration;
+    const getDurationString = require('../../lib/date').getDurationString;
+    const from = new Date();
+    const to = new Date();
 
-      describe('tabularNumerals', () => {
-        it('can be disabled', () => {
-          expect.assertions(2);
+    const component = ReactTestRenderer.create(
+      <DurationComponent
+        from={from}
+        to={to}
+        updateFrequency={0}
+      />
+    );
 
-          const rendered = ReactTestRenderer.create(<DurationFormat {...props} tabularNumerals={false} />);
-          expect(rendered.root.findByType('span').children).toEqual([expected]);
-          expect(rendered.root.findByType('span').props).toHaveProperty('className', '');
-        });
-      });
+    const tree = component.toJSON();
+    expect(getDuration).toHaveBeenCalledWith(from, to);
+    expect(getDurationString).toHaveBeenCalledWith(MOCKED_DURATION_SECONDS, 'expected');
+    expect(tree).toMatchSnapshot();
+  });
+
+  describe('tabularNumerals', () => {
+    it('can be disabled', () => {
+      const getDuration = require('../../lib/date').getDuration;
+      const getDurationString = require('../../lib/date').getDurationString;
+      const from = new Date();
+      const to = new Date();
+
+      const component = ReactTestRenderer.create(
+        <DurationComponent
+          tabularNumerals={false}
+          from={from}
+          to={to}
+          updateFrequency={0}
+        />
+      );
+
+      const tree = component.toJSON();
+      expect(getDuration).toHaveBeenCalledWith(from, to);
+      expect(getDurationString).toHaveBeenCalledWith(MOCKED_DURATION_SECONDS, 'expected');
+      expect(tree).toMatchSnapshot();
     });
   });
 
-  describe('updateFrequency', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-    });
-
+  xdescribe('updateFrequency', () => {
+    // TODO: Need to be able to instrument updating and interactions
     it('sets an interval if supplied with a frequency greater than zero', () => {
-      expect.assertions(4);
+      const rendered = ReactTestRenderer.create(
+        <DurationComponent
+          from="2016-05-07T09:00:00.000Z"
+          to="2016-05-07T09:00:00.000Z"
+          updateFrequency={10}
+        />
+      );
 
-      const now = Date.now();
-      const from = new Date(now);
-
-      const rendered = ReactTestRenderer.create(<Duration.Full from={from} updateFrequency={1000} />);
-      expect(rendered.root.findByType('div').children).toEqual(['0 seconds']);
-      jest.spyOn(Date, 'now').mockImplementation(() => now + 1000);
-      jest.advanceTimersByTime(1000);
-      expect(rendered.root.findByType('div').children).toEqual(['1 second']);
-      jest.spyOn(Date, 'now').mockImplementation(() => now + 2000);
-      jest.advanceTimersByTime(1000);
-      expect(rendered.root.findByType('div').children).toEqual(['2 seconds']);
-      jest.spyOn(Date, 'now').mockImplementation(() => now + 200000);
-      jest.advanceTimersByTime(1000);
-      expect(rendered.root.findByType('div').children).toEqual(['3 minutes, 20 seconds']);
+      expect(rendered.toJSON()).toMatchSnapshot();
     });
 
     it('sets no interval if supplied with a frequency of zero', () => {
-      expect.assertions(2);
+      const rendered = ReactTestRenderer.create(
+        <DurationComponent
+          from="2016-05-07T09:00:00.000Z"
+          to="2016-05-07T09:00:00.000Z"
+          updateFrequency={0}
+        />
+      );
 
-      const now = Date.now();
-      const from = new Date(now);
-
-      const rendered = ReactTestRenderer.create(<Duration.Full from={from} updateFrequency={0} />);
-      expect(rendered.root.findByType('div').children).toEqual(['0 seconds']);
-      jest.spyOn(Date, 'now').mockImplementation(() => now + 1000);
-      jest.advanceTimersByTime(1000);
-      expect(rendered.root.findByType('div').children).toEqual(['0 seconds']);
+      expect(rendered.toJSON()).toMatchSnapshot();
     });
   });
 });
