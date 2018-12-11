@@ -1,5 +1,3 @@
-// @flow weak
-
 import moment from 'moment';
 import 'moment-duration-format';
 
@@ -22,7 +20,6 @@ const getDateFormatter = (withSeconds = false, withYear = true) => (
 //   "Wed 13 Nov at 1:00 AM"
 //   "Fri 1 Jan 2012 at 4:02 PM"
 export function getRelativeDateString(time, options = {}) {
-  // $FlowFixMe Not sure why these are failing — I think there is an issue with our libdef.
   const formats = Object.assign({}, moment.localeData()._calendar);
   const timeFormat = getTimeFormatter(options.seconds);
 
@@ -84,7 +81,7 @@ export function getDurationString(seconds, format = 'full') {
   }
 
   const [template, options] = DURATION_FORMATS[format];
-  // $FlowFixMe Not sure why these are failing — I think there is an issue with our libdef.
+
   return moment.duration(seconds, 'seconds').format(template, options);
 }
 

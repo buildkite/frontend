@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import Relay from 'react-relay/classic';
+
 import Emojify from 'app/components/shared/Emojify';
+
 import TeamLabels from 'app/components/team/Labels';
 
 class MemberTeamRow extends React.Component {
@@ -59,14 +61,16 @@ class MemberTeamRow extends React.Component {
   }
 }
 
-export default createFragmentContainer(MemberTeamRow, graphql`
-  fragment MemberTeamRow_team on Team {
-    ...TeamLabels_team
-
-    id
-    uuid
-    name
-    description
+export default Relay.createContainer(MemberTeamRow, {
+  fragments: {
+    team: () => Relay.QL`
+      fragment on Team {
+        id
+        uuid
+        name
+        description
+        ${TeamLabels.getFragment('team')}
+      }
+    `
   }
-`);
-
+});

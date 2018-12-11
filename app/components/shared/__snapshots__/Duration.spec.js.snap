@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Duration calls through to \`getDurationString\` 1`] = `
+<span
+  className="tabular-numerals"
+>
+  MOCKED-DURATION
+</span>
+`;
+
+exports[`Duration tabularNumerals can be disabled 1`] = `
+<span
+  className=""
+>
+  MOCKED-DURATION
+</span>
+`;

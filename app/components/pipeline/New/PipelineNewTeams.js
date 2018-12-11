@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
+
 import FormInputLabel from 'app/components/shared/FormInputLabel';
 import FormInputHelp from 'app/components/shared/FormInputHelp';
 import FormInputErrors from 'app/components/shared/FormInputErrors';
+
 import MemberTeamRow from 'app/components/member/MemberTeamRow';
 
 const filterAllowedTeams = (connection) => {
@@ -94,24 +96,22 @@ class PipelineNewTeams extends React.Component {
   };
 }
 
-export default Relay.createContainer(PipelineNewTeams, {
-  fragments: {
-    organization: () => Relay.QL`
-      fragment on Organization {
-        teams(first: 50) {
-          edges {
-            node {
-              ${MemberTeamRow.getFragment('team')}
-              uuid
-              permissions {
-                pipelineView {
-                  allowed
-                }
+export default createFragmentContainer(PipelineNewTeams, {
+  organization: graphql`
+    fragment PipelineNewTeams_organization on Organization {
+      teams(first: 50) {
+        edges {
+          node {
+            ...MemberTeamRow_team
+            uuid
+            permissions {
+              pipelineView {
+                allowed
               }
             }
           }
         }
       }
-    `
-  }
+    }
+  `
 });
