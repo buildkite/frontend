@@ -2,40 +2,25 @@
 
 import * as React from "react";
 import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql, commitMutation } from "react-relay/compat";
-import type { RelayProp } from 'react-relay';
-
+import { QueryRenderer, createFragmentContainer, graphql, commitMutation } from "react-relay/compat";
+import Environment from 'app/lib/relay/environment';
+import SectionLoader from 'app/components/shared/SectionLoader';
 import Button from 'app/components/shared/Button';
 import Dropdown from 'app/components/shared/Dropdown';
-
 import FlashesStore from 'app/stores/FlashesStore';
-
 import GraphQLExplorerConsoleEditor from "./GraphQLExplorerConsoleEditor";
 import GraphQLExplorerConsoleResultsViewer from "./GraphQLExplorerConsoleResultsViewer";
-
 import { executeQuery } from "./query";
 import consoleState from "./consoleState";
-
-type OrganizationEdge = {
-  node: {
-    id: string,
-    name: string,
-    slug: string
-  }
-};
+import type { RelayProp } from 'react-relay';
+import type { GraphQLExplorerConsoleSnippetQueryResponse } from './__generated__/GraphQLExplorerConsoleSnippetQuery.graphql';
+import type { GraphQLExplorerConsole_graphQLSnippet } from './__generated__/GraphQLExplorerConsole_graphQLSnippet.graphql';
+import type { GraphQLExplorerConsole_viewer } from './__generated__/GraphQLExplorerConsole_viewer.graphql';
 
 type Props = {
-  viewer: {
-    organizations: {
-      edges: Array<OrganizationEdge>
-    }
-  },
   relay: RelayProp,
-  graphQLSnippet?: {
-    query: string,
-    url: string,
-    operationName: ?string
-  }
+  viewer: GraphQLExplorerConsole_viewer,
+  graphQLSnippet: null | GraphQLExplorerConsole_graphQLSnippet
 };
 
 type State = {
@@ -71,7 +56,9 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
 
-    consoleState.setOrganizationEdges(this.props.viewer.organizations.edges);
+    if (this.props.viewer.organizations && this.props.viewer.organizations.edges) {
+      consoleState.setOrganizationEdges(this.props.viewer.organizations.edges);
+    }
 
     if (this.props.graphQLSnippet) {
       consoleState.setGraphQLSnippet(this.props.graphQLSnippet);
@@ -138,7 +125,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
 
   render() {
     return (
-      <div>
+      <div data-testid="GraphQLExplorerConsole">
         <div className="mb3 flex justify-start">
           <div className="flex items-center">
             <Button onClick={this.handleExecuteClick} loading={this.state.executing && "Executing…"}>Execute</Button>
@@ -355,7 +342,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   };
 }
 
-export default createFragmentContainer(GraphQLExplorerConsole, {
+const GraphQLExplorerConsoleContainer = createFragmentContainer(GraphQLExplorerConsole, {
   graphQLSnippet: graphql`
     fragment GraphQLExplorerConsole_graphQLSnippet on GraphQLSnippet {
       query
@@ -383,3 +370,57 @@ export default createFragmentContainer(GraphQLExplorerConsole, {
     }
   `
 });
+
+const GraphQLExplorerConsoleContainerQuery = graphql`
+  query GraphQLExplorerConsoleSnippetQuery($hasSnippet: Boolean! $snippet: String!) {
+    viewer {
+      ...GraphQLExplorerConsole_viewer
+    }
+    graphQLSnippet(uuid: $snippet) @include (if: $hasSnippet) {
+      query
+      operationName
+      url
+      ...GraphQLExplorerConsole_graphQLSnippet
+    }
+  }
+`;
+
+type ContainerProps = {
+  params: {
+    snippet?: string
+  }
+};
+
+/* eslint-disable react/no-multi-comp */
+export default class GraphQLExplorerConsoleQueryContainer extends React.PureComponent<ContainerProps> {
+  environment = Environment.get();
+
+  get snippet(): string {
+    return this.props.params.snippet || "";
+  }
+
+  get hasSnippet(): boolean {
+    return this.snippet !== "";
+  }
+
+  render() {
+    return (
+      <QueryRenderer
+        environment={this.environment}
+        query={GraphQLExplorerConsoleContainerQuery}
+        variables={{ snippet: this.snippet, hasSnippet: this.hasSnippet }}
+        render={this.renderQuery}
+      />
+    );
+  }
+
+  renderQuery({ props }: { props: GraphQLExplorerConsoleSnippetQueryResponse }) {
+    if (props) {
+      return (
+        // $FlowExpectError `graphQLSnippet` here needs to be null to avoid a warning because of the weird `@include` stuff we’re doing.
+        <GraphQLExplorerConsoleContainer graphQLSnippet={null} {...props} {...this.props} />
+      );
+    }
+    return <SectionLoader />;
+  }
+}

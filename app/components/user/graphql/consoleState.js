@@ -2,7 +2,7 @@
 
 import { interpolateQuery, findQueryOperationNames } from "./query";
 import { DEFAULT_QUERY_WITH_ORGANIZATION, DEFAULT_QUERY_NO_ORGANIZATION } from "./defaults";
-import type OrganizationEdge from "./GraphQLExplorerConsole";
+import type { GraphQLExplorerConsole_graphQLSnippet } from './__generated__/GraphQLExplorerConsole_graphQLSnippet.graphql';
 
 const LOCAL_STORAGE_KEY = "GraphQLExplorer.consoleState";
 
@@ -17,11 +17,11 @@ class ConsoleState {
     this.loadFromLocalStorage();
   }
 
-  setOrganizationEdges(organizationEdges: Array<OrganizationEdge>) {
+  setOrganizationEdges(organizationEdges: *) {
     this.organizationEdges = organizationEdges;
   }
 
-  setGraphQLSnippet(snippet: { query: string, operationName: ?string }) {
+  setGraphQLSnippet(snippet: GraphQLExplorerConsole_graphQLSnippet) {
     this.query = snippet.query;
     this.currentOperationName = snippet.operationName;
   }

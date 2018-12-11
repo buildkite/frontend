@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import DocumentTitle from 'react-document-title';
-import { createRefetchContainer, graphql } from 'react-relay/compat';
+import { QueryRenderer, createRefetchContainer, graphql } from 'react-relay/compat';
 import Badge from 'app/components/shared/Badge';
 import Button from 'app/components/shared/Button';
 import Panel from 'app/components/shared/Panel';
@@ -15,6 +15,10 @@ import TwoFactorDelete from 'app/components/user/TwoFactor/TwoFactorDelete';
 import { SettingsMenuFragment as SettingsMenu } from 'app/components/user/SettingsMenu';
 import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disable-line
 import RecoveryCodes from './RecoveryCodes';
+import Environment from 'app/lib/relay/environment';
+import SectionLoader from 'app/components/shared/SectionLoader';
+import RelayModernPreloader from 'app/lib/RelayModernPreloader';
+import type { TwoFactorQueryResponse } from './__generated__/TwoFactorQuery.graphql';
 import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
 
 function AuthenticatorUrl({ name, url }: {|name: string, url: string|}) {
@@ -44,6 +48,14 @@ const AUTHENTICATOR_LIST = AUTHENTICATORS.reduce((memo, authenticator, index, { 
   <AuthenticatorUrl {...authenticator} key={authenticator.name} />,
   ((index < length - 1) ? ((index < length - 2) ? ', ' : ' and ') : '')
 ], []);
+
+const TwoFactorQuery = graphql`
+  query TwoFactorQuery {
+    viewer {
+      ...TwoFactor_viewer
+    }
+  }
+`;
 
 type Props = {
   viewer: TwoFactor_viewer
@@ -199,7 +211,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
 
     return (
       <DocumentTitle title="Two-Factor Authentication">
-        <React.Fragment>
+        <div data-testid="TwoFactor">
           <PageWithMenu>
             <SettingsMenu viewer={this.props.viewer} />
             <PageHeader>
@@ -230,7 +242,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
               />
             </Dialog>
           </PageWithMenu>
-        </React.Fragment>
+        </div>
       </DocumentTitle>
     );
   }
@@ -268,7 +280,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
   }
 }
 
-export default createRefetchContainer(
+const TwoFactorRefetchContainer = createRefetchContainer(
   TwoFactor,
   graphql`
     fragment TwoFactor_viewer on Viewer {
@@ -294,11 +306,36 @@ export default createRefetchContainer(
       }
     }
   `,
-  graphql`
-    query TwoFactorRefetchQuery {
-      viewer {
-        ...TwoFactor_viewer
-      }
-    }
-  `
+  TwoFactorQuery
 );
+
+type ContainerProps = {};
+
+/* eslint-disable react/no-multi-comp */
+export default class TwoFactorQueryContainer extends React.PureComponent<ContainerProps> {
+  environment = Environment.get();
+
+  constructor(props: ContainerProps) {
+    super(props);
+
+    RelayModernPreloader.preload({ query: TwoFactorQuery, environment: this.environment });
+  }
+
+  render() {
+    return (
+      <QueryRenderer
+        dataFrom="STORE_THEN_NETWORK"
+        environment={this.environment}
+        query={TwoFactorQuery}
+        render={this.renderQuery}
+      />
+    );
+  }
+
+  renderQuery({ props }: { props: TwoFactorQueryResponse }) {
+    if (props) {
+      return <TwoFactorRefetchContainer {...props} />;
+    }
+    return <SectionLoader />;
+  }
+}

@@ -65,7 +65,7 @@ import * as PipelineScheduleQuery from './queries/PipelineSchedule';
 import * as TeamQuery from './queries/Team';
 import * as ViewerQuery from './queries/Viewer';
 import * as APIAccessTokenCodeQuery from './queries/APIAccessTokenCode';
-import * as GraphQLSnippetQuery from './queries/GraphQLSnippet';
+// import * as GraphQLSnippetQuery from './queries/GraphQLSnippet';
 
 import FlashesStore from './stores/FlashesStore';
 
@@ -125,21 +125,21 @@ export default (
 
       <Route path="user">
         <Route path="two-factor">
-          <IndexRoute component={TwoFactorIndex} queries={{ viewer: ViewerQuery.query }} />
+          <IndexRoute component={TwoFactorIndex} />
         </Route>
 
         <Route path="graphql" component={GraphQLExplorer}>
           <IndexRedirect to="console" />
           <Route path="console">
-            <IndexRoute component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query }} />
-            <Route path=":snippet" component={GraphQLExplorerConsole} queries={{ viewer: ViewerQuery.query, graphQLSnippet: GraphQLSnippetQuery.query }} />
+            <IndexRoute component={GraphQLExplorerConsole} />
+            <Route path=":snippet" component={GraphQLExplorerConsole} />
           </Route>
           <Route path="documentation">
             <IndexRoute component={GraphQLExplorerDocumentation} />
             <Route path="query/:field" component={GraphQLExplorerDocumentationQuery} />
             <Route path="mutation/:field" component={GraphQLExplorerDocumentationMutation} />
           </Route>
-          <Route path="examples" component={GraphQLExplorerExamples} queries={{ viewer: ViewerQuery.query }} />
+          <Route path="examples" component={GraphQLExplorerExamples} />
         </Route>
       </Route>
 
@@ -170,7 +170,7 @@ export default (
         </Route>
         <Route path="teams" component={OrganizationSettingsSection} queries={{ organization: OrganizationQuery.query }}>
           <IndexRoute component={TeamIndex} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
-          <Route path="new" component={TeamNew} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+          <Route path="new" component={TeamNew} />
           <Route path=":team" component={TeamShow} queries={{ team: TeamQuery.query }} prepareParams={TeamQuery.prepareParams} render={renderSectionLoading}>
             <IndexRedirect to="members" />
             <Redirect from="edit" to="settings" />

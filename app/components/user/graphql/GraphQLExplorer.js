@@ -2,7 +2,6 @@
 
 import React from "react";
 import DocumentTitle from "react-document-title";
-
 import PageHeader from 'app/components/shared/PageHeader';
 import TabControl from 'app/components/shared/TabControl';
 import Icon from 'app/components/shared/Icon';
@@ -13,7 +12,7 @@ type Props = {
   children: React$Node
 };
 
-class GraphQLExplorer extends React.PureComponent<Props> {
+export default class GraphQLExplorer extends React.PureComponent<Props> {
   render() {
     return (
       <DocumentTitle title={`GraphQL Console`}>
@@ -47,5 +46,3 @@ class GraphQLExplorer extends React.PureComponent<Props> {
     );
   }
 }
-
-export default GraphQLExplorer;
