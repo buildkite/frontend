@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import DocumentTitle from 'react-document-title';
-import { createRefetchContainer, graphql } from 'react-relay/compat';
+import { QueryRenderer, createRefetchContainer, graphql } from 'react-relay/compat';
 import Badge from 'app/components/shared/Badge';
 import Button from 'app/components/shared/Button';
 import Panel from 'app/components/shared/Panel';
@@ -16,6 +16,8 @@ import { SettingsMenuFragment as SettingsMenu } from 'app/components/user/Settin
 import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disable-line
 import RecoveryCodes from './RecoveryCodes';
 import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
+import Environment from 'app/lib/relay/environment';
+import SectionLoader from 'app/components/shared/SectionLoader';
 
 function AuthenticatorUrl({ name, url }: {|name: string, url: string|}) {
   return (
@@ -268,7 +270,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
   }
 }
 
-export default createRefetchContainer(
+const TwoFactorRefetchContainer = createRefetchContainer(
   TwoFactor,
   graphql`
     fragment TwoFactor_viewer on Viewer {
@@ -302,3 +304,30 @@ export default createRefetchContainer(
     }
   `
 );
+
+export default class TwoFactorQueryContainer extends React.PureComponent<Props, State> {
+  environment = Environment.get();
+  static query = graphql`
+    query TwoFactorQueryContainer {
+      viewer {
+        ...TwoFactor_viewer
+      }
+    }
+  `;
+
+  render() {
+    return (
+      <QueryRenderer
+        environment={this.environment}
+        query={TwoFactorQueryContainer.query}
+        render={({props}) => {
+          if(props) {
+            return <TwoFactorRefetchContainer {...props}/>
+          } else {
+            return <SectionLoader />
+          }
+        }}
+      />
+    );
+  }
+}

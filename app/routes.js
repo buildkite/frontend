@@ -125,7 +125,7 @@ export default (
 
       <Route path="user">
         <Route path="two-factor">
-          <IndexRoute component={TwoFactorIndex} queries={{ viewer: ViewerQuery.query }} />
+          <IndexRoute component={TwoFactorIndex} />
         </Route>
 
         <Route path="graphql" component={GraphQLExplorer}>
