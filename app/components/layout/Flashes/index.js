@@ -18,7 +18,7 @@ class Flashes extends React.PureComponent<{}, State> {
     lastConnected: true // assume we were connected when the page loaded
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (FlashesStore.preloaded) {
       this.setState({ flashes: FlashesStore.preloaded });
     }

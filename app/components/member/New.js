@@ -68,7 +68,7 @@ class MemberNew extends React.PureComponent {
     this.props.relay.forceFetch({ isMounted: true });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // Initialize state teams to default teams when mounted and we get props
     if (this.state.teams === null && nextProps.organization.teams) {
       const defaultTeams = nextProps.organization.teams.edges

@@ -43,7 +43,7 @@ class Jobs extends React.PureComponent {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.query !== nextProps.query) {
       const variables = this.parseSearchQuery(nextProps.query);
 

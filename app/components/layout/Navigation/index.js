@@ -64,7 +64,7 @@ class Navigation extends React.PureComponent<Props, State> {
     UserSessionStore.on('change', this.handleSessionDataChange);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // When the page loads, we want to pull the last default team out of the UserSessionStore.
     if (this.props.organization && this.props.organization.id) {
       this.setState({
@@ -73,7 +73,7 @@ class Navigation extends React.PureComponent<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // If we're moving between organizations, we need to pull out the new
     // organization's default team setting, if it's available.
     if (
@@ -166,7 +166,7 @@ class Navigation extends React.PureComponent<Props, State> {
     if (this.props.organization) {
       return (
         <div className="border-top border-gray lg-hide">
-          <div className="container flex flex-stretch" style={{ height: 45, overflowX: 'auto' }}>
+          <div className={`container ${window.Features.Widescreen ? "container-widescreen" : ""} flex flex-stretch`} style={{ height: 45, overflowX: 'auto' }}>
             {this.renderOrganizationMenu({ paddingLeft: 0 })}
           </div>
         </div>
@@ -382,7 +382,7 @@ class Navigation extends React.PureComponent<Props, State> {
         style={{ fontSize: 13, marginBottom: 25 }}
         data-tag={true}
       >
-        <div className="container">
+        <div className={`container ${window.Features.Widescreen ? "container-widescreen" : ""}`}>
           <div className="flex" style={{ height: 45 }}>
             <span className="flex relative border-right border-gray items-center">
               <NavigationButton

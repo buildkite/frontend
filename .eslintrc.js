@@ -30,6 +30,12 @@ module.exports = {
     'relay',
     'graphql'
   ],
+  settings: {
+    react: {
+      version: "16.6",
+      flowVersion: "0.84"
+    }
+  },
   rules: {
   'array-bracket-spacing': [ ERROR, 'never' ],
     'arrow-parens': WARN,
@@ -110,7 +116,7 @@ module.exports = {
     'react/no-array-index-key': WARN,
     'react/no-danger': OFF,
     'react/no-danger-with-children': ERROR,
-    'react/no-deprecated': WARN,
+    'react/no-deprecated': ERROR,
     'react/no-did-mount-set-state': ERROR,
     'react/no-did-update-set-state': ERROR,
     'react/no-direct-mutation-state': ERROR,
@@ -120,6 +126,7 @@ module.exports = {
     'react/no-string-refs': ERROR,
     'react/no-unescaped-entities': ERROR,
     'react/no-unknown-property': ERROR,
+    'react/no-unsafe': WARN,
     'react/no-unused-prop-types': ERROR,
     'react/prefer-es6-class': ERROR,
     'react/prefer-stateless-function': OFF,

@@ -34,13 +34,13 @@ export default class SearchField extends React.PureComponent {
   // NOTE: We make the input a controlled component within the
   // context of the search field so that usages can reset the value
   // via defaultValue without controlling the entire component themselves
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.defaultValue) {
       this.setState({ value: this.props.defaultValue });
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.defaultValue !== this.props.defaultValue) {
       this.setState({ value: nextProps.defaultValue || '' });
     }

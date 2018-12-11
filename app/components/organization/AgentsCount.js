@@ -48,7 +48,7 @@ class AgentsCount extends React.PureComponent {
   };
 
   // Only once Relay comes back with an updated agentCount do we trust that data!
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     if (nextProps.organization.agents) {
       this.setState({ agentCount: nextProps.organization.agents.count });
     }

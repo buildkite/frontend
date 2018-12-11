@@ -28,7 +28,7 @@ class Button extends React.Component {
     lastPathname: null
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({
       lastPathname: window.location.pathname
     });

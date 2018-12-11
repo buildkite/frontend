@@ -39,7 +39,7 @@ class Form extends React.PureComponent {
     ssoMode: null
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({
       role: this.props.organizationMember.role,
       ssoMode: this.props.organizationMember.sso.mode
