@@ -90,6 +90,8 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
   _dragArea: ?HTMLDivElement;
   dragAreaRef = (ref: ?HTMLDivElement) => this._dragArea = ref;
 
+  _loadImage: ?Promise<{ default: Function }>;
+
   componentDidMount() {
     this.assetUploader = new AssetUploader({
       onAssetUploaded: this.handleAssetUploaded,
@@ -144,6 +146,9 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     event.stopPropagation();
     event.preventDefault();
 
+    // Make sure we're loading the image processing code now the user is dragging something around
+    this.getLoadImage();
+
     this.setState(
       {
         dropAreaHover: false,
@@ -172,6 +177,10 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     event.stopPropagation();
     event.preventDefault();
 
+    // Make sure we're now loading (hopefully _have loaded_!) the image
+    // processing code now that the user is dragging over the drop area
+    this.getLoadImage();
+
     this.setState({ dropAreaHover: true }, this.setDragTimeout);
   }
 
@@ -179,7 +188,7 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     event.stopPropagation();
     event.preventDefault();
 
-    this.upload(event.dataTransfer && event.dataTransfer.files);
+    this.startUpload(event.dataTransfer && event.dataTransfer.files);
   }
 
   handleIconInputChange = () => {
@@ -190,10 +199,26 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
       return;
     }
 
-    this.upload(this._iconInput && this._iconInput.files);
+    this.startUpload(this._iconInput && this._iconInput.files);
   }
 
-  upload = (files: ?FileList) => {
+  getLoadImage = () => {
+    // If we don't have our import promise stored, create it
+    if (!this._loadImage) {
+      this._loadImage = import('blueimp-load-image');
+    }
+
+    // Finally, return the promise
+    return this._loadImage;
+  }
+
+  withLoadImage = (callback: Function) => {
+    // Call back with the default loadImage
+    // function, once the import promise resolves
+    this.getLoadImage().then((module) => callback(module.default));
+  }
+
+  startUpload = (files: ?FileList) => {
     if (this.props.onChange) {
       this.props.onChange();
     }
@@ -203,7 +228,7 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
         allowFileInput: false,
         documentHover: false,
         dropAreaHover: false,
-        uploading: false,
+        uploading: true,
         uploaded: false,
         error: null
       },
@@ -213,37 +238,103 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
         );
 
         if (imageFiles.length === 1) {
-          if (this.state.lastImageUrl) {
-            URL.revokeObjectURL(this.state.lastImageUrl);
+          const imageFile = imageFiles[0];
+
+          // If the image is less than 256 kb, is an svg (and thus can't be
+          // resized!), or is a gif less than 768kb, don't bother resizing
+          if (imageFile.size <= 262144 ||
+              imageFile.type === 'image/svg' ||
+              (imageFile.type === 'image/gif' && imageFile.size <= 786432)) {
+            this.processUpload(imageFile);
+            return;
           }
 
-          this.setState({
-            uploading: true,
-            currentImageUrl: URL.createObjectURL(imageFiles[0]),
-            lastImageUrl: this.state.currentImageUrl
-          });
-
-          this.assetUploader.uploadFromArray(imageFiles);
+          this.withLoadImage(
+            (loadImage: Function) => loadImage(
+              imageFile,
+              (processed: HTMLImageElement | HTMLCanvasElement | Event) => {
+                if (processed instanceof HTMLCanvasElement) {
+                  processed.toBlob(
+                    (blob: Blob) => {
+                      // If we didn't improve things, then let's just upload the original
+                      if (blob.size >= imageFile.size) {
+                        this.processUpload(imageFile);
+                      } else {
+                        this.processUpload(blob);
+                      }
+                    },
+                    imageFile.type
+                  );
+                } else {
+                  // If loadImage gives us an <img/> (means the browser couldn't
+                  // do canvas), or otherwise couldn't resize it, use the original
+                  this.processUpload(imageFile);
+                }
+              },
+              {
+                // NOTE: Minimum heights and widths are merely so the library
+                // doesn't try to upscale the images. For what it's worth, most
+                // tiny images won't ever reach this point anyway due to byte
+                // size, so we won't likely be processing any 1px tracking gifs
+                // via this code, but might as well be lossless when acceptable.
+                minHeight: 1,
+                minWidth: 1,
+                // This asks the resize library to respect EXIF orientation
+                // information in JPEGs, so we don't end up with sideways avatars
+                orientation: true,
+                // Finally, this is the size we will downscale larger images to.
+                //
+                // 500px was chosen to balance byte size and utility because we'd
+                // like the ability to display larger images in the future, but
+                // don't currently have tech to resize for each display size, so
+                // this avoids us displaying a 1024px image in 25px img tags!
+                maxHeight: 500,
+                maxWidth: 500
+              }
+            )
+          );
         } else if (imageFiles.length > 1) {
-          const error = new Error('Only one image can be uploaded.');
-          this.setState(
-            { error },
-            () => {
-              if (this.props.onError) {
-                this.props.onError(error);
-              }
-            }
-          );
+          this.setError(new Error('Only one image can be uploaded.'));
         } else {
-          const error = new Error('You can only upload images.');
-          this.setState(
-            { error },
-            () => {
-              if (this.props.onError) {
-                this.props.onError(error);
-              }
-            }
-          );
+          this.setError(new Error('You can only upload images.'));
+        }
+      }
+    );
+  }
+
+  processUpload = (imageFile: File | Blob) => {
+    if (imageFile.size > 2097152) {
+      this.setError(
+        new Error(
+          'Sorry, that image is too large. Please try one smaller than 2 megabytes.'
+        )
+      );
+      return;
+    }
+
+    const processedUrl = URL.createObjectURL(imageFile);
+
+    if (this.state.lastImageUrl) {
+      URL.revokeObjectURL(this.state.lastImageUrl);
+    }
+
+    this.setState({
+      currentImageUrl: processedUrl,
+      lastImageUrl: this.state.currentImageUrl
+    });
+
+    this.assetUploader.uploadFromArray([imageFile]);
+  };
+
+  setError = (error: Error) => {
+    this.setState(
+      {
+        uploading: false,
+        error
+      },
+      () => {
+        if (this.props.onError) {
+          this.props.onError(error);
         }
       }
     );
@@ -251,6 +342,9 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
 
   handleUploadClick = (event: MouseEvent) => {
     event.preventDefault();
+
+    // Start loading the image processing code while the user browses for a file
+    this.getLoadImage();
 
     this.setState(
       { allowFileInput: true },
