@@ -17,6 +17,12 @@
   }
 }
 
+.container-widescreen {
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 /* Override the breakpoints set in basscss-hide so they match up with the container
  * widths above */
 @custom-media --breakpoint-xs (max-width: 767px);
