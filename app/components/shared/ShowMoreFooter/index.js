@@ -1,25 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+// @flow
+
+import * as React from 'react';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import classNames from 'classnames';
+import Button from 'app/components/shared/Button';
+import Spinner from 'app/components/shared/Spinner';
+import type { ShowMoreFooter_connection } from './__generated__/ShowMoreFooter_connection.graphql';
 
-import Button from './Button';
-import Spinner from './Spinner';
+type Props = {
+  connection: ShowMoreFooter_connection,
+  onShowMore: () => void,
+  label: string,
+  loading: boolean,
+  searching: boolean,
+  className?: string
+};
 
-export class ShowMoreFooter extends React.PureComponent {
-  static propTypes = {
-    connection: PropTypes.shape({
-      pageInfo: PropTypes.shape({
-        hasNextPage: PropTypes.bool.isRequired
-      }).isRequired
-    }),
-    onShowMore: PropTypes.func.isRequired,
-    label: PropTypes.string,
-    loading: PropTypes.bool,
-    searching: PropTypes.bool,
-    className: PropTypes.string
-  };
-
+export class ShowMoreFooter extends React.PureComponent<Props> {
   static defaultProps = {
     loading: false,
     searching: false,
@@ -36,7 +33,7 @@ export class ShowMoreFooter extends React.PureComponent {
 
     // don't show any footer if we haven't ever loaded
     // any items, or if there's no next page
-    if (!connection || !connection.pageInfo.hasNextPage) {
+    if (!connection || !connection.pageInfo || !connection.pageInfo.hasNextPage) {
       return null;
     }
 
@@ -63,14 +60,10 @@ export class ShowMoreFooter extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(ShowMoreFooter, {
-  fragments: {
-    connection: () => Relay.QL`
-      fragment on Connection {
-        pageInfo {
-          hasNextPage
-        }
-      }
-    `
+export default createFragmentContainer(ShowMoreFooter, graphql`
+  fragment ShowMoreFooter_connection on Connection {
+    pageInfo {
+      hasNextPage
+    }
   }
-});
+`);
