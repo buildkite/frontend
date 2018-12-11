@@ -8,6 +8,7 @@ import Dropdown from 'app/components/shared/Dropdown';
 import SectionLoader from 'app/components/shared/SectionLoader';
 import GraphQLExplorerExampleSection from "./GraphQLExplorerExampleSection";
 import EXAMPLES from "./examples";
+import type { GraphQLExplorerExamplesQueryResponse } from './__generated__/GraphQLExplorerExamplesQuery.graphql';
 
 type Organization = {
   id: string,
@@ -160,7 +161,7 @@ export default class GraphQLExplorerExamplesQueryContainer extends React.PureCom
     );
   }
 
-  renderQuery({ props }) {
+  renderQuery({ props }: { props: GraphQLExplorerExamplesQueryResponse }) {
     if (props) {
       return <GraphQLExplorerExamplesContainer {...props} />;
     }

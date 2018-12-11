@@ -15,9 +15,10 @@ import TwoFactorDelete from 'app/components/user/TwoFactor/TwoFactorDelete';
 import { SettingsMenuFragment as SettingsMenu } from 'app/components/user/SettingsMenu';
 import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disable-line
 import RecoveryCodes from './RecoveryCodes';
-import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
 import Environment from 'app/lib/relay/environment';
 import SectionLoader from 'app/components/shared/SectionLoader';
+import type { TwoFactorQueryResponse } from './__generated__/TwoFactorQuery.graphql';
+import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
 
 function AuthenticatorUrl({ name, url }: {|name: string, url: string|}) {
   return (
@@ -321,7 +322,7 @@ export default class TwoFactorQueryContainer extends React.PureComponent<{}> {
     );
   }
 
-  renderQuery({ props }) {
+  renderQuery({ props }: { props: TwoFactorQueryResponse }) {
     if (props) {
       return <TwoFactorRefetchContainer {...props} />;
     }
