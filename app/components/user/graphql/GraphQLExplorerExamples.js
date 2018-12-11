@@ -1,11 +1,11 @@
 // @flow
 
 import React from "react";
-import { createFragmentContainer, graphql } from "react-relay/compat";
-
+import { QueryRenderer, createFragmentContainer, graphql } from "react-relay/compat";
+import Environment from 'app/lib/relay/environment';
 import Panel from 'app/components/shared/Panel';
 import Dropdown from 'app/components/shared/Dropdown';
-
+import SectionLoader from 'app/components/shared/SectionLoader';
 import GraphQLExplorerExampleSection from "./GraphQLExplorerExampleSection";
 import EXAMPLES from "./examples";
 
@@ -115,7 +115,7 @@ class GraphQLExplorerExamples extends React.PureComponent<Props, State> {
   };
 }
 
-export default createFragmentContainer(GraphQLExplorerExamples, {
+const GraphQLExplorerExamplesContainer = createFragmentContainer(GraphQLExplorerExamples, {
   viewer: graphql`
     fragment GraphQLExplorerExamples_viewer on Viewer {
       organizations(first: 100) {
@@ -136,3 +136,34 @@ export default createFragmentContainer(GraphQLExplorerExamples, {
     }
   `
 });
+
+const GraphQLExplorerExamplesQuery = graphql`
+  query GraphQLExplorerExamplesQuery {
+    viewer {
+      ...GraphQLExplorerExamples_viewer
+    }
+  }
+`;
+
+
+/* eslint-disable react/no-multi-comp */
+export default class GraphQLExplorerExamplesQueryContainer extends React.PureComponent<{}> {
+  environment = Environment.get();
+
+  render() {
+    return (
+      <QueryRenderer
+        environment={this.environment}
+        query={GraphQLExplorerExamplesQuery}
+        render={this.renderQuery}
+      />
+    );
+  }
+
+  renderQuery({ props }) {
+    if (props) {
+      return <GraphQLExplorerExamplesContainer {...props} />;
+    }
+    return <SectionLoader />;
+  }
+}

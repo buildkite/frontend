@@ -2,19 +2,17 @@
 
 import * as React from "react";
 import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql, commitMutation } from "react-relay/compat";
-import type { RelayProp } from 'react-relay';
-
+import { QueryRenderer, createFragmentContainer, graphql, commitMutation } from "react-relay/compat";
+import Environment from 'app/lib/relay/environment';
+import SectionLoader from 'app/components/shared/SectionLoader';
 import Button from 'app/components/shared/Button';
 import Dropdown from 'app/components/shared/Dropdown';
-
 import FlashesStore from 'app/stores/FlashesStore';
-
 import GraphQLExplorerConsoleEditor from "./GraphQLExplorerConsoleEditor";
 import GraphQLExplorerConsoleResultsViewer from "./GraphQLExplorerConsoleResultsViewer";
-
 import { executeQuery } from "./query";
 import consoleState from "./consoleState";
+import type { RelayProp } from 'react-relay';
 
 type OrganizationEdge = {
   node: {
@@ -355,7 +353,7 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   };
 }
 
-export default createFragmentContainer(GraphQLExplorerConsole, {
+const GraphQLExplorerConsoleContainer = createFragmentContainer(GraphQLExplorerConsole, {
   graphQLSnippet: graphql`
     fragment GraphQLExplorerConsole_graphQLSnippet on GraphQLSnippet {
       query
@@ -383,3 +381,50 @@ export default createFragmentContainer(GraphQLExplorerConsole, {
     }
   `
 });
+
+const GraphQLExplorerConsoleContainerQuery = graphql`
+  query GraphQLExplorerConsoleSnippetQuery($hasSnippet: Boolean! $snippet: String!) {
+    viewer {
+      ...GraphQLExplorerConsole_viewer
+    }
+    graphQLSnippet(uuid: $snippet) @include (if: $hasSnippet) {
+      query
+      operationName
+      url
+      ...GraphQLExplorerConsole_graphQLSnippet
+    }
+  }
+`;
+
+/* eslint-disable react/no-multi-comp */
+export default class GraphQLExplorerConsoleQueryContainer extends React.PureComponent<{}> {
+  environment = Environment.get();
+
+  get snippet(): string {
+    return this.props.params.snippet || "";
+  }
+
+  get hasSnippet(): boolean {
+    return this.snippet !== "";
+  }
+
+  render() {
+    return (
+      <QueryRenderer
+        environment={this.environment}
+        query={GraphQLExplorerConsoleContainerQuery}
+        variables={{ snippet: this.snippet, hasSnippet: this.hasSnippet }}
+        render={this.renderQuery}
+      />
+    );
+  }
+
+  renderQuery({ props }) {
+    if (props) {
+      return (
+        <GraphQLExplorerConsoleContainer graphQLSnippet={null} {...props} {...this.props} />
+      );
+    }
+    return <SectionLoader />;
+  }
+}

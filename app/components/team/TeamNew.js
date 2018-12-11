@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
+import { QueryRenderer, createFragmentContainer, graphql, commitMutation } from 'react-relay/compat';
 import DocumentTitle from 'react-document-title';
-
+import Environment from 'app/lib/relay/environment';
+import SectionLoader from 'app/components/shared/SectionLoader';
 import PageHeader from 'app/components/shared/PageHeader';
 import Panel from 'app/components/shared/Panel';
 import TeamForm from './Form';
-
 import GraphQLErrors from 'app/constants/GraphQLErrors';
 import TeamMemberRoleConstants from 'app/constants/TeamMemberRoleConstants';
 import TeamPrivacyConstants from 'app/constants/TeamPrivacyConstants';
@@ -155,7 +155,7 @@ class TeamNew extends React.Component {
   };
 }
 
-export default createFragmentContainer(TeamNew, {
+const TeamNewContainer = createFragmentContainer(TeamNew, {
   organization: graphql`
     fragment TeamNew_organization on Organization {
       id
@@ -170,3 +170,36 @@ export default createFragmentContainer(TeamNew, {
     }
   `
 });
+
+const TeamNewContainerQuery = graphql`
+  query TeamNewQuery($slug: ID!) {
+    organization(slug: $slug) {
+      ...TeamNew_organization
+    }
+  }
+`;
+
+/* eslint-disable react/no-multi-comp */
+export default class TeamNewQueryContainer extends React.PureComponent {
+  environment = Environment.get();
+
+  render() {
+    return (
+      <QueryRenderer
+        environment={this.environment}
+        query={TeamNewContainerQuery}
+        variables={{ slug: this.props.params.organization }}
+        render={this.renderQuery}
+      />
+    );
+  }
+
+  renderQuery({ props }) {
+    if (props) {
+      return (
+        <TeamNewContainer {...props} {...this.props} />
+      );
+    }
+    return <SectionLoader />;
+  }
+}
