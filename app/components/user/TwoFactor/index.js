@@ -17,6 +17,7 @@ import RecoveryCodeList from 'app/components/RecoveryCodeList'; // eslint-disabl
 import RecoveryCodes from './RecoveryCodes';
 import Environment from 'app/lib/relay/environment';
 import SectionLoader from 'app/components/shared/SectionLoader';
+import RelayModernPreloader from 'app/lib/RelayModernPreloader';
 import type { TwoFactorQueryResponse } from './__generated__/TwoFactorQuery.graphql';
 import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql';
 
@@ -308,13 +309,22 @@ const TwoFactorRefetchContainer = createRefetchContainer(
   TwoFactorQuery
 );
 
+type ContainerProps = {};
+
 /* eslint-disable react/no-multi-comp */
-export default class TwoFactorQueryContainer extends React.PureComponent<{}> {
+export default class TwoFactorQueryContainer extends React.PureComponent<ContainerProps> {
   environment = Environment.get();
+
+  constructor(props: ContainerProps) {
+    super(props);
+
+    RelayModernPreloader.preload({ query: TwoFactorQuery, environment: this.environment });
+  }
 
   render() {
     return (
       <QueryRenderer
+        dataFrom="STORE_THEN_NETWORK"
         environment={this.environment}
         query={TwoFactorQuery}
         render={this.renderQuery}

@@ -1,6 +1,5 @@
 // @flow
 
-import invariant from 'invariant';
 import warn from 'app/lib/warn';
 import { createOperationSelector } from 'relay-runtime';
 import type { Variables, OperationSelector, GraphQLTaggedNode } from 'react-relay';
@@ -14,7 +13,7 @@ function compatUnpackQuery(query) {
 }
 
 function getPreloadPayload(requestId: string): Payload {
-  invariant(
+  warn(
     requestId in PRELOADED_QUERY_PAYLOADS,
     `The payload ID \`%s\` does not exist in the preloaded payloads IDs. Current preloaded IDs are: %s`,
     requestId,
@@ -34,15 +33,15 @@ export default class RelayModernPreloader {
     PRELOADED_QUERY_PAYLOADS = { ...PRELOADED_QUERY_PAYLOADS, [id]: { payload, variables } };
   }
 
-  static preload(runtimeQuery: GraphQLTaggedNode, variables: Variables, environment: *) {
-    const modernRuntimeQuery = compatUnpackQuery(runtimeQuery);
+  static preload(config: {query: GraphQLTaggedNode, variables?: Variables, environment: *}) {
+    const modernRuntimeQuery = compatUnpackQuery(config.query);
     const preloadPayload = getPreloadPayload(modernRuntimeQuery.name);
 
     if (preloadPayload) {
       if (process.env.NODE_ENV !== 'production') {
         const diff = require('lodash.difference');
         const preloadVars = preloadPayload.variables || {};
-        const runtimeVars = variables || {};
+        const runtimeVars = config.variables || {};
         const differences = [Object.keys, Object.values].reduce((memo, fn) => (memo.concat(diff(fn(preloadVars), fn(runtimeVars)))), []);
 
         warn(
@@ -56,9 +55,9 @@ export default class RelayModernPreloader {
         );
       }
 
-      const operationSelector: OperationSelector = createOperationSelector(modernRuntimeQuery, variables);
-      environment.commitPayload(operationSelector, preloadPayload.payload);
-      const check = environment.check(operationSelector.root);
+      const operationSelector: OperationSelector = createOperationSelector(modernRuntimeQuery, config.variables);
+      config.environment.commitPayload(operationSelector, preloadPayload.payload);
+      const check = config.environment.check(operationSelector.root);
 
       warn(
         check,

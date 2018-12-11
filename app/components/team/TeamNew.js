@@ -6,6 +6,7 @@ import Environment from 'app/lib/relay/environment';
 import SectionLoader from 'app/components/shared/SectionLoader';
 import PageHeader from 'app/components/shared/PageHeader';
 import Panel from 'app/components/shared/Panel';
+import RelayModernPreloader from 'app/lib/RelayModernPreloader';
 import TeamForm from './Form';
 import GraphQLErrors from 'app/constants/GraphQLErrors';
 import TeamMemberRoleConstants from 'app/constants/TeamMemberRoleConstants';
@@ -183,12 +184,29 @@ const TeamNewContainerQuery = graphql`
 export default class TeamNewQueryContainer extends React.PureComponent {
   environment = Environment.get();
 
+  constructor(props) {
+    super(props);
+
+    RelayModernPreloader.preload({
+      query: TeamNewContainerQuery,
+      variables: this.variables,
+      environment: this.environment
+    });
+  }
+
+  get variables() {
+    return {
+      slug: this.props.params.organization
+    };
+  }
+
   render() {
     return (
       <QueryRenderer
+        dataFrom="STORE_THEN_NETWORK"
         environment={this.environment}
         query={TeamNewContainerQuery}
-        variables={{ slug: this.props.params.organization }}
+        variables={this.variables}
         render={this.renderQuery}
       />
     );

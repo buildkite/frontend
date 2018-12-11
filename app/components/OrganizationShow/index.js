@@ -140,11 +140,11 @@ export default class OrganizationShow extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    RelayModernPreloader.preload(
-      OrganizationShow.query,
-      this.queryVariables,
-      this.environment
-    );
+    RelayModernPreloader.preload({
+      query: OrganizationShow.query,
+      variables: this.queryVariables,
+      environment: this.environment
+    });
   }
 
   render() {
