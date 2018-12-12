@@ -1,30 +1,29 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 
 import PusherStore from 'app/stores/PusherStore';
 
-class AnnnotationsList extends React.Component {
-  static propTypes = {
-    build: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      annotations: PropTypes.shape({
-        edges: PropTypes.arrayOf(
-          PropTypes.shape({
-            node: PropTypes.shape({
-              id: PropTypes.string.isRequired,
-              style: PropTypes.string.isRequired,
-              body: PropTypes.shape({
-                html: PropTypes.string
-              }).isRequired
-            }).isRequired
-          }).isRequired
-        ).isRequired
-      }).isRequired
-    }).isRequired,
-    relay: PropTypes.object
-  };
+type Props = {
+  build: {
+    id: string,
+    annotations: {
+      edges: Array<{
+        node: {
+          id: string,
+          style: string,
+          body: {
+            html: ?string
+          }
+        }
+      }>
+    }
+  },
+  relay: Object
+};
 
+class AnnnotationsList extends React.Component<Props> {
   componentDidMount() {
     PusherStore.on("build:annotations_change", this.handlePusherWebsocketEvent);
   }
@@ -40,6 +39,49 @@ class AnnnotationsList extends React.Component {
 
     return (
       <div>{annotations}</div>
+    );
+  }
+
+  handleAnnotationClick = (event: MouseEvent) => {
+    // Don't change anything if the user is using any modifier keys
+    if ((event.button !== 0) || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+      return;
+    }
+
+    // Don't change clicks in things which aren't <a /> elements, or don't have a `href`
+    if (!(event.target instanceof HTMLAnchorElement) || !event.target.href) {
+      return;
+    }
+
+    // Parse the link URL, relative to the current location
+    const linkUrl = new URL(event.target.href, window.location.href);
+
+    // Don't do anything to links which go somewhere other than this current page
+    if (`${linkUrl.origin}${linkUrl.pathname}` !== `${window.location.origin}${window.location.pathname}`) {
+      return;
+    }
+
+    const jobId = linkUrl.hash.slice(1);
+
+    // If we can't find a job component for that job ID, don't do anything
+    if (!document.getElementById(`job-component-${jobId}`)) {
+      return;
+    }
+
+    // Finally, if we now know this is a valid URL and job ID,
+    // cancel the browser's usual navigation, and emit a "job:focus" event
+    event.preventDefault();
+
+    // NOTE: You're supposed to pass a "full" job object here, but
+    // only actually consumes "id" and "path" - so here we fake it!
+    window.Buildkite.dispatcher.emit(
+      "job:focus",
+      {
+        job: {
+          id: jobId,
+          path: ((event.target: any): HTMLAnchorElement).href
+        }
+      }
     );
   }
 
@@ -84,7 +126,13 @@ class AnnnotationsList extends React.Component {
           </div>
         </div>
         <div className="flex-auto">
-          <div className="m3 annotation-body" dangerouslySetInnerHTML={{ __html: annotation.body.html }} />
+          <div
+            className="m3 annotation-body"
+            onClick={this.handleAnnotationClick}
+            dangerouslySetInnerHTML={{
+              __html: annotation.body.html
+            }}
+          />
         </div>
       </div>
     );
