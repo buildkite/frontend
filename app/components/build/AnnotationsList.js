@@ -53,8 +53,8 @@ class AnnnotationsList extends React.Component<Props> {
       return;
     }
 
-    // Parse the link URL
-    const linkUrl = new URL(event.target.href);
+    // Parse the link URL, relative to the current location
+    const linkUrl = new URL(event.target.href, window.location.href);
 
     // Don't do anything to links which go somewhere other than this current page
     if (`${linkUrl.origin}${linkUrl.pathname}` !== `${window.location.origin}${window.location.pathname}`) {
