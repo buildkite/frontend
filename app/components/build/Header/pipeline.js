@@ -225,7 +225,11 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
     return renderedJobs;
   },
 
-  pipelineStep(job) {
+  getWidthForParallelJobCount(parallelGroupTotal) {
+    return (58 + (parallelGroupTotal.toString(10).length - 1) * 7);
+  },
+
+  pipelineStep(job, inParallelGroup = false) {
     const stepClassName = this.stepClassName(job);
 
     const { BuildHeaderPipelineManualStepComponent, BuildHeaderPipelineTriggerStepComponent } = Buildkite;
@@ -236,11 +240,30 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
           <div
             key={job.id}
             data-toggle="tooltip"
-            title={job.tooltip}
+            title={inParallelGroup ? `${this.jobName(job)} ${job.tooltip}` : job.tooltip}
             className={stepClassName}
-            style={{ maxWidth: '15em' }}
+            style={{
+              maxWidth: inParallelGroup ? null : '15em',
+              minWidth: (
+                inParallelGroup
+                  ? this.getWidthForParallelJobCount(job.parallelGroupTotal)
+                  : null
+              )
+            }}
           >
-            {this.jobName(job)}
+            {inParallelGroup ? null : this.jobNameNode(job)}
+            {inParallelGroup && (
+              <div
+                className="ml1 rounded white semi-bold bg-white small tabular-numerals px1 border"
+                style={{
+                  color: this.getLabelBackgroundColor(job),
+                  borderColor: 'currentColor',
+                  lineHeight: 1.75
+                }}
+              >
+                {job.parallelGroupIndex + 1}
+              </div>
+            )}
           </div>
         );
       }
@@ -248,6 +271,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
       const href = `${this.props.build.path}#${job.id}`;
 
       let retriedIcon;
+
       if (job.retriedInJobUuid) {
         retriedIcon = (
           <Icon
@@ -264,10 +288,30 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
           href={href}
           onClick={this.handleScriptJobClick(job)}
           className={stepClassName}
-          style={{ maxWidth: '15em' }}
+          title={inParallelGroup ? this.jobName(job) : null}
+          style={{
+            maxWidth: inParallelGroup ? null : '15em',
+            minWidth: (
+              inParallelGroup
+                ? this.getWidthForParallelJobCount(job.parallelGroupTotal)
+                : null
+            )
+          }}
         >
           {retriedIcon}
-          {this.jobName(job)}
+          {inParallelGroup ? null : this.jobNameNode(job)}
+          {inParallelGroup && (
+            <div
+              className="ml1 rounded white semi-bold bg-white small tabular-numerals px1 border"
+              style={{
+                color: this.getLabelBackgroundColor(job),
+                borderColor: 'currentColor',
+                lineHeight: 1.75
+              }}
+            >
+              {job.parallelGroupIndex + 1}
+            </div>
+          )}
         </a>
       );
     } else if (job.type === 'parallel_group') {
@@ -343,27 +387,50 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
     ].join(' ');
   },
 
-  renderParallelGroup(group) {
-    let labelBackgroundColor;
-    if (group.state === "running") {
-      labelBackgroundColor = "#9c7c14"; // Yellow-ish
-    } else if (group.state === "finished" && group.passed) {
-      labelBackgroundColor = "#69A770"; // Green
-    } else if (group.state === "finished" && !group.passed) {
-      labelBackgroundColor = "#a94442"; // Red
-    } else {
-      labelBackgroundColor = "#afafaf"; // Gray
+  getLabelBackgroundColor(job) {
+    if (job.state === "running") {
+      return "#9c7c14"; // Yellow-ish
+    } else if (job.state === "finished" && job.passed) {
+      return "#69A770"; // Green
+    } else if (job.state === "canceled" ||
+                (job.state === "finished" && !job.passed)) {
+      return "#a94442"; // Red
     }
 
+    return "#afafaf"; // Gray
+  },
+
+  renderParallelGroup(group) {
+    const widthForEachJob = (this.getWidthForParallelJobCount(group.total) + 6);
+
     return (
-      <Dropdown key={group.id} width={409} className={this.stepClassName(group).replace("truncate", "")}>
-        <div className="right flex items-center">
-          <span className="truncate" style={{ maxWidth: "12em" }}>{this.jobName(group)}</span>
-          <span className="ml1 rounded white semi-bold small relative cursor-default" style={{ padding: "0px 4px", height: "19px", lineHeight: "20px", top: -1, backgroundColor: labelBackgroundColor }}>{group.finished}/{group.total}</span>
+      <Dropdown
+        key={group.id}
+        width={widthForEachJob * Math.min(10, group.total) + 10}
+        className={this.stepClassName(group).replace("truncate", "")}
+      >
+        <div className="right flex items-center cursor-pointer">
+          <span
+            className="truncate"
+            style={{
+              maxWidth: "12em"
+            }}
+          >
+            {this.jobNameNode(group)}
+          </span>
+          <span
+            className="ml1 rounded white semi-bold small relative tabular-numerals px1"
+            style={{
+              backgroundColor: this.getLabelBackgroundColor(group),
+              lineHeight: 1.75
+            }}
+          >
+            {group.finished}/{group.total}
+          </span>
         </div>
 
-        <div className="build-pipeline-job-popup ml2 mb2 mr1">
-          {group.jobs.map((job) => this.pipelineStep(job))}
+        <div className="build-pipeline-job-popup mx1 my0 flex flex-wrap tabular-numerals">
+          {group.jobs.map((job) => this.pipelineStep(job, true))}
         </div>
       </Dropdown>
     );
@@ -383,7 +450,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
     };
   },
 
-  jobName(job) {
+  jobNameNode(job) {
     if (job.name) {
       return <Emojify text={job.name} />;
     }
@@ -393,6 +460,10 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
         {jobCommandOneliner(job.command)}
       </span>
     );
+  },
+
+  jobName(job) {
+    return job.name || job.command;
   },
 
   handleToggleBrokenStepsClick(evt) {
