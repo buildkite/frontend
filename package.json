@@ -10,8 +10,8 @@
   "scripts": {
     "env": "env",
     "start": "nf --port ${PORT:=5700} start -s",
-    "test": "jest --colors",
-    "test-with-coverage": "jest --coverage --colors",
+    "test": "NODE_ENV=test jest --colors",
+    "test-with-coverage": "yarn test --coverage",
     "flow": "flow",
     "lint": "eslint . --color",
     "lint-and-fix": "eslint --fix --color .",
@@ -65,8 +65,11 @@
     "babel-plugin-react-pure-components": "2.2.2",
     "babel-plugin-react-transform": "3.0.0",
     "babel-plugin-relay": "1.7.0",
+    "casual": "^1.5.19",
     "css-loader": "1.0.0",
     "css-variables-loader": "2.0.2",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
     "eslint": "5.8.0",
     "eslint-plugin-babel": "5.2.1",
     "eslint-plugin-flowtype": "3.1.4",
@@ -77,6 +80,7 @@
     "file-loader": "2.0.0",
     "flow-bin": "0.84.0",
     "foreman": "3.0.1",
+    "graphql-tools": "^4.0.3",
     "html-sketchapp-cli": "0.6.2",
     "http-server": "0.11.1",
     "ignore-loader": "0.1.2",
@@ -178,7 +182,19 @@
     "moduleDirectories": [
       "<rootDir>/node_modules",
       "<rootDir>/app",
+      "<rootDir>/jest",
       "<rootDir>"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/jest/fileTransformer.js"
+    },
+    "setupFiles": [
+      "<rootDir>/jest/browserMocks.js"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTestFrameworkScriptFile.js"
   }
 }

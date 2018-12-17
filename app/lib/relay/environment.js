@@ -2,6 +2,7 @@
 
 import invariant from 'invariant';
 import { Environment as RelayEnvironment, Network, RecordSource, Store } from 'relay-runtime';
+import makeFetch from './makeFetch';
 
 function wrapFetch(wrapped) {
   if (process.env.NODE_ENV === 'development') {
@@ -10,22 +11,6 @@ function wrapFetch(wrapped) {
     return logger.wrapFetch(wrapped);
   }
   return wrapped;
-}
-
-function fetchQuery(operation, variables) {
-  return fetch(window._graphql.url, {
-    method: 'POST',
-    headers: {
-      ...window._graphql.headers,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    credentials: 'same-origin',
-    body: JSON.stringify({
-      query: operation.text,
-      variables
-    })
-  }).then(response => response.json());
 }
 
 let relayEnvironment = null;
@@ -38,7 +23,7 @@ export default class Environment {
 
   static create(): RelayEnvironment {
     if (relayEnvironment === null) {
-      const network = Network.create(wrapFetch(fetchQuery));
+      const network = Network.create(wrapFetch(makeFetch));
       const source = new RecordSource({});
       const store = new Store(source);
       const handlerProvider = null;
