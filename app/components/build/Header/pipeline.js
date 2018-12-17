@@ -239,7 +239,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
             title={inParallelGroup ? `${this.jobName(job)} ${job.tooltip}` : job.tooltip}
             className={stepClassName}
             style={{
-              maxWidth: inParallelGroup ? null : '15em',
+              maxWidth: inParallelGroup ? null : '15em'
             }}
           >
             {inParallelGroup ? null : this.jobNameNode(job)}
