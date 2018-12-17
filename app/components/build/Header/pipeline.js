@@ -225,10 +225,6 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
     return renderedJobs;
   },
 
-  getWidthForParallelJobCount(parallelGroupTotal) {
-    return (58 + (parallelGroupTotal.toString(10).length - 1) * 7);
-  },
-
   pipelineStep(job, inParallelGroup = false) {
     const stepClassName = this.stepClassName(job);
 
@@ -243,12 +239,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
             title={inParallelGroup ? `${this.jobName(job)} ${job.tooltip}` : job.tooltip}
             className={stepClassName}
             style={{
-              maxWidth: inParallelGroup ? null : '15em',
-              minWidth: (
-                inParallelGroup
-                  ? this.getWidthForParallelJobCount(job.parallelGroupTotal)
-                  : null
-              )
+              maxWidth: inParallelGroup ? null : '15em'
             }}
           >
             {inParallelGroup ? null : this.jobNameNode(job)}
@@ -290,12 +281,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
           className={stepClassName}
           title={inParallelGroup ? this.jobName(job) : null}
           style={{
-            maxWidth: inParallelGroup ? null : '15em',
-            minWidth: (
-              inParallelGroup
-                ? this.getWidthForParallelJobCount(job.parallelGroupTotal)
-                : null
-            )
+            maxWidth: inParallelGroup ? null : '15em'
           }}
         >
           {retriedIcon}
@@ -400,13 +386,43 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
     return "#afafaf"; // Gray
   },
 
+  getWidthForParallelJobCount(parallelGroupTotal) {
+    return (60 + (parallelGroupTotal.toString(10).length - 1) * 6);
+  },
+
+  idealItemsPerRow(itemCount) {
+    // If we're less than 6, just use one row
+    if (itemCount < 6) {
+      return itemCount;
+    }
+
+    // If we've got less than 16 items, just use two rows
+    if (itemCount < 16) {
+      return Math.ceil(itemCount / 2);
+    }
+
+    // If we've got less than 32 items, just use four rows
+    if (itemCount < 32) {
+      return Math.ceil(itemCount / 4);
+    }
+
+    // Otherwise, we compute something which looks decent
+    if (itemCount < 128) {
+      return Math.ceil(itemCount / Math.ceil(itemCount / 10));
+    }
+
+    return Math.ceil(itemCount / Math.ceil(itemCount / 20));
+  },
+
   renderParallelGroup(group) {
-    const widthForEachJob = (this.getWidthForParallelJobCount(group.total) + 6);
+    const widthForEachJob = this.getWidthForParallelJobCount(group.total);
+
+    const itemsPerRow = this.idealItemsPerRow(group.total);
 
     return (
       <Dropdown
         key={group.id}
-        width={widthForEachJob * Math.min(10, group.total) + 10}
+        width={widthForEachJob * itemsPerRow + 10 + 5 * itemsPerRow - 1}
         className={this.stepClassName(group).replace("truncate", "")}
       >
         <div className="right flex items-center cursor-pointer">
@@ -429,7 +445,12 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
           </span>
         </div>
 
-        <div className="build-pipeline-job-popup mx1 my0 flex flex-wrap tabular-numerals">
+        <div
+          className="build-pipeline-job-popup mx1 my0 tabular-numerals"
+          style={{
+            gridTemplateColumns: `repeat(auto-fill, minmax(${Math.round(widthForEachJob).toString(10)}px, 1fr))`
+          }}
+        >
           {group.jobs.map((job) => this.pipelineStep(job, true))}
         </div>
       </Dropdown>
