@@ -84,7 +84,7 @@ class Pipelines extends React.Component<Props, State> {
       // Start by changing the `loading` state to show the spinner
       this.setState({ loading: true }, () => {
         // Once state has been set, force a full re-fetch of the pipelines
-        this.props.relay.refetch((lastVars) => ({ ...lastVars, ...nextVars }), null, () => {
+        this.props.relay.refetch((lastVars) => ({ ...lastVars, ...nextVars, includeGraphData: this.state.includeGraphData }), null, () => {
           this.setState({ loading: false });
         });
       });
