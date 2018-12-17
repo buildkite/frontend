@@ -14,6 +14,7 @@ module.exports = {
     'plugin:flowtype/recommended'
   ],
   globals: {
+    jest: true,
     require: true,
     Features: true,
     process: true,

@@ -1,4 +1,4 @@
-// @flow
+// @flow weak
 
 export default class DefaultMocks {
   static get ID() {
@@ -16,6 +16,6 @@ export default class DefaultMocks {
   }
 
   static get DateTime() {
-    return () => '123123123123';
+    return () => new Date(1986, 7, 28).valueOf().toString();
   }
 }

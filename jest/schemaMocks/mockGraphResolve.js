@@ -1,4 +1,4 @@
-// @flow
+// @flow weak
 
 import { graphql, buildClientSchema } from 'graphql';
 import * as introspectionResult from 'app/graph/schema';
@@ -14,6 +14,8 @@ function isObject(value: any): boolean {
 }
 
 class MockAccessor {
+  children: *;
+
   static wrap(mocks) {
     const { children } = new MockAccessor(mocks);
     return children;
@@ -52,6 +54,11 @@ class MockAccessor {
 }
 
 export default class GraphMock {
+  schema: *;
+  query: *;
+  variables: *;
+  mocks: {[string]: any};
+
   static create(query, variables = {}, mocks = {}) {
     return new GraphMock(query, variables, mocks);
   }

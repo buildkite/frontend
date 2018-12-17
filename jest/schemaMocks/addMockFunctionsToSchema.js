@@ -1,7 +1,5 @@
-// @flow
+// @flow weak
 
-// import casual from 'casual';
-// casual.seed(123);
 import { addMockFunctionsToSchema } from 'graphql-tools';
 import DefaultMocks from './DefaultMocks';
 

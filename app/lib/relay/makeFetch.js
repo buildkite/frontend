@@ -1,4 +1,4 @@
-// @flow
+// @flow weak
 
 export default function makeFetch(operation, variables) {
   return fetch(window._graphql.url, {
