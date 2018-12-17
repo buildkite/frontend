@@ -14,23 +14,7 @@ jest.mock('app/lib/RelayModernPreloader')
 jest.mock('app/lib/relay/makeFetch')
 jest.mock('app/components/shared/Icon/svgContent')
 
-class MockRouterContext extends React.Component {
-  static childContextTypes = {
-    router: PropTypes.object,
-  }
-
-  getChildContext = () => ({
-    router: {
-      test: 2,
-    },
-  })
-
-  render() {
-    return this.props.children;
-  }
-}
-
-describe.only('OrganizationShow', () => {
+describe('OrganizationShow', () => {
   let wrapper;
   let graphMock;
   let graphMockTypes = {
@@ -84,12 +68,10 @@ describe.only('OrganizationShow', () => {
     MockFetch.mockResolvedValueOnce(response);
 
     const component = (
-      <MockRouterContext>
-        <OrganizationShow
-          {...props}
-          {...{ params: { organization: 'test' }, location: { query: {} } }}
-        />
-      </MockRouterContext>
+      <OrganizationShow
+        {...props}
+        {...{ params: { organization: 'test' }, location: { query: {} } }}
+      />
     );
     const context = { context: { router: { test: 2 } } };
     const rendered = mount(component, context);
