@@ -18,6 +18,6 @@ class LocalStorageMock {
   removeItem(key) {
     delete this.store[key];
   }
-};
+}
 
 window.localStorage = new LocalStorageMock;
