@@ -68,6 +68,8 @@
     "casual": "^1.5.19",
     "css-loader": "1.0.0",
     "css-variables-loader": "2.0.2",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
     "eslint": "5.8.0",
     "eslint-plugin-babel": "5.2.1",
     "eslint-plugin-flowtype": "3.1.4",
@@ -192,6 +194,7 @@
     },
     "setupFiles": [
       "<rootDir>/jest/browserMocks.js"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTestFrameworkScriptFile.js"
   }
 }

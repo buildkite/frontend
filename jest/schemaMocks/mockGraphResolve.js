@@ -13,26 +13,43 @@ function isObject(value: any): boolean {
   return typeof value === 'object' && value !== null && !isArray(value);
 }
 
-class Node {
-  constructor(mock, value) {
-    this.mock = mock;
-    this.value = value;
+class MockAccessor {
+  static wrap(mocks) {
+    const { children } = new MockAccessor(mocks);
+    return children;
+  }
+
+  constructor(value) {
+    this.children = this.wrapRecursive(value);
+  }
+
+  wrapRecursive(item) {
+    if (isArray(item)) {
+      return item.reduce((acc, value) => (acc.concat(this.toNode(value))), []);
+    }
+    if (isObject(item)) {
+      return Object.entries(item).reduce((acc, [key, value]) => ({ ...acc, [key]: this.toNode(value) }), {});
+    }
+    return item;
+  }
+
+  toNode(value) {
+    const children = this.wrapRecursive(value);
+    const mock = jest.fn(() => children);
+
+    return new Proxy(mock, {
+      get(target, property) {
+        if (property === 'mock') {
+          return mock;
+        }
+        if (property in children) {
+          return Reflect.get(children, property);
+        }
+        return Reflect.get(target, property);
+      }
+    });
   }
 }
-
-// const mockProxyHandler = {
-//   get(target, key) {
-//     // console.log(key, target[key])
-//     if (key === 'mock') {
-//       console.log('------------------------------', key, target)
-//       return target[key].mock;
-//     }
-//     if (isObject(target[key])) {
-//       return new Proxy(target[key].value, mockProxyHandler);
-//     }
-//     return target[key];
-//   }
-// };
 
 export default class GraphMock {
   static create(query, variables = {}, mocks = {}) {
@@ -43,15 +60,8 @@ export default class GraphMock {
     this.schema = schema;
     this.query = query;
     this.variables = variables;
-    this.foo = {};
-    this.mocks = this.mockObject(mocks);
-
-    // console.log('graphMock.mocks:', this.mocks.Organization().teams().edges());
+    this.mocks = MockAccessor.wrap(mocks);
   }
-
-  // get mocks() {
-  //   return new Proxy(this.mocks, mockProxyHandler);
-  // }
 
   async response() {
     addMockFunctionsToSchema(this.schema, this.mocks);
@@ -68,44 +78,5 @@ export default class GraphMock {
     }
 
     return response;
-  }
-
-  mockObject(mocks: Object) {
-    return Object.entries(mocks).reduce((acc, [key, value]) => {
-      const mock = this.mockReturnValue(value);
-      const node = this.node(key, value, mock);
-      return { ...acc, [key]: node };
-    }, {});
-  }
-
-  mockArray(mocks: Array<*>) {
-    return mocks.reduce((acc, value, index) => {
-      const mock = this.mockReturnValue(value);
-      const node = this.node(index, value, mock);
-      return acc.concat(node);
-    }, []);
-  }
-
-  mockReturnValue(value) {
-    const mock = jest.fn();
-    mock.mockReturnValue(isArray(value) ? this.mockArray(value) : isObject(value) ? this.mockObject(value) : value);
-    return mock;
-  }
-
-  node(key, value, mock) {
-    return new Proxy(
-      new Node(mock, value),
-      // { mock, value },
-      {
-        get(target, property) {
-          console.log({property, key, target});
-
-          if (property === 'mock') {
-            return Reflect.get(target, 'mock');
-          }
-          return Reflect.get(target, 'value');
-        }
-      }
-    );
   }
 }

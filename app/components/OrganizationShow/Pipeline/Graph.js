@@ -36,6 +36,7 @@ type State = {
 class Graph extends React.Component<Props, State> {
   _shifting: boolean;
   _interval: IntervalID;
+  _timeout: TimeoutID;
 
   state = {
     showFullGraph: false
@@ -54,7 +55,9 @@ class Graph extends React.Component<Props, State> {
     }
 
     // As soon as the graph has mounted, animate the bars growing into view.
-    setTimeout(() => { this.setState({ showFullGraph: true }); }, 0);
+    this._timeout = setTimeout(() => {
+      this.setState({ showFullGraph: true });
+    }, 0);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -73,6 +76,10 @@ class Graph extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+      delete this._timeout;
+    }
     if (this._interval) {
       clearInterval(this._interval);
       delete this._interval;
@@ -192,7 +199,9 @@ class Graph extends React.Component<Props, State> {
       if (this._interval) {
         // no-op, interval already running
       } else {
-        this._interval = setInterval(() => { this.forceUpdate(); }, 1);
+        this._interval = setInterval(() => {
+          this.forceUpdate();
+        }, 1);
       }
     } else {
       // Clear the interval now that nothing is running
