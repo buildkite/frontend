@@ -5,12 +5,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import styled from 'styled-components';
-
+import PipelineStatus from 'app/components/shared/PipelineStatus';
 import Button from 'app/components/shared/Button';
 import Dropdown from 'app/components/shared/Dropdown';
 import Emojify from 'app/components/shared/Emojify';
 import Icon from 'app/components/shared/Icon';
-
 import CreateBuildDialog from 'app/components/pipeline/CreateBuildDialog';
 import Builds from './builds';
 
@@ -105,13 +104,18 @@ class Header extends React.Component<Props, State> {
                 href={this.props.pipeline.url}
                 className="inline-block line-height-1 color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent truncate"
               >
-                {this.renderPipelineName()}
-                <span
-                  className="truncate h5 regular m0 dark-gray hover-color-inherit line-height-3"
-                  style={{ marginTop: 3 }}
-                >
-                  {this.renderDescription()}
-                </span>
+                <div className="flex items-center">
+                  <h2 className="inline h3 regular m0 mr1 line-height-2">
+                    {this.props.isCurrentOrganizationMember || <Emojify text={this.props.pipeline.organization.name} />}
+                    {this.props.isCurrentOrganizationMember || <span className="dark-gray hover-color-inherit"> / </span>}
+                    <Emojify text={this.props.pipeline.name} />
+                  </h2>
+                  {this.props.pipeline.public ? <PipelineStatus showLabel={true} /> : null}
+                </div>
+                <div className="truncate dark-gray hover-color-inherit" style={{ marginTop: 3 }}>
+                  <Emojify className="h4 regular" text={this.props.pipeline.description} />
+                  {/* {this.renderDescription()} */}
+                </div>
               </a>
             </div>
             {this.renderProviderBadge()}
@@ -131,16 +135,6 @@ class Header extends React.Component<Props, State> {
           build={this.props.build}
         />
       </div>
-    );
-  }
-
-  renderPipelineName() {
-    return (
-      <h4 className="semi-bold h3 m0 truncate">
-        {this.props.isCurrentOrganizationMember || <Emojify text={this.props.pipeline.organization.name} />}
-        {this.props.isCurrentOrganizationMember || <span className="dark-gray hover-color-inherit"> / </span>}
-        <Emojify text={this.props.pipeline.name} />
-      </h4>
     );
   }
 
@@ -291,6 +285,7 @@ export default Relay.createContainer(Header, {
         name
         description
         url
+        public
         organization {
           name
           iconUrl
