@@ -401,10 +401,10 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
       case "accepted":
       case "skipped":
       default:
-        return "#afafaf" // Gray
+        return "#afafaf"; // Gray
 
       case "running":
-        return "#9c7c14" // Yellow-ish
+        return "#9c7c14"; // Yellow-ish
 
       case "finished":
         if (job.passed) {
