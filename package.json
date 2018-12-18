@@ -13,7 +13,7 @@
     "test": "NODE_ENV=test jest --colors",
     "test-with-coverage": "yarn test --coverage",
     "flow": "flow",
-    "lint": "ESLINT_MULTI_FORMATTERS=\"stylish;./.buildkite/eslint-formatter-buildkite.js\" eslint . -f='./.buildkite/eslint-formatter-multi.js' --color",
+    "lint": "echo \"--- DEBUG: env inside Yarn\"; env; ESLINT_MULTI_FORMATTERS=\"stylish;./.buildkite/eslint-formatter-buildkite.js\" eslint . -f='./.buildkite/eslint-formatter-multi.js' --color",
     "lint-and-fix": "ESLINT_MULTI_FORMATTERS=\"stylish;./.buildkite/eslint-formatter-buildkite.js\" eslint --fix -f='./.buildkite/eslint-formatter-multi.js' --color .",
     "relay-compile": "relay-compiler --schema app/graph/schema.json --src app",
     "prebuild": "yarn run relay-compile",

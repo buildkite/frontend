@@ -1,6 +1,9 @@
 const spawnSync = require('child_process').spawnSync;
 
 module.exports = function(results) {
+  console.log("--- DEBUG: env inside node")
+  console.debug(process.env);
+
   const { warning, error } = results.reduce(
       function(acc, file) {
         if (file.errorCount > 0) {
