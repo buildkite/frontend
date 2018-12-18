@@ -10,9 +10,9 @@ RUN echo "--- :package: Installing system deps" \
     # Buildkite apt sources
     && chmod 644 /etc/apt/trusted.gpg.d/buildkite.asc \
     && echo "deb http://apt.buildkite.com/buildkite-agent unstable main" > /etc/apt/sources.list.d/buildkite.list \
-    # Install all the things
+    # Install buildkite-agent
     && apt-get update \
-    && apt-get install -y buildkite-agent
+    && DEBIAN_FRONTEND=noninteractive apt-get install --assume-yes --no-install-recommends buildkite-agent
 
 WORKDIR /frontend
 
