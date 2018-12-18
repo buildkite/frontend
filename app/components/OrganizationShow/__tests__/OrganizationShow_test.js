@@ -167,16 +167,16 @@ describe('OrganizationShow', () => {
       const pipelines = wrapper.find('[data-testid="pipeline"]');
       expect(pipelines.length).toEqual(3);
 
-      // Pipeline 1 in private
+      // Pipeline 1 is private
       expect(pipelines.at(0).find('[data-testid="pipeline__name"]').text()).toEqual('Pipeline 1');
       expect(pipelines.at(0).find('[data-testid="pipeline__status"]').exists()).toBeFalsy();
 
-      // Pipeline 2 in public
+      // Pipeline 2 is public
       expect(pipelines.at(1).find('[data-testid="pipeline__name"]').text()).toEqual('Pipeline 2');
       expect(pipelines.at(1).find('[data-testid="pipeline__status"]').exists()).toBeTruthy();
       expect(pipelines.at(1).find('[data-testid="pipeline__status"]').text()).toEqual('PUBLIC');
 
-      // Pipeline 3 in private
+      // Pipeline 3 is private
       expect(pipelines.at(2).find('[data-testid="pipeline__name"]').text()).toEqual('Pipeline 3');
       expect(pipelines.at(2).find('[data-testid="pipeline__status"]').exists()).toBeFalsy();
     });
