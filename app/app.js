@@ -94,6 +94,7 @@ window["Webpack"] = {
     "queries/Team": require("./queries/Team"),
     "queries/Viewer": require("./queries/Viewer"),
     "stores/FlashesStore": require("./stores/FlashesStore").default,
+    "stores/CentrifugeStore": require("./stores/CentrifugeStore").default,
     "stores/PusherStore": require("./stores/PusherStore").default
   },
 
@@ -127,7 +128,16 @@ if (window._graphql) {
   );
 }
 
-// Setup the PusherStore
+// Setup the CentrifugeStore, if configured
+if (window._centrifuge) {
+  const centrifugeStore = require("./stores/CentrifugeStore").default;
+  centrifugeStore.configure(window._centrifuge["url"], window._centrifuge["token"], window._centrifuge["options"]);
+  for (const channel of window._centrifuge["channels"]) {
+    centrifugeStore.listen(channel);
+  }
+}
+
+// Setup the PusherStore, if configured
 if (window._pusher) {
   const pusherStore = require("./stores/PusherStore").default;
   pusherStore.configure(window._pusher["key"], window._pusher["options"]);

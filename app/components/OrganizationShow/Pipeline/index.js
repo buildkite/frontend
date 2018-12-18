@@ -7,6 +7,7 @@ import Emojify from 'app/components/shared/Emojify';
 import PipelineStatus from 'app/components/shared/PipelineStatus';
 import permissions from 'app/lib/permissions';
 import PusherStore from 'app/stores/PusherStore';
+import CentrifugeStore from 'app/stores/CentrifugeStore';
 import Environment from 'app/lib/relay/environment';
 import Status from './Status';
 import Metrics from './Metrics';
@@ -30,11 +31,13 @@ class Pipeline extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    PusherStore.on("websocket:event", this.handlePusherWebsocketEvent);
+    PusherStore.on("websocket:event", this.handleWebsocketEvent);
+    CentrifugeStore.on("websocket:event", this.handleWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off("websocket:event", this.handlePusherWebsocketEvent);
+    PusherStore.off("websocket:event", this.handleWebsocketEvent);
+    CentrifugeStore.off("websocket:event", this.handleWebsocketEvent);
   }
 
   render() {
@@ -128,8 +131,8 @@ class Pipeline extends React.Component<Props, State> {
     );
   }
 
-  handlePusherWebsocketEvent = (payload) => {
-    if (payload.event === "project:updated" && payload.graphql.id === this.props.pipeline.id) {
+  handleWebsocketEvent = (payload) => {
+    if (payload.subevent === "project:updated" && payload.graphql.id === this.props.pipeline.id) {
       const { pipeline: { id }, includeGraphData } = this.props;
       this.props.relay.refetch({ id, includeGraphData });
     }

@@ -5,6 +5,7 @@ import throttle from 'throttleit';
 import { seconds } from 'metrick/duration';
 
 import PusherStore from 'app/stores/PusherStore';
+import CentrifugeStore from 'app/stores/CentrifugeStore';
 
 import { formatNumber } from 'app/lib/number';
 
@@ -28,16 +29,18 @@ class AgentsCount extends React.PureComponent {
   };
 
   componentDidMount() {
-    PusherStore.on('organization_stats:change', this.handlePusherWebsocketEvent);
+    PusherStore.on('organization_stats:change', this.handleWebsocketEvent);
+    CentrifugeStore.on('organization_stats:change', this.handleWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off('organization_stats:change', this.handlePusherWebsocketEvent);
+    PusherStore.off('organization_stats:change', this.handleWebsocketEvent);
+    CentrifugeStore.off('organization_stats:change', this.handleWebsocketEvent);
   }
 
   // Like in MyBuilds, we don't take the Pusher data for granted - we instead
   // take it as a cue to update the data store backing the component.
-  handlePusherWebsocketEvent = ({ agentsConnectedCount }) => {
+  handleWebsocketEvent = ({ agentsConnectedCount }) => {
     // We need a "global" last agents connected count so we only ask it to update
     // once per changed count. This prevents calls from multiple AgentsCount
     // components triggering repeated forceFetch calls for one Pusher event
