@@ -390,16 +390,38 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
   },
 
   getLabelBackgroundColor(job) {
-    if (job.state === "running") {
-      return "#9c7c14"; // Yellow-ish
-    } else if (job.state === "finished" && job.passed) {
-      return "#69A770"; // Green
-    } else if (job.state === "canceled" ||
-                (job.state === "finished" && !job.passed)) {
-      return "#a94442"; // Red
-    }
+    switch (job.state) {
+      case "pending":
+      case "waiting":
+      case "blocked":
+      case "unblocked":
+      case "limited":
+      case "scheduled":
+      case "assigned":
+      case "accepted":
+      case "skipped":
+      default:
+        return "#afafaf" // Gray
 
-    return "#afafaf"; // Gray
+      case "running":
+        return "#9c7c14" // Yellow-ish
+
+      case "finished":
+        if (job.passed) {
+          return "#69A770"; // Green
+        }
+
+        return "#a94442"; // Red
+
+      case "waiting_failed":
+      case "blocked_failed":
+      case "unblocked_failed":
+      case "canceling":
+      case "canceled":
+      case "timing_out":
+      case "timed_out":
+        return "#a94442"; // Red
+    }
   },
 
   getWidthForParallelJobCount(parallelGroupTotal) {
