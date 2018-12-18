@@ -4,6 +4,7 @@ import * as React from 'react';
 import { createRefetchContainer, commitMutation, graphql } from 'react-relay/compat';
 import Favorite from 'app/components/icons/Favorite';
 import Emojify from 'app/components/shared/Emojify';
+import PipelineStatus from 'app/components/shared/PipelineStatus';
 import permissions from 'app/lib/permissions';
 import PusherStore from 'app/stores/PusherStore';
 import Environment from 'app/lib/relay/environment';
@@ -45,9 +46,12 @@ class Pipeline extends React.Component<Props, State> {
 
         <a href={this.props.pipeline.url} className="flex flex-auto items-center px2 text-decoration-none color-inherit mr3">
           <div className="truncate">
-            <h2 data-testid="pipeline__name" className="inline h3 regular m0 line-height-2">
-              <Emojify text={this.props.pipeline.name} />
-            </h2>
+            <div className="flex items-center">
+              <h2 data-testid="pipeline__name" className="inline h3 regular m0 mr1 line-height-2">
+                <Emojify text={this.props.pipeline.name} />
+              </h2>
+              {this.props.pipeline.public ? <PipelineStatus showLabel={true} /> : null}
+            </div>
             {this.renderDescription()}
           </div>
         </a>
@@ -168,6 +172,7 @@ export default createRefetchContainer(
       id
       name
       slug
+      public
       description
       defaultBranch
       url

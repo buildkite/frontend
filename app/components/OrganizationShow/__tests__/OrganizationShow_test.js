@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import GraphMock from 'jest/schemaMocks/mockGraphResolve';
 import PropTypes from 'prop-types';
 import Environment from 'app/lib/relay/environment';
-import {MockFetch} from 'app/lib/relay/makeFetch';
+import { MockFetch } from 'app/lib/relay/makeFetch';
 import OrganizationShow from '..';
 import Pipeline from '../Pipeline';
 
@@ -147,6 +147,38 @@ describe('OrganizationShow', () => {
       expect(pipelines.at(2).find('[data-testid="pipeline__name"]').text()).toEqual('Pipeline 1');
       expect(pipelines.at(3).find('[data-testid="pipeline__name"]').text()).toEqual('Pipeline 2');
       expect(pipelines.at(4).find('[data-testid="pipeline__name"]').text()).toEqual('Pipeline 4');
+    });
+  });
+
+  describe('public pipelines', () => {
+    beforeEach(async () => {
+      graphMock.mocks.Organization.pipelines.edges.mock.mockReturnValue([
+        { node: { name: 'Pipeline 1', favorite: false, public: false } },
+        { node: { name: 'Pipeline 2', favorite: false, public: true } },
+        { node: { name: 'Pipeline 3', favorite: false, public: false } },
+      ]);
+      wrapper = await render();
+    });
+
+    test('it renders', () => {
+      expect.assertions(8);
+
+      // Renders 3 pipelines
+      const pipelines = wrapper.find('[data-testid="pipeline"]');
+      expect(pipelines.length).toEqual(3);
+
+      // Pipeline 1 is private
+      expect(pipelines.at(0).find('[data-testid="pipeline__name"]').text()).toEqual('Pipeline 1');
+      expect(pipelines.at(0).find('[data-testid="pipeline__status"]').exists()).toBeFalsy();
+
+      // Pipeline 2 is public
+      expect(pipelines.at(1).find('[data-testid="pipeline__name"]').text()).toEqual('Pipeline 2');
+      expect(pipelines.at(1).find('[data-testid="pipeline__status"]').exists()).toBeTruthy();
+      expect(pipelines.at(1).find('[data-testid="pipeline__status"]').text()).toEqual('PUBLIC');
+
+      // Pipeline 3 is private
+      expect(pipelines.at(2).find('[data-testid="pipeline__name"]').text()).toEqual('Pipeline 3');
+      expect(pipelines.at(2).find('[data-testid="pipeline__status"]').exists()).toBeFalsy();
     });
   });
 });
