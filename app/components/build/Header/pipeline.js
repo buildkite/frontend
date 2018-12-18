@@ -242,18 +242,26 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
               maxWidth: inParallelGroup ? null : '15em'
             }}
           >
-            {inParallelGroup ? null : this.jobNameNode(job)}
-            {inParallelGroup && (
-              <div
-                className="ml1 rounded white semi-bold bg-white small tabular-numerals px1 border"
-                style={{
-                  color: this.getLabelBackgroundColor(job),
-                  borderColor: 'currentColor',
-                  lineHeight: 1.75
-                }}
-              >
-                {job.parallelGroupIndex + 1}
-              </div>
+            {(
+              inParallelGroup
+                ? (
+                  <>
+                    <div style={{ flex: '0 0 16px' }}>
+                      <i className={Buildkite.JobComponent.prototype.icon(job)} />
+                    </div>
+                    <div
+                      className="ml1 rounded white semi-bold bg-white small tabular-numerals px1 border"
+                      style={{
+                        color: this.getLabelBackgroundColor(job),
+                        borderColor: 'currentColor',
+                        lineHeight: 1.75
+                      }}
+                    >
+                      {job.parallelGroupIndex + 1}
+                    </div>
+                  </>
+                )
+                : this.jobNameNode(job)
             )}
           </div>
         );
@@ -285,18 +293,26 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
           }}
         >
           {retriedIcon}
-          {inParallelGroup ? null : this.jobNameNode(job)}
-          {inParallelGroup && (
-            <div
-              className="ml1 rounded white semi-bold bg-white small tabular-numerals px1 border"
-              style={{
-                color: this.getLabelBackgroundColor(job),
-                borderColor: 'currentColor',
-                lineHeight: 1.75
-              }}
-            >
-              {job.parallelGroupIndex + 1}
-            </div>
+          {(
+            inParallelGroup
+              ? (
+                <>
+                  <div style={{ flex: '0 0 16px', textAlign: 'center' }}>
+                    <i className={Buildkite.JobComponent.prototype.icon(job)} />
+                  </div>
+                  <div
+                    className="ml1 rounded white semi-bold bg-white small tabular-numerals px1 border"
+                    style={{
+                      color: this.getLabelBackgroundColor(job),
+                      borderColor: 'currentColor',
+                      lineHeight: 1.75
+                    }}
+                  >
+                    {job.parallelGroupIndex + 1}
+                  </div>
+                </>
+              )
+              : this.jobNameNode(job)
           )}
         </a>
       );
