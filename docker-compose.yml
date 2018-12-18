@@ -9,6 +9,9 @@ services:
       - BUILDKITE_COMMIT
       - BUILDKITE_ORGANIZATION_SLUG
       - BUILDKITE_PIPELINE_SLUG
+      - BUILDKITE_BUILD_URL
+      - BUILDKITE_JOB_ID
+      - BUILDKITE_AGENT_ACCESS_TOKEN
       - CI
     volumes:
       - "./bundle-analysis:/frontend/bundle-analysis"
