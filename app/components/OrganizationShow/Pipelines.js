@@ -186,12 +186,9 @@ class Pipelines extends React.Component<Props, State> {
     }, [[], []]);
 
     if (favorited.length > 0 && remainder.length > 0) {
-      return (
-        <>
-          {favorited}
-          <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{ height: 1 }} />
-          {remainder}
-        </>
+      return favorited.concat(
+        <hr key="seperator" className="my4 bg-gray mx-auto max-width-1 border-none height-0" style={{ height: 1 }} />,
+        remainder
       );
     } else if (favorited.length > 0) {
       return favorited;

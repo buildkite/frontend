@@ -39,7 +39,7 @@ class Pipeline extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className="flex items-stretch border border-gray rounded px2 mb2" style={{ height: 82 }}>
+      <div data-testid="pipeline" className="flex items-stretch border border-gray rounded px2 mb2" style={{ height: 82 }}>
         <div className="flex flex-none items-center pl2 pr2">
           <Status pipeline={this.props.pipeline} />
         </div>
@@ -47,7 +47,7 @@ class Pipeline extends React.Component<Props, State> {
         <a href={this.props.pipeline.url} className="flex flex-auto items-center px2 text-decoration-none color-inherit mr3">
           <div className="truncate">
             <div className="flex items-center">
-              <h2 className="inline h3 regular m0 mr1 line-height-2">
+              <h2 data-testid="pipeline__name" className="inline h3 regular m0 mr1 line-height-2">
                 <Emojify text={this.props.pipeline.name} />
               </h2>
               {this.props.pipeline.public ? <PipelineStatus showLabel={true} /> : null}
@@ -70,7 +70,7 @@ class Pipeline extends React.Component<Props, State> {
   renderDescription() {
     if (this.props.pipeline.description) {
       return (
-        <div className="truncate dark-gray" style={{ marginTop: 3 }}>
+        <div data-testid="pipeline__description" className="truncate dark-gray" style={{ marginTop: 3 }}>
           <Emojify className="h4 regular" text={this.props.pipeline.description} />
         </div>
       );

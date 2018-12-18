@@ -242,18 +242,26 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
               maxWidth: inParallelGroup ? null : '15em'
             }}
           >
-            {inParallelGroup ? null : this.jobNameNode(job)}
-            {inParallelGroup && (
-              <div
-                className="ml1 rounded white semi-bold bg-white small tabular-numerals px1 border"
-                style={{
-                  color: this.getLabelBackgroundColor(job),
-                  borderColor: 'currentColor',
-                  lineHeight: 1.75
-                }}
-              >
-                {job.parallelGroupIndex + 1}
-              </div>
+            {(
+              inParallelGroup
+                ? (
+                  <>
+                    <div style={{ flex: '0 0 16px' }}>
+                      <i className={Buildkite.JobComponent.prototype.icon(job)} />
+                    </div>
+                    <div
+                      className="ml1 rounded white semi-bold bg-white small tabular-numerals px1 border"
+                      style={{
+                        color: this.getLabelBackgroundColor(job),
+                        borderColor: 'currentColor',
+                        lineHeight: 1.75
+                      }}
+                    >
+                      {job.parallelGroupIndex + 1}
+                    </div>
+                  </>
+                )
+                : this.jobNameNode(job)
             )}
           </div>
         );
@@ -285,18 +293,26 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
           }}
         >
           {retriedIcon}
-          {inParallelGroup ? null : this.jobNameNode(job)}
-          {inParallelGroup && (
-            <div
-              className="ml1 rounded white semi-bold bg-white small tabular-numerals px1 border"
-              style={{
-                color: this.getLabelBackgroundColor(job),
-                borderColor: 'currentColor',
-                lineHeight: 1.75
-              }}
-            >
-              {job.parallelGroupIndex + 1}
-            </div>
+          {(
+            inParallelGroup
+              ? (
+                <>
+                  <div style={{ flex: '0 0 16px', textAlign: 'center' }}>
+                    <i className={Buildkite.JobComponent.prototype.icon(job)} />
+                  </div>
+                  <div
+                    className="ml1 rounded white semi-bold bg-white small tabular-numerals px1 border"
+                    style={{
+                      color: this.getLabelBackgroundColor(job),
+                      borderColor: 'currentColor',
+                      lineHeight: 1.75
+                    }}
+                  >
+                    {job.parallelGroupIndex + 1}
+                  </div>
+                </>
+              )
+              : this.jobNameNode(job)
           )}
         </a>
       );
@@ -374,16 +390,38 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
   },
 
   getLabelBackgroundColor(job) {
-    if (job.state === "running") {
-      return "#9c7c14"; // Yellow-ish
-    } else if (job.state === "finished" && job.passed) {
-      return "#69A770"; // Green
-    } else if (job.state === "canceled" ||
-                (job.state === "finished" && !job.passed)) {
-      return "#a94442"; // Red
-    }
+    switch (job.state) {
+      case "pending":
+      case "waiting":
+      case "blocked":
+      case "unblocked":
+      case "limited":
+      case "scheduled":
+      case "assigned":
+      case "accepted":
+      case "skipped":
+      default:
+        return "#afafaf"; // Gray
 
-    return "#afafaf"; // Gray
+      case "running":
+        return "#9c7c14"; // Yellow-ish
+
+      case "finished":
+        if (job.passed) {
+          return "#69A770"; // Green
+        }
+
+        return "#a94442"; // Red
+
+      case "waiting_failed":
+      case "blocked_failed":
+      case "unblocked_failed":
+      case "canceling":
+      case "canceled":
+      case "timing_out":
+      case "timed_out":
+        return "#a94442"; // Red
+    }
   },
 
   getWidthForParallelJobCount(parallelGroupTotal) {

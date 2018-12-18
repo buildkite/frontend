@@ -248,9 +248,9 @@ export default class OrganizationShow extends React.Component<Props, State> {
     );
 
     if (query) {
-      this.context.router.push(`/__sneaky__/${organization.slug}?${query}`);
+      this.context.router.push(`/${organization.slug}?${query}`);
     } else {
-      this.context.router.push(`/__sneaky__/${organization.slug}`);
+      this.context.router.push(`/${organization.slug}`);
     }
   };
 }
