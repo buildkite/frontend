@@ -45,15 +45,12 @@ ${
 }`;
 
     if (process.env["BUILDKITE"]) {
-      spawnSync(
-        'buildkite-agent',
-        [
-          'annotate',
-          '--context', 'eslint',
-          '--style', 'error',
-          errorOutput
-        ]
+      const result = spawnSync(
+        'buildkite-agent', [ 'annotate', '--context', 'eslint', '--style', 'error', ],
+        { encoding: 'utf8', input: errorOutput }
       );
+
+      console.log(result);
     } else {
       console.log(errorOutput);
     }
@@ -85,15 +82,12 @@ ${
 }`;
 
     if (process.env["BUILDKITE"]) {
-      spawnSync(
-        'buildkite-agent',
-        [
-          'annotate',
-          '--context', 'eslint',
-          '--style', 'warning',
-          warningOutput
-        ]
+      const result = spawnSync(
+        'buildkite-agent', [ 'annotate', '--context', 'eslint', '--style', 'warning' ],
+        { encoding: 'utf8', input: warningOutput }
       );
+
+      console.log(result);
     } else {
       console.log(warningOutput);
     }
