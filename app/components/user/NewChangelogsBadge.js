@@ -7,6 +7,7 @@ import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 
 import PusherStore from 'app/stores/PusherStore';
+import CentrifugeStore from 'app/stores/CentrifugeStore';
 
 type Props = {
   className?: string,
@@ -32,14 +33,16 @@ class NewChangelogsBadge extends React.PureComponent<Props> {
   };
 
   componentDidMount() {
-    PusherStore.on("user_stats:change", this.handlePusherWebsocketEvent);
+    PusherStore.on("user_stats:change", this.handleWebsocketEvent);
+    CentrifugeStore.on("user_stats:change", this.handleWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent);
+    PusherStore.off("user_stats:change", this.handleWebsocketEvent);
+    CentrifugeStore.off("user_stats:change", this.handleWebsocketEvent);
   }
 
-  handlePusherWebsocketEvent = () => {
+  handleWebsocketEvent = () => {
     this.props.relay.forceFetch();
   };
 
