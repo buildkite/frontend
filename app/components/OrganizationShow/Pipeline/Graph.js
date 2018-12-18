@@ -33,7 +33,7 @@ type State = {
   showFullGraph: boolean
 };
 
-class Graph extends React.Component<Props, State> {
+class Graph extends React.PureComponent<Props, State> {
   _shifting: boolean;
   _interval: IntervalID;
   _timeout: TimeoutID;
