@@ -65,7 +65,6 @@ import * as PipelineScheduleQuery from './queries/PipelineSchedule';
 import * as TeamQuery from './queries/Team';
 import * as ViewerQuery from './queries/Viewer';
 import * as APIAccessTokenCodeQuery from './queries/APIAccessTokenCode';
-// import * as GraphQLSnippetQuery from './queries/GraphQLSnippet';
 
 import FlashesStore from './stores/FlashesStore';
 
@@ -119,8 +118,7 @@ export default (
     <Route path="/" component={Main} getQueries={getMainQueries} render={renderMain} onChange={routeChangeHandler}>
       <Route path="authorize/:code" component={APIAccessTokenCodeAuthorize} queries={{ apiAccessTokenCode: APIAccessTokenCodeQuery.query }} />
 
-      <Route path="__sneaky__/:organization" component={OrganizationShowBeta} />
-      <Route path=":organization" component={OrganizationShow} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
+      <Route path=":organization" component={OrganizationShowBeta} />
       <Route path="organizations/:organization/billing/upgrade" component={BillingUpgrade} queries={{ organization: OrganizationQuery.query }} render={renderSectionLoading} />
 
       <Route path="user">
