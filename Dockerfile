@@ -8,6 +8,7 @@ ADD --chown=root:root https://apt.buildkite.com/keys/6452D198.asc /etc/apt/trust
 
 RUN echo "--- :package: Installing system deps" \
     # Buildkite apt sources
+    && chmod 644 /etc/apt/trusted.gpg.d/buildkite.asc \
     && echo "deb http://apt.buildkite.com/buildkite-agent unstable main" > /etc/apt/sources.list.d/buildkite.list \
     # Install all the things
     && apt-get update \
