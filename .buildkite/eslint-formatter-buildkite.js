@@ -51,7 +51,12 @@ ${
         { encoding: 'utf8', input: errorOutput }
       );
 
-      console.log(result);
+      console.log(result.output.join(''));
+      console.log('Exit code: ' + result.status);
+
+      if (result.error) {
+        throw result.error;
+      }
     } else {
       console.log(errorOutput);
     }
@@ -88,7 +93,12 @@ ${
         { encoding: 'utf8', input: warningOutput }
       );
 
-      console.log(result);
+      console.log(result.output.join(''));
+      console.log('Exit code: ' + result.status);
+
+      if (result.error) {
+        throw result.error;
+      }
     } else {
       console.log(warningOutput);
     }
