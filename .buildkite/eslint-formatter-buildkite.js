@@ -47,7 +47,7 @@ ${
 
     if (process.env["BUILDKITE"]) {
       const result = spawnSync(
-        'buildkite-agent', [ 'annotate', '--context', 'eslint', '--style', 'error', ],
+        'buildkite-agent', [ 'annotate', '--context', 'eslint-errors', '--style', 'error', ],
         { encoding: 'utf8', input: errorOutput }
       );
 
@@ -84,7 +84,7 @@ ${
 
     if (process.env["BUILDKITE"]) {
       const result = spawnSync(
-        'buildkite-agent', [ 'annotate', '--context', 'eslint', '--style', 'warning' ],
+        'buildkite-agent', [ 'annotate', '--context', 'eslint-warnings', '--style', 'warning' ],
         { encoding: 'utf8', input: warningOutput }
       );
 
