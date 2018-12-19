@@ -68,7 +68,7 @@ ${
 
 ${
   file.messages.map(function(message) {
-    if (message.severity > 1) {
+    if (message.severity < 2) {
       return '';
     }
 
