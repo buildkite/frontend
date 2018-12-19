@@ -6,7 +6,6 @@ import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 import { hour, seconds } from 'metrick/duration';
 
-import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
 import Button from 'app/components/shared/Button';
 import Spinner from 'app/components/shared/Spinner';
@@ -105,13 +104,11 @@ class MyBuilds extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    PusherStore.on("user_stats:change", this.handleWebsocketEvent);
     CentrifugeStore.on("user_stats:change", this.handleWebsocketEvent);
 
     // Now that "My Builds" has been mounted on the page and Pusher has
     // connected, we should force a refetch of the latest `scheduledBuilds` and
     // `runningBuilds` counts from GraphQL.
-    PusherStore.on("connected", this.handleWebsocketConnected);
     CentrifugeStore.on("connect", this.handleWebsocketConnected);
 
     // If pusher doesn't connect in 3 seconds, just force the callback
@@ -130,9 +127,7 @@ class MyBuilds extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    PusherStore.off("user_stats:change", this.handleWebsocketEvent);
     CentrifugeStore.off("user_stats:change", this.handleWebsocketEvent);
-    PusherStore.off("connected", this.handleWebsocketConnected);
     CentrifugeStore.off("connected", this.handleWebsocketConnected);
   }
 

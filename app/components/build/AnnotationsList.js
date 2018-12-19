@@ -3,7 +3,6 @@
 import React from 'react';
 import Relay from 'react-relay/classic';
 
-import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
 
 type Props = {
@@ -26,12 +25,10 @@ type Props = {
 
 class AnnnotationsList extends React.Component<Props> {
   componentDidMount() {
-    PusherStore.on("build:annotations_change", this.handleWebsocketEvent);
     CentrifugeStore.on("build:annotations_change", this.handleWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off("build:annotations_change", this.handleWebsocketEvent);
     CentrifugeStore.off("build:annotations_change", this.handleWebsocketEvent);
   }
 

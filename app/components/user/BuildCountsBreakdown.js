@@ -3,7 +3,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
 import StateSwitcher from 'app/components/build/StateSwitcher';
 
@@ -51,12 +50,10 @@ export default class BuildCountsBreakdown extends React.PureComponent<Props, Sta
   };
 
   componentDidMount() {
-    PusherStore.on("user_stats:change", this.handleStoreChange);
     CentrifugeStore.on("user_stats:change", this.handleStoreChange);
   }
 
   componentWillUnmount() {
-    PusherStore.off("user_stats:change", this.handleStoreChange);
     CentrifugeStore.off("user_stats:change", this.handleStoreChange);
   }
 

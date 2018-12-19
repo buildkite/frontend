@@ -4,7 +4,6 @@ import Relay from 'react-relay/classic';
 import throttle from 'throttleit';
 import { seconds } from 'metrick/duration';
 
-import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
 
 import { formatNumber } from 'app/lib/number';
@@ -29,12 +28,10 @@ class AgentsCount extends React.PureComponent {
   };
 
   componentDidMount() {
-    PusherStore.on('organization_stats:change', this.handleWebsocketEvent);
     CentrifugeStore.on('organization_stats:change', this.handleWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off('organization_stats:change', this.handleWebsocketEvent);
     CentrifugeStore.off('organization_stats:change', this.handleWebsocketEvent);
   }
 

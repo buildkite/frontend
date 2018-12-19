@@ -2,7 +2,6 @@
 
 import React from 'react';
 import FlashesStore, { type FlashItem } from 'app/stores/FlashesStore';
-import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
 import Flash from './flash';
 
@@ -28,8 +27,6 @@ class Flashes extends React.PureComponent<{}, State> {
   componentDidMount() {
     FlashesStore.on('flash', this.handleStoreChange);
     FlashesStore.on('reset', this.handleStoreReset);
-    PusherStore.on('unavailable', this.handleConnectionError);
-    PusherStore.on('connected', this.handleConnectionSuccess);
     CentrifugeStore.on('disconnect', this.handleConnectionError);
     CentrifugeStore.on('connect', this.handleConnectionSuccess);
   }
@@ -37,8 +34,6 @@ class Flashes extends React.PureComponent<{}, State> {
   componentWillUnmount() {
     FlashesStore.off('flash', this.handleStoreChange);
     FlashesStore.off('reset', this.handleStoreReset);
-    PusherStore.off('unavailable', this.handleConnectionError);
-    PusherStore.off('connected', this.handleConnectionSuccess);
     CentrifugeStore.off('disconnect', this.handleConnectionError);
     CentrifugeStore.off('connect', this.handleConnectionSuccess);
   }

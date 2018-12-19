@@ -10,7 +10,6 @@ import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
 import Spinner from 'app/components/shared/Spinner';
 import { formatNumber } from 'app/lib/number';
 
-import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
 
 import AgentRow from './row';
@@ -49,7 +48,6 @@ class Agents extends React.PureComponent {
     // via react-router or the back/forward button in the browser.
     this.props.relay.forceFetch({ isMounted: true }, (readyState) => {
       if (readyState.done) {
-        PusherStore.on('organization_stats:change', this.fetchUpdatedData);
         CentrifugeStore.on('organization_stats:change', this.fetchUpdatedData);
         this.startTimeout();
       }
@@ -57,7 +55,6 @@ class Agents extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    PusherStore.off('organization_stats:change', this.fetchUpdatedData);
     CentrifugeStore.off('organization_stats:change', this.fetchUpdatedData);
     clearTimeout(this._agentListRefreshTimeout);
   }

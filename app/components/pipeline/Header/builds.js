@@ -4,7 +4,6 @@ import Relay from 'react-relay/classic';
 
 import BuildStateSwitcher from 'app/components/build/StateSwitcher';
 
-import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
 
 class Builds extends React.Component {
@@ -17,12 +16,10 @@ class Builds extends React.Component {
   };
 
   componentDidMount() {
-    PusherStore.on("websocket:event", this.handleWebsocketEvent);
     CentrifugeStore.on("websocket:event", this.handleWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off("websocket:event", this.handleWebsocketEvent);
     CentrifugeStore.off("websocket:event", this.handleWebsocketEvent);
   }
 

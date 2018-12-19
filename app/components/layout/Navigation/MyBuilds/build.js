@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import Emojify from 'app/components/shared/Emojify';
 import Duration from 'app/components/shared/Duration';
 
-import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
 import BuildState from 'app/components/icons/BuildState';
 
@@ -29,12 +28,10 @@ class BuildsDropdownBuild extends React.PureComponent {
   }
 
   componentDidMount() {
-    PusherStore.on("websocket:event", this.handleWebsocketEvent);
     CentrifugeStore.on("websocket:event", this.handleWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off("websocket:event", this.handleWebsocketEvent);
     CentrifugeStore.off("websocket:event", this.handleWebsocketEvent);
   }
 

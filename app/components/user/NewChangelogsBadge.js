@@ -6,7 +6,6 @@ import Relay from 'react-relay/classic';
 import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 
-import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
 
 type Props = {
@@ -33,12 +32,10 @@ class NewChangelogsBadge extends React.PureComponent<Props> {
   };
 
   componentDidMount() {
-    PusherStore.on("user_stats:change", this.handleWebsocketEvent);
     CentrifugeStore.on("user_stats:change", this.handleWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off("user_stats:change", this.handleWebsocketEvent);
     CentrifugeStore.off("user_stats:change", this.handleWebsocketEvent);
   }
 
