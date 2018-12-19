@@ -51,7 +51,7 @@ ${
         { encoding: 'utf8', input: errorOutput }
       );
 
-      console.log(result.output.join(''));
+      console.log(result.output.join('\n'));
       console.log('Exit code: ' + result.status);
 
       if (result.error) {
@@ -93,7 +93,7 @@ ${
         { encoding: 'utf8', input: warningOutput }
       );
 
-      console.log(result.output.join(''));
+      console.log(result.output.join('\n'));
       console.log('Exit code: ' + result.status);
 
       if (result.error) {
