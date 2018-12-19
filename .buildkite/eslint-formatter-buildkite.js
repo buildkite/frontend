@@ -1,4 +1,5 @@
 const spawnSync = require('child_process').spawnSync;
+const relative = require('path').relative;
 
 module.exports = function(results) {
   const { warning, error } = results.reduce(
@@ -26,7 +27,7 @@ module.exports = function(results) {
 ${
   error.map(function(file) {
     return `
-<details><summary>${file.filePath}</summary>
+<details><summary>${relative('.', file.filePath)}</summary>
 
 ${
   file.messages.map(function(message) {
@@ -63,7 +64,7 @@ ${
 ${
   warning.map(function(file) {
     return `
-<details><summary>${file.filePath}</summary>
+<details><summary>${relative('.', file.filePath)}</summary>
 
 ${
   file.messages.map(function(message) {
