@@ -28,15 +28,15 @@ class BuildsDropdownBuild extends React.PureComponent {
   }
 
   componentDidMount() {
-    CentrifugeStore.on("websocket:event", this.handleWebsocketEvent);
+    CentrifugeStore.on("build:updated", this.handleWebsocketEvent);
   }
 
   componentWillUnmount() {
-    CentrifugeStore.off("websocket:event", this.handleWebsocketEvent);
+    CentrifugeStore.off("build:updated", this.handleWebsocketEvent);
   }
 
   handleWebsocketEvent = (payload) => {
-    if (payload.subevent === "build:updated" && payload.graphql.id === this.props.build.id) {
+    if (payload.graphql.id === this.props.build.id) {
       this.props.relay.forceFetch();
     }
   };

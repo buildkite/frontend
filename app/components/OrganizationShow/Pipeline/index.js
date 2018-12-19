@@ -30,11 +30,11 @@ class Pipeline extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    CentrifugeStore.on("websocket:event", this.handleWebsocketEvent);
+    CentrifugeStore.on("project:updated", this.handleWebsocketEvent);
   }
 
   componentWillUnmount() {
-    CentrifugeStore.off("websocket:event", this.handleWebsocketEvent);
+    CentrifugeStore.off("project:updated", this.handleWebsocketEvent);
   }
 
   render() {
@@ -129,7 +129,7 @@ class Pipeline extends React.Component<Props, State> {
   }
 
   handleWebsocketEvent = (payload) => {
-    if (payload.subevent === "project:updated" && payload.graphql.id === this.props.pipeline.id) {
+    if (payload.graphql.id === this.props.pipeline.id) {
       const { pipeline: { id }, includeGraphData } = this.props;
       this.props.relay.refetch({ id, includeGraphData });
     }

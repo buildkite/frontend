@@ -16,11 +16,11 @@ class Builds extends React.Component {
   };
 
   componentDidMount() {
-    CentrifugeStore.on("websocket:event", this.handleWebsocketEvent);
+    CentrifugeStore.on("project:updated", this.handleWebsocketEvent);
   }
 
   componentWillUnmount() {
-    CentrifugeStore.off("websocket:event", this.handleWebsocketEvent);
+    CentrifugeStore.off("project:updated", this.handleWebsocketEvent);
   }
 
   render() {
@@ -38,7 +38,7 @@ class Builds extends React.Component {
   }
 
   handleWebsocketEvent = (payload) => {
-    if (payload.subevent === "project:updated" && payload.graphql.id === this.props.pipeline.id) {
+    if (payload.graphql.id === this.props.pipeline.id) {
       this.props.relay.forceFetch();
     }
   };
