@@ -394,6 +394,7 @@ const QUERIES = {
         name
         description
         url
+        public
         slug
         defaultBranch
         organization {
