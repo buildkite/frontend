@@ -3,10 +3,10 @@
 import React from 'react';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
-
-import Navigation from './layout/Navigation';
-import Footer from './layout/Footer';
-import Flashes from './layout/Flashes';
+import Navigation from 'app/components/layout/Navigation';
+import NavigationNeue from 'app/components/NavigationNeue';
+import Footer from 'app/components/layout/Footer';
+import Flashes from 'app/components/layout/Flashes';
 
 type Props = {
   children: React$Node,
@@ -19,10 +19,14 @@ class Main extends React.PureComponent<Props> {
     return (
       <DocumentTitle title="Buildkite">
         <div className="flex flex-column" style={{ minHeight: '100vh' }}>
-          <Navigation
-            organization={this.props.organization}
-            viewer={this.props.viewer}
-          />
+          {!Features.NavigationNeue ? (
+            <NavigationNeue />
+          ) : (
+            <Navigation
+              organization={this.props.organization}
+              viewer={this.props.viewer}
+            />
+          )}
           <Flashes />
           <div className="flex-auto">
             {this.props.children}

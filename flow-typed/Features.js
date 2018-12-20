@@ -1,1 +1,5 @@
-declare var Features: {||};
+// @flow
+
+declare var Features: {|
+  NavigationNeue: boolean
+|};
