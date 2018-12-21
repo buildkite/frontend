@@ -5,6 +5,7 @@ import Relay from 'react-relay/classic';
 import BuildStateSwitcher from 'app/components/build/StateSwitcher';
 
 import PusherStore from 'app/stores/PusherStore';
+import CentrifugeStore from 'app/stores/CentrifugeStore';
 
 class Builds extends React.Component {
   static propTypes = {
@@ -16,11 +17,13 @@ class Builds extends React.Component {
   };
 
   componentDidMount() {
-    PusherStore.on("websocket:event", this.handlePusherWebsocketEvent);
+    PusherStore.on("websocket:event", this.handleWebsocketEvent);
+    CentrifugeStore.on("websocket:event", this.handleWebsocketEvent);
   }
 
   componentWillUnmount() {
-    PusherStore.off("websocket:event", this.handlePusherWebsocketEvent);
+    PusherStore.off("websocket:event", this.handleWebsocketEvent);
+    CentrifugeStore.off("websocket:event", this.handleWebsocketEvent);
   }
 
   render() {
@@ -37,8 +40,8 @@ class Builds extends React.Component {
     );
   }
 
-  handlePusherWebsocketEvent = (payload) => {
-    if (payload.event === "project:updated" && payload.graphql.id === this.props.pipeline.id) {
+  handleWebsocketEvent = (payload) => {
+    if (payload.subevent === "project:updated" && payload.graphql.id === this.props.pipeline.id) {
       this.props.relay.forceFetch();
     }
   };
