@@ -5,21 +5,18 @@ import Pusher from 'pusher-js';
 import Logger from 'app/lib/Logger';
 
 class PusherStore extends EventEmitter {
-  name: string;
   pusher: Pusher;
 
-  constructor(name: string = 'PusherStore') {
+  constructor() {
     super();
-    this.name = name;
   }
 
   configure(key: string, options: Object) {
     this.pusher = new Pusher(key, options);
-
     this.pusher.connection.bind(
       'state_change',
       ({ current, ...context }) => {
-        Logger.info(`[${this.name}]`, current, context);
+        Logger.info('[PusherStore]', current, context);
 
         this.emit(current, context);
       }
@@ -31,10 +28,10 @@ class PusherStore extends EventEmitter {
   }
 
   listen(channel: string) {
-    Logger.info(`[${this.name}] Listening to channel '${channel}'`);
+    Logger.info(`[PusherStore] Listening to channel '${channel}'`);
 
     this.pusher.subscribe(channel).bind_global((event, payload) => {
-      Logger.info(`[${this.name}]`, event, payload);
+      Logger.info('[PusherStore]', event, payload);
 
       this.emit(event, payload);
     });

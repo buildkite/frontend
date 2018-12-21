@@ -117,6 +117,7 @@
     "buffer-crc32": "0.2.13",
     "bugsnag-js": "4.7.3",
     "bugsnag-react": "1.1.1",
+    "centrifuge": "^2.0.0",
     "classnames": "2.2.6",
     "codemirror": "5.41.0",
     "codemirror-graphql": "0.7.1",

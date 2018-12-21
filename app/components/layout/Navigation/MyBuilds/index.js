@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { hour, seconds } from 'metrick/duration';
 
 import PusherStore from 'app/stores/PusherStore';
+import CentrifugeStore from 'app/stores/CentrifugeStore';
 import Button from 'app/components/shared/Button';
 import Spinner from 'app/components/shared/Spinner';
 import Dropdown from 'app/components/shared/Dropdown';
@@ -104,17 +105,19 @@ class MyBuilds extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    PusherStore.on("user_stats:change", this.handlePusherWebsocketEvent);
+    PusherStore.on("user_stats:change", this.handleWebsocketEvent);
+    CentrifugeStore.on("user_stats:change", this.handleWebsocketEvent);
 
     // Now that "My Builds" has been mounted on the page and Pusher has
     // connected, we should force a refetch of the latest `scheduledBuilds` and
     // `runningBuilds` counts from GraphQL.
-    PusherStore.on("connected", this.handlePusherConnected);
+    PusherStore.on("connected", this.handleWebsocketConnected);
+    CentrifugeStore.on("connect", this.handleWebsocketConnected);
 
     // If pusher doesn't connect in 3 seconds, just force the callback
     // manually.  This can happen if Pusher is being a bit weird, or when
     // Pusher isn't connected at all (like in the case of automated tests)
-    setTimeout(this.handlePusherConnected, seconds.bind(3));
+    setTimeout(this.handleWebsocketConnected, seconds.bind(3));
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -127,8 +130,10 @@ class MyBuilds extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    PusherStore.off("user_stats:change", this.handlePusherWebsocketEvent);
-    PusherStore.off("connected", this.handlePusherConnected);
+    PusherStore.off("user_stats:change", this.handleWebsocketEvent);
+    CentrifugeStore.off("user_stats:change", this.handleWebsocketEvent);
+    PusherStore.off("connected", this.handleWebsocketConnected);
+    CentrifugeStore.off("connected", this.handleWebsocketConnected);
   }
 
   render() {
@@ -244,7 +249,7 @@ class MyBuilds extends React.Component<Props, State> {
     this.setState({ isDropdownVisible: visible });
   };
 
-  handlePusherConnected = () => {
+  handleWebsocketConnected = () => {
     if (!this.props.relay.variables.includeBuildCounts) {
       this.props.relay.forceFetch({ includeBuildCounts: true });
     }
@@ -266,7 +271,7 @@ class MyBuilds extends React.Component<Props, State> {
   // We don't use the data from the payload otherwise the UI would update, and
   // then the builds would update a few moments later when the GraphQL query
   // finishes, which would be a bit weird.
-  handlePusherWebsocketEvent = (payload) => {
+  handleWebsocketEvent = (payload) => {
     const scheduledBuildsCountChanged = this.state.scheduledBuildsCount !== payload.scheduledBuildsCount;
     const runningBuildsCountChanged = this.state.runningBuildsCount !== payload.runningBuildsCount;
 
