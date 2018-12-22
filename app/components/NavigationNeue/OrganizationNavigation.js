@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable react/display-name */
 
 import * as React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay/compat';
@@ -68,7 +69,7 @@ function OrganizationNavigation(props: Props) {
                   "organizationBillingUpdate"
                 ],
                 render: () => (
-                  <>
+                  <React.Fragment key="organization">
                     <NavigationButton
                       key="users"
                       href={`/organizations/${props.organization.slug}/users`}
@@ -82,7 +83,7 @@ function OrganizationNavigation(props: Props) {
                     >
                       Settings
                     </NavigationButton>
-                  </>
+                  </React.Fragment>
                 )
               },
               {
