@@ -1,65 +1,49 @@
 // @flow
 
 import * as React from 'react';
-import classNames from 'classnames';
-import styled from 'styled-components';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
+import UserNavigation from './UserNavigation';
+import OrganizationNavigation from './OrganizationNavigation';
+import type { NavigationNeue_viewer } from './__generated__/NavigationNeue_viewer.graphql';
+import type { NavigationNeue_organization } from './__generated__/NavigationNeue_organization.graphql';
 
-const BreakpointContainer = styled.div`
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 15px;
-  padding-right: 15px;
+type State = {};
 
-  @media (min-width: 768px) {
-    width: 750px;
+type Props = {
+  viewer: NavigationNeue_viewer,
+  organization: NavigationNeue_organization,
+  warning: boolean
+};
+
+class NavigationNeue extends React.PureComponent<Props, State> {
+  static defaultProps = {
+    warning: window._navigation && window._navigation.warning
   }
 
-  @media (min-width: 992px) {
-    width: 970px;
-  }
-
-  @media (min-width: 1200px) {
-    width: 1170px;
-  }
-`;
-
-const UserNavigationWrapper = styled.header`
-  background: #EEEEEF;
-  padding: 20px;
-`;
-
-const OrganizationNavigationWrapper = styled.header`
-  padding: 20px;
-  margin-bottom: 40px;
-`;
-
-function UserNavigation() {
-  return (
-    <UserNavigationWrapper>
-      <BreakpointContainer>
-        UserNavigation
-      </BreakpointContainer>
-    </UserNavigationWrapper>
-  );
-}
-
-function OrganizationNavigation() {
-  return (
-    <OrganizationNavigationWrapper>
-      <BreakpointContainer>
-        OrganizationNavigation
-      </BreakpointContainer>
-    </OrganizationNavigationWrapper>
-  );
-}
-
-export default class NavigationNeue extends React.PureComponent<{}> {
   render() {
     return (
       <>
-        <UserNavigation />
-        <OrganizationNavigation />
+        <UserNavigation
+          warning={this.props.warning}
+          viewer={this.props.viewer}
+          organization={this.props.organization}
+        />
+        <OrganizationNavigation
+          viewer={this.props.viewer}
+          organization={this.props.organization}
+        />
       </>
     );
   }
 }
+
+export default createFragmentContainer(NavigationNeue, graphql`
+  fragment NavigationNeue_viewer on Viewer {
+    ...UserNavigation_viewer
+    ...OrganizationNavigation_viewer
+  }
+  fragment NavigationNeue_organization on Organization {
+    ...UserNavigation_organization
+    ...OrganizationNavigation_organization
+  }
+`);

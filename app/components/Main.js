@@ -20,7 +20,10 @@ class Main extends React.PureComponent<Props> {
       <DocumentTitle title="Buildkite">
         <div className="flex flex-column" style={{ minHeight: '100vh' }}>
           {!Features.NavigationNeue ? (
-            <NavigationNeue />
+            <NavigationNeue
+              organization={this.props.organization}
+              viewer={this.props.viewer}
+            />
           ) : (
             <Navigation
               organization={this.props.organization}
@@ -43,11 +46,13 @@ export default Relay.createContainer(Main, {
     organization: () => Relay.QL`
       fragment on Organization {
         ${Navigation.getFragment('organization')}
+        ${NavigationNeue.getFragment('organization')}
       }
     `,
     viewer: () => Relay.QL`
       fragment on Viewer {
         ${Navigation.getFragment('viewer')}
+        ${NavigationNeue.getFragment('viewer')}
         ${Footer.getFragment('viewer')}
       }
     `

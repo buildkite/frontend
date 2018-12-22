@@ -1,5 +1,6 @@
 // @flow
 
 declare var Features: {|
-  NavigationNeue: boolean
+  NavigationNeue: boolean,
+  OrganizationBuildsPage: boolean
 |};
