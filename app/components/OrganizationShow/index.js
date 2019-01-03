@@ -21,11 +21,12 @@ import type { OrganizationShowQueryResponse } from './__generated__/Organization
 type Organization = $NonMaybeType<$ElementType<OrganizationShowQueryResponse, 'organization'>>;
 
 function canCreatePipelineForOrganization(organization: Organization): boolean {
+  console.log(organization.permissions)
   return (
     organization &&
     organization.permissions &&
     organization.permissions.pipelineCreate &&
-    organization.permissions.pipelineCreate.code === "not_member_of_team"
+    organization.permissions.pipelineCreate.allowed === false
   ) ? false : true;
 }
 
