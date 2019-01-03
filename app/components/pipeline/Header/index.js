@@ -12,6 +12,7 @@ import Emojify from 'app/components/shared/Emojify';
 import Icon from 'app/components/shared/Icon';
 import CreateBuildDialog from 'app/components/pipeline/CreateBuildDialog';
 import Builds from './builds';
+import defaultAvatar from 'app/images/avatar_default.png';
 
 import permissions from 'app/lib/permissions';
 import { repositoryProviderIcon } from 'app/lib/repositories';
@@ -85,39 +86,42 @@ class Header extends React.Component<Props, State> {
       <div data-testid="PipelineHeader">
         <div className="flex mb1 items-center flex-wrap" style={{ marginTop: -10 }}>
           <HeaderVitals>
-            {!this.props.isCurrentOrganizationMember
-              && this.props.pipeline.organization.iconUrl
-              && (
+
+            <div className="flex flex-auto">
+              <a href="#">
                 <img
-                  src={this.props.pipeline.organization.iconUrl}
+                  src={this.props.pipeline.organization.iconUrl || defaultAvatar}
                   width="38"
                   height="38"
-                  className="xs-hide circle border border-gray bg-white mr2 flex-none"
+                  className="block xs-hide circle border border-gray bg-white mr2 flex-none"
                   alt={`Icon for ${this.props.pipeline.organization.name}`}
                   title={`Icon for ${this.props.pipeline.organization.name}`}
                 />
-              )
-            }
-            <div className="flex flex-auto items-center">
-              <a
-                data-testid="PipelineUrl"
-                href={this.props.pipeline.url}
-                className="inline-block line-height-1 color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent truncate"
-              >
-                <div className="flex items-center">
-                  <h2 className="inline h3 regular m0 mr1 line-height-2">
-                    {this.props.isCurrentOrganizationMember || <Emojify text={this.props.pipeline.organization.name} />}
-                    {this.props.isCurrentOrganizationMember || <span className="dark-gray hover-color-inherit"> / </span>}
-                    <Emojify text={this.props.pipeline.name} />
+              </a>
+              <div className="flex flex-column">
+                <div className="flex">
+                  <h2 className="inline-block line-height-1 h3 regular m0 mr1 line-height-2 truncate">
+                    <a href="#">
+                      <Emojify text={this.props.pipeline.organization.name} />
+                    </a>
+                    <span className="dark-gray"> / </span>
+                    <a
+                      data-testid="PipelineUrl"
+                      href={this.props.pipeline.url}
+                     >
+                      <Emojify text={this.props.pipeline.name} />
+                    </a>
                   </h2>
                   {this.props.pipeline.public ? <PipelineStatus showLabel={true} /> : null}
                 </div>
                 <div className="truncate dark-gray hover-color-inherit" style={{ marginTop: 3 }}>
                   <Emojify className="h4 regular" text={this.props.pipeline.description} />
-                  {/* {this.renderDescription()} */}
                 </div>
-              </a>
+              </div>
             </div>
+
+
+
             {this.renderProviderBadge()}
             {this.renderDropdownForActions(actions)}
           </HeaderVitals>
