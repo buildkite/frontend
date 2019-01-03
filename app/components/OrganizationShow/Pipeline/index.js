@@ -124,11 +124,11 @@ class Pipeline extends React.Component<Props, State> {
       }
     );
 
-    return (
+    return favoriteButton ? (
       <div className="flex flex-none flex-column justify-center ml-auto pr2">
         {favoriteButton}
       </div>
-    );
+    ) : null;
   }
 
   handleWebsocketEvent = (payload) => {
