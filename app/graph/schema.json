@@ -11578,6 +11578,12 @@
           "interfaces": null,
           "enumValues": [
             {
+              "name": "PIPELINE_SCHEDULE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "TEAM",
               "description": null,
               "isDeprecated": false,
@@ -11648,12 +11654,6 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "PIPELINE_SCHEDULE",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -11667,6 +11667,11 @@
           "interfaces": null,
           "enumValues": null,
           "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "PipelineSchedule",
+              "ofType": null
+            },
             {
               "kind": "OBJECT",
               "name": "Team",
@@ -11755,11 +11760,6 @@
             {
               "kind": "OBJECT",
               "name": "Pipeline",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "PipelineSchedule",
               "ofType": null
             }
           ]

@@ -101,7 +101,7 @@ class Header extends React.Component<Props, State> {
               <div className="flex flex-column">
                 <div className="flex">
                   <h2 className="inline-block line-height-1 h3 regular m0 mr1 line-height-2 truncate">
-                    <a href="#">
+                    <a href={`/${this.props.pipeline.organization.slug}`}>
                       <Emojify text={this.props.pipeline.organization.name} />
                     </a>
                     <span className="dark-gray"> / </span>
@@ -292,6 +292,7 @@ export default Relay.createContainer(Header, {
         public
         organization {
           name
+          slug
           iconUrl
         }
         repository {

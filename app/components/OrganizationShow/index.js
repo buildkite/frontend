@@ -15,6 +15,7 @@ import Pipelines from './Pipelines';
 import Teams from './Teams';
 import RelayModernPreloader from 'app/lib/RelayModernPreloader';
 import Environment from 'app/lib/relay/environment';
+import defaultAvatar from 'app/images/avatar_default.png';
 import * as constants from './constants';
 
 import type { OrganizationShowQueryResponse } from './__generated__/OrganizationShowQuery.graphql';
@@ -178,7 +179,19 @@ export default class OrganizationShow extends React.Component<Props, State> {
           <div>
             <PageWithContainer>
               <div className="flex flex-wrap items-start mb2">
-                <h1 className="h1 p0 m0 regular line-height-1 inline-block">Pipelines</h1>
+                <a href="#">
+                  <img
+                    src={organization.iconUrl || defaultAvatar}
+                    width="38"
+                    height="38"
+                    className="block xs-hide circle border border-gray bg-white mr2 flex-none"
+                    alt={`Icon for ${organization.name}`}
+                    title={`Icon for ${organization.name}`}
+                  />
+                </a>
+                <h1 className="h1 p0 m0 regular line-height-1 inline-block">
+                  {organization.name}
+                </h1>
                 <Teams
                   selected={this.teamFilter}
                   organization={organization}
