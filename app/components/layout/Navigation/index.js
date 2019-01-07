@@ -4,7 +4,6 @@ import * as React from 'react';
 import Relay from 'react-relay/classic';
 import classNames from 'classnames';
 import styled from 'styled-components';
-
 import UserAvatar from 'app/components/shared/UserAvatar';
 import Dropdown from 'app/components/shared/Dropdown';
 import Badge from 'app/components/shared/Badge';
@@ -13,17 +12,13 @@ import SectionLoader from 'app/components/shared/SectionLoader';
 import AgentsCount from 'app/components/organization/AgentsCount';
 import NewChangelogsBadge from 'app/components/user/NewChangelogsBadge';
 import permissions from 'app/lib/permissions';
-
 import UserSessionStore from 'app/stores/UserSessionStore';
-
+import AnonymousNavigation from 'app/components/AnonymousNavigation';
 import defaultAvatar from '../../../images/avatar_default.png';
-
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
 import SupportDialog from './support-dialog';
 import MyBuilds from './MyBuilds';
-
-declare var Features;
 
 const ArrowDropdownButton = styled(DropdownButton)`
   background-repeat: no-repeat;
@@ -364,6 +359,10 @@ class Navigation extends React.PureComponent<Props, State> {
   }
 
   render() {
+    if (!this.props.viewer) {
+      return <AnonymousNavigation />;
+    }
+
     return (
       <div
         className={classNames("border-bottom border-gray bg-silver", { "bg-warning-stripes": this.state.warning })}

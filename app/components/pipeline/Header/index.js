@@ -20,7 +20,7 @@ import { repositoryProviderIcon } from 'app/lib/repositories';
 declare var Features;
 
 const HeaderVitals = styled.div.attrs({
-  className: 'flex flex-auto items-center my2'
+  className: 'flex flex-auto items-center'
 })`
   flex-basis: 100%;
 
@@ -84,39 +84,39 @@ class Header extends React.Component<Props, State> {
 
     return (
       <div data-testid="PipelineHeader">
-        <div className="flex mb1 items-center flex-wrap" style={{ marginTop: -10 }}>
+        <div className="flex mb2 items-center flex-wrap">
           <HeaderVitals>
-
             <div className="flex flex-auto">
-              <a href="#">
-                <img
-                  src={this.props.pipeline.organization.iconUrl || defaultAvatar}
-                  width="38"
-                  height="38"
-                  className="block xs-hide circle border border-gray bg-white mr2 flex-none"
-                  alt={`Icon for ${this.props.pipeline.organization.name}`}
-                  title={`Icon for ${this.props.pipeline.organization.name}`}
-                />
-              </a>
-              <div className="flex flex-column">
-                <div className="flex">
+              {!this.props.isCurrentOrganizationMember ? (
+                <a href={`/${this.props.pipeline.organization.slug}`}>
+                  <img
+                    src={this.props.pipeline.organization.iconUrl || defaultAvatar}
+                    width="38"
+                    height="38"
+                    className="block xs-hide circle border border-gray bg-white mr2 flex-none"
+                    alt={`Icon for ${this.props.pipeline.organization.name}`}
+                    title={`Icon for ${this.props.pipeline.organization.name}`}
+                  />
+                </a>
+              ) : null}
+              <div className="flex flex-column justify-center">
+                <div className="flex items-center">
                   <h2 className="inline-block line-height-1 h3 regular m0 mr1 line-height-2 truncate">
-                    <a href={`/${this.props.pipeline.organization.slug}`}>
+                    <a className="color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent" href={`/${this.props.pipeline.organization.slug}`}>
                       <Emojify text={this.props.pipeline.organization.name} />
                     </a>
                     <span className="dark-gray"> / </span>
-                    <a
-                      data-testid="PipelineUrl"
-                      href={this.props.pipeline.url}
-                     >
+                    <a className="color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent" data-testid="PipelineUrl" href={this.props.pipeline.url}>
                       <Emojify text={this.props.pipeline.name} />
                     </a>
                   </h2>
                   {this.props.pipeline.public ? <PipelineStatus showLabel={true} /> : null}
                 </div>
-                <div className="truncate dark-gray hover-color-inherit" style={{ marginTop: 3 }}>
-                  <Emojify className="h4 regular" text={this.props.pipeline.description} />
-                </div>
+                {this.props.pipeline.description ? (
+                  <div className="truncate dark-gray">
+                    <Emojify className="h4 regular" text={this.props.pipeline.description} />
+                  </div>
+                ) : null}
               </div>
             </div>
 
