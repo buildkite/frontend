@@ -41,6 +41,7 @@ window["Webpack"] = {
     "react-relay": require("react-relay/classic"),
     "react-addons-pure-render-mixin": require("react-addons-pure-render-mixin"),
 
+    "components/AnonymousNavigation": require("./components/AnonymousNavigation").default,
     "components/billing/BillingHeader": require("./components/billing/BillingHeader").default,
     "components/build/AnnotationsList": require("./components/build/AnnotationsList").default,
     "components/build/AvatarWithUnknownEmailPrompt": require("./components/build/AvatarWithUnknownEmailPrompt").default,
