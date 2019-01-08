@@ -182,41 +182,43 @@ export default class OrganizationShow extends React.Component<Props, State> {
     }
 
     if (props && props.organization) {
+      const { organization } = props;
+
       return (
-        <DocumentTitle title={`${props.organization.name}`}>
+        <DocumentTitle title={`${organization.name}`}>
           <div>
             <PageWithContainer>
               <div className="flex flex-wrap items-center mb2">
-                {!isCurrentOrganizationMember(props.organization) ? (
+                {!isCurrentOrganizationMember(organization) ? (
                   <img
-                    src={props.organization.iconUrl || defaultAvatar}
+                    src={organization.iconUrl || defaultAvatar}
                     width="38"
                     height="38"
                     className="block xs-hide circle border border-gray bg-white mr2 flex-none"
-                    alt={`Icon for ${props.organization.name}`}
-                    title={`Icon for ${props.organization.name}`}
+                    alt={`Icon for ${organization.name}`}
+                    title={`Icon for ${organization.name}`}
                   />
                 ) : null}
                 <h1 className="h1 p0 m0 regular line-height-1 inline-block">
-                  {props.organization.name}
+                  {organization.name}
                 </h1>
                 <Teams
                   selected={this.teamFilter}
-                  organization={props.organization}
-                  onTeamChange={this.handleTeamChange(props.organization)}
+                  organization={organization}
+                  onTeamChange={this.handleTeamChange(organization)}
                 />
                 <FilterField
                   borderless={true}
-                  onChange={this.handleFilterChange(props.organization)}
+                  onChange={this.handleFilterChange(organization)}
                   defaultValue={this.nameFilter}
                   searching={false}
                   placeholder="Filter"
                   autofocus={true}
                 />
-                {this.renderNewPipelineButton(props.organization)}
+                {this.renderNewPipelineButton(organization)}
               </div>
               <Pipelines
-                organization={props.organization}
+                organization={organization}
                 teamFilter={this.teamFilter}
                 nameFilter={this.nameFilter}
               />

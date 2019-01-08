@@ -35,7 +35,7 @@ export default class AnonymousNavigation extends React.PureComponent<Props> {
 type Anchorprops = {
   title: string,
   href: string,
-  style?: {string: any}
+  style?: Object
 };
 
 function Anchor(props: Anchorprops) {

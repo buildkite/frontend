@@ -1,3 +1,4 @@
 declare var Features: {|
-  Widescreen: boolean
+  Widescreen: boolean,
+  OrganizationBuildsPage: boolean
 |};
