@@ -12,7 +12,7 @@ import Emojify from 'app/components/shared/Emojify';
 import Icon from 'app/components/shared/Icon';
 import CreateBuildDialog from 'app/components/pipeline/CreateBuildDialog';
 import Builds from './builds';
-import defaultAvatar from 'app/images/avatar_default.png';
+import defaultAvatar from 'app/images/avatar_default';
 
 import permissions from 'app/lib/permissions';
 import { repositoryProviderIcon } from 'app/lib/repositories';

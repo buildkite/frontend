@@ -15,7 +15,7 @@ import Pipelines from './Pipelines';
 import Teams from './Teams';
 import RelayModernPreloader from 'app/lib/RelayModernPreloader';
 import Environment from 'app/lib/relay/environment';
-import defaultAvatar from 'app/images/avatar_default.png';
+import defaultAvatar from 'app/images/avatar_default';
 import * as constants from './constants';
 
 import type { OrganizationShowQueryResponse } from './__generated__/OrganizationShowQuery.graphql';
