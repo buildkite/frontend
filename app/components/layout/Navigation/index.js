@@ -176,6 +176,18 @@ class Navigation extends React.PureComponent<Props, State> {
     );
   }
 
+  viewerIsMemberOfOrganization(): boolean {
+    const {organization} = this.props;
+
+    if (organization && this.props.viewer && this.props.viewer.organizations) {
+      return this.props.viewer.organizations.edges.some(({ node }) => {
+        return node.id === organization.id;
+      });
+    }
+
+    return false;
+  }
+
   renderOrganizationsList() {
     if (!this.props.viewer || !this.props.viewer.organizations) {
       return <SectionLoader />;
@@ -273,9 +285,19 @@ class Navigation extends React.PureComponent<Props, State> {
       {
         allowed: "pipelineView",
         render: () => {
-          return (
-            <NavigationButton key={10} className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={true}>Pipelines</NavigationButton>
-          );
+          if (this.viewerIsMemberOfOrganization()) {
+            return (
+              <NavigationButton
+                key={10}
+                className="py0"
+                style={{ paddingLeft: paddingLeft }}
+                href={this.getOrganizationPipelinesUrl(organization)}
+                linkIf={true}
+              >
+                Pipelines
+              </NavigationButton>
+            );
+          }
         }
       },
       {
@@ -444,9 +466,12 @@ class Navigation extends React.PureComponent<Props, State> {
                     )
                   })}
                 >
-                  {this.props.organization && !this.organizationRequiresSSO(this.props.organization)
-                    ? this.props.organization.name
-                    : 'Organizations'
+                  {
+                    this.props.organization &&
+                    !this.organizationRequiresSSO(this.props.organization) &&
+                    this.viewerIsMemberOfOrganization()
+                      ? this.props.organization.name
+                      : 'Organizations'
                   }
                 </span>
                 <Icon
@@ -537,65 +562,65 @@ export default Relay.createContainer(Navigation, {
 
   fragments: {
     organization: () => Relay.QL`
-        fragment on Organization {
-          ${AgentsCount.getFragment('organization')}
-          name
-          id
-          slug
-          iconUrl
-          permissions {
-            pipelineView {
-              allowed
-              code
-            }
-            agentView {
-              allowed
-            }
-            organizationUpdate {
-              allowed
-            }
-            organizationInvitationCreate {
-              allowed
-            }
-            notificationServiceUpdate {
-              allowed
-            }
-            organizationBillingUpdate {
-              allowed
-            }
-            teamView {
-              allowed
-            }
+      fragment on Organization {
+        ${AgentsCount.getFragment('organization')}
+        name
+        id
+        slug
+        iconUrl
+        permissions {
+          pipelineView {
+            allowed
+            code
+          }
+          agentView {
+            allowed
+          }
+          organizationUpdate {
+            allowed
+          }
+          organizationInvitationCreate {
+            allowed
+          }
+          notificationServiceUpdate {
+            allowed
+          }
+          organizationBillingUpdate {
+            allowed
+          }
+          teamView {
+            allowed
           }
         }
-      `,
+      }
+    `,
     viewer: (variables) => Relay.QL`
-        fragment on Viewer {
-          ${MyBuilds.getFragment('viewer')}
-          ${NewChangelogsBadge.getFragment('viewer', variables)}
-          user {
-            name
-            avatar {
-              url
-            }
+      fragment on Viewer {
+        ${MyBuilds.getFragment('viewer')}
+        ${NewChangelogsBadge.getFragment('viewer', variables)}
+        user {
+          name
+          avatar {
+            url
           }
-          organizations(first: 100) @include(if: $isMounted) {
-            edges {
-              node {
-                id
-                name
-                slug
-                iconUrl
-                permissions {
-                  pipelineView {
-                    allowed
-                    code
-                  }
+        }
+        organizations(first: 100) @include(if: $isMounted) {
+          edges {
+            node {
+              id
+              name
+              slug
+              iconUrl
+              permissions {
+                pipelineView {
+                  allowed
+                  code
                 }
               }
             }
           }
         }
-      `
+      }
+    `
   }
 });
