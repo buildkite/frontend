@@ -25,6 +25,9 @@ export default class OrganizationInvitationCreate extends Relay.Mutation {
           invitations {
             count
           }
+          members {
+            count
+          }
         }
       }
     `;
@@ -37,6 +40,9 @@ export default class OrganizationInvitationCreate extends Relay.Mutation {
         Relay.QL`
           fragment on OrganizationInvitationCreatePayload {
             organization {
+              members {
+                count
+              }
               invitations {
                 count
               }

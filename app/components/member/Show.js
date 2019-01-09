@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title';
 import PageHeader from 'app/components/shared/PageHeader';
 import UserAvatar from 'app/components/shared/UserAvatar';
 import TabControl from 'app/components/shared/TabControl';
+import Emojify from 'app/components/shared/Emojify';
 import permissions from 'app/lib/permissions';
 
 const AVATAR_SIZE = 50;
@@ -66,12 +67,22 @@ class Show extends React.PureComponent {
             </PageHeader.Description>
           </PageHeader>
 
+          {this.props.organizationMember.user.bot && this.renderBotMessage()}
+
           {this.renderTabs()}
 
           {this.props.children}
         </div>
       </DocumentTitle>
     );
+  }
+
+  renderBotMessage() {
+    return (
+      <div className="border border-gray p3 rounded my2">
+        <Emojify text=":robot_face:"/> {this.props.organizationMember.user.name} is a bot user managed by Buildkite.
+      </div>
+    )
   }
 
   renderTabs() {
@@ -126,6 +137,7 @@ export default Relay.createContainer(Show, {
           id
           name
           email
+          bot
           avatar {
             url
           }
