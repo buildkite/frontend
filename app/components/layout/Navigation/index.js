@@ -177,7 +177,7 @@ class Navigation extends React.PureComponent<Props, State> {
   }
 
   viewerIsMemberOfOrganization(): boolean {
-    const {organization} = this.props;
+    const { organization } = this.props;
 
     if (organization && this.props.viewer && this.props.viewer.organizations) {
       return this.props.viewer.organizations.edges.some(({ node }) => {
