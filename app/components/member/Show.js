@@ -30,6 +30,7 @@ class Show extends React.PureComponent {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,
+        bot: PropTypes.bool.isRequired,
         avatar: PropTypes.shape({
           url: PropTypes.string.isRequired
         }).isRequired
@@ -80,9 +81,9 @@ class Show extends React.PureComponent {
   renderBotMessage() {
     return (
       <div className="border border-gray p3 rounded my2">
-        <Emojify text=":robot_face:"/> {this.props.organizationMember.user.name} is a bot user managed by Buildkite.
+        <Emojify text=":robot_face:" /> {this.props.organizationMember.user.name} is a bot user managed by Buildkite.
       </div>
-    )
+    );
   }
 
   renderTabs() {
