@@ -5,6 +5,8 @@ import Relay from 'react-relay/classic';
 
 import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
+import Button from 'app/components/shared/Button';
+
 
 type Props = {
   build: {
@@ -21,6 +23,7 @@ type Props = {
       }>
     }
   },
+  onShowMore: () => void,
   relay: Object
 };
 
@@ -42,8 +45,15 @@ class AnnnotationsList extends React.Component<Props> {
 
     return (
       <div>{annotations}</div>
+      // <div>{this.renderShowMore()}</div>
     );
+
+
   }
+
+  // handleShowMoreClick = (event: MouseEvent) => {
+
+  // }
 
   handleAnnotationClick = (event: MouseEvent) => {
     // Don't change anything if the user is using any modifier keys
@@ -86,6 +96,16 @@ class AnnnotationsList extends React.Component<Props> {
         }
       }
     );
+  }
+
+  renderShowMore() {
+    <Button
+    outline={true}
+    theme="default"
+    onClick={this.props.onShowMore}
+  >
+    Show more annotations
+  </Button>
   }
 
   renderAnnotation(annotation) {
