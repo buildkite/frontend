@@ -176,16 +176,13 @@ class Navigation extends React.PureComponent<Props, State> {
     );
   }
 
+  // We check `organizationMemberView.allowed` here as an aproximation of "is the current user a
+  // member of the current orgaization". It's not perfect but it's good enough.
   viewerIsMemberOfOrganization(): boolean {
-    const { organization } = this.props;
-
-    if (organization && this.props.viewer && this.props.viewer.organizations) {
-      return this.props.viewer.organizations.edges.some(({ node }) => {
-        return node.id === organization.id;
-      });
-    }
-
-    return false;
+    return (
+      this.props.organization &&
+      this.props.organization.permissions.organizationMemberView.allowed
+    );
   }
 
   renderOrganizationsList() {
@@ -576,6 +573,10 @@ export default Relay.createContainer(Navigation, {
           agentView {
             allowed
           }
+          organizationMemberView {
+            allowed
+            code
+          }
           organizationUpdate {
             allowed
           }
@@ -598,12 +599,14 @@ export default Relay.createContainer(Navigation, {
       fragment on Viewer {
         ${MyBuilds.getFragment('viewer')}
         ${NewChangelogsBadge.getFragment('viewer', variables)}
+
         user {
           name
           avatar {
             url
           }
         }
+
         organizations(first: 100) @include(if: $isMounted) {
           edges {
             node {
