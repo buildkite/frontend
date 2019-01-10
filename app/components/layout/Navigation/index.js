@@ -282,19 +282,17 @@ class Navigation extends React.PureComponent<Props, State> {
       {
         allowed: "pipelineView",
         render: () => {
-          if (this.viewerIsMemberOfOrganization()) {
-            return (
-              <NavigationButton
-                key={10}
-                className="py0"
-                style={{ paddingLeft: paddingLeft }}
-                href={this.getOrganizationPipelinesUrl(organization)}
-                linkIf={true}
-              >
-                Pipelines
-              </NavigationButton>
-            );
-          }
+          return (
+            <NavigationButton
+              key={10}
+              className="py0"
+              style={{ paddingLeft: paddingLeft }}
+              href={this.getOrganizationPipelinesUrl(organization)}
+              linkIf={true}
+            >
+              Pipelines
+            </NavigationButton>
+          );
         }
       },
       {
