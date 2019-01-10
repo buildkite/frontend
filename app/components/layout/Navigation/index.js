@@ -278,10 +278,13 @@ class Navigation extends React.PureComponent<Props, State> {
       return;
     }
 
+    if (!this.viewerIsMemberOfOrganization()) {
+      return;
+    }
+
     return permissions(organization.permissions).collect(
       {
         allowed: "pipelineView",
-        and: this.viewerIsMemberOfOrganization(),
         render: () => {
           return (
             <NavigationButton
@@ -298,7 +301,7 @@ class Navigation extends React.PureComponent<Props, State> {
       },
       {
         allowed: "pipelineView",
-        and: (Features.OrganizationBuildsPage && this.viewerIsMemberOfOrganization()),
+        and: Features.OrganizationBuildsPage,
         render: () => {
           return (
             <NavigationButton key={15} className="py0" href={`/${organization.slug}/builds`}>Builds</NavigationButton>
