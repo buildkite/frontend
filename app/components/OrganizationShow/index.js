@@ -15,6 +15,7 @@ import Pipelines from './Pipelines';
 import Teams from './Teams';
 import RelayModernPreloader from 'app/lib/RelayModernPreloader';
 import Environment from 'app/lib/relay/environment';
+import defaultAvatar from 'app/images/avatar_default.png';
 import * as constants from './constants';
 
 import type { OrganizationShowQueryResponse } from './__generated__/OrganizationShowQuery.graphql';
@@ -25,7 +26,18 @@ function canCreatePipelineForOrganization(organization: Organization): boolean {
     organization &&
     organization.permissions &&
     organization.permissions.pipelineCreate &&
-    organization.permissions.pipelineCreate.code === "not_member_of_team"
+    organization.permissions.pipelineCreate.allowed === false
+  ) ? false : true;
+}
+
+function isCurrentOrganizationMember(organization: Organization): boolean {
+  return (
+    organization &&
+    organization.permissions &&
+    organization.permissions.pipelineCreate && (
+      organization.permissions.pipelineCreate.code === 'role' ||
+      organization.permissions.pipelineCreate.code === 'anonymous'
+    )
   ) ? false : true;
 }
 
@@ -49,7 +61,6 @@ const FilterField = styled(SearchField)`
     */
     margin-left: .5em;
     margin-right: 1em;
-    margin-top: -.25em;
     order: initial;
   }
 `;
@@ -101,6 +112,7 @@ export default class OrganizationShow extends React.Component<Props, State> {
         id
         slug
         name
+        iconUrl
         permissions {
           pipelineCreate {
             code
@@ -162,7 +174,7 @@ export default class OrganizationShow extends React.Component<Props, State> {
   /* eslint-disable react/no-unused-prop-types */
   renderQuery = () => ({ error, props }: { error: ?Error, props: OrganizationShowQueryResponse }) => {
     if (error) {
-      return (<div>BONK!</div>);
+      return;
     }
 
     if (!props) {
@@ -176,8 +188,20 @@ export default class OrganizationShow extends React.Component<Props, State> {
         <DocumentTitle title={`${organization.name}`}>
           <div>
             <PageWithContainer>
-              <div className="flex flex-wrap items-start mb2">
-                <h1 className="h1 p0 m0 regular line-height-1 inline-block">Pipelines</h1>
+              <div className="flex flex-wrap items-center mb2">
+                {!isCurrentOrganizationMember(organization) ? (
+                  <img
+                    src={organization.iconUrl || defaultAvatar}
+                    width="38"
+                    height="38"
+                    className="block xs-hide circle border border-gray bg-white mr2 flex-none"
+                    alt={`Icon for ${organization.name}`}
+                    title={`Icon for ${organization.name}`}
+                  />
+                ) : null}
+                <h1 className="h1 p0 m0 regular line-height-1 inline-block">
+                  {organization.name}
+                </h1>
                 <Teams
                   selected={this.teamFilter}
                   organization={organization}
@@ -194,7 +218,7 @@ export default class OrganizationShow extends React.Component<Props, State> {
                 {this.renderNewPipelineButton(organization)}
               </div>
               <Pipelines
-                organization={props.organization}
+                organization={organization}
                 teamFilter={this.teamFilter}
                 nameFilter={this.nameFilter}
               />

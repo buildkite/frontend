@@ -3,10 +3,9 @@
 import React from 'react';
 import Relay from 'react-relay/classic';
 import DocumentTitle from 'react-document-title';
-
-import Navigation from './layout/Navigation';
-import Footer from './layout/Footer';
-import Flashes from './layout/Flashes';
+import Navigation from 'app/components/layout/Navigation';
+import Footer from 'app/components/layout/Footer';
+import Flashes from 'app/components/layout/Flashes';
 
 type Props = {
   children: React$Node,

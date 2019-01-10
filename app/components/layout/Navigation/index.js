@@ -4,7 +4,6 @@ import * as React from 'react';
 import Relay from 'react-relay/classic';
 import classNames from 'classnames';
 import styled from 'styled-components';
-
 import UserAvatar from 'app/components/shared/UserAvatar';
 import Dropdown from 'app/components/shared/Dropdown';
 import Badge from 'app/components/shared/Badge';
@@ -13,17 +12,13 @@ import SectionLoader from 'app/components/shared/SectionLoader';
 import AgentsCount from 'app/components/organization/AgentsCount';
 import NewChangelogsBadge from 'app/components/user/NewChangelogsBadge';
 import permissions from 'app/lib/permissions';
-
 import UserSessionStore from 'app/stores/UserSessionStore';
-
+import AnonymousNavigation from 'app/components/AnonymousNavigation';
 import defaultAvatar from '../../../images/avatar_default.png';
-
 import NavigationButton from './navigation-button';
 import DropdownButton from './dropdown-button';
 import SupportDialog from './support-dialog';
 import MyBuilds from './MyBuilds';
-
-declare var Features;
 
 const ArrowDropdownButton = styled(DropdownButton)`
   background-repeat: no-repeat;
@@ -181,6 +176,15 @@ class Navigation extends React.PureComponent<Props, State> {
     );
   }
 
+  // We check `organizationMemberView.allowed` here as an aproximation of "is the current user a
+  // member of the current orgaization". It's not perfect but it's good enough.
+  viewerIsMemberOfOrganization(): boolean {
+    return (
+      this.props.organization &&
+      this.props.organization.permissions.organizationMemberView.allowed
+    ) ? true : false;
+  }
+
   renderOrganizationsList() {
     if (!this.props.viewer || !this.props.viewer.organizations) {
       return <SectionLoader />;
@@ -278,9 +282,19 @@ class Navigation extends React.PureComponent<Props, State> {
       {
         allowed: "pipelineView",
         render: () => {
-          return (
-            <NavigationButton key={10} className="py0" style={{ paddingLeft: paddingLeft }} href={this.getOrganizationPipelinesUrl(organization)} linkIf={true}>Pipelines</NavigationButton>
-          );
+          if (this.viewerIsMemberOfOrganization()) {
+            return (
+              <NavigationButton
+                key={10}
+                className="py0"
+                style={{ paddingLeft: paddingLeft }}
+                href={this.getOrganizationPipelinesUrl(organization)}
+                linkIf={true}
+              >
+                Pipelines
+              </NavigationButton>
+            );
+          }
         }
       },
       {
@@ -364,6 +378,10 @@ class Navigation extends React.PureComponent<Props, State> {
   }
 
   render() {
+    if (!this.props.viewer) {
+      return <AnonymousNavigation />;
+    }
+
     return (
       <div
         className={classNames("border-bottom border-gray bg-silver", { "bg-warning-stripes": this.state.warning })}
@@ -445,9 +463,12 @@ class Navigation extends React.PureComponent<Props, State> {
                     )
                   })}
                 >
-                  {this.props.organization && !this.organizationRequiresSSO(this.props.organization)
-                    ? this.props.organization.name
-                    : 'Organizations'
+                  {
+                    this.props.organization &&
+                    !this.organizationRequiresSSO(this.props.organization) &&
+                    this.viewerIsMemberOfOrganization()
+                      ? this.props.organization.name
+                      : 'Organizations'
                   }
                 </span>
                 <Icon
@@ -538,65 +559,71 @@ export default Relay.createContainer(Navigation, {
 
   fragments: {
     organization: () => Relay.QL`
-        fragment on Organization {
-          ${AgentsCount.getFragment('organization')}
-          name
-          id
-          slug
-          iconUrl
-          permissions {
-            pipelineView {
-              allowed
-              code
-            }
-            agentView {
-              allowed
-            }
-            organizationUpdate {
-              allowed
-            }
-            organizationInvitationCreate {
-              allowed
-            }
-            notificationServiceUpdate {
-              allowed
-            }
-            organizationBillingUpdate {
-              allowed
-            }
-            teamView {
-              allowed
-            }
+      fragment on Organization {
+        ${AgentsCount.getFragment('organization')}
+        name
+        id
+        slug
+        iconUrl
+        permissions {
+          pipelineView {
+            allowed
+            code
+          }
+          agentView {
+            allowed
+          }
+          organizationMemberView {
+            allowed
+            code
+          }
+          organizationUpdate {
+            allowed
+          }
+          organizationInvitationCreate {
+            allowed
+          }
+          notificationServiceUpdate {
+            allowed
+          }
+          organizationBillingUpdate {
+            allowed
+          }
+          teamView {
+            allowed
           }
         }
-      `,
+      }
+    `,
     viewer: (variables) => Relay.QL`
-        fragment on Viewer {
-          ${MyBuilds.getFragment('viewer')}
-          ${NewChangelogsBadge.getFragment('viewer', variables)}
-          user {
-            name
-            avatar {
-              url
-            }
+      fragment on Viewer {
+        ${MyBuilds.getFragment('viewer')}
+        ${NewChangelogsBadge.getFragment('viewer', variables)}
+
+        user {
+          name
+          avatar {
+            url
           }
-          organizations(first: 100) @include(if: $isMounted) {
-            edges {
-              node {
-                id
-                name
-                slug
-                iconUrl
-                permissions {
-                  pipelineView {
-                    allowed
-                    code
-                  }
+        }
+
+        organizations(first: 100) @include(if: $isMounted) {
+          edges {
+            node {
+              id
+              name
+              slug
+              iconUrl
+              permissions {
+                pipelineView {
+                  allowed
+                  code
                 }
               }
             }
           }
         }
-      `
+      }
+    `
   }
 });
