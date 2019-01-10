@@ -176,6 +176,10 @@ const QUERIES = {
           agentView {
             allowed
           }
+          organizationMemberView {
+            allowed
+            code
+          }
           organizationUpdate {
             allowed
           }
