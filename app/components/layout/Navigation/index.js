@@ -182,7 +182,7 @@ class Navigation extends React.PureComponent<Props, State> {
     return (
       this.props.organization &&
       this.props.organization.permissions.organizationMemberView.allowed
-    );
+    ) ? true : false;
   }
 
   renderOrganizationsList() {
