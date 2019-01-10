@@ -5,6 +5,7 @@ import { createFragmentContainer, graphql } from 'react-relay/compat';
 import Panel from 'app/components/shared/Panel';
 import UserAvatar from 'app/components/shared/UserAvatar';
 import Badge from 'app/components/shared/Badge';
+import Emojify from 'app/components/shared/Emojify';
 import OrganizationMemberRoleConstants from 'app/constants/OrganizationMemberRoleConstants';
 import OrganizationMemberSSOModeConstants from 'app/constants/OrganizationMemberSSOModeConstants';
 import type { Row_organization } from './__generated__/Row_organization.graphql';
@@ -52,6 +53,14 @@ class MemberRow extends React.PureComponent<Props> {
 
   renderLabels() {
     const nodes = [];
+
+    if (this.props.organizationMember.user.bot) {
+      nodes.push(
+        <div key="bot" className="flex ml1">
+          <Badge outline={true} className="regular">Bot <Emojify text=":robot_face:" /></Badge>
+        </div>
+      );
+    }
 
     if (this.props.organizationMember.sso.mode === OrganizationMemberSSOModeConstants.OPTIONAL) {
       nodes.push(
@@ -108,6 +117,7 @@ export default createFragmentContainer(
         avatar {
           url
         }
+        bot
       }
     }
   `
