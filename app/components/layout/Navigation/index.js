@@ -282,19 +282,17 @@ class Navigation extends React.PureComponent<Props, State> {
       {
         allowed: "pipelineView",
         render: () => {
-          if (this.viewerIsMemberOfOrganization()) {
-            return (
-              <NavigationButton
-                key={10}
-                className="py0"
-                style={{ paddingLeft: paddingLeft }}
-                href={this.getOrganizationPipelinesUrl(organization)}
-                linkIf={true}
-              >
-                Pipelines
-              </NavigationButton>
-            );
-          }
+          return (
+            <NavigationButton
+              key={10}
+              className="py0"
+              style={{ paddingLeft: paddingLeft }}
+              href={this.getOrganizationPipelinesUrl(organization)}
+              linkIf={true}
+            >
+              Pipelines
+            </NavigationButton>
+          );
         }
       },
       {
@@ -441,6 +439,7 @@ class Navigation extends React.PureComponent<Props, State> {
                 }}
               >
                 {this.props.organization
+                  && this.viewerIsMemberOfOrganization()
                   && this.props.organization.iconUrl
                   && (
                     <img
@@ -459,6 +458,7 @@ class Navigation extends React.PureComponent<Props, State> {
                   className={classNames("truncate", {
                     "ml1 xs-hide lg-hide": (
                       this.props.organization
+                      && this.viewerIsMemberOfOrganization()
                       && this.props.organization.iconUrl
                     )
                   })}
