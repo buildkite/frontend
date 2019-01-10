@@ -174,7 +174,7 @@ export default class OrganizationShow extends React.Component<Props, State> {
   /* eslint-disable react/no-unused-prop-types */
   renderQuery = () => ({ error, props }: { error: ?Error, props: OrganizationShowQueryResponse }) => {
     if (error) {
-      return (<div>BONK!</div>);
+      return;
     }
 
     if (!props) {
