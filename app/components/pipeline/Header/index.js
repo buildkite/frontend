@@ -17,12 +17,20 @@ import defaultAvatar from 'app/images/avatar_default.png';
 import permissions from 'app/lib/permissions';
 import { repositoryProviderIcon } from 'app/lib/repositories';
 
-declare var Features;
+const HeaderContent = styled.header`
+  display: flex;
+  flex: 1 1 auto;
 
-const HeaderVitals = styled.div.attrs({
-  className: 'flex flex-auto items-center'
-})`
-  flex-basis: 100%;
+  @media (max-width: 991px) {
+    flex-wrap: wrap;
+  }
+`;
+
+const HeaderVitals = styled.div`
+
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
 
   @media (min-width: 768px) {
     flex-basis: 320px;
@@ -30,15 +38,16 @@ const HeaderVitals = styled.div.attrs({
 `;
 
 const HeaderBuilds = styled(Builds)`
-  flex: 1 1 auto;
+  flex: 1;
   margin-bottom: 5px;
 
-  @media (min-width: 768px) and (max-width: 991px) {
+  @media (max-width: 991px) {
+    margin-top: 10px;
     order: 3;
   }
 
   @media (min-width: 992px) {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     margin-bottom: 0;
     margin-left: 10px;
   }
@@ -84,7 +93,7 @@ class Header extends React.Component<Props, State> {
 
     return (
       <div data-testid="PipelineHeader">
-        <div className="flex mb2 items-center flex-wrap">
+        <HeaderContent className="mb2">
           <HeaderVitals>
             <div className="flex flex-auto">
               {!this.props.isCurrentOrganizationMember ? (
@@ -99,7 +108,7 @@ class Header extends React.Component<Props, State> {
                   />
                 </a>
               ) : null}
-              <div className="flex flex-column justify-center">
+              <div className="flex flex-column justify-center" style={{ minWidth: 0 }}>
                 <div className="flex items-center">
                   <h2 className="inline-block line-height-1 h3 regular m0 mr1 line-height-2 truncate">
                     <a className="color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent" href={`/${this.props.pipeline.organization.slug}`}>
@@ -113,15 +122,12 @@ class Header extends React.Component<Props, State> {
                   {this.props.pipeline.public ? <PipelineStatus showLabel={true} /> : null}
                 </div>
                 {this.props.pipeline.description ? (
-                  <div className="truncate dark-gray">
+                  <div className="dark-gray truncate">
                     <Emojify className="h4 regular" text={this.props.pipeline.description} />
                   </div>
                 ) : null}
               </div>
             </div>
-
-
-
             {this.renderProviderBadge()}
             {this.renderDropdownForActions(actions)}
           </HeaderVitals>
@@ -131,7 +137,7 @@ class Header extends React.Component<Props, State> {
             buildState={this.props.buildState}
           />
           {this.renderButtonsForActions(actions)}
-        </div>
+        </HeaderContent>
         <CreateBuildDialog
           isOpen={this.state.showingCreateBuildDialog}
           onRequestClose={this.handleCreateBuildDialogClose}
