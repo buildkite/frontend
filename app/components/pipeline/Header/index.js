@@ -21,24 +21,20 @@ const HeaderContent = styled.header`
   display: flex;
   flex: 1 1 auto;
 
-  @media (max-width: 991px) {
-    flex-wrap: wrap;
+  @media (max-width: 767px) {
+    flex-direction: column;
   }
 `;
 
 const HeaderVitals = styled.div`
   display: flex;
   flex: 1 1 auto;
+  align-items: center;
   min-width: 0;
-
-  @media (min-width: 768px) {
-    flex-basis: 320px;
-  }
 `;
 
 const HeaderBuilds = styled(Builds)`
   flex: 1;
-  margin-bottom: 5px;
 
   @media (min-width: 768px) {
     white-space: nowrap;
