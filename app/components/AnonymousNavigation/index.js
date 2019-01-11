@@ -1,6 +1,8 @@
 // @flow
 
 import * as React from 'react';
+import logoSrc from 'app/images/logo-full-dark-backgrounds.svg';
+import markSrc from 'app/images/mark.svg';
 
 type Props = {};
 
@@ -16,8 +18,21 @@ export default class AnonymousNavigation extends React.PureComponent<Props> {
           <div className="flex flex-stretch" style={{ height: 45 }}>
             <div className="flex flex-auto">
               <a href="/" className="btn black hover-lime focus-lime flex items-center flex-none px3 hover-faded-children" style={{ paddingLeft: 0 }}>
-                <img style={{ marginBottom: -3 }} alt="Buildkite" className="xs-hide" src="/assets/logo-full-dark-backgrounds-43567d29c99445a96712f669628329768290f07755f1c5269d90171b2990e824.svg" width="102" height="19" />
-                <img alt="Buildkite" className="sm-hide md-hide lg-hide" src="/assets/mark-bc1292d2385e00f9ec7032e7ffbc118c33dd4922c3338c99abf43ae1c2a3eee5.svg" width="40" height="40" />
+                <img
+                  style={{ marginBottom: -3 }}
+                  alt="Buildkite"
+                  className="xs-hide"
+                  src={logoSrc}
+                  width="102"
+                  height="19"
+                />
+                <img
+                  alt="Buildkite"
+                  className="sm-hide md-hide lg-hide"
+                  src={markSrc}
+                  width="40"
+                  height="40"
+                />
               </a>
             </div>
             <div className="flex">
