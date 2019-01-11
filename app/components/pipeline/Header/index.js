@@ -45,7 +45,7 @@ const HeaderBuilds = styled(Builds)`
     margin-left: 10px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     margin-top: 10px;
     order: 3;
   }
@@ -212,7 +212,7 @@ class Header extends React.Component<Props, State> {
 
     return (
       <Dropdown
-        className="sm-hide md-hide lg-hide ml2"
+        className="md-hide lg-hide ml2"
         width={200}
         ref={(actionsDropdown) => this.actionsDropdown = actionsDropdown}
         onToggle={this.handleActionsDropdownToggle}
@@ -246,7 +246,7 @@ class Header extends React.Component<Props, State> {
     ));
 
     return (
-      <div className="flex xs-hide">
+      <div className="flex xs-hide sm-hide">
         {content}
       </div>
     );
