@@ -27,7 +27,6 @@ const HeaderContent = styled.header`
 `;
 
 const HeaderVitals = styled.div`
-
   display: flex;
   flex: 1 1 auto;
   min-width: 0;
@@ -41,7 +40,12 @@ const HeaderBuilds = styled(Builds)`
   flex: 1;
   margin-bottom: 5px;
 
-  @media (max-width: 991px) {
+  @media (min-width: 768px) {
+    white-space: nowrap;
+    margin-left: 10px;
+  }
+
+  @media (max-width: 768px) {
     margin-top: 10px;
     order: 3;
   }
@@ -49,7 +53,6 @@ const HeaderBuilds = styled(Builds)`
   @media (min-width: 992px) {
     flex: 0 0 auto;
     margin-bottom: 0;
-    margin-left: 10px;
   }
 `;
 
@@ -102,7 +105,7 @@ class Header extends React.Component<Props, State> {
                     src={this.props.pipeline.organization.iconUrl || defaultAvatar}
                     width="38"
                     height="38"
-                    className="block xs-hide circle border border-gray bg-white mr2 flex-none"
+                    className="block circle border border-gray bg-white mr2 flex-none"
                     alt={`Icon for ${this.props.pipeline.organization.name}`}
                     title={`Icon for ${this.props.pipeline.organization.name}`}
                   />
