@@ -17,30 +17,38 @@ import defaultAvatar from 'app/images/avatar_default.png';
 import permissions from 'app/lib/permissions';
 import { repositoryProviderIcon } from 'app/lib/repositories';
 
-declare var Features;
+const HeaderContent = styled.header`
+  display: flex;
+  flex: 1 1 auto;
 
-const HeaderVitals = styled.div.attrs({
-  className: 'flex flex-auto items-center'
-})`
-  flex-basis: 100%;
-
-  @media (min-width: 768px) {
-    flex-basis: 320px;
+  @media (max-width: 767px) {
+    flex-direction: column;
   }
 `;
 
-const HeaderBuilds = styled(Builds)`
+const HeaderVitals = styled.div`
+  display: flex;
   flex: 1 1 auto;
-  margin-bottom: 5px;
+  align-items: center;
+  min-width: 0;
+`;
 
-  @media (min-width: 768px) and (max-width: 991px) {
+const HeaderBuilds = styled(Builds)`
+  flex: 1;
+
+  @media (min-width: 768px) {
+    white-space: nowrap;
+    margin-left: 10px;
+  }
+
+  @media (max-width: 767px) {
+    margin-top: 10px;
     order: 3;
   }
 
   @media (min-width: 992px) {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     margin-bottom: 0;
-    margin-left: 10px;
   }
 `;
 
@@ -84,7 +92,7 @@ class Header extends React.Component<Props, State> {
 
     return (
       <div data-testid="PipelineHeader">
-        <div className="flex mb2 items-center flex-wrap">
+        <HeaderContent className="mb2">
           <HeaderVitals>
             <div className="flex flex-auto">
               {!this.props.isCurrentOrganizationMember ? (
@@ -93,13 +101,13 @@ class Header extends React.Component<Props, State> {
                     src={this.props.pipeline.organization.iconUrl || defaultAvatar}
                     width="38"
                     height="38"
-                    className="block xs-hide circle border border-gray bg-white mr2 flex-none"
+                    className="block circle border border-gray bg-white mr2 flex-none"
                     alt={`Icon for ${this.props.pipeline.organization.name}`}
                     title={`Icon for ${this.props.pipeline.organization.name}`}
                   />
                 </a>
               ) : null}
-              <div className="flex flex-column justify-center">
+              <div className="flex flex-column justify-center" style={{ minWidth: 0 }}>
                 <div className="flex items-center">
                   <h2 className="inline-block line-height-1 h3 regular m0 mr1 line-height-2 truncate">
                     <a className="color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent" href={`/${this.props.pipeline.organization.slug}`}>
@@ -113,15 +121,12 @@ class Header extends React.Component<Props, State> {
                   {this.props.pipeline.public ? <PipelineStatus showLabel={true} /> : null}
                 </div>
                 {this.props.pipeline.description ? (
-                  <div className="truncate dark-gray">
+                  <div className="dark-gray truncate">
                     <Emojify className="h4 regular" text={this.props.pipeline.description} />
                   </div>
                 ) : null}
               </div>
             </div>
-
-
-
             {this.renderProviderBadge()}
             {this.renderDropdownForActions(actions)}
           </HeaderVitals>
@@ -131,7 +136,7 @@ class Header extends React.Component<Props, State> {
             buildState={this.props.buildState}
           />
           {this.renderButtonsForActions(actions)}
-        </div>
+        </HeaderContent>
         <CreateBuildDialog
           isOpen={this.state.showingCreateBuildDialog}
           onRequestClose={this.handleCreateBuildDialogClose}
@@ -203,7 +208,7 @@ class Header extends React.Component<Props, State> {
 
     return (
       <Dropdown
-        className="sm-hide md-hide lg-hide ml2"
+        className="md-hide lg-hide ml2"
         width={200}
         ref={(actionsDropdown) => this.actionsDropdown = actionsDropdown}
         onToggle={this.handleActionsDropdownToggle}
@@ -237,7 +242,7 @@ class Header extends React.Component<Props, State> {
     ));
 
     return (
-      <div className="flex xs-hide">
+      <div className="flex xs-hide sm-hide">
         {content}
       </div>
     );
