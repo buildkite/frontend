@@ -28,15 +28,24 @@ class Agents extends React.PureComponent {
         edges: PropTypes.array.isRequired
       })
     }).isRequired,
-    relay: PropTypes.object.isRequired
+    relay: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired
   };
 
   state = {
     loading: false,
     searchingRemotely: false,
     searchingRemotelyIsSlow: false,
-    localSearchQuery: null
+    localSearchQuery: null,
+    defaultQuery: null
   };
+
+  constructor(initialProps) {
+    super(initialProps);
+
+    const defaultQuery = this.props.location.query.q !== undefined ? this.props.location.query.q : undefined;
+    this.state = { defaultQuery: defaultQuery };
+  }
 
   componentDidMount() {
     // We've marked the data requirements for this compoent with `@include(if:
@@ -47,7 +56,7 @@ class Agents extends React.PureComponent {
     // We use `forceFetch` instead of `setVariables` because we want to re-grab
     // the entire agent list when we come to/from the Agents page whether it's
     // via react-router or the back/forward button in the browser.
-    this.props.relay.forceFetch({ isMounted: true }, (readyState) => {
+    this.props.relay.forceFetch({ search: this.state.defaultQuery, isMounted: true }, (readyState) => {
       if (readyState.done) {
         PusherStore.on('organization_stats:change', this.fetchUpdatedData);
         CentrifugeStore.on('organization_stats:change', this.fetchUpdatedData);
@@ -103,6 +112,7 @@ class Agents extends React.PureComponent {
             placeholder="Search agents…"
             onChange={this.handleSearch}
             searching={this.state.searchingRemotelyIsSlow}
+            defaultValue={this.state.defaultQuery}
           />
         </Panel.Row>
         {this.renderSearchInfo(agents)}

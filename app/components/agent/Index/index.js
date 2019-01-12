@@ -79,7 +79,7 @@ class AgentIndex extends React.PureComponent<Props> {
             viewer={this.props.viewer}
             location={this.props.location}
           />
-          <Agents organization={this.props.organization} />
+          <Agents organization={this.props.organization} location={this.props.location} />
         </div>
         <div className="sm-col sm-col-4 px3">
           <AgentTokenList organization={this.props.organization} />
