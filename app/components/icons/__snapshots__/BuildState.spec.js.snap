@@ -238,7 +238,7 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`RUNNI
       y="9"
     >
       <polygon
-        className="animation-spin"
+        className="animation-spin-slow"
         fill="#fff"
         points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16"
         style={
@@ -300,7 +300,7 @@ exports[`BuildState BuildState.Regular renders correctly for build state \`SCHED
       y="9"
     >
       <polygon
-        className="animation-spin"
+        className="animation-spin-slow"
         fill="#fff"
         points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16"
         style={
@@ -642,7 +642,7 @@ exports[`BuildState BuildState.Small renders correctly for build state \`RUNNING
       y="9"
     >
       <polygon
-        className="animation-spin"
+        className="animation-spin-slow"
         fill="#fff"
         points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16"
         style={
@@ -704,7 +704,7 @@ exports[`BuildState BuildState.Small renders correctly for build state \`SCHEDUL
       y="9"
     >
       <polygon
-        className="animation-spin"
+        className="animation-spin-slow"
         fill="#fff"
         points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16"
         style={
@@ -1046,7 +1046,7 @@ exports[`BuildState BuildState.XSmall renders correctly for build state \`RUNNIN
       y="9"
     >
       <polygon
-        className="animation-spin"
+        className="animation-spin-slow"
         fill="#fff"
         points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16"
         style={
@@ -1108,7 +1108,7 @@ exports[`BuildState BuildState.XSmall renders correctly for build state \`SCHEDU
       y="9"
     >
       <polygon
-        className="animation-spin"
+        className="animation-spin-slow"
         fill="#fff"
         points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16"
         style={
