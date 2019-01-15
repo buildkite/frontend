@@ -148,7 +148,7 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
 
     for (const job of jobs) {
       // Ah! We've stumbled onto a parallel job, let's try and group it.
-      if (job.parallelGroupTotal) {
+      if (job.parallelGroupTotal && job.parallelGroupTotal > 1) {
         // If there's no current group being tracked, create one. If there *is*
         // one, and it's different to the current group, we'll finish off that
         // one and create a new group.
