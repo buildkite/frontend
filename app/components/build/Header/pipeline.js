@@ -139,73 +139,70 @@ const BuildHeaderPipelineComponent = createReactClass({ // eslint-disable-line r
       );
     }
 
-    let jobs = this.state.showHiddenJobs
+    const jobs = this.state.showHiddenJobs
       ? this.props.build.jobs
       : this.props.build.jobs.filter(({ state, retriedInJobUuid }) => state !== 'broken' && !retriedInJobUuid);
 
-    if (Features.ParallelJobGroups) {
-      let groupedJobs = [];
-      let currentParallelGroup = null;
-      for (const job of jobs) {
-        // Ah! We've stumbled onto a parallel job, let's try and group it.
-        if (job.parallelGroupTotal) {
-          // If there's no current group being tracked, create one. If there *is*
-          // one, and it's different to the current group, we'll finish off that
-          // one and create a new group.
-          if (!currentParallelGroup) {
-            currentParallelGroup = new ParallelJobGroup(job.stepUuid);
-          } else if (currentParallelGroup.id !== job.stepUuid) {
-            // Only commit the parallel group if we were able to collect all
-            // the jobs for it (we may only be showing a partial list of jobs)
-            if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
-              groupedJobs.push(currentParallelGroup);
-            } else {
-              groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
-            }
+    let groupedJobs = [];
+    let currentParallelGroup = null;
 
-            currentParallelGroup = new ParallelJobGroup(job.stepUuid);
+    for (const job of jobs) {
+      // Ah! We've stumbled onto a parallel job, let's try and group it.
+      if (job.parallelGroupTotal) {
+        // If there's no current group being tracked, create one. If there *is*
+        // one, and it's different to the current group, we'll finish off that
+        // one and create a new group.
+        if (!currentParallelGroup) {
+          currentParallelGroup = new ParallelJobGroup(job.stepUuid);
+        } else if (currentParallelGroup.id !== job.stepUuid) {
+          // Only commit the parallel group if we were able to collect all
+          // the jobs for it (we may only be showing a partial list of jobs)
+          if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
+            groupedJobs.push(currentParallelGroup);
+          } else {
+            groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
           }
 
-          currentParallelGroup.appendJob(job);
-        } else {
-          // If this job doesn't have a `parallelGroupTotal`, and there's a
-          // `currentParallelGroup` in the mix, we know we've now progressed
-          // passed the group onto a new job.
-          if (currentParallelGroup) {
-            // Only commit the parallel group if we were able to collect all the
-            // jobs for it (we may only be showing a partial list of jobs)
-            if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
-              groupedJobs.push(currentParallelGroup);
-            } else {
-              groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
-            }
+          currentParallelGroup = new ParallelJobGroup(job.stepUuid);
+        }
 
-            // We can stop tracking it now
-            currentParallelGroup = null;
+        currentParallelGroup.appendJob(job);
+      } else {
+        // If this job doesn't have a `parallelGroupTotal`, and there's a
+        // `currentParallelGroup` in the mix, we know we've now progressed
+        // passed the group onto a new job.
+        if (currentParallelGroup) {
+          // Only commit the parallel group if we were able to collect all the
+          // jobs for it (we may only be showing a partial list of jobs)
+          if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
+            groupedJobs.push(currentParallelGroup);
+          } else {
+            groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
           }
 
-          groupedJobs.push(job);
-        }
-      }
-
-      // If there was a dangling parallel group, add it to the list of jobs to
-      // render as well.
-      if (currentParallelGroup) {
-        // Only commit the parallel group if we were able to collect all the
-        // jobs for it (we may only be showing a partial list of jobs)
-        if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
-          groupedJobs.push(currentParallelGroup);
-        } else {
-          groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
+          // We can stop tracking it now
+          currentParallelGroup = null;
         }
 
-        currentParallelGroup = null;
+        groupedJobs.push(job);
       }
-
-      jobs = groupedJobs;
     }
 
-    const renderedJobs = jobs.map((job) => this.pipelineStep(job));
+    // If there was a dangling parallel group, add it to the list of jobs to
+    // render as well.
+    if (currentParallelGroup) {
+      // Only commit the parallel group if we were able to collect all the
+      // jobs for it (we may only be showing a partial list of jobs)
+      if (currentParallelGroup.jobs.length === currentParallelGroup.total) {
+        groupedJobs.push(currentParallelGroup);
+      } else {
+        groupedJobs = groupedJobs.concat(currentParallelGroup.jobs);
+      }
+
+      currentParallelGroup = null;
+    }
+
+    const renderedJobs = groupedJobs.map((job) => this.pipelineStep(job));
 
     // If the build has hidden jobs (such as on the project show / build index
     // page, we want to add a "..." build step that links to the build so you
