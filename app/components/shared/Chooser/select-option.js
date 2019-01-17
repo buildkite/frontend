@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import Spinner from 'app/components/shared/Spinner';
+import Icon from 'app/components/shared/Icon';
 
 import Option from './option';
 
 function SelectOption(props) {
   return (
-    <Option value={props.value} className="btn block hover-bg-silver">
+    <Option value={props.value} className={classNames("btn block hover-bg-silver", { "bg-silver": props.selected })}>
       <div className="flex items-top">
         <div className="flex-none">
-          <Icon saving={props.saving} selected={props.selected} />
+          <SelectIcon saving={props.saving} selected={props.selected} />
         </div>
         <div>
           <span className="semi-bold block">{props.label}</span>
@@ -31,25 +33,26 @@ SelectOption.propTypes = {
   selected: PropTypes.bool
 };
 
-function Icon(props) {
-  const width = 25;
+function SelectIcon(props) {
+  const size = 25
+  const marginRight = 3;
 
   if (props.saving) {
     return (
-      <div style={{ width: width }}>
-        <Spinner className="fit absolute" size={16} style={{ marginTop: 3 }} color={false} />
+      <div className="inline-block relative" style={{ width: size, height: size }}>
+        <Spinner className="fit absolute" size={16} color={false} style={{ left: 3 }} />
       </div>
     );
   }
 
-  const tickColor = props.selected ? "green" : "gray";
+  const tickColor = props.selected ? "green" : "dark-gray";
 
   return (
-    <div className={tickColor} style={{ fontSize: 16, width: width }}>✔</div>
+    <Icon icon="permission-small-tick" className={classNames(tickColor, "relative")} style={{ width: size, height: size, top: -3, left: -2 }} />
   );
 }
 
-Icon.propTypes = {
+SelectIcon.propTypes = {
   saving: PropTypes.bool.isRequired,
   selected: PropTypes.bool.isRequired
 };
