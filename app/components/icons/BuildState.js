@@ -133,7 +133,7 @@ class BuildState extends React.PureComponent {
         defs = (
           <mask id={maskId} x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse">
             <polygon
-              className="animation-spin"
+              className="animation-spin-slow"
               style={{ transformOrigin: 'center' }}
               fill="#fff"
               points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16"

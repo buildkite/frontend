@@ -89,12 +89,12 @@
 
 .animation-spin {
   will-change: transform;
-  animation: animation-spin 1.1s infinite linear;
+  animation: animation-spin 0.55s infinite linear;
 }
 
 .animation-spin-slow {
   will-change: transform;
-  animation: animation-spin 2.1s infinite linear;
+  animation: animation-spin 1.05s infinite linear;
 }
 
 /* Allow CSS animations to be disabled (used in integration tests) */

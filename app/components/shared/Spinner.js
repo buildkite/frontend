@@ -44,11 +44,9 @@ export default class Spinner extends React.PureComponent {
               </clipPath>
             </defs>
             <g transform="translate(10, 10)">
-              <g className="animation-spin">
-                <g transform="translate(-10, -10)">
-                  <g clipPath="url(#spinner-clip-path)">
-                    <circle fill="transparent" className={this.props.color ? "stroke-lime" : "stroke-dark-gray"} strokeMiterlimit="10" strokeWidth="3" cx="10" cy="10" r="7" />
-                  </g>
+              <g transform="translate(-10, -10)">
+                <g clipPath="url(#spinner-clip-path)">
+                  <circle fill="transparent" className={this.props.color ? "stroke-lime" : "stroke-dark-gray"} strokeMiterlimit="10" strokeWidth="3" cx="10" cy="10" r="7" />
                 </g>
               </g>
             </g>
