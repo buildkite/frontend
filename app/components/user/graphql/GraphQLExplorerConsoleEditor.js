@@ -107,6 +107,12 @@ class GraphQLExplorerConsoleEditor extends React.PureComponent<Props & LoadedPro
     }
   }
 
+  componentDidUpdate() {
+    if (this.codeMirrorInstance && this.props.value != this.codeMirrorInstance.getValue()) {
+      this.codeMirrorInstance.setValue(this.props.value);
+    }
+  }
+
   render() {
     return (
       <div style={{ height: "100%" }}>

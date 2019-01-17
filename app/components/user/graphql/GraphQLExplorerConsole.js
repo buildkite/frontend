@@ -10,7 +10,7 @@ import Dropdown from 'app/components/shared/Dropdown';
 import FlashesStore from 'app/stores/FlashesStore';
 import GraphQLExplorerConsoleEditor from "./GraphQLExplorerConsoleEditor";
 import GraphQLExplorerConsoleResultsViewer from "./GraphQLExplorerConsoleResultsViewer";
-import { executeQuery } from "./query";
+import { executeQuery, prettifyQuery } from "./query";
 import consoleState from "./consoleState";
 import type { RelayProp } from 'react-relay';
 import type { GraphQLExplorerConsoleSnippetQueryResponse } from './__generated__/GraphQLExplorerConsoleSnippetQuery.graphql';
@@ -158,6 +158,15 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
                 </Button>
               </div>
             </Dropdown>
+
+            <Button
+              theme="default"
+              outline={true}
+              className="ml2"
+              onClick={this.handlePrettifyClick}
+            >
+              Prettify
+            </Button>
           </div>
         </div>
 
@@ -281,6 +290,12 @@ class GraphQLExplorerConsole extends React.PureComponent<Props, State> {
   handleEditorExecutePress = () => {
     this.executeCurrentQuery();
   };
+
+  handlePrettifyClick = () => {
+    prettifyQuery(this.state.query, (query) => {
+      this.setState({ query: query });
+    });
+  }
 
   handleShareLinkClick = () => {
     if (this.shareLinkTextInput) {

@@ -26,6 +26,12 @@ export function interpolateQuery(query, interpolations) {
   return query;
 }
 
+export function prettifyQuery(query, callback) {
+  import("./prettier").then((modules) => {
+    callback(modules.default(query));
+  });
+}
+
 export function findQueryOperationNames(query) {
   if (!query) {
     return undefined;
