@@ -158,7 +158,7 @@ class AvatarWithUnknownEmailPrompt extends React.PureComponent {
         <div>
           <h1 className="h4 m0 mb1 bold">Email verification needed</h1>
           <p>We’ve sent a verification email to <strong className="semi-bold">{authorEmail}</strong>. Click the link in that email to finish adding it to your account.</p>
-          <p className="dark-gray mt0 dark-gray m0 h7">You can resend the verification email or remove this email address in your <a className="semi-bold lime hover-lime hover-underline" href="/user/emails">Personal Email Settings</a></p>
+          <p className="dark-gray mt0 dark-gray m0 h7">You can resend the verification email or remove this email address in your <a className="lime hover-lime hover-underline" href="/user/emails">Personal Email Settings</a></p>
         </div>
       );
     } else {

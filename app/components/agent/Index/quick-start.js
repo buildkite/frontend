@@ -106,7 +106,7 @@ class QuickStart extends React.PureComponent {
                     : `${baseUri}#setup-${slug}`
                 }
                 className={classNames(
-                  'inline-block blue hover-navy text-decoration-none border rounded m1 p1',
+                  'inline-block lime hover-lime text-decoration-none border rounded m1 p1',
                   {
                     'border-white': index !== selectedGuideIndex,
                     'border-gray': index === selectedGuideIndex
@@ -152,7 +152,7 @@ class QuickStart extends React.PureComponent {
               style: { fontFamily: '"SFMono-Regular", Monaco, Menlo, Consolas, "Liberation Mono", Courier, monospace', fontSize: '.9em' }
             },
             'a': {
-              className: 'blue hover-navy text-decoration-none hover-underline'
+              className: 'lime hover-lime text-decoration-none hover-underline'
             },
             'pre': {
               className: 'border border-gray rounded bg-silver overflow-auto p2 monospace'

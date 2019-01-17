@@ -41,7 +41,7 @@ class AgentTokenList extends React.Component {
         </Panel.Header>
         <Panel.Section>
           <span>Your Buildkite agent token is used to configure and start new Buildkite agents. </span>
-          {!this.props.setupMode && <span>See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent">agent documentation</a> to learn more.</span>}
+          {!this.props.setupMode && <span>See the <a className="lime hover-lime text-decoration-none hover-underline" href="/docs/agent">agent documentation</a> to learn more.</span>}
         </Panel.Section>
         {this.renderBody()}
       </Panel>
