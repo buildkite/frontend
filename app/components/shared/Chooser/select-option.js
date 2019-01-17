@@ -34,8 +34,7 @@ SelectOption.propTypes = {
 };
 
 function SelectIcon(props) {
-  const size = 25
-  const marginRight = 3;
+  const size = 25;
 
   if (props.saving) {
     return (
