@@ -115,7 +115,7 @@ class AgentRow extends React.PureComponent<Props> {
   renderPublicBadge() {
     if (this.props.agent.public) {
       return (
-        <Badge outline={true} className="regular" title="Visible to everyone, including people outside this organization">Public</Badge>
+        <Badge outline={true} className="regular very-dark-gray" title="Visible to everyone, including people outside this organization">Public</Badge>
       );
     }
   }
