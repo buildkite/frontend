@@ -12,8 +12,6 @@ const Status = styled.div`
 `;
 
 const Label = styled.span`
-  /*margin-left: 4px;*/
-  color: #BBBBBB;
   text-transform: uppercase;
   font-size: 11px;
   line-height: 1;
@@ -41,7 +39,7 @@ export default class PipelineStatus extends React.PureComponent<Props> {
             </g>
           </svg>
           */}
-          {this.props.showLabel ? <Label>PUBLIC</Label> : null}
+          {this.props.showLabel ? <Label>Public</Label> : null}
         </Status>
       </div>
     );
