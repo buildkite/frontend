@@ -52,7 +52,7 @@ class FormSelect extends React.Component {
   _renderSelect() {
     return (
       <select name={this.props.name} className="select" defaultValue={this.props.value} onChange={this.props.onChange} disabled={this.props.disabled}>
-        <option />
+        {!this.props.required && <option />}
         {this.props.options.map((option, idx) => {
           return (
             <option key={idx} value={option.value}>{option.label}</option>
