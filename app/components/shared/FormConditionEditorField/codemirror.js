@@ -23,7 +23,7 @@ CodeMirror.defineSimpleMode("conditional", {
     { regex: /[a-zA-Z_][a-zA-Z0-9_]*/, token: "variable" },
     { regex: /[0-9]+(?:\.[0-9]+)?/, token: "number" },
     { regex: /\$[a-zA-Z_][a-zA-Z0-9_]*/, token: "variable-2" },
-    { regex: /\$\{/, token: "variable-3", push: "shellbrace" },
+    { regex: /\$\{/, token: "variable-3", push: "shellbrace" }
   ],
 
   quotestring: [
@@ -31,7 +31,7 @@ CodeMirror.defineSimpleMode("conditional", {
     { regex: /\$[a-zA-Z_][a-zA-Z0-9_]*/, token: "variable-2" },
     { regex: /\$\{/, token: "variable-3", push: "shellbrace" },
     { regex: /\$\$|\\[0-7]{1,3}|\\x[0-9a-fA-F]{2}|\\./, token: "string-2" },
-    { regex: /[^"$\\]+|./, token: "string" },
+    { regex: /[^"$\\]+|./, token: "string" }
   ],
 
   shellbrace: [
@@ -39,7 +39,7 @@ CodeMirror.defineSimpleMode("conditional", {
     { regex: /:?[+-]/, token: "variable-3", next: "shellstring" },
     { regex: /[:?]/, token: "variable-3" },
     { regex: /[0-9]+/, token: "number" },
-    { regex: /[a-zA-Z_][a-zA-Z0-9_]*/, token: "variable-2" },
+    { regex: /[a-zA-Z_][a-zA-Z0-9_]*/, token: "variable-2" }
   ],
 
   shellstring: [
@@ -49,7 +49,7 @@ CodeMirror.defineSimpleMode("conditional", {
     { regex: /'(?:[^\\']|\\.)*?(?:'|$)/, token: "string" },
     { regex: /"/, token: "string", push: "quotestring" },
     { regex: /\$\$|\\[0-7]{1,3}|\\x[0-9a-fA-F]{2}|\\./, token: "string-2" },
-    { regex: /[^"'$\\}]+|./, token: "string-3" },
+    { regex: /[^"'$\\}]+|./, token: "string-3" }
   ],
 
   meta: {

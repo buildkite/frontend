@@ -47,33 +47,35 @@ class FormConditionEdtiorField extends React.Component {
       hintOptions: {
         closeOnUnfocus: false,
         completeSingle: false,
-        "hint": (cm, options) => {
+        "hint": (cm, _options) => {
           return new Promise((accept) => {
-            let cursor = cm.getCursor(), line = cm.getLine(cursor.line)
-            let start = cursor.ch, end = cursor.ch
-            while (start && /\w/.test(line.charAt(start - 1))) --start
-            while (end < line.length && /\w/.test(line.charAt(end))) ++end
-            var word = line.slice(start, end).toLowerCase();
+            const cursor = cm.getCursor();
+            const line = cm.getLine(cursor.line);
+            let start = cursor.ch;
+            let end = cursor.ch;
+            while (start && /\w/.test(line.charAt(start - 1))) { --start; }
+            while (end < line.length && /\w/.test(line.charAt(end))) { ++end; }
+            const word = line.slice(start, end).toLowerCase();
 
             if (word.length < 2) {
               return accept(null);
             }
 
-            var suggestions = [];
-            for (var i = 0; i < this.props.autocompleteWords.length; i++) {
-              if (this.props.autocompleteWords[i].toLowerCase().indexOf(word) != -1) {
+            const suggestions = [];
+            for (const candidate of this.props.autocompleteWords) {
+              if (candidate.toLowerCase().indexOf(word) !== -1) {
                 suggestions.push({
-                  text: this.props.autocompleteWords[i],
+                  text: candidate,
                   render: (el, self, data) => {
-                    var labelElement = document.createElement("DIV");
+                    const labelElement = document.createElement("DIV");
                     labelElement.className = "monospace";
                     labelElement.appendChild(document.createTextNode(data.text));
 
-                    var descriptionElement = document.createElement("DIV");
+                    const descriptionElement = document.createElement("DIV");
                     descriptionElement.className = "system dark-gray";
                     descriptionElement.appendChild(document.createTextNode("Very important information"));
 
-                    var suggestionElement = document.createElement("DIV");
+                    const suggestionElement = document.createElement("DIV");
                     suggestionElement.appendChild(labelElement);
                     suggestionElement.appendChild(descriptionElement);
 
@@ -96,14 +98,14 @@ class FormConditionEdtiorField extends React.Component {
         }
       },
       lint: {
-        "getAnnotations": (text, updateLinting, options, cm) => {
+        "getAnnotations": (text, updateLinting, _options, _cm) => {
           this.props.fetchParseErrors(text, (parseErrors) => {
-            let collected = [];
-            for(let e of parseErrors) {
+            const collected = [];
+            for (const err of parseErrors) {
               collected.push({
-                from: CodeMirror.Pos(e.from[0] - 1, e.from[1] - 1),
-                to: CodeMirror.Pos(e.to[0] - 1, e.to[1] - 1),
-                message: e.message
+                from: CodeMirror.Pos(err.from[0] - 1, err.from[1] - 1),
+                to: CodeMirror.Pos(err.to[0] - 1, err.to[1] - 1),
+                message: err.message
               });
             }
             updateLinting(collected);
@@ -111,7 +113,7 @@ class FormConditionEdtiorField extends React.Component {
         },
         "async": true
       }
-    }
+    };
 
     this.editor = CodeMirror.fromTextArea(this.input, config);
     this.editor.on("keyup", this.onEditorKeyUp);
