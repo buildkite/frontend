@@ -103,12 +103,28 @@ li.CodeMirror-hint-active .dark-gray {
   color: #555;
 }
 
-.cm-s-conditional .cm-keyword {
+.cm-s-conditional .cm-variable {
   color: #1F61A0;
+}
+
+.cm-s-conditional .cm-variable-2 {
+  color: #B11A04;
+}
+
+.cm-s-conditional .cm-variable-3 {
+  color: #CA9800;
 }
 
 .cm-s-conditional .cm-string {
   color: #388a26;
+}
+
+.cm-s-conditional .cm-string-2 {
+  color: #B33086;
+}
+
+.cm-s-conditional .cm-string-3 {
+  color: #0B7FC7;
 }
 
 .cm-s-conditional .cm-regex {
