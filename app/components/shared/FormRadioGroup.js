@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import FormInputHelp from './FormInputHelp';
 import FormInputErrors from './FormInputErrors';
+import Badge from 'app/components/shared/Badge';
 
 class FormRadioGroup extends React.Component {
   static propTypes = {
@@ -74,7 +75,7 @@ class FormRadioGroup extends React.Component {
                 onChange={this.props.onChange}
               />
               <span className="bold block" style={{ marginBottom: -5 }}> {option.label}</span>
-              {option.badge && <div className="ml1 regular small border border-gray rounded dark-gray px1">{option.badge}</div>}
+              {option.badge && <Badge outline={true}>{option.badge}</Badge>}
             </div>
             <FormInputHelp>{option.help}</FormInputHelp>
           </label>

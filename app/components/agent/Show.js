@@ -439,7 +439,7 @@ class AgentShow extends React.Component {
   renderPublicBadge() {
     if (this.props.agent.public) {
       return (
-        <Badge outline={true} className="regular bg-white" title="Visible to everyone, including people outside this organization">Public</Badge>
+        <Badge outline={true} className="regular very-dark-gray" title="Visible to everyone, including people outside this organization">Public</Badge>
       );
     }
   }

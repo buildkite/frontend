@@ -50,10 +50,10 @@ class Pipeline extends React.Component<Props, State> {
         <a href={this.props.pipeline.url} className="flex flex-auto items-center px2 text-decoration-none color-inherit mr3">
           <div className="truncate">
             <div className="flex items-center">
-              <h2 data-testid="pipeline__name" className="inline h3 regular m0 mr1 line-height-2">
+              <h2 data-testid="pipeline__name" className="inline h3 regular m0 line-height-2">
                 <Emojify text={this.props.pipeline.name} />
               </h2>
-              {this.props.pipeline.public ? <PipelineStatus showLabel={true} /> : null}
+              <PipelineStatus public={this.props.pipeline.public} />
             </div>
             {this.renderDescription()}
           </div>

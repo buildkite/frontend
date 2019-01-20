@@ -109,7 +109,7 @@ class Header extends React.Component<Props, State> {
               ) : null}
               <div className="flex flex-column justify-center" style={{ minWidth: 0 }}>
                 <div className="flex items-center">
-                  <h2 className="inline-block line-height-1 h3 regular m0 mr1 line-height-2 truncate">
+                  <h2 className="inline-block line-height-1 h3 regular m0 line-height-2 truncate">
                     <a className="color-inherit hover-color-inherit text-decoration-none hover-lime hover-color-inherit-parent" href={`/${this.props.pipeline.organization.slug}`}>
                       <Emojify text={this.props.pipeline.organization.name} />
                     </a>
@@ -118,7 +118,7 @@ class Header extends React.Component<Props, State> {
                       <Emojify text={this.props.pipeline.name} />
                     </a>
                   </h2>
-                  {this.props.pipeline.public ? <PipelineStatus showLabel={true} /> : null}
+                  <PipelineStatus public={this.props.pipeline.public} />
                 </div>
                 {this.props.pipeline.description ? (
                   <div className="dark-gray truncate">

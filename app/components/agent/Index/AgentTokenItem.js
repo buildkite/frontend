@@ -44,7 +44,7 @@ class AgentTokenItem extends React.PureComponent {
   renderPublicBadge() {
     if (this.props.agentToken.public) {
       return (
-        <Badge outline={true} className="regular" title="Agents registered with this token will be visible to everyone, including people outside this organization">Public</Badge>
+        <Badge outline={true} className="regular very-dark-gray" title="Agents registered with this token will be visible to everyone, including people outside this organization">Public</Badge>
       );
     }
   }
