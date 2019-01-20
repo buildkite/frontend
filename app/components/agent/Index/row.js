@@ -89,7 +89,7 @@ class AgentRow extends React.PureComponent<Props> {
               <div className="flex-auto">
                 <div>
                   <Link
-                    className="blue hover-navy text-decoration-none hover-underline"
+                    className="lime hover-lime text-decoration-none hover-underline"
                     to={`/organizations/${agent.organization.slug}/agents/${agent.uuid}`}
                   >
                     {agent.name}

@@ -64,7 +64,7 @@ class Row extends React.PureComponent {
             <div className="m0 flex items-center">
               <Link
                 to={`/organizations/${this.props.teamMember.team.organization.slug}/teams/${this.props.teamMember.team.slug}`}
-                className="blue hover-navy text-decoration-none hover-underline"
+                className="lime hover-lime text-decoration-none hover-underline"
               >
                 <Emojify text={this.props.teamMember.team.name} />
               </Link>

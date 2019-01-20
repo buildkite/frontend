@@ -56,7 +56,7 @@ class BillingUpgrade extends React.Component {
           <div className="container">
             <div className="col-12 lg-col-8 mx-auto">
               <h1 className="h1 p0 m0 mb1">Upgrade your Subscription</h1>
-              <p className="dark-gray m0 p0 mb4">You can learn more about the different plans on the <a href="/pricing" className="blue hover-navy text-decoration-none hover-underline">pricing page</a>.</p>
+              <p className="dark-gray m0 p0 mb4">You can learn more about the different plans on the <a href="/pricing" className="lime hover-lime text-decoration-none hover-underline">pricing page</a>.</p>
 
               <Panel>
                 <Panel.Section>
