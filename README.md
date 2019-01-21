@@ -25,4 +25,4 @@ The main technologies used are:
 
 ## License
 
-See [LICENSE.TXT](LICENSE.TXT) (MIT)
+See [LICENSE.txt](LICENSE.txt) (MIT)
