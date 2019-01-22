@@ -47,10 +47,14 @@ class Row extends React.PureComponent {
   render() {
     return (
       <Panel.Row>
-        <User
-          user={this.props.teamMember.user}
-          role={this.props.teamMember.role}
-        />
+        <a
+          className="truncate semi-bold black hover-lime text-decoration-none"
+          href={"TODO - need a 'url' property in graphql"}
+        >
+          <User
+            user={this.props.teamMember.user}
+          />
+        </a>
         <Panel.RowActions className="ml2">
           {this.renderActions()}
         </Panel.RowActions>

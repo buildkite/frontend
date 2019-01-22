@@ -22,7 +22,7 @@ class JobLink extends React.PureComponent<Props> {
       <a
         href={job.url}
         className={classNames(
-          'lime hover-lime text-decoration-none hover-underline',
+          'black hover-lime text-decoration-none',
           className
         )}
         style={style}

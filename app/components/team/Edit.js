@@ -63,7 +63,7 @@ class TeamEdit extends React.Component {
         <Panel className="mt3">
           <Panel.Header>REST API Integration</Panel.Header>
           <Panel.Section>
-            <p>You can use this UUID to reference this team when using the <a href="/docs/rest-api/pipelines#create-a-pipeline" className="lime hover-lime">Create Pipeline REST API</a>.</p>
+            <p>You can use this UUID to reference this team when using the <a href="/docs/rest-api/pipelines#create-a-pipeline" className="lime hover-lime text-decoration-none hover-underline">Create Pipeline REST API</a>.</p>
             <code className="block bg-silver p2 rounded">{this.props.team.uuid}</code>
           </Panel.Section>
         </Panel>

@@ -50,7 +50,7 @@ export default class Row extends React.PureComponent {
       <Panel.Row>
         <div>
           <a
-            className="truncate lime hover-lime text-decoration-none hover-underline block"
+            className="truncate semi-bold black hover-lime text-decoration-none"
             href={pipeline.url}
             title={pipeline.name}
           >

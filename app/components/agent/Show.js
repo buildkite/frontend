@@ -164,7 +164,7 @@ class AgentShow extends React.Component {
     extras.push(this.renderExtraItem(
       <Link
         to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}/jobs`}
-        className="lime hover-lime text-decoration-none hover-underline"
+        className="semi-bold black hover-lime text-decoration-none"
       >
         Jobs
       </Link>,
@@ -260,7 +260,7 @@ class AgentShow extends React.Component {
           {content}
           <Link
             to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}/jobs`}
-            className="lime hover-lime text-decoration-none hover-underline"
+            className="semi-bold black hover-lime text-decoration-none"
           >
             (and {formatNumber(remainder)} more)
           </Link>
