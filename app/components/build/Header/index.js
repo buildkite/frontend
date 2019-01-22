@@ -207,7 +207,7 @@ class BuildHeaderComponent extends React.PureComponent {
 
   timeAgoNode = () => {
     return (
-      <small className="build-secondary-time">
+      <small className="dark-gray build-secondary-time">
         <BuildStatusDescription build={this.props.build} />
       </small>
     );
@@ -235,7 +235,7 @@ class BuildHeaderComponent extends React.PureComponent {
     let triggeredFromNode;
 
     const sourceNode = (
-      <small>
+      <small className="dark-gray">
         {`Triggered from ${this.sourceLabel(this.props.build.source)}`}
       </small>
     );
@@ -246,7 +246,7 @@ class BuildHeaderComponent extends React.PureComponent {
       className += ' with-rebuild-information';
 
       rebuiltFromNode = (
-        <small>
+        <small className="dark-gray">
           <br />
           {'Rebuilt from '}
           <a href={this.props.build.rebuiltFrom.url} className="semi-bold color-inherit hover-color-inherit">
@@ -262,7 +262,7 @@ class BuildHeaderComponent extends React.PureComponent {
       className += ' with-rebuild-information truncate';
 
       triggeredFromNode = (
-        <small>
+        <small className="dark-gray">
           <br />
           <a href={this.props.build.triggeredFrom.url} className="semi-bold color-inherit hover-color-inherit">
             <span>
