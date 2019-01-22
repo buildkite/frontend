@@ -79,7 +79,7 @@ class AgentInstallation extends React.PureComponent {
           Installation documentation
         </Panel.Header>
         <Panel.Section>
-          See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/installation">agent installation documentation</a> for the full details of installing and configuring your Buildkite agents for any machine or architecture.
+          See the <a className="lime hover-lime text-decoration-none hover-underline" href="/docs/agent/installation">agent installation documentation</a> for the full details of installing and configuring your Buildkite agents for any machine or architecture.
           <Dialog isOpen={this.state.isDialogOpen} onRequestClose={this.handleFirstAgentDialogClose} width={350}>
             <div className="center p4" style={{ paddingTop: 45, paddingBottom: 50 }}>
               <p className="m0 mb2">

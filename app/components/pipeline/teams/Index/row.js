@@ -59,7 +59,7 @@ class Row extends React.Component {
           <div className="flex items-center" style={{ width: "20em" }}>
             <div>
               <div className="m0 semi-bold">
-                <Link to={`/organizations/${this.props.organization.slug}/teams/${this.props.teamPipeline.team.slug}`} className="blue hover-navy text-decoration-none hover-underline">
+                <Link to={`/organizations/${this.props.organization.slug}/teams/${this.props.teamPipeline.team.slug}`} className="lime hover-lime text-decoration-none hover-underline">
                   <Emojify text={this.props.teamPipeline.team.name} />
                 </Link>
               </div>

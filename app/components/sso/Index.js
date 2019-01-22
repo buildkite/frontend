@@ -54,7 +54,7 @@ class SSOIndex extends React.PureComponent {
     return (
       <a
         href={url}
-        className="semi-bold lime text-decoration-none hover-lime hover-underline"
+        className="lime text-decoration-none hover-lime hover-underline"
         onClick={this.handleLoginLinkClick}
       >
         {url}
@@ -109,8 +109,8 @@ class SSOIndex extends React.PureComponent {
             <p>During the sign in process, new users will be automatically added to your organization.</p>
             <p>Supported SSO systems:</p>
             <ul>
-              <li>Bitium (<a className="semi-bold lime text-decoration-none hover-lime hover-underline" href="https://support.bitium.com/administration/saml-buildkite/">Instructions</a>)</li>
-              <li>Okta (<a className="semi-bold lime text-decoration-none hover-lime hover-underline" href="http://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Buildkite.html">Instructions</a>)</li>
+              <li>Bitium (<a className="lime text-decoration-none hover-lime hover-underline" href="https://support.bitium.com/administration/saml-buildkite/">Instructions</a>)</li>
+              <li>Okta (<a className="lime text-decoration-none hover-lime hover-underline" href="http://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Buildkite.html">Instructions</a>)</li>
               <li>Google Apps (G Suite)</li>
               <li>SAML</li>
               <li>ADFS (SAML)</li>

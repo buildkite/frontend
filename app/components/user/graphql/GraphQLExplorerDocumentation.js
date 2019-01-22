@@ -88,7 +88,7 @@ class GraphQLExplorerDocumentation extends React.Component {
           <RootField name="query.node" /> is a special type of “finder” field that allows you to lookup any record using only its GraphQL <Scalar name="ID" />.
           It doesn’t matter if the <Scalar name="ID" /> you have is for a build, job or user, you can pass its <Scalar name="ID" /> to this field, and it will return the
           associated record if it exists. This field is based on
-          the <a href="http://facebook.github.io/relay/docs/en/graphql-server-specification.html#object-identification" className="blue hover-navy text-decoration-none hover-underline">Relay Object Identification Specification</a>.
+          the <a href="http://facebook.github.io/relay/docs/en/graphql-server-specification.html#object-identification" className="lime hover-lime text-decoration-none hover-underline">Relay Object Identification Specification</a>.
         </p>
 
         <p>
@@ -107,7 +107,7 @@ class GraphQLExplorerDocumentation extends React.Component {
         </p>
 
         <p>
-          Buildkite GraphQL Mutations follow the <a href="https://facebook.github.io/relay/graphql/mutations.html" className="blue hover-navy text-decoration-none hover-underline">Relay Input Object Mutations Specification</a>.
+          Buildkite GraphQL Mutations follow the <a href="https://facebook.github.io/relay/graphql/mutations.html" className="lime hover-lime text-decoration-none hover-underline">Relay Input Object Mutations Specification</a>.
         </p>
 
         <p>

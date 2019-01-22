@@ -8,7 +8,9 @@ type Props = {
   children: React.Node,
   title?: string,
   className?: string,
-  outline?: boolean
+  outline?: boolean,
+  caps?: boolean,
+  bold?: boolean
 };
 
 export default class Badge extends React.PureComponent<Props> {
@@ -16,20 +18,23 @@ export default class Badge extends React.PureComponent<Props> {
     children: PropTypes.node,
     className: PropTypes.string,
     title: PropTypes.string,
-    outline: PropTypes.bool
+    outline: PropTypes.bool,
+    bold: PropTypes.bool
   };
 
   render() {
     const { children, className, title } = this.props;
 
     const badgeClassName = classNames(
-      "inline-block rounded ml1 small p1 line-height-1 tabular-numerals",
-      (this.props.outline ? 'border border-gray dark-gray' : 'bg-black white'),
+      "inline-block rounded ml1 small line-height-1 tabular-numerals",
+      (this.props.outline ? 'border border-gray very-dark-gray' : 'bg-black white'),
+      (this.props.caps && 'caps'),
+      (this.props.bold && 'semi-bold'),
       className
     );
 
     return (
-      <span className={badgeClassName} title={title}>{children}</span>
+      <span className={badgeClassName} title={title} style={{ padding: '4px 5px' }}>{children}</span>
     );
   }
 }

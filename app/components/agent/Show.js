@@ -164,7 +164,7 @@ class AgentShow extends React.Component {
     extras.push(this.renderExtraItem(
       <Link
         to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}/jobs`}
-        className="blue hover-navy text-decoration-none hover-underline"
+        className="lime hover-lime text-decoration-none hover-underline"
       >
         Jobs
       </Link>,
@@ -260,7 +260,7 @@ class AgentShow extends React.Component {
           {content}
           <Link
             to={`/organizations/${this.props.agent.organization.slug}/agents/${this.props.agent.uuid}/jobs`}
-            className="blue hover-navy text-decoration-none hover-underline"
+            className="lime hover-lime text-decoration-none hover-underline"
           >
             (and {formatNumber(remainder)} more)
           </Link>
@@ -351,7 +351,7 @@ class AgentShow extends React.Component {
               {(this.props.agent.connectionState === 'connected' || this.props.agent.connectionState === 'stopping') &&
                 <p className="m0">
                   You can use the agent’s tags to target the agent in your pipeline’s step configuration, or to set the agent’s queue.
-                  See the <a className="blue hover-navy text-decoration-none hover-underline" href="/docs/agent/v3/cli-start">Agent Tags and Queue Documentation</a> for more details.
+                  See the <a className="lime hover-lime text-decoration-none hover-underline" href="/docs/agent/v3/cli-start">Agent Tags and Queue Documentation</a> for more details.
                 </p>
               }
             </Panel.Row>
@@ -439,7 +439,7 @@ class AgentShow extends React.Component {
   renderPublicBadge() {
     if (this.props.agent.public) {
       return (
-        <Badge outline={true} className="regular bg-white" title="Visible to everyone, including people outside this organization">Public</Badge>
+        <Badge outline={true} className="regular very-dark-gray" title="Visible to everyone, including people outside this organization">Public</Badge>
       );
     }
   }

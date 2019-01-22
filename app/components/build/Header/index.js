@@ -117,7 +117,7 @@ class BuildHeaderComponent extends React.PureComponent {
     return (
       <span className="build-header__build-number">
         <span className="number">
-          <a className="no-highlight-link" href={build.path}>
+          <a className="color-inherit hover-color-inherit" href={build.path}>
             Build #{build.number}
           </a>
         </span>
@@ -134,7 +134,7 @@ class BuildHeaderComponent extends React.PureComponent {
         const providerIconClass = `provider-icon fa fa-${build.project.provider.id}`;
         commitNode = (<span title={build.commitId}>
           <i className={providerIconClass} />
-          <a href={build.commitUrl} className="no-highlight-link">
+          <a href={build.commitUrl} className="color-inherit hover-color-inherit">
             {shortCommit(build.commitId)}
           </a>
         </span>);
@@ -148,7 +148,7 @@ class BuildHeaderComponent extends React.PureComponent {
     // Do we have a branch?
     if (build.branchName) {
       branchNode = (
-        <a className="no-highlight-link" href={build.branchPath}>
+        <a className="color-inherit hover-color-inherit" href={build.branchPath}>
           {build.branchName}
         </a>
       );
@@ -156,7 +156,7 @@ class BuildHeaderComponent extends React.PureComponent {
 
     if (build.pullRequest) {
       pullRequestNode = (
-        <a className="no-highlight-link" href={build.pullRequest.url}>
+        <a className="color-inherit hover-color-inherit" href={build.pullRequest.url}>
           Pull Request #{build.pullRequest.id}
         </a>
       );
@@ -207,7 +207,7 @@ class BuildHeaderComponent extends React.PureComponent {
 
   timeAgoNode = () => {
     return (
-      <small className="build-secondary-time text-muted">
+      <small className="dark-gray build-secondary-time">
         <BuildStatusDescription build={this.props.build} />
       </small>
     );
@@ -235,7 +235,7 @@ class BuildHeaderComponent extends React.PureComponent {
     let triggeredFromNode;
 
     const sourceNode = (
-      <small className="text-muted">
+      <small className="dark-gray">
         {`Triggered from ${this.sourceLabel(this.props.build.source)}`}
       </small>
     );
@@ -246,10 +246,10 @@ class BuildHeaderComponent extends React.PureComponent {
       className += ' with-rebuild-information';
 
       rebuiltFromNode = (
-        <small className="text-muted">
+        <small className="dark-gray">
           <br />
           {'Rebuilt from '}
-          <a href={this.props.build.rebuiltFrom.url}>
+          <a href={this.props.build.rebuiltFrom.url} className="semi-bold color-inherit hover-color-inherit">
             {`#${this.props.build.rebuiltFrom.number}`}
           </a>
         </small>
@@ -262,9 +262,9 @@ class BuildHeaderComponent extends React.PureComponent {
       className += ' with-rebuild-information truncate';
 
       triggeredFromNode = (
-        <small className="text-muted">
+        <small className="dark-gray">
           <br />
-          <a href={this.props.build.triggeredFrom.url}>
+          <a href={this.props.build.triggeredFrom.url} className="semi-bold color-inherit hover-color-inherit">
             <span>
               {this.props.build.triggeredFrom.project.name}
               {' - Build #'}
@@ -392,7 +392,7 @@ class BuildHeaderComponent extends React.PureComponent {
             <div className="flex build-header-inner">
               <div className="flex-auto build-commit">
                 <h3 className="panel-title">
-                  <a href={build.path}>
+                  <a href={build.path} className="color-inherit hover-color-inherit">
                     <BuildMessageComponent message={build.message} />
                   </a>
                 </h3>
@@ -415,7 +415,7 @@ class BuildHeaderComponent extends React.PureComponent {
           </div>
           <Pipeline build={build} />
           <div className="panel-footer" style={{ padding: '10px 13px' }}>
-            <div className="flex relative">
+            <div className="flex items-center relative">
               <div className="absolute top-0 left-0" />
               {avatarNode}
               {authorAndTimeNode}

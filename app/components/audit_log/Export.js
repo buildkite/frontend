@@ -39,7 +39,7 @@ class AuditLogExport extends React.PureComponent<Props> {
   };
 
   render() {
-    const linkClassName = 'text-decoration-none semi-bold lime hover-lime hover-underline';
+    const linkClassName = 'text-decoration-none lime hover-lime hover-underline';
 
     return (
       <div>

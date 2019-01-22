@@ -174,7 +174,7 @@ describe('OrganizationShow', () => {
       // Pipeline 2 is public
       expect(pipelines.at(1).find('[data-testid="pipeline__name"]').text()).toEqual('Pipeline 2');
       expect(pipelines.at(1).find('[data-testid="pipeline__status"]').exists()).toBeTruthy();
-      expect(pipelines.at(1).find('[data-testid="pipeline__status"]').text()).toEqual('PUBLIC');
+      expect(pipelines.at(1).find('[data-testid="pipeline__status"]').text()).toEqual('Public');
 
       // Pipeline 3 is private
       expect(pipelines.at(2).find('[data-testid="pipeline__name"]').text()).toEqual('Pipeline 3');

@@ -24,7 +24,7 @@ import type { TwoFactor_viewer } from './__generated__/TwoFactor_viewer.graphql'
 function AuthenticatorUrl({ name, url }: {|name: string, url: string|}) {
   return (
     <a
-      className="blue hover-navy text-decoration-none hover-underline"
+      className="lime hover-lime text-decoration-none hover-underline"
       key={name}
       href={url}
       target="_blank"
@@ -133,7 +133,7 @@ class TwoFactor extends React.PureComponent<Props, State> {
             <div className="flex flex-wrap items-center">
               <div className="flex-auto">
                 <header className="bold mb1">Recovery Codes</header>
-                <p className="p0 m0">There are <a onClick={this.handleRecoveryCodeListDialogClick} className="cursor-pointer blue hover-navy text-decoration-none hover-underline">{this.recoveryCodesRemaining} recovery codes</a> remaining</p>
+                <p className="p0 m0">There are <a onClick={this.handleRecoveryCodeListDialogClick} className="cursor-pointer lime hover-lime text-decoration-none hover-underline">{this.recoveryCodesRemaining} recovery codes</a> remaining</p>
               </div>
               <Button
                 onClick={this.handleRecoveryCodeDialogClick}
