@@ -48,20 +48,21 @@ export default class Row extends React.PureComponent {
 
     return (
       <Panel.Row>
-        <div>
+        <div className="flex">
           <a
-            className="truncate semi-bold black hover-lime text-decoration-none"
+            className="truncate semi-bold black hover-lime hover-color-inherit-parent text-decoration-none"
             href={pipeline.url}
             title={pipeline.name}
           >
             <Emojify text={pipeline.name} />
+            <br />
+            <small
+              className="truncate dark-gray block hover-color-inherit"
+              title={pipeline.repository.url}
+            >
+              {pipeline.repository.url}
+            </small>
           </a>
-          <small
-            className="truncate dark-gray block"
-            title={pipeline.repository.url}
-          >
-            {pipeline.repository.url}
-          </small>
         </div>
         <Panel.RowActions className="ml2">
           {this.renderActions()}

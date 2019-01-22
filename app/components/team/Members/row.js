@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
+import { Link } from 'react-router';
 
 import Panel from 'app/components/shared/Panel';
 import Button from 'app/components/shared/Button';
@@ -32,7 +33,15 @@ class Row extends React.PureComponent {
         teamMemberDelete: PropTypes.shape({
           allowed: PropTypes.bool.isRequired
         }).isRequired
-      })
+      }),
+      team: PropTypes.shape({
+        organization: PropTypes.shape({
+          slug: PropTypes.string.isRequired
+        })
+      }),
+      organizationMember: PropTypes.shape({
+        uuid: PropTypes.string.isRequired
+      }).isRequired
     }).isRequired,
     onRemoveClick: PropTypes.func.isRequired,
     onRoleChange: PropTypes.func.isRequired,
@@ -47,14 +56,17 @@ class Row extends React.PureComponent {
   render() {
     return (
       <Panel.Row>
-        <a
-          className="truncate semi-bold black hover-lime text-decoration-none"
-          href={"TODO - need a 'url' property in graphql"}
-        >
-          <User
-            user={this.props.teamMember.user}
-          />
-        </a>
+        <div className="flex">
+          <Link
+            className="truncate semi-bold black hover-lime hover-color-inherit-parent text-decoration-none"
+            to={`/organizations/${this.props.teamMember.team.organization.slug}/users/${this.props.teamMember.organizationMember.uuid}`}
+          >
+            <User
+              user={this.props.teamMember.user}
+              inheritHoverColor={true}
+            />
+          </Link>
+        </div>
         <Panel.RowActions className="ml2">
           {this.renderActions()}
         </Panel.RowActions>
@@ -148,6 +160,14 @@ export default Relay.createContainer(Row, {
           teamMemberDelete {
             allowed
           }
+        }
+        team {
+          organization {
+            slug
+          }
+        }
+        organizationMember {
+          uuid
         }
       }
     `
