@@ -1,0 +1,45 @@
+.rouge-table pre {
+  font-family: var(--font-family-mono);
+  font-size: 12px;
+  line-height: 17px;
+  background: inherit;
+  border: 0;
+}
+
+.rouge-gutter {
+  min-width: 25px;
+  padding-right: 8px;
+  text-align: right;
+}
+
+.rouge-gutter pre {
+  color: #999;
+}
+
+.rouge-code-json .p {
+  color: #555;
+}
+
+.rouge-code-json .s2 {
+  color: #D64292
+}
+
+.rouge-code-graphql .p {
+  color: #555;
+}
+
+.rouge-code-graphql .s2 {
+  color: #D64292;
+}
+
+.rouge-code-graphql .k {
+  color: #B11A04;
+}
+
+.rouge-code-graphql .n {
+  color: #1F61A0;
+}
+
+.rouge-code-graphql .k + .w + .n {
+  color: #D2054E;
+}
