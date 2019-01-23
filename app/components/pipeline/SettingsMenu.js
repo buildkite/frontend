@@ -26,7 +26,7 @@ class SettingsMenu extends React.Component<Props> {
     return (
       <div>
         <Menu>
-          <Menu.Header>Settings</Menu.Header>
+          <Menu.Header>Pipeline Settings</Menu.Header>
           {this.renderButtons(url)}
         </Menu>
 
@@ -62,7 +62,7 @@ class SettingsMenu extends React.Component<Props> {
             key={idx}
             icon="settings"
             href={`${url}/pipeline`}
-            label="Pipeline"
+            label="General"
           />
         )
       },
