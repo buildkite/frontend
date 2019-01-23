@@ -106,7 +106,7 @@ class QuickStart extends React.PureComponent {
                     : `${baseUri}#setup-${slug}`
                 }
                 className={classNames(
-                  'inline-block lime hover-lime text-decoration-none border rounded m1 p1',
+                  'inline-block semi-bold black hover-lime text-decoration-none border rounded m1 p1',
                   {
                     'border-white': index !== selectedGuideIndex,
                     'border-gray': index === selectedGuideIndex
