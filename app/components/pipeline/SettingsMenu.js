@@ -1,13 +1,17 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
-
 import Menu from 'app/components/shared/Menu';
-
 import permissions from 'app/lib/permissions';
 import { repositoryProviderIcon } from 'app/lib/repositories';
 
-class SettingsMenu extends React.Component {
+type Props = {
+  pipeline: Object
+};
+
+class SettingsMenu extends React.Component<Props> {
   static propTypes = {
     pipeline: PropTypes.object.isRequired
   };
@@ -22,7 +26,7 @@ class SettingsMenu extends React.Component {
     return (
       <div>
         <Menu>
-          <Menu.Header>Settings</Menu.Header>
+          <Menu.Header>Pipeline Settings</Menu.Header>
           {this.renderButtons(url)}
         </Menu>
 
@@ -47,7 +51,7 @@ class SettingsMenu extends React.Component {
             icon="pipeline"
             href={`${url}`}
             forceActive={this.isPipelineButtonActive(url)}
-            label="Pipeline"
+            label="Steps"
           />
         )
       },
@@ -57,8 +61,8 @@ class SettingsMenu extends React.Component {
           <Menu.Button
             key={idx}
             icon="settings"
-            href={`${url}/name-and-description`}
-            label="Name &amp; Description"
+            href={`${url}/pipeline`}
+            label="General"
           />
         )
       },
