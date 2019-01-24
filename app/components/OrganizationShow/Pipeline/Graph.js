@@ -201,7 +201,7 @@ class Graph extends React.PureComponent<Props, State> {
       } else {
         this._interval = setInterval(() => {
           this.forceUpdate();
-        }, 1);
+        }, 1000);
       }
     } else {
       // Clear the interval now that nothing is running
