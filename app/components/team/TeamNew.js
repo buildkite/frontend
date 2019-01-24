@@ -182,6 +182,12 @@ const TeamNewContainerQuery = graphql`
 
 /* eslint-disable react/no-multi-comp */
 export default class TeamNewQueryContainer extends React.PureComponent {
+  static propTypes = {
+    params: PropTypes.shape({
+      organization: PropTypes.string.isRequired
+    }).isRequired
+  };
+
   environment = Environment.get();
 
   constructor(props) {
