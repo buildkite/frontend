@@ -16,14 +16,14 @@
 /* Gutters and line numbers now match our grays */
 
 .CodeMirror-gutters {
-  background: transparent !important;
+  background: white;
   border: 0;
   color: var(--dark-gray);
   padding-right: 5px;
 }
 
 .CodeMirror-linenumber {
-  background: transparent !important;
+  background: white;
 }
 
 /* Makes the autocomplete hint dialog match our panels a bit better */
