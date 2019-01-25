@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import moment from 'moment';
@@ -39,33 +39,36 @@ const ExtrasTable = styled.table`
   }
 `;
 
-class AgentShow extends React.Component {
-  static propTypes = {
-    agent: PropTypes.shape({
-      uuid: PropTypes.string,
-      name: PropTypes.string,
-      connectionState: PropTypes.string,
-      disconnectedAt: PropTypes.string,
-      stoppedAt: PropTypes.string,
-      job: PropTypes.object,
-      permissions: PropTypes.shape({
-        agentStop: PropTypes.shape({
-          allowed: PropTypes.bool
-        })
-      }),
-      organization: PropTypes.shape({
-        name: PropTypes.string,
-        slug: PropTypes.string
-      }),
-      public: PropTypes.bool.isRequired
-    }),
-    relay: PropTypes.object.isRequired
-  };
+type Props = {
+  agent?: {
+    uuid?: string,
+    name?: string,
+    connectionState?: string,
+    disconnectedAt?: string,
+    stoppedAt?: string,
+    job?: Object,
+    permissions?: { agentStop?: { allowed?: boolean } },
+    organization?: {
+      name?: string,
+      slug?: string
+    },
+    public: boolean
+  },
+  relay: Object
+};
 
+type State = {
+  stopping: boolean,
+  forceStopping: boolean
+};
+
+class AgentShow extends React.Component<Props, State> {
   state = {
     stopping: false,
     forceStopping: false
   };
+
+  _agentRefreshTimeout: TimeoutID;
 
   componentDidMount() {
     // Only bother setting up the delayed load and refresher if we've got an
@@ -85,7 +88,7 @@ class AgentShow extends React.Component {
   startTimeout = () => {
     this._agentRefreshTimeout = setTimeout(
       this.fetchUpdatedData,
-      3::seconds
+      seconds.bind(3)
     );
   };
 
@@ -116,9 +119,9 @@ class AgentShow extends React.Component {
     );
   }
 
-  renderExtraItem(title, content, options) {
+  renderExtraItem(title, content, options, key = title) {
     return (
-      <tr key={title} style={{ marginTop: 3 }} className={`${(!options || options.borderBottom !== false) && 'border-gray border-bottom'} flex-wrap`}>
+      <tr key={key} style={{ marginTop: 3 }} className={`${(!options || options.borderBottom !== false) ? 'border-gray border-bottom' : ''} flex-wrap`}>
         <th className="h4 p2 semi-bold left-align align-top" width={120}>{title}</th>
         <td className="h4 p2" style={{ flexGrow: 1 }}>{content}</td>
       </tr>
@@ -126,6 +129,10 @@ class AgentShow extends React.Component {
   }
 
   renderExtras(agent) {
+    if (!agent) {
+      return;
+    }
+
     const extras = [];
 
     extras.push(this.renderExtraItem('State', (
@@ -168,7 +175,9 @@ class AgentShow extends React.Component {
       >
         Jobs
       </Link>,
-      this.renderExtraJobs(agent)
+      this.renderExtraJobs(agent),
+      {},
+      'Jobs'
     ));
 
     if (agent.connectedAt) {
@@ -390,11 +399,11 @@ class AgentShow extends React.Component {
             Stop Agent
           </Button>
           <p className="dark-gray m0 flex-1">
-            {!this.props.agent.job && !this.props.agent.stoppedAt && 'Send a signal to the agent that it should disconnect.'}
-            {this.props.agent.job && !this.props.agent.stoppedAt && 'Send a signal to the agent that it should disconnect once its current job has completed.'}
-            {this.props.agent.job && this.props.agent.stoppedAt && 'Waiting for the agent to complete its current job and disconnect.'}
-            {!this.props.agent.job && this.props.agent.stoppedAt && 'Waiting for the agent to disconnect.'}
-            {!this.props.agent.job && this.props.agent.stoppedAt && moment().diff(this.props.agent.stoppedAt, 'seconds') > 5 && ' If the agent doesn’t respond within a few minutes, it will be forcefully removed from your agent pool.'}
+            {this.props.agent && !this.props.agent.job && !this.props.agent.stoppedAt && 'Send a signal to the agent that it should disconnect.'}
+            {this.props.agent && this.props.agent.job && !this.props.agent.stoppedAt && 'Send a signal to the agent that it should disconnect once its current job has completed.'}
+            {this.props.agent && this.props.agent.job && this.props.agent.stoppedAt && 'Waiting for the agent to complete its current job and disconnect.'}
+            {this.props.agent && !this.props.agent.job && this.props.agent.stoppedAt && 'Waiting for the agent to disconnect.'}
+            {this.props.agent && !this.props.agent.job && this.props.agent.stoppedAt && moment().diff(this.props.agent.stoppedAt, 'seconds') > 5 && ' If the agent doesn’t respond within a few minutes, it will be forcefully removed from your agent pool.'}
           </p>
         </div>
       </Panel.Row>
@@ -402,11 +411,15 @@ class AgentShow extends React.Component {
   }
 
   renderForceStopRow() {
+    if (!this.props.agent) {
+      return null;
+    }
+
     if (this.state.stopping || this.props.agent.connectionState !== 'stopping') {
       return null;
     }
 
-    if (this.props.agent.stoppedAt && moment().diff(this.props.agent.stoppedAt, 'seconds') < 5) {
+    if (this.props.agent && this.props.agent.stoppedAt && moment().diff(this.props.agent.stoppedAt, 'seconds') < 5) {
       return null;
     }
 
