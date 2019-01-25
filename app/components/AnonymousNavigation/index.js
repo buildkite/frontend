@@ -4,9 +4,7 @@ import * as React from 'react';
 import logoSrc from 'app/images/logo-full-dark-backgrounds.svg';
 import markSrc from 'app/images/mark.svg';
 
-type Props = {};
-
-export default class AnonymousNavigation extends React.PureComponent<Props> {
+export default class AnonymousNavigation extends React.PureComponent<{}> {
   render() {
     return (
       <div
@@ -47,13 +45,13 @@ export default class AnonymousNavigation extends React.PureComponent<Props> {
   }
 }
 
-type Anchorprops = {
+type AnchorProps = {
   title: string,
   href: string,
   style?: Object
 };
 
-function Anchor(props: Anchorprops) {
+function Anchor(props: AnchorProps) {
   return (
     <a
       className="btn black hover-lime focus-lime flex items-center flex-none"

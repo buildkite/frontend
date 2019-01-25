@@ -1,6 +1,7 @@
+// @flow
 import React from 'react';
 
-export default class Pipeline extends React.PureComponent {
+export default class Pipeline extends React.PureComponent<{}> {
   render() {
     return (
       <svg width="80px" height="80px" viewBox="0 0 90 90">

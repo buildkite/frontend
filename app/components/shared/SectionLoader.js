@@ -1,8 +1,9 @@
+// @flow
 import React from 'react';
 
 import Spinner from './Spinner';
 
-export default class SectionLoader extends React.PureComponent {
+export default class SectionLoader extends React.PureComponent<{}> {
   render() {
     return (
       <div className="center my4">
