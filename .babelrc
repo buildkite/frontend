@@ -24,15 +24,22 @@
     "@babel/plugin-proposal-json-strings"
   ],
   "env": {
-    "development": {},
+    "development": {
+      "plugins": [
+        "react-flow-props-to-prop-types"
+      ]
+    },
     "test": {
       "plugins": [
+        "react-flow-props-to-prop-types",
         "react-pure-components",
         "transform-es2015-modules-commonjs"
       ]
     },
     "production": {
-      "plugins": ["react-pure-components"]
+      "plugins": [
+        "react-pure-components"
+      ]
     }
   }
 }
