@@ -374,7 +374,7 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
         <input
           type="file"
           accept="image/*"
-          className="hidden"
+          className="display-none"
           disabled={!this.state.allowFileInput}
           ref={this.iconInputRef}
           onChange={this.handleIconInputChange}
@@ -423,7 +423,7 @@ export default class ImageUploadField extends React.PureComponent<Props, State> 
     }
 
     return (
-      <small className="flex flex-stretch items-center hint-block m0 line-height-3 h5 regular">
+      <small className="flex flex-stretch items-center dark-gray m0 line-height-3 h5 regular">
         {message}
       </small>
     );
