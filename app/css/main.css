@@ -7,6 +7,7 @@
 @import 'background-colors';
 @import 'background-hover-colors';
 @import 'border-colors';
+@import 'border-child';
 @import 'svg-colors';
 @import 'hover-colors';
 @import 'hover-fading';

@@ -1,0 +1,11 @@
+.border-bottom-child > * {
+  border-bottom: 1px solid transparent;
+}
+
+.border-bottom-child > *:last-child {
+  border-bottom: 0;
+}
+
+.border-bottom-child-gray > * {
+  border-color: var(--gray);
+}
