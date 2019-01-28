@@ -40,6 +40,7 @@ window["Webpack"] = {
     "react-dom": require("react-dom"),
     "react-relay": require("react-relay/classic"),
     "react-addons-pure-render-mixin": require("react-addons-pure-render-mixin"),
+    "@rails/ujs": require("@rails/ujs"),
 
     "components/AnonymousNavigation": require("./components/AnonymousNavigation").default,
     "components/billing/BillingHeader": require("./components/billing/BillingHeader").default,
