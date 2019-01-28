@@ -111,6 +111,7 @@
     "winston": "^3.1.0"
   },
   "dependencies": {
+    "@rails/ujs": "^6.0.0-alpha",
     "autosize": "^4.0.2",
     "basscss": "^8.0.10",
     "blueimp-load-image": "^2.20.1",
