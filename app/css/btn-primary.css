@@ -30,4 +30,5 @@ a.btn-primary {
 .btn-primary:disabled,
 .btn-primary.is-disabled {
   opacity: .5;
+  cursor: not-allowed;
 }

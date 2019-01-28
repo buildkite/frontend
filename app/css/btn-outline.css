@@ -20,4 +20,5 @@
 .btn-outline:disabled,
 .btn-outline.is-disabled {
   opacity: .5;
+  cursor: not-allowed;
 }
