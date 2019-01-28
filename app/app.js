@@ -62,6 +62,7 @@ window["Webpack"] = {
     "components/shared/Button": require("./components/shared/Button").default,
     "components/shared/CollapsableFormField": require("./components/shared/CollapsableFormField").default,
     "components/shared/Duration": require("./components/shared/Duration").default,
+    "components/shared/Dialog": require("./components/shared/Dialog").default,
     "components/shared/Emojify": require("./components/shared/Emojify").default,
     "components/shared/FormMarkdownEditorField": require("./components/shared/FormMarkdownEditorField").default,
     "components/shared/FormYAMLEditorField": require("./components/shared/FormYAMLEditorField").default,
