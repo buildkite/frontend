@@ -1,6 +1,6 @@
 /* If there are any invalid HTML5 elements in the form, automatically disable
  * the submit button */
-form.form:invalid input[type=submit] {
+form.form:invalid input[type=submit]:not([formnovalidate]) {
   pointer-events: none;
   opacity: 0.5;
   cursor: not-allowed;
