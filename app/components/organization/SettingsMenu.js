@@ -121,6 +121,17 @@ class SettingsMenu extends React.Component {
         )
       },
       {
+        allowed: "organizationUpdate",
+        render: (idx) => (
+          <Menu.Button
+            key={idx}
+            icon="sso"
+            link={`/organizations/${this.props.organization.slug}/sso`}
+            label="Single Sign On"
+          />
+        )
+      },
+      {
         allowed: "notificationServiceUpdate",
         render: (idx) => (
           <Menu.Button
@@ -132,13 +143,13 @@ class SettingsMenu extends React.Component {
         )
       },
       {
-        allowed: "organizationUpdate",
+        allowed: "notificationServiceUpdate",
         render: (idx) => (
           <Menu.Button
             key={idx}
-            icon="sso"
-            link={`/organizations/${this.props.organization.slug}/sso`}
-            label="Single Sign On"
+            icon="git"
+            href={`/organizations/${this.props.organization.slug}/scm`}
+            label="SCM Integrations"
           />
         )
       },
