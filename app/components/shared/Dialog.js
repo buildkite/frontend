@@ -8,6 +8,7 @@ import Icon from './Icon';
 const BUTTON_SIZE = 30;
 
 const CloseButton = styled.button.attrs({
+  type: "button",
   className: 'absolute circle shadow-subtle bg-white bold flex items-center cursor-pointer border border-white p0 hover-lime focus-lime'
 })`
   top: ${-BUTTON_SIZE / 2}px;
