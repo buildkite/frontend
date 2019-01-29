@@ -7,5 +7,5 @@
 }
 
 .border-bottom-child-gray > * {
-  border-color: var(--gray);
+  border-bottom-color: var(--gray);
 }
