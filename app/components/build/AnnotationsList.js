@@ -162,6 +162,11 @@ export default Relay.createContainer(AnnnotationsList, {
                 html
               }
             }
+            cursor
+          }
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
           }
         }
       }
