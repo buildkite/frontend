@@ -72,7 +72,12 @@ module.exports = {
   devtool: devTool,
 
   devServer: {
-    headers: { "Access-Control-Allow-Origin": "http://buildkite.localhost" }
+    allowedHosts: [
+      'buildkite.localhost'
+    ],
+    headers: {
+      'Access-Control-Allow-Origin': 'http://buildkite.localhost'
+    }
   },
 
   entry: {
