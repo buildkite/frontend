@@ -135,12 +135,12 @@ class BuildHeaderComponent extends React.PureComponent {
         commitNode = (<span title={build.commitId}>
           <i className={providerIconClass} />
           <a href={build.commitUrl} className="color-inherit hover-color-inherit">
-            {shortCommit(build.commitId)}
+            {shortCommit(build.commitId, build.commitShortLength)}
           </a>
         </span>);
       } else {
         commitNode = (<span title={build.commitId}>
-          {shortCommit(build.commitId)}
+          {shortCommit(build.commitId, build.commitShortLength)}
         </span>);
       }
     }
