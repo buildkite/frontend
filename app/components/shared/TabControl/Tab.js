@@ -12,10 +12,11 @@ import { formatNumber } from 'app/lib/number';
 const ACTIVE_CLASS_NAME = 'active';
 
 const TabButton = styled(Link).attrs({
-  className: 'px4 pt2 border-bottom block text-decoration-none black',
+  className: 'px4 pt2 block text-decoration-none black',
   activeClassName: ACTIVE_CLASS_NAME
 })`
   border-bottom-width: 3px;
+  border-bottom-style: solid;
   border-color: transparent;
   transition: border-color 120ms;
   margin-bottom: -1px;
