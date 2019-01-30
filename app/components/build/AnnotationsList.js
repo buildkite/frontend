@@ -6,6 +6,8 @@ import Relay from 'react-relay/classic';
 import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
 
+import Button from 'app/components/shared/Button';
+
 type Props = {
   build: {
     id: string,
@@ -41,8 +43,26 @@ class AnnnotationsList extends React.Component<Props> {
     });
 
     return (
-      <div>{annotations}</div>
+      <div>
+        {annotations}
+        {this.renderShowMore()}
+      </div>
     );
+
+  }
+
+  renderShowMore() {
+    if (this.props.build.annotations.pageInfo.hasNextPage) {
+      return (
+        <Button
+          outline={true}
+          theme="default"
+          // onClick={this.props.onShowMore}
+        >
+          Show more annotations
+        </Button>
+      );
+    }
   }
 
   handleAnnotationClick = (event: MouseEvent) => {
