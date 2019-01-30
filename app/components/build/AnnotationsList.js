@@ -8,6 +8,8 @@ import CentrifugeStore from 'app/stores/CentrifugeStore';
 
 import Button from 'app/components/shared/Button';
 
+const PAGE_SIZE = 5;
+
 type Props = {
   build: {
     id: string,
@@ -24,6 +26,10 @@ type Props = {
     }
   },
   relay: Object
+};
+
+type State = {
+  loadingMore: boolean
 };
 
 class AnnnotationsList extends React.Component<Props> {
@@ -48,7 +54,6 @@ class AnnnotationsList extends React.Component<Props> {
         {this.renderShowMore()}
       </div>
     );
-
   }
 
   renderShowMore() {
@@ -57,13 +62,28 @@ class AnnnotationsList extends React.Component<Props> {
         <Button
           outline={true}
           theme="default"
-          // onClick={this.props.onShowMore}
+          onClick={this.handleShowMoreAnnotations}
         >
           Show more annotations
         </Button>
       );
     }
   }
+
+  handleShowMoreAnnotations = () => {
+    this.setState({ loadingMore: true });
+
+    this.props.relay.setVariables(
+      {
+        pageSize: this.props.relay.variables.pageSize + PAGE_SIZE
+      },
+      (readyState) => {
+        if (readyState.done) {
+          this.setState({ loadingMore: false });
+        }
+      }
+    );
+  };
 
   handleAnnotationClick = (event: MouseEvent) => {
     // Don't change anything if the user is using any modifier keys
@@ -169,11 +189,15 @@ class AnnnotationsList extends React.Component<Props> {
 }
 
 export default Relay.createContainer(AnnnotationsList, {
+  initialVariables: {
+    pageSize: PAGE_SIZE
+  },
+
   fragments: {
     build: () => Relay.QL`
       fragment on Build {
         id
-        annotations(first: 5) {
+        annotations(first: $pageSize) {
           edges {
             node {
               id
