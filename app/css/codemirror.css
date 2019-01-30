@@ -43,6 +43,10 @@ li.CodeMirror-hint-active {
   background-color: var(--lime);
 }
 
+li.CodeMirror-hint-active .dark-gray {
+  color: white;
+}
+
 /* Prettier lint errors */
 
 .CodeMirror-lint-tooltip {
@@ -90,6 +94,44 @@ li.CodeMirror-hint-active {
 }
 
 .cm-s-yaml .cm-def, .cm-s-yaml .cm-comment {
+  color: #999;
+}
+
+/* Custom Conditional Editor Theme*/
+
+.cm-s-conditional .cm-punctuation, .cm-s-conditional .cm-operator {
+  color: #555;
+}
+
+.cm-s-conditional .cm-variable {
+  color: #1F61A0;
+}
+
+.cm-s-conditional .cm-variable-2 {
+  color: #B11A04;
+}
+
+.cm-s-conditional .cm-variable-3 {
+  color: #CA9800;
+}
+
+.cm-s-conditional .cm-string {
+  color: #388a26;
+}
+
+.cm-s-conditional .cm-string-2 {
+  color: #B33086;
+}
+
+.cm-s-conditional .cm-string-3 {
+  color: #0B7FC7;
+}
+
+.cm-s-conditional .cm-regex {
+  color: #ca1655;
+}
+
+.cm-s-conditional .cm-comment {
   color: #999;
 }
 

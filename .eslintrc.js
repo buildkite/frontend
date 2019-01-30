@@ -62,7 +62,7 @@ module.exports = {
     'no-new-require': ERROR,
     'no-trailing-spaces': ERROR,
     'no-unsafe-negation': ERROR,
-    'no-unused-vars': [ ERROR, { varsIgnorePattern: '^_' } ],
+    'no-unused-vars': [ ERROR, { argsIgnorePattern: '^_', varsIgnorePattern: '^_' } ],
     'no-useless-rename': WARN,
     'no-var': WARN,
     'object-curly-spacing': [ ERROR, 'always' ],
