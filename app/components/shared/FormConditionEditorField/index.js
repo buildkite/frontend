@@ -1,8 +1,19 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Loadable from 'react-loadable';
 
 import Spinner from 'app/components/shared/Spinner';
+
+type CodeMirrorInstance = {
+  showHint: ({}) => void,
+  on: (string, (...any) => void) => mixed,
+  off: (string, (...any) => void) => mixed,
+  getValue: () => string,
+  execCommand: (string) => void,
+  toTextArea: () => HTMLTextAreaElement
+};
 
 const CODEMIRROR_BUFFER = 8;
 const CODEMIRROR_LINE_HEIGHT = 17;
@@ -32,10 +43,33 @@ const CODEMIRROR_CONFIG = {
 
 const AUTO_COMPLETE_AFTER_KEY = /^[a-zA-Z_]$/;
 
-class FormConditionEdtiorField extends React.Component {
+type Props = {
+  name: string,
+  value: string,
+  autocompleteWords: Array<string>,
+  fetchParseErrors: (string, (Array<{ from: Array<number>, to: Array<number>, message: string }>) => void) => void,
+  CodeMirror: CodeMirror
+};
+
+type CodeMirror = {
+  fromTextArea: (HTMLTextAreaElement, {}) => CodeMirrorInstance,
+  Pos: (number, number) => number
+};
+
+type ReactLoadableLoadingProps = {
+  value: string,
+  error?: string,
+  pastDelay?: boolean
+};
+
+class FormConditionEdtiorField extends React.Component<Props> {
+  editor: ?CodeMirrorInstance
+  input: ?HTMLTextAreaElement
+
   static propTypes = {
     name: PropTypes.string,
     value: PropTypes.string,
+    autocompleteWords: PropTypes.array,
     CodeMirror: PropTypes.func
   };
 
@@ -85,15 +119,15 @@ class FormConditionEdtiorField extends React.Component {
               }
             }
 
-            if (suggestions.length) {
-              return accept({
-                list: suggestions,
-                from: CodeMirror.Pos(cursor.line, start),
-                to: CodeMirror.Pos(cursor.line, end)
-              });
-            } else {
+            if (suggestions.length === 0) {
               return accept(null);
             }
+
+            return accept({
+              list: suggestions,
+              from: CodeMirror.Pos(cursor.line, start),
+              to: CodeMirror.Pos(cursor.line, end)
+            });
           });
         }
       },
@@ -115,8 +149,10 @@ class FormConditionEdtiorField extends React.Component {
       }
     };
 
-    this.editor = CodeMirror.fromTextArea(this.input, config);
-    this.editor.on("keyup", this.onEditorKeyUp);
+    if (this.input) {
+      this.editor = CodeMirror.fromTextArea(this.input, config);
+      this.editor.on("keyup", this.onEditorKeyUp);
+    }
   }
 
   componentWillUnmount() {
@@ -145,86 +181,52 @@ class FormConditionEdtiorField extends React.Component {
   };
 }
 
-const FormConditionEdtiorFieldLoader = (props) => {
-  // Here's a dynamic loader for editor that does some magical stuff. It tries
-  // to attempt the size of the editor before we load it, this way the page
-  // doesn't change in size after we load in Codemirror.
-  const ApproximateHeightLoader = (loader) => {
-    let contents;
-    if (loader.error) {
-      contents = (
-        <span className="red">
-          There was an error loading the editor. Please reload the page.
-        </span>
+// Instead of exporting the editor directly, we'll export a `Loadable`
+// Component that will allow us to load in dependencies and render the editor
+// until then.
+export default Loadable({
+  loader: () => (
+    import('./codemirror').then((module) => (
+      // Add a "zero" delay after the module has loaded, to allow their
+      // styles to take effect.
+      new Promise((resolve) => {
+        setTimeout(() => resolve(module.default), 0);
+      })
+    ))
+  ),
+
+  loading(loadable: ReactLoadableLoadingProps) {
+    if (loadable.error) {
+      return (
+        <div className="red">{loadable.error}</div>
       );
-    } else if (loader.pastDelay) {
-      contents = (
-        <span>
+    } else if (loadable.pastDelay) {
+      //const lines = loadable.value.split("\n").length;
+      //let height = CODEMIRROR_BUFFER + (lines * CODEMIRROR_LINE_HEIGHT);
+      //if (CODEMIRROR_MIN_HEIGHT > height) {
+      const height = CODEMIRROR_MIN_HEIGHT;
+      //}
+
+      return (
+        <div className="flex items-center justify-center" style={{ height: height }}>
           <Spinner /> Loading Editor…
-        </span>
+        </div>
       );
-    } else {
-      contents = null;
     }
 
-    const lines = props.value.split("\n").length;
-    let height = CODEMIRROR_BUFFER + (lines * CODEMIRROR_LINE_HEIGHT);
-    if (CODEMIRROR_MIN_HEIGHT > height) {
-      height = CODEMIRROR_MIN_HEIGHT;
-    }
+    return null;
+  },
 
+  /* eslint-disable react/prop-types */
+  render(loaded: CodeMirror, props: Props) {
     return (
-      <div className="flex items-center justify-center" style={{ height: height }}>
-        {contents}
-      </div>
+      <FormConditionEdtiorField
+        CodeMirror={loaded}
+        name={props.name}
+        value={props.value}
+        fetchParseErrors={props.fetchParseErrors}
+        autocompleteWords={props.autocompleteWords}
+      />
     );
-  };
-
-  ApproximateHeightLoader.propTypes = {
-    value: PropTypes.string
-  };
-
-  // This loads Codemirror and all of its addons.
-  const LoadableCodeMirror = Loadable.Map({
-    loader: {
-      CodeMirror: () => (
-        import('./codemirror').then((module) => (
-          // HACK: Add a "zero" delay after the module has
-          // loaded, to allow their styles to take effect
-          new Promise((resolve) => {
-            setTimeout(() => resolve(module.default), 0);
-          })
-        ))
-      )
-    },
-
-    loading() {
-      return (
-        <ApproximateHeightLoader />
-      );
-    },
-
-    render(loaded, props) {
-      return (
-        <FormConditionEdtiorField
-          CodeMirror={loaded.CodeMirror}
-          name={props.name}
-          value={props.value}
-          fetchParseErrors={props.fetchParseErrors}
-          autocompleteWords={props.autocompleteWords}
-        />
-      );
-    }
-  });
-
-  return (
-    <LoadableCodeMirror {...props} />
-  );
-};
-
-FormConditionEdtiorFieldLoader.propTypes = {
-  name: PropTypes.string,
-  value: PropTypes.string
-};
-
-export default FormConditionEdtiorFieldLoader;
+  }
+});
