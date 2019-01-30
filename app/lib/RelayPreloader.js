@@ -518,7 +518,7 @@ const QUERIES = {
     query BuildAnnotations($build: ID!) {
       build(slug: $build) {
         id
-	annotations(first: 10) {
+	annotations(first: 5) {
           edges {
             node {
               id
