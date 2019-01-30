@@ -8,7 +8,7 @@ export function shortMessage(message: ?string): string {
   return '';
 }
 
-export function shortCommit(commitish: string, length: int = 7): string {
+export function shortCommit(commitish: string, length: number = 7): string {
   // Does this look like a git sha?
   if (commitish && commitish.length === 40 && !commitish.match(/[^a-f0-9]/i)) {
     return commitish.substring(0, length);
