@@ -49,16 +49,3 @@ steps:
         plugins:
           docker-compose#v2.5.1:
             run: frontend
-
-  - wait
-
-  - group: "Deploy :rocket:"
-    steps:
-      - name: ":s3: S3"
-        command: ".buildkite/steps/deploy.sh"
-        branches: "master"
-        artifact_paths: "tmp/verify/*"
-        concurrency: 1
-        concurrency_group: "deployer" # Shared with buildkite/frontend
-        agents:
-          queue: "deploy"
