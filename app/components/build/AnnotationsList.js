@@ -65,7 +65,7 @@ class AnnnotationsList extends React.Component<Props, State> {
   }
 
   renderShowMore() {
-    if (this.props.build.annotations.pageInfo.hasNextPage) {
+    if (this.props.build.annotations) {
       return (
         <ShowMoreFooter
           connection={this.props.build.annotations}
@@ -213,10 +213,6 @@ export default Relay.createContainer(AnnnotationsList, {
               }
             }
             cursor
-          }
-          pageInfo {
-            hasNextPage
-            hasPreviousPage
           }
           ${ShowMoreFooter.getFragment('connection')}
         }
