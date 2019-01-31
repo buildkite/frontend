@@ -6,7 +6,7 @@ import Relay from 'react-relay/classic';
 import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
 
-import Button from 'app/components/shared/Button';
+import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
 
 const PAGE_SIZE = 5;
 
@@ -62,13 +62,10 @@ class AnnnotationsList extends React.Component<Props> {
   renderShowMore() {
     if (this.props.build.annotations.pageInfo.hasNextPage) {
       return (
-        <Button
-          outline={true}
-          theme="default"
-          onClick={this.handleShowMoreAnnotations}
-        >
-          Show more annotations
-        </Button>
+        <ShowMoreFooter
+          connection={this.props.build.annotations}
+          onShowMore={this.handleShowMoreAnnotations}
+        />
       );
     }
   }
@@ -215,6 +212,7 @@ export default Relay.createContainer(AnnnotationsList, {
             hasNextPage
             hasPreviousPage
           }
+          ${ShowMoreFooter.getFragment('connection')}
         }
       }
     `
