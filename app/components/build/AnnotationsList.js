@@ -35,7 +35,12 @@ type State = {
   loadingMore: boolean
 };
 
-class AnnnotationsList extends React.Component<Props> {
+class AnnnotationsList extends React.Component<Props, State> {
+
+  state = {
+    loadingMore: false
+  };
+
   componentDidMount() {
     PusherStore.on("build:annotations_change", this.handleWebsocketEvent);
     CentrifugeStore.on("build:annotations_change", this.handleWebsocketEvent);
@@ -64,6 +69,7 @@ class AnnnotationsList extends React.Component<Props> {
       return (
         <ShowMoreFooter
           connection={this.props.build.annotations}
+          loading={this.state.loadingMore}
           onShowMore={this.handleShowMoreAnnotations}
         />
       );
