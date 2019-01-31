@@ -22,7 +22,10 @@ type Props = {
             html: ?string
           }
         }
-      }>
+      }>,
+      pageInfo: {
+        hasNextPage: boolean
+      }
     }
   },
   relay: Object
