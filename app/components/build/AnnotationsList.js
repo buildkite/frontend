@@ -6,6 +6,10 @@ import Relay from 'react-relay/classic';
 import PusherStore from 'app/stores/PusherStore';
 import CentrifugeStore from 'app/stores/CentrifugeStore';
 
+import ShowMoreFooter from 'app/components/shared/ShowMoreFooter';
+
+const PAGE_SIZE = 5;
+
 type Props = {
   build: {
     id: string,
@@ -18,13 +22,25 @@ type Props = {
             html: ?string
           }
         }
-      }>
+      }>,
+      pageInfo: {
+        hasNextPage: boolean
+      }
     }
   },
   relay: Object
 };
 
-class AnnnotationsList extends React.Component<Props> {
+type State = {
+  loadingMore: boolean
+};
+
+class AnnnotationsList extends React.Component<Props, State> {
+
+  state = {
+    loadingMore: false
+  };
+
   componentDidMount() {
     PusherStore.on("build:annotations_change", this.handleWebsocketEvent);
     CentrifugeStore.on("build:annotations_change", this.handleWebsocketEvent);
@@ -41,9 +57,39 @@ class AnnnotationsList extends React.Component<Props> {
     });
 
     return (
-      <div>{annotations}</div>
+      <div>
+        {annotations}
+        {this.renderShowMore()}
+      </div>
     );
   }
+
+  renderShowMore() {
+    if (this.props.build.annotations) {
+      return (
+        <ShowMoreFooter
+          connection={this.props.build.annotations}
+          loading={this.state.loadingMore}
+          onShowMore={this.handleShowMoreAnnotations}
+        />
+      );
+    }
+  }
+
+  handleShowMoreAnnotations = () => {
+    this.setState({ loadingMore: true });
+
+    this.props.relay.setVariables(
+      {
+        pageSize: this.props.relay.variables.pageSize + PAGE_SIZE
+      },
+      (readyState) => {
+        if (readyState.done) {
+          this.setState({ loadingMore: false });
+        }
+      }
+    );
+  };
 
   handleAnnotationClick = (event: MouseEvent) => {
     // Don't change anything if the user is using any modifier keys
@@ -149,11 +195,15 @@ class AnnnotationsList extends React.Component<Props> {
 }
 
 export default Relay.createContainer(AnnnotationsList, {
+  initialVariables: {
+    pageSize: PAGE_SIZE
+  },
+
   fragments: {
     build: () => Relay.QL`
       fragment on Build {
         id
-        annotations(first: 5) {
+        annotations(first: $pageSize) {
           edges {
             node {
               id
@@ -162,7 +212,9 @@ export default Relay.createContainer(AnnnotationsList, {
                 html
               }
             }
+            cursor
           }
+          ${ShowMoreFooter.getFragment('connection')}
         }
       }
     `
