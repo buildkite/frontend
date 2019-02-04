@@ -67,11 +67,14 @@ class AnnnotationsList extends React.Component<Props, State> {
   renderShowMore() {
     if (this.props.build.annotations) {
       return (
-        <ShowMoreFooter
-          connection={this.props.build.annotations}
-          loading={this.state.loadingMore}
-          onShowMore={this.handleShowMoreAnnotations}
-        />
+        <div className="mb4">
+          <ShowMoreFooter
+            connection={this.props.build.annotations}
+            loading={this.state.loadingMore}
+            onShowMore={this.handleShowMoreAnnotations}
+            label="annotations"
+          />
+        </div>
       );
     }
   }
