@@ -140,7 +140,7 @@ class CreateBuildDialog extends React.PureComponent<Props, State> {
             <FormTextField
               name="build[message]"
               label="Message"
-              help="Description of the build. If left blank, the commit message will be used once the build starts"
+              help="Description of the build. If left blank, the commit message will be used once the build starts."
               defaultValue={this.state.defaultValues.message}
               ref={(tf) => this.buildMessageTextField = tf}
             />
