@@ -10,6 +10,8 @@ const CODEMIRROR_LINE_HEIGHT = 17;
 const CODEMIRROR_CONFIG = {
   lineNumbers: true,
   tabSize: 2,
+  indentUnit: 2,
+  indentWithTabs: false,
   mode: 'yaml',
   keyMap: 'sublime',
   theme: 'yaml',
@@ -22,7 +24,10 @@ const CODEMIRROR_CONFIG = {
     'Ctrl-Left': 'goSubwordLeft',
     'Ctrl-Right': 'goSubwordRight',
     'Alt-Left': 'goGroupLeft',
-    'Alt-Right': 'goGroupRight'
+    'Alt-Right': 'goGroupRight',
+    'Tab': (cm) => {
+      return cm.replaceSelection(Array(cm.getOption("indentUnit") + 1).join(" "));
+    }
   }
 };
 
