@@ -4,13 +4,13 @@ For a few years we experimented with developing the Buildkite frontend in an ope
 
 Over time our team has grown, and so has the size and importance of this codebase. After many weeks of discussion, we decided to stop development in this repoistory, and move it back into our main application (creating a monolith).
 
-The biggest reasons we moved it back where:
+The biggest reasons we moved it back were:
 
- - Day to day development was complicated between our backend application and the frontend code. It was difficult to document and communicate to new members of the team why this seperation existed and what the benefits were. The idea was eventually the code here become a seperate application that could run indepently of the backend application - but we never got around to it. So the code here ended up becoming an akward dependency of our main application that we managed with git submodules.
- - Maintaining 2 PRs for features wasn't fun (we had a backend PR and a frontend PR for the same feature. Keeping them both in sync was mostly busywork for little benefit)
+ - Day to day development was complicated between our backend application and the frontend code. It was difficult to document and communicate to new members of the team why this seperation existed and what the benefits were. The idea was eventually the code here become a seperate entity that could run indepently of the backend application - but we never got around to it. So the code here ended up becoming an akward dependency of our main application that we managed with git submodules (which caused great sadness).
+ - Maintaining 2 PRs for features was annoying (we had a backend and a frontend PR for the same feature. Keeping them both in sync was mostly busywork for little benefit)
  - Our deployment & testing processes were simplified by unifying the codebases
  - We didn't have to worry about "have you got the latest version of the frontend" type problems in development
- - We don't need to disclose any feature experiements we may be shipping to production that require frontend changes
+ - We don't need to concern ourselves with potentially disclosing any feature experiements we may be shipping to production that'd require frontend changes
  
 We're keeping this code public for historical reasons, but the repo will be achived and no longer be developed in.
  
