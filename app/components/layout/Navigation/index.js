@@ -77,7 +77,7 @@ class Navigation extends React.PureComponent<Props, State> {
     ) {
       this.setState({
         lastDefaultTeam: UserSessionStore.get(`organization-default-team:${nextProps.organization.id}`)
-      });
+      })
     }
   }
 
